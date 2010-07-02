@@ -3,10 +3,6 @@ README
 
 Some things you may need to set up first:
 
-Mapserver: used when showing warped map. Mapserv renamed to mapserv.cgi living
-in (or linked to)the cgi-bin directory. You'd need to have your own mapserv executable
- on hand to use for this. FWTOOLS is ok to use for this.
-
 libgdal-ruby is used to get the raster extents to update the bounding box of a warped map
 
 config/deploy.rb for capistrano users, change this as fits. Have a look and see
