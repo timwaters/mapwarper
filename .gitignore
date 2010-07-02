@@ -4,6 +4,7 @@ doc/api
 doc/app
 .svn
 config/*deploy.rb
+!config/example_deploy.rb
 config/database.yml
 config/environments/production.rb
 db/*.sqlite3
