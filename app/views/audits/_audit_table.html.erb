@@ -1,0 +1,12 @@
+<table class="activity-table">
+<tr>
+    <th>Time</th>
+    <th>User</th>
+    <th></th>
+    <th>Activity Summary</th>
+    <th>Version</th>
+   
+    <th></th>
+  </tr>
+  <%= render :partial => "audit", :collection => @audits unless @audits.nil? %>
+</table>

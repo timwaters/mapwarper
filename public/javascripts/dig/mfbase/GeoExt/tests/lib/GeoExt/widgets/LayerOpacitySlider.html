@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html debug="true">
+  <head>
+    <script type="text/javascript" src="../../../../../openlayers/lib/OpenLayers.js"></script>
+    <script type="text/javascript" src="../../../../../ext/adapter/ext/ext-base.js"></script>
+    <script type="text/javascript" src="../../../../../ext/ext-all-debug.js"></script>
+    <script type="text/javascript" src="../../../../lib/GeoExt.js"></script>
+
+    <script type="text/javascript">
+
+        function test_constructor(t) {
+            t.plan(2);
+
+            var record, store, slider;
+            var layer = new OpenLayers.Layer("a");
+
+            record = new (GeoExt.data.LayerRecord.create())(
+                {layer: layer, title: layer.name}, layer.id
+            );
+            slider = new GeoExt.LayerOpacitySlider({
+                layer: record
+            });
+            t.eq(slider.layer.id, record.id, "layer parameter is a GeoExt.data.LayerRecord");
+            slider.destroy();
+
+            var slider = new GeoExt.LayerOpacitySlider({
+                layer: layer
+            });
+            t.eq(layer.id, slider.layer.id, "layer parameter is a OpenLayers.Layer.WMS");
+            slider.destroy();
+        }
+
+        function test_initalOpacity(t) {
+            t.plan(3);
+
+            var slider = new GeoExt.LayerOpacitySlider({
+                layer: new OpenLayers.Layer('foo')
+            });
+            t.ok(slider.getValue() == 100,
+                 "set the value to 100 if the layer has no opacity");
+            slider.destroy();
+
+            slider = new GeoExt.LayerOpacitySlider({
+                layer: new OpenLayers.Layer('foo', { opacity: 0 })
+            });
+            t.ok(slider.getValue() == 0,
+                 "initial layer's opacity sets the slider value");
+            slider.destroy();
+
+            slider = new GeoExt.LayerOpacitySlider({
+                layer: new OpenLayers.Layer('foo', { opacity: 0.42 })
+            });
+            t.ok(slider.getValue() == 42,
+                 "initial layer's opacity sets the slider value");
+            slider.destroy();
+        }
+
+        function test_aggressive(t) {
+            t.plan(2);
+
+            var slider1 = new GeoExt.LayerOpacitySlider({
+                renderTo: document.body,
+                layer: new OpenLayers.Layer('foo'),
+                aggressive: false
+            });
+            slider1.on({
+                changecomplete: function() {
+                    t.ok(true, "changecomplete triggered in non-aggressive mode");
+                }
+            });
+
+            var slider2 = new GeoExt.LayerOpacitySlider({
+                renderTo: document.body,
+                layer: new OpenLayers.Layer('foo'),
+                aggressive: true
+            });
+            slider2.on({
+                change: function() {
+                    t.ok(true, "change triggered in aggressive mode");
+                }
+            });
+            slider1.setValue(42, undefined, true);
+            slider2.setValue(42, undefined, true);
+
+            slider1.destroy();
+            slider2.destroy();
+        }
+    </script>
+  <body>
+  </body>
+</html>

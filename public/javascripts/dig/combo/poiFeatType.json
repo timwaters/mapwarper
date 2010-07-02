@@ -1,0 +1,16 @@
+{"root": [
+{"id": "Landholding", "label": "Landholding"},
+{"id": "Village", "label": "Village"},
+{"id": "Town", "label": "Town"},
+{"id": "County Seat", "label": "County Seat"},
+{"id": "Post Office", "label": "Post Office"},
+{"id": "Courthouse", "label": "Courthouse"},
+{"id": "Church", "label": "Church"},
+{"id": "Cemetary", "label": "Cemetary"},
+{"id": "School", "label": "School"},
+{"id": "Other Use", "label": "Other Use (see name field)"},
+{"id": "Railhead/Depot", "label": "Railhead / Depot"},
+{"id": "Ferry Landing", "label": "Ferry Landing"},
+{"id": "Toll Gate", "label": "Toll Gate"},
+{"id": "Military Base", "label": "Military Base"}
+]}

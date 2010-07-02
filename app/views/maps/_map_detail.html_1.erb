@@ -1,0 +1,62 @@
+<% map = @map %>
+
+<tr>
+  <% cl = cycle('table0', 'table1') %>
+  <td class="<%= cl %>">
+    <%=  image_tag(map.upload.url(:thumb)) %>
+      </td>
+  <td class="<%= cl %>">
+  <span class="maplist_title"><%=h map.title %></span>
+  <% if !map.public? %><span class="publicprivate">Private</span><% end-%>
+   <br />
+   <span class="map_description">
+     <%=h map.description -%>
+   </span>
+  
+   <span class="map_summary">
+    <%- if map.owner -%>Uploaded by <%= link_to(map.owner.login, user_path(map.owner)) -%>.<%-end-%>
+     Last modified <%=h time_ago_in_words(map.last_changed) -%> ago.
+    <%if map.gcps.size > 0 %>
+    <%=pluralize(map.gcps.size, "control point") -%>.
+    <%else-%>
+      Unrectified.
+    <%end-%>
+  </span>
+
+  <br />
+   <% if map.tags.count > 0 -%>
+   <span class="map_summary">Tags:</span>
+   <span class="tags">
+
+      <% map.tags.each do | tag | -%>
+      <%= link_to tag.name, { :controller=> :maps, :action => :tag, :id => tag.name } %>
+      <% end %>
+</span> <br />
+    <% end -%>
+    
+    <span class="map_links">
+      <%- if logged_in? -%>
+        <%- if current_user.maps.include?(map) -%>
+          <%= link_to 'Remove from My Maps',
+            destroy_my_map_path(:user_id => current_user, :map_id => map),
+            :method => :post, :confirm => "really remove this map from your list?" -%>  |
+
+          <%- else -%>
+            <%= link_to 'Save to My Maps',
+              add_my_map_path(:user_id => current_user, :map_id => map),
+              :method => :post -%> | 
+            <%- end #if mymaps -%>
+            
+          <%- end # if logged in-%>
+
+          <%- if map.status == :warped -%>
+      <%- if admin_authorized? -%>
+        | <%= link_to "Publish",{:controller => "maps", :action => "publish", :id => map},
+             :confirm => "Really publish this map? This will mean that no further editing can be done" -%>
+
+      <%- end -%>
+    <%- end -%>
+    <%= render :partial => 'shared/addthis', :locals => {:title => map.title, :description =>map.description} %>
+</span>
+  </td>
+</tr>

@@ -1,0 +1,12 @@
+{"root": [
+{"id": "brick", "label": "Brick"},
+{"id": "stone", "label": "Stone"},
+{"id": "brick or stone", "label": "Brick or Stone"},
+{"id": "brick & stone front", "label": "Brick & Stone Front"},
+{"id": "wood & brick front", "label": "Wood & Brick front"},
+{"id": "iron covered building", "label": "Iron Covered Building"},
+{"id": "brick stable", "label": "Brick Stable"},
+{"id": "wood stable", "label": "Wood Stable"},
+{"id": "steel", "label": "Steel"},
+{"id": "unknown", "label": "Unknown"}
+]}

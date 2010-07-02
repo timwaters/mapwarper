@@ -1,0 +1,7 @@
+{"root": [
+{"id": "county", "label": "County"},
+{"id": "district", "label": "District"},
+{"id": "block", "label": "Block"},
+{"id": "lot", "label": "Lot"},
+{"id": "unknown", "label": "Unknown"}
+]}

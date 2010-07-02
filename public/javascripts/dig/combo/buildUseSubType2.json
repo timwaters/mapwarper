@@ -1,0 +1,6 @@
+{"root": [
+{"parentType": "Residential", "id": "Apartments", "label": "Apartments"},
+{"parentType": "Residential", "id": "Houses", "label": "Houses"},
+{"parentType": "Worship", "id": "Church", "label": "Church"},
+{"parentType": "Worship", "id": "Synagogue", "label": "Synagogue"}
+]}

@@ -1,0 +1,11 @@
+[cache]
+type=GoogleDisk
+base=<%= RAILS_ROOT + "/public/tiles/" %>
+<% @maps.each do | map | %>
+[map_<%= map.id %>]
+type=ImageLayer
+filebounds=<%= map.converted_bbox %>
+file=<%= map.warped_png %>
+spherical_mercator=yes
+tms_type=google
+<% end %>

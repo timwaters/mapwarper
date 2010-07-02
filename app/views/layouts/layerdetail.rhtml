@@ -1,0 +1,204 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title>Map Warper: <%= h(@html_title) || ''-%> </title>
+    <%= stylesheet_link_tag "custom-theme/jquery-ui-1.7.custom.css" %>
+    <%= stylesheet_link_tag "openlayers/theme/default/style" %>
+    <%= stylesheet_link_tag "styles_1" %>
+    <%= javascript_include_tag "jquery-1.3.2.min.js" %>
+    <%= javascript_tag "jQuery.noConflict();" -%>
+    <%= javascript_include_tag "jquery-ui-1.7.custom.min.js" %>
+    <%= javascript_include_tag "jquery.history.js" %>
+    <%= javascript_include_tag "prototype" %>
+   <script src="http://maps.google.com/maps?file=api&amp;v=2&amp;sensor=false&amp;key=<%=GOOGLE_MAPS_KEY-%>"
+            type="text/javascript"></script>
+    <%= javascript_include_tag "openlayers/2.8/OpenLayers-2.8/OpenLayers" %>
+    <%= javascript_include_tag "layers" %>
+    <script type="text/javascript">
+      OpenLayers.ImgPath = '<%=request.protocol + request.host_with_port%>/javascripts/openlayers/img/';
+      var jsPath = '<%= compute_public_path("", "javascripts").split('?').first %>';
+      var cssPath = '<%= compute_public_path("", "stylesheets").split('?').first %>';
+      var gMfLocation = jsPath + 'dig/mfbase/mapfish/';
+      var browserIsIE6orBefore = false;
+    </script>
+    <!--[if lte IE 7]>
+          <script type="text/javascript">
+            var browserIsIE6orBefore = true;
+          </script>
+    <![endif]-->
+
+<%#note: these for digitizer %>
+<%= stylesheet_link_tag "dig/ext/resources/css/ext-all.css" %>
+<%= stylesheet_link_tag "dig/mfbase/mapfish/mapfish.css" %>
+<%= stylesheet_link_tag "dig/ext/resources/css/xtheme-gray.css" %>
+<%= javascript_include_tag "dig/mfbase/ext/adapter/ext/ext-base" -%>
+<%= javascript_include_tag "dig/mfbase/ext/ext-all" %>
+<%= javascript_include_tag "dig/GeoExt/script/GeoExt" %>
+<%= javascript_include_tag "dig/mfbase/mapfish/MapFish" %>
+
+    <script type="text/javascript">
+
+      jQuery(function() {
+
+        jQuery("#year-dialog").dialog({
+          bgiframe: true,
+          autoOpen: false,
+          title: "Depicts Year (admin only)",
+          height: 200,
+          hide: 'slow',
+          width: 250,
+          modal: true,
+          buttons: {
+            Cancel: function() {
+              jQuery(this).dialog('close');
+            }
+          },
+          close: function() {  }
+        });
+        jQuery("#edit-year-link-top").click(function(e){
+          jQuery("#year-dialog").dialog('open');
+        });
+
+        jQuery("#wooTabs").tabs({
+          selected: <%=@selected_tab||0 %>,
+          select: function(event, ui){
+            if(ui.panel.id == "Digitize" && browserIsIE6orBefore){
+              var url = jQuery.data(ui.tab, 'load.tabs');
+
+              if (url) {
+                location.href = url;
+                return false;
+              }
+              return true;
+            } else{
+              return true;
+            }
+          } //select
+        });
+
+        jQuery("#wooTabs").bind("tabsselect", function(event, ui){
+          if (typeof(pageTracker) !== 'undefined'){
+            pageTracker._trackEvent("Layer", ui.tab.title, '<%=@layer.id%>');
+          }
+        });
+        jQuery("#wooTabs").bind("tabsshow", function(event, ui) {
+          jQuery(".hidden-at-start").hide();
+        });
+
+        jQuery("#wooTabs").bind("tabsshow", function(event, ui){
+
+          if (ui.panel.id == "Show"){
+            if (typeof layerMap != 'undefined'){
+              layerMap.updateSize();
+            }
+          } else if (ui.panel.id == "Digitize"){
+            if (typeof digitizerPanel != 'undefined'){
+              digitizerPanel.doLayout();
+              mapPanel.map.zoomToExtent(digextent);
+            }
+          }
+
+        });
+
+      });
+
+    </script>
+    <script type="text/javascript">
+      // PageLoad function
+      // This function is called when  1. after calling $.historyInit(); 2. after calling $.historyLoad(); 3. after pushing "Go Back" button of a browser
+      var tabSuffix = "_tab"; //suffix to be added to link to stop jumping
+      function pageload(hash) {
+        if(hash) {
+          // restore ajax loaded state
+          if(jQuery.browser.msie) {
+            // jquery's $.load() function does't work when hash include special characters like aao.
+            hash = encodeURIComponent(hash);
+          }
+          hash = hash.slice(0, -tabSuffix.length)
+          jQuery("#wooTabs").tabs("select", hash);
+        } else {
+          //if there is no hash, wat to do? currently, nothing, as by default it should be displayed tab.
+          //show tab  //jQuery("#wooTabs").tabs("select", 0);
+        }
+      }
+
+      jQuery(document).ready(function(){
+        jQuery.historyInit(pageload); //TODO
+        // set onlick event for buttons
+        jQuery("a[rel='history']").click(function(){
+          var hash = this.href;
+          hash = hash.replace(/^.*#/, '') + tabSuffix;
+
+          jQuery.historyLoad(hash);
+        });
+      });
+    </script>
+    <%= yield :head %>
+  </head>
+  <% if @onload -%>
+    <body onload="<%=@onload%>">
+  <%else-%>
+    <body>
+    <%end%>
+    <div id="headerDiv" class="headerDiv">
+      <h1><%= link_to "Map Warper <span>beta</span>", root_path %></h1>
+      <%= render :partial => 'shared/header' %>
+      <%= render :partial => 'shared/nav' %>
+    </div>
+    <span class="breadcrumbs"><%= breadcrumbs %></span>
+
+
+    <table id="map_table">
+      <%= render :partial => 'layers/layer_detail', :object => @layer, :locals => {:variety => "detail"} %>
+    </table>
+    <%#  {:name=>"digitize",:divname=>"Digitize", :label=>"Digitize", :path=>digitize_layer_path(:id => @layer)}, %>
+    <% @tabs = [{:name=>"show",:divname=>"Show", :label=>"Show", :path=>layer_path(:id => @layer)},
+      {:name=>"edit",:divname=>"Edit", :label=>"Edit", :path=>edit_layer_path(:id => @layer)},
+      {:name=>"digitize",:divname=>"Digitize", :label=>"Digitize", :path=>digitize_layer_path(:id => @layer)},
+      {:name=>"export",:divname=>"Export", :label=>"Export", :path=>export_layer_path(:id => @layer)},
+      {:name=>"metadata", :divname=>"Metadata", :label=>"Metadata", :path => metadata_layer_path(:id => @layer)}
+    ]  %>
+    <div id="wooTabs">
+      <ul>
+        <% @tabs.each do |tab| -%>
+          <% if @current_tab == tab[:name] -%>
+            <% tab[:path] = "#"+tab[:divname]  -%>
+            <% @current_tab_divname = tab[:divname] -%>
+          <% end -%>
+          <% unless @disabled_tabs && @disabled_tabs.include?(tab[:name]) -%>
+            <li><a rel="history" href="<%=tab[:path]%>" title="<%=tab[:label]%>"><span><%=tab[:label]%></span></a></li>
+          <% end -%>
+        <% end -%>
+      </ul>
+      <div id="<%=@current_tab_divname %>" >
+        <%= flash_messages %>
+        <%= yield %>
+      </div>
+
+    </div>
+
+    <div id="panel-under-tabs">
+
+    </div>
+
+    <% if admin_authorized? %>
+      <div id="year-dialog" class="hidden">
+        Add / edit year that this layer depicts: <br />
+        <% remote_form_for :layer, @layer, :html => {:id =>"year-form" },
+          :url => url_for(:controller => 'layers', :action => 'update_year', :id => @layer.id),
+          :complete => "jQuery('#year-dialog').dialog('close');jQuery('#depicts-year-span-top').effect('highlight', {}, 3000); ",
+          :update => "depicts-year-span-top",
+          :failure => "alert('Sorry, something went wrong trying to save this');"  do |f| %>
+          <%= f.text_field :depicts_year, :size =>10 %>
+          <%= submit_tag "Save" %>
+        <% end %>
+      </div>
+    <% end %>
+    <div id="footer">
+      <%= render :partial => 'shared/footer' %>
+    </div>
+    <%= render :partial => 'shared/analytics' %>
+  </body>
+</html>

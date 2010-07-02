@@ -1,0 +1,5 @@
+page.replace_html("gcp_list", :partial => "gcp", :collection => @gcps)
+page.replace_html("gcp_notice", "New control point added.")
+page << "populate_gcps(#{@gcp.id},#{@gcp.x}, #{@gcp.y}, #{@gcp.lon}, #{@gcp.lat});"
+page << "update_rms(#{sprintf('%.2f',@map.error)});"
+page << "update_row_numbers();"

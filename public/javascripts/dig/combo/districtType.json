@@ -1,0 +1,7 @@
+{"root": [
+{"id": "NY", "label": "Manhattan (NY)"},
+{"id": "QN", "label": "Queens (QN)"},
+{"id": "QX", "label": "Brooklyn (QX)"},
+{"id": "BX", "label": "Bronx (BX)"},
+{"id": "RI", "label": "Staten Island (RI)"}
+]}

@@ -1,0 +1,16 @@
+<h2>Layer</h2>
+<ul>
+  <li>
+    WMS: <%=link_to "WMS base URL", :action => "wms", :id => @layer %>  <br />
+    <% wms_link = "http://#{request.host_with_port}/layers/wms/#{@layer.id}?request=GetMap&version=1.1.1&styles=&format=image/png&srs=epsg:4326&exceptions=application/vnd.ogc.se_inimage&" %>
+    <%= link_to("WMS link suitable for JOSM OpenStreetMap Editor", wms_link) %> <br />
+  </li>
+  <li>
+    KML: <%= link_to("Download KML", formatted_layer_url(:id => @layer, :format=>:kml)) %>
+    (<%= link_to("View KML in Google Maps", "http://maps.google.com?q="+formatted_layer_url(:id => @layer,
+        :format => :kml), :target => "_blank") %> )
+  </li>
+  <li>
+    Bibliographic:  <%= link_to 'biblio record', "http://example.com" -%>
+  </li>
+</ul>

@@ -1,0 +1,22 @@
+<% map_type_url = url_for(:controller => "maps", :action=> "map_type", :id => @map.id) -%>
+<%if @layer %> <%#only change the map list for layer views %>
+    <% form_remote_tag(:url => map_type_url, 
+                       :html => {:class=>"map-type-form"},
+                    :before => "jQuery('#loading-spinner').show()",
+                     :after => "jQuery('#map_table_div').fadeOut('slow')",
+                     :complete => "jQuery('#map_table_div').fadeIn('slow'); jQuery('#loading-spinner').hide() ",
+                     :failure => "alert('Whoops, there was an error ' + request.status + '!')"  
+                    ) do  -%>
+
+      <%= select("map", :map_type, Map.map_type_hash, {},:onchange => "this.form.onsubmit()") -%>
+      <input type="hidden" name="layerid" value="<%=@layer.id%>" />
+    <% end -%>
+  <% else-%>
+    <% form_remote_tag(:url => map_type_url,
+                       :html => {:class=>"map-type-form"},
+                       :failure => "alert('Whoops, there was an error ' + request.status + '!')"  
+                       )  do  -%>
+    <%= select("map", :map_type, Map.map_type_hash, {},:onchange => "this.form.onsubmit()") -%>
+  <% end -%>
+
+<% end -%>

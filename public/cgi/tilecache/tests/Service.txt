@@ -1,0 +1,37 @@
+The Service is the core component of the TileCache Server: various services
+(wsgi, cgi, mod_python) feed into it. You can see the properties::
+
+    >>> import TileCache.Service
+    >>> dir(TileCache.Service)
+    ['__class__', '__delattr__', '__doc__', '__getattribute__', '__hash__', '__init__', '__module__', '__new__', '__reduce__', '__reduce_ex__', '__repr__', '__setattr__', '__slots__', '__str__', '_load', '_loadFromSection', 'cache', 'config', 'dispatchRequest', 'expireTile', 'files', 'generate_crossdomain_xml', 'layers', 'load', 'loadFromSection', 'metadata', 'renderTile', 'tilecache_options']
+
+Or you can create one. In general, this is generated via the config file,
+but you can build one manually as well::
+
+    >>> from TileCache.Caches.Disk import Disk
+    >>> from TileCache.Layer import Layer, Tile
+    >>> l = Layer("basic", debug=False) 
+    >>> t = Tile(l, 0, 0, 0)
+    >>> service = TileCache.Service(Disk("/tmp/tilecache"), {"layer": l})
+    >>> service # doctest: +ELLIPSIS
+    <TileCache.Service.Service object at ...>
+
+The Service dispatchRequest method is what actually generates the tiles. It calls
+out to the layer's renderTile method. On the base Layer class, nothing is
+returned: all renderTile implementation is done by subclasses. As a result,
+rendering the tile fails on this layer::
+
+    >>> try:
+    ...     tile_data = service.dispatchRequest({}, path_info="/1.0.0/layer/0/0/0.png")
+    ... except Exception, E:
+    ...     str(E)
+    'Zero length data returned from layer.'
+
+KML SuperOverlays can be generated as an alternative output to the TMS-style
+requests: simply change the image format to ".kml".
+
+    >>> kml = service.dispatchRequest({}, path_info="/1.0.0/layer/0/0/0.kml")
+    >>> kml[0]
+    'application/vnd.google-earth.kml+xml'
+    >>> kml[1]
+    '<?xml version="1.0" encoding="UTF-8"?>\n<kml xmlns="http://earth.google.com/kml/2.1">\n\n  <Document>\n    <Region>\n      <Lod>\n        <minLodPixels>256</minLodPixels><maxLodPixels>512</maxLodPixels>\n      </Lod>\n      <LatLonAltBox>\n        <north>90.0</north><south>-90.0</south>\n        <east>0.0</east><west>-180.0</west>\n      </LatLonAltBox>\n    </Region>\n    <GroundOverlay>\n      <drawOrder>0</drawOrder>\n      <Icon>\n        <href>http://example.com//1.0.0/basic/0/0/0</href>\n      </Icon>\n      <LatLonBox>\n        <north>90.0</north><south>-90.0</south>\n        <east>0.0</east><west>-180.0</west>\n      </LatLonBox>\n    </GroundOverlay>\n    <NetworkLink>\n      <name>tile</name>\n      <Region>\n        <Lod>\n          <minLodPixels>256</minLodPixels><maxLodPixels>-1</maxLodPixels>\n        </Lod>\n        <LatLonAltBox>\n          <north>0.0</north><south>-90.0</south>\n          <east>-90.0</east><west>-180.0</west>\n        </LatLonAltBox>\n      </Region>\n      <Link>\n        <href>http://example.com//1.0.0/basic/1/0/0.kml</href>\n        <viewRefreshMode>onRegion</viewRefreshMode>\n      </Link>\n    </NetworkLink>\n<NetworkLink>\n      <name>tile</name>\n      <Region>\n        <Lod>\n          <minLodPixels>256</minLodPixels><maxLodPixels>-1</maxLodPixels>\n        </Lod>\n        <LatLonAltBox>\n          <north>0.0</north><south>-90.0</south>\n          <east>0.0</east><west>-90.0</west>\n        </LatLonAltBox>\n      </Region>\n      <Link>\n        <href>http://example.com//1.0.0/basic/1/1/0.kml</href>\n        <viewRefreshMode>onRegion</viewRefreshMode>\n      </Link>\n    </NetworkLink>\n<NetworkLink>\n      <name>tile</name>\n      <Region>\n        <Lod>\n          <minLodPixels>256</minLodPixels><maxLodPixels>-1</maxLodPixels>\n        </Lod>\n        <LatLonAltBox>\n          <north>90.0</north><south>0.0</south>\n          <east>0.0</east><west>-90.0</west>\n        </LatLonAltBox>\n      </Region>\n      <Link>\n        <href>http://example.com//1.0.0/basic/1/1/1.kml</href>\n        <viewRefreshMode>onRegion</viewRefreshMode>\n      </Link>\n    </NetworkLink>\n<NetworkLink>\n      <name>tile</name>\n      <Region>\n        <Lod>\n          <minLodPixels>256</minLodPixels><maxLodPixels>-1</maxLodPixels>\n        </Lod>\n        <LatLonAltBox>\n          <north>90.0</north><south>0.0</south>\n          <east>-90.0</east><west>-180.0</west>\n        </LatLonAltBox>\n      </Region>\n      <Link>\n        <href>http://example.com//1.0.0/basic/1/0/1.kml</href>\n        <viewRefreshMode>onRegion</viewRefreshMode>\n      </Link>\n    </NetworkLink>\n    \n</Document></kml>'

@@ -1,0 +1,87 @@
+<% remote_form_for(@map, :update => "Edit", :html => {:multipart => true}) do |f| %>
+  <div class="column span-12">
+    <p>
+      <b>Title</b><br />
+      <%= f.text_field :title %>
+    </p>
+
+    <p>
+      <b>Description </b><span class="tiny-text">(max 256 chars)</span><br />
+      <%= f.text_area(:description, :rows => 12) %>
+    </p>
+    <p>
+      <b>Tags </b><span class="tiny-text">(comma separated)</span> <br />
+      <%= f.text_field :tag_list %>
+    </p>
+       <p>
+      <%= f.select(:map_type, Map.map_type_hash, :selected=>:is_map) -%>
+    </p>
+  </div>
+
+  <div class="column span-12 last">
+     <p>
+      <b>Source / Bibliographic Ref URL</b><br />
+      <%= f.text_field :source_uri %>
+    </p>
+
+    <p>
+      <b>Publisher</b><br />
+      <%= f.text_field :publisher %>
+    </p>
+
+    <p>
+      <b>Author(s)</b><br />
+      <%= f.text_field :authors %>
+    </p>
+
+    <p>
+      <b>Scale</b><br />
+      <%= f.text_field :scale %>
+    </p>
+
+    <p>
+      <b>Published Date</b><br />
+      <%= f.date_select(:published_date, :include_blank => true, :order => [:day, :month, :year ], :start_year => 1600, :end_year =>Time.now.year)  %>
+    </p>
+
+    <p>
+      <b>Reprint Date </b><span class="tiny-text">(optional)</span><br />
+      <%= f.date_select(:reprint_date, :include_blank => true, :order => [:day, :month, :year ], :start_year => 1600, :end_year =>Time.now.year)  %>
+    </p>
+  </div>
+
+  <div class="column span-24">
+    <%- if defined?(page)  && page =~ /edit/ && (current_user == @map.owner || admin_authorized?) -%>
+     
+      <p>
+        <label for="upload"><b>Upload An Image File:</b>
+        </label> <br />
+        <%= f.file_field :upload %>
+      </p>
+    <%- end-%>
+
+    <%- if defined?(page)  && page =~ /new/ -%>
+      <p>
+        <label for="upload"><b>Upload An Image File:</b>
+          <br /><% if @max_size %>
+            Max size:
+            <%=  number_to_human_size @max_size %>.
+          <% end %>
+          <%= @upload_file_message %>
+        </label> <br />
+        <%= f.file_field :upload %>
+      </p>
+    <%- end -%>
+
+<%- if defined?(page)  && (page =~ /edit/ && logged_in? && (current_user == @map.owner || current_user.has_role?("editor")) || page =~ /new/ ) -%>
+<p>
+Map visibility. <br /><%= f.radio_button :public, "true" %><label for="map_public_true">Public(default)</label> <br/>
+<%= f.radio_button :public, "false" %><label for="map_public_false">Don't list the map (only you can see it)</label>
+</p>
+<%- end -%>
+    <p>
+      <%= f.submit((defined?(page) && page =~ /new/) ? "Create" : "Update" )%>
+    </p>
+    
+  </div>
+<% end %>

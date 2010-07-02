@@ -1,0 +1,1 @@
+require 'flow_pagination'

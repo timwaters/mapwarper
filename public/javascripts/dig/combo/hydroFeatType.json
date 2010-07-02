@@ -1,0 +1,10 @@
+{"root": [
+{"id": "Coastline", "label": "Coastline"},
+{"id": "Beach", "label": "Beach"},
+{"id": "River", "label": "River"},
+{"id": "Canal", "label": "Canal"},
+{"id": "Lake/Pond", "label": "Lake / Pond"},
+{"id": "Reservoir", "label": "Reservoir"},
+{"id": "Delta/Estuary", "label": "Delta / Estuary"},
+{"id": "unknown", "label": "Unknown"}
+]}

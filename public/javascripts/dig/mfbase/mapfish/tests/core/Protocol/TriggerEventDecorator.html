@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html debug="true">
+  <head>
+    <link rel="stylesheet" type="text/css" href="../../../ext/resources/css/ext-all.css" />
+
+    <script type="text/javascript" src="../../../../openlayers/lib/Firebug/firebug.js"></script>
+    <script type="text/javascript" src="../../../../openlayers/lib/OpenLayers.js"></script>
+
+    <script type="text/javascript" src="../../../../ext/adapter/ext/ext-base.js"></script>
+    <script type="text/javascript" src="../../../../ext/ext-all-debug.js"></script>
+
+    <script type="text/javascript">
+      // Because of a bug in Firefox 2 we need to specify the MapFish base path.
+      // See https://bugzilla.mozilla.org/show_bug.cgi?id=351282
+      var gMfLocation = "../../../../mapfish/";
+    </script>
+    <script type="text/javascript" src="../../../../mapfish/MapFish.js"></script>
+
+    <script type="text/javascript"><!--
+    function test_TriggerEventDecorator_initialize(t) {
+        t.plan(1);
+
+        // setup
+
+        var decorator;
+
+        decorator = new mapfish.Protocol.TriggerEventDecorator({
+            protocol: new OpenLayers.Protocol
+        });
+
+        t.eq(decorator.events.CLASS_NAME, "OpenLayers.Events",
+             "initialize sets events");
+    }
+    function test_TriggerEventDecorator_CRUD(t) {
+        t.plan(19);
+
+        // setup
+
+        var decorator, scope, type, feature, features, options;
+
+        decorator = new mapfish.Protocol.TriggerEventDecorator({
+            protocol: new OpenLayers.Protocol({
+                create: function(f, o) {
+                    o.callback.apply(o.scope);
+                },
+                read: function(o) {
+                    o.callback.apply(o.scope);
+                },
+                update: function(f, o) {
+                    o.callback.apply(o.scope);
+                },
+                "delete": function(f, o) {
+                    o.callback.apply(o.scope);
+                }
+            })
+        });
+
+        scope = {fake: "scope"};
+        
+        decorator.events.on({
+            crudtriggered: function(obj) {
+                t.eq(obj.type, type,
+                     "crudtriggered is called with correct type " +
+                     "(" + type + ")");
+                t.eq(this, scope,
+                     "crudtriggered is called with correct scope");
+            },
+            crudfinished: function(obj) {
+                t.eq(this, scope,
+                     "crudfinished is called with correct scope");
+            },
+            scope: scope
+        });
+
+        feature = {fake: "feature"};
+        features = [feature];
+
+        options = {
+            callback: function() {
+                t.eq(this, scope,
+                     type + " callback called with correct scope");
+            },
+            scope: scope
+        };
+
+        // 3 tests
+        type = "read";
+        decorator.read();
+
+        // 4 tests
+        type = "read";
+        decorator.read(options);
+
+        // 4 tests
+        type = "create";
+        decorator.create(features, options);
+
+        // 4 tests
+        type = "update";
+        decorator.update(features, options);
+
+        // 4 tests
+        type = "delete";
+        decorator["delete"](feature, options);
+    }
+    function test_TriggerEventDecorator_commit(t) {
+        t.plan(3);
+
+        // setup
+
+        var decorator, scope, feature, features, options;
+
+        decorator = new mapfish.Protocol.TriggerEventDecorator({
+            protocol: new OpenLayers.Protocol({
+                commit: function(f, o) {
+                    o.callback.apply(o.scope);
+                }
+            })
+        });
+
+        scope = {fake: "scope"};
+        
+        decorator.events.on({
+            committriggered: function(obj) {
+                t.eq(this, scope,
+                     "committriggered is called with correct scope");
+            },
+            commitfinished: function(obj) {
+                t.eq(this, scope,
+                     "commitfinished is called with correct scope");
+            },
+            scope: scope
+        });
+
+        feature = {fake: "feature"};
+        features = [feature];
+
+        options = {
+            callback: function() {
+                t.eq(this, scope,
+                     "commit callback called with correct scope");
+            },
+            scope: scope
+        };
+
+        // 3 tests
+        decorator.commit(features, options);
+    }
+    function test_TriggerEventDecorator_clear(t) {
+        t.plan(1);
+
+        // setup
+
+        var decorator, scope;
+
+        decorator = new mapfish.Protocol.TriggerEventDecorator({
+            protocol: new OpenLayers.Protocol
+        });
+
+        var scope = {fake: "scope"};
+
+        decorator.events.on({
+            clear: function() {
+                t.eq(this, scope,
+                     "clear listener called with correct scope");
+            },
+            scope: scope
+        });
+
+        // 1 test
+        decorator.clear();
+    }
+--></script>
+
+  </head>
+  <body>
+  </body>
+</html>

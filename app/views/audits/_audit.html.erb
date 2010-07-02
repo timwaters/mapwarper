@@ -1,0 +1,46 @@
+<tr>
+  <% cl = cycle('table0', 'table1') %>
+
+  <td class="<%= cl %>">
+    <%= audit.created_at.to_s(:uk) %>
+
+  </td>
+
+  <% if audit.auditable_type.downcase == "map"
+    typename = "Map"
+    controller_name = "map"
+  elsif audit.auditable_type.downcase == "gcp"
+    typename = "Control Point"
+    controller_name = "gcp"
+  end %>
+
+  <td class="<%= cl %>">
+    <% if audit.uname -%>
+      <%= link_to audit.uname, :controller=>"users",:action=>"show", :id=>audit.user_id -%>
+    <% else -%>
+      &mdash;
+    <%end%>
+  </td>
+
+  <td class="<%= cl %>">
+    <%= link_to typename + ' ' + audit.auditable_id.to_s,
+      :controller=> controller_name.pluralize,
+      :action => 'show',
+      :id => audit.auditable_id -%>
+  </td>
+
+  <td class="<%= cl %>">
+    <%= audit.activity_action %> &mdash; <%= audit.summary %>
+  </td>
+
+  <td class="<%= cl %>">
+    <%=audit.version.to_s %>
+  </td>
+
+  <td class="<%=cl %>">
+
+    <%-unless defined?(page) && page =~ /detail/ -%>
+      <%= link_to "Further details", activity_details_url(:id => audit) %>
+    <%-end-%>
+  </td>
+</tr>

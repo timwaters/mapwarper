@@ -1,0 +1,19 @@
+<h2>All Users</h2>
+
+<%= will_paginate @users %>
+<table class="usertable">
+  <thead>
+<tr>
+<%= sort_header_tag('login', :title => "Username") %>
+<%= sort_header_tag('email', :title => "Email") %>
+<%= sort_header_tag('enabled', :title => "Enabled?") %>
+<%= sort_header_tag('activated_at', :title => "Activated?") %>
+<th>Roles</th>
+</tr>
+</thead>
+<tbody>
+<%= render :partial => "user", :collection => @users %>
+</tbody>
+</table>
+<%= will_paginate @users %>
+

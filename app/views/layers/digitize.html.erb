@@ -1,0 +1,26 @@
+<% content_for :head do%>
+<%= javascript_tag "window._token = '#{form_authenticity_token}'" %>
+<script type="text/javascript">
+  Ext.BLANK_IMAGE_URL = jsPath + 'dig/mfbase/ext/resources/images/default/s.gif';
+  var refLayerID = "<%=@layer.id%>";
+  var refLayerYear = "<%=@layer.depicts_year%>";
+  var refLayerURL = "<%= url_for :controller => 'layers', :action => 'wms', :id => @layer -%>";
+  var refLayerBounds = new OpenLayers.Bounds(<%=@layer.get_bounds%>);
+  var editingUser = "<%if logged_in? -%><%= @current_user.id -%><% else %>0000<% end -%>";
+  var subtypeURL = "<%= url_for :controller => 'digitize', :action => 'subtype' -%>";
+  var geoserverURL = '<%= "http://"+ request.host + "/geoserver/wfs" %>';  
+</script>
+
+
+<%= javascript_include_tag "dig/edit" %>
+
+<% end %>
+
+<div id="dig-panel">
+  <div id="olmap"></div>
+<div id="digitizer-slider"><div class="ui-slider-handle"></div></div>
+  <div id="tree"></div>
+</div>
+
+
+

@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html debug="true">
+  <head>
+    <link rel="stylesheet" type="text/css" href="../../../../ext/resources/css/ext-all.css" />
+
+    <script type="text/javascript" src="../../../../openlayers/lib/Firebug/firebug.js"></script>
+    <script type="text/javascript" src="../../../../openlayers/lib/OpenLayers.js"></script>
+
+    <script type="text/javascript" src="../../../../ext/adapter/ext/ext-base.js"></script>
+    <script type="text/javascript" src="../../../../ext/ext-all-debug.js"></script>
+
+    <script type="text/javascript">
+      // Because of a bug in Firefox 2 we need to specify the MapFish base path.
+      // See https://bugzilla.mozilla.org/show_bug.cgi?id=351282
+      var gMfLocation = "../../../../mapfish/";
+    </script>
+    <script type="text/javascript" src="../../../../mapfish/MapFish.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="style.css" />
+
+    <script type="text/javascript"><!--
+        function test_constructor(t) {
+            t.plan(2);
+            var store = new mapfish.widgets.data.FeatureStore({
+                fields: [
+                    {'name': 'foo'},
+                    {'name': 'bar'}
+                ]
+            });
+            var fields = store.reader.recordType.prototype.fields;
+            // 2 tests
+            t.eq(fields.items.length, 2, 'number of items is correct');
+            t.ok(fields.items[0].name == 'foo' &&
+                 fields.items[1].name == 'bar',
+                 'field values are correct');
+        }
+        function test_manipulateData(t) {
+            t.plan(4);
+            // setup
+            var store, features, records;
+            store = new mapfish.widgets.data.FeatureStore({
+                fields: [
+                    {'name': 'foo'},
+                    {'name': 'bar'}
+                ]
+            });
+            features = [
+                new OpenLayers.Feature.Vector(null, {
+                    'foo': 'foo_0',
+                    'bar': 'bar_0'
+                }),
+                new OpenLayers.Feature.Vector()
+            ];
+            features[0].fid = 1;
+            features[0].state = OpenLayers.State.INSERT;
+            features[1].fid = 2;
+            features[1].state = OpenLayers.State.DELETE;
+            // 1 test
+            store.loadData(features);
+            t.eq(store.getCount(), 2, 'loadData loads expected number of records');
+            // 1 test
+            store.removeAll();
+            t.eq(store.getCount(), 0, 'removeAll empties store');
+            // 2 tests
+            store.loadData(features);
+            store.filterBy(function(record) {
+                return record.get("fid") == 1;
+            });
+            t.eq(store.getCount(), 1, 'loadData loads expected number of records');
+            t.ok(store.getById(features[0].id) !== undefined,
+                 'loadData loads expected feature when filter is applied');
+        }
+    --></script>
+
+  <body>
+    <div id="map"></div>
+  </body>
+</html>

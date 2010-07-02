@@ -1,0 +1,97 @@
+<% content_for :head do %>
+  <%= javascript_include_tag "progressbar/js/bramus/jsProgressBarHandler" %>
+  <script type="text/javascript">
+    var map_id = '<%=h @map.id -%>';
+    var title  = 'unwarped map';
+
+  <% if @mapstatus != "unloaded"%>
+      var unwarped_image_width = <%= @map.width %>;
+      var unwarped_image_height = <%= @map.height %>;
+  <% else%>
+
+      function yayornay(){
+        status = $('map_status').innerHTML;
+
+        if (status == "unloaded") {
+          statusPoll.stop();
+          Element.hide('loading');
+          Element.show("unloaded");
+        }
+        else if ((status == "available") || (status == "warping"))  {
+
+          statusPoll.stop();
+          Element.hide('loading');
+          Element.show("loaded");
+          timedRefresh(2500);
+
+        }
+      }
+
+      function timedRefresh(timeoutPeriod) {
+        setTimeout("location.reload(true);",timeoutPeriod);
+      }
+      function updatebar(status) {
+        if (status == 'loading') {
+          var prev = myJsProgressBarHandler.getPercentage('prog');
+          var increment =  Math.round(( (100 - prev) / 100 ) * 20);
+          var newPercentage = prev + increment;
+          myJsProgressBarHandler.setPercentage('prog', newPercentage);
+
+        }
+        if (status == 'available') {
+          myJsProgressBarHandler.setPercentage('prog', '100');
+        }
+        if (status == 'unloaded') {
+          myJsProgressBarHandler.setPercentage('prog', '10');
+
+        }
+      }
+
+  <% end %>
+    var wms_url = '<%= url_for :controller => 'maps', :action => 'wms', :id => @map  -%>';
+
+  </script>
+
+  <%= javascript_include_tag "unwarped" %>
+
+<% end -%>
+
+<% if @mapstatus != "unloaded"  %>
+  <% @onload="uinit();" %>
+<% end %>
+<% if @mapstatus != "unloaded" %>
+  <%= @title %>
+  <div id="unmap">
+
+  </div>
+
+<% else %>
+
+  <div id="loading">
+  Loading map... <span id="spinner"><%= image_tag 'spinner.gif' %></span></div>
+
+
+  <span class="progressBar" id="prog">20%</span>
+  <span id="map_status" class="mapstatus">requesting</span>
+
+  <div id="loaded" style="display:none;" >
+    Map has successfully loaded, page will automatically refresh in a couple of seconds.
+    <A HREF="javascript:history.go(0)">Click here</A> if you don't want to wait.
+  </div>
+  <div id="unloaded" style="display:none;">
+    The map did not load properly, please refresh the page and try again.
+    If it does not load properly a second time, please choose another map, and try again another day.
+  </div>
+
+
+  <%= periodically_call_remote :url => {:action=>'status', :id => @map.id},
+    :update => 'map_status',
+    :frequency => 4,
+    :condition => "!($('map_status').innerHTML == 'available') || !($('map_status').innerHTML == 'warped')",
+    :complete => "yayornay();",
+    :success => "updatebar(request.responseText);",
+    :variable => 'statusPoll'
+%>
+
+<%end%>
+

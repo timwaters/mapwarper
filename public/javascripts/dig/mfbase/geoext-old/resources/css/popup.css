@@ -1,0 +1,21 @@
+
+.gx-popup-anc {
+	background: transparent url(../images/default/anchor.png) no-repeat 0 0;
+        position: relative;
+        top:-1px;
+        left:5px;
+        z-index:2;
+        height:16px;
+        width:31px;
+}
+
+
+.xtheme-gray .gx-popup-anc {
+	background: transparent url(../images/gray/anchor.png) no-repeat 0 0;
+        position: relative;
+        top:-1px;
+        left:5px;
+        z-index:2;
+        height:16px;
+        width:31px;
+}

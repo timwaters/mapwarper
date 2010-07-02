@@ -1,0 +1,8 @@
+<% form_for(:gcp, :url => {:controller => 'gcp', :action => 'update', :id => @gcp }) do |f| %>
+<%= f.text_field :id, :size => 5 %>
+<%= f.text_field :x, :size => 5 %>
+<%= f.text_field :y, :size => 5 %>
+<%= f.text_field :lat, :size => 5 %>
+<%= f.text_field :lon, :size => 5 %>
+
+<% end %> 

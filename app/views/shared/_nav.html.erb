@@ -1,0 +1,11 @@
+<div id="nav">
+  <ul id="navlist">
+    <li><%= link_to_unless_current("Home", :controller => 'home', :action=>'index') { "<span>Home</span>" } %></li>
+    <li><%= link_to_unless((current_page?(maps_url) && !current_page?(maps_url(:show_warped =>1))),"Browse All Maps", maps_url) { "<span>Browse All Maps</span>" } %></li>
+    <li><%= link_to_unless_current("Upload Map", new_map_path) { "<span>Upload Map</span>" } %></li>
+    <li><%= link_to_unless_current("Browse All Layers",  layers_path) { "<span>Browse All Layers</span>" } %></li>
+    <li><%= link_to_unless_current("Add Layer", new_layer_path) { "<span>Add Layer</span>" } %></li>
+    <li><%= link_to_unless_current("About", :controller => 'home', :action => 'about') { "<span>About</span>" } %></li>
+    <li><%= link_to_unless_current("Help", :controller => 'home', :action => 'help') { "<span>Help</span>" } %></li>
+  </ul>
+</div>

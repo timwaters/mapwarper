@@ -1,0 +1,51 @@
+README
+--------
+
+Some things you may need to set up first:
+
+Mapserver: used when showing warped map. Mapserv renamed to mapserv.cgi living
+in (or linked to)the cgi-bin directory. You'd need to have your own mapserv executable
+ on hand to use for this. FWTOOLS is ok to use for this.
+
+libgdal-ruby is used to get the raster extents to update the bounding box of a warped map
+
+config/deploy.rb for capistrano users, change this as fits. Have a look and see
+ how it works with shared paths, to save mapserver map files and images between deploys.
+
+gdal - needs to be installed, again FWTOOLS good. the path to the gdal executable
+ directory can be added / changed in config/environments/production.rb and/or development.rb if
+It cannot find it on the PATH.
+
+Some files you will need to put manually there, and capistrano copies across to the correct place, basically enables
+the code not to have site specific stuff in svn.
+
+config/initializers/mail.rb. put mail.rb into shared/config folder
+config/environments/production.rb again, into shared/config folder
+config/database.yml.production into shared/config folder
+see deploy.rb for details
+
+create folders shared/system/mapimages/src and /dst and /dst/png
+
+
+database - standard rails db migrate should do the trick - mysql or sqlite3 should
+be fine. Change the database.example file to your database.yml 
+
+imagemagick required for paperclip and thumbnail handling....
+
+legacy import from older warper with mapscans
+you can use the custom rake command
+RAILS_ENV=development rake legacy:migrate --trace
+---------
+replace GOOGLE_MAPS_KEY in production.rb to your own
+
+
+Other optional config options put in you environment files
+MAX_DIMENSION =  2000  #max dimension width or height for an upload. Otherwise it will get resized to fit this max size
+MAX_ATTACHMENT_SIZE = 5.megabyte #max upload file size
+GDAL_MEMORY_LIMIT = 20 # max memory used for gdal_warp, may keep some servers sweet
+if you comment these out, then no constraints are used
+--
+tim waters 
+
+tim_at_geothings_dotnet
+

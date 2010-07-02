@@ -1,0 +1,27 @@
+<%= link_to "&lt; Back", :back %>
+
+<h2>My Maps for <%= @user.login %></h2>
+<p>
+Showing list of maps saved or edited by a user.
+</p>
+<!--
+<div id="search-pagination-top">
+<%=will_paginate @mymaps %>
+</div>
+-->
+<table id="map_table" cellpadding="3">
+    <thead>
+      <tr>
+      <th>Map</th>
+      <th>Title</th>
+      <th>Last modified</th>
+      <th>Status</th>
+      </tr>
+    </thead>
+    <tbody id="results">
+    <%= render :partial => 'maps/map', :collection => @mymaps unless @mymaps.nil? %>
+  </tbody>
+</table>
+ <div id="search-pagination-bottom">
+   <%= will_paginate @mymaps, :renderer => FlowPagination::LinkRenderer %>
+ </div>

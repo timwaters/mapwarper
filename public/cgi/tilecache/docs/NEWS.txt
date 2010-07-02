@@ -1,0 +1,161 @@
+Changelog
+=========
+
+tilecache-2.10,  Sun, 18 Jan 2009 21:07:49 -0500
+ * APPLICATION CHANGE: tilecache_seed.py now uses optparse for options
+   parsing, which may require changes in scripts which call tilecache_seed
+   programatically. See the docs for the new style of command line.
+ * Add support to S3 cache for TMS-style URLs (thx stvn)
+ * Fixes for Caches/Disk.py under Jython
+ * Support multiple TileCacheConfigs in the same mod_python server (thx fredj)
+ * Add support for combining multiple tilecache layers into a single image when
+   using WMS. (thx fredj)
+ * allow custom mime_types in MapServer, WMS layers (thx fredj)
+ * improve KML links to not link to invalid tiles (thx Graham Carlyle)
+ * add png256 support to TileCache using Mapnik (thx Dane Springmeyer)
+ * A number of other patches from the mailing list. 
+
+tilecache-2.04,  Mon, 23 Jun 2008 14:00:54 -0400
+ * Add support for JSON-output of layer information
+ * Add 'data_extent' property to allow for informing remote clients of
+   extent of data (seperate from grid extent)
+ * Minor fixes to layer initialization with regard to spherical mercator,
+   error logging, and others.
+
+tilecache-2.03,  Mon, 19 May 2008 23:13:09 -0400
+ * Adding metadata about layers, etc. for allowing external clients
+   to better understand the parameters used by a layer.
+ * Improve programatic access to KML SuperOverlay output
+ * Add SuperOverlay documentation designed to assist integrators.
+ * Fix a bug in Memcache support with Metatiles.
+ * Fix ordering of mod_python cache loading to load local paths first.
+
+tilecache-2.02,  Sat, 10 May 2008 09:21:47 -0400
+ * Add GoogleDisk cache, to save tiles to disk in z/x/y.ext format
+ * Add VETMS Service, provided by Steven Ottens
+ * Add "Test" cache, which doesn't cache anything, for debugging
+ * Fix Image Layer
+ * Add GDAL Layer, for reading images via GDAL directly
+ * Add support for reprojecting ArcXML layers
+ * Add threading support to standalone http server
+ * Support for Mapnik 0.5
+ * Support spitting out crossdomain.xml
+ * Username/password support for WMS Layers
+ * mod_python re-reads tilecache.cfg if it changed
+ * Protect disk cache from os.makedirs race condition
+ * Bump decimals in TMS,WMS-C units-per-pixel in caps output
+ * Minor Changes in KML SuperOverlays
+
+tilecache-2.01,  Thu, 27 Dec 2007 08:40:43 -0500
+ * Add Amazon S3 Cache support.
+ * Add cache documentation
+ * Improved error handling in server startup
+ * Many minor cleanups of documentation, etc.
+
+tilecache-2.0, Sat, 22 Dec 2007 23:35:03 -0500
+ * Refactor TileCache to support drop in plugins for just about everything.
+ * Upated TileCache release with KML SuperOverlay support
+ * Add MGMaps service.
+ * Add ArcXML layer.
+ * Make code compatible with PyPI.
+ * Cleaning up and moving around a bunch of distribution related stuff.
+
+tilecache-1.9, Wed,  5 Sep 2007 11:14:16 -0400
+ * Fix longstanding bug which made some non-geographic projections difficult
+   to create tiles with
+ * Add more informative error message output via TileCacheExceptions  
+ * Fix for "MetaLayer.getMetaSize is too conservative"
+ * Report OSErrors more cleanly in tilecache_clean.py
+ * Better support for Jython in DiskCache class.
+ * Add support for extent_type=loose to allow out of bounds tile requests
+ * Improved tilecache_seed to only grab one metaTile from each set -- 
+   this drastically reduces the number of requests to precache metatiled
+   layers. Also fixed off-by-one error where seed was requesting too many
+   tiles.
+ * Add tms_type=google to specify that the TMS layer should go down instead
+   of up.
+ * Add setting of labelcache_map_edge_buffer to the MapServer layer if one
+   does not exist on the map object.
+ * Make mapnik layer respect layers= config if provided.
+ * Remove getClosestLevel, no longer used or neccesary.  
+ * Better Lockfile removal, from Paul Spencer
+ * Update WMS Capabilities, from Steven Ottens
+ * Only use metaTiling if metatile=yes, true, or 1 
+ * Minor change to WMS layer dispatching to handle GDAL WMS Driver 
+   compatability.
+
+tilecache-1.8, Fri,  4 May 2007 07:31:38 -0400
+ * Patch to ImageLayer from Volker Mische add:
+   * Optional transparency to images which are not transparent. This allows 
+     the images to be transparent outside the maxExtent of the image.
+   * Resize scaling method specification 
+ * Add support for tile watermarking, patch by Andrew Hughes. 
+ * Allow for definition of 'styles' parameter in WMSLayer tilecache
+   cfg -- don't send blank parameters to the backend.
+
+tilecache-1.7, Fri, 13 Apr 2007 20:34:42 -0400
+ * Apache will sometimes kill TileCache, leaving around locks. If we can't 
+   lock for > cache.timeout seconds, throw an exception with the lockname,
+   so that users can cleanup. Reported by Brock Anderson, who had stuck locks
+   for several days.
+ * If ImageLayer base image is transparent, make output Image transparent too.
+   Report and patch by Brian Victor.
+ * Add support for forcing client to reload on errors, by Suki Hirata.
+ * Add support for not caching data which is not images for WMS, with
+   original support written by Suki Hirata.
+ * Minor fixups to TMS metadata, from Suki Hirata.
+
+tilecache-1.6, Thu Apr  5 19:09:58 EDT 2007
+ * Added Python distutils and Debian packaging materials.
+ * Added CONTRIBUTORS and EXAMPLES documentation files.
+
+tilecache-1.5, Tue Mar 27 10:17:57 EDT 2007
+ * Client.py support reading Layer config from tilecache.cfg, from Hani Howari
+ * Added ImageLayer.
+ * Support for readonly caches
+ * Add utility for cleaning a tilecache DiskCache to a certain size.
+ * Minor distribution/documentation changes.
+
+tilecache-1.4, Sat Feb  3 21:56:02 EST 2007
+ * Added wsgi handler, from Ehud Shabtai.
+ * Added standalone HTTP server, using wsgi handler, from Ehud Shabtai.
+ * Added fastcgi implementation, using wsgi handler, from Ehud Shabtai.
+ * Improved documentation, including patch from Eric Lemoine.
+ * Support for 'maxResolution' layer option.
+ * Improved support for running as CGI under IIS, from Suki Hirata.   
+
+tilecache-1.3, Tue Dec  5 23:40:49 EST 2006 
+ * Fix metaTile support:
+   * Data was offset downwards by metaBuffer pixels.
+   * metabuffer and metasize parsing was not working.
+ * Add support for palatted transparency when using metaTiling. Patch by 
+   Matthew Perry
+ * Fix for Windows support: os.rename() won't overwrite files. Patch by Tim
+   Schaub 
+ * Added 'description' metadata as a layer property. 
+ * <Title> and <Abstract> support added to TMS metadata.
+ * Documented layer configuration parameters.
+ 
+tilecache-1.2, Mon Dec  4 01:15:41 EST 2006
+ * Add support for WorldWind style requests, courtesy of Emily Gouge, from
+   Refractions.
+ * Add support for MapnikLayer for rendering.
+ * Add support for rendering using metatiles: instead of rendering one tile
+   at a time, render a 5x5 tileset, and then slice the tiles up. Good for
+   vector layers, where labels crossing tile boundaries is useful. 
+   To turn on, use 'metaTile=yes' in layer definition. Requires 
+   Python-Imaging.
+ * Improved TMS metadata
+ * Fix TileCache to work on Python 2.2
+ * Fix TileCache to work on Windows.
+
+tilecache-1.1, Fri Nov 17 14:56:56 EST 2006
+ * Allow non-integer aspect ratios for bounding boxes
+ * Add support for bounding box passed on command line to Client.py
+ * Change cache to use local layer name for creating caches instead of
+   remote layer list. After installing 1.1, if you have DiskCaches 
+   where the local layer name does not match the remote layer name,
+   you should move your directory after installing tilecache-1.1.
+ 
+tilecache-1.0, Fri Nov 10 13:14:02 EST 2006
+ * Initial Release

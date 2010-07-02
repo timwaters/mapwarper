@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html debug="true">
+  <head>
+    <link rel="stylesheet" type="text/css" href="../../../../ext/resources/css/ext-all.css" />
+
+    <script type="text/javascript" src="../../../../openlayers/lib/Firebug/firebug.js"></script>
+    <script type="text/javascript" src="../../../../openlayers/lib/OpenLayers.js"></script>
+
+    <script type="text/javascript" src="../../../../ext/adapter/ext/ext-base.js"></script>
+    <script type="text/javascript" src="../../../../ext/ext-all-debug.js"></script>
+
+    <script type="text/javascript">
+      // Because of a bug in Firefox 2 we need to specify the MapFish base path.
+      // See https://bugzilla.mozilla.org/show_bug.cgi?id=351282
+      var gMfLocation = "../../../../mapfish/";
+    </script>
+    <script type="text/javascript" src="../../../../mapfish/MapFish.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="style.css" />
+
+    <script type="text/javascript">
+        function test_addControl(t) {
+            t.plan(1);
+            // setup
+            var map, toolbar, control, button;
+            map = new OpenLayers.Map("map", {
+                controls: []
+            });
+            toolbar = new mapfish.widgets.toolbar.Toolbar({
+                applyTo: "toolbar",
+                map: map
+            });
+            control = new OpenLayers.Control();
+            // test
+            toolbar.addControl(control);
+            t.ok(map.controls[0] == control,
+                 "addControl adds control to map");
+
+        }
+        function test_removeControl(t) {
+            t.plan(1);
+            // setup
+            var map, toolbar, control;
+            map = new OpenLayers.Map("map", {
+                controls: []
+            });
+            toolbar = new mapfish.widgets.toolbar.Toolbar({
+                applyTo: "toolbar",
+                map: map
+            });
+            control = new OpenLayers.Control();
+            toolbar.addControl(control);
+            // test
+            toolbar.removeControl(control);
+            t.eq(map.controls.length, 0,
+                 "removeControl removes control from map");
+
+        }
+    </script>
+  <body>
+    <div id="map"></div>
+    <div id="toolbar"></div>
+  </body>
+</html>

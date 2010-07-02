@@ -1,0 +1,119 @@
+<html>
+    <head>
+        <script src="../../../../../../openlayers/lib/OpenLayers.js"></script>
+        <script src="../../../../../../ext/adapter/ext/ext-base.js"></script>
+        <script src="../../../../../../ext/ext-all-debug.js"></script>
+        <script src="../../../../../lib/GeoExt.js"></script>
+    
+        <script>
+        
+        function test_constructor(t) {
+            
+            t.plan(1);
+            
+            var store = new GeoExt.data.LayerStore();
+            
+            var node = new GeoExt.tree.LayerNode({
+                layer: "foo",
+                layerStore: store
+            });
+            
+            t.ok(node.layerStore === store, "layerStore set");
+            
+            node.destroy();
+            
+        }
+        
+        function test_render(t) {
+            
+            t.plan(8);
+            
+            var layer = new OpenLayers.Layer("foo");
+            
+            var mapPanel = new GeoExt.MapPanel({
+                layers: [layer],
+                allOverlays: true
+            });
+            
+            var node = new GeoExt.tree.LayerNode({
+                layer: "foo",
+                radioGroup: "group",
+                checkedGroup: "check",
+                childNodeType: {
+                    add: function() {
+                        t.ok(true, "add function of childNodeType called");
+                    }
+                }
+            });
+            
+            node.on("radiochange", function() {
+                t.ok(arguments[0] === node, "radiochange event triggered with the selected node as first argument");
+            });
+                        
+            var panel = new Ext.tree.TreePanel({
+                renderTo: "tree",
+                root: node
+            });
+            
+            mapPanel.on("render", function() {
+                t.ok(node.layer === layer, "layer found on detected map panel");
+
+                t.ok(node.ui.checkbox, "node has a checkbox");
+                t.ok(node.ui.radio, "node has a radio button");
+                // simulate a click event for testing the radiochange event
+                node.ui.onClick({getTarget: function() {return true}});
+                
+                t.eq(node.ui.checkbox.type, "radio", "checkbox rendered as radio button when checkedGroup is configured");
+                t.eq(node.ui.checkbox.name, "check_checkbox", "option group name set correclty according to checkedGroup");
+                
+                node.ui.toggleCheck();
+                t.eq(layer.visibility, false, "unchecking node hides layer");
+            });
+
+            mapPanel.render("map");
+            
+        }
+
+        function test_changelayername(t) {
+            t.plan(2);
+
+            var layer = new OpenLayers.Layer("test");
+
+            var mapPanel = new GeoExt.MapPanel({
+                layers: [layer],
+                allOverlays: true
+            });
+
+            var node = new GeoExt.tree.LayerNode({
+                layer: "test",
+                layerStore: mapPanel.layers
+            });
+
+            var panel = new Ext.tree.TreePanel({
+                 root: node
+            });
+            panel.render(document.body);
+
+            layer.setName("My new name");
+            t.eq(node.text, "My new name", "Node is named 'My new name' after layer setName is called");
+            
+            node = new GeoExt.tree.LayerNode({
+                layer: "My new name",
+                layerStore: mapPanel.layers,
+                text: "My custom text"
+            });
+            
+            layer.setName("test");
+            t.eq(node.text, "My custom text", "Node text does not change with layer name if custom text was provided");
+
+            node.destroy();
+            mapPanel.destroy();
+        }
+        
+        </script>
+    </head>
+    <body>
+        <div id="map" style="width: 100px; height: 100px;"></div>
+        <div id="tree" style="width: 100px; height: 100px;"></div>
+    </body>
+</html>

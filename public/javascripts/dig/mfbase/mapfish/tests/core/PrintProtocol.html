@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html debug="true">
+  <head>
+    <script type="text/javascript" src="../../../openlayers/lib/Firebug/firebug.js"></script>
+    <script type="text/javascript" src="../../../openlayers/lib/OpenLayers.js"></script>
+
+    <script type="text/javascript" src="../../../ext/adapter/ext/ext-base.js"></script>
+    <script type="text/javascript" src="../../../ext/ext-all-debug.js"></script>
+
+    <script type="text/javascript">
+      // Because of a bug in Firefox 2 we need to specify the MapFish base path.
+      // See https://bugzilla.mozilla.org/show_bug.cgi?id=351282
+      var gMfLocation = "../../../mapfish/";
+    </script>
+    <script type="text/javascript" src="../../../mapfish/MapFish.js"></script>
+
+    <script type="text/javascript"><!--
+
+    function test_PrintProtocol_addMapParams_WMS(t) {
+        t.plan(3);
+
+        var map = new OpenLayers.Map('map');
+        var wms = new OpenLayers.Layer.WMS("WMS",
+              "http://labs.metacarta.com/wms/vmap0", {layers: 'basic,toto', styles: 's1,s2', foo: 'bar'}, {buffer: 0});
+        map.addLayers([wms]);
+
+        var json = new OpenLayers.Format.JSON();
+
+        var print = new mapfish.PrintProtocol(map, "/print.pdf", {}, 100);
+        var expected={
+          "pages": [],
+          dpi: 100,
+          "units":"degrees",
+          "srs":"EPSG:4326",
+          "layers":[
+            {
+              "baseURL":"http://labs.metacarta.com/wms/vmap0",
+              "opacity": 1,
+              "singleTile": false,
+              customParams: {FOO: 'bar'},
+              "type":"WMS",
+              "layers":["basic", "toto"],
+              "format":wms.DEFAULT_PARAMS.format,
+              styles: ['s1', 's2']
+            }
+          ]
+        };
+        t.eq(json.write(print.spec), json.write(expected), "Results without overrides");
+
+        var layerOverrides={
+          "WMS":{
+            format: "image/svg+xml",
+            FOO: 'nope'
+          }
+        };
+        print = new mapfish.PrintProtocol(map, "/print.pdf", layerOverrides, 100);
+        expected.layers[0].format="image/svg+xml";
+        expected.layers[0].customParams.FOO="nope";
+        t.eq(json.write(print.spec), json.write(expected), "Result with overrides");
+
+        layerOverrides.WMS[100]={baseURL:'toto'};
+        print = new mapfish.PrintProtocol(map, "/print.pdf", layerOverrides, 100);
+        expected.layers[0].baseURL="toto";
+        t.eq(json.write(print.spec), json.write(expected), "Result with DPI specific overrides");
+    }
+
+
+    function test_PrintProtocol_addMapParams_2WMS(t) {
+        t.plan(4);
+
+        var map = new OpenLayers.Map('map');
+        var wms = new OpenLayers.Layer.WMS("WMS",
+              "http://labs.metacarta.com/wms/vmap0", {layers: 'basic,toto'}, {buffer: 0});
+        var wms2 = new OpenLayers.Layer.WMS("WMS2",
+              "http://labs.metacarta.com/wms/vmap0", {layers: ['tutu','titi'], format: 'image/png', foo: 'bar'}, {buffer: 0, isBaseLayer: false, visibility: false});
+        map.addLayers([wms, wms2]);
+
+        var json = new OpenLayers.Format.JSON();
+
+        var overrides = {
+            WMS: {overview: true}
+        };
+        var print = new mapfish.PrintProtocol(map, "/print.pdf", overrides, 100);
+        var expected={
+          "pages": [],
+          dpi: 100,
+          "units":"degrees",
+          "srs":"EPSG:4326",
+          "layers":[
+            {
+              "baseURL":"http://labs.metacarta.com/wms/vmap0",
+              "opacity": 1,
+              "singleTile": false,
+              "customParams":{},
+              "type":"WMS",
+              "layers":["basic", "toto"],
+              "format":wms.DEFAULT_PARAMS.format,
+              "styles":[],
+              "overview": true
+            }
+          ]
+        };
+        t.eq(json.write(print.spec), json.write(expected), "Results with two layers (only one visible)");
+
+        wms2.setVisibility(true);
+        overrides.WMS2 = {visibility: false};
+        print = new mapfish.PrintProtocol(map, "/print.pdf", overrides, 100);
+        t.eq(json.write(print.spec), json.write(expected), "Results with two layers (only one visible, the other disabled by override)");
+
+        overrides.WMS2.visibility= true;
+        print = new mapfish.PrintProtocol(map, "/print.pdf", overrides, 100);
+        expected.layers.push({
+          "baseURL":"http://labs.metacarta.com/wms/vmap0",
+          "opacity": 1,
+          "singleTile": false,
+          "customParams":{
+            FOO:'bar'   //I don't know why, but OL makes the name uppercase
+          },
+          "type":"WMS",
+          "layers":["tutu", "titi"],
+          "format":"image/png",
+          "styles":[],
+          "overview": false
+        });
+        t.eq(json.write(print.spec), json.write(expected), "Results with two layers (two visible)");
+
+        wms2.setVisibility(false);
+        print = new mapfish.PrintProtocol(map, "/print.pdf", overrides, 100);
+        t.eq(json.write(print.spec), json.write(expected), "Results with two layers (two visible, one forced by override)");
+    }
+
+
+    function test_PrintProtocol_vectorStyles(t) {
+        t.plan(1);
+
+        var map = new OpenLayers.Map('map');
+        var vector = new OpenLayers.Layer.Vector("Vector", {
+            isBaseLayer: true
+        });
+        map.addLayers([vector]);
+        var style1={toto:1};
+        var feature1 = new OpenLayers.Feature.Vector(new OpenLayers.Geometry.Point(0,0), {}, style1);
+        var feature2 = new OpenLayers.Feature.Vector(new OpenLayers.Geometry.Point(1,0), {}, style1);
+        feature1.id="toto";
+        feature2.id="titi";
+        vector.addFeatures([
+            feature1,
+            feature2
+        ]);
+
+        var json = new OpenLayers.Format.JSON();
+
+        var print = new mapfish.PrintProtocol(map, "/print.pdf", {}, 100);
+        var expected = {
+            "pages": [],
+            dpi: 100,
+            "units":"degrees",
+            "srs":"EPSG:4326",
+            "layers":[{
+                "opacity":1,
+                "customParams":{},
+                "type":"Vector",
+                "styles":{
+                    "1":{"toto":1}
+                },
+                "styleProperty":"_style",
+                "geoJson":{
+                    "type":"FeatureCollection",
+                    "features":[{
+                        "type":"Feature",
+                        "id":"toto",
+                        "properties":{"_style":1},
+                        "geometry":{
+                            "type":"Point",
+                            "coordinates":[0,0]
+                        }
+                    },{
+                        "type":"Feature",
+                        "id":"titi",
+                        "properties":{"_style":1},
+                        "geometry":{
+                            "type":"Point",
+                            "coordinates":[1,0]
+                        }
+                    }]
+                },
+                "name": "Vector"
+            }]
+        };
+        t.eq(json.write(print.spec), json.write(expected), "same style");
+    }
+
+    function test_PrintProtocol_MapServer(t) {
+        t.plan(1);
+
+        var map = new OpenLayers.Map('map');
+        var mapServer = new OpenLayers.Layer.MapServer("MapServer",
+              "http://labs.metacarta.com/wms/vmap0", {layers: 'basic,toto'}, {buffer: 0});
+        var mapServer2 = new OpenLayers.Layer.MapServer.Untiled("MapServer2",
+              "http://labs.metacarta.com/wms/vmap1", {layers: 'basic1,toto1'}, {buffer: 0, isBaseLayer: false});
+        map.addLayers([mapServer, mapServer2]);
+
+        var json = new OpenLayers.Format.JSON();
+
+        var print = new mapfish.PrintProtocol(map, "/print.pdf", {}, 100);
+        var expected = {
+            "pages":[],
+            "dpi":100,
+            "units":"degrees",
+            "srs":"EPSG:4326",
+            "layers":[
+                {
+                    "baseURL":"http://labs.metacarta.com/wms/vmap0",
+                    "opacity":1,
+                    "singleTile":false,
+                    "customParams":{},
+                    "type":"MapServer",
+                    "layers":["basic","toto"]
+                },{
+                    "baseURL":"http://labs.metacarta.com/wms/vmap1",
+                    "opacity":1,
+                    "singleTile":true,
+                    "customParams":{},
+                    "type":"MapServer",
+                    "layers":["basic1","toto1"]
+                }
+            ]
+        };
+        t.eq(json.write(print.spec), json.write(expected), "simple MapServer config");
+    }
+    --></script>
+
+  </head>
+  <body>
+    <div id="map"></div>
+  </body>
+</html>

@@ -1,0 +1,255 @@
+<!DOCTYPE html> 
+<html debug="true">
+  <head> 
+    <script type="text/javascript" src="../../../../../openlayers/lib/OpenLayers.js"></script>
+    <script type="text/javascript" src="../../../../../ext/adapter/ext/ext-base.js"></script>
+    <script type="text/javascript" src="../../../../../ext/ext-all-debug.js"></script>
+    <script type="text/javascript" src="../../../../lib/GeoExt.js"></script>
+
+    <script type="text/javascript"> 
+        function test_constructor(t) { 
+            t.plan(3); 
+
+            var store, reader, layer;
+
+            store = new GeoExt.data.FeatureStore(); 
+            t.ok(store.reader instanceof GeoExt.data.FeatureReader,
+                 "ctor creates a feature reader if none is provided");
+
+            reader = new Ext.data.ArrayReader();
+            store = new GeoExt.data.FeatureStore({reader: reader});
+            t.ok(store.reader == reader,
+                 "ctor sets the passed reader in the instance");
+
+            layer = new OpenLayers.Layer.Vector("Foo Layer");
+            store = new GeoExt.data.FeatureStore({layer: layer});
+            t.ok(store.layer == layer,
+                 "ctor sets the passed layer in the instance");
+        } 
+
+        function test_load_clear(t) {
+            t.plan(7);
+            
+            var layer = new OpenLayers.Layer.Vector("Foo layer");
+            var store = new GeoExt.data.FeatureStore({
+                layer: layer
+            });
+
+            // loadData
+            store.loadData([
+                new OpenLayers.Feature.Vector(),
+                new OpenLayers.Feature.Vector()
+            ]);
+            t.eq(layer.features.length, 2, "loading two records in the store with 'loadData' adds two features to the layer");
+            t.eq(store.getCount(), 2, 'loading two records in the store with "loadData" does not create duplicate records in store'); 
+
+            // loadData with addRecordFilter
+            store.addRecordFilter = function(record) { return false; };
+            store.loadData([
+                new OpenLayers.Feature.Vector(),
+                new OpenLayers.Feature.Vector()
+            ]);
+            t.eq(layer.features.length, 0,
+                 "loading two records in the store with 'loadData' adds no feature to the layer if addRecordFilter returns false");
+
+            // removeAll
+            store.removeAll();
+            t.eq(store.getCount(), 0, '"removeAll" on store removes all records from the store'); 
+            t.eq(layer.features.length, 0, '"removeAll" on store removes features from layer'); 
+
+            // load no data
+            store.addRecordFilter = null;
+            store.loadData([]);
+            t.eq(store.getCount(), 0, '"loadData([]) does not add records to the store');
+            t.eq(layer.features.length, 0, '"loadData([]) does not add features to the layer');
+        }
+        
+        function test_bind_unbind(t) {
+            t.plan(28);
+            
+            var layer = new OpenLayers.Layer.Vector("Foo layer");
+            var store = new GeoExt.data.FeatureStore();
+            var features = [new OpenLayers.Feature.Vector("Foo feature"),
+                          new OpenLayers.Feature.Vector("Bar feature")];
+            var records = [
+                new GeoExt.data.FeatureRecord({
+                    feature: new OpenLayers.Feature.Vector("Foo record")}),
+                new GeoExt.data.FeatureRecord({
+                    feature: new OpenLayers.Feature.Vector("Bar record")})
+            ];
+
+            var reinit_test_data = function () {
+                // unbind store
+                store.unbind();
+
+                // remove all existing records and features
+                store.removeAll();
+                layer.removeFeatures(layer.features);
+                t.eq(layer.features.length, 0, "there is no more features in the layer");
+                t.eq(store.getCount(), 0, "there is no more records in the store");
+
+                // add testing data to store and layer
+                store.add(records);
+                layer.addFeatures(features);
+                t.eq(layer.features.length, 2, "initial features are loaded in the layer");
+                t.eq(store.getCount(), 2, "initial records are loaded in the store");
+            };
+            
+            // test store to layer synchronization
+            reinit_test_data();
+            store.bind(layer, {initDir: GeoExt.data.FeatureStore.STORE_TO_LAYER});
+            t.eq(layer.features.length, 4, "initial records are synchronized to layer");
+            t.eq(store.getCount(), 2, "initial features are not synchronized to store");
+            layer.removeFeatures([features[0]]);
+            t.eq(layer.features.length, 3, "removing feature not present in store has been well removed");
+            t.eq(store.getCount(), 2, "nothing to remove in store when removing feature not present in store");
+
+            // test layer to store synchronization
+            reinit_test_data();
+            store.bind(layer, {initDir: GeoExt.data.FeatureStore.LAYER_TO_STORE});
+            t.eq(layer.features.length, 2, "initial records are not synchronized to layer");
+            t.eq(store.getCount(), 4, "initial features are synchronized to store");
+            store.remove(records[0]);
+            t.eq(store.getCount(), 3, "removing record not present in layer has been well removed");
+            t.eq(layer.features.length, 2, "nothing to remove in layer when removing record not present in layer");
+
+            // test both synchronization
+            reinit_test_data();
+            store.bind(layer, {initDir: GeoExt.data.FeatureStore.LAYER_TO_STORE |
+                                      GeoExt.data.FeatureStore.STORE_TO_LAYER});
+            t.eq(layer.features.length, 4, "initial records are synchronized to layer");
+            t.eq(store.getCount(), 4, "initial features are synchronized to store");
+
+            // test no synchronization
+            reinit_test_data();
+            store.bind(layer, {initDir: 0});
+            t.eq(layer.features.length, 2, "initial records are not synchronized to layer");
+            t.eq(store.getCount(), 2, "initial features are not synchronized to store");
+        }
+
+        function test_add_remove(t) {
+            
+            t.plan(5);
+            
+            var layer = new OpenLayers.Layer.Vector("Foo layer");
+            var store = new GeoExt.data.FeatureStore({
+                layer: layer
+            });
+            var record = new GeoExt.data.FeatureRecord({
+                feature: new OpenLayers.Feature.Vector()
+            });
+
+            // add
+            store.add([record]);
+            t.eq(store.getCount(), 1, 'Adding a record to store with "add" does not create duplicate record in store'); 
+            t.eq(layer.features.length, 1, 'Adding a record to store with "add" does create corresponding feature in layer'); 
+
+            // remove
+            store.remove(record);
+            t.eq(store.getCount(), 0, 'remove on store with "remove" removes the record from the store'); 
+            t.eq(layer.features.length, 0, 'remove on store with "remove" removes the corresponding feature from layer'); 
+
+            // add with addRecordFilter
+            store.addRecordFilter = function(record) { return false; };
+            store.add([record]);
+            t.eq(layer.features.length, 0,
+                 'Adding a record with "add" does not add feature to layer if addRecordFilter returns false');
+        }
+        
+        function test_addFeatures_removeFeatures(t) {
+            
+            t.plan(5);
+            
+            var features = [ 
+                new OpenLayers.Feature.Vector(), 
+                new OpenLayers.Feature.Vector() 
+            ]; 
+            var layer = new OpenLayers.Layer.Vector("Foo layer");
+            var store = new GeoExt.data.FeatureStore({
+                layer: layer
+            });
+
+            // test layer addFeatures
+            layer.addFeatures(features);
+            t.eq(layer.features.length, 2, 'Adding features to layer with "addFeatures" does not create duplicate features on the layer');
+            t.eq(store.getCount(), 2, 'Adding features to layer with "addFeatures" does create corresponding records in the store');
+
+            // test layer removeFeatures
+            layer.removeFeatures(layer.features);
+            t.eq(store.getCount(), 0, '"removeFeatures" on layer removes records from the store'); 
+            t.eq(layer.features.length, 0, '"removeFeatures" on layer removes features from layer');
+
+            // test layer addFeatures with addFeatureFilter
+            store.addFeatureFilter = function(feature) { return false; };
+            layer.addFeatures(features);
+            t.eq(store.getCount(), 0,
+                 'Adding features to layer with "addFeatures" does not insert records in the store if addFeatureFilter returns false');
+        }
+
+        function test_featuremodified_update(t) {
+            t.plan(6);
+
+            /*
+             * Set up
+             */
+            var feature, id, layer, store, recordType, record;
+
+            feature = new OpenLayers.Feature.Vector(null, {
+                foo: "foo",
+                bar: "bar"
+            });
+
+            id = feature.id;
+
+            recordType = GeoExt.data.FeatureRecord.create([
+                {name: "foo"}, {name: "bar"}
+            ]);
+
+            layer = new OpenLayers.Layer.Vector("vector");
+
+            store = new GeoExt.data.FeatureStore({
+                layer: layer,
+                fields: recordType,
+                data: [feature]
+            });
+
+            t.eq(store.getById(id).get("foo"), "foo",
+                 "record gets correct initial value for property \"foo\"");
+
+            t.eq(store.getById(id).get("bar"), "bar",
+                 "record gets correct initial value for property \"bar\"");
+
+            /*
+             * Test
+             */
+            
+            // featuremodified
+            feature.attributes.foo = "foo2";
+            feature.attributes.bar = "bar2";
+            layer.events.triggerEvent("featuremodified", {feature: feature});
+
+            t.eq(store.getById(id).get("foo"), "foo2",
+                 "featuremodified event causes update of record property \"foo\"");
+
+            t.eq(store.getById(id).get("bar"), "bar2",
+                 "featuremodified event causes update of record property \"bar\"");
+
+            // update
+            record = store.getById(id);
+            record.set("foo", "foo3");
+            record.set("bar", "bar3");
+
+            t.eq(layer.getFeatureById(id).attributes.foo, "foo3",
+                 "update event causes update of feature property \"foo\"");
+
+            t.eq(layer.getFeatureById(id).attributes.bar, "bar3",
+                 "update event causes update of feature property \"bar\"");
+
+         }
+    </script> 
+ 
+  <body> 
+    <div id="map"></div> 
+  </body> 
+</html> 
+

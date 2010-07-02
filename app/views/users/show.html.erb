@@ -1,0 +1,15 @@
+<%= link_to "&lt; Browse Maps", maps_path %>
+
+<h2>User: <%=h @user.login %></h2>
+<p>Joined on: <%= @user.created_at.to_s(:long) %></p>
+<p><%=link_to 'User activity', user_activity_url(:id=>@user.id) %></p>
+<%= render :partial => 'users/admin_tools', :object => @user %>
+<h3>User Maps</h3>
+
+<div id = "usermaps">
+  <%=will_paginate @mymaps %>
+  <table>
+  <%= render :partial => 'maps/map', :collection =>  @mymaps unless @mymaps.nil? %>
+</table>
+<%= will_paginate @mymaps %>
+</div>

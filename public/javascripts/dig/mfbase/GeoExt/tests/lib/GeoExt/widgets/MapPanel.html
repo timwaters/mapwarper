@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html debug="true">
+  <head>
+    <script type="text/javascript" src="../../../../../openlayers/lib/OpenLayers.js"></script>
+    <script type="text/javascript" src="../../../../../ext/adapter/ext/ext-base.js"></script>
+    <script type="text/javascript" src="../../../../../ext/ext-all-debug.js"></script>
+    <script type="text/javascript" src="../../../../lib/GeoExt.js"></script>
+
+    <script type="text/javascript">
+       
+        function createMap() {
+            var map = new OpenLayers.Map();
+            var layer = new OpenLayers.Layer("test", {isBaseLayer: true});
+            map.addLayer(layer);
+            // add a vector layer, which would fail onmapresize if we render
+            // the map before the panel has a layout.
+            map.addLayer(new OpenLayers.Layer.Vector("vector layer"));
+            return map;
+        }
+
+        function test_mappanel(t) {
+            t.plan(4)
+
+            var moveToCnt;
+
+            var map = createMap();
+            map.moveTo = function() {
+                moveToCnt++;
+                OpenLayers.Map.prototype.moveTo.apply(this, arguments);
+            };
+
+            moveToCnt = 0;
+            var mapPanel = new GeoExt.MapPanel({
+                // panel options
+                id: "map-panel",
+                title: "GeoExt MapPanel",
+                renderTo: "mappanel",
+                height: 400,
+                width: 600,
+                // map panel-specific options
+                map: map,
+                center: new OpenLayers.LonLat(5, 45),
+                zoom: 4
+            });
+            t.eq(moveToCnt, 1, "map.moveTo called exactly once");
+            t.eq(mapPanel.map.getCenter().toString(), "lon=5,lat=45", "Map center set correctly");
+            t.eq(mapPanel.map.getZoom(), 4, "Zoom set correctly");
+            t.eq(GeoExt.MapPanel.guess().id, mapPanel.id, "MapPanel guessed correctly");
+            
+            // since we created the map, we destroy it
+            map.destroy();
+            
+            mapPanel.destroy();
+        }
+        
+        function test_allOverlays(t) {
+            t.plan(3);
+            var map, panel;
+            
+            map = new OpenLayers.Map();
+            panel = new GeoExt.MapPanel({
+                map: map
+            });
+            t.eq(panel.map.allOverlays, false, "allOverlays is not set if map is provided to panel");
+            // since we created the map, we destroy it
+            map.destroy();
+            panel.destroy();
+            
+            panel = new GeoExt.MapPanel({
+            });
+            t.eq(panel.map.allOverlays, true, "allOverlays set to true if no map is provided to panel");
+            // since we created the map, we destroy it
+            map.destroy();
+            panel.destroy();
+            
+            panel = new GeoExt.MapPanel({
+                map: {
+                    units: "meters"
+                }
+            });
+            t.eq(panel.map.allOverlays, true, "allOverlays set to true if map config is provided to panel");
+            // since we created the map, we destroy it
+            map.destroy();
+            panel.destroy();
+            
+        }
+
+        function test_zoom(t) {
+            
+            t.plan(1);
+            
+            var panel = new GeoExt.MapPanel({
+                title: "GeoExt MapPanel",
+                renderTo: "mappanel",
+                height: 400,
+                width: 600,
+                layers: [new OpenLayers.Layer()],
+                zoom: 4
+            });
+            
+            t.eq(panel.map.zoom, 4, "zoom correctly set");
+            
+            panel.destroy();
+        }
+
+        function test_extent(t) {
+            
+            t.plan(3);
+            var map, panel, log = {};
+            
+            map = createMap();
+            map.zoomToExtent = function(extent) {
+                log.extent = extent;
+            };
+            panel = new GeoExt.MapPanel({
+                renderTo: "mappanel",
+                map: map,
+                height: 400,
+                width: 600,
+                extent: [1, 2, 3, 4]
+            });            
+            t.eq(log.extent.toArray(), [1, 2, 3, 4], "map extent set with array");
+            delete log.extent;
+            // since we created the map, we destroy it
+            map.destroy();
+            panel.destroy();
+            
+            map = createMap();
+            map.zoomToExtent = function(extent) {
+                log.extent = extent;
+            };
+            panel = new GeoExt.MapPanel({
+                renderTo: "mappanel",
+                map: map,
+                height: 400,
+                width: 600,
+                extent: "1, 2, 3, 4"
+            });
+            t.eq(log.extent.toArray(), [1, 2, 3, 4], "map extent set with string");
+            // since we created the map, we destroy it
+            map.destroy();
+            panel.destroy();
+            
+            map = createMap();
+            map.zoomToExtent = function(extent) {
+                log.extent = extent;
+            };
+            panel = new GeoExt.MapPanel({
+                renderTo: "mappanel",
+                map: map,
+                height: 400,
+                width: 600,
+                extent: new OpenLayers.Bounds(1, 2, 3, 4)
+            });
+            t.eq(log.extent.toArray(), [1, 2, 3, 4], "map extent set with Bounds");
+            // since we created the map, we destroy it
+            map.destroy();
+            panel.destroy();            
+            
+        }
+        
+        function test_center(t) {
+
+            t.plan(3);
+            var map, panel, log = {};
+            
+            map = createMap();
+            map.setCenter = function(center) {
+                log.center = center;
+            };
+            panel = new GeoExt.MapPanel({
+                renderTo: "mappanel",
+                map: map,
+                height: 400,
+                width: 600,
+                center: [1, 2]
+            });            
+            t.eq(log.center.toString(), "lon=1,lat=2", "map center set with array");
+            delete log.center;
+            // since we created the map, we destroy it
+            map.destroy();
+            panel.destroy();
+
+            map = createMap();
+            map.setCenter = function(center) {
+                log.center = center;
+            };
+            panel = new GeoExt.MapPanel({
+                renderTo: "mappanel",
+                map: map,
+                height: 400,
+                width: 600,
+                center: "1, 2"
+            });            
+            t.eq(log.center.toString(), "lon=1,lat=2", "map center set with string");
+            delete log.center;
+            // since we created the map, we destroy it
+            map.destroy();
+            panel.destroy();
+
+            map = createMap();
+            map.setCenter = function(center) {
+                log.center = center;
+            };
+            panel = new GeoExt.MapPanel({
+                renderTo: "mappanel",
+                map: map,
+                height: 400,
+                width: 600,
+                center: new OpenLayers.LonLat(1, 2)
+            });            
+            t.eq(log.center.toString(), "lon=1,lat=2", "map center set with LonLat");
+            delete log.center;
+            // since we created the map, we destroy it
+            map.destroy();
+            panel.destroy();
+
+        }
+        
+        function test_destroy(t) {
+            
+            /**
+             * If the panel is passed an instance of OpenLayers.Map, we don't
+             * touch it in the destroy sequence, we only remove our reference
+             * to it.  If the panel is passed a map config object, the panel
+             * creates the OpenLayers.Map instance, and the panel destroys the
+             * map in its destroy sequence.
+             */
+            
+            t.plan(3);
+            
+            var panel = new GeoExt.MapPanel({
+                renderTo: "mappanel",
+                layers: [
+                    new OpenLayers.Layer("test")
+                ],
+                zoom: 1
+            });
+            
+            t.ok(panel.map instanceof OpenLayers.Map, "panel creates a map");
+            
+            var called = false;
+            panel.map.destroy = function() {
+                called = true;
+                OpenLayers.Map.prototype.destroy.apply(panel.map, arguments);
+            }
+            try {
+                panel.destroy();
+                t.ok(called, "panel.destroy calls map.destroy");
+            } catch(err) {
+                t.fail("panel.destroy causes problems: " + err);
+            }
+            t.ok(!panel.map, "panel has no reference to a map");
+            
+        }
+
+        function test_layout(t) {
+            t.plan(1);
+
+            var map, panel, layout = 0;
+
+            map = new OpenLayers.Map({
+                render: function() {
+                    OpenLayers.Map.prototype.render.apply(this, arguments);
+                    t.ok(layout, 1,
+                         "the OpenLayers map is rendered once the container " +
+                         "has its final dimensions");
+                },
+                allOverlays: true
+            });
+            
+            panel = new Ext.Panel({
+                layout: "border",
+                renderTo: "mappanel",
+                listeners: {
+                    afterlayout: function() {
+                        layout++;
+                    }
+                },
+                items: [{
+                    region: "center",
+                    xtype: "gx_mappanel",
+                    map: map,
+                    layers: [
+                        new OpenLayers.Layer("")
+                    ]
+                }]
+            });
+
+            panel.destroy();
+        }
+
+
+    </script>
+  <body>
+    <div id="mappanel"></div>
+  </body>
+</html>

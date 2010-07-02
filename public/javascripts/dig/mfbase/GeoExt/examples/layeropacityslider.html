@@ -1,0 +1,31 @@
+<html>
+    <head>
+        <title>GeoExt LayerOpacitySlider</title>
+
+        <script type="text/javascript" src="http://extjs.cachefly.net/builds/ext-cdn-771.js"></script>
+        <link rel="stylesheet" type="text/css" href="http://extjs.cachefly.net/ext-2.2.1/resources/css/ext-all.css" />
+        <link rel="stylesheet" type="text/css" href="http://extjs.com/deploy/dev/examples/shared/examples.css"></link>
+        <script src="http://openlayers.org/api/2.8/OpenLayers.js"></script>
+        <script type="text/javascript" src="../lib/GeoExt.js"></script>
+
+        <script type="text/javascript" src="layeropacityslider.js"></script>
+    </head>
+    <body>
+        <h1>GeoExt.LayerOpacitySlider</h1>
+
+        <p>The LayerOpacitySlider allows control of a layer opacity using an
+        Ext.Slider.  It is also possible to add a special tooltip plugin,
+        LayerOpacitySliderTip, which will show the opacity value while dragging
+        the slider (the content is configurable).<p>
+
+        <p>In this example, the slider below the map is in aggressive mode: the
+        opacity is changed as soon as the slider is moved. The slider into the
+        map is not aggressive: the opacity is changed when the slider is
+        released.</p>
+
+        <p>The js is not minified so it is readable. See <a
+        href="layeropacityslider.js">layeropacityslider.js</a>.</p>
+
+        <div id="map-container"></div>
+    </body>
+</html>

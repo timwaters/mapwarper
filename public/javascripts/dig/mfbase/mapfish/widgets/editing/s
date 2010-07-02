@@ -1,0 +1,23 @@
+             var root = new Ext.tree.TreeNode({
+		text: "All Layers",
+		expanded: true
+		});
+             root.appendChild(new GeoExt.tree.BaseLayerContainer({
+		text: "Base Layers",
+                map: map,
+		expanded: true
+             }));
+
+             root.appendChild(new GeoExt.tree.OverlayLayerContainer({
+		text: "Overlays",
+                map: this.map,
+		expanded: true
+             }))
+                 var layerTree = new Ext.tree.TreePanel({
+                    title: "Map Layers",
+                    root: root,
+		   				 enableDD: true,
+                    collapsible: true,
+		    				height: 200,
+		    				expanded: true
+                });

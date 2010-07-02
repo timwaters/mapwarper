@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html debug="true">
+  <head>
+    <link rel="stylesheet" type="text/css" href="../../../ext/resources/css/ext-all.css" />
+
+    <script type="text/javascript" src="../../../../openlayers/lib/Firebug/firebug.js"></script>
+    <script type="text/javascript" src="../../../../openlayers/lib/OpenLayers.js"></script>
+
+    <script type="text/javascript" src="../../../../ext/adapter/ext/ext-base.js"></script>
+    <script type="text/javascript" src="../../../../ext/ext-all-debug.js"></script>
+
+    <script type="text/javascript">
+      // Because of a bug in Firefox 2 we need to specify the MapFish base path.
+      // See https://bugzilla.mozilla.org/show_bug.cgi?id=351282
+      var gMfLocation = "../../../../mapfish/";
+    </script>
+    <script type="text/javascript" src="../../../../mapfish/MapFish.js"></script>
+
+    <script type="text/javascript"><!--
+
+    function test_ProtocolListener_activate(t) {
+        t.plan(5);
+
+        var s = new mapfish.Strategy.ProtocolListener();
+        var l = new OpenLayers.Layer.Vector('testLayer', {
+            protocol: new mapfish.Protocol.TriggerEventDecorator({
+                protocol: new mapfish.Protocol.MapFish({'url': 'dummy'})
+            }),
+            strategies: [s]
+        });
+
+        t.eq(s.active, false, "not active after construction");
+
+        var activated = s.activate();
+        t.eq(activated, true, "activate returns true");
+        t.eq(s.active, true, "activated after activate");
+        t.ok(l.protocol.events.listeners["crudfinished"][0].obj == s &&
+             l.protocol.events.listeners["crudfinished"][0].func == s.onCrudfinished,
+             "activates registers crudfinished listener");
+        t.ok(l.protocol.events.listeners["clear"][0].obj == s &&
+             l.protocol.events.listeners["clear"][0].func == s.onClear,
+             "activates registers clear listener");
+    }
+
+    function test_ProtocolListener_wrongProtocolType(t) {
+        var _consoleBackup = OpenLayers.Console.error;
+        OpenLayers.Console.error = function(m) {}
+
+        t.plan(2);
+
+        var s = new mapfish.Strategy.ProtocolListener();
+        var l = new OpenLayers.Layer.Vector('testLayer', {
+            protocol: new mapfish.Protocol.MapFish({'url': 'dummy'}),
+            strategies: [s]
+        });
+
+        var activated = s.activate();
+        t.eq(activated, false,
+             "activate returns false if layer protocol is not a TriggerEventDecorator");
+        t.eq(s.active, false,
+             "not active if layer protocol is not a TriggerEventDecorator");
+
+        OpenLayers.Console.error = _consoleBackup;
+    }
+
+    function getProtocolResponse() {
+        return {
+            requestType: 'read',
+            features: [
+                new OpenLayers.Feature.Vector(
+                    new OpenLayers.Geometry.Point(Math.random(), Math.random())),
+                new OpenLayers.Feature.Vector(
+                    new OpenLayers.Geometry.Point(Math.random(), Math.random()))
+            ]
+        };
+    }
+
+    function getTestObjects(strategyOptions, protocolResponse) {
+        strategyOptions = strategyOptions || {};
+        protocolResponse = protocolResponse || getProtocolResponse();
+
+        var protocol = new mapfish.Protocol.TriggerEventDecorator({
+            protocol: new OpenLayers.Protocol({
+                read: function(o) {
+                    o.callback.call(o.scope, protocolResponse);
+                }
+            })
+        });
+
+        var s = new mapfish.Strategy.ProtocolListener(strategyOptions);
+        var l = new OpenLayers.Layer.Vector('testLayer', {
+            protocol: protocol,
+            strategies: [s]
+        });
+        s.activate();
+
+        return {
+            layer: l,
+            strategy: s,
+            protocol: protocol
+        };
+    }
+
+
+    function test_ProtocolListener_triggerRead_append(t) {
+        t.plan(2);
+
+        var o = getTestObjects({append: true});
+        var readFeaturesCount = 0;
+        o.protocol.read();
+        readFeaturesCount += getProtocolResponse().features.length;
+        o.protocol.read();
+        readFeaturesCount += getProtocolResponse().features.length;
+        t.eq(o.layer.features.length, readFeaturesCount,
+             "correct number of features for the layer (append mode): " + readFeaturesCount);
+
+        var o = getTestObjects({append: false});
+        var readFeaturesCount = 0;
+        o.protocol.read();
+        o.protocol.read();
+        readFeaturesCount = getProtocolResponse().features.length;
+        t.eq(o.layer.features.length, readFeaturesCount,
+             "correct number of features for the layer (replace mode): " + readFeaturesCount);
+    }
+
+    function test_ProtocolListener_triggerRead_recenter(t) {
+        t.plan(2);
+
+        var o1 = getTestObjects({append: true, recenter: true});
+        var o2 = getTestObjects({append: true, recenter: true}, {
+            requestType: 'read',
+            features: []
+        });
+        o1.layer.isBaseLayer = true;
+        o2.layer.isBaseLayer = true;
+
+        var map = new OpenLayers.Map('map');
+        map.addLayer(o1.layer);
+        map.zoomToExtent(new OpenLayers.Bounds(-11.25, -22.5, 11.25, 22.5));
+        var initialExtent = map.getExtent();
+
+        // Protocol read action retrieving 2 features
+        o1.protocol.read();
+        t.ok(!map.getExtent().equals(initialExtent),
+             "correctly fits map extent to layer data extent");
+
+        // Changing extent, user pan simulation
+        map.zoomToExtent(new OpenLayers.Bounds(-11.25, -22.5, 11.25, 22.5));
+        var newMapExtent = map.getExtent();
+
+
+        // Protocol read action retrieving 0 features
+        map.removeLayer(o1.layer);
+        map.addLayer(o2.layer);
+        o2.protocol.read();
+        t.ok(map.getExtent().equals(newMapExtent),
+             "correct unchanged map extent after protocol read action with no feature returned");
+    }
+
+    function test_ProtocolListener_triggerRead_clear(t) {
+        t.plan(2);
+
+        var o = getTestObjects();
+
+        o.protocol.read();
+        var count = getProtocolResponse().features.length;
+        t.eq(o.layer.features.length, count,
+             "correct number of feature added to the layer: " + count);
+        o.protocol.clear();
+        t.eq(o.layer.features.length, 0,
+             "correctly clears layer features");
+    }
+
+
+--></script>
+
+  </head>
+  <body>
+    <div id="map" style="width:256px;height:512px"></div>
+  </body>
+</html>

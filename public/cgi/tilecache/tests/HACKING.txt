@@ -1,0 +1,114 @@
+Handlers
+========
+There are two handlers for requests: a cgiHandler and a modPythonHandler.
+These two handlers allow the TileCache tool to be set up under CGI or 
+mod_python. A handler accepts a Service as an argument.  
+
+Services
+========
+The service request does dispatching to a Request handler, passing on
+the neccesary information to the parser and renderers of the request.
+The Service contains information about the cache and layers that are 
+supported, and uses methods on the Request to generate data which 
+is returned to the handlers.
+
+The Service makes a heuristic determination as to which Request handler
+is appropriate.  
+
+Requests
+========
+Request objects define a single 'parse' function, which is used to 
+accept PATH_INFO and QUERY_STRING data from the Service, and convert
+it to tiles. The Tile is then passed to the Layer, which knows how to
+return image data for a specific tile object.
+
+Cache
+=====
+Cache objects are simple interfaces to cache storage mechanisms. They
+support three functions: get, set, and delete. These three functions
+are used to control the cache
+ 
+ * get accepts a tile object, and is expected to return image data
+   or 'None'
+ * set accepts a tile object and data, and is expected to store this
+   data.
+ * delete accepts a tile object, and should cause future gets for 
+   that tile to return None (until set again)
+
+Layers
+======
+You can create a layer:
+
+>>> from TileCache.Layer import Layer 
+>>> l = Layer("Test")
+>>> type(l)
+<class 'TileCache.Layer.Layer'>
+
+There are a number of defaults on the layer. These defaults conform to the
+unprojected global profile described by the WMS Tiling Client Recommendations:
+
+>>> l.name
+'Test'
+>>> l.layers
+'Test'
+>>> l.bbox
+(-180, -90, 180, 90)
+>>> l.resolutions[0]
+0.703125
+>>> l.srs
+'EPSG:4326'
+>>> l.size
+(256, 256)
+
+By default, the Layer supports up to 20 resolutions, or 'zoom levels'.  
+>>> len(l.resolutions)
+20
+
+However, you can create a layer which overrides these parameters:
+
+>>> l = Layer("Test 2", layers="foo,bar,baz", levels=10)
+>>> l.layers
+'foo,bar,baz'
+>>> len(l.resolutions)
+10
+
+There are a number of subclasses of layer, which add additional properties
+for the layers. Subclasses of layer define a rendering mechanism through which
+tiles are actually created. 
+
+To create a subclass of layer, you must define a 'render' function.  
+Render is passed a 'self' object of the layer, and a Tile object, described
+later in this document. Refer to the existing layers for examples of how to
+create a subclass of layer.
+
+Layers have the ability to get a tile cell based on a bounding box: this 
+calculation can be exact or it can round to the nearest cell. This is used
+internally when creating tiles, but can also be used directly by calling 
+the layer with a bounding box. 
+
+>>> cell = l.getCell((-157.5, -45.0, -135.0, -22.5))
+>>> cell
+(1, 2, 3)
+
+This fails, because it's not an exact tile:
+
+>>> import TileCache
+>>> l.debug = False
+>>> try:
+...    cell = l.getCell((-180, -90.0, 4, 75))
+... except TileCache.TileCacheException:
+...    print "Failed"
+Failed
+
+Tiles 
+=====
+Tiles store information about where in the world you are requesting, based
+on the layer and x,y,z information. Tiles give access to X, Y, and Z value, as 
+well as a bounds() and bbox() method.
+
+>>> from TileCache.Layer import Tile 
+>>> t = Tile(l, x=1, y=2, z=3)
+>>> t.bbox()
+'-157.5,-45.0,-135.0,-22.5'
+>>> t.bounds()
+(-157.5, -45.0, -135.0, -22.5)

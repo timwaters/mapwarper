@@ -1,0 +1,15 @@
+#map {
+  width: 600px;
+  height: 400px;
+  border: 1px solid #999;
+}
+#right {
+  font-size: 11px;
+  position: absolute;
+  left: 620px;
+  border: 10px dashed #eee;
+}
+#tree {
+  height: 400px;
+  width: 200px;
+}

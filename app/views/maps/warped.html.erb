@@ -1,0 +1,48 @@
+<%unless @map.status == :warped and @map.gcps.size > 2 %>
+  Sorry, you'll have to rectify a map before you can view it.
+<% else %>
+  <% content_for :head do %>
+    <%= javascript_include_tag "warped" %>
+    <style type="text/css">
+      #slider {
+        bottom:50px;
+        margin-left:auto;
+        margin-right:auto;
+        width:25em;
+        z-index:1500;
+      }
+      #opacity-info {
+        margin-left:auto;
+        margin-right:auto;
+        width:10em;
+      }
+    </style>
+    <script language="javascript">
+      var map_id = '<%=h @map.id -%>';
+      var title  = '<%=u @map.title -%>';
+      var warped_image_width = <%= @map.width %>
+      var warped_image_height = <%= @map.height %>
+      var warpedwms_url = '<%= url_for :controller => 'maps', :action => 'wms', :id => @map  -%>';
+      var warped_bounds =  new OpenLayers.Bounds(<%=@map.bounds-%>);
+      var layer_baseurl = '<%=url_for :controller => 'layers', :action => 'wms' %>';
+      var layers_array = [<%=@other_layers.join(",")-%>];
+    </script>
+
+
+  <% end %>
+
+  <% @onload =  "warpedinit();" -%>
+
+  <%= @title %>
+
+  <div id="map-container">
+    <div id="warpedmap">
+    </div>
+    <div id="slider"><div class="ui-slider-handle"> </div> </div>
+
+  </div>
+  <div id="opacity-info">
+    Transparency: <input id="opacity" type="text" value="70" size="3" disabled="true" />
+  </div>
+
+<%end %>

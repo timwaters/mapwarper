@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html debug="true">
+  <head>
+    <link rel="stylesheet" type="text/css" href="../../../ext/resources/css/ext-all.css" />
+
+    <script type="text/javascript" src="../../../../openlayers/lib/Firebug/firebug.js"></script>
+    <script type="text/javascript" src="../../../../openlayers/lib/OpenLayers.js"></script>
+
+    <script type="text/javascript" src="../../../../ext/adapter/ext/ext-base.js"></script>
+    <script type="text/javascript" src="../../../../ext/ext-all-debug.js"></script>
+
+    <script type="text/javascript">
+      // Because of a bug in Firefox 2 we need to specify the MapFish base path.
+      // See https://bugzilla.mozilla.org/show_bug.cgi?id=351282
+      var gMfLocation = "../../../../mapfish/";
+    </script>
+    <script type="text/javascript" src="../../../../mapfish/MapFish.js"></script>
+
+    <script type="text/javascript"><!--
+
+    function test_MapFish_initialize(t) {
+        t.plan(2);
+
+        // setup
+
+        var protocol, format;
+
+        // 1 test
+        protocol = new mapfish.Protocol.MapFish();
+        t.eq(protocol.format.CLASS_NAME, "OpenLayers.Format.GeoJSON",
+             "initialize sets a GeoJSON format in the format property " +
+             "if none is provided");
+        
+        // 1 test
+        format = new OpenLayers.Format.JSON();
+        protocol = new mapfish.Protocol.MapFish({format: format});
+        t.ok(protocol.format == format,
+             "initialize sets the format to the expected value");
+    }
+
+    function test_MapFish_create(t) {
+        t.plan(2);
+
+        // setup
+
+        var protocol, features;
+
+        protocol = new mapfish.Protocol.MapFish();
+
+        features = ["fake", "array"];
+
+        var httpCreate = OpenLayers.Protocol.HTTP.prototype.create;
+        OpenLayers.Protocol.HTTP.prototype.create = function(f, o) {
+            t.ok(f == features,
+                 "parent create method passed expected feature array");
+            t.eq(o.headers["Content-Type"], "plain/text",
+                 "parent create method passed expected content type header");
+        };
+
+        protocol.create(features, {headers: {foo: "bar"}});
+
+        // cleanup
+        OpenLayers.Protocol.HTTP.prototype.create = httpCreate;
+    }
+
+    function test_MapFish_filterAdapter(t) {
+        t.plan(43);
+
+        // setup
+
+        var protocol, options;
+
+        protocol = new mapfish.Protocol.MapFish();
+
+        // 1 test
+        options = {
+            filter: {
+                CLASS_NAME: "OpenLayers.NotAFilter.Foo"
+            }
+        };
+        protocol.filterAdapter(options);
+        t.eq(options.params, undefined,
+             "filterAdapter sets no params it is not passed a filter");
+
+        // 1 test
+        options = {
+            filter:
+                {CLASS_NAME: "OpenLayers.Filter.Foo"
+            }
+        };
+        protocol.filterAdapter(options);
+        t.eq(options.params, undefined,
+             "filterAdapter sets no params it is not passed an unknow filter");
+
+        // 2 tests
+        var bbox = {"fake": "bbox"};
+        options = {
+            filter: {
+                CLASS_NAME: "OpenLayers.Filter.Spatial",
+                type: OpenLayers.Filter.Spatial.BBOX,
+                value: {
+                    toBBOX: function() {
+                        return bbox;
+                    }
+                }
+            }
+        };
+        protocol.filterAdapter(options);
+        t.eq(options.params.box, bbox,
+             "filterAdapter sets correct box param if passed a BBOX filter");
+        t.eq(options.filter, undefined,
+             "filterAdapter deletes filter if passed a BBOX filter");
+
+        // 3 tests
+        var lon = 100, lat = 200, tolerance = 10;
+        options = {
+            filter: {
+                CLASS_NAME: "OpenLayers.Filter.Spatial",
+                type: OpenLayers.Filter.Spatial.DWITHIN,
+                value: new OpenLayers.Geometry.Point(100, 200),
+                distance: 10
+            }
+        };
+        protocol.filterAdapter(options);
+        t.eq(options.params.lon, lon,
+             "filterAdapter sets correct lon param if passed a DWITHIN filter");
+        t.eq(options.params.lat, lat,
+             "filterAdapter sets correct lat param if passed a DWITHIN filter");
+        t.eq(options.params.tolerance, tolerance,
+             "filterAdapter sets correct tolerance param if passed a DWITHIN filter");
+
+        // 2 tests
+        options = {
+            filter: {
+                CLASS_NAME: "OpenLayers.Filter.Spatial",
+                type: OpenLayers.Filter.Spatial.WITHIN,
+                value: new OpenLayers.Geometry.Point(100, 200)
+            }
+        };
+        protocol.filterAdapter(options);
+        t.eq(options.params.lon, lon,
+             "filterAdapter sets correct lon param if passed a WITHIN filter");
+        t.eq(options.params.lat, lat,
+             "filterAdapter sets correct lat param if passed a WITHIN filter");
+
+        // Some bbox filters used in the next tests.
+
+        var bboxFilter1 = new OpenLayers.Filter.Spatial({
+            type: OpenLayers.Filter.Spatial.BBOX,
+            value:  new OpenLayers.Bounds(0, 0, 10, 10)
+        });
+
+        var bboxFilter2 = new OpenLayers.Filter.Spatial({
+            type: OpenLayers.Filter.Spatial.BBOX,
+            value:  new OpenLayers.Bounds(0, 0, 20, 20)
+        });
+
+        // 2 tests
+        options = {
+            filter: new OpenLayers.Filter.Logical({
+                type: OpenLayers.Filter.Logical.AND,
+                filters: []
+            })
+        };
+
+        protocol.filterAdapter(options);
+        t.eq(options.params, undefined,
+             "filterAdapter with empty AND Logical filter sets no params");
+        t.eq(options.filter, undefined,
+             "filterAdapter deletes filter");
+
+        // 2 tests
+        options = {
+            filter: new OpenLayers.Filter.Logical({
+                type: OpenLayers.Filter.Logical.OR,
+                filters: [
+                    bboxFilter1
+                ]
+            })
+        };
+
+        protocol.filterAdapter(options);
+        t.eq(options.params, undefined,
+             "filterAdapter does not support OR Logical filter");
+        t.eq(options.filter, undefined,
+             "filterAdapter deletes filter");
+
+        // 2 tests
+        options = {
+            filter: new OpenLayers.Filter.Logical({
+                type: OpenLayers.Filter.Logical.AND,
+                filters: [
+                    bboxFilter1
+                ]
+            })
+        };
+
+        protocol.filterAdapter(options);
+        t.eq(options.params.box, "0,0,10,10",
+             "filterAdapter sets correct box param if passed a Logical filter containing a BBOX");
+        t.eq(options.filter, undefined,
+             "filterAdapter deletes filter");
+
+        // 2 tests
+        options = {
+            filter: new OpenLayers.Filter.Logical({
+                type: OpenLayers.Filter.Logical.AND,
+                filters: [
+                    bboxFilter1, bboxFilter2
+                ]
+            })
+        };
+
+        protocol.filterAdapter(options);
+        t.eq(options.params, undefined,
+             "filterAdapter does not allow multiple BBOX spatial filters");
+        t.eq(options.filter, undefined,
+             "filterAdapter deletes filter");
+
+        // 3 tests
+        options = {
+            filter: new OpenLayers.Filter.Comparison({
+                type: OpenLayers.Filter.Comparison.EQUAL_TO,
+                property: "foo",
+                value: "bar"
+            })
+        };
+
+        protocol.filterAdapter(options);
+        t.eq(options.params["queryable"][0], "foo",
+             "filterAdapter sets correct queryable param if passed an EQUAL_TO filter");
+        t.eq(options.params["foo__eq"], "bar",
+             "filterAdapter sets correct param key and value if passed an EQUAL_TO filter");
+        t.eq(options.filter, undefined,
+             "filterAdapter deletes filter");
+
+        // 3 tests
+        options = {
+            filter: new OpenLayers.Filter.Comparison({
+                type: OpenLayers.Filter.Comparison.NOT_EQUAL_TO,
+                property: "foo",
+                value: "bar"
+            })
+        };
+
+        protocol.filterAdapter(options);
+        t.eq(options.params["queryable"][0], "foo",
+             "filterAdapter sets correct queryable param if passed an NOT_EQUAL_TO filter");
+        t.eq(options.params["foo__ne"], "bar",
+             "filterAdapter sets correct param key and value if passed an NOT_EQUAL_TO filter");
+        t.eq(options.filter, undefined,
+             "filterAdapter deletes filter");
+
+        // 3 tests
+        options = {
+            filter: new OpenLayers.Filter.Comparison({
+                type: OpenLayers.Filter.Comparison.LESS_THAN,
+                property: "foo",
+                value: "bar"
+            })
+        };
+
+        protocol.filterAdapter(options);
+        t.eq(options.params["queryable"][0], "foo",
+             "filterAdapter sets correct queryable param if passed an LESS_THAN filter");
+        t.eq(options.params["foo__lt"], "bar",
+             "filterAdapter sets correct param key and value if passed an LESS_THAN filter");
+        t.eq(options.filter, undefined,
+             "filterAdapter deletes filter");
+
+        // 3 tests
+        options = {
+            filter: new OpenLayers.Filter.Comparison({
+                type: OpenLayers.Filter.Comparison.LESS_THAN_OR_EQUAL_TO,
+                property: "foo",
+                value: "bar"
+            })
+        };
+
+        protocol.filterAdapter(options);
+        t.eq(options.params["queryable"][0], "foo",
+             "filterAdapter sets correct queryable param if passed an LESS_THAN_OR_EQUAL_TO filter");
+        t.eq(options.params["foo__lte"], "bar",
+             "filterAdapter sets correct param key and value if passed an LESS_THAN_OR_EQUAL_TO filter");
+        t.eq(options.filter, undefined,
+             "filterAdapter deletes filter");
+
+        // 3 tests
+        options = {
+            filter: new OpenLayers.Filter.Comparison({
+                type: OpenLayers.Filter.Comparison.GREATER_THAN,
+                property: "foo",
+                value: "bar"
+            })
+        };
+
+        protocol.filterAdapter(options);
+        t.eq(options.params["queryable"][0], "foo",
+             "filterAdapter sets correct queryable param if passed an GREATER_THAN filter");
+        t.eq(options.params["foo__gt"], "bar",
+             "filterAdapter sets correct param key and value if passed an GREATER_THAN filter");
+        t.eq(options.filter, undefined,
+             "filterAdapter deletes filter");
+
+        // 3 tests
+        options = {
+            filter: new OpenLayers.Filter.Comparison({
+                type: OpenLayers.Filter.Comparison.GREATER_THAN_OR_EQUAL_TO,
+                property: "foo",
+                value: "bar"
+            })
+        };
+
+        protocol.filterAdapter(options);
+        t.eq(options.params["queryable"][0], "foo",
+             "filterAdapter sets correct queryable param if passed an GREATER_THAN_OR_EQUAL_TO filter");
+        t.eq(options.params["foo__gte"], "bar",
+             "filterAdapter sets correct param key and value if passed an GREATER_THAN_OR_EQUAL_TO filter");
+        t.eq(options.filter, undefined,
+             "filterAdapter deletes filter");
+
+        // 3 tests
+        options = {
+            filter: new OpenLayers.Filter.Comparison({
+                type: OpenLayers.Filter.Comparison.LIKE,
+                property: "foo",
+                value: "bar"
+            })
+        };
+
+        protocol.filterAdapter(options);
+        t.eq(options.params["queryable"][0], "foo",
+             "filterAdapter sets correct queryable param if passed a LIKE filter");
+        t.eq(options.params["foo__ilike"], "bar",
+             "filterAdapter sets correct param key and value if passed an LIKE filter");
+        t.eq(options.filter, undefined,
+             "filterAdapter deletes filter");
+
+        // 5 tests
+        options = {
+            filter: new OpenLayers.Filter.Logical({
+                type: OpenLayers.Filter.Logical.AND,
+                filters: [
+                    new OpenLayers.Filter.Comparison({
+                        type: OpenLayers.Filter.Comparison.EQUAL_TO,
+                        property: "foo",
+                        value: "bar"
+                    }),
+                    new OpenLayers.Filter.Comparison({
+                        type: OpenLayers.Filter.Comparison.LESS_THAN,
+                        property: "foo2",
+                        value: "baz"
+                    })
+                ]
+            })
+        };
+
+        protocol.filterAdapter(options);
+        t.eq(options.params["queryable"][0], "foo",
+             "filterAdapter sets correct queryable param if passed an EQUAL_TO filter within a AND filter");
+        t.eq(options.params["foo__eq"], "bar",
+             "filterAdapter sets correct param key and value if passed an EQUAL_TO filter within a AND filter");
+        t.eq(options.params["queryable"][1], "foo2",
+             "filterAdapter sets correct queryable param if passed a LESS_THAN filter within a AND filter");
+        t.eq(options.params["foo2__lt"], "baz",
+             "filterAdapter sets correct param key and value if passed a LESS_THAN filter within a AND filter");
+        t.eq(options.filter, undefined,
+             "filterAdapter deletes filter");
+
+    }
+
+    function test_MapFish_update(t) {
+        t.plan(9);
+
+        // setup
+
+        var protocol, features, options, expectedUrl;
+
+        protocol = new mapfish.Protocol.MapFish({url: "url0"});
+
+        var httpUpdate = OpenLayers.Protocol.HTTP.prototype.update;
+        OpenLayers.Protocol.HTTP.prototype.update = function(f, o) {
+            t.ok(f == features,
+                 "parent update method passed expected feature array");
+            t.eq(o.headers["Content-Type"], "plain/text",
+                 "parent udpate method passed expected content type header");
+            t.eq(o.url, expectedUrl,
+                 "parent update method passed expected url string");
+
+        };
+
+        // 3 tests
+        features = {fid: "fid"};
+        expectedUrl = "url0/fid";
+        protocol.update(features);
+
+        // 3 tests
+        features = {url: "url1"};
+        expectedUrl = "url1";
+        protocol.update(features);
+
+        // 3 tests
+        features = {fake: "object"};
+        options = {url: "url2"};
+        expectedUrl = "url2";
+        protocol.update(features, options);
+
+        // cleanup
+        OpenLayers.Protocol.HTTP.prototype.update = httpUpdate;
+    }
+
+    function test_MapFish_delete(t) {
+        t.plan(6);
+
+        // setup
+
+        var protocol, feature, options, expectedUrl;
+
+        protocol = new mapfish.Protocol.MapFish({url: "url0"});
+
+        var httpDelete = OpenLayers.Protocol.HTTP.prototype["delete"];
+        OpenLayers.Protocol.HTTP.prototype["delete"] = function(f, o) {
+            t.ok(f == feature,
+                 "parent update method passed expected feature array");
+            t.eq(o.url, expectedUrl,
+                 "parent update method passed expected url string");
+
+        };
+
+        // 2 tests
+        feature = {fid: "fid"};
+        expectedUrl = "url0/fid";
+        protocol["delete"](feature);
+
+        // 2 tests
+        feature = {url: "url1"};
+        expectedUrl = "url1";
+        protocol["delete"](feature);
+
+        // 2 tests
+        feature = {fake: "object"};
+        options = {url: "url2"};
+        expectedUrl = "url2";
+        protocol["delete"](feature, options);
+
+        // cleanup
+        OpenLayers.Protocol.HTTP.prototype["delete"] = httpDelete;
+    }
+--></script>
+
+  </head>
+  <body>
+  </body>
+</html>

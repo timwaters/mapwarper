@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html debug="true">
+  <head>
+    <link rel="stylesheet" type="text/css" href="../../../../ext/resources/css/ext-all.css" />
+
+    <script type="text/javascript" src="../../../../openlayers/lib/Firebug/firebug.js"></script>
+    <script type="text/javascript" src="../../../../openlayers/lib/OpenLayers.js"></script>
+
+    <script type="text/javascript" src="../../../../ext/adapter/ext/ext-base.js"></script>
+    <script type="text/javascript" src="../../../../ext/ext-all-debug.js"></script>
+
+    <script type="text/javascript">
+      // Because of a bug in Firefox 2 we need to specify the MapFish base path.
+      // See https://bugzilla.mozilla.org/show_bug.cgi?id=351282
+      var gMfLocation = "../../../../mapfish/";
+    </script>
+    <script type="text/javascript" src="../../../../mapfish/MapFish.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="style.css" />
+    <script type="text/javascript" src="layerTreeTestUtils.js"></script>
+
+    <script type="text/javascript"><!--
+        // reference local blank image
+        Ext.BLANK_IMAGE_URL = '../../../../ext/resources/images/default/s.gif';
+
+        var gTests = [test_separator];
+
+        function createMapForWMS() {
+
+            var map = createMap();
+
+            var wms = new OpenLayers.Layer.WMS("vmap0",
+                "http://labs.metacarta.com/wms/vmap0",
+                {layers: 'basic'},
+                {isBaseLayer: true}
+            );
+            map.addLayer(wms);
+            map.setCenter(new OpenLayers.LonLat(5,45), 6);
+
+            var c2cwmsLayers = ["parkings", "summits",
+                                "refuges", "sites"];
+            c2cwms = new OpenLayers.Layer.WMS("C2C Objects",
+                "http://demo.mapfish.org/mapfishsample/trunk/wms?",
+                {
+                    singleTile: true,
+                    layers: c2cwmsLayers,
+                    format: 'image/png',
+                    transparent: true
+                }
+            );
+            c2cwms.setVisibility(false);
+            map.addLayer(c2cwms);
+            return map;
+        }
+
+        function test_separator(t) {
+
+            t.plan(6 + 6);
+
+            var map, tree, model;
+
+            //////////////////////////////////////////////////////////////
+            // Test environment 1
+            // Using a model with the default ":" separator
+
+            map = createMapForWMS();
+
+            model = [
+                {text: "group0", expanded: true, children: [
+                    {text: "vmap0", checked: true, layerName: "vmap0"},
+                    {text: "g0-refuges", checked: true, layerName: "C2C Objects:refuges"},
+                    {text: "g0-summits", checked: true, layerName: "C2C Objects:summits"}
+                ]},
+                {text: "group1", expanded: true, children: [
+                    {text: "g1-parkings", checked: false, layerName: "C2C Objects:parkings"}
+                ]},
+            ];
+
+            tree = createTree(map, model);
+
+            expectedOlStatus = [
+                {name: "vmap0", visibility: true},
+                {name: "C2C Objects", visibility: true, subLayers: [
+                    "summits", "refuges"
+                ]}
+            ];
+            checkOlStatus(t, map, expectedOlStatus); // 6 tests
+
+            reset();
+            
+            //////////////////////////////////////////////////////////////
+            // Test environment 2
+            // Using a model with a custom separator set to "|"
+
+            map = createMapForWMS();
+
+            // Add a colon in the layer name to check for conflicts
+            map.getLayersByName("C2C Objects")[0].setName("C2C:Objects");
+
+            model = [
+                {text: "group0", expanded: true, children: [
+                    {text: "vmap0", checked: true, layerName: "vmap0"},
+                    {text: "g0-refuges", checked: true, layerName: "C2C:Objects|refuges"},
+                    {text: "g0-summits", checked: true, layerName: "C2C:Objects|summits"}
+                ]},
+                {text: "group1", expanded: true, children: [
+                    {text: "g1-parkings", checked: false, layerName: "C2C:Objects|parkings"}
+                ]},
+            ];
+
+            tree = createTree(map, model, {separator: "|"});
+
+            expectedOlStatus = [
+                {name: "vmap0", visibility: true},
+                {name: "C2C:Objects", visibility: true, subLayers: [
+                    "summits", "refuges"
+                ]}
+            ];
+            checkOlStatus(t, map, expectedOlStatus); // 6 tests
+
+            mapfish.widgets.LayerTree.separator = "|";
+
+            reset();
+        }
+
+     --></script>
+
+  </head>
+
+  <body>
+    <div id="right">
+      <div id="tree"></div>
+    </div>
+    <div id="map"></div>
+
+    <div id="test_results">
+        Test results here
+    </div>
+
+  </body>
+</html>

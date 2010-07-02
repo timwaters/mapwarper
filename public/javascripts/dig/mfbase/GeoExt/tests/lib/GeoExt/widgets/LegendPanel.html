@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html debug="true">
+  <head>
+    <script type="text/javascript" src="../../../../../openlayers/lib/OpenLayers.js"></script>
+    <script type="text/javascript" src="../../../../../ext/adapter/ext/ext-base.js"></script>
+    <script type="text/javascript" src="../../../../../ext/ext-all.js"></script>
+    <script type="text/javascript" src="../../../../lib/GeoExt.js"></script>
+
+    <script type="text/javascript">
+
+        function loadMapPanel() {
+            mapPanel = new GeoExt.MapPanel({
+                // panel options
+                id: "map-panel",
+                title: "GeoExt MapPanel",
+                renderTo: "mappanel",
+                height: 400,
+                width: 600,
+                // map panel-specific options
+                layers: [
+                    new OpenLayers.Layer.WMS("test", '/ows', {layers: 'a'})
+                ],
+                center: new OpenLayers.LonLat(5, 45),
+                zoom: 4
+            });
+
+            return mapPanel;
+        }
+
+        function test_legendurl(t) {
+            t.plan(3);
+            var mapPanel = loadMapPanel();
+            var lp  = new GeoExt.LegendPanel({
+                renderTo: 'legendpanel'});
+            lp.render();
+
+            var newUrl = "http://trac.geoext.org/chrome/site/img/GeoExt.png";
+            mapPanel.layers.getAt(0).set("legendURL", newUrl);
+
+            var item = lp.getComponent(mapPanel.map.layers[0].id);
+            var url = item.items.get(1).items.get(0).getEl().dom.src;
+            t.eq(url, newUrl, "Update the image with the provided legendURL");
+
+            var vectorLayer = new OpenLayers.Layer.Vector("vector layer");
+            mapPanel.map.addLayer(vectorLayer);
+
+            vectorLayer.setVisibility(false);
+
+            t.eq(lp.items.length, 1, "Currently there are no legends for non WMS layers");
+
+            var wms = new OpenLayers.Layer.WMS("testArray", '/ows', {layers: ['a', 'b', 'c']});
+            mapPanel.map.addLayer(wms);
+
+            t.eq(lp.items.length, 2, "The legend panel can deal with WMS layers which have a LAYERS params which is an array");
+
+            lp.destroy();
+            mapPanel.destroy();
+        }
+
+        function test_togglevisibility(t) {
+            t.plan(2);
+            var mapPanel = loadMapPanel();
+            var lp  = new GeoExt.LegendPanel({
+                renderTo: 'legendpanel'});
+            lp.render();
+
+            mapPanel.map.layers[0].setVisibility(false);
+            var id = mapPanel.layers.getAt(0).get('layer').id;
+            t.eq(lp.getComponent(id).hidden, true, "Layer has been hidden in legend");
+
+            mapPanel.map.layers[0].setVisibility(true);
+            t.eq(lp.getComponent(id).hidden, false, "Layer has been made visible again in legend");
+
+            lp.destroy();
+            mapPanel.destroy();
+        }
+
+        function test_hide(t) {
+            t.plan(1);
+            var mapPanel = loadMapPanel();
+            var lp  = new GeoExt.LegendPanel({
+                renderTo: 'legendpanel'});
+            lp.render();
+
+            mapPanel.layers.getAt(0).set("hideInLegend", true);
+            var id = mapPanel.layers.getAt(0).get('layer').id;
+            t.eq(lp.getComponent(id).hidden, true, "Layer has been hidden in legend");
+
+            lp.destroy();
+            mapPanel.destroy();
+        }
+
+        function test_dynamic(t) {
+            t.plan(1);
+            var mapPanel = loadMapPanel();
+            var lp  = new GeoExt.LegendPanel({
+                dynamic: false,
+                renderTo: 'legendpanel'});
+            lp.render();
+
+            var layer;
+            layer = new OpenLayers.Layer.WMS("test2", '/ows', {layers: 'b', format: 'image/png', transparent: 'TRUE'});
+            mapPanel.map.addLayer(layer);
+
+            t.eq(lp.items.length, 1, "If dynamic is false, do not add or remove layers from legend");
+
+            lp.destroy();
+            mapPanel.destroy();
+        }
+
+        function test_wms(t) {
+            t.plan(3);
+            var mapPanel = loadMapPanel();
+            var LegendWMS = GeoExt.LegendWMS;
+            GeoExt.LegendWMS = function(config) {
+                t.ok(config.record == mapPanel.layers.getAt(0), "layer record passed correctly");
+                t.ok(config.layer == mapPanel.map.layers[0], "layer passed correctly");
+                t.eq(config.foo, "bar", "legendOptions passed correctly");
+                return new Ext.Panel();
+            }
+            var lp  = new GeoExt.LegendPanel({
+                renderTo: 'legendpanel',
+                legendOptions: {foo: "bar"}
+            });
+            lp.render();
+
+            lp.destroy();
+            mapPanel.destroy();
+            GeoExt.LegendWMS = LegendWMS;
+        }
+
+        function test_addremove(t) {
+            t.plan(4);
+            var mapPanel = loadMapPanel();
+            var lp  = new GeoExt.LegendPanel({
+                renderTo: 'legendpanel'});
+            lp.render();
+            t.eq(lp.items.length, 1, "Same number of layers in legend panel and in map");
+
+            var item = lp.getComponent(mapPanel.map.layers[0].id);
+
+            var layer;
+            layer = new OpenLayers.Layer.WMS("test2", '/ows', {layers: 'b', format: 'image/png', transparent: 'TRUE'});
+            mapPanel.map.addLayer(layer);
+
+            t.eq(lp.items.length, 2, "New WMS layer has been added");
+
+            layer = new OpenLayers.Layer.WMS("test3", '/ows', {layers: 'c'}, {visibility: false});
+            mapPanel.map.addLayer(layer);
+
+            t.eq(lp.items.length, 3, "A non visible WMS layer will be added but will be invisible");
+
+            mapPanel.map.removeLayer(mapPanel.map.layers[0]);
+            t.eq(lp.items.length, 2, "Removing the WMS layer really removes the legend from the panel");
+
+            lp.destroy();
+            mapPanel.destroy();
+        }
+
+        function test_changelayername(t) {
+            t.plan(3);
+            var mapPanel = loadMapPanel();
+            var lp  = new GeoExt.LegendPanel({
+                renderTo: 'legendpanel'});
+            lp.render();
+
+            var layer = mapPanel.map.layers[0];
+            var cmp = lp.getComponent(layer.id);
+            t.eq(cmp.items.get(0).text, 'test', "Layer name is test before change");
+
+            layer.setName("My new name");
+
+            t.eq(cmp.items.get(0).text, "My new name", "Layer name was changed correctly to 'My new name'");
+
+            lp.destroy();
+
+            var lp  = new GeoExt.LegendPanel({
+                showTitle: false,
+                renderTo: 'legendpanel'});
+            lp.render();
+
+            layer.setName("My new new name");
+            var cmp = lp.getComponent(layer.id);
+            t.eq(cmp.items.get(0).text, "", "When showTitle is false, there is no label for a layer and it is not changed");
+
+            lp.destroy();
+
+            mapPanel.destroy();
+        }
+
+    </script>
+  <body>
+    <div id="legendpanel"></div>
+    <div id="mappanel"></div>
+  </body>
+</html>

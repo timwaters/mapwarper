@@ -1,0 +1,49 @@
+#tabs {
+ /* margin-bottom: 10px;*/
+  margin-top: 10px;
+  float:left;
+  width:100%;
+background:#fff url("../images/tabs/choc/bg_y.gif") repeat-x bottom;
+ /*background:#fff url("../images/tabs/tab2_bg.gif") repeat-x bottom;
+*/
+}
+#tabs ul {
+  margin:0;
+  padding:10px 10px 0 10px;
+  list-style:none;
+}
+#tabs li {
+  float:left;
+  background:url("../images/tabs/choc/left.gif") no-repeat left top;
+  margin:0;
+  padding:0 0 0 9px;
+}
+#tabs .disabled {
+ display:block;
+  background:url("../images/tabs/choc/right.gif") no-repeat right top;
+  padding:5px 35px 2px 6px; 
+  text-decoration:none;
+  padding-left:15px;
+  color: #999696;
+
+}
+#tabs a {
+  display:block;
+  background:url("../images/tabs/choc/right.gif") no-repeat right top;
+  padding:5px 35px 2px 6px; 
+  text-decoration:none;
+  padding-left:15px;
+}
+#tabs a:hover {
+  text-decoration: underline;
+}
+#tabs li.current_tab {
+  background-image:url("../images/tabs/choc/left_on.gif");
+}
+#tabs li.current_tab a {
+  background-image: url("../images/tabs/choc/right_on.gif");
+  padding-bottom:3px; 
+  color:#ffffff;
+    font-weight: bold;
+}
+ 

@@ -1,0 +1,1272 @@
+<!DOCTYPE html>
+<html debug="true">
+  <head>
+    <link rel="stylesheet" type="text/css" href="../../../../ext/resources/css/ext-all.css" />
+
+    <script type="text/javascript" src="../../../../openlayers/lib/Firebug/firebug.js"></script>
+    <script type="text/javascript" src="../../../../openlayers/lib/OpenLayers.js"></script>
+
+    <script type="text/javascript" src="../../../../ext/adapter/ext/ext-base.js"></script>
+    <script type="text/javascript" src="../../../../ext/ext-all-debug.js"></script>
+
+    <script type="text/javascript">
+      // Because of a bug in Firefox 2 we need to specify the MapFish base path.
+      // See https://bugzilla.mozilla.org/show_bug.cgi?id=351282
+      var gMfLocation = "../../../../mapfish/";
+    </script>
+    <script type="text/javascript" src="../../../../mapfish/MapFish.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="style.css" />
+    <script type="text/javascript" src="layerTreeTestUtils.js"></script>
+
+    <script type="text/javascript"><!--
+        // reference local blank image
+        Ext.BLANK_IMAGE_URL = '../../../../ext/resources/images/default/s.gif';
+
+        // tests to run when giving "?standalone" parameter in location (used
+        // for debugging).
+        var gTests = [
+                        //test_Checkbox, test_AutomaticModel, test_ModelSync,
+                        //test_reorder, test_WMSSubLayer, test_defaultSelection
+                     ];
+
+        // TODO: maybe spit this files into separated tests.
+
+        // Tests that checking/unchecking a node update the rest of the tree
+        function test_Checkbox(t) {
+
+            t.plan(7 * 29);
+
+            var map = createMap();
+
+            var model = [
+                {text: "label-0", checked: false, expanded: true, children: [
+                    {text: "label-0-0", checked: false, expanded: true, children: [
+                        {text: "label-0-0-0", checked: false},
+                        {text: "label-0-0-1", checked: false},
+                        {text: "label-0-0-2", checked: false, children: [
+                            {text: "label-0-0-2-0", checked: false},
+                            {text: "label-0-0-2-1", checked: false}
+                        ]}
+                    ]},
+                    {text: "label-0-1", checked: false},
+                    {text: "label-0-2", checked: false}
+                ]}
+            ];
+
+            var tree = createTree(map, model);
+
+            var expectedStatus, node;
+
+            expectedStatus = [
+                {text: "Root"},
+                {text: "label-0", attr_checked: false},
+                {text: "label-0-0", attr_checked: false},
+                {text: "label-0-0-0", attr_checked: false},
+                {text: "label-0-0-1", attr_checked: false},
+                {text: "label-0-0-2", attr_checked: false},
+                {text: "label-0-0-2-0", attr_checked: false},
+                {text: "label-0-0-2-1", attr_checked: false},
+                {text: "label-0-1", attr_checked: false},
+                {text: "label-0-2", attr_checked: false}
+            ];
+
+            checkStatus(t, tree, expectedStatus); // 29 tests
+
+            // Check that descendents are updated when a parent is checked
+
+            node = getNodeByText(tree.getRootNode(), "label-0-0-2");
+            tree.setNodeChecked(node, true);
+
+            expectedStatus = [
+                {text: "Root"},
+                {text: "label-0", attr_checked: false},
+                {text: "label-0-0", attr_checked: false},
+                {text: "label-0-0-0", attr_checked: false},
+                {text: "label-0-0-1", attr_checked: false},
+                {text: "label-0-0-2", attr_checked: true},
+                {text: "label-0-0-2-0", attr_checked: true},
+                {text: "label-0-0-2-1", attr_checked: true},
+                {text: "label-0-1", attr_checked: false},
+                {text: "label-0-2", attr_checked: false}
+            ];
+            checkStatus(t, tree, expectedStatus); // 29 tests
+
+            // Check that ancestors are checked if all children are checked
+
+            node = getNodeByText(tree.getRootNode(), "label-0-0-0");
+            tree.setNodeChecked(node, true);
+
+            node = getNodeByText(tree.getRootNode(), "label-0-0-1");
+            tree.setNodeChecked(node, true);
+
+            expectedStatus = [
+                {text: "Root"},
+                {text: "label-0", attr_checked: false},
+                {text: "label-0-0", attr_checked: true},
+                {text: "label-0-0-0", attr_checked: true},
+                {text: "label-0-0-1", attr_checked: true},
+                {text: "label-0-0-2", attr_checked: true},
+                {text: "label-0-0-2-0", attr_checked: true},
+                {text: "label-0-0-2-1", attr_checked: true},
+                {text: "label-0-1", attr_checked: false},
+                {text: "label-0-2", attr_checked: false}
+            ];
+            checkStatus(t, tree, expectedStatus); // 29 tests
+
+            // If the root is checked, all nodes should be too
+
+            node = getNodeByText(tree.getRootNode(), "label-0");
+            tree.setNodeChecked(node, true);
+
+            expectedStatus = [
+                {text: "Root"},
+                {text: "label-0", attr_checked: true},
+                {text: "label-0-0", attr_checked: true},
+                {text: "label-0-0-0", attr_checked: true},
+                {text: "label-0-0-1", attr_checked: true},
+                {text: "label-0-0-2", attr_checked: true},
+                {text: "label-0-0-2-0", attr_checked: true},
+                {text: "label-0-0-2-1", attr_checked: true},
+                {text: "label-0-1", attr_checked: true},
+                {text: "label-0-2", attr_checked: true}
+            ];
+            checkStatus(t, tree, expectedStatus); // 29 tests
+
+            resetTree();
+
+            // This tests that the initial checkbox state is updated at startup.
+            // For instance, ancestores are checked if all children are checked
+            // in the initial model.
+
+            var model = [
+                {text: "label-0", checked: false, expanded: true, children: [
+                    {text: "label-0-0", checked: false, expanded: true, children: [
+                        {text: "label-0-0-0", checked: true},
+                        {text: "label-0-0-1", checked: true},
+                        {text: "label-0-0-2", checked: false, children: [
+                            {text: "label-0-0-2-0", checked: true},
+                            {text: "label-0-0-2-1", checked: true}
+                        ]}
+                    ]},
+                    {text: "label-0-1", checked: false},
+                    {text: "label-0-2", checked: false}
+                ]}
+            ];
+
+            var tree = createTree(map, model);
+
+            expectedStatus = [
+                {text: "Root"},
+                {text: "label-0", attr_checked: false},
+                {text: "label-0-0", attr_checked: true},
+                {text: "label-0-0-0", attr_checked: true},
+                {text: "label-0-0-1", attr_checked: true},
+                {text: "label-0-0-2", attr_checked: true},
+                {text: "label-0-0-2-0", attr_checked: true},
+                {text: "label-0-0-2-1", attr_checked: true},
+                {text: "label-0-1", attr_checked: false},
+                {text: "label-0-2", attr_checked: false}
+            ];
+            checkStatus(t, tree, expectedStatus); // 29 tests
+
+            resetTree();
+
+            // Drag and drop testing
+
+            // Dragging an unselected node in a node where all siblings are checked
+            //  should update the parent
+
+            var tree = createTree(map, model, {enableDD: true});
+
+            // Test before dragging
+            expectedStatus = [
+                {text: "Root"},
+                {text: "label-0", attr_checked: false},
+                {text: "label-0-0", attr_checked: true},
+                {text: "label-0-0-0", attr_checked: true},
+                {text: "label-0-0-1", attr_checked: true},
+                {text: "label-0-0-2", attr_checked: true},
+                {text: "label-0-0-2-0", attr_checked: true},
+                {text: "label-0-0-2-1", attr_checked: true},
+                {text: "label-0-1", attr_checked: false},
+                {text: "label-0-2", attr_checked: false}
+            ];
+            checkStatus(t, tree, expectedStatus); // 29 tests
+
+            var sourceNode = getNodeByText(tree.getRootNode(), "label-0-1");
+            var targetNode = getNodeByText(tree.getRootNode(), "label-0-0-2");
+            targetNode.parentNode.insertBefore(sourceNode, targetNode);
+            // Simulate drag event (arguments are ignored)
+            tree.fireEvent("dragdrop");
+
+            // State after drag
+            expectedStatus = [
+                {text: "Root"},
+                {text: "label-0", attr_checked: false},
+                {text: "label-0-0", attr_checked: false},
+                {text: "label-0-0-0", attr_checked: true},
+                {text: "label-0-0-1", attr_checked: true},
+                {text: "label-0-1", attr_checked: false},
+                {text: "label-0-0-2", attr_checked: true},
+                {text: "label-0-0-2-0", attr_checked: true},
+                {text: "label-0-0-2-1", attr_checked: true},
+                {text: "label-0-2", attr_checked: false}
+            ];
+            checkStatus(t, tree, expectedStatus); // 29 tests
+
+            reset();
+        }
+
+        function test_RadioButton(t){
+            t.plan(2 * 29);
+
+            var map = createMap();
+
+            var model = [
+                {text: "label-0", expanded: true, children: [
+                    {text: "label-0-0", checked: true, radio: true, radioGrp: "group-0", layerName:"C2C Objects:parkings"},
+                    {text: "label-0-1", checked: false, radio: true, radioGrp: "group-0", layerName:"C2C Objects:summits"},
+                    {text: "label-0-2", checked: false, radio: true, radioGrp: "group-0", layerName:"World Map"}
+                ]},
+                {text: "label-1", expanded: true, children: [
+                    {text: "label-1-0", checked: true, radio: true, radioGrp: "group-1", layerName:"C2C Objects:refuges"},
+                    {text: "label-1-1", checked: false, radio: true, radioGrp: "group-1", layerName:"C2C Objects:sites"},
+                ]},
+            ];
+            c2cwmsLayers = ['parkings', 'summits', 'refuges', 'sites'];
+            c2cwms = new OpenLayers.Layer.WMS("C2C Objects",
+                "http://demo.mapfish.org/mapfishsample/trunk/wms?",
+                {
+                   singleTile: true,
+                   layers: c2cwmsLayers,
+                   format: 'image/png',
+                   transparent: true
+                }
+            );
+            c2cwms.setVisibility(false);
+            map.addLayer(c2cwms);
+
+            var twms = new OpenLayers.Layer.WMS("World Map",
+                "http://world.freemap.in/cgi-bin/mapserv?",
+                {
+                    map: '/www/freemap.in/world/map/factbooktrans.map',
+                    transparent: true,
+                    layers: 'factbook',
+                    format: 'image/png'
+                }
+            );
+
+            twms.setVisibility(false);
+            map.addLayer(twms);
+
+            var tree = createTree(map, model);
+            var expectedStatus, node;
+
+            expectedStatus = [
+                {text: "Root"},
+                {text: "label-0"},
+                {text: "label-0-0", attr_checked: true, radio: true, attr_radio:true, attr_radioGrp: "group-0"},
+                {text: "label-0-1", attr_checked: false, radio: true, attr_radio:true, attr_radioGrp: "group-0"},
+                {text: "label-0-2", attr_checked: false, radio: true, attr_radio:true, attr_radioGrp: "group-0"},
+                {text: "label-1"},
+                {text: "label-1-0", attr_checked: true, radio: true, attr_radio:true, attr_radioGrp: "group-1"},
+                {text: "label-1-1", attr_checked: false, radio: true, attr_radio:true, attr_radioGrp: "group-1"},
+            ];
+
+            checkStatus(t, tree, expectedStatus); // 29 tests
+
+            // Check 2 radio buttons in 2 different radio grp
+
+            node = getNodeByText(tree.getRootNode(), "label-0-2");
+            tree.setNodeChecked(node, true);
+
+            node = getNodeByText(tree.getRootNode(), "label-1-1");
+            tree.setNodeChecked(node, true);
+
+            expectedStatus = [
+                {text: "Root"},
+                {text: "label-0"},
+                {text: "label-0-0", attr_checked: false, radio: true, attr_radio:true, attr_radioGrp: "group-0"},
+                {text: "label-0-1", attr_checked: false, radio: true, attr_radio:true, attr_radioGrp: "group-0"},
+                {text: "label-0-2", attr_checked: true, radio: true, attr_radio:true, attr_radioGrp: "group-0"},
+                {text: "label-1"},
+                {text: "label-1-0", attr_checked: false, radio: true, attr_radio:true, attr_radioGrp: "group-1"},
+                {text: "label-1-1", attr_checked: true, radio: true, attr_radio:true, attr_radioGrp: "group-1"},
+            ];
+
+            checkStatus(t, tree, expectedStatus); // 29 tests
+
+            reset();
+        }
+
+        // Tests automatic generation of model from an OL configuration
+        function test_AutomaticModel(t) {
+            function __test_AutomaticModel(layerClass) {
+                var map, layer, model, tree, node, expectedStatus;
+
+                //////////////////////////////////////////////////////////////
+                // Test environment 1
+                // Map with one baseLayer
+                // Automatic model generation
+
+                map = createMap();
+
+                layer = new layerClass("vmap0",
+                    "http://labs.metacarta.com/wms/vmap0",
+                    {layers: 'basic'},
+                    {isBaseLayer: true}
+                );
+                map.addLayer(layer);
+                map.setCenter(new OpenLayers.LonLat(5,45), 6);
+
+                tree = createTree(map);
+
+                expectedStatus = [
+                    {text: "Root"},
+                    {text: "vmap0", attr_checked: true, radio: true}
+                ];
+                checkStatus(t, tree, expectedStatus); // 5 tests
+
+                reset();
+
+                //////////////////////////////////////////////////////////////
+                // Test environment 2
+                // Map with one base layer and one overlay with sublayers
+                // The sublayers should be drawn as children of the overlay
+
+                map = createMap();
+
+                layer = new layerClass("vmap0",
+                    "http://labs.metacarta.com/wms/vmap0",
+                    {layers: 'basic'},
+                    {isBaseLayer: true}
+                );
+                map.addLayer(layer);
+                map.setCenter(new OpenLayers.LonLat(5,45), 6);
+
+                var c2cLayers = ['parkings', 'summits', 'refuges', 'sites'];
+                layer = new layerClass("C2C Objects",
+                    "http://demo.mapfish.org/mapfishsample/trunk/wms?",
+                    {
+                        singleTile: true,
+                        layers: c2cLayers,
+                        format: 'image/png',
+                        transparent: true
+                    }
+                );
+                layer.setVisibility(false);
+                map.addLayer(layer);
+
+                tree = createTree(map);
+
+                expectedStatus = [
+                    {text: "Root"},
+                    {text: "vmap0", attr_checked: true, radio: true},
+                    {text: "C2C Objects", attr_checked: false},
+                    {text: "parkings", attr_checked: false},
+                    {text: "summits", attr_checked: false},
+                    {text: "refuges", attr_checked: false},
+                    {text: "sites", attr_checked: false}
+                ];
+
+                checkStatus(t, tree, expectedStatus); // 20 tests
+
+                resetTree();
+
+                // Testing ascending property
+                //
+                tree = createTree(map, null, {ascending: false});
+
+                expectedStatus = [
+                    {text: "Root"},
+                    {text: "C2C Objects", attr_checked: false},
+                    {text: "sites", attr_checked: false},
+                    {text: "refuges", attr_checked: false},
+                    {text: "summits", attr_checked: false},
+                    {text: "parkings", attr_checked: false},
+                    {text: "vmap0", attr_checked: true, radio: true}
+                ];
+
+                checkStatus(t, tree, expectedStatus); // 20 tests
+
+                reset();
+
+                //////////////////////////////////////////////////////////////
+                // Test environment 3
+                // Map with one baseLayer, and two overlays
+                // Some layers have displayInLayerSwitcher set to false
+                // Automatic model generation
+                //
+                // This tests that layers with displayInLayerSwitcher=false are
+                // not visible
+
+                map = createMap();
+
+                layer = new layerClass("vmap0",
+                    "http://labs.metacarta.com/wms/vmap0",
+                    {
+                        layers: 'basic'
+                    },{
+                        isBaseLayer: true,
+                        displayInLayerSwitcher: false
+                    }
+                );
+                map.addLayer(layer);
+                map.setCenter(new OpenLayers.LonLat(5,45), 6);
+
+                layer = new layerClass("World Map",
+                    "http://world.freemap.in/cgi-bin/mapserv?",
+                    {
+                        map: '/www/freemap.in/world/map/factbooktrans.map',
+                        layers: 'factbook',
+                        format: 'image/png',
+                        transparent: true
+                    },{
+                        displayInLayerSwitcher: false
+                    }
+                );
+                layer.setVisibility(false);
+                map.addLayer(layer);
+
+                layer = new layerClass("Satellite",
+                    "http://labs.metacarta.com/wms-c/Basic.py?",
+                    {
+                        layers: 'satellite',
+                        format: 'image/png',
+                        transparent: true
+                    }
+                );
+                layer.setVisibility(true);
+                map.addLayer(layer);
+
+                tree = createTree(map);
+
+                expectedStatus = [
+                    {text: "Root"},
+                    {text: "vmap0", attr_checked: true, radio: true},
+                    {text: "World Map", attr_checked: false},
+                    {text: "Satellite", attr_checked: true}
+                ];
+                checkStatus(t, tree, expectedStatus); // 11 tests
+
+                expectedOlStatus = [
+                    {name: "vmap0", visibility: true},
+                    {name: "World Map", visibility: false},
+                    {name: "Satellite", visibility: true}
+                ];
+                checkOlStatus(t, map, expectedOlStatus); // 7 tests
+
+                reset();
+
+                // TODO: test how displayInLayerSwitcher interacts with
+                //  reordering (drag/drop)
+            }
+
+            t.plan(2*(5 + 20 + 20 + 11 + 7));
+
+            __test_AutomaticModel(OpenLayers.Layer.WMS);
+            __test_AutomaticModel(OpenLayers.Layer.MapServer);
+        }
+
+        // Checks how OL is kept in sync with the tree checkboxes
+        function test_ModelSync(t) {
+            function __test_ModelSync(layerClass) {
+                var map, layer, model, tree;
+
+                //////////////////////////////////////////////////////////////
+                // Test environment 1
+                // Map with one baseLayer
+                // User model with one layer mapped 1:1
+
+                map = createMap();
+
+                layer = new layerClass("vmap0",
+                    "http://labs.metacarta.com/wms/vmap0",
+                    {layers: 'basic'},
+                    {isBaseLayer: true}
+                );
+                map.addLayer(layer);
+                map.setCenter(new OpenLayers.LonLat(5,45), 6);
+
+                model = [
+                    {text: "vmap0", expanded: true, checked: true, layerName: "vmap0"}
+                ];
+
+                tree = createTree(map, model);
+
+                // Only one baseLayer should be active at any time. Clicking on
+                // the active one will do nothing
+
+                var expectedOlStatus, node;
+
+                expectedOlStatus = [
+                    {name: "vmap0", visibility: true}
+                ];
+                checkOlStatus(t, map, expectedOlStatus); // 3 tests
+
+                node = getNodeByText(tree.getRootNode(), "vmap0");
+                tree.setNodeChecked(node, false);
+
+                expectedOlStatus = [
+                    {name: "vmap0", visibility: true}
+                ];
+                checkOlStatus(t, map, expectedOlStatus); // 3 tests
+
+                reset();
+
+                //////////////////////////////////////////////////////////////
+                // Test environment 2
+                // Map with one baselayer, and one overlay
+
+                map = createMap();
+
+                layer = new layerClass("vmap0",
+                    "http://labs.metacarta.com/wms/vmap0",
+                    {layers: 'basic'},
+                    {isBaseLayer: true}
+                );
+                map.addLayer(layer);
+                map.setCenter(new OpenLayers.LonLat(5,45), 6);
+
+                layer = new layerClass("Satellite",
+                    "http://labs.metacarta.com/wms-c/Basic.py?",
+                    {
+                        layers: 'satellite',
+                        format: 'image/png',
+                        transparent: true
+                    }
+                );
+                layer.setVisibility(false);
+                map.addLayer(layer);
+
+                model = [
+                    {text: "root_vmap0", expanded: true, checked: true, children: [
+                        {text: "vmap0", expanded: true, checked: true, layerName: "vmap0", children: [
+                            {text: "vmap0_child", expanded: true, checked: true}
+                        ]}
+                    ]},
+                    {text: "sat_bis", expanded: true, checked: true, layerName: "Satellite"},
+                    {text: "root_sat", expanded: true, checked: true, children: [
+                        {text: "sat", expanded: true, checked: true, layerName: "Satellite", children: [
+                            {text: "sat_child", expanded: true, checked: true}
+                        ]}
+                    ]}
+                ];
+
+                tree = createTree(map, model);
+
+                expectedStatus = [
+                    {text: "Root"},
+                    {text: "root_vmap0", attr_checked: true},
+                    {text: "vmap0", attr_checked: true, radio: true},
+                    {text: "vmap0_child", attr_checked: true},
+                    {text: "sat_bis", attr_checked: true},
+                    {text: "root_sat", attr_checked: true},
+                    {text: "sat", attr_checked: true},
+                    {text: "sat_child", attr_checked: true}
+                ];
+
+                checkStatus(t, tree, expectedStatus); // 23 tests
+
+                expectedOlStatus = [
+                    {name: "vmap0", visibility: true},
+                    {name: "Satellite", visibility: true}
+                ];
+                checkOlStatus(t, map, expectedOlStatus); // 5 tests
+
+                // If selecting a child unselects an ancestor which controls an OL layer,
+                // The OL layer should be updated.
+
+
+                node = getNodeByText(tree.getRootNode(), "sat_child");
+                tree.setNodeChecked(node, false);
+
+                expectedStatus = [
+                    {text: "Root"},
+                    {text: "root_vmap0", attr_checked: true},
+                    {text: "vmap0", attr_checked: true, radio: true},
+                    {text: "vmap0_child", attr_checked: true},
+                    {text: "sat_bis", attr_checked: false},
+                    {text: "root_sat", attr_checked: false},
+                    {text: "sat", attr_checked: false},
+                    {text: "sat_child", attr_checked: false}
+                ];
+                checkStatus(t, tree, expectedStatus); // 23 tests
+
+                expectedOlStatus = [
+                    {name: "vmap0", visibility: true},
+                    {name: "Satellite", visibility: false}
+                ];
+                checkOlStatus(t, map, expectedOlStatus); // 5 tests
+
+
+                // Thing checks node which is will check another node as a side
+                // effect (they map to the same layer name). The node which is
+                // checked as a side effect should update its ancestors or
+                // descendants.
+
+                // TODO: not implemented yet
+
+                node = getNodeByText(tree.getRootNode(), "sat_bis");
+                tree.setNodeChecked(node, true);
+
+                expectedStatus = [
+                    {text: "Root"},
+                    {text: "root_vmap0", attr_checked: true},
+                    {text: "vmap0", attr_checked: true, radio: true},
+                    {text: "vmap0_child", attr_checked: true},
+                    {text: "sat_bis", attr_checked: true},
+                    {text: "root_sat", attr_checked: false}, // TODO: should be true
+                    {text: "sat", attr_checked: true},
+                    {text: "sat_child", attr_checked: false} // TODO: should be true
+                ];
+                checkStatus(t, tree, expectedStatus); // 23 tests
+
+                expectedOlStatus = [
+                    {name: "vmap0", visibility: true},
+                    {name: "Satellite", visibility: true}
+                ];
+                checkOlStatus(t, map, expectedOlStatus); // 5 tests
+
+                reset();
+
+                //////////////////////////////////////////////////////////////
+                // Test environment 3
+                // Map with two base layers and one overlay
+
+                // Tests that the invariant "only one base layer selected" is respected
+
+                map = createMap();
+
+                layer = new layerClass("vmap0",
+                    "http://labs.metacarta.com/wms/vmap0",
+                    {layers: 'basic'},
+                    {isBaseLayer: true}
+                );
+                map.addLayer(layer);
+                map.setCenter(new OpenLayers.LonLat(5,45), 6);
+
+                layer = new layerClass("Satellite",
+                    "http://labs.metacarta.com/wms-c/Basic.py?",
+                    {
+                        layers: 'satellite',
+                        format: 'image/png'
+                    }
+                );
+                layer.setVisibility(false);
+                map.addLayer(layer);
+
+                layer = new layerClass("World Map",
+                    "http://world.freemap.in/cgi-bin/mapserv?",
+                    {
+                        map: '/www/freemap.in/world/map/factbooktrans.map',
+                        layers: 'factbook',
+                        format: 'image/png',
+                        transparent: true
+                    }
+                );
+                layer.setVisibility(false);
+                map.addLayer(layer);
+
+                model = [
+                    {text: "vmap0", expanded: true, checked: true, layerName: "vmap0", children: [
+                        {text: "vmap0_child", expanded: true, checked: true}
+                    ]},
+                    {text: "sat", expanded: true, checked: true, layerName: "Satellite", children: [
+                        {text: "sat_child", expanded: true, checked: true}
+                    ]},
+                    {text: "vmap_and_sat", expanded: true, checked: true, layerNames: ["vmap0", "Satellite"], children: [
+                        {text: "vmap0_2", expanded: true, checked: true, layerName: "vmap0"},
+                        {text: "sat_2", expanded: true, checked: true, layerNames: ["Satellite"], layerName: "this_is_ignored"}
+                    ]},
+                    {text: "dummy", expanded: true, children: [
+                        {text: "world_map", checked: true, layerNames: ["World Map"]},
+                        {text: "world_map_2", checked: true, layerNames: ["World Map"]}
+                    ]},
+                ];
+
+                tree = createTree(map, model);
+
+                expectedStatus = [
+                    {text: "Root"},
+                    {text: "vmap0", attr_checked: true, radio: true},
+                    {text: "vmap0_child", attr_checked: true},
+                    {text: "sat", attr_checked: false, radio: true},
+                    {text: "sat_child", attr_checked: true},
+                    {text: "vmap_and_sat", attr_checked: false, radio: true},
+                    {text: "vmap0_2", attr_checked: true, radio: true},
+                    {text: "sat_2", attr_checked: false, radio: true},
+                    {text: "dummy"},
+                    {text: "world_map", attr_checked: true},
+                    {text: "world_map_2", attr_checked: true}
+                ];
+                checkStatus(t, tree, expectedStatus); // 30 tests
+
+                expectedOlStatus = [
+                    {name: "vmap0", visibility: true},
+                    {name: "Satellite", visibility: false},
+                    {name: "World Map", visibility: true}
+                ];
+                checkOlStatus(t, map, expectedOlStatus); // 7 tests
+
+
+                // Selecting another base layer. This should unselect the other
+                // base layers.
+
+                node = getNodeByText(tree.getRootNode(), "sat");
+                tree.setNodeChecked(node, true);
+
+                expectedStatus = [
+                    {text: "Root"},
+                    {text: "vmap0", attr_checked: false, radio: true},
+                    {text: "vmap0_child", attr_checked: true},
+                    {text: "sat", attr_checked: true, radio: true},
+                    {text: "sat_child", attr_checked: true},
+                    {text: "vmap_and_sat", attr_checked: false, radio: true},
+                    {text: "vmap0_2", attr_checked: false, radio: true},
+                    {text: "sat_2", attr_checked: true, radio: true},
+                    {text: "dummy"},
+                    {text: "world_map", attr_checked: true},
+                    {text: "world_map_2", attr_checked: true}
+                ];
+                checkStatus(t, tree, expectedStatus); // 30 tests
+
+                expectedOlStatus = [
+                    {name: "vmap0", visibility: false},
+                    {name: "Satellite", visibility: true},
+                    {name: "World Map", visibility: true}
+                ];
+                checkOlStatus(t, map, expectedOlStatus); // 7 tests
+
+                // Unselecting an overlay should unselect all node referring to
+                // that layer.
+
+                node = getNodeByText(tree.getRootNode(), "world_map");
+                tree.setNodeChecked(node, false);
+
+                expectedStatus = [
+                    {text: "Root"},
+                    {text: "vmap0", attr_checked: false, radio: true},
+                    {text: "vmap0_child", attr_checked: true},
+                    {text: "sat", attr_checked: true, radio: true},
+                    {text: "sat_child", attr_checked: true},
+                    {text: "vmap_and_sat", attr_checked: false, radio: true},
+                    {text: "vmap0_2", attr_checked: false, radio: true},
+                    {text: "sat_2", attr_checked: true, radio: true},
+                    {text: "dummy"},
+                    {text: "world_map", attr_checked: false},
+                    {text: "world_map_2", attr_checked: false}
+                ];
+                checkStatus(t, tree, expectedStatus); // 30 tests
+
+                expectedOlStatus = [
+                    {name: "vmap0", visibility: false},
+                    {name: "Satellite", visibility: true},
+                    {name: "World Map", visibility: false}
+                ];
+                checkOlStatus(t, map, expectedOlStatus); // 7 tests
+
+                reset();
+            }
+            t.plan(2*(3 + 3 +
+                      23 + 5 + 23 + 5 + 23 + 5 +
+                      30 + 7 + 30 + 7 + 30 + 7));
+            __test_ModelSync(OpenLayers.Layer.WMS);
+            __test_ModelSync(OpenLayers.Layer.MapServer);
+        }
+
+        // Tests reordering of layers (simulating drag/drop)
+        function test_reorder(t) {
+
+            var map, model, tree;
+
+            t.plan((7 + 7 + 7 + 7) +   // ascending = true
+                   (7 + 7 + 7 + 7) +   // ascending = false
+                   (7 + 26 + 7 + 26)); // multiple layerNames
+
+            //////////////////////////////////////////////////////////////
+            // Test environment
+            // Map with a base layer and two overlays
+
+            function createMapForDrag() {
+                var map = createMap();
+
+                var wms = new OpenLayers.Layer.WMS("vmap0",
+                    "http://labs.metacarta.com/wms/vmap0",
+                    {layers: 'basic'},
+                    {isBaseLayer: true}
+                );
+                map.addLayer(wms);
+
+                var twms = new OpenLayers.Layer.WMS("World Map",
+                    "http://world.freemap.in/cgi-bin/mapserv?",
+                    {
+                        map: '/www/freemap.in/world/map/factbooktrans.map',
+                        layers: 'factbook',
+                        format: 'image/png',
+                        transparent: true
+                    }
+                );
+                twms.setVisibility(false);
+                map.addLayer(twms);
+
+                var jpl_wms = new OpenLayers.Layer.WMS("Satellite",
+                    "http://labs.metacarta.com/wms-c/Basic.py?",
+                    {
+                        layers: 'satellite',
+                        format: 'image/png',
+                        transparent: true
+                    }
+                );
+                jpl_wms.setVisibility(false);
+                map.addLayer(jpl_wms);
+
+                return map;
+            }
+
+            //////////////////////////////////////////////////////////////
+            // Testing with ascending = true (default)
+
+            map = createMapForDrag();
+            tree = createTree(map, null, {enableDD: true});
+
+            var expectedOlStatus, expectedStatus, node;
+
+            // First test generated tree without reordering
+
+            expectedOlStatus = [
+                {name: "vmap0", visibility: true},
+                {name: "World Map", visibility: false},
+                {name: "Satellite", visibility: false}
+            ];
+            checkOlStatus(t, map, expectedOlStatus); // 7 tests
+
+            // Simluate dragging the World Map layer to the end of the tree
+
+            node = getNodeByText(tree.getRootNode(), "World Map");
+            tree.getRootNode().appendChild(node);
+            // Simulate drag event (arguments are ignored)
+            tree.fireEvent("dragdrop");
+
+            expectedOlStatus = [
+                {name: "vmap0", visibility: true},
+                {name: "Satellite", visibility: false},
+                {name: "World Map", visibility: false}
+            ];
+            checkOlStatus(t, map, expectedOlStatus); // 7 tests
+
+            reset();
+
+            // Create map again to restore original layer ordering
+            map = createMapForDrag();
+
+            // Testing with a more complex user model
+
+            var model = [
+                {text: "label-0", checked: false, expanded: true, children: [
+                    {text: "label-0-0", checked: false, expanded: true, children: [
+                        {text: "label-0-0-0", checked: true},
+                        {text: "Satellite", checked: false, layerName: "Satellite"},
+                        {text: "label-0-0-2", checked: true}
+                    ]},
+                    {text: "label-0-1", checked: false},
+                    {text: "World Map", checked: false, layerName: "World Map"},
+                    {text: "label-0-3", checked: false}
+                ]}
+            ];
+
+            var tree = createTree(map, model, {enableDD: true});
+
+            expectedOlStatus = [
+                {name: "vmap0", visibility: true},
+                {name: "Satellite", visibility: false},
+                {name: "World Map", visibility: false}
+            ];
+            checkOlStatus(t, map, expectedOlStatus); // 7 tests
+
+            var sourceNode = getNodeByText(tree.getRootNode(), "World Map");
+            var targetNode = getNodeByText(tree.getRootNode(), "Satellite");
+            targetNode.parentNode.insertBefore(sourceNode, targetNode);
+
+            // Simulate drag event (arguments are ignored)
+            tree.fireEvent("dragdrop");
+
+            expectedOlStatus = [
+                {name: "vmap0", visibility: true},
+                {name: "World Map", visibility: false},
+                {name: "Satellite", visibility: false}
+            ];
+            checkOlStatus(t, map, expectedOlStatus); // 7 tests
+
+            reset();
+
+            //////////////////////////////////////////////////////////////
+            // Testing with ascending = false
+            // NOTE: This code should be kept in sync with the tests in the
+            // previous section (Testing with ascending = true).
+
+            map = createMapForDrag();
+            tree = createTree(map, null, {enableDD: true, ascending: false});
+
+            var expectedOlStatus, node;
+
+            // First test generated tree without reordering
+
+            expectedOlStatus = [
+                {name: "vmap0", visibility: true},
+                {name: "World Map", visibility: false},
+                {name: "Satellite", visibility: false}
+            ];
+            checkOlStatus(t, map, expectedOlStatus); // 7 tests
+
+            // Simluate dragging the World Map layer to the end of the tree
+
+            node = getNodeByText(tree.getRootNode(), "World Map");
+            tree.getRootNode().appendChild(node);
+            // Simulate drag event (arguments are ignored)
+            tree.fireEvent("dragdrop");
+
+            expectedOlStatus = [
+                {name: "World Map", visibility: false},
+                {name: "vmap0", visibility: true},
+                {name: "Satellite", visibility: false}
+            ];
+            checkOlStatus(t, map, expectedOlStatus); // 7 tests
+
+            reset();
+
+            // Create map again to restore original layer ordering
+            map = createMapForDrag();
+
+            // Testing with a more complex user model
+
+            var model = [
+                {text: "label-0", checked: false, expanded: true, children: [
+                    {text: "label-0-0", checked: false, expanded: true, children: [
+                        {text: "label-0-0-0", checked: true},
+                        {text: "Satellite", checked: false, layerName: "Satellite"},
+                        {text: "label-0-0-2", checked: true}
+                    ]},
+                    {text: "label-0-1", checked: false},
+                    {text: "World Map", checked: false, layerName: "World Map"},
+                    {text: "label-0-3", checked: false}
+                ]}
+            ];
+
+            var tree = createTree(map, model, {enableDD: true, ascending: false});
+
+            expectedOlStatus = [
+                {name: "vmap0", visibility: true},
+                {name: "World Map", visibility: false},
+                {name: "Satellite", visibility: false}
+            ];
+            checkOlStatus(t, map, expectedOlStatus); // 7 tests
+
+            var sourceNode = getNodeByText(tree.getRootNode(), "World Map");
+            var targetNode = getNodeByText(tree.getRootNode(), "Satellite");
+            targetNode.parentNode.insertBefore(sourceNode, targetNode);
+
+            // Simulate drag event (arguments are ignored)
+            tree.fireEvent("dragdrop");
+
+            expectedOlStatus = [
+                {name: "vmap0", visibility: true},
+                {name: "Satellite", visibility: false},
+                {name: "World Map", visibility: false}
+            ];
+            checkOlStatus(t, map, expectedOlStatus); // 7 tests
+
+            reset();
+
+            //////////////////////////////////////////////////////////////
+            // Testing reorder with a model containing multiple layerNames
+            // per node
+
+            // Create map again to restore original layer ordering
+            map = createMapForDrag();
+
+            var model = [
+                {text: "label-0", checked: false, expanded: true, children: [
+                    {text: "label-0-0", checked: false, expanded: true, children: [
+                        {text: "label-0-0-0", checked: true},
+                        {text: "Satellite and World Map", checked: false,
+                         layerNames: ["Satellite", "World Map"]},
+                        {text: "label-0-0-2", checked: true}
+                    ]},
+                    {text: "label-0-1", checked: false},
+                    {text: "vmap0", checked: true, layerName: "vmap0"},
+                    {text: "label-0-3", checked: false}
+                ]}
+            ];
+
+            var tree = createTree(map, model, {enableDD: true});
+            expectedOlStatus = [
+                {name: "Satellite", visibility: false},
+                {name: "World Map", visibility: false},
+                {name: "vmap0", visibility: true}
+            ];
+            checkOlStatus(t, map, expectedOlStatus); // 7 tests
+
+            expectedStatus = [
+                {text: "Root"},
+                {text: "label-0", attr_checked: false},
+                {text: "label-0-0", attr_checked: false},
+                {text: "label-0-0-0", attr_checked: true},
+                {text: "Satellite and World Map", attr_checked: false},
+                {text: "label-0-0-2", attr_checked: true},
+                {text: "label-0-1", attr_checked: false},
+                {text: "vmap0", attr_checked: true, radio: true},
+                {text: "label-0-3", attr_checked: false}
+            ];
+
+            checkStatus(t, tree, expectedStatus); // 26 tests
+
+            var sourceNode = getNodeByText(tree.getRootNode(), "vmap0");
+            var targetNode = getNodeByText(tree.getRootNode(), "Satellite and World Map");
+            targetNode.parentNode.insertBefore(sourceNode, targetNode);
+
+            // Simulate drag event (arguments are ignored)
+            tree.fireEvent("dragdrop");
+
+            expectedOlStatus = [
+                {name: "vmap0", visibility: true},
+                {name: "Satellite", visibility: false},
+                {name: "World Map", visibility: false}
+            ];
+            checkOlStatus(t, map, expectedOlStatus); // 7 tests
+
+            expectedStatus = [
+                {text: "Root"},
+                {text: "label-0", attr_checked: false},
+                {text: "label-0-0", attr_checked: false},
+                {text: "label-0-0-0", attr_checked: true},
+                {text: "vmap0", attr_checked: true, radio: true},
+                {text: "Satellite and World Map", attr_checked: false},
+                {text: "label-0-0-2", attr_checked: true},
+                {text: "label-0-1", attr_checked: false},
+                {text: "label-0-3", attr_checked: false}
+            ];
+            checkStatus(t, tree, expectedStatus); // 26 tests
+
+            reset();
+
+            // TODO: more drag/drop test
+            // * test drag/dropping of WMS sublayers
+
+        }
+
+        // Tests selection of sublayers inside a layer
+        function test_subLayer(t) {
+            function __test_subLayer(layerClass) {
+                var map, model, tree, node;
+
+                function createMapAndLayers(layerClass) {
+
+                    //////////////////////////////////////////////////////////////
+                    // Test environment
+                    // Map with a baselayer and a WMS layer
+
+                    var map = createMap();
+
+                    var layer;
+
+                    layer = new layerClass("vmap0",
+                        "http://labs.metacarta.com/wms/vmap0",
+                        {layers: 'basic'},
+                        {isBaseLayer: true}
+                    );
+                    map.addLayer(layer);
+                    map.setCenter(new OpenLayers.LonLat(5,45), 6);
+
+                    var c2Layers = ["parkings", "summits",
+                                    "refuges", "sites"];
+                    layer = new layerClass("C2C Objects",
+                        "http://demo.mapfish.org/mapfishsample/trunk/wms?",
+                        {
+                            singleTile: true,
+                            layers: c2Layers,
+                            format: 'image/png',
+                            transparent: true
+                        }
+                    );
+                    layer.setVisibility(false);
+                    map.addLayer(layer);
+                    return map;
+                }
+
+                //////////////////////////////////////////////////////////////
+                // Test 1
+
+                map = createMapAndLayers(layerClass);
+
+                var expectedOlStatus;
+
+                // First check with automatic model
+
+                tree = createTree(map);
+
+                // NOTE: the WMS sublayer status is undefined in case the layer is not visible.
+
+                expectedOlStatus = [
+                    {name: "vmap0", visibility: true},
+                    {name: "C2C Objects", visibility: false}
+                ];
+                checkOlStatus(t, map, expectedOlStatus); // 5 tests
+
+                // For debug
+                getNodeByText(tree.getRootNode(), "C2C Objects").expand();
+
+                node = getNodeByText(tree.getRootNode(), "parkings");
+                tree.setNodeChecked(node, true);
+                expectedOlStatus = [
+                    {name: "vmap0", visibility: true},
+                    {name: "C2C Objects", visibility: true, subLayers: [
+                        "parkings"
+                    ]}
+                ];
+
+                checkOlStatus(t, map, expectedOlStatus); // 6 tests
+
+                node = getNodeByText(tree.getRootNode(), "sites");
+                tree.setNodeChecked(node, true);
+                expectedOlStatus = [
+                    {name: "vmap0", visibility: true},
+                    {name: "C2C Objects", visibility: true, subLayers: [
+                        "parkings", "sites"
+                    ]}
+                ];
+                checkOlStatus(t, map, expectedOlStatus); // 6 tests
+
+                reset();
+
+                //////////////////////////////////////////////////////////////
+                // Test 2
+
+                map = createMapAndLayers(layerClass);
+
+                // Check with user model
+
+                model = [
+                    {text: "group0", expanded: true, children: [
+                        {text: "vmap0", checked: true, layerName: "vmap0"},
+                        {text: "g0-refuges", checked: false, layerName: "C2C Objects:refuges"},
+                        {text: "g0-summits", checked: false, layerName: "C2C Objects:summits"}
+                    ]},
+                    {text: "group1", expanded: true, children: [
+                        {text: "g1-parkings", checked: false, layerName: "C2C Objects:parkings"}
+                    ]},
+                ];
+
+                tree = createTree(map, model);
+
+                expectedOlStatus = [
+                    {name: "vmap0", visibility: true},
+                    {name: "C2C Objects", visibility: false}
+                ];
+                checkOlStatus(t, map, expectedOlStatus); // 5 tests
+
+                node = getNodeByText(tree.getRootNode(), "g0-summits");
+                tree.setNodeChecked(node, true);
+                node = getNodeByText(tree.getRootNode(), "g0-refuges");
+                tree.setNodeChecked(node, true);
+
+                // NOTE: If there are sublayers in the WMS layer which are not mapped
+                // to a node, they will be selected according to the WMS layer status.
+
+                // This tests that the order of the layers is the one from the
+                // original "layers" property specified on the WMS when constructed
+                // if drag and drop is not used
+
+                expectedOlStatus = [
+                    {name: "vmap0", visibility: true},
+                    {name: "C2C Objects", visibility: true, subLayers: [
+                        "summits", "refuges", "sites"
+                    ]}
+                ];
+                checkOlStatus(t, map, expectedOlStatus); // 6 tests
+
+                reset();
+            }
+            t.plan(2 * (5 + 6 + 6 + 5 + 6));
+            __test_subLayer(OpenLayers.Layer.WMS);
+            __test_subLayer(OpenLayers.Layer.MapServer);
+        }
+
+
+        // This tests that when using a model, the visibility specified in the
+        // model overrides the one set on the OL layers.
+        function test_defaultSelection(t) {
+
+            t.plan(14 + 14);
+
+            function doTest(visibility) {
+                var map, model, tree, node;
+
+                map = createMap();
+
+                var wms = new OpenLayers.Layer.WMS("vmap0",
+                    "http://labs.metacarta.com/wms/vmap0",
+                    {layers: 'basic'},
+                    {isBaseLayer: true}
+                );
+                map.addLayer(wms);
+
+                var twms = new OpenLayers.Layer.WMS("World Map",
+                    "http://world.freemap.in/cgi-bin/mapserv?",
+                    {
+                        map: '/www/freemap.in/world/map/factbooktrans.map',
+                        layers: 'factbook',
+                        format: 'image/png',
+                        transparent: true
+                    }
+                );
+                twms.setVisibility(visibility);
+                map.addLayer(twms);
+
+                map.setCenter(new OpenLayers.LonLat(5,45), 6);
+
+                model = [
+                    {text: "vmap0", expanded: true, checked: true,
+                     layerName: "vmap0", radio: true},
+                    {text: "World Map", expanded: true,
+                     checked: false, layerName: "World Map"},
+                    {text: "Dummy entry"}
+                ];
+
+                tree = createTree(map, model);
+
+                expectedStatus = [
+                    {text: "Root"},
+                    {text: "vmap0", attr_checked: true, radio: true},
+                    {text: "World Map", attr_checked: false},
+                    {text: "Dummy entry"}
+                ];
+                checkStatus(t, tree, expectedStatus); // 9 tests
+
+                expectedOlStatus = [
+                    {name: "vmap0", visibility: true},
+                    {name: "World Map", visibility: false}
+                ];
+                checkOlStatus(t, map, expectedOlStatus); // 5 tests
+
+                reset();
+            }
+            doTest(true); // 14 tests
+            doTest(false); // 14 tess
+        }
+
+     --></script>
+
+  <body>
+    <div id="right">
+      <div id="tree"></div>
+    </div>
+    <div id="map"></div>
+
+    <div id="test_results">
+        Test results here
+    </div>
+
+  </body>
+</html>

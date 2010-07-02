@@ -1,0 +1,56 @@
+<% form_for @layer do |f| %>
+
+  <div class="column span-12">
+
+  <p>
+  <b><%= f.label :name  %></b> <br />
+  <%= f.text_field :name %>
+
+  </p>
+  <p>
+    <b><%= f.label :description %></b><br />
+    <%= f.text_area :description %>
+  </p>
+  <p>
+    <b>Source / Bibliographic Ref URL<</b><br />
+    <%= f.text_field :source_uri %>
+  </p>
+  <p>
+    <b><%= f.label :depicts_year %></b><br />
+    <%= f.text_field :depicts_year %>
+  </p>
+  </div>
+<div class="column span-12 last">
+<h3>Choose from "My Maps"</h3>
+
+<% if @maps.length == 0 %>
+  <p>You have no warped <%= link_to "maps", my_maps_path(current_user) %> </p>
+<% else %>
+ <table>
+    <% @maps.each do |map|%>
+      <tr>
+       <% cl = cycle('table0', 'table1') %>
+  <td class="<%= cl %>">
+        <input type="checkbox" name="map_ids[]" id="<%= map.id%>" value="<%=map.id%>" <%- if @layer.maps.include? map
+  -%> checked="checked"<%-end-%> />
+      </td>
+      <td class="<%= cl %>">
+      <label for ="<%= map.id%>">
+        <%=  image_tag(map.upload.url(:thumb)) -%>
+        <%=  h(map.title) -%>
+        </label>
+      </td>
+      <td class="<%= cl %>">
+      <%= link_to("detail", map_path(map)) -%>
+      </td>
+      </tr>
+    <% end %>
+  </table>
+  <p><%= link_to "View All 'My Maps'", my_maps_path(current_user) %> </p>
+<% end %>
+</div>
+<div class="column span-24">
+<%= f.submit((defined?(page) && page =~ /new/) ? "Create" : "Update" )%>
+
+<%end%>
+</div>

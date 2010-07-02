@@ -1,0 +1,4 @@
+page.replace_html("gcp_list", :partial => "gcp", :collection => @gcps)
+page.replace_html("gcp_notice", "Control Point deleted sucessfully")
+page << "update_rms(#{sprintf('%.2f',@map.error)});"
+page << "update_row_numbers();"

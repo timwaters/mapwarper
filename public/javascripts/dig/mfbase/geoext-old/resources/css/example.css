@@ -1,0 +1,16 @@
+/*
+ * Styles can be theme specific, as shown in the example below.
+ * 
+ * style for the default theme:
+ * .my-style {
+ *     background: transparent url(../images/default/anchor.png) no-repeat 0 0;
+ *     postion: relative;
+ *     top: -1px;
+ *     left: 5px;
+ * }
+ * 
+ * modifier for the gray theme:
+ * .xtheme-gray .my-style {
+ *     background: transparent url(../images/gray/anchor.png) no-repeat 0 0;
+ * }
+ */

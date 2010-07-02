@@ -1,0 +1,26 @@
+<h2>Map</h2>
+<ul>
+  <li>
+    GeoTiff: <%= link_to  "Download rectified GeoTiff", export_map_url(:id => @map, :format => :tif) %>
+  </li>
+  <li>
+    PNG: <%= link_to  "Download rectified PNG", export_map_url(:id => @map, :format => :png) %>
+    (and associated <%= link_to ".aux.xml", export_map_url(:id => @map, :format => :aux_xml) %> file)
+  </li>
+</ul>
+
+<ul>
+  <li>KML: <%= link_to("Download KML file",  map_url(:id => @map, :format => :kml)) %>
+  (<%= link_to("View KML in Google Maps", "http://maps.google.com?q="+map_url(:id => @map, :format => :kml), :target => "_blank") %> )</li>
+  <li>
+    <% josm_url = url_for(wms_map_url(:id => @map)) + "?request=GetMap&version=1.1.1&styles=&format=image/png&srs=epsg:4326&exceptions=application/vnd.ogc.session.inimage&" %>
+    WMS: <%= link_to("WMS base URL",wms_map_url(:id=>@map) )%>
+    (<%= link_to "for JOSM OpenStreetMap Editor", josm_url %>    )
+  </li>
+</ul>
+Bibliographic:
+<ul>
+  <li>
+    <%= link_to 'Some Bibliographic Link', "http://example.com/alink"  %>
+  </li>
+</ul>

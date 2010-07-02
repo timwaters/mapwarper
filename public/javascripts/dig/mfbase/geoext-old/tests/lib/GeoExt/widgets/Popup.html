@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html debug="true">
+  <head>
+    <script type="text/javascript" src="../../../../../openlayers/lib/OpenLayers.js"></script>
+    <script type="text/javascript" src="../../../../../ext/adapter/ext/ext-base.js"></script>
+    <script type="text/javascript" src="../../../../../ext/ext-all-debug.js"></script>
+    <script type="text/javascript" src="../../../../lib/GeoExt.js"></script>
+
+
+    <script type="text/javascript">
+
+        function makeFeature() {
+           return new OpenLayers.Feature.Vector(
+              new OpenLayers.Geometry.Point(100,50),
+              {
+                  name : "My Feature"
+              }
+           )
+        }
+       
+        function createMap() {
+            var map = new OpenLayers.Map();
+            var layer = new OpenLayers.Layer("test", {isBaseLayer: true});
+            map.addLayer(layer);
+            return map;
+        }
+
+        function loadMapPanel() {
+            var map = createMap();
+
+            mapPanel = new GeoExt.MapPanel({
+                // panel options
+                id: "map-panel",
+                title: "GeoExt MapPanel",
+                renderTo: "mappanel",
+                height: 400,
+                width: 600,
+                // map panel-specific options
+                map: map,
+                center: new OpenLayers.LonLat(5, 45),
+                zoom: 4
+            });
+
+            return mapPanel;
+        }
+
+        function setupContext() {        
+            var mapPanel = loadMapPanel();
+            var feature = makeFeature();
+            var map = mapPanel.map;
+
+            return {
+               feature : feature,
+               map : map,
+               mapPanel : mapPanel
+            };      
+        }
+
+        function popup(feature){
+          pop = new GeoExt.Popup({
+            title: 'My Popup',
+            feature: feature,
+            width:200,
+            html: bogusMarkup,
+            collapsible: true
+          });
+
+          return pop;
+        }
+
+        var bogusMarkup = "Lorem ipsum dolor sit amet, consectetuer adipiscing elit."
+
+        function test_addtomappanel(t) {
+            t.plan(1);
+
+            var context = setupContext();
+
+            var pop = popup(context.feature);
+
+            pop.addToMapPanel(context.mapPanel);
+
+            t.ok(context.mapPanel.el.child("div." + pop.popupCls),"Map panel contains popup");
+
+            context.mapPanel.destroy();
+        }
+
+        function test_anchorPopup(t) {
+            t.plan(4);
+
+            var context = setupContext();
+
+            var pop = popup(context.feature, context.mapPanel);
+
+            pop.addToMapPanel(context.mapPanel);
+
+            pop.on({
+                'move' : function(c,x,y){
+                    t.ok(true,"Move event fired on " + action); //should happen twice, on call to position()
+                },
+                scope : this
+            });
+
+            t.ok(pop.getAnchorElement(), "Popup has anchor element");
+
+            var action = "map move";
+            context.map.events.triggerEvent("move");
+            
+            action = "popup collapse";
+            pop.collapse();
+
+            action = "popup expand"
+            pop.expand();
+        }
+
+
+        function test_unanchorPopup(t) {
+            t.plan(6);
+
+            var context = setupContext();
+
+            var pop = popup(context.feature, context.mapPanel);
+
+            pop.addToMapPanel(context.mapPanel);
+        
+            pop.collapse();
+
+            var origPos = pop.getPosition();
+
+            pop.unanchorPopup();
+
+            var newPos = pop.getPosition();
+
+            t.ok(!pop.getAnchorElement(),"Anchor element removed");
+            t.ok(!this.collapsed, "Preserved collapsed state");
+            t.ok(!context.mapPanel.el.child("div." + pop.popupCls),"Map panel does not contain popup");
+            t.ok(Ext.getBody().child("div." + pop.popupCls),"Document body contains popup element");
+            t.eq(origPos[0],newPos[0],"Popup remains in same position (X)");
+            t.eq(origPos[1],newPos[1],"Popup remains in same position (Y)");
+
+            pop.on({
+                'move' : function(c,x,y){
+                    t.ok(false,"Move event fired improperly on " + action); //should happen twice, on call to position()
+                },
+                scope : this
+            });
+
+            var action = "map move";
+            context.map.events.triggerEvent("move");
+
+            action = "popup expand"
+            pop.expand();
+            
+            action = "popup collapse";
+            pop.collapse();
+
+        }
+
+        function test_Popup_beforeDestroy(t){
+
+            t.plan(0);
+
+            var context = setupContext();
+            var pop = popup(context.feature, context.mapPanel);
+            pop.addToMapPanel(context.mapPanel);
+
+            pop.on({
+                'move' : function(c,x,y){
+                    t.ok(false,"Move event fired improperly on " + action); //should happen twice, on call to position()
+                },
+                scope : this
+            });
+
+            pop.beforeDestroy();
+
+            var action = "map move";
+            context.map.events.triggerEvent("move");
+
+            action = "popup expand"
+            pop.expand();
+            
+            action = "popup collapse";
+            pop.collapse();
+        }
+
+    </script>
+  <body>
+    <div id="mappanel"></div>
+  </body>
+</html>

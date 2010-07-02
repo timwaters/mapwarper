@@ -1,0 +1,100 @@
+<% content_for :head do %>
+  <%= javascript_tag "window._token = '#{form_authenticity_token}'" %>
+
+  <script type="text/javascript" charset="utf-8">
+    var map_id = '<%=h @map.id -%>';
+
+    function addImageTo(placeholder, mapid){
+      thumburl = "<%= url_for :controller => 'maps', :action => 'thumb'-%>/"+mapid;
+      jQuery("#"+placeholder).html("<img src = '"+thumburl+"' />") ;
+    }
+  </script>
+  <%= javascript_include_tag "align" %>
+<% end %>
+
+<span id="gcp_notice"></span>
+You can copy the control points from an adjacent map that has already been rectified to this one.<br />
+Click + and choose a map, then drag and drop to choose the alignment.
+
+
+<div id = "mapgrid">
+  <ul id="sortable">
+    <li class="ui-state-default" id="place_1"><a href="#" class="add_map" title="Click to add map here">+</a></li>
+    <li class="ui-state-default" id="place_2"><a href="#" class="add_map" title="Click to add map here">+</a></li>
+    <li class="ui-state-default" id="place_3"><a href="#" class="add_map" title="Click to add map here">+</a></li>
+    <li class="ui-state-default" id="place_4"><a href="#" class="add_map" title="Click to add map here">+</a></li>
+  </ul>
+</div>
+
+<div id="align_form_div">
+  <fieldset>
+    <legend>Control Panel</legend>
+    <% form_for(:maps, :html => {:id => 'align_form', :onsubmit =>'return serialiseStuff();' },
+      :url => {:controller => 'maps', :action => 'warp_aligned', :id=>@map.id }) do | f | %>
+      <input type="hidden" id="srcmap" name="srcmap" value="" />
+      <input type="hidden" id="destmap" name="destmap" value="<%=@map.id%>" />
+      <input type="hidden" id="align" name="align" value="" />
+      Overwrite any existing control points? <br />
+      <label for="append_yes">Yes:</label>
+      <input type="radio" id="append_yes" name="append" value="false" checked>
+      &nbsp;
+      <label for="append_no">No:</label>
+      <input type="radio" name="append" id="append_no" value="true" >
+      <br />
+      <br />
+      Type of align:<br />
+      <label for="align_orig">Using original map? (nicer fit, trickier to edit later)</label>
+
+      <input type="radio" id="align_orig" name="align_type" value="original" checked/>
+      <br />
+      <label for="align_warped">Using rectified map? (worse fit, easier to edit later)</label>
+      <input type="radio" id="align_warped" name="align_type" value="warped" />
+      <br />
+      <br />
+      <%= f.submit "align map!" %>
+    <% end %>
+  </fieldset>
+
+</div>
+<% counter = 0 %>
+<div id="dialog" title="Add Reference Map" >
+  Choose a rectified map to copy the control points from the same layers:
+  <div id="align-accordian">
+    <%@map.layers.visible.each do |layer| %>
+      <% unless layer.maps.warped.count == 0 || (layer.maps.warped.count ==1 && layer.maps.warped.first.id == @map.id) %>
+        <h3><a href="#"><%= layer.name %></a></h3>
+        <table id="layer-<%=layer.id%>">
+          <% layer.maps.warped.each do | map | %>
+            <% unless map.id == @map.id %>
+              <tr id="map-<%= map.id %>">
+                <td class="align-map-thumb">
+                  <%=  image_tag(map.upload.url(:thumb)) %>
+                </td>
+                <td class="align-map-title">
+                  <%=map.title %>
+                </td>
+                <td>
+                  <button type="button" id="<%=map.id%>">Use</button>
+                </td>
+              </tr>
+            <% end %>
+          <% end %>
+        </table>
+        <% counter+=1 %>
+      <%end %>
+    <% end %>
+  </div>
+  <% if counter == 0 %>
+    <em> Sorry, but there are no layers containing rectifed maps to choose from.
+    </em>
+  <% end %>
+  <br />
+
+  <form>
+    <fieldset>
+      Add map number manually: <br />
+      <label for="mapid">Map</label>
+      <input type="text" name="mapid" id="mapid" class="text ui-widget-content ui-corner-all" />
+    </fieldset>
+  </form>
+</div>

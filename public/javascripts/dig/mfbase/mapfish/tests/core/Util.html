@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html debug="true">
+  <head>
+    <link rel="stylesheet" type="text/css" href="../../ext/resources/css/ext-all.css" />
+
+    <script type="text/javascript" src="../../../openlayers/lib/Firebug/firebug.js"></script>
+    <script type="text/javascript" src="../../../openlayers/lib/OpenLayers.js"></script>
+
+    <script type="text/javascript" src="../../../ext/adapter/ext/ext-base.js"></script>
+    <script type="text/javascript" src="../../../ext/ext-all-debug.js"></script>
+
+    <script type="text/javascript">
+      // Because of a bug in Firefox 2 we need to specify the MapFish base path.
+      // See https://bugzilla.mozilla.org/show_bug.cgi?id=351282
+      var gMfLocation = "../../../mapfish/";
+    </script>
+    <script type="text/javascript" src="../../../mapfish/MapFish.js"></script>
+
+    <script type="text/javascript"><!--
+       
+    function test_Util_getIconUrl(t) {
+        t.plan(4);
+
+        t.eq(
+            mapfish.Util.getIconUrl("mapserv", {
+                'layer': 'world'
+            }),
+            "mapserv?LAYER=world&RULE=world&SERVICE=WMS&VERSION=1.1.1&REQUEST=GetLegendGraphic&FORMAT=image%2Fpng&WIDTH=16&HEIGHT=16",
+            "getIconUrl correctly sets the ? if not present and correctly sets the default RULE parameter"
+        );
+
+        t.eq(
+            mapfish.Util.getIconUrl("mapserv?", {
+                'layer': 'world'
+            }),
+            "mapserv?LAYER=world&RULE=world&SERVICE=WMS&VERSION=1.1.1&REQUEST=GetLegendGraphic&FORMAT=image%2Fpng&WIDTH=16&HEIGHT=16",
+            "getIconUrl correctly uses the original WMS url if the ? is present"
+        );
+
+        t.eq(
+            mapfish.Util.getIconUrl("mapserv?", {
+                'layer': 'world',
+                'rule': 'world_class'
+            }),
+            "mapserv?LAYER=world&RULE=world_class&SERVICE=WMS&VERSION=1.1.1&REQUEST=GetLegendGraphic&FORMAT=image%2Fpng&WIDTH=16&HEIGHT=16",
+            "getIconUrl correctly uses the rule parameter if present"
+        );
+        t.eq(
+            mapfish.Util.getIconUrl("mapserv?map=toto", {
+                'layer': 'world',
+                'rule': 'world_class'
+            }),
+            "mapserv?map=toto&LAYER=world&RULE=world_class&SERVICE=WMS&VERSION=1.1.1&REQUEST=GetLegendGraphic&FORMAT=image%2Fpng&WIDTH=16&HEIGHT=16",
+            "getIconUrl creates a correct url if a ? was embedded"
+        );
+
+    }
+
+
+    function test_Util_arrayEqual(t) {
+        t.plan(9);
+
+        var array1 = ['a', 'b', 'c'];
+        var array2 = ['a', 'b', 'c'];
+        t.eq(mapfish.Util.arrayEqual(array1, array2), true,
+                     'arrayEqual correctly compares string arrays');
+
+        var array1 = [1, 2, 3];
+        var array2 = [1, 2, 3];
+        t.eq(mapfish.Util.arrayEqual(array1, array2), true,
+                     'arrayEqual correctly compares integer arrays');
+
+        var array1 = ['1', '2', '3'];
+        var array2 = [1, 2, 3];
+        t.eq(mapfish.Util.arrayEqual(array1, array2), false,
+                     'arrayEqual correctly compares arrays contents types');
+
+        var array1 = null;
+        var array2 = [1, 2, 3];
+        t.eq(mapfish.Util.arrayEqual(array1, array2), false,
+                     'arrayEqual correctly compares null with an array');
+
+        var array1 = '123';
+        var array2 = [1, 2, 3];
+        t.eq(mapfish.Util.arrayEqual(array1, array2), false,
+                     'arrayEqual correctly compares a string with an array');
+
+        var array1 = ['a', 'b', 'c'];
+        var array2 = ['a', 'b'];
+        t.eq(mapfish.Util.arrayEqual(array1, array2), false,
+                     'arrayEqual correctly compares arrays length');
+
+        var array1 = ['a', 'b', 'c'];
+        var array2 = ['a', 'b', 'd'];
+        t.eq(mapfish.Util.arrayEqual(array1, array2), false,
+                     'arrayEqual correctly compares arrays values');
+
+        var array1 = [1, 2, [1, 2]];
+        var array2 = [1, 2, [1, 2]];
+        t.eq(mapfish.Util.arrayEqual(array1, array2), false,
+                     'arrayEqual correctly returns false when comparing ' +
+                     'nested arrays');
+
+        var array1 = [1, 2, {a: 1}];
+        var array2 = [1, 2, {a: 1}];
+        t.eq(mapfish.Util.arrayEqual(array1, array2), false,
+                     'arrayEqual correctly returns false when comparing ' +
+                     'arrays contaning objects');
+    }
+
+--></script>
+
+  </head>
+  <body>
+  </body>
+</html>

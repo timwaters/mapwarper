@@ -1,0 +1,4 @@
+YamlBigDecimalFix
+=================
+
+Enables YAML to dump and load BigDecimal (to avoid collisions with a later official fix the type uses a tag including my domain)

@@ -1,0 +1,6 @@
+<h3>Resend activation email</h3>
+<%form_tag resend_activation_path do %>
+<label for="email">Enter your email address:</label>
+<%= text_field_tag :email, "", :size=>50 %> <br />
+<%= submit_tag 'Resend Activation Code', :disable_with => "Sending&hellip;" %>
+<% end %>

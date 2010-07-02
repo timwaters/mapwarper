@@ -1,0 +1,120 @@
+<div id="container">
+
+<div id="left-col">
+<div id="video-intro"><h2>Overview</h2>
+ Find maps and other imagery, upload, and rectify against a real map.<br />
+ You can then download and use the rectified map in your mapping applications.<br />
+ Just sign up and you can start uploading and get warping!
+  <h4>
+  <%= link_to "Upload Map!", new_map_path -%>
+  </h4>
+</div>
+
+<div>
+<h2>What is it?</h2>
+<p>It's a free to use, open source map warper / map georectifier, it's a bit unstable! This project is supported by <a href="http://entropyfree.com">Entropy Free</a> and the <a href="http://maps.nypl.org">New York Public Library</a>.
+</p><p>
+Note: This has been migrated from it's old home at <a href="warper.geothings.net">warper.geothings.net</a> .
+It's now running much faster and previous limits about file sizes and image dimensions have been raised much higher!
+<br />
+Mail me at tim@geothings.net for more information!
+</p>
+</div>
+<div id="tag-cloud">
+  <h4 class="smaller">Tags</h4>
+  <% tag_cloud @tags, %w(css1 css2 css3 css4) do |tag, css_class| %>
+    <%= link_to tag.name, { :controller=>:maps, :action => :tag, :id => tag.name }, :class => css_class %>
+  <% end %>
+</div>
+<div id="news">
+  
+<h4 class="smaller">News</h4>
+<% cache "news_feeds" do %>
+<table>
+  <% @feeds.each do |feed| %>
+    <tr valign="top" class="<%= cycle('list-line-odd', 'list-line-even') %>">
+      <td class="list-item">
+        <p>
+          <%= link_to(feed[:title], feed[:link], :title => "click here to read this story", :target => "_blank") %>
+          <br />
+          <span class="news-description">
+            <%= snippet(feed[:description], 30) %>
+            <%= link_to('read more', feed[:link], :title => "read more", :target => "_blank") %>
+          </span>
+        </p>
+      </td>
+    </tr>
+  <% end unless @feeds.nil?%>
+</table>
+<% end %>
+
+</div>
+
+</div>
+<div id="right-col">
+  <div id="search-form">
+    <%= render :partial => 'shared/search' -%>
+</div>
+
+<div id="map_list">
+  <h2><%= link_to 'Browse All Maps', maps_path %>
+  </h2>
+
+  <% if @my_maps -%>
+    <h3>My Maps</h3>
+    <table id="map_table" cellpadding="3">
+    <thead>
+        <tr>
+          <th>Map</th>
+          <th>Title</th>
+          <th>Last modified</th>
+          <th>Status</th>
+        </tr>
+      </thead>
+        <%= render :partial => 'maps/map', :collection => @my_maps  unless @my_maps.nil? %>
+    </table>
+    <%= link_to "See all of My Maps", my_maps_path(:user_id => current_user) -%>
+  <%end -%>
+
+  <br/>
+
+  <h3>Last Rectified Maps</h3>
+
+  <table id="map_table" cellpadding="3">
+      <thead>
+        <tr>
+          <th>Map</th>
+          <th>Title</th>
+          <th>Last modified</th>
+          <th>Status</th>
+        </tr>
+      </thead>
+    <%= render :partial => 'maps/map', :collection => @maps unless @maps.nil? %>
+  </table>
+
+  <%= link_to 'See all Maps', maps_path %>
+
+</div>
+
+<div id="layer_list">
+
+  <h3>Recent Layers</h3>
+  <table id="layer_table" cellpadding="3">
+    <thead>
+      <tr>
+        <th>Layer</th>
+        <th>Title</th>
+        <th>Year</th>
+        <th>Number of Maps</th>
+        <th>Percentage Complete</th>
+      </tr>
+    </thead>
+    <%= render :partial => 'layers/layer', :collection => @layers unless @layers.nil? %>
+  </table>
+<%= link_to "View all Layers", layers_path %><br />
+<%= link_to "Create a new layer", new_layer_path %>
+</div>
+
+</div>
+<div class="clear"></div>
+</div>

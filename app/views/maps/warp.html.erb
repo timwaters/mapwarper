@@ -1,0 +1,155 @@
+<% content_for :head do %>
+<%= javascript_tag "window._token = '#{form_authenticity_token}'" %>
+<script type="text/javascript" charset="utf-8">
+  var icon_imgPath = '<%=image_path("icons/").split('?').first%>';
+  var gcp_add_url = "<%= url_for :controller => 'gcp', :action=> 'add', :id=> @map %>";
+  var gcp_update_url = "<%= url_for :controller => 'gcp', :action=> 'update' %>";
+  var gcp_update_field_url = "<%= url_for :controller => 'gcp', :action => 'update_field' %>";
+
+  var from_map;
+  var to_map;
+  var gcp_markers = new Array(); // an array
+  var map_id = '<%=h @map.id -%>';
+  var title  = '<%=u @map.title -%>';
+  var image_width = <%= @map.width %>;
+  var image_height = <%= @map.height %>;
+  var wms_url = '<%= url_for :controller => 'maps', :action => 'wms', :id => @map  -%>';
+  var empty_wms_url =  '<%= url_for :controller => 'maps', :action => 'wms' -%>' ;
+  var map_has_bounds = false;
+  var layer_baseurl = '<%=url_for :controller => 'layers', :action => 'wms' %>';
+  var layers_array = [<%=@other_layers.join(",")-%>];
+  var map_bounds = new OpenLayers.Bounds();
+   <% if @map.gcps.size > 0 %>
+    map_bounds = new OpenLayers.Bounds(<%=@map.bounds-%>);
+    map_has_bounds = true;
+    map_center = map_bounds.getCenterLonLat();
+  <% end %>
+  //set up jquery for the hidden tables
+  jQuery(document).ready(function(){
+    
+      jQuery('#popoverNotice').hide();
+      jQuery('#gcp_table_div').hide();
+      jQuery('#advanced_form_options').hide();
+
+      jQuery('#controlPointLink').click(function() {
+        jQuery('#gcp_table_div').toggle('slow');
+        return false;
+        });
+      jQuery('#advancedLink').click(function(){
+        jQuery('#advanced_form_options').toggle('slow');
+        return false;
+        } );
+      });
+
+    </script>
+
+<%= javascript_include_tag "mapmerc4" -%>
+
+<script  type="text/javascript">
+  function popul(){
+    <% @gcps.each do |gcp| -%>
+        populate_gcps(<%=gcp.id-%>, <%= gcp.x -%>, <%= gcp.y -%>, <%= gcp.lon -%>, <%= gcp.lat -%>, <%=gcp.error -%>);
+  <% end -%>
+    update_row_numbers();
+  }
+</script>
+
+<% end -%>
+
+  <% @onload="init();popul();" -%>
+
+ <div id ="from_map_block">
+   <div id="from_map" class="map-off"></div>
+ <span class="tie_button"></span>
+ </div>
+ <div id="link-map-button" class="link-map-button-off"
+   onclick="toggleJoinLinks();" title="Pan/zoom lock" ></div>
+
+ <div id = "to_map_block">
+   <div id="to_map" class="map-off"></div>
+   <div id="warped-slider"><div class="ui-slider-handle"></div></div>
+  </div>
+  <div id="popoverNotice" class="hidden-at-start"><%= image_tag "spinner.gif" %><span id="noticeMessage"></span></div>
+  <!--
+  <div id = "add_layer_control" onClick="Element.show('add_layer');">Add layer</div>
+  <div id = "add_layer" style="display:none;">
+
+    <form onSubmit="addLayerToDest(this);return false;" action="">
+      Enter in number of warped map to add <input type="text" name="layer_num" id="layer_num" />
+    </form>
+  <a class="fake_link" onClick="Element.hide('add_layer');">hide</a></div>
+-->
+<div id="gcp">
+  <em>Double-click on both maps, then click</em>
+  <div id="addPointDiv" class="addPoint"><input type="button" id="GcpButton" value="Add Control Point" onclick="set_gcp();" class="gcp_button" /></div>.
+  <em> Do this for at least three points.</em></div>
+
+<fieldset>
+
+<legend>Control Panel</legend>
+<div id="rectifyNotice">
+<span id="spinner" style="display:none;"><%= image_tag 'spinner.gif' %></span><span id="gcp_notice"></span>
+</div>
+<a href="#" id="controlPointLink">Control Points</a>
+<div id = "div_gcp_form">
+  <% form_for(:gcp, :html => {:id => 'gcp_form'} , :url => {:controller => 'map', :action=> 'rectify', :id => @map }) do |f| %>
+    <div id="gcp_table_div" >
+      <table id="gcp_table" class="gcpTabClass">
+
+        <thead>
+          <tr><th>Point</th><th>Image X</th><th>Image Y</th><th>Lon</th><th>Lat</th><th id="errortitle">Error(<%=sprintf("%.2f",@map.error) %>)</th><th></th>
+          </tr>
+        </thead>
+        <tbody id="gcp_list">
+          <%= render(:partial => "gcp/gcp", :collection => @gcps) %>
+        </tbody>
+      </table>
+      <input type="button" value="Add Control Point Manually" onclick="save_new_gcp(0,0,0,0);" />
+    </div>
+
+    <input type="hidden" name="map" value ="<%= @map.id %>" />
+    <a href="#" id="advancedLink">Advanced options</a>
+    <div id="advanced_form_options" >
+      Rectify Method:
+      <select name="transform_options">
+        <option value="auto" selected="selected">Auto - based on number of control points (default)</option>
+        <option value="p1">1st Order Polynomial (min 3 points)</option>
+        <option value="p2">2nd Order Polynomial (min 6 points)</option>
+        <option value="p3">3rd Order Polynomial (min 10 points)</option>
+        <option value="tps">Thin Plate Spline (many points widely spread)</option> <!-- tps could be unsuitable for this style of rectification? needs a good spread of gcps anyhow. -->
+      </select>
+      <br />
+      Resampling Method:
+      <select name="resample_options">
+        <option value="near" selected="selected">Nearest Neighbour, fastest (default)</option>
+        <option value="bilinear">Bilinear</option>
+        <option value="cubic">Cubic</option>
+        <option value="cubicspline">Cubic Spline , slower but best quality</option>
+        <!-- <option value="lanczos">Lanczos</option> this is very very slow -->
+      </select>
+    </div>
+    <p>
+    <%= submit_to_remote 'submit', 'Warp Image! &rarr;',
+      :url => {:controller => 'maps', :action=> 'rectify', :id =>@map },
+      :before => "bigModalDialog('Rectifying.....');",
+      :failure => "gcp_notice('Sorry, there appears to be an error sending the request to the server, try again?...');",
+      :complete => "closeBigModalDialog();",
+      :html => { :class  => "warp_button", :id=>"warp_button"} %>
+      </p>
+      <div id ="clipping_mask_buttons">
+
+        <% if @map.mask_status.nil? || @map.mask_status == :unmasked -%>
+          This map either is not currently masked. Do you want to <%= link_to "add or edit a mask now", map_path(:id =>@map, :anchor=>"Crop_tab") %>? <br />
+        <% end %>
+        Apply <%= link_to "clipping mask", map_path(:id =>@map, :anchor=>"Crop_tab") %> when rectifying?
+        <label for="use_mask1">
+          <input  id="use_mask1" type="radio" name="use_mask" value="true" />Yes
+        </label>
+        <label for="use_mask2">
+          <input checked="checked" name="use_mask" id="use_mask2" type="radio" value="false" />No
+        </label>
+      </div>
+
+    <% end %>
+  </div>
+</fieldset>

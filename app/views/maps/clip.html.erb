@@ -1,0 +1,54 @@
+<% content_for :head do  %>
+  <script  type="text/javascript">
+    var map_id = '<%=h @map.id -%>';
+    var title  = 'clipping map';
+    var gml_file_exists = <%= @gml_exists %>;
+    var timestamp = Math.round(new Date().getTime() /1000.0);
+
+    var gml_url = "<%=request.protocol + request.host_with_port-%>/mapimages/<%= @map.id%>"+".gml.ol?"+timestamp;
+    var clip_image_width = <%= @map.width %>;
+    var clip_image_height = <%= @map.height %>;
+    var clip_wms_url = '<%= url_for :controller => 'maps', :action => 'wms', :id => @map  -%>';
+    jQuery(document).ready(function(){
+      jQuery('#popoverNotice2').hide();
+    });
+
+  </script>
+  <%= javascript_include_tag "clip" %>
+<% end -%>
+<% @onload =  "clipinit();" -%>
+<%= @title %>
+
+<div id="clipmap">
+</div>
+<div id="popoverNotice2" class="hidden-at-start"><%= image_tag "spinner.gif" %><span id="noticeMessage2"> </span></div>
+<div id="maskresult"><span id="spinner" style="display:none;"> <%= image_tag 'spinner.gif' %></span>   </div>
+
+<div id="cliphelp">
+  <p>1. Draw around the area you wish to keep.  </p>
+  <p>2. Then to apply the mask to the map, click "Mask Map!" </p>
+</div>
+
+<div id="info">
+  <% form_remote_tag(:update=>"maskresult",
+    :before => "deselect();bigModalDialog2('<br />Saving mask...<br />Cropping map...');serialize_features();",
+    :complete => "closeBigModalDialog2();jqHighlight('maskresult');updateOtherMaps();",
+    :html => {:id => 'clip_form2'} ,
+    :url => {:controller => 'maps', :action=> 'save_mask_and_warp', :id => @map.id }) do  -%>
+    <%=  hidden_field_tag "output" %>
+    <%= submit_tag "Mask Map!" %>
+  
+    <br />
+
+    <%= link_to_remote  'Delete mask',
+      :url => {:controller => 'maps', :action => 'delete_mask', :id => @map },
+      :update => "maskresult",
+      :confirm => "Really delete mask and start over?",
+      :success => "destroyMask();",
+      :failure => "alert('that didnt work as expected, sorry');",
+      :complete => "jqHighlight('maskresult');updateOtherMaps();"
+  %>
+
+  <% end -%>
+
+</div>

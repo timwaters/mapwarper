@@ -1,0 +1,70 @@
+= FlowPagination
+
+FlowPagination link renderer plugin for Mislav's
+{WillPaginate}[http://github.com/mislav/will_paginate/tree/master]
+plugin (Twitter like pagination).
+
+Instead of showing page links, this plugin/gem change the rendering of
+WillPaginate to display, at the bottom of the page's records, the "More" button.
+And when clicked it will add the next set of records (next page) right below
+the previous ones.
+
+== Requirements
+
+* Mislav's {WillPaginate}[http://github.com/mislav/will_paginate/tree/master]
+  plugin/gem.
+
+== Installation
+
+I've created a category listing (index action) to give a basic example.
+
+Configure +WillPaginate+ and +FlowPagination+ gems (config/environment.rb):
+
+  Rails::Initializer.run do |config|
+    [...]
+    config.gem 'mislav-will_paginate', :lib => 'will_paginate',
+        :source => 'http://gems.github.com'
+
+    config.gem 'mexpolk-flow_pagination', :lib => 'flow_pagination',
+        :source => 'http://gems.github.com'
+    [...]
+  end
+
+To install these gems type the following rake task:
+
+  rake gems:install
+
+=== Install It as a Plugin
+
+  script/plugin install git://github.com/mislav/will_paginate.git
+  script/plugin install git://github.com/mexpolk/flow_pagination.git
+
+== Usage
+
+There's flow_pagination_example[http://github.com/mexpolk/flow_pagination_example/tree/master]
+application to see this gem in action.
+
+Enjoy!
+
+== License
+
+Copyright (c) 2009 Iván Torres
+
+Permission is hereby granted, free of charge, to any person obtaining
+a copy of this software and associated documentation files (the
+"Software"), to deal in the Software without restriction, including
+without limitation the rights to use, copy, modify, merge, publish,
+distribute, sublicense, and/or sell copies of the Software, and to
+permit persons to whom the Software is furnished to do so, subject to
+the following conditions:
+
+The above copyright notice and this permission notice shall be
+included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
+LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
+OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
+WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.

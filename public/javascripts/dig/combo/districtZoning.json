@@ -1,0 +1,6 @@
+{"root": [
+{"id": "Residential", "label": "Residential"},
+{"id": "Mixed", "label": "Mixed"},
+{"id": "Commercial", "label": "Commercial"},
+{"id": "unknown", "label": "Unknown"}
+]}

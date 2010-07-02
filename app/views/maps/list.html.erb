@@ -1,0 +1,13 @@
+<div id="big_map_list">
+<h2>All Maps</h2>
+
+
+<table id="big_map_table" cellpadding="3">
+
+   <%= render :partial => 'map', :collection => @map unless @map.nil? %>
+   
+</table>
+
+
+</div>
+

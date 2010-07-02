@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<kml xmlns="http://earth.google.com/kml/2.1">
+  <Folder>
+  <NetworkLink>
+    <Link>
+      <href>http://tile.openaerialmap.org/tiles/1.0.0/openaerialmap/0/0/0.kml</href>
+    </Link>
+  </NetworkLink>
+  <NetworkLink>
+    <Link>
+      <href>http://tile.openaerialmap.org/tiles/1.0.0/openaerialmap/0/1/0.kml</href>
+    </Link>
+  </NetworkLink>
+  </Folder>
+</kml>

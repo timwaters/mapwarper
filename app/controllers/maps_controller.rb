@@ -1,0 +1,626 @@
+class MapsController < ApplicationController
+  # GET /maps
+  # GET /maps.xml
+  layout 'mapdetail', :only => [:show, :edit, :preview, :warp, :clip, :align, :activity, :warped, :export, :metadata]
+  #before_filter :login_required, :only => [:destroy, :delete]
+  before_filter :login_required, :only => [:new, :create, :edit, :update, :destroy, :delete, :warp, :rectify, :clip, :align,
+ :warp_align, :mask_map, :delete_mask, :save_mask, :save_mask_and_warp ]
+  before_filter :check_administrator_role, :only => [:publish]
+  before_filter :find_map_if_available,
+    :except => [:show, :index, :wms, :mapserver_wms, :warp_aligned, :status, :new, :create, :update, :edit, :tag]
+
+  before_filter :check_link_back, :only => [:show, :warp, :clip, :align, :warped, :export, :activity]
+  before_filter :check_if_map_is_editable, :only => [:edit, :update]
+  before_filter :check_if_map_can_be_deleted, :only => [:destroy, :delete]
+  
+  helper :sort
+  include SortHelper
+
+  def choose_layout_if_ajax
+    if request.xhr?
+      @xhr_flag = "xhr"
+      render :layout => "tab_container"
+    end
+  end
+
+  def export
+    @current_tab = "export"
+    @selected_tab = 6
+    @html_title = "Export Map" + @map.id.to_s
+    unless @map.status == :warped && @map.map_type == :is_map
+      flash.now[:notice] = "Map needs to be rectified before being able to be exported"
+    end
+    choose_layout_if_ajax
+    respond_to do | format |
+      format.html {}
+      format.tif {  send_file @map.warped_filename, :x_sendfile => (RAILS_ENV != "development") }
+      format.png  { send_file @map.warped_png, :x_sendfile => (RAILS_ENV != "development") }
+      format.aux_xml { send_file @map.warped_png_aux_xml,:x_sendfile => (RAILS_ENV != "development") }
+    end
+  end
+
+  def map_type
+    @map = Map.find(params[:id])
+    map_type = params[:map][:map_type]
+    if Map::MAP_TYPE.include? map_type.to_sym
+      @map.update_map_type(map_type)
+    end
+    if Layer.exists?(params[:layerid].to_i)
+      @layer = Layer.find(params[:layerid].to_i)
+      @maps = @layer.maps.paginate(:per_page => 30, :page => 1, :order => :map_type)
+    end
+    unless request.xhr?
+      render :text => "Map has changed. Map type: "+@map.map_type.to_s
+    end
+  end
+
+  def index
+
+    sort_init 'updated_at'
+    sort_update
+    @show_warped = params[:show_warped]
+    request.query_string.length > 0 ?  qstring = "?" + request.query_string : qstring = ""
+
+    set_session_link_back url_for(:controller=> 'maps', :action => 'index',:skip_relative_url_root => false, :only_path => false )+ qstring
+
+    @query = params[:query]
+
+    @field = %w(tags title description status publisher authors).detect{|f| f == (params[:field])}
+    
+   unless @field == "tags"
+     
+     @field = "title" if @field.nil?
+
+      #we'll use POSIX regular expression for searches    ~*'( |^)robinson([^A-z]|$)' and to strip out brakets etc  ~*'(:punct:|^|)plate 6([^A-z]|$)';
+    if @query && @query.strip.length > 0 && @field
+        conditions = ["#{@field}  ~* ?", '(:punct:|^|)'+@query+'([^A-z]|$)']
+      else
+        conditions = nil
+      end
+
+      if params[:sort_order] && params[:sort_order] == "desc"
+        sort_nulls = " NULLS LAST"
+      else
+        sort_nulls = " NULLS FIRST"
+      end
+
+      paginate_params = {
+        :page => params[:page],
+        :per_page => 10,
+        :order => sort_clause + sort_nulls,
+        :conditions => conditions
+      }
+
+      if @show_warped == "1"
+        @maps = Map.warped.public.paginate(paginate_params)
+      elsif @show_warped == "1" && (logged_in? and current_user.has_role?("editor"))
+        @maps = Map.warped.paginate(paginate_params)
+      elsif  @show_warped != "1" && (logged_in? and current_user.has_role?("editor"))
+        @maps = Map.paginate(paginate_params)
+      else
+        @maps = Map.public.paginate(paginate_params)
+      end
+
+
+      @html_title = "Browse Maps"
+      if request.xhr?
+        render :action => 'index.rjs'
+      else
+        respond_to do |format|
+          format.html{ render :layout =>'application' }  # index.html.erb
+          format.xml  { render :xml => @maps }
+        end
+      end
+
+   else
+     redirect_to :action => 'tag', :id => @query
+   end
+  end
+
+  def tag
+    sort_init('updated_at', {:default_order => "desc"})
+    sort_update
+    @tags = params[:id] || @query
+    @html_title = "Maps tagged with #{@tags} on "
+    @maps = Map.public.paged_find_tagged_with(
+      @tags,
+      :page => params[:page],
+      :per_page => 20,
+      :order => sort_clause)
+    respond_to do |format|
+      format.html{ render :layout =>'application' }  # index.html.erb
+      format.xml  { render :xml => @maps }
+      format.rss  { render  :layout => false }
+     end
+  end
+
+  def new
+    @map = Map.new
+    @html_title = "Upload a new map to "
+    @max_size = Map.max_attachment_size
+   if Map.max_dimension
+      @upload_file_message  = " It may resize the image if it's too large (#{Map.max_dimension}x#{Map.max_dimension}) "
+    else
+      @upload_file_message = ""
+    end
+
+    respond_to do |format|
+      format.html{ render :layout =>'application' }  # new.html.erb
+      format.xml  { render :xml => @map }
+    end
+  end
+
+  def create
+    @map = Map.new(params[:map])
+
+    if logged_in?
+        @map.owner = current_user
+        @map.users << current_user
+      end
+
+    respond_to do |format|
+      if @map.save
+        flash[:notice] = 'Map was successfully created.'
+        format.html { redirect_to(@map) }
+        format.xml  { render :xml => @map, :status => :created, :location => @map }
+      else
+        format.html { render :action => "new", :layout =>'application' }
+        format.xml  { render :xml => @map.errors, :status => :unprocessable_entity }
+      end
+    end
+  end
+
+
+  def edit
+    @current_tab = :edit
+    @selected_tab = 1
+    @html_title = "Editing Map #{@map.title} on"
+    choose_layout_if_ajax
+    respond_to do |format|
+      format.html {} #{ render :layout =>'application' }  # new.html.erb
+      format.xml  { render :xml => @map }
+    end
+  end
+
+
+
+  def update
+    #@map = Map.find(params[:id])
+    
+    if @map.update_attributes(params[:map])
+      flash.now[:notice] = 'Map was successfully updated.'
+    else
+
+    end
+
+    if request.xhr?
+      @xhr_flag = "xhr"
+      render :action => "edit", :layout => "tab_container"
+    else
+      respond_to do |format|
+        format.html { render :action => "edit" }
+        format.xml  { render :xml => @map.errors, :status => :unprocessable_entity }
+      end
+    end
+
+  end
+
+  def delete
+      respond_to do |format|
+      format.html {render :layout => 'application'}
+    end
+  end
+
+  #only editors or owners of maps
+  def destroy
+    if @map.destroy
+      flash[:notice] = "Map deleted!"
+    else
+      flash[:notice] = "Map wasnt deleted"
+    end
+    respond_to do |format|
+      format.html { redirect_to(maps_url) }
+      format.xml  { head :ok }
+    end
+  end
+
+  def thumb
+     map = Map.find(params[:id])
+     thumb = map.upload.url(:thumb)
+     redirect_to thumb
+   end
+
+
+  def status
+    map = Map.find(params[:id])
+    if map.status.nil?
+      sta = "loading"
+    else
+      sta = map.status.to_s
+    end
+    render :text =>  sta
+  end
+
+  def show
+
+    @current_tab = "show"
+    @selected_tab = 0
+    @disabled_tabs =[]
+    @map = Map.find(params[:id])
+    @html_title = "Viewing Map "+@map.id.to_s
+
+    if @map.status.nil? || @map.status == :unloaded
+      @mapstatus = "unloaded"
+    else
+      @mapstatus = @map.status.to_s
+    end
+
+    #
+    # Not Logged in users
+    #
+    if !logged_in?
+      @disabled_tabs = ["warp", "edit", "clip", "align", "activity"]
+      if @map.status.nil? or @map.status == :unloaded or @map.status == :loading
+        @disabled_tabs += ["warped"]
+      end
+      
+      if request.xhr?
+        @xhr_flag = "xhr"
+        render :layout => "tab_container"
+      else
+        respond_to do |format|
+          format.html #
+          format.kml {render :action => "show_kml", :layout => false}
+          format.rss {render :action=> 'show'}
+        end
+      end
+      return #stop doing anything more
+    end
+
+    #End doing stuff for not logged in users.
+
+    # Logged in users
+    unless logged_in? and (current_user.own_this_map?(params[:id])  or current_user.has_role?("editor"))
+      @disabled_tabs += ["edit"]
+    end
+    @title = "Viewing original map. "
+
+    if @map.status != :warped
+      @title += "This map has not been rectified yet."
+    end
+    #choose_layout_if_ajax
+    if request.xhr?
+      @xhr_flag = "xhr"
+      render :layout => "tab_container"
+    else
+      respond_to do |format|
+        format.html
+        format.kml {render :action => "show_kml", :layout => false}
+
+      end
+    end
+  end
+
+  def clip
+    #TODO delete current_tab
+    @current_tab = "clip"
+    @selected_tab = 3
+    @html_title = "Cropping Map "+ @map.id.to_s
+    @gml_exists = "false"
+    if File.exists?(@map.masking_file_gml+".ol")
+      @gml_exists = "true"
+    end
+    choose_layout_if_ajax
+  end
+
+  #should check for admin only
+  def publish
+    #  @map = Map.find(params[:id])
+    @map.publish
+    render :text => "Map will be published. (this functionality doesn't do anything at the moment)"
+  end
+
+  def save_mask
+    message = @map.save_mask(params[:output])
+    render :text => message
+  end
+
+  def delete_mask
+    message = @map.delete_mask
+    render :text => message
+  end
+
+  def mask_map
+    message = @map.mask!
+    render :text => message
+  end
+  
+  def save_mask_and_warp
+    logger.info "save mask and warp"
+    @map.save_mask(params[:output])
+    @map.mask!
+    if @map.gcps.size.nil? || @map.gcps.size < 3
+      render :text => "Map masked, but it needs more control points to rectify. Click the Rectify tab to add some."
+    else
+      params[:use_mask] = "true"
+      rectify
+      render :text => "Map masked and rectified!"
+    end
+
+  end
+
+  def warped
+    @current_tab = "warped"
+    @selected_tab = 5
+    @html_title = "Viewing Rectfied Map "+ @map.id.to_s
+    if @map.status == :warped and @map.gcps.size > 2
+      @title = "Viewing warped map"
+      width = @map.width
+      height = @map.height
+      @other_layers = Array.new
+      @map.layers.visible.each do |layer|
+        @other_layers.push(layer.id)
+      end
+
+    else
+      flash.now[:notice] = "Whoops, the map needs to be rectified before you can view it"
+    end
+    choose_layout_if_ajax
+  end
+
+
+  def warp_aligned
+    
+    align = params[:align]
+    append = params[:append]
+    destmap = Map.find(params[:destmap])
+
+    if destmap.status.nil? or destmap.status == :unloaded or destmap.status == :loading
+      flash.now[:notice] = "Sorry the destination map is not available to be aligned."
+      redirect_to :action => "show", :id=> params[:destmap]
+    elsif align != "other"
+
+      if params[:align_type]  == "original"
+        destmap.align_with_original(params[:srcmap], align, append )
+      else
+        destmap.align_with_warped(params[:srcmap], align, append )
+      end
+      flash.now[:notice] = "Map aligned. You can now rectify it!"
+      redirect_to :action => "warp", :id => destmap.id
+    else
+      flash.now[:notice] = "Sorry, only horizontal and vertical alignment are available at the moment."
+      redirect_to :action => "align", :id=> params[:srcmap]
+    end
+  end
+
+  def align
+    @html_title = "Align Maps "
+    @current_tab = "align"
+    @selected_tab = 3
+    width = @map.width
+    height = @map.height
+
+    choose_layout_if_ajax
+  end
+
+
+   def warp
+     @current_tab = "warp"
+     @selected_tab = 2
+     @html_title = "Rectifying Map "+ @map.id.to_s
+     @other_layers = Array.new
+     @map.layers.visible.each do |layer| 
+       @other_layers.push(layer.id)
+     end
+
+     @gcps = @map.gcps_with_error 
+
+     width = @map.width
+     height = @map.height
+     width_ratio = width / 180
+     height_ratio = height / 90
+
+     choose_layout_if_ajax 
+   end
+
+
+  def rectify
+    resample_param = params[:resample_options]
+    transform_param = params[:transform_options]
+    masking_option = params[:mask]
+    resample_option = ""
+    transform_option = ""
+    case transform_param
+    when "auto"
+      transform_option = ""
+    when "p1"
+      transform_option = " -order 1 "
+    when "p2"
+      transform_option = " -order 2 "
+    when "p3"
+      transform_option = " -order 3 "
+    when "tps"
+      transform_option = " -tps "
+    else
+      transform_option = ""
+    end
+
+    case resample_param
+    when "near"
+      resample_option = " -rn "
+    when "bilinear"
+      resample_option = " -rb "
+    when "cubic"
+      resample_option = " -rc "
+    when "cubicspline"
+      resample_option = " -rcs "
+    when "lanczos" #its very very slow
+      resample_option = " -rn "
+    else
+      resample_option = " -rn"
+    end
+
+    use_mask = params[:use_mask]
+    @too_few = false
+    if @map.gcps.size.nil? || @map.gcps.size < 3
+      @too_few = true
+      @notice_text = "Sorry, the map needs at least three control points to be able to rectify it"
+      @output = @notice_text
+    else
+      if logged_in?
+        um  = current_user.my_maps.new(:map => @map)
+        um.save
+        # @map.users << current_user # another way creating the relationship
+      end
+
+        @output = @map.warp! transform_option, resample_option, use_mask #,masking_option
+        @notice_text = "Map rectified!"
+      end
+
+   redirect_to :action=> :index unless request.xhr?
+
+  end
+
+  def metadata
+    choose_layout_if_ajax
+  end
+#################################################
+#MAPSERVER methods.
+#Checks to see if mapscript is available, then redirects to cgi, or does it itself.
+###############################################
+  begin
+    include Mapscript if require 'mapscript'
+    @@mapscript_exists = true #YES, this means that all requests will go to cgi (seems quicker)
+  rescue LoadError
+    @@mapscript_exists = false #YES, this means that all requests will go to cgi (seems quicker)
+  end
+
+
+  def wms
+    
+    unless @@mapscript_exists
+       mapserver_wms
+    else
+    @map = Map.find(params[:id])
+    #status is additional query param to show the unwarped wms
+    status = params["STATUS"].to_s.downcase || "unwarped"
+    ows = Mapscript::OWSRequest.new
+
+    ok_params = Hash.new
+    # params.each {|k,v| k.upcase! } frozen string error
+    params.each {|k,v| ok_params[k.upcase] = v }
+    [:request, :version, :transparency, :service, :srs, :width, :height, :bbox, :format, :srs].each do |key|
+      ows.setParameter(key.to_s, ok_params[key.to_s.upcase]) unless ok_params[key.to_s.upcase].nil?
+    end
+
+    ows.setParameter("STYLES", "")
+    ows.setParameter("LAYERS", "image")
+    ows.setParameter("COVERAGE", "image")
+
+    mapsv = Mapscript::MapObj.new(File.join(RAILS_ROOT, '/db/maptemplates/wms.map'))
+    projfile = File.join(RAILS_ROOT, '/lib/proj')
+    mapsv.setConfigOption("PROJ_LIB", projfile)
+    #map.setProjection("init=epsg:900913")
+    mapsv.applyConfigOptions
+    rel_url_root =  (ActionController::Base.relative_url_root.blank?)? '' : ActionController::Base.relative_url_root
+    mapsv.setMetaData("wms_onlineresource",
+      "http://" + request.host_with_port + rel_url_root + "/maps/wms/#{@map.id}")
+
+    raster = Mapscript::LayerObj.new(mapsv)
+    raster.name = "image"
+    raster.type = Mapscript::MS_LAYER_RASTER
+
+    if status == "unwarped"
+      raster.data = @map.unwarped_filename
+
+    else #show the warped map
+      raster.data = @map.warped_filename
+    end
+
+    raster.status = Mapscript::MS_ON
+    raster.dump = Mapscript::MS_TRUE
+    raster.metadata.set('wcs_formats', 'GEOTIFF')
+    raster.metadata.set('wms_title', @map.title)
+    raster.metadata.set('wms_srs', 'EPSG:4326 EPSG:4269 EPSG:900913')
+    raster.debug = Mapscript::MS_TRUE
+
+    Mapscript::msIO_installStdoutToBuffer
+    result = mapsv.OWSDispatch(ows)
+    content_type = Mapscript::msIO_stripStdoutBufferContentType || "text/plain"
+    result_data = Mapscript::msIO_getStdoutBufferBytes
+
+    send_data result_data, :type => content_type, :disposition => "inline"
+    Mapscript::msIO_resetHandlers
+    end
+
+  end
+
+
+  ###################################
+  #private
+  ##################################
+
+  private
+
+
+   def mapserver_wms
+    #use Map.map_file_path so we don't have to do a db call
+    status = params["STATUS"].to_s.downcase || "unwarped"
+    styles = "&styles=" # required to stop mapserver being pedantic on older versions
+     if status == "unwarped"
+      mapserver_url = MAPSERVER_URL + '?map=' + Map.mapfile_path(params[:id])  + styles + "&layers=" + params[:id].to_s + "_original"
+    else
+      mapserver_url = MAPSERVER_URL + '?map=' + Map.mapfile_path(params[:id])  + styles + "&layers=" + params[:id].to_s
+    end
+    mapserver_url += "&"+request.query_string
+    redirect_to(mapserver_url)
+  end
+
+  def set_session_link_back link_url
+    session[:link_back] = link_url
+  end
+
+  def check_link_back
+    @link_back = session[:link_back]
+    if @link_back.nil?
+      @link_back = url_for(:action => 'index')
+    end
+  
+    session[:link_back] = @link_back
+  end
+
+  #only allow deleting by a user if the user owns it
+   def check_if_map_can_be_deleted
+    if logged_in? and (current_user.own_this_map?(params[:id])  or current_user.has_role?("editor"))
+      @map = Map.find(params[:id])
+    else
+      flash[:notice] = "Sorry, you cannot delete other people's maps!"
+      redirect_to map_path
+    end
+  end
+
+  #only allow editing by a user if the user owns it, or if and editor tries to edit it
+  def check_if_map_is_editable
+    if logged_in? and (current_user.own_this_map?(params[:id])  or current_user.has_role?("editor"))
+      @map = Map.find(params[:id])
+    elsif Map.find(params[:id]).owner.nil?
+      @map = Map.find(params[:id])
+    else
+      flash[:notice] = "Sorry, you cannot edit other people's maps"
+      redirect_to map_path
+    end
+  end
+
+  def find_map_if_available
+
+    @map = Map.find(params[:id])
+
+    if @map.status.nil? or @map.status == :unloaded or @map.status == :loading 
+      redirect_to map_path
+    elsif  (!@map.public? and !logged_in?) or((!@map.public? and logged_in?) and !(current_user.own_this_map?(params[:id])  or current_user.has_role?("editor")) )
+       redirect_to maps_path
+    end
+
+  end
+
+end

@@ -1,0 +1,2 @@
+page.insert_html :bottom, :results, :partial => @mymaps
+page.replace :flow_pagination, will_paginate(@mymaps, :renderer => FlowPagination::LinkRenderer)

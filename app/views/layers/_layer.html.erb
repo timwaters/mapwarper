@@ -1,0 +1,63 @@
+<tr>
+<td >
+  <%= image_tag(layer.thumb) %>
+</td>
+<td >
+  <span class="layer_title">
+    <%= link_to h(layer.name),  layer_path(layer) -%>
+  </span>
+  <br />
+  <span class="layer_description">
+    <%= layer.description %>
+    <%- if layer.user -%>Compiled by <%= link_to(layer.user.login, user_path(layer.user)) -%>.<%-end-%>
+    Last modified <%=h time_ago_in_words(layer.updated_at) -%> ago.
+  </span>
+  <span class="layer_year">
+    <%if layer.depicts_year%>Depicts : <%= layer.depicts_year %> <%end%>
+  </span>
+  <span class="map_links">
+    <%- if layer.source_uri -%>
+    Links: <%= link_to 'Source / Biblio Ref',layer.source_uri  %>
+    <%- end -%>
+</span>
+  <br />
+
+  <span class="layer_visibility">
+    <br />
+    <span id="vis-text-<%=layer.id%>">
+      <% if layer.is_visible -%>
+        (Visible)
+      <% else -%>
+        (Not Visible)
+      <%end-%>
+    </span>
+      
+    <% if admin_authorized? -%>
+      <%= link_to_remote("Toggle Visibility", :update => "vis-text-#{layer.id}", :url => { :action => "toggle_visibility", :id => layer})%> |
+    <% end  %>
+    <%= link_to "Edit Layer", layer_path(:id=>layer, :anchor=>"Edit_tab") -%> |
+    <% if admin_authorized? -%>
+      <%= link_to("Merge", :controller => "layers", :action=> "merge", :id => layer) %> |
+      <%= link_to("Publish", :controller => "layers", :action=> "publish", :id=>layer)%> |
+    <%end -%>
+
+    <% if layer.is_visible && layer.rectified_maps_count > 0 %>
+      <%= link_to("Download KML", layer_url(:id => layer, :format=>:kml)) %>
+    <% end %>
+
+  </span>
+
+</td>
+<td>
+  <%if layer.depicts_year -%><%= layer.depicts_year -%> <%end-%>
+</td>
+<td>
+  <span class="layer_mapcount">
+    <%= pluralize layer.maps_count,'map' -%>
+  </span>
+</td>
+<td>
+  <%=number_to_percentage(layer.rectified_percent, :precision=>0) %><br />
+  (<%= pluralize layer.rectified_maps_count, 'map'-%>)
+</td>
+ 

@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html debug="true">
+  <head>
+    <script type="text/javascript" src="../../../../../openlayers/lib/OpenLayers.js"></script>
+    <script type="text/javascript" src="../../../../../ext/adapter/ext/ext-base.js"></script>
+    <script type="text/javascript" src="../../../../../ext/ext-all-debug.js"></script>
+    <script type="text/javascript" src="../../../../lib/GeoExt.js"></script>
+
+    <script type="text/javascript">
+       
+        function createMap() {
+            var map = new OpenLayers.Map();
+            map.addLayer(new OpenLayers.Layer('dummy layer', {
+                maxExtent: new OpenLayers.Bounds(-180, -90, 180, 90),
+                isBaseLayer: true
+            }));
+            map.zoomToMaxExtent();
+            return map;
+        }
+
+        function loadMapPanel() {
+            var map = createMap();
+
+            var mapPanel = new GeoExt.MapPanel({
+                // panel options
+                id: "map-panel",
+                title: "GeoExt MapPanel",
+                renderTo: "mappanel",
+                height: 400,
+                width: 600,
+                // map panel-specific options
+                map: map,
+                center: new OpenLayers.LonLat(5, 45),
+                zoom: 4
+            });
+
+            return mapPanel;
+        }
+
+        function test_constructor(t) {
+            t.plan(1);
+
+            var store, map;
+
+            map = createMap();
+            store = new GeoExt.data.ScaleStore({map: map});
+            t.ok(store.map == map, "ctor sets the passed map in the instance");
+        }
+
+        function test_scalestore(t) {
+            t.plan(1);
+
+            var mapPanel = loadMapPanel();
+            var map = mapPanel.map;
+            var store = new GeoExt.data.ScaleStore({map: map});
+            t.eq(store.data.length, 15, 'Found expected number of zoomlevels');
+        }
+        
+    </script>
+  </head>  
+  <body>
+    <div id="mappanel" style="width:400px; height:300px"></div>
+  </body>
+</html>

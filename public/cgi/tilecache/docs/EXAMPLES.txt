@@ -1,0 +1,52 @@
+Layer Examples
+==============
+
+Some Example Layer Configurations::
+
+  [mario-8-4]
+  type=ImageLayer
+  file=/home/images/mario-8-4.gif
+  bbox=0,0,5889,224
+  filebounds=0,0,5889,224
+  maxresolution=16
+  
+  [avalon]
+  type=GDAL
+  file=/home/images/avalon.jpg
+  bbox=0,0,4000,1870
+  
+  [avalon]
+  type=ImageLayer
+  filebounds=-180,-88.759,180,88.759
+  file=/home/images/avalon.jpg
+  
+  [basic]
+  type=MapServerLayer
+  layers=basic
+  mapfile=/home/tilecache/basic.map
+  debug=off 
+  description=VMap0-based vector layer, styled by Schuyler Erle. 
+  
+  [DRG]
+  type=WMSLayer
+  layers=DRG
+  url=http://terraservice.net/ogcmap.ashx?
+  extension=jpeg
+  debug=off 
+  
+  [osm-map]
+  type=MapnikLayer
+  mapfile=/www/wms-c/osm.xml
+  
+  [massgis]
+  type=ArcXML
+  url=http://maps.massgis.state.ma.us/servlet/com.esri.esrimap.Esrimap?ServiceName=coq2005hsde_with_roads&ClientVersion=4.0
+  layers=14
+  bbox=218337.16112593404,889611.9317974453,248183.9359890727,914312.7109945256
+  
+  [massgis-reprojected]
+  type=ArcXML
+  url=http://maps.massgis.state.ma.us/servlet/com.esri.esrimap.Esrimap?ServiceName=coq2005hsde_with_roads&ClientVersion=4.0
+  projection=@/path/to/target_projection # Either a string, or if prefixed by @, an absolute path to a projection in WKT. 
+  layers=14
+  bbox=218337.16112593404,889611.9317974453,248183.9359890727,914312.7109945256

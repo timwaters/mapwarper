@@ -1,0 +1,86 @@
+TileCache Caches
+================
+
+TileCache offers access to a number of different caches. These caches are used
+to store tiles. 
+
+Disk
+----
+Example Configuration::
+
+  [cache]
+  type=Disk
+  base=/var/lib/tilecache
+  umask=002
+
+Dependencies: None
+
+GoogleDisk
+----
+Example Configuration::
+
+  [cache]
+  type=GoogleDisk
+  base=/var/lib/tilecache
+
+Dependencies: None
+Note: A simple subclass of the Disk cache, this switches the Y tile ordering
+on the disk, so Google Maps users can easily access tiles directly (e.g. 
+bypassing tilecache.py, if all tiles have been pre-rendered) with a simple 
+CustomTileUrl function.
+
+Memcached
+---------
+Example configuration::
+
+  [cache]
+  type=Memcached
+  servers=127.0.0.1:11211
+
+Dependencies:
+ * memcache Python module must be installed on your system path.
+   http://code.sixapart.com/svn/memcached/trunk/api/python/memcache.py
+
+Amazon S3
+---------
+Example configuration::
+
+  [cache]
+  type=AWSS3
+  access_key=833833ABC88838
+  secret_access_key=8234abyi3kdjby8so8idu
+  use_tms_paths=true
+
+The use_tms_paths will make the files more accessible to other clients,
+though at this time, ACLs are not set on the TMS structure to make them
+available publicly.
+
+The use_tms_paths can also be set to "flipped": if so, it will result in
+'flipped' TMS, with typical paths like:
+
+  /1.0.0/9/82/63.png
+
+But with 0 starting at the top of the map, instead of the bottom. 
+
+This cache can use one of two libraries:
+
+Boto
+____
+Available from http://code.google.com/p/boto/, boto is a package that 
+wraps the Amazon APIs in a Pythonic wrapper. This is installable on
+recent Debian-based distributions as python-boto. It can be installed
+via easy_install from setuptools as well: simply easy_install boto.
+The boto library is more complete, and is more likely to properly
+handle error conditions than the Amazon Example Library.
+
+Amazon Example Library
+______________________
+Amazon provides an example Python library. This library provides a simple
+wrapper around the Amazon web services. The code is available from 
+http://developer.amazonwebservices.com/connect/entry.jspa?externalID=134&categoryID=47
+
+You must download, unpack, and place the s3-example-libraries/python/S3.py
+file on your PYTHONPATH/sys.path. The source distribution of TileCache
+includes this file in the TileCache/Caches/S3.py file. (Packagers are
+encouraged to remove this file from distributions and instead depend
+on the boto library described above.)

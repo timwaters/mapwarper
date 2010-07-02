@@ -1,0 +1,11 @@
+{"root": [
+{"id": "Residential", "label": "Residential"},
+{"id": "Worship", "label": "Worship"},
+{"id": "Educational", "label": "Educational"},
+{"id": "Commercial", "label" : "Commercial"},
+{"id": "Industrial", "label": "Industrial"},
+{"id": "Health", "label": "Health"},
+{"id": "Transport", "label": "Transport"},
+{"id": "Military", "label": "Military"},
+{"id": "unknown", "label": "Unknown"}
+]}

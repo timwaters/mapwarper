@@ -1,0 +1,35 @@
+<% content_for :head do %>
+  <style type="text/css">
+    #layer-slider {
+      bottom:50px;
+      margin-left:auto;
+      margin-right:auto;
+      width:25em;
+      z-index:1500;
+    }
+    #opacity-info {
+      margin-left:auto;
+      margin-right:auto;
+      width:10em;
+    }
+  </style>
+  <script type="text/javascript">
+    var warpedwms_url = '<%= url_for :controller => 'layers', :action => 'wms', :id => @layer -%>';
+    var warped_bounds =  new OpenLayers.Bounds(<%=@layer.get_bounds-%>);
+    var layer_id = <%=@layer.id-%>;
+    var mapLayersURL = '<%=url_for :controller => 'layers', :action => 'maps', :id => @layer -%>';
+    var mapBaseURL = '<%=url_for :controller=> 'maps' %>';
+    var mapThumbBaseURL =  "<%= url_for :controller => 'maps', :action => 'thumb'-%>/";
+
+  </script>
+  <%= javascript_include_tag "layer-maps" -%>
+
+<% end%>
+<% @onload = "init();" -%>
+<div id="map-container">
+  <div id="map"></div>
+  <div id="layer-slider"><div class="ui-slider-handle"> </div> </div>
+</div>
+<div id="opacity-info">
+  Transparency: <input id="opacity" type="text" value="100" size="3" disabled="true" />
+</div>

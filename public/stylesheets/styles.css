@@ -1,0 +1,530 @@
+body
+{
+	font-family:Verdana, Arial, sans-serif;
+	font-size:95%;
+}
+
+/*
+* for tag cloud
+*/
+.css1 { font-size: 1.0em; }
+.css2 { font-size: 1.2em; }
+.css3 { font-size: 1.4em; }
+.css4 { font-size: 1.6em; }
+h4.smaller {
+    margin-bottom:0;
+    margin-top:30px;
+}
+
+.news-description { font-size: 0.7em; }
+/*
+* for map form
+*/
+div.span-12, div.span-24 {float:left;margin-right:10px;}
+.span-12 {width:370px;}
+.span-24 {width:910px;}
+.last {margin-right:0;padding-right:0;}
+div.last {margin-right:0;}
+form.new_map {float: left;}
+form.edit_map {float: left;}
+.tiny-text {
+    font-size: 0.6em;
+}
+.tags {     font-size: 0.8em;    }
+
+.maskresult {
+font-weight:bold;
+}
+.headerDiv .header {
+ margin-left: auto;
+ margin-right: auto;
+ margin-top: 0px;
+ margin-bottom: 5px;
+ width: 100% ;
+}
+
+.headerDiv .header .headerLogo .headerText {
+font-size: xx-large;
+}
+.headerTextBeta{
+  font-size: xx-large;
+  color: #C0C0C0;
+
+}
+#align_form_div {
+clear: both;
+}
+.headerDiv .header .userStatus {
+  color: #999999;
+  font-size: 11px;
+  padding: 6px 10px 2px;
+  text-align: right;
+  vertical-align: top;
+
+}
+.headerLogo {
+padding: 0px 0pt 0pt 0px;
+}
+
+ul.no_bullet
+{
+	list-style-type:none;
+}
+
+ul.no_bullet li
+{
+	margin-top:3px;
+}
+
+.fake_link {
+text-decoration: underline;
+float:right;
+}
+
+.activity-table {
+width:100%;
+
+}
+.activity-table th {
+text-align:left;
+}
+
+#add_layer_control {
+  float:right;
+  font-size: x-small;
+text-decoration: underline;
+}
+#add_layer {
+float:right;
+border: dashed;
+}
+.usertable {
+width: 100%;
+}
+
+
+#search-form {
+float: right;
+}
+#searchform #query{
+width:10em;
+}
+#search-title {
+font-size: 2em;
+font-weight: bold;
+clear: both;
+
+}
+
+#search-sort {
+float: right;
+clear: right;
+}
+
+#search-pagination-top {
+ /*clear: both; */
+}
+.clear {
+clear: both;        /* extend height of .main to longest column */
+  height: 1px;
+    overflow: hidden;   /* prevent IE expanding the container */
+      margin: 0;          /* keep flush with surrounding blocks */
+
+}
+#container {
+
+margin:0px 0px 0px 0px;
+}
+
+#left-col{
+float:left;
+margin: 0;
+padding:1% 2%;
+width: 40%;
+
+}
+#right-col{
+margin-left:46%;
+padding: 0;
+}
+
+#whats_this_all_about
+{
+ 
+
+}
+
+#video_tutorial {
+}
+#map_list
+{
+  clear:right;
+}
+
+#panel-under-tabs{
+  clear: both;
+  border-right: 1px solid #776655;
+  border-left: 1px solid #776655;
+  border-bottom: 1px solid #776655;
+ padding-top:0.6em;
+}
+
+.map_links_bigger {
+ font-size:100%;
+}
+
+.map_links
+{
+	font-size:60%;
+}
+
+.hidden {
+ display: none;
+  }
+
+.unhidden { 
+display: block; 
+}
+
+#scriptout{
+font-size:smaller;
+font-style:italic;
+color:silver;
+}
+
+#advanced_form_options {
+font-size:smaller;
+margin-top:5px;
+}
+
+#advanced_form_options select {
+font-size:smaller;
+border-style:ridge;
+}
+
+#errorExplanation
+{
+	border:5px solid #F93;
+	font-size:smaller;
+	padding:10px;
+}
+
+#loading {
+  font-size:1.2em;
+  color:#E71C1C;
+  clear:both;
+
+}
+
+.mapstatus {
+font-weight: bold;
+}
+
+#notice
+{
+	margin-left:auto;
+	margin-right:auto;
+	text-align:center;
+	width:40%;
+	border:5px solid #ccc;
+	margin-top:10px;
+	font-weight:700;
+	padding:10px;
+}
+#error
+{
+	margin-left:auto;
+	margin-right:auto;
+	text-align:center;
+	width:40%;
+	border:5px solid #eec;
+	margin-top:10px;
+	font-weight:700;
+	padding:10px;
+}
+#nav
+{
+	text-align:center;
+	font-size:smaller;
+	clear:both;
+       padding-top: 2em;
+}
+
+.star
+{
+	float:right;
+}
+
+.table0
+{
+	background:#fdfff2 none repeat scroll 0;
+	vertical-align:top;
+}
+
+.table1
+{
+	background:#FFF none repeat scroll 0;
+	vertical-align:top;
+}
+
+
+.map_summary
+{
+	font-size:smaller;
+}
+.map_description
+{
+        font-weight: bold;
+}
+.maplist_title
+{
+	font-size:larger;
+	font-weight:700;
+}
+.maplist_title a {
+  text-decoration: none;
+
+}
+#opacity
+{
+	text-align:center;
+	width:2em;
+	font-family:sans-serif;
+	background:transparent;
+	color:#000;
+	border:0;
+	padding:0;
+}
+
+#map
+  {     margin-left: 2px;
+	width:99%;
+	height:500px;
+	border:1px solid gray;
+}
+
+#to_map_block
+{
+	float:right;
+	border:1px solid gray;
+	width:49%;
+}
+
+#from_map_block
+{
+	float:left;
+	border:1px solid gray;
+	width:49%;
+}
+
+#gcp
+{
+	clear:both;
+	margin-left:auto;
+	margin-right:auto;
+	text-align:center;
+}
+
+#gcp input.gcp_button
+{
+	font-size:84%;
+	font-weight:700;
+/*	width:110px; */
+	margin-top:5px;
+	padding:2px;
+}
+.map {
+  cursor: crosshair;
+}
+
+/* #div_gcp_form input */
+/* { */
+/* 	width:120px; */
+/* } */
+
+
+#cliphelp img {
+  vertical-align:top;
+
+}
+
+
+#div_gcp_form li input
+{
+	border-style:solid;
+	border-width:1px;
+	font-size:9pt;
+	width:7em;
+}
+
+#div_gcp_form .delete_button
+{
+	font-size:smaller;
+
+	border-style:outset;
+	width:5em;
+
+}
+
+#div_gcp_form .add_row_button
+{
+	border-style:outset;
+	border-width:1px;
+	font-size:9pt;
+	width:5em;
+
+}
+#div_gcp_form input.warp_button
+{
+	font-size:110%;
+	font-weight:700;
+	overflow:visible;
+	padding-bottom:0;
+	padding-left:1em;
+	padding-right:1em;
+}
+
+#div_gcp_form input.button[warp_button]
+{
+	font-size:110%;
+	width:auto;
+}
+
+#gcp_table_div {
+margin-bottom: 1em;
+}
+
+table#gcp_table {
+width: 100%;
+border: 1px solid #000;
+border-collapse:collapse;
+font-size:80%;
+}
+
+table#gcp_table td {
+
+}
+table#gcp_table th {
+text-align: left;
+}
+table#gcp_table tr {
+
+}
+table#gcp_table caption {
+text-align: left;
+font-weight: bold;
+font-size:larger;
+border: 1px solid #000;
+}
+table#gcp_table input {
+	border-width:1px;
+	font-size:9pt;
+	width:10em;
+}
+
+
+
+#from_map,#to_map
+{
+	height:400px;
+	border:1px solid gray;
+}
+#gcp input.gcp_button, input.button
+{
+        cursor: pointer;
+      /*  color: #050;
+       background-color: #fed;
+        border: 1px solid red;
+        */
+        font-weight: bold;
+	}
+
+/* OPENLAYERS spechul stilz */
+div.olControlMousePosition
+{
+	bottom:0;
+	display:block;
+	font-family:Arial;
+	font-size:smaller;
+	position:absolute;
+	right:3px;
+	color:red;
+}
+
+.olControlAttribution
+{
+	bottom:11px!important;
+}
+
+.olControlLayerSwitcher
+{
+	font-size:7pt!important;
+}
+
+ .olControlEditingToolbar  {
+    float:right;
+    right: 0px;
+    height: 30px; 
+    width: 200px;
+}
+.olControlEditingToolbar div { 
+  float:right;
+  width:  24px;
+  height: 24px;
+  margin: 5px;
+}
+
+.olControlEditingToolbar .olControlDrawFeaturePointItemActive { 
+  background-image: url("editing_tool_bar_with_pin2.gif");
+  background-repeat: no-repeat;
+  background-position: -128px -23px; 
+}
+.olControlEditingToolbar .olControlDrawFeaturePointItemInactive { 
+  background-image: url("editing_tool_bar_with_pin2.gif");
+  background-repeat: no-repeat;
+  background-position: -128px -0px; 
+}
+
+.olControlEditingToolbar .olControlDrawFeatureItemActive { 
+  background-image: url("editing_tool_bar_with_pin2.gif");
+  background-repeat: no-repeat;
+  background-position: -26px -23px; 
+}
+.olControlEditingToolbar .olControlDrawFeatureItemInactive { 
+  background-image: url("editing_tool_bar_with_pin2.gif");
+  background-repeat: no-repeat;
+  background-position: -26px -0px; 
+}
+.olControlEditingToolbar .olControlModifyFeatureItemActive { 
+  background-image: url("editing_tool_bar_with_pin2.gif");
+  background-repeat: no-repeat;
+  background-position: -153px -23px; 
+}
+.olControlEditingToolbar .olControlModifyFeatureItemInactive { 
+  background-image: url("editing_tool_bar_with_pin2.gif");
+  background-repeat: no-repeat;
+  background-position: -153px -0px; 
+}
+
+.olControlEditingToolbar .olControlNavigationItemActive { 
+  background-image: url("editing_tool_bar_with_pin2.gif");
+  background-repeat: no-repeat;
+  background-position: -103px -23px; 
+}
+.olControlEditingToolbar .olControlNavigationItemInactive { 
+  background-image: url("editing_tool_bar_with_pin2.gif");
+  background-repeat: no-repeat;
+  background-position: -103px -0px; 
+}
+.olControlEditingToolbar .olControlDragFeatureItemInactive {
+  background-image: url("editing_tool_bar_with_pin2.gif");
+  background-repeat: no-repeat;
+  background-position: -1px 0px;
+}
+.olControlEditingToolbar .olControlDragFeatureItemActive {
+  background-image: url("editing_tool_bar_with_pin2.gif");
+  background-repeat: no-repeat;
+  background-position: -1px -23px;
+
+}
+

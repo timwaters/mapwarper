@@ -1,0 +1,19 @@
+quentin:
+  id: 1
+  login: quentin
+  email: quentin@example.com
+  #salt: 7e3041ebc2fc05a40c60028e2c4901a81035d3cd
+  crypted_password: "{SHA}qUqP5cyxm6YcTAhz05Hph5gvu9M=\n" # test
+  created_at: <%= 5.days.ago.to_s :db %>
+  activation_code: 619d4d71975cd9b88602f547330017769c264765
+  activated_at: <%= 5.days.ago.to_s :db %> 
+
+aaron:
+  id: 2
+  login: aaron
+  email: aaron@example.com
+  #salt: 7e3041ebc2fc05a40c60028e2c4901a81035d3cd
+  crypted_password: "{SHA}qUqP5cyxm6YcTAhz05Hph5gvu9M=\n" # test
+  created_at: <%= 1.days.ago.to_s :db %>
+  activation_code: 23fd29085668631e4a06d6627f98fb7cd2570f55
+

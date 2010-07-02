@@ -1,0 +1,20 @@
+
+
+    <h2>Login with User ID and Password:</h2>
+    
+    <% form_tag session_path do %>
+
+    <p><label for="email">Email</label><br/>
+    <%= text_field_tag "email" %></p>
+
+    <p><label for="password">Password</label><br />
+    <%= password_field_tag "password" %></p>
+
+    <p><label for="remember_me">Remember me:</label>
+    <%= check_box_tag "remember_me" %></p>
+
+    <p><%= submit_tag "Log in" %><%= link_to "Sign Up", new_user_path %></p>
+
+    <p><%= link_to "Forgot Password?", forgot_password_path %>
+    </p>
+    <% end %>

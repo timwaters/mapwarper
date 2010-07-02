@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html debug="true">
+  <head>
+    <script type="text/javascript" src="../../../../../openlayers/lib/OpenLayers.js"></script>
+    <script type="text/javascript" src="../../../../../ext/adapter/ext/ext-base.js"></script>
+    <script type="text/javascript" src="../../../../../ext/ext-all.js"></script>
+    <script type="text/javascript" src="../../../../lib/GeoExt.js"></script>
+
+    <script type="text/javascript">
+
+        function loadMapPanel() {
+            var mapPanel = new GeoExt.MapPanel({
+                // panel options
+                id: "map-panel",
+                title: "GeoExt MapPanel",
+                renderTo: "mappanel",
+                height: 400,
+                width: 600,
+                // map panel-specific options
+                layers: [
+                    new OpenLayers.Layer.WMS("test", '/ows', {layers: 'a'})
+                ],
+                center: new OpenLayers.LonLat(5, 45),
+                zoom: 4
+            });
+
+            return mapPanel;
+        }
+
+        function test_legendurl(t) {
+            t.plan(3);
+            var mapPanel = loadMapPanel();
+            var l = new GeoExt.LegendWMS({
+                renderTo: 'legendwms',
+                record: mapPanel.layers.getAt(0)
+            });
+            l.render();
+
+            var url = l.items.get(0).url;
+            var expectedUrl = "/ows?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetLegendGraphic&STYLES=&EXCEPTIONS=application%2Fvnd.ogc.se_xml&FORMAT=image%2Fgif&LAYER=a";
+            t.eq(url, expectedUrl, "GetLegendGraphic url is generated correctly");
+            l.destroy()
+            
+            mapPanel.map.layers[0].params.STYLES="bar";
+            mapPanel.layers.getAt(0).set("styles", [{
+                name: "bar",
+                legend: {href: "foo"}
+            }]);
+            var l = new GeoExt.LegendWMS({
+                renderTo: 'legendwms',
+                record: mapPanel.layers.getAt(0)
+            });
+            l.render();
+            var url = l.items.get(0).url;
+            t.eq(url, "foo", "legend url from styles field of layer record used correctly.");
+            l.destroy();
+            
+            delete mapPanel.map.layers[0].params.STYLES;
+            var l = new GeoExt.LegendWMS({
+                renderTo: 'legendwms',
+                record: mapPanel.layers.getAt(0),
+                defaultStyleIsFirst: true
+            });
+            l.render();
+            var url = l.items.get(0).url;
+            t.eq(url, "foo", "legend url from styles field of layer record used correctly when defaultStyleIsFirst set to true and layer has no STYLES param.");
+
+            l.destroy();
+            mapPanel.destroy();
+        }
+
+
+    </script>
+  <body>
+    <div id="legendwms"></div>
+    <div id="mappanel"></div>
+  </body>
+</html>

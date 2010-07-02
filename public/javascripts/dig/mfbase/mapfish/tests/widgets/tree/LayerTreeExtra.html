@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html debug="true">
+  <head>
+    <link rel="stylesheet" type="text/css" href="../../../../ext/resources/css/ext-all.css" />
+
+    <script type="text/javascript" src="../../../../openlayers/lib/Firebug/firebug.js"></script>
+    <script type="text/javascript" src="../../../../openlayers/lib/OpenLayers.js"></script>
+
+    <script type="text/javascript" src="../../../../ext/adapter/ext/ext-base.js"></script>
+    <script type="text/javascript" src="../../../../ext/ext-all-debug.js"></script>
+
+    <script type="text/javascript">
+      // Because of a bug in Firefox 2 we need to specify the MapFish base path.
+      // See https://bugzilla.mozilla.org/show_bug.cgi?id=351282
+      var gMfLocation = "../../../../mapfish/";
+    </script>
+    <script type="text/javascript" src="../../../../mapfish/MapFish.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="style.css" />
+    <script type="text/javascript" src="layerTreeTestUtils.js"></script>
+
+    <script type="text/javascript"><!--
+        // reference local blank image
+        Ext.BLANK_IMAGE_URL = '../../../../ext/resources/images/default/s.gif';
+
+        // tests to run when giving "?standalone" parameter in location (used
+        // for debugging).
+        var gTests = [
+                        //test_Checkbox, test_AutomaticModel, test_ModelSync,
+                        //test_reorder, test_WMSSubLayer, test_defaultSelection
+                     ];
+
+        function getNodeByText(tree, text) {
+            var result;
+            tree.getRootNode().cascade(function(node) {
+                if(node.text == text) result=node;
+            });
+            return result;
+        }
+
+        // Tests that checking/unchecking a node update the rest of the tree
+        function test_RemoveNodeWMS(t) {
+            t.plan(29+26+3+20+3);
+
+            var map = createMap();
+
+            var layer1 = new OpenLayers.Layer.WMS("vmap0",
+                "http://labs.metacarta.com/wms/vmap0",
+                {layers: ['basic', 'toto']},
+                {isBaseLayer: true}
+            );
+            map.addLayer(layer1);
+            map.setCenter(new OpenLayers.LonLat(5,45), 6);
+
+            var layer2 = new OpenLayers.Layer.WMS("vmap1",
+                "http://labs.metacarta.com/wms/vmap0",
+                //Fix #276 first, then replace that and add a test that removes 'titi'
+                //{layers: 'tutu,titi'},
+                {layers: ['tutu','titi']},
+                {isBaseLayer: false}
+            );
+            map.addLayer(layer2);
+
+            var layer3 = new OpenLayers.Layer.WMS("vmap2",
+                "http://labs.metacarta.com/wms/vmap0",
+                {layers: ['tata', 'tyty']},
+                {isBaseLayer: false}
+            );
+            map.addLayer(layer3);
+
+            var tree = createTree(map);
+
+            var expectedStatus = [
+                {text: "Root"},
+                {text: "vmap0", attr_checked: true},
+                {text: "basic", attr_checked: true},
+                {text: "toto", attr_checked: true},
+                    
+                {text: "vmap1", attr_checked: true},
+                {text: "tutu", attr_checked: true},
+                {text: "titi", attr_checked: true},
+
+                {text: "vmap2", attr_checked: true},
+                {text: "tata", attr_checked: true},
+                {text: "tyty", attr_checked: true}
+            ];
+
+            checkStatus(t, tree, expectedStatus); //29 tests
+
+            // remove a subLayer =======================
+
+            mapfish.widgets.LayerTree.removeNode(tree, getNodeByText(tree, "tata"));
+
+            expectedStatus = [
+                {text: "Root"},
+                {text: "vmap0", attr_checked: true},
+                {text: "basic", attr_checked: true},
+                {text: "toto", attr_checked: true},
+
+                {text: "vmap1", attr_checked: true},
+                {text: "tutu", attr_checked: true},
+                {text: "titi", attr_checked: true},
+
+                {text: "vmap2", attr_checked: true},
+                {text: "tyty", attr_checked: true}
+            ];
+
+            checkStatus(t, tree, expectedStatus); //26 tests
+            t.eq(getNodeByText(tree, "tata"), null, "tata node removed")
+            t.eq(layer3.params.LAYERS.length, 1, "olLayer tata removed");
+            t.eq(layer3.params.LAYERS[0], "tyty", "olLayer tyty remains");
+
+            // remove a whole node with subLayers =================
+
+            mapfish.widgets.LayerTree.removeNode(tree, getNodeByText(tree, "vmap2"));
+
+            expectedStatus = [
+                {text: "Root"},
+                {text: "vmap0", attr_checked: true},
+                {text: "basic", attr_checked: true},
+                {text: "toto", attr_checked: true},
+
+                {text: "vmap1", attr_checked: true},
+                {text: "tutu", attr_checked: true},
+                {text: "titi", attr_checked: true}
+            ];
+
+            checkStatus(t, tree, expectedStatus); //20 tests
+            t.eq(getNodeByText(tree, "vmap2"), null, "vmap2 node removed")
+            t.eq(getNodeByText(tree, "tyty"), null, "tyty node removed")
+            t.eq(map.layers.length, 2, "olLayer removed")
+        }
+
+     --></script>
+
+  <body>
+    <div id="right">
+      <div id="tree"></div>
+    </div>
+    <div id="map"></div>
+
+    <div id="test_results">
+        Test results here
+    </div>
+
+  </body>
+</html>

@@ -1,0 +1,4 @@
+if @layer
+  page.replace_html  'results', :partial => @maps
+  page.replace_html 'search-pagination-bottom', will_paginate(@maps, :renderer => FlowPagination::LinkRenderer, :params =>{:controller => "layers", :action => "show", :id => @layer.id}, :method => "get" ) 
+end

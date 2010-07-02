@@ -1,0 +1,8 @@
+<h3>Really delete the layer? </h3>
+<br />
+<p>
+<%=  button_to 'No, get me out of here!', layer_path(@layer), :method=>:get %>
+<br /><br /><br />
+<%=  button_to 'Yes, Delete layer!', layer_path(@layer),:method=>:delete, :href => '#' %>
+
+</p>

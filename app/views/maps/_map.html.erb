@@ -1,0 +1,71 @@
+<tr>
+  <td>
+    <%= link_to image_tag(map.upload.url(:thumb)), map %>
+  </td>
+  <td>
+    <div class="maplist_title">
+      <%=link_to(strip_brackets(h(map.title)), map) %>
+
+    </div>
+
+    <div class="map_description"><span><%=strip_brackets(h(map.description)) -%>
+        <% if map.layers.count > 0 %>
+          (In <%=link_to(pluralize(map.layers.count, 'layer'), map_layers_path(map.id)) -%>)
+        <%end %>
+      </span>
+
+      <span class="map_year">
+        <% if map.depicts_year -%>
+          Depicts: <%= map.depicts_year -%>
+        <% end -%>
+      </span>
+      <% if !map.public? %><span class="publicprivate">(Not listed)</span><% end-%>
+    </div>
+    <div class="map_links_bigger">
+      <%= link_to("View Map",map) -%>
+      |
+      <%= link_to("Rectify Map", map_path(:id=> map,:anchor=>"Rectify_tab")) -%>
+
+      <% if logged_in? -%>
+        <% current_user_maps = current_user.maps %>
+        <% if current_user_maps.to_a.include?(map) -%>
+          | <%= link_to('Remove from My Maps', destroy_my_map_path(:user_id => current_user, :map_id => map), :method => :post, :confirm => "really remove this map from your list?") -%>
+        <% else -%>
+          | <%= link_to('Save to My Maps', add_my_map_path(:user_id => current_user, :map_id => map), :method => :post) -%>
+        <% end -%>
+      <% end -%>
+
+
+      <% if admin_authorized? and @layer -%>
+        | <%= link_to "remove map from this layer", {:controller => "layers", :action=>"remove_map", :id => @layer, :map_id => map} %>
+      <%end -%>
+
+      <% if admin_authorized? -%>
+        <% @map = map-%>
+        | <%= render :partial  => 'maps/map_type', :object => @map -%>
+      <% end -%>
+
+      <%if map.status == :warped -%> |
+        <%= link_to("Download KML", map_url(:id => map, :format=>:kml)) -%>
+      <% end -%>
+    </div>
+    <div class="map_links">
+      <% if map.source_uri %>
+      Links: <%= link_to 'Source / Biblio Ref', map.source_uri  %>
+       <% end %>
+    </div>
+
+  </td>
+  <td>
+    <%=h time_ago_in_words(map.updated_at) -%> ago.
+  </td>
+  <td>
+    <%if map.gcps.size > 0 %>
+      <%=pluralize(map.gcps.size, "control point") -%>.
+    <%else-%>
+      Unrectified.
+    <%end-%>
+  </td>
+
+
+</tr>

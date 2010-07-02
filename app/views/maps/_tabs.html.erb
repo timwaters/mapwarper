@@ -1,0 +1,14 @@
+<div id="tabs">
+  <ul>
+    <%# tab_for TAB_SYM, LINK [,TEXT] %>
+    <%= tab_for :show, map_path(:id=>@map), "View" %>
+    <%= tab_for :edit, edit_map_path(:id=>@map), "Edit" %>
+    <%= tab_for :warp, warp_map_path(:id=>@map), "Rectify" %>
+    <%= tab_for :clip, clip_map_path(:id=>@map), "Crop" %>
+<%#    <%= tab_for :align, align_map_path(:id=>@map) %>
+    <%= tab_for :warped, warped_map_path(:id=>@map) , "Preview Rectified" %>
+    <%= tab_for :export, export_map_path(:id=>@map) , "Export" %>
+    <%= tab_for :activity, map_activity_path(:id=>@map) , "Activity" %>
+    
+</ul>
+</div>

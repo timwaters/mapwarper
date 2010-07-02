@@ -1,0 +1,14 @@
+    <% form_tag url_for(:action => "update") do %>
+
+    <p><label for="old_password" class="block">Old Password</label><br />
+    <%= password_field_tag "old_password", @old_password, :size => 45 %></p>
+
+    <p><label for="password" class="block">New Password</label><br />
+    <%= password_field_tag "password", {}, :size => 45 %><br />
+    <small>Between 4 and 40 characters</small></p>
+
+    <p><label for="password_confirmation"  class="block">Confirm new password</label><br />
+    <%= password_field_tag "password_confirmation", {}, :size => 45 %></p>
+
+    <%= submit_tag "Change password" %>
+    <% end %>

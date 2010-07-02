@@ -1,0 +1,58 @@
+MAP 
+  NAME "Map Warper"
+  SIZE 256 256
+  EXTENT -180 -90 180 90
+  IMAGETYPE png
+  #INTERLACE OFF
+  UNITS DD
+
+  CONFIG "CGI_CONTEXT_URL" "1"
+
+
+  PROJECTION "+init=epsg:4326" END
+
+
+  WEB
+    IMAGEPATH "/tmp"
+    METADATA
+      "wms_title"     "Map Warper WMS"	
+      "wms_srs"       "EPSG:4269 EPSG:4326 EPSG:900913"
+    END
+  END
+    
+  OUTPUTFORMAT
+    NAME GEOTIFF
+    DRIVER "GDAL/GTiff"
+    MIMETYPE "image/tiff"
+    IMAGEMODE "BYTE"
+    EXTENSION "tif"
+  END
+  OUTPUTFORMAT
+    NAME "png"
+    DRIVER "GD/PNG"
+    IMAGEMODE "rgba"
+    EXTENSION "png"
+    MIMETYPE "image/png"
+    IMAGEMODE RGBA
+    TRANSPARENT on
+  END
+  OUTPUTFORMAT
+    NAME "png8"
+    DRIVER "GD/PNG"
+    IMAGEMODE "rgba"
+    EXTENSION "png"
+    MIMETYPE "image/png"
+    TRANSPARENT on
+    FORMATOPTION "QUANTIZE_FORCE=ON"
+    FORMATOPTION "QUANTIZE_DITHER=ON"
+    FORMATOPTION "QUANTIZE_COLORS=250"
+  END
+  OUTPUTFORMAT
+    NAME "gif"
+    DRIVER "GD/GIF"
+    MIMETYPE "image/gif"
+    IMAGEMODE PC256
+    EXTENSION "gif"
+    TRANSPARENT ON
+  END
+END

@@ -1,0 +1,29 @@
+<div id="whats_this_all_about">
+<h2>Summary</h2>
+<div>
+Map Warper, an open map rectifier.
+</div>
+
+
+<h3>Last Updated Map</h3>
+<table>
+<%= render :partial => 'maps/map',  :locals => {:map => @featured_map}  %>
+</table>
+
+
+</div>
+<%= render :partial=> 'shared/search' -%>
+
+<div id="map_list">
+<h2>Available Maps</h2>
+<%= link_to 'View all maps', maps_path %>
+<table id="map_table" cellpadding="3">
+
+  
+   <%= render :partial => 'maps/map', :collection => @map unless @map.nil? %>
+   
+</table>
+
+<%= link_to 'View all maps', maps_path %>
+
+</div>

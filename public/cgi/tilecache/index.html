@@ -1,0 +1,42 @@
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <style type="text/css">
+        #map {
+            width: 100%;
+            height: 99%;
+            border: 1px solid black;
+        }
+	body {
+	  padding:0px; 
+	  margin:2px
+	}
+	#labs {
+	 position:absolute;
+	 bottom:15px;
+	 left:7px;
+	 font-size:smaller;
+	 z-index: 5000;
+        }	 
+    </style>
+    <script src="http://openlayers.org/api/OpenLayers.js"></script>
+    <script type="text/javascript">
+        <!--
+        var map, layer;
+
+        function init(){
+            map = new OpenLayers.Map( $('map'), {'maxResolution': 360/512});
+            layer = new OpenLayers.Layer.WMS( "VMap0", 
+                    "tilecache.cgi?", {layers: 'basic', format: 'image/png' } );
+            map.addLayer(layer);
+            map.addControl(new OpenLayers.Control.Permalink());
+            if (!map.getCenter()) map.zoomToMaxExtent();
+        }
+        // -->
+    </script>
+  </head>
+  <body onload="init()">
+    <div id="map">
+    <div id="labs">From <a href="http://labs.metacarta.com/">MetaCarta Labs</a>.</div>
+    </div>
+  </body>
+</html>

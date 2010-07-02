@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html debug="true">
+  <head>
+    <link rel="stylesheet" type="text/css" href="../../../ext/resources/css/ext-all.css" />
+
+    <script type="text/javascript" src="../../../../openlayers/lib/Firebug/firebug.js"></script>
+    <script type="text/javascript" src="../../../../openlayers/lib/OpenLayers.js"></script>
+
+    <script type="text/javascript" src="../../../../ext/adapter/ext/ext-base.js"></script>
+    <script type="text/javascript" src="../../../../ext/ext-all-debug.js"></script>
+
+    <script type="text/javascript">
+      // Because of a bug in Firefox 2 we need to specify the MapFish base path.
+      // See https://bugzilla.mozilla.org/show_bug.cgi?id=351282
+      var gMfLocation = "../../../../mapfish/";
+    </script>
+    <script type="text/javascript" src="../../../../mapfish/MapFish.js"></script>
+
+    <script type="text/javascript"><!--
+    function test_MergeFilterDecorator_initialize(t) {
+        t.plan(1);
+
+        // setup
+       
+        var decorator;
+
+        decorator = new mapfish.Protocol.MergeFilterDecorator({
+            protocol: new OpenLayers.Protocol()
+        });
+
+        // 1 test
+        t.eq(decorator.searchers, [],
+             "initialize correctly sets searchers property");
+    }
+    function test_MergeFilterDecorator_register(t) {
+        t.plan(2);
+
+        // setup
+       
+        var decorator, searcher;
+
+        decorator = new mapfish.Protocol.MergeFilterDecorator({
+            protocol: new OpenLayers.Protocol()
+        });
+
+        // 2 tests
+        searcher = new mapfish.Searcher({
+            protocol: decorator
+        });
+        decorator.register(searcher);
+        t.eq(decorator.searchers.length, 1,
+             "register registers one searcher");
+        t.ok(decorator.searchers[0] == searcher,
+             "register registers expected searcher");
+    }
+    function test_MergeFilterDecorator_toFilter(t) {
+        t.plan(15);
+
+        // setup
+
+        var decorator, filter0, filter1, obj;
+
+        decorator = new mapfish.Protocol.MergeFilterDecorator({
+            protocol: new OpenLayers.Protocol()
+        });
+
+        // 1 test
+        filter0 = decorator.toFilter();
+        t.eq(filter0, undefined,
+             "toFilter returns undefined if it is not passed args");
+
+        // 5 tests
+        obj = {a: "a", b: "b"};
+        filter0 = decorator.toFilter(obj);
+        t.eq(filter0.CLASS_NAME, "OpenLayers.Filter.Logical",
+             "toFilter returns a logical filter");
+        t.eq(filter0.filters.length, 1,
+             "toFilter returns a logical filter with expected " +
+             "number of filters");
+        t.eq(filter0.filters[0].CLASS_NAME, "OpenLayers.Filter.Logical",
+             "toFilter returns a logical filter whose first filter " +
+             "is a logical filter");
+        t.eq(filter0.filters[0].filters[0].CLASS_NAME,
+             "OpenLayers.Filter.Comparison",
+             "toFilter returns a logical filter whose first filter " +
+             "includes a comparison filter");
+        t.eq(filter0.filters[0].filters[1].CLASS_NAME,
+             "OpenLayers.Filter.Comparison",
+             "toFilter returns a logical filter whose first filter " +
+             "includes a comparison filter");
+
+        // 3 tests
+        obj = new OpenLayers.Filter();
+        filter0 = decorator.toFilter(obj);
+        t.eq(filter0.CLASS_NAME, "OpenLayers.Filter.Logical",
+             "toFilter returns a logical filter");
+        t.eq(filter0.filters.length, 1,
+             "toFilter returns a logical filter with expected " +
+             "number of filters");
+        t.ok(filter0.filters[0] == obj,
+             "toFilter returns a logical filter whose first filter " +
+             "is the expected one");
+
+        // 3 tests
+        filter0 = new OpenLayers.Filter.Logical(
+            {type: OpenLayers.Filter.Logical.AND});
+        obj = new OpenLayers.Filter();
+        filter1 = decorator.toFilter(obj, filter0);
+        t.ok(filter1 == filter0,
+             "toFilter returns expected filter");
+        t.eq(filter1.filters.length, 1,
+             "toFilter returns a logical filter with expected " +
+             "number of filters");
+        t.ok(filter1.filters[0] == obj,
+             "toFilter returns a logical filter whose first filter " +
+             "is the expected one");
+        
+        // 3 tests
+        filter0 = new OpenLayers.Filter();
+        obj = new OpenLayers.Filter();
+        filter1 = decorator.toFilter(obj, filter0);
+        t.eq(filter1.CLASS_NAME, "OpenLayers.Filter.Logical",
+             "toFilter returns a logical filter");
+        t.eq(filter1.filters.length, 2,
+             "toFilter returns a logical filter with expected " +
+             "number of filters");
+        t.ok(filter1.filters[0] == filter0 && filter1.filters[1] == obj,
+             "toFilter returns a logical filter whose filters " +
+             "are the expected ones");
+    }
+    function test_MergeFilterDecorator_fromObjToFilter(t) {
+        t.plan(4);
+
+        // setup
+
+        var decorator, filter, obj;
+
+        decorator = new mapfish.Protocol.MergeFilterDecorator({
+            protocol: new OpenLayers.Protocol()
+        });
+
+        obj = {a: "a", b: "b"};
+
+        // 4 tests
+        filter = decorator.fromObjToFilter(obj);
+        t.eq(filter.CLASS_NAME, "OpenLayers.Filter.Logical",
+             "fromObjToFilter returns a logical filter");
+        t.eq(filter.filters.length, 2,
+             "fromObjToFilter returns a filter with expected " +
+             "number of filters");
+        t.eq(filter.filters[0].CLASS_NAME, "OpenLayers.Filter.Comparison",
+             "fromObjToFilter returns a filter whose first filter " +
+             "is a comparison filter");
+        t.eq(filter.filters[1].CLASS_NAME, "OpenLayers.Filter.Comparison",
+             "fromObjToFilter returns a filter whose second filter " +
+             "is a comparison filter");
+    }
+    function test_MergeFilterDecorator_isLogicalFilter(t) {
+        t.plan(4);
+
+        // setup
+
+        var decorator, obj, bool;
+
+        decorator = new mapfish.Protocol.MergeFilterDecorator({
+            protocol: new OpenLayers.Protocol()
+        });
+
+        // 1 test
+        obj = {fake: "object"};
+        bool = decorator.isLogicalFilter(obj);
+        t.eq(bool, false,
+             "isLogicalFilter returns expected value");
+
+        // 1 test
+        obj = new OpenLayers.Filter();
+        bool = decorator.isLogicalFilter(obj);
+        t.eq(bool, false,
+             "isLogicalFilter returns expected value");
+
+        // 1 test
+        obj = new OpenLayers.Filter.Spatial();
+        bool = decorator.isLogicalFilter(obj);
+        t.eq(bool, false,
+             "isLogicalFilter returns expected value");
+
+        // 1 test
+        obj = new OpenLayers.Filter.Logical();
+        bool = decorator.isLogicalFilter(obj);
+        t.eq(bool, true,
+             "isLogicalFilter returns expected value");
+    }
+    function test_MergeFilterDecorator_isFilter(t) {
+        t.plan(3);
+
+        // setup
+
+        var decorator, obj, bool;
+
+        decorator = new mapfish.Protocol.MergeFilterDecorator({
+            protocol: new OpenLayers.Protocol()
+        });
+
+        // 1 test
+        obj = {fake: "object"};
+        bool = decorator.isFilter(obj);
+        t.eq(bool, false,
+             "isFilter returns expected value");
+
+        // 1 test
+        obj = new OpenLayers.Filter();
+        bool = decorator.isFilter(obj);
+        t.eq(bool, true,
+             "isFilter returns expected value");
+
+        // 1 test
+        obj = new OpenLayers.Filter.Spatial();
+        bool = decorator.isFilter(obj);
+        t.eq(bool, true,
+             "isFilter returns expected value");
+    }
+
+    function test_MergeFilterDecorator_mergeFilters(t) {
+        t.plan(1);
+
+        var decorator, filter;
+
+        decorator = new mapfish.Protocol.MergeFilterDecorator({
+            protocol: new OpenLayers.Protocol()
+        });
+        filter = decorator.mergeFilters({foo: 'bar'});
+
+        t.eq(filter.CLASS_NAME, "OpenLayers.Filter.Logical",
+             "mergeFilter returns an appropriate filter even if the one " +
+             "passed as argument is a simple object");
+
+    }
+--></script>
+
+  </head>
+  <body>
+  </body>
+</html>

@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html debug="true">
+  <head>
+    <link rel="stylesheet" type="text/css" href="../../../../ext/resources/css/ext-all.css" />
+
+    <script type="text/javascript" src="../../../../openlayers/lib/Firebug/firebug.js"></script>
+    <script type="text/javascript" src="../../../../openlayers/lib/OpenLayers.js"></script>
+
+    <script type="text/javascript" src="../../../../ext/adapter/ext/ext-base.js"></script>
+    <script type="text/javascript" src="../../../../ext/ext-all-debug.js"></script>
+
+    <script type="text/javascript">
+      // Because of a bug in Firefox 2 we need to specify the MapFish base path.
+      // See https://bugzilla.mozilla.org/show_bug.cgi?id=351282
+      var gMfLocation = "../../../../mapfish/";
+    </script>
+    <script type="text/javascript" src="../../../../mapfish/MapFish.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="style.css" />
+
+    <script type="text/javascript"><!--
+        function test_constructor(t) {
+            t.plan(3);
+            // setup
+            var mediator, store, protocol;
+            store = new Ext.data.Store({
+                reader: new mapfish.widgets.data.FeatureReader(
+                    {}, [{name: "name", type: "string"}]
+                )
+            });
+            protocol = new mapfish.Protocol.TriggerEventDecorator({
+                protocol: new OpenLayers.Protocol()
+            });
+            // 3 tests
+            mediator = new mapfish.widgets.data.SearchStoreMediator({
+                store: store,
+                protocol: protocol,
+                activate: function() {
+                    t.ok(true, "ctor calls activate");
+                }
+            });
+            t.ok(mediator.protocol == protocol,
+                 "ctor correctly sets protocol");
+            t.ok(mediator.featureStoreMediator instanceof
+                     mapfish.widgets.data.FeatureStoreMediator,
+                 "ctor correctly creates feature store mediator");
+        }
+
+        function test_events(t) {
+            t.plan(2);
+            // setup
+            var mediator, store, protocol, response;
+            response = new OpenLayers.Protocol.Response({
+                requestType: "read"
+            });
+            store = new Ext.data.Store({
+                reader: new mapfish.widgets.data.FeatureReader(
+                    {}, [{name: "name", type: "string"}]
+                )
+            });
+            protocol = new mapfish.Protocol.TriggerEventDecorator({
+                protocol: new OpenLayers.Protocol()
+            });
+            mediator = new mapfish.widgets.data.SearchStoreMediator({
+                store: store,
+                protocol: protocol,
+                onSearchfinished: function(resp) {
+                    t.ok(resp == response,
+                         "onSearchfinished called with expected arg");
+                },
+                onClear: function() {
+                    t.ok(true, "onClear called");
+                }
+            });
+            // 1 test
+            protocol.events.triggerEvent("crudfinished", response);
+            // 1 test
+            protocol.events.triggerEvent("clear");
+        }
+
+        function test_onSearchfinished(t) {
+            t.plan(3);
+            // setup
+            var mediator, store, protocol, response;
+            function createFeatures() {
+                return [
+                    new OpenLayers.Feature.Vector(null, {name: "foo"}),
+                    new OpenLayers.Feature.Vector(null, {name: "bar"})
+                ];
+            }
+            response = new OpenLayers.Protocol.Response({
+                code: OpenLayers.Protocol.Response.SUCCESS,
+                requestType: "read"
+            });
+            store = new Ext.data.Store({
+                reader: new mapfish.widgets.data.FeatureReader(
+                    {}, [{name: "name", type: "string"}]
+                )
+            });
+            protocol = new mapfish.Protocol.TriggerEventDecorator({
+                protocol: new OpenLayers.Protocol()
+            });
+            mediator = new mapfish.widgets.data.SearchStoreMediator({
+                store: store,
+                protocol: protocol
+            });
+            // 1 test
+            response.features = createFeatures();
+            protocol.events.triggerEvent("crudfinished", response);
+            t.eq(store.getCount(), 2,
+                 "crudfinished event caused insertion of 2 records"); 
+
+            // 1 test
+            response.features = createFeatures();
+            protocol.events.triggerEvent("crudfinished", response);
+            t.eq(store.getCount(), 4,
+                 "crudfinished event caused insertion of 2 other records"); 
+            // 1 test
+            mediator.append = false;
+            response.features = createFeatures();
+            protocol.events.triggerEvent("crudfinished", response);
+            t.eq(store.getCount(), 2,
+                 "crudfinished event caused insertion of 2 records"); 
+        }
+    --></script>
+
+  <body>
+    <div id="map"></div>
+  </body>
+</html>

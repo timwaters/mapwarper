@@ -1,0 +1,55 @@
+
+>>> from TileCache.Swarm import Message
+>>> from TileCache.Layer import Layer, Tile
+>>> from sha import sha
+
+>>> layers = { "Some Layer": Layer("Some Layer") }
+>>> key    = sha("test").digest()
+
+>>> msg1 = Message("PING", key, 123456)
+>>> msg1.type   == "PING"
+True
+>>> msg1.key    == key
+True
+>>> msg1.seq_id == 123456
+True
+
+>>> thunk = msg1.freeze()
+>>> thunk
+'\xa9J\x8f\xe5\xcc\xb1\x9b\xa6\x1cL\x08s\xd3\x91\xe9\x87\x98/\xbb\xd3\x00\x01\xe2@\x00\x00\x00\x00'
+>>> msg2 = Message.thaw(thunk, layers)
+>>> msg2.key    == msg1.key
+True
+>>> msg2.seq_id == msg1.seq_id
+True
+>>> msg2.type   == msg1.type
+True
+
+>>> tile  = Tile( layers["Some Layer"], 8, 16, 32 )
+>>> msg1  = Message( "GET", key, 54321, tile )
+>>> msg1.tile == tile
+True
+
+>>> thunk = msg1.freeze()
+>>> thunk
+'\xa9J\x8f\xe5\xcc\xb1\x9b\xa6\x1cL\x08s\xd3\x91\xe9\x87\x98/\xbb\xd3\x00\x00\xd41\x00\x02\x00\x00\nSome Layer\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00 \x00\x00\x00\x08\x00\x00\x00\x10'
+>>> msg2 = Message.thaw( thunk, layers )
+>>> msg2.type == "GET"
+True
+>>> msg1.tile.layer == msg2.tile.layer
+True
+>>> msg1.tile.x == msg2.tile.x
+True
+>>> msg1.tile.y == msg2.tile.y
+True
+>>> msg1.tile.z == msg2.tile.z
+True
+
+>>> tile.data = "here is some data"
+>>> msg1 = Message( "PUT", key, 101101, tile )
+>>> msg2 = Message.thaw( msg1.freeze(), layers )
+>>> msg2.type == "PUT"
+True
+>>> msg1.tile.data == msg2.tile.data
+True
+

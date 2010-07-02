@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html debug="true">
+  <head>
+    <script type="text/javascript" src="../../../../../ext/adapter/ext/ext-base.js"></script>
+    <script type="text/javascript" src="../../../../../ext/ext-all-debug.js"></script>
+
+    <script type="text/javascript" src="../../../../../openlayers/lib/OpenLayers.js"></script>
+    <script type="text/javascript" src="../../../../lib/GeoExt.js"></script>
+    <script type="text/javascript" src="WMSCapabilitiesReader.js"></script>
+
+    <script type="text/javascript">
+      
+        function test_constructor(t) {
+            t.plan(2);
+            var reader = new GeoExt.data.WMSCapabilitiesReader();
+
+            var fields = reader.recordType.prototype.fields;
+
+            // 1 test
+            t.eq(fields.items.length, 11, 'number of default items is correct');
+
+
+            var reader = new GeoExt.data.WMSCapabilitiesReader({},[
+                {name: "foo"},
+                {name: "bar"}
+            ]);
+
+            var fields = reader.recordType.prototype.fields;
+
+            //1 test
+            t.ok(fields.items[2].name == 'foo' &&
+                 fields.items[3].name == 'bar',
+                 'field values set from configuration are correct');
+        }
+        function test_read(t) {
+            t.plan(13);
+
+            var reader = new GeoExt.data.WMSCapabilitiesReader();
+
+            var records = reader.read({responseXML : doc});
+
+            //1 test
+            t.eq(records.totalRecords, 22, 'readRecords returns correct number of records');
+            
+            var record = records.records[2];
+
+            //8 tests -- testing the fields of a record
+            t.eq(record.get("name"), "tiger:tiger_roads", "[2] correct layer name");
+            t.eq(record.get("title"), "Manhattan (NY) roads", "[2] correct layer title");
+            t.eq(
+                record.get("abstract"),
+               "Highly simplified road layout of Manhattan in New York..",
+                "[2] correct layer abstract"
+            );
+            t.eq(
+                record.get("llbbox"),
+                [-74.08769307536667, 40.660618924633326, -73.84653192463333, 40.90178007536667],
+                "[2] correct layer bbox"
+            );
+            t.eq(record.get("styles").length, 1, "[2] correct styles length");
+            t.eq(record.get("styles")[0].name, "tiger_roads", "[2] correct style name");
+            t.eq(
+                record.get("styles")[0].legend.href,
+                "http://publicus.opengeo.org:80/geoserver/wms/GetLegendGraphic?VERSION=1.0.0&FORMAT=image/png&WIDTH=20&HEIGHT=20&LAYER=tiger:tiger_roads",
+                "[2] correct legend url"
+            );
+            t.eq(record.get("queryable"), true, "[2] correct queryable attribute");
+
+            //4 tests -- Testing the layer field
+            var layer = record.get("layer");
+            t.eq(layer.CLASS_NAME, "OpenLayers.Layer.WMS", "[2] layer field is of type OpenLayers.Layer.WMS");
+            t.eq(layer.url, "http://publicus.opengeo.org:80/geoserver/wms?SERVICE=WMS&", "[2] layer field has correct URL");
+            t.eq(layer.params.LAYERS, "tiger:tiger_roads","[2] layer field has correct LAYERS parameter");
+            t.eq(layer.name, "Manhattan (NY) roads","[2] layer field has correct name");
+
+        }
+    </script>
+  <body>
+    <div id="map"></div>
+  </body>
+</html>

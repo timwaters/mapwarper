@@ -1,0 +1,60 @@
+<h2>metadata</h2>
+
+
+<div class="column span-12">
+    <p>
+      <b>Title</b><br />
+      <%= h @map.title %>
+    </p>
+
+    <p>
+      <b>Description </b><br />
+      <%= h @map.description %>
+    </p>
+    <p>
+       <% if @map.tags.count > 0 -%>
+      <span class="map_summary">Tags:</span>
+      <span class="tags">
+        <% @map.tags.each do | tag | -%>
+          <%= link_to tag.name, { :controller=> :maps, :action => :tag, :id => tag.name } %>
+        <% end %>
+      </span>
+      <br />
+    <% end -%>
+    </p>
+       <p>
+         <%= @map.map_type.to_s %>
+
+    </p>
+  </div>
+
+  <div class="column span-12 last">
+  <p>
+    <b>Source/ Bibliographic Ref URL</b><br />
+    <%= @map.source_uri %>
+  </p>
+    <p>
+      <b>Publisher</b><br />
+      <%= @map.publisher %>
+    </p>
+
+    <p>
+      <b>Author(s)</b><br />
+      <%= @map.authors %>
+    </p>
+
+    <p>
+      <b>Scale</b><br />
+      <%= @map.scale %>
+    </p>
+
+    <p>
+      <b>Published Date</b><br />
+      <%= @map.published_date %>
+
+    <p>
+      <b>Reprint Date<br />
+      <%= @map.reprint_date %>
+    </p>
+  </div>
+

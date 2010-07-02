@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html debug="true">
+  <head>
+    <link rel="stylesheet" type="text/css" href="../../../../ext/resources/css/ext-all.css" />
+
+    <script type="text/javascript" src="../../../../openlayers/lib/Firebug/firebug.js"></script>
+    <script type="text/javascript" src="../../../../openlayers/lib/OpenLayers.js"></script>
+
+    <script type="text/javascript" src="../../../../ext/adapter/ext/ext-base.js"></script>
+    <script type="text/javascript" src="../../../../ext/ext-all-debug.js"></script>
+
+    <script type="text/javascript">
+      // Because of a bug in Firefox 2 we need to specify the MapFish base path.
+      // See https://bugzilla.mozilla.org/show_bug.cgi?id=351282
+      var gMfLocation = "../../../../mapfish/";
+    </script>
+    <script type="text/javascript" src="../../../../mapfish/MapFish.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="style.css" />
+    <script type="text/javascript" src="layerTreeTestUtils.js"></script>
+
+    <script type="text/javascript"><!--
+        // reference local blank image
+        Ext.BLANK_IMAGE_URL = '../../../../ext/resources/images/default/s.gif';
+
+        var gTests = [test_WmsLayerRedraw];
+
+        function createMapForWMS() {
+
+            var map = createMap();
+
+            var wms = new OpenLayers.Layer.WMS("vmap0",
+                "http://labs.metacarta.com/wms/vmap0",
+                {layers: 'basic'},
+                {isBaseLayer: true}
+            );
+            wms.setVisibility(true);
+            map.addLayer(wms);
+
+            var jpl_wms = new OpenLayers.Layer.WMS("base_sat",
+                "http://labs.metacarta.com/wms-c/Basic.py?",
+                {
+                    layers: 'satellite',
+                    format: 'image/png'
+                }
+            );
+            jpl_wms.setVisibility(false);
+            map.addLayer(jpl_wms);
+
+            var twms = new OpenLayers.Layer.WMS("base_world",
+                "http://world.freemap.in/cgi-bin/mapserv?",
+                {
+                    map: '/www/freemap.in/world/map/factbooktrans.map',
+                    layers: 'factbook',
+                    format: 'image/png'
+                }
+            );
+            twms.setVisibility(false);
+            map.addLayer(twms);
+
+            c2cwms = new OpenLayers.Layer.WMS("C2C Objects 1",
+                "http://demo.mapfish.org/mapfishsample/trunk/wms?",
+                {
+                    singleTile: true,
+                    layers: ["parkings", "summits"],
+                    format: "image/png",
+                    transparent: true
+                }, {
+                    isBaseLayer: false
+                }
+            );
+            c2cwms.setVisibility(false);
+            map.addLayer(c2cwms);
+
+            c2cwms = new OpenLayers.Layer.WMS("C2C Objects 2",
+                "http://demo.mapfish.org/mapfishsample/trunk/wms?",
+                {
+                    singleTile: true,
+                    layers: ["refuges", "sites"],
+                    format: "image/png",
+                    transparent: true
+                }, {
+                    isBaseLayer: false
+                }
+            );
+            c2cwms.setVisibility(false);
+            map.addLayer(c2cwms);
+
+            map.setCenter(new OpenLayers.LonLat(5, 45), 6);
+
+            return map;
+        }
+
+        function test_WmsLayerRedraw(t) {
+
+            t.plan(45 + 25 + 13);
+
+            var map, tree, model;
+
+            map = createMapForWMS();
+
+            var model = [{
+                text: "Base Layers",
+                expanded: true,
+                children: [{
+                    text: "Vmap",
+                    checked: true,
+                    layerName: "vmap0"
+                },{
+                    text: "World map",
+                    checked: false,
+                    layerName: "base_world"
+                }, {
+                    text: "Satellite",
+                    checked: false,
+                    layerName: "base_sat"
+                }]
+            },{
+                text: "Overlays",
+                expanded: true,
+                checked: false,
+                children: [{
+                    text: "Parkings",
+                    layerName: "C2C Objects 1:parkings",
+                    checked: false
+                },{
+                    text: "Summits",
+                    layerName: "C2C Objects 1:summits",
+                    checked: false
+                },{
+                    text: "Huts",
+                    layerNames: ["C2C Objects 2:refuges"],
+                    checked: false
+                },{
+                    text: "Spots",
+                    layerNames: ["C2C Objects 2:sites"],
+                    checked: false
+                }]
+            }];
+
+            tree = createTree(map, model);
+
+            // OpenLayers.Layer.redraw() hook
+            var testLayerRedrawCalled = {};
+            var redrawOrig = OpenLayers.Layer.prototype.redraw;
+            OpenLayers.Layer.prototype.redraw = function() {
+              testLayerRedrawCalled[this.name] = true;
+              redrawOrig.apply(this, arguments);
+            }
+
+            // Redrawn check data structure
+            for (var i=0; i < map.layers.length; i++) {
+                var layerName = map.layers[i].name;
+                testLayerRedrawCalled[layerName] = false;
+            }
+
+            function checkLayerRedrawCalled(expectedRedrawnLayers) {
+                for (layerName in expectedRedrawnLayers) {
+                    t.eq(testLayerRedrawCalled[layerName],
+                            expectedRedrawnLayers[layerName],
+                            layerName + ' layer redraw call check OK');
+                    testLayerRedrawCalled[layerName] = false;
+                }
+            }
+
+            tree.setNodeChecked(getNodeByText(tree.getRootNode(), "World map"), true);
+            expectedRedrawnLayers = {
+                'vmap0': true,
+                'base_world': false,
+                'base_sat': false,
+                'C2C Objects 1': false,
+                'C2C Objects 2': false
+            };
+            checkLayerRedrawCalled(expectedRedrawnLayers);
+
+            tree.setNodeChecked(getNodeByText(tree.getRootNode(), "Parkings"), true);
+            expectedRedrawnLayers = {
+                'vmap0': false,
+                'base_world': false,
+                'base_sat': false,
+                'C2C Objects 1': true,
+                'C2C Objects 2': false
+            };
+            checkLayerRedrawCalled(expectedRedrawnLayers);
+
+            tree.setNodeChecked(getNodeByText(tree.getRootNode(), "Summits"), true);
+            expectedRedrawnLayers = {
+                'vmap0': false,
+                'base_world': false,
+                'base_sat': false,
+                'C2C Objects 1': true,
+                'C2C Objects 2': false
+            };
+            checkLayerRedrawCalled(expectedRedrawnLayers);
+
+            tree.setNodeChecked(getNodeByText(tree.getRootNode(), "Huts"), true);
+            expectedRedrawnLayers = {
+                'vmap0': false,
+                'base_world': false,
+                'base_sat': false,
+                'C2C Objects 1': false,
+                'C2C Objects 2': true
+            };
+            checkLayerRedrawCalled(expectedRedrawnLayers);
+
+            tree.setNodeChecked(getNodeByText(tree.getRootNode(), "Spots"), true);
+            expectedRedrawnLayers = {
+                'vmap0': false,
+                'base_world': false,
+                'base_sat': false,
+                'C2C Objects 1': false,
+                'C2C Objects 2': true
+            };
+            checkLayerRedrawCalled(expectedRedrawnLayers);
+
+            tree.setNodeChecked(getNodeByText(tree.getRootNode(), "Satellite"), true);
+            expectedRedrawnLayers = {
+                'vmap0': false,
+                'base_world': true,
+                'base_sat': false,
+                'C2C Objects 1': false,
+                'C2C Objects 2': false
+            };
+            checkLayerRedrawCalled(expectedRedrawnLayers);
+
+            tree.setNodeChecked(getNodeByText(tree.getRootNode(), "Parkings"), false);
+            expectedRedrawnLayers = {
+                'vmap0': false,
+                'base_world': false,
+                'base_sat': false,
+                'C2C Objects 1': true,
+                'C2C Objects 2': false
+            };
+            checkLayerRedrawCalled(expectedRedrawnLayers);
+
+            tree.setNodeChecked(getNodeByText(tree.getRootNode(), "Spots"), false);
+            expectedRedrawnLayers = {
+                'vmap0': false,
+                'base_world': false,
+                'base_sat': false,
+                'C2C Objects 1': false,
+                'C2C Objects 2': true
+            };
+            checkLayerRedrawCalled(expectedRedrawnLayers);
+
+            tree.setNodeChecked(getNodeByText(tree.getRootNode(), "World map"), true);
+            expectedRedrawnLayers = {
+                'vmap0': false,
+                'base_world': false,
+                'base_sat': true,
+                'C2C Objects 1': false,
+                'C2C Objects 2': false
+            };
+            checkLayerRedrawCalled(expectedRedrawnLayers);
+            // 45 tests
+
+            expectedStatus = [
+                {text: "Root"},
+                {text: "Base Layers"},
+                {text: "Vmap", attr_checked: false, radio: true},
+                {text: "World map", attr_checked: true, radio: true},
+                {text: "Satellite", attr_checked: false, radio: true},
+                {text: "Overlays"},
+                {text: "Parkings", attr_checked: false},
+                {text: "Summits", attr_checked: true},
+                {text: "Huts", attr_checked: true},
+                {text: "Spots", attr_checked: false}
+            ];
+            checkStatus(t, tree, expectedStatus); // 25 tests
+
+            expectedOlStatus = [
+                {name: "vmap0", visibility: false},
+                {name: "base_sat", visibility: false},
+                {name: "base_world", visibility: true},
+                {name: "C2C Objects 1", visibility: true, subLayers: [
+                    "summits"
+                ]},
+                {name: "C2C Objects 2", visibility: true, subLayers: [
+                    "refuges"
+                ]}
+            ];
+            checkOlStatus(t, map, expectedOlStatus); // 13 tests
+
+            reset();
+        }
+
+     --></script>
+
+  </head>
+
+  <body>
+    <div id="right">
+      <div id="tree"></div>
+    </div>
+    <div id="map"></div>
+
+    <div id="test_results">
+        Test results here
+    </div>
+
+  </body>
+</html>

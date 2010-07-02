@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html debug="true">
+  <head>
+    <link rel="stylesheet" type="text/css" href="../../../ext/resources/css/ext-all.css" />
+
+    <script type="text/javascript" src="../../../../openlayers/lib/Firebug/firebug.js"></script>
+    <script type="text/javascript" src="../../../../openlayers/lib/OpenLayers.js"></script>
+
+    <script type="text/javascript" src="../../../../ext/adapter/ext/ext-base.js"></script>
+    <script type="text/javascript" src="../../../../ext/ext-all-debug.js"></script>
+
+    <script type="text/javascript">
+      // Because of a bug in Firefox 2 we need to specify the MapFish base path.
+      // See https://bugzilla.mozilla.org/show_bug.cgi?id=351282
+      var gMfLocation = "../../../../mapfish/";
+    </script>
+    <script type="text/javascript" src="../../../../mapfish/MapFish.js"></script>
+
+    <script type="text/javascript"><!--
+    function test_Map_initialize(t) {
+        t.plan(6);
+
+        var searcher, protocol;
+
+        protocol = new OpenLayers.Protocol();
+
+        // 3 tests
+        searcher = new mapfish.Searcher.Map({
+            protocol: protocol
+        });
+        t.eq(searcher.mode, mapfish.Searcher.Map.CLICK,
+             "ctor sets mode to CLICK by default");
+        t.eq(searcher.handler.CLASS_NAME, "OpenLayers.Handler.Click",
+             "ctor creates a click handler");
+        t.eq(searcher.protocol.CLASS_NAME, "OpenLayers.Protocol",
+             "ctor sets protocol");
+
+        // 1 test
+        searcher = new mapfish.Searcher.Map({
+            mode: mapfish.Searcher.Map.HOVER,
+            protocol: protocol
+        });
+        t.eq(searcher.handler.CLASS_NAME, "OpenLayers.Handler.Hover",
+             "ctor creates a hover handler");
+
+        // 1 test
+        searcher = new mapfish.Searcher.Map({
+            mode: mapfish.Searcher.Map.BOX,
+            protocol: protocol
+        });
+        t.eq(searcher.handler.CLASS_NAME, "OpenLayers.Handler.Box",
+             "ctor creates a box handler");
+
+        // 1 tests
+        searcher = new mapfish.Searcher.Map({
+            mode: mapfish.Searcher.Map.EXTENT,
+            protocol: protocol
+        });
+        t.eq(searcher.handler, null,
+             "ctor creates no handler");
+    }
+
+    function test_Map_getFilter(t) {
+        t.plan(12);
+
+        var protocol, extent, lonlat, res, searcher, filter;
+
+        protocol = new OpenLayers.Protocol();
+        extent = new OpenLayers.Bounds(1.0,2.0,3.0,4.0);
+        lonlat = new OpenLayers.LonLat(4.0, 5.0);
+        res = 5.0;
+
+        searcher = new mapfish.Searcher.Map({
+            protocol: protocol,
+            map: {
+                getLonLatFromViewPortPx: function() {
+                    return lonlat;
+                },
+                getResolution: function() {
+                    return res;
+                },
+                getExtent: function() {
+                    return extent;
+                },
+                getUnits: function() {
+                    return "m";
+                }
+            }
+        });
+
+        // 2 tests
+        searcher.position = new OpenLayers.Bounds(0, 0, 0, 0);
+        filter = searcher.getFilter();
+        t.eq(filter.CLASS_NAME, "OpenLayers.Filter.Spatial",
+             "getFilter returns a spatial filter");
+        t.eq(filter.type, OpenLayers.Filter.Spatial.BBOX,
+             "getFilter returns a BBOX spatial filter");
+
+        // 5 tests
+        searcher.position = new OpenLayers.Pixel(0, 0);
+        filter = searcher.getFilter();
+        t.eq(filter.CLASS_NAME, "OpenLayers.Filter.Spatial",
+             "getFilter returns a spatial filter");
+        t.eq(filter.type, OpenLayers.Filter.Spatial.DWITHIN,
+             "getFilter returns a DWITHIN spatial filter");
+        t.eq(filter.value.x, lonlat.lon,
+             "getFilter returns a DWITHIN filter with expected x coord");
+        t.eq(filter.value.y, lonlat.lat,
+             "getFilter returns a DWITHIN filter with expected y coord");
+        t.eq(filter.distance, searcher.searchTolerance * res,
+             "getFilter returns a DWITHIN filter with expected tolerance");
+
+        // 4 tests
+        searcher.searchTolerance = 0;
+        searcher.position = new OpenLayers.Pixel(0, 0);
+        filter = searcher.getFilter();
+        t.eq(filter.CLASS_NAME, "OpenLayers.Filter.Spatial",
+             "getFilter returns a spatial filter");
+        t.eq(filter.type, OpenLayers.Filter.Spatial.WITHIN,
+             "getFilter returns a WITHIN spatial filter");
+        t.eq(filter.value.x, lonlat.lon,
+             "getFilter returns a WITHIN filter with expected x coord");
+        t.eq(filter.value.y, lonlat.lat,
+             "getFilter returns a WITHIN filter with expected y coord");
+
+        // 1 test
+        searcher.mode =  mapfish.Searcher.Map.EXTENT;
+        searcher.position = null;
+        filter = searcher.getFilter();        
+        t.eq(filter.value.toBBOX(), extent.toBBOX(),
+             "getFilter computes position value if null and mode is EXTENT");
+    }
+--></script>
+
+  </head>
+  <body>
+  </body>
+</html>

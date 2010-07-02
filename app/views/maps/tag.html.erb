@@ -1,0 +1,27 @@
+
+<%= link_to "< Back to Home", root_url %>
+<br />
+
+<div id="search-title">Tags for <%=@tags-%></div>
+<% content_for :head do -%>
+  <%=  auto_discovery_link_tag(:rss, {:controller => "maps", :action => "tag", :format => "rss"}) %>
+<% end -%>
+
+<%=image_tag 'feed-icon-14x14.png' -%>
+<%= link_to 'RSS Feed' , 'http://'+ request.host_with_port + @rel_url_root.to_s + request.path + '.rss' %>
+<div id="tags-search-sort">
+  <%= render :partial => 'shared/sort' -%>
+</div>
+<div id="search-pagination-top">
+  <%= will_paginate @maps %>
+</div>
+  <table id="" cellpadding="3">
+  <tr>
+    <th></th>
+     <th></th>
+  </tr>
+
+   <%= render :partial => 'map', :collection => @maps unless @maps.nil? %>
+
+</table>
+<%= will_paginate @maps %>

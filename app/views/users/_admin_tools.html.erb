@@ -1,0 +1,28 @@
+<% if admin_authorized? && current_user != @user-%>
+  <div class="user-admin">
+    Email : <%= @user.email -%>  <br />
+    Activated? : <%= @user.active? ? 'Yes' : 'No' -%>  <br />
+    Enabled? : <%= @user.enabled ? 'Yes' : 'No' -%> <br />
+    <br />
+    <%= link_to('Delete User', user_path(@user.id), :method => :delete, :confirm => 'Are you sure') -%> This cannot be undone. Removes all their data.<br />
+
+    <% if @user.enabled -%>
+      <%= link_to('Disable', disable_user_path(@user.id), :method => :put) -%>
+    <% else -%>
+      <%= link_to('Enable', enable_user_path(@user.id), :method => :put) -%>
+    <% end -%>  the user's account - changeable by admin <br />
+
+
+    <%= link_to "Disable and reset password", disable_and_reset_path(@user.id), :method => :put %> This disables the users account, and sends link via email to user to create a new password. When a password is chaned, the account becomes enabled.<br />
+
+    <% unless @user.active? -%>
+      <%= link_to('Force Activate', force_activate_path(@user.id), :method => :put) -%> the user, if they are having trouble activating <br />
+      <%= link_to('Resend the activation email', force_resend_activation_path(@user.id)) -%> 
+      - sends out the email with activation code in it <br />
+    <% end -%>
+
+    <%= link_to 'Edit roles', user_roles_path(@user) -%> Change roles / groups that the user belongs to
+  </div>
+<% end -%>
+
+
