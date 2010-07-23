@@ -19,7 +19,7 @@
       <input type="submit" value=" Go ">
     <% end %>
   </div>
-
+New: <%= link_to 'Find Layers by Location',  url_for(:controller => 'layers', :action=>'geosearch')%>
   <h2><%= @html_title -%>
     <%if @query && @query.length > 0 %>&mdash; Searched for "<%=@query%>"
     <%end-%>

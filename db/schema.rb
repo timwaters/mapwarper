@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100722165440) do
+ActiveRecord::Schema.define(:version => 20100723145630) do
 
   create_table "audits", :force => true do |t|
     t.integer  "auditable_id"
@@ -72,7 +72,10 @@ ActiveRecord::Schema.define(:version => 20100722165440) do
     t.integer  "rectified_maps_count",              :default => 0
     t.boolean  "is_visible",                        :default => true
     t.string   "source_uri"
+    t.polygon  "bbox_geom"
   end
+
+  add_index "layers", ["bbox_geom"], :name => "index_layers_on_bbox_geom", :spatial => true
 
   create_table "layers_maps", :force => true do |t|
     t.integer  "layer_id"

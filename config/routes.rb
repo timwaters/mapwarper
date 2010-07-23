@@ -65,6 +65,9 @@ ActionController::Routing::Routes.draw do |map|
 
   map.map_tag '/maps/tag/:id', :controller => 'maps', :action => 'tag', :requirements => { :id => %r([^/;,?]+) }
 
+  map.connect '/layers/geosearch', :controller => 'layers', :action => 'geosearch'
+  map.connect '/layers/thumb/:id', :controller => 'layers', :action => 'thumb'
+  #map.connect '/layers/:id/maps.:format', :controller => 'layers', :action => 'maps'
   map.connect '/layers/wms2', :controller => 'layers', :action => 'wms2'
   map.resources :maps  do |a |
     a.resources :layers

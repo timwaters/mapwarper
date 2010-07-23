@@ -10,6 +10,7 @@ class Layer < ActiveRecord::Base
   #replace "has_finder" with "named_scope" if we use a newer rails 2 (uses has_finder gem)
   named_scope :visible, :order=> 'id', :conditions => {:is_visible => true}
   named_scope :with_year, :order => :maps_count, :conditions => "depicts_year is not null"
+  named_scope :with_maps, :order => :rectified_maps_count, :conditions => "rectified_maps_count >=  1"
 
   
   after_create :update_layer
@@ -127,7 +128,7 @@ class Layer < ActiveRecord::Base
 
   #sets bbox
   def set_bounds(custom_path=nil)
-    logger.info "set_Bounds"
+    logger.debug "set_bounds in layer"
     tileindex = custom_path || tileindex_path
     unless self.maps.warped.empty?
       command = "ogrinfo #{tileindex} -al -so -ro"
@@ -136,11 +137,21 @@ class Layer < ActiveRecord::Base
       sout = stdout.readlines.to_s
       serr = stderr.readlines.to_s
       if serr.size > 0
-        logger.debug "Error set bounds with layer get extent "+ err
+        logger.error "Error set bounds with layer get extent "+ err
       else
         extent = sout.scan(/^\w+: \(([0-9\-.]+), ([0-9\-.]+)\) \- \(([0-9\-.]+), ([0-9\-.]+)\)$/).flatten.join(",")
 
         self.bbox = extent.to_s
+        extents =  extent.split(",").collect{|f| f.to_f}
+         poly_array = [
+          [ extents[0], extents[1] ],
+          [ extents[2], extents[1] ],
+          [ extents[2], extents[3] ],
+          [ extents[0], extents[3] ],
+          [ extents[0], extents[1] ]
+        ]
+        logger.debug poly_array.inspect
+        self.bbox_geom = Polygon.from_coordinates([poly_array])
 
         @bounds = extent
         save!
