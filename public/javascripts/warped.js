@@ -19,8 +19,7 @@ function warpedinit(){
         new OpenLayers.Control.Attribution(),
         new OpenLayers.Control.LayerSwitcher(),
         new OpenLayers.Control.Navigation(),
-        new OpenLayers.Control.PanZoomBar(),
-        new OpenLayers.Control.MousePosition()
+        new OpenLayers.Control.PanZoomBar()
         ]
     };
 
