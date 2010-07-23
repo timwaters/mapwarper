@@ -3,8 +3,8 @@ class MapsController < ApplicationController
   # GET /maps.xml
   layout 'mapdetail', :only => [:show, :edit, :preview, :warp, :clip, :align, :activity, :warped, :export, :metadata]
   #before_filter :login_required, :only => [:destroy, :delete]
-  before_filter :login_required, :only => [:new, :create, :edit, :update, :destroy, :delete, :warp, :rectify, :clip, :align,
- :warp_align, :mask_map, :delete_mask, :save_mask, :save_mask_and_warp ]
+  before_filter :login_or_oauth_required, :only => [:new, :create, :edit, :update, :destroy, :delete, :warp, :rectify, :clip, :align,
+ :warp_align, :mask_map, :delete_mask, :save_mask, :save_mask_and_warp, :export ]
   before_filter :check_administrator_role, :only => [:publish]
   before_filter :find_map_if_available,
     :except => [:show, :index, :wms, :mapserver_wms, :warp_aligned, :status, :new, :create, :update, :edit, :tag, :geosearch]

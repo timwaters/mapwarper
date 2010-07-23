@@ -6,6 +6,9 @@ class User < ActiveRecord::Base
    has_many :my_maps, :dependent => :destroy
    has_many :maps, :through => :my_maps, :uniq => true
    has_many :layers
+  #OAUTH
+   has_many :client_applications
+   has_many :tokens, :class_name => "OauthToken", :order => "authorized_at desc", :include => [:client_application]
 
    validates_presence_of     :login, :email
    validates_presence_of     :password,                   :if => :password_required?

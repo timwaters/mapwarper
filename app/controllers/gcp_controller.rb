@@ -1,8 +1,13 @@
 class GcpController < ApplicationController
   layout 'application'
-  before_filter :login_required, :except => [:show, :index]
+  skip_before_filter :verify_authenticity_token, :only => [:update, :update_field, :add, :destroy, :show]
+  #before_filter :semi_verify_authenticity_token, :only => [:update, :update_field, :add, :destroy]
 
+  #before_filter :login_or_oauth_required, :except => [:show, :index]
+  before_filter :login_or_oauth_required, :only => [:custom, :update, :update_field, :add, :destroy]
    
+  rescue_from ActiveRecord::RecordNotFound, :with => :bad_record
+
   def show
     if Gcp.exists?(params[:id])
       @gcp = Gcp.find(params[:id])
@@ -92,6 +97,13 @@ class GcpController < ApplicationController
   end
 
   private
+  #veries token but only for the html view, turned off for xml and json calls - these calls would need to be authenticated anyhow.
+  def semi_verify_authenticity_token
+    unless request.format.xml? || request.format.json?
+      verify_authenticity_token
+    end
+  end
+
   #redirect helper method in case the request doesnt come from
   #ajax / prototype
   def redirect_to_index(msg = nil)
@@ -99,4 +111,15 @@ class GcpController < ApplicationController
     redirect_to :action => :index
   end
    
+  def bad_record
+    #logger.error("not found #{params[:id]}")
+    respond_to do | format |
+      format.html do
+        flash.now[:notice] = "GCP not found"
+        redirect_to :action => :index
+      end
+      format.json {render :json => {:stat => "not found", :items =>[]}.to_json, :status => 404}
+    end
+  end
+
 end

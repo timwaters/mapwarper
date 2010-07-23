@@ -107,8 +107,12 @@ module AuthenticatedSystem
     check_role("administrator")
   end
 
+   def check_developer_role
+    check_role("developer")
+  end
     
     
+
     # Redirect as appropriate when an access request fails.
     #
     # The default action is to redirect to the login screen.
