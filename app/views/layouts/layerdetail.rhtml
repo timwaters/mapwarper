@@ -3,7 +3,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-    <title>Map Warper: <%= h(@html_title) || ''-%> </title>
+        <title>Map Warper: <%= h(snippet(@html_title, 40)) || ''-%> </title>
     <%= stylesheet_link_tag "custom-theme/jquery-ui-1.7.custom.css" %>
     <%= stylesheet_link_tag "openlayers/theme/default/style" %>
     <%= stylesheet_link_tag "styles_1" %>
@@ -39,6 +39,8 @@
 <%= javascript_include_tag "dig/mfbase/mapfish/MapFish" %>
 
     <script type="text/javascript">
+          var addthis_share =  {  templates: { twitter: '{{url}} (from @mapwarper)' } };
+          var addthis_config = {  ui_click : true    };
 
       jQuery(function() {
 

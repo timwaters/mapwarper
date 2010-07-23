@@ -72,6 +72,9 @@
     <% if admin_authorized? %>
       | <%= render :partial  => 'maps/map_type', :object => @map %>
     <% end %>
+
+        <div style="clear:both;"></div>
+         <%= render :partial => 'shared/addthis', :locals => {:title => map.title, :description =>map.description} %>
     </span>
   </td>
 </tr>

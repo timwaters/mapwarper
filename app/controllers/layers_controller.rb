@@ -182,7 +182,7 @@ end
       @disabled_tabs += ["edit"]
       @maps = @layer.maps.public.paginate(:page => params[:page], :per_page => 30, :order => :map_type)
     end
-    @html_title = "Viewing Layer "+ @layer.id.to_s
+    @html_title = "Layer "+ @layer.id.to_s + " " + @layer.name.to_s
 
     if request.xhr?
       unless params[:page]

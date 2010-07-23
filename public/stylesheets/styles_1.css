@@ -21,6 +21,10 @@ form.edit_map {float: left;}
 
 .tags {     font-size: 0.8em;    }
 
+a.addthis_button_compact{
+  font-size:12px;
+}
+
 #view-maps-index-link {
   font-size: 10px;
   font-weight: normal;

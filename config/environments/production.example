@@ -38,3 +38,4 @@ config.action_controller.perform_caching             = true
 GOOGLE_ANALYTICS_CODE = "UA-12240034-1"
 GOOGLE_ANALYTICS_COOKIE_PATH = "/warper/"
 Yahoo_app_id = "foo"
+ADDTHIS_USER = "timwaters"
