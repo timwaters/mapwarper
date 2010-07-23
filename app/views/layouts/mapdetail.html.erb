@@ -22,7 +22,7 @@
 
         <script type="text/javascript">
           OpenLayers.ImgPath = '<%=request.protocol + request.host_with_port + ActionController::Base.relative_url_root.to_s%>/javascripts/openlayers/img/';
-          var addthis_share =  {  templates: { twitter: '{{url}} (from @mapwarper)' } };
+          var addthis_share =  {  templates: { twitter: '{{url}} (from @<%=ADDTHIS_TWITTER_USER%>)' } };
           var addthis_config = {  ui_click : true    };
 
 

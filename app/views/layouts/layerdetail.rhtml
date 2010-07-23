@@ -39,7 +39,7 @@
 <%= javascript_include_tag "dig/mfbase/mapfish/MapFish" %>
 
     <script type="text/javascript">
-          var addthis_share =  {  templates: { twitter: '{{url}} (from @mapwarper)' } };
+          var addthis_share =  {  templates: { twitter: '{{url}} (from @<%=ADDTHIS_TWITTER_USER%>)' } };
           var addthis_config = {  ui_click : true    };
 
       jQuery(function() {
