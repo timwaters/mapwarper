@@ -7,7 +7,7 @@ class MapsController < ApplicationController
  :warp_align, :mask_map, :delete_mask, :save_mask, :save_mask_and_warp ]
   before_filter :check_administrator_role, :only => [:publish]
   before_filter :find_map_if_available,
-    :except => [:show, :index, :wms, :mapserver_wms, :warp_aligned, :status, :new, :create, :update, :edit, :tag]
+    :except => [:show, :index, :wms, :mapserver_wms, :warp_aligned, :status, :new, :create, :update, :edit, :tag, :geosearch]
 
   before_filter :check_link_back, :only => [:show, :warp, :clip, :align, :warped, :export, :activity]
   before_filter :check_if_map_is_editable, :only => [:edit, :update]
@@ -20,6 +20,95 @@ class MapsController < ApplicationController
     if request.xhr?
       @xhr_flag = "xhr"
       render :layout => "tab_container"
+    end
+  end
+
+    require 'yahoo-geoplanet'
+  def geosearch
+    sort_init 'updated_at'
+    sort_update
+
+    extents = [-74.1710,40.5883,-73.4809,40.8485] #NYC
+
+    #TODO change to straight javascript call.
+    if params[:place] && !params[:place].blank?
+      place_query = params[:place]
+      Yahoo::GeoPlanet.app_id = Yahoo_app_id
+      geoplanet_result = Yahoo::GeoPlanet::Place.search(place_query, :count => 2)
+      if geoplanet_result[0]
+        g_bbox =  geoplanet_result[0].bounding_box.map!{|x| x.reverse}
+        extents = g_bbox[1] + g_bbox[0]
+        render :json => extents.to_json
+        return
+      else
+        render :json => extents.to_json
+        return
+      end
+    end
+
+    if params[:bbox] && params[:bbox].split(',').size == 4
+      begin
+        extents = params[:bbox].split(',').collect {|i| Float(i)}
+      rescue ArgumentError
+        logger.debug "arg error with bbox, setting extent to defaults"
+      end
+    end
+    @bbox = extents.join(',')
+
+    if extents
+      bbox_poly_ary = [
+        [ extents[0], extents[1] ],
+        [ extents[2], extents[1] ],
+        [ extents[2], extents[3] ],
+        [ extents[0], extents[3] ],
+        [ extents[0], extents[1] ]
+      ]
+
+      bbox_polygon = Polygon.from_coordinates([bbox_poly_ary]).as_ewkt
+      if params[:operation] == "within"
+        conditions = ["ST_Within(bbox_geom, ST_GeomFromText('#{bbox_polygon}'))"]
+      else
+        conditions = ["ST_Intersects(bbox_geom, ST_GeomFromText('#{bbox_polygon}'))"]
+      end
+
+    else
+      conditions = nil
+    end
+
+
+    if params[:sort_order] && params[:sort_order] == "desc"
+      sort_nulls = " NULLS LAST"
+    else
+      sort_nulls = " NULLS FIRST"
+    end
+
+
+      @operation = params[:operation]
+
+    if @operation == "intersect"
+      sort_geo = "ABS(ST_Area(bbox_geom) - ST_Area(ST_GeomFromText('#{bbox_polygon}'))) ASC,  "
+    else
+      sort_geo ="ST_Area(bbox_geom) DESC ,"
+    end
+
+    paginate_params = {
+      :select => "bbox, title, description, updated_at, id",
+      :page => params[:page],
+      :per_page => 20,
+      :order => sort_geo + sort_clause + sort_nulls,
+      :conditions => conditions
+    }
+    @maps = Map.warped.paginate(paginate_params)
+    @jsonmaps = @maps.to_json # (:only => [:bbox, :title, :id, :nypl_digital_id])
+    respond_to do |format|
+      format.html{ render :layout =>'application' }
+      #format.json { render :json => @maps.to_json(:stat => "ok")}
+      format.json { render :json => {:stat => "ok",
+        :current_page => @maps.current_page,
+        :per_page => @maps.per_page,
+        :total_entries => @maps.total_entries,
+        :total_pages => @maps.total_pages,
+        :items => @maps.to_a}.to_json , :callback => params[:callback]}
     end
   end
 

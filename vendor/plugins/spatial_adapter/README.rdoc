@@ -1,0 +1,174 @@
+= Spatial Adapter for ActiveRecord
+
+This is the Spatial Adapter for ActiveRecord.  It enhances ActiveRecord to
+handle spatial datatypes in the following databases:
+
+- PostgreSQL (using PostGIS)
+- MySQL (using Spatial Extensions)
+
+== Dependencies
+
+The following gems are required:
+
+- GeoRuby
+- ActiveRecord (version 2.2.2 and up)
+
+For PostgreSQL:
+
+- PostGIS version 1.4.0 or higher should be installed in your database
+ 
+== Installation
+
+Choose ONE of the following installation methods.  You shouldn't have to do both.
+
+=== From RubyGems
+
+This is the preferred method of installation, and will pull in the required
+dependencies as well.
+
+  gem install spatial_adapter
+  
+In your Rails app, you can add a gem dependency in environment.rb:
+
+  config.gem "spatial_adapter"
+  
+=== As a Rails Plugin
+
+In your Rails project, run the following:
+
+script/plugin install git://github.com/fragility/spatial_adapter.git
+
+You need to have Git installed first.
+
+== Operations
+
+Geometric columns in your ActiveRecord models now appear just like any other
+column of other basic data types. They can also be dumped in ruby schema mode
+and loaded in migrations the same way as columns of basic types.
+
+=== Migrations
+
+Here is an example of code for the creation of a table with a geometric column
+in PostGIS, along with the addition of a spatial index on the column:
+ 
+  ActiveRecord::Schema.define do
+    create_table :table_points, :force => true do |t|
+      t.string :data
+      t.point :geom, :null => false, :srid => 123, :with_z => true
+    end
+  
+    add_index :table_points, :geom, :spatial => true
+  end
+
+Here is a related statement valid for MySql version <= 5.0.16:
+
+  ActiveRecord::Schema.define do
+    create_table "table_points", ;options=>"ENGINE=MyISAM", :force => true do |t|
+      t.string :data
+      t.point :geom, :null => false
+    end
+  
+    add_index :table_points, :geom, :spatial => true
+  end
+  
+=== Differences Between Databases
+
+- On all versions of MySQL, the :srid, :with_z, and :with_m options are ignored, since
+  they are not supported. 
+  
+- On MySQL versions <= 5.0.16, you have to add <tt>:options =>
+  "ENGINE=MyISAM"</tt> to the create_table statement, since only MyISAM tables
+  can have spatial columns.  In addition, only MyISAM tables may have spatial
+  indexes.
+
+=== Models
+
+Create your ActiveRecord models normally.  Spatial Adapter will automatically
+handle spatial columns, converting them to the appropriate GeoRuby type.
+
+  class TablePoint < ActiveRecord::Base
+  end
+
+=== Access
+
+Here is an example of row creation and access, using the model and the table
+defined above:
+
+  pt = TablePoint.new(
+    :data => "Hello!", 
+    :geom => Point.from_x_y_z(-1.6, 2.8, -3.4, 123))
+  pt.save
+  pt = TablePoint.find_first
+  puts pt.geom.x #access the geom column like any other
+
+=== Fixtures
+
+If you use fixtures for your unit tests, at some point, you will want to input
+a geometry. You could transform your geometries to a form suitable for YAML
+yourself every time but Spatial Adapter provides a method to do it for you:
++to_fixture_format+. You would use it like this, if the geometric column is a
+point:
+
+  fixture:
+    id: 1
+    data: HELLO
+    geom: <%= Point.from_x_y(123.5,321.9).to_fixture_format %>
+
+=== Finder Enhancements
+
+Enhancements to find_by_* and friends has been removed from this version of
+Spatial Adapter until a cleaner implementation can be made.  (The previous
+implementation made adapter-specific modifications to ActiveRecord::Base,
+which prevented multiple adapters from being loaded at once.)
+
+=== Geometric data types
+
+Ruby geometric datatypes are currently made available only through the GeoRuby
+library (http://georuby.rubyforge.org/): This is where the
+<tt>Point.from_x_y</tt> in the example above comes from.
+
+== Warning
+
+- Since ActiveRecord seems to keep only the string values directly returned
+  from the database, it translates from these to the correct types everytime
+  an attribute is read, which is probably ok for simple types, but might be
+  less than efficient for geometries, since the EWKB string has to be parsed
+  everytime. Also it means you cannot modify the geometry object returned from
+  an attribute directly:
+
+    place = Place.find_first
+    place.the_geom.y=123456.7 # this doesn't work
+ 
+  Since the translation to a geometry is performed every time the_geom is read,
+  the change to y will not be saved! You would have to do something like this:
+
+    place = Place.find_first
+    the_geom = place.the_geom
+    the_geom.y=123456.7
+    place.the_geom = the_geom
+
+== License
+
+The Spatial Adapter for ActiveRecord is released under the MIT license.
+
+== Latest Changes
+
+Spatial Adapter has been refactored and is now available as a Ruby gem. The
+dependency on Rails has been removed. Unfortunately, the current version is
+without some of the previous functionality, until a cleaner implementation is
+made.
+
+The previous release is available on the "legacy" branch.
+
+=== Removed Features in 0.2.0
+
+- Compatibility with ActiveRecord/Rails older than version 2.2.2
+- enhancements to find_by_* for spatial columns
+- to_fixture_format extension to the GeoRuby types
+
+These will hopefully be added back in the near future.
+
+== Support
+
+Any questions, enhancement proposals, bug notifications or corrections can be
+made via the project page at http://github.com/fragility/spatial_adapter

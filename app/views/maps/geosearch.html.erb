@@ -1,0 +1,49 @@
+<% content_for :head do %>
+  <script src="http://maps.google.com/maps?file=api&amp;v=2&amp;sensor=false&amp;key=<%=GOOGLE_MAPS_KEY-%>"
+          type="text/javascript"></script>
+  <%= javascript_include_tag "openlayers/2.8/OpenLayers-2.8/OpenLayers" %>
+
+  <%= javascript_include_tag "SelectFeatureNoClick" %>
+  <%= stylesheet_link_tag "openlayers/theme/default/style" %>
+  <script type="text/javascript">
+    OpenLayers.ImgPath = '<%=request.protocol + request.host_with_port + ActionController::Base.relative_url_root.to_s%>/javascripts/openlayers/img/';
+    var gs_bounds = new OpenLayers.Bounds(<%=@bbox-%>);
+    var mapBaseURL = '<%=url_for :controller=> 'maps' %>';
+    var mapThumbBaseURL = "<%= url_for :controller => 'maps', :action => 'thumb'-%>/";
+  </script>
+  <%= javascript_include_tag "layers" %>
+  <%= javascript_include_tag "geosearch" %>
+  <%= javascript_include_tag "geosearch-map" %>
+
+  <% @onload = "searchmapinit();" %>
+<% end %>
+
+<h2>Find Rectified Maps.</h2>
+<p>Move or zoom map - both the map and list will be updated with found maps.
+</p>
+<div id="searchmap-container">
+  <div id="searchmap-list-block">
+
+    <% unless @maps.size > 0 %>
+      No Maps Found.
+    <%else%>
+
+      <table id="searchmap-table" style="table-layout:fixed">
+
+      </table>
+    <%end %>
+  </div>
+  <div id="searchmap-block">
+    <form id='placeSearchForm'  onsubmit='doPlaceSearch(this); return false;' class='geosearchform'>
+      <input type="text" id="place" name="place" value="">
+      <input type="hidden" name="operation" value="intersect" >
+      <input type="submit" value="Find Location!" class="geosearch-button">
+    </form>
+    <span id="loadingDiv"><%= image_tag "spinner-horiz.gif" %> </span>
+
+    <div id="searchmap"></div>
+  </div>
+</div>
+<div id="under-searchmap-container">
+</div>
+

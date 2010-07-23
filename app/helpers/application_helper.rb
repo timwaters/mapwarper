@@ -32,13 +32,14 @@ def pageless(total_pages, url=nil)
 end
 
 #from rails way
-def breadcrumbs
+  def breadcrumbs(stop_at_controller=nil)
   return if controller.controller_name == 'home' || controller.controller_name =='my_maps'
   html = [link_to('Home', root_path)]
   #first level
   html << link_to('Search', @link_back) if @link_back
   html << link_to('Maps', maps_path) if @maps || @map
-  html << link_to('Map '+@map.id.to_s, map_path(@map)) if @map unless @layer
+    html << link_to('Map '+@map.id.to_s, map_path(@map)) if @map unless @layer || stop_at_controller
+    html << link_to('Map '+@map.id.to_s, map_path(@map)) if @map  && @layers
 
   #second level
   if @page && @page == "for_map"

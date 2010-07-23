@@ -332,6 +332,12 @@ class Map < ActiveRecord::Base
     end
   end
 
+  #returns a GeoRuby polygon object representing the bounds
+  def bounds_polygon
+    bounds_float  = bounds.split(',').collect {|i| i.to_f}
+    Polygon.from_coordinates([ [bounds_float[0..1]] , [bounds_float[2..3]] ])
+  end
+
   def converted_bbox
     bnds = self.bounds.split(",")
     cbounds = []
@@ -557,7 +563,15 @@ class Map < ActiveRecord::Base
       begin
         extents = get_raster_extents self.warped_filename
         self.bbox = extents.join ","
-        logger.info self.bbox.inspect
+        logger.debug "SAVING BBOX GEOM"
+        poly_array = [
+          [ extents[0], extents[1] ],
+          [ extents[2], extents[1] ],
+          [ extents[2], extents[3] ],
+          [ extents[0], extents[3] ],
+          [ extents[0], extents[1] ]
+        ]
+        self.bbox_geom = Polygon.from_coordinates([poly_array])
         save
       rescue
       end

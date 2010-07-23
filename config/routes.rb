@@ -60,6 +60,9 @@ ActionController::Routing::Routes.draw do |map|
   map.formatted_export_map '/maps/export/:id.:format', :controller => 'maps', :action => 'export'
   map.wms_map '/maps/wms/:id', :controller => 'maps', :action => 'wms'
 
+  map.connect '/maps/geosearch', :controller => 'maps', :action => 'geosearch'
+  map.connect '/maps/geo', :controller => 'maps', :action => 'geo'
+
   map.map_tag '/maps/tag/:id', :controller => 'maps', :action => 'tag', :requirements => { :id => %r([^/;,?]+) }
 
   map.connect '/layers/wms2', :controller => 'layers', :action => 'wms2'

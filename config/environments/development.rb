@@ -40,3 +40,4 @@ config.action_mailer.raise_delivery_errors = false
 #GDAL_PATH  = ""
 GOOGLE_ANALYTICS_CODE = "UA-12240034-2"
 GOOGLE_ANALYTICS_COOKIE_PATH = "/warper-dev/"
+Yahoo_app_id = "lbQ2VNLV34EoEmxF9dguamWEFSXjI7adJ.ACHkdChT2JGmQ0Bj.jP1cF0nmh5XP3"

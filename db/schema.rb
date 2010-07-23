@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100523153742) do
+ActiveRecord::Schema.define(:version => 20100722165440) do
 
   create_table "audits", :force => true do |t|
     t.integer  "auditable_id"
@@ -37,18 +37,27 @@ ActiveRecord::Schema.define(:version => 20100523153742) do
     t.datetime "updated_at"
   end
 
-  create_table "geometry_columns", :id => false, :force => true do |t|
-    t.string  "f_table_catalog",   :limit => 256, :null => false
-    t.string  "f_table_schema",    :limit => 256, :null => false
-    t.string  "f_table_name",      :limit => 256, :null => false
-    t.string  "f_geometry_column", :limit => 256, :null => false
-    t.integer "coord_dimension",                  :null => false
-    t.integer "srid",                             :null => false
-    t.string  "type",              :limit => 30,  :null => false
+  create_table "indshp", :primary_key => "gid", :force => true do |t|
+    t.float         "altitude"
+    t.float         "borocode"
+    t.string        "boroname",     :limit => 254
+    t.float         "plate_num"
+    t.float         "hist_year"
+    t.string        "author",       :limit => 254
+    t.float         "volume_num"
+    t.float         "url"
+    t.float         "x"
+    t.float         "y"
+    t.float         "objectid"
+    t.float         "altitude__11"
+    t.float         "nypl_digit"
+    t.float         "date_"
+    t.float         "shape_leng"
+    t.float         "shape_area"
+    t.float         "plate_numb"
+    t.float         "altitude_"
+    t.multi_polygon "the_geom",                    :srid => 9804
   end
-
-# Could not dump table "indshp" because of following StandardError
-#   Unknown type 'geometry' for column 'the_geom'
 
   create_table "layers", :force => true do |t|
     t.string   "name"
@@ -101,7 +110,10 @@ ActiveRecord::Schema.define(:version => 20100523153742) do
     t.string   "cached_tag_list"
     t.integer  "map_type"
     t.string   "source_uri"
+    t.polygon  "bbox_geom"
   end
+
+  add_index "maps", ["bbox_geom"], :name => "index_maps_on_bbox_geom", :spatial => true
 
   create_table "my_maps", :force => true do |t|
     t.integer  "map_id"
@@ -113,8 +125,13 @@ ActiveRecord::Schema.define(:version => 20100523153742) do
   add_index "my_maps", ["map_id", "user_id"], :name => "index_my_maps_on_map_id_and_user_id", :unique => true
   add_index "my_maps", ["map_id"], :name => "index_my_maps_on_map_id"
 
-# Could not dump table "parks" because of following StandardError
-#   Unknown type 'geometry' for column 'park_geom'
+  create_table "parks", :id => false, :force => true do |t|
+    t.integer       "park_id",                  :null => false
+    t.string        "park_name", :limit => nil
+    t.string        "park_type", :limit => nil
+    t.multi_polygon "park_geom"
+    t.integer       "size"
+  end
 
   create_table "permissions", :force => true do |t|
     t.integer  "role_id",    :null => false
@@ -123,31 +140,205 @@ ActiveRecord::Schema.define(:version => 20100523153742) do
     t.datetime "updated_at"
   end
 
-# Could not dump table "planet_osm_line" because of following StandardError
-#   Unknown type 'geometry' for column 'way'
+  create_table "planet_osm_line", :id => false, :force => true do |t|
+    t.integer     "osm_id"
+    t.text        "access"
+    t.text        "admin_level"
+    t.text        "aerialway"
+    t.text        "aeroway"
+    t.text        "amenity"
+    t.text        "area"
+    t.text        "bicycle"
+    t.text        "bridge"
+    t.text        "boundary"
+    t.text        "building"
+    t.text        "cutting"
+    t.text        "embankment"
+    t.text        "foot"
+    t.text        "highway"
+    t.text        "horse"
+    t.text        "junction"
+    t.text        "landuse"
+    t.text        "layer"
+    t.text        "learning"
+    t.text        "leisure"
+    t.text        "man_made"
+    t.text        "military"
+    t.text        "motorcar"
+    t.text        "name"
+    t.text        "natural"
+    t.text        "oneway"
+    t.text        "power"
+    t.text        "place"
+    t.text        "railway"
+    t.text        "ref"
+    t.text        "religion"
+    t.text        "residence"
+    t.text        "route"
+    t.text        "sport"
+    t.text        "tourism"
+    t.text        "tracktype"
+    t.text        "tunnel"
+    t.text        "waterway"
+    t.text        "width"
+    t.text        "wood"
+    t.integer     "z_order"
+    t.float       "way_area"
+    t.line_string "way",         :srid => 900913
+  end
 
-# Could not dump table "planet_osm_point" because of following StandardError
-#   Unknown type 'geometry' for column 'way'
+  add_index "planet_osm_line", ["way"], :name => "planet_osm_line_index", :spatial => true
 
-# Could not dump table "planet_osm_polygon" because of following StandardError
-#   Unknown type 'geometry' for column 'way'
+  create_table "planet_osm_point", :id => false, :force => true do |t|
+    t.integer "osm_id"
+    t.text    "access"
+    t.text    "admin_level"
+    t.text    "aeroway"
+    t.text    "amenity"
+    t.text    "area"
+    t.text    "bicycle"
+    t.text    "bridge"
+    t.text    "boundary"
+    t.text    "building"
+    t.text    "cutting"
+    t.text    "embankment"
+    t.text    "foot"
+    t.text    "highway"
+    t.text    "horse"
+    t.text    "junction"
+    t.text    "landuse"
+    t.text    "layer"
+    t.text    "learning"
+    t.text    "leisure"
+    t.text    "man_made"
+    t.text    "military"
+    t.text    "motorcar"
+    t.text    "name"
+    t.text    "natural"
+    t.text    "oneway"
+    t.text    "poi"
+    t.text    "power"
+    t.text    "place"
+    t.text    "railway"
+    t.text    "ref"
+    t.text    "religion"
+    t.text    "residence"
+    t.text    "route"
+    t.text    "sport"
+    t.text    "tourism"
+    t.text    "tunnel"
+    t.text    "waterway"
+    t.text    "width"
+    t.text    "wood"
+    t.integer "z_order"
+    t.point   "way",         :srid => 900913
+  end
 
-# Could not dump table "planet_osm_roads" because of following StandardError
-#   Unknown type 'geometry' for column 'way'
+  add_index "planet_osm_point", ["way"], :name => "planet_osm_point_index", :spatial => true
+
+  create_table "planet_osm_polygon", :id => false, :force => true do |t|
+    t.integer "osm_id"
+    t.text    "access"
+    t.text    "admin_level"
+    t.text    "aerialway"
+    t.text    "aeroway"
+    t.text    "amenity"
+    t.text    "area"
+    t.text    "bicycle"
+    t.text    "bridge"
+    t.text    "boundary"
+    t.text    "building"
+    t.text    "cutting"
+    t.text    "embankment"
+    t.text    "foot"
+    t.text    "highway"
+    t.text    "horse"
+    t.text    "junction"
+    t.text    "landuse"
+    t.text    "layer"
+    t.text    "learning"
+    t.text    "leisure"
+    t.text    "man_made"
+    t.text    "military"
+    t.text    "motorcar"
+    t.text    "name"
+    t.text    "natural"
+    t.text    "oneway"
+    t.text    "power"
+    t.text    "place"
+    t.text    "railway"
+    t.text    "ref"
+    t.text    "religion"
+    t.text    "residence"
+    t.text    "route"
+    t.text    "sport"
+    t.text    "tourism"
+    t.text    "tracktype"
+    t.text    "tunnel"
+    t.text    "waterway"
+    t.text    "width"
+    t.text    "wood"
+    t.integer "z_order"
+    t.float   "way_area"
+    t.polygon "way",         :srid => 900913
+  end
+
+  add_index "planet_osm_polygon", ["way"], :name => "planet_osm_polygon_index", :spatial => true
+
+  create_table "planet_osm_roads", :id => false, :force => true do |t|
+    t.integer     "osm_id"
+    t.text        "access"
+    t.text        "admin_level"
+    t.text        "aerialway"
+    t.text        "aeroway"
+    t.text        "amenity"
+    t.text        "area"
+    t.text        "bicycle"
+    t.text        "bridge"
+    t.text        "boundary"
+    t.text        "building"
+    t.text        "cutting"
+    t.text        "embankment"
+    t.text        "foot"
+    t.text        "highway"
+    t.text        "horse"
+    t.text        "junction"
+    t.text        "landuse"
+    t.text        "layer"
+    t.text        "learning"
+    t.text        "leisure"
+    t.text        "man_made"
+    t.text        "military"
+    t.text        "motorcar"
+    t.text        "name"
+    t.text        "natural"
+    t.text        "oneway"
+    t.text        "power"
+    t.text        "place"
+    t.text        "railway"
+    t.text        "ref"
+    t.text        "religion"
+    t.text        "residence"
+    t.text        "route"
+    t.text        "sport"
+    t.text        "tourism"
+    t.text        "tracktype"
+    t.text        "tunnel"
+    t.text        "waterway"
+    t.text        "width"
+    t.text        "wood"
+    t.integer     "z_order"
+    t.float       "way_area"
+    t.line_string "way",         :srid => 900913
+  end
+
+  add_index "planet_osm_roads", ["way"], :name => "planet_osm_roads_index", :spatial => true
 
   create_table "roles", :force => true do |t|
     t.string   "name"
     t.integer  "updated_by"
     t.datetime "created_at"
     t.datetime "updated_at"
-  end
-
-  create_table "spatial_ref_sys", :id => false, :force => true do |t|
-    t.integer "srid",                      :null => false
-    t.string  "auth_name", :limit => 256
-    t.integer "auth_srid"
-    t.string  "srtext",    :limit => 2048
-    t.string  "proj4text", :limit => 2048
   end
 
   create_table "taggings", :force => true do |t|

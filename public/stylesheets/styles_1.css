@@ -25,10 +25,68 @@ form.edit_map {float: left;}
   font-size: 10px;
   font-weight: normal;
 }
+.searchmap-popup {
+font-size: 10px;
+}
+#searchmap
+{     margin-left: 2px;
+        position: relative;
+        z-index: 22;
+	height:650px;
+	border:1px solid #999999;
+}
+
+
+#searchmap-container{
+height: 650px;
+}
+#searchmap-list-block {
+width: 55%;
+overflow: auto;
+height: 100%;
+float: left;
+}
+#searchmap-block{
+width: 44%;
+float: right;
+}
+#searchmap-table td {
+font-size: 70%;
+}
+#searchmap-table td.mini-map-thumb {
+width: 80px;
+}
+#searchmap-table tfoot td {
+  text-align: center;
+  font-size: 110%;
+}
+
+.normal { background-color: #CCCCCC }
+.highlight { background-color: #8888FF }
+
+#under-searchmap-container{
+clear: both;
+}
+#geofrm input.geosearch-button
+{
+	font-size:110%;
+	font-weight:700;
+	overflow:visible;
+	padding-bottom:0;
+	padding-left:1em;
+	padding-right:1em;
+}
+
 .layermap-popup {
 font-size: 10px;
 }
-
+.geosearchform div{
+display: inline;
+}
+.geosearchform {
+display: inline;
+padding-bottom:5px;
+}
 .map-type-form {
  display: inline;
 }
