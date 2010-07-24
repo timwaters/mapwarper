@@ -29,7 +29,7 @@ class MapsController < ApplicationController
 
   def comments
     @html_title = "comments"
-    @selected_tab = 7
+    @selected_tab = 9
     @current_tab = "comments"
     @comments = @map.comments
     choose_layout_if_ajax
@@ -670,6 +670,27 @@ class MapsController < ApplicationController
     send_data result_data, :type => content_type, :disposition => "inline"
     Mapscript::msIO_resetHandlers
     end
+  end
+
+   def tile
+     x = params[:x].to_i
+     y = params[:y].to_i
+     z = params[:z].to_i
+     #for Google/OSM tile scheme we need to alter the y:
+     y = ((2**z)-y-1)
+     #calculate the bbox
+     params[:bbox] = get_tile_bbox(x,y,z)
+     #build up the other params
+     params[:status] = "warped"
+     params[:format] = "image/png"
+     params[:service] = "WMS"
+     params[:version] = "1.1.1"
+     params[:request] = "GetMap"
+     params[:srs] = "EPSG:900913"
+     params[:width] = "256"
+     params[:height] = "256"
+     #call the wms thing
+     wms
 
   end
 
@@ -679,7 +700,24 @@ class MapsController < ApplicationController
   ##################################
 
   private
+#
+# tile utility methods. calculates the bounding box for a given TMS tile.
+# Based on http://www.maptiler.org/google-maps-coordinates-tile-bounds-projection/
+# GDAL2Tiles, Google Summer of Code 2007 & 2008
+# by  Klokan Petr Pridal
+#
+def get_tile_bbox(x,y,z)
+  min_x, min_y = get_merc_coords(x * 256, y * 256, z)
+  max_x, max_y = get_merc_coords( (x + 1) * 256, (y + 1) * 256, z )
+  return "#{min_x},#{min_y},#{max_x},#{max_y}"
+end
 
+def get_merc_coords(x,y,z)
+  resolution = (2 * Math::PI * 6378137 / 256) / (2 ** z)
+  merc_x = (x * resolution -2 * Math::PI  * 6378137 / 2.0)
+  merc_y = (y * resolution - 2 * Math::PI  * 6378137 / 2.0)
+  return merc_x, merc_y
+end
 
    def mapserver_wms
     #use Map.map_file_path so we don't have to do a db call

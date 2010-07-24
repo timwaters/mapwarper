@@ -2,7 +2,7 @@ class LayersController < ApplicationController
 
 
   layout 'layerdetail', :only => [:show,  :edit, :export, :metadata]
-  before_filter :login_or_oauth_required , :except => [:wms, :wms2, :show_kml, :show, :index, :metadata, :maps, :thumb, :geosearch, :comments]
+  before_filter :login_or_oauth_required , :except => [:wms, :wms2, :show_kml, :show, :index, :metadata, :maps, :thumb, :geosearch, :comments, :tile]
   before_filter :check_administrator_role, :only => [:publish, :toggle_visibility, :merge, :remove_map, :update_year, :update, :destroy, :create]
   before_filter :find_layer, :only => [:show, :export, :metadata, :digitize, :toggle_visibility, :update_year, :publish, :remove_map, :merge, :maps, :thumb, :comments]
 
@@ -12,7 +12,7 @@ class LayersController < ApplicationController
 
  def comments
     @html_title = "comments"
-    @selected_tab = 4
+    @selected_tab = 5
     @current_tab = "comments"
     @comments = @layer.comments
     choose_layout_if_ajax
@@ -593,7 +593,47 @@ end
     Mapscript::msIO_resetHandlers
   end
 
+  def tile
+     x = params[:x].to_i
+     y = params[:y].to_i
+     z = params[:z].to_i
+     #for Google/OSM tile scheme we need to alter the y:
+     y = ((2**z)-y-1)
+     #calculate the bbox
+     params[:bbox] = get_tile_bbox(x,y,z)
+     #build up the other params
+     params[:status] = "warped"
+     params[:format] = "image/png"
+     params[:service] = "WMS"
+     params[:version] = "1.1.1"
+     params[:request] = "GetMap"
+     params[:srs] = "EPSG:900913"
+     params[:width] = "256"
+     params[:height] = "256"
+     #call the wms thing
+     wms
+
+   end
+
   private
+#
+# tile utility methods. calculates the bounding box for a given TMS tile.
+# Based on http://www.maptiler.org/google-maps-coordinates-tile-bounds-projection/
+# GDAL2Tiles, Google Summer of Code 2007 & 2008
+# by  Klokan Petr Pridal
+#
+def get_tile_bbox(x,y,z)
+  min_x, min_y = get_merc_coords(x * 256, y * 256, z)
+  max_x, max_y = get_merc_coords( (x + 1) * 256, (y + 1) * 256, z )
+  return "#{min_x},#{min_y},#{max_x},#{max_y}"
+end
+
+def get_merc_coords(x,y,z)
+  resolution = (2 * Math::PI * 6378137 / 256) / (2 ** z)
+  merc_x = (x * resolution -2 * Math::PI  * 6378137 / 2.0)
+  merc_y = (y * resolution - 2 * Math::PI  * 6378137 / 2.0)
+  return merc_x, merc_y
+end
 
   #little helper method
   def snippet(thought, wordcount)

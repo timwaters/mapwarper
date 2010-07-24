@@ -6,6 +6,10 @@
     <%= link_to("WMS link suitable for JOSM OpenStreetMap Editor", wms_link) %> <br />
   </li>
   <li>
+  <% tile_url = url_for(:controller => "layers", :action => "tile", :x => "x", :y => "y", :z => "z", :only_path => false) %>
+    Tiles (Google/OSM scheme): <%=link_to "Tiles base URL", tile_url %>
+  </li>
+  <li>
     KML: <%= link_to("Download KML", formatted_layer_url(:id => @layer, :format=>:kml)) %>
     (<%= link_to("View KML in Google Maps", "http://maps.google.com?q="+formatted_layer_url(:id => @layer,
         :format => :kml), :target => "_blank") %> )
@@ -14,3 +18,18 @@
     Bibliographic:  <%= link_to 'biblio record', "http://example.com" -%>
   </li>
 </ul>
+<br />
+<!--
+<h3>Digitized Features</h3>
+    <ul>
+      <% %w(buildings districts points_of_interest transport hydrography).each do | dataset | %>
+        <li>
+        <%=dataset.titleize %>: <a href="/geoserver/wfs?typename=nyplv:<%=dataset-%>&SERVICE=WFS&VERSION=1.0.0&REQUEST=GetFeature&SRS=EPSG%3A4326&OutputFormat=shape-zip&CQL_FILTER=layer_id=<%=@layer.id%>">ESRI Shapefile(zip)</a>,
+        <a href="/geoserver/wms?bbox=<%=@layer.get_bounds%>&Format=image/png&request=GetMap&layers=nyplv:<%=dataset-%>&CQL_FILTER=layer_id=<%=@layer.id%>&width=512&height=512&srs=EPSG:4326" target="_blank">WMS</a>,
+        <a href="/geoserver/wms?&service=WMS&request=GetMap&layers=nyplv:<%=dataset-%>&CQL_FILTER=layer_id=<%=@layer.id%>&bbox=<%=@layer.get_bounds%>&format=application/vnd.google-earth.kml+XML&width=512&height=512">KML</a>,
+        <a href="/geoserver/wfs?typename=nyplv:<%=dataset-%>&SERVICE=WFS&VERSION=1.0.0&REQUEST=GetFeature&SRS=EPSG%3A4326&OutputFormat=csv&CQL_FILTER=layer_id=<%=@layer.id%>" >CSV</a>,
+        <a href="/geoserver/wms?bbox=<%=@layer.get_bounds%>&styles=&Format=application/rss%2Bxml&request=GetMap&version=1.1.1&layers=nyplv:<%=dataset-%>&width=800&height=375&srs=EPSG:4326&CQL_FILTER=layer_id=<%=@layer.id%>" target="_blank">GeoRSS</a>
+        </li>
+    <% end -%>
+    </ul>
+-->>

@@ -17,10 +17,14 @@
     WMS: <%= link_to("WMS base URL",wms_map_url(:id=>@map) )%>
     (<%= link_to "for JOSM OpenStreetMap Editor", josm_url %>    )
   </li>
+<li>
+  <% tile_url = url_for(:controller => "maps", :action => "tile", :x => "x", :y => "y", :z => "z", :only_path => false) %>
+    Tiles (Google/OSM scheme): <%=link_to "Tiles base URL", tile_url %>
+  </li>
 </ul>
 Bibliographic:
 <ul>
   <li>
-    <%= link_to 'Some Bibliographic Link', "http://example.com/alink"  %>
+    <%= link_to 'Bibliographic', "http://example.com/alink"  %>
   </li>
 </ul>
