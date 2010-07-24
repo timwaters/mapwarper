@@ -730,6 +730,73 @@ class Map < ActiveRecord::Base
      end
    end
 
+   #uses Yahoo Geo placemaker to get the places mentioned in the title and description
+   #it will also get a sibling map, if that has been rectified, to help determine appropriate zoom scale
+   #TODO - weight the results to bias the text in the title, and experiment with the focusWoeid
+   def find_bestguess_places
+     url = URI.parse('http://wherein.yahooapis.com/v1/document')
+     appid = Yahoo_app_id
+     documentContent = "<xml><title>#{REXML::Text.new(self.title).to_s}</title><description>#{REXML::Text.new( self.description ).to_s}</description></xml>"
+     documentType = "text/xml"
+     focusWoeid = 2459115  #focus to new york
+     post_args = {
+    #'focusWoeid' => focusWoeid,
+    'appid' => appid,
+    'documentContent' => documentContent,
+    'documentType' => documentType
+     }
+     begin
+       resp, data = Net::HTTP.post_form(url, post_args)
+       logger.debug data.inspect
+       @results = REXML::Document.new(data)
+       xmldoc = @results.root
+       if xmldoc.elements["document"] && xmldoc.elements["document"].size > 1
+         south_west = [xmldoc.elements["document/extents/southWest/longitude"].text, xmldoc.elements["document/extents/southWest/latitude"].text]
+         north_east = [xmldoc.elements["document/extents/northEast/longitude"].text, xmldoc.elements["document/extents/northEast/latitude"].text]
+         extents = [south_west + north_east].join ','
+
+         places = Array.new
+         place_woeids = Array.new
+         place_count = 0
+         xmldoc.elements.each('document/placeDetails/place') do | place |
+           place_hash = Hash.new
+         place_hash[:name] = place.elements["name"].text
+         place_hash[:lon] = place.elements["centroid/longitude"].text
+         place_hash[:lat] = place.elements["centroid/latitude"].text
+         places << place_hash
+         place_woeids << place.elements["woeId"].text
+         place_count += 1
+         end
+         if !self.layers.visible.empty? && !self.layers.visible.first.maps.warped.empty?
+           sibling_extent = self.layers.visible.first.maps.warped.last.bbox
+         else
+           sibling_extent = nil
+         end
+         top_places = Array.new
+         xmldoc.elements.each('document/referenceList/reference') do | reference |
+           if "/xml[1]/title[1]" ==  reference.elements["xpath"].text
+             ref_woeid =  reference.elements["woeIds"].text.split.first
+             if place_woeids.include? ref_woeid
+               top_places <<  places[place_woeids.index(ref_woeid)]
+             end
+           end
+         end
+         temp_a = places - top_places
+         places = top_places + temp_a
+         placemaker_result = {:status => "ok", :map_id => self.id, :extents => extents, :count => place_count, :places => places, :sibling_extent=> sibling_extent}
+
+       else
+         placemaker_result = {:status => "fail", :code => "no results"}
+       end
+     rescue SocketError => e
+       logger.error "Socket error in find bestguess places" + e.to_s
+       placemaker_result = {:status => "fail", :code => "socketError"}
+     rescue REXML::ParseException => e
+       logger.error "Error parsing XML " + e.to_s
+       placemaker_result = {:status => "fail", :code => "Rexml Error"}
+     end
+     placemaker_result
+   end
 
 
 end

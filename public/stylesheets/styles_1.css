@@ -21,6 +21,37 @@ form.edit_map {float: left;}
 
 .tags {     font-size: 0.8em;    }
 
+div#to_map_notification{
+  top: 2px;
+  left: 48px;
+  right: 118px;
+  background-color:#FFFF66;
+  z-index:5000;
+  position: absolute;
+  padding: 2px;
+  margin: 0px;
+  line-height: 1.3em !important;
+  overflow: visible !important;
+  font-size: 11px !important;
+}
+div#to_map_notify_close{
+  position: absolute;
+  font-size: 17px !important;
+  font-weight: bold;
+  right: 4px;
+  top: 1px;
+  border: 2px solid gray;
+  padding-bottom: 1px;
+}
+div#to_map_notification_inner{
+ margin-right: 15px;
+}
+div#export_toolbox {
+font-style: normal;
+}
+div#export_toolbox a.export_button {
+font-size: 12px;
+
 }
 div#export_toolbox a.export_button img{
 vertical-align: middle;

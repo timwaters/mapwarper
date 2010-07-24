@@ -549,6 +549,7 @@ class MapsController < ApplicationController
      @current_tab = "warp"
      @selected_tab = 2
      @html_title = "Rectifying Map "+ @map.id.to_s
+     @bestguess_places = @map.find_bestguess_places  if @map.gcps.empty?
      @other_layers = Array.new
      @map.layers.visible.each do |layer| 
        @other_layers.push(layer.id)
@@ -825,4 +826,3 @@ end
 
 
 end
-

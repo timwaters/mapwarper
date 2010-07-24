@@ -126,7 +126,6 @@ function init() {
         {displayClass: 'olControlDragFeature', title:'Move Control Point'});
     dragMarker.onComplete = function(feature) {
       saveDraggedMarker(feature);
-      dragMarker.deactivate();
     };
 
     var drawFeatureTo = new OpenLayers.Control.DrawFeature(active_to_vectors, OpenLayers.Handler.Point ,
@@ -148,7 +147,6 @@ function init() {
         {displayClass: 'olControlDragFeature', title:'Move Control Point'});
     dragMarkerFrom.onComplete = function(feature) {
       saveDraggedMarker(feature);
-      dragMarkerFrom.deactivate();
     };
 
     navig = new OpenLayers.Control.Navigation({title: "Move Around Map"});
@@ -170,7 +168,6 @@ function init() {
     joinControls(dragMarker, dragMarkerFrom);
     joinControls(navig, navigFrom);
     joinControls(drawFeatureTo, drawFeatureFrom);
-
 
 
       //set up jquery slider for warped layer
@@ -726,7 +723,7 @@ function highlight(thingToHighlight){
 }
 
 
-
+//TODO deprecate these transform methods to use OL's transform command
 function mercatorToLonLat(merc) {
     var lon = (merc.lon / 20037508.34) * 180;
     var lat = (merc.lat / 20037508.34) * 180;
@@ -752,4 +749,37 @@ function lonLatToMercatorBounds(llbounds){
 
   return newbounds;
 
+}
+
+//this function is called is a map has no gcps, and fuzzy best guess
+//locations are found. This uses Yahoo's Placemaker service.
+function bestGuess(guessObj){
+  jQuery("#to_map_notification").hide();
+  if (guessObj["status"] == "ok" && guessObj["count"] > 0){
+    var siblingExtent = guessObj["sibling_extent"];
+    zoom = 10;
+    if (siblingExtent){
+      sibBounds = new OpenLayers.Bounds.fromString(siblingExtent);
+      zoom = to_map.getZoomForExtent(sibBounds.transform(to_map.displayProjection, to_map.projection));
+    }
+    var places = guessObj["places"];
+    var message = "Map zoomed to best guess: "+
+      "<a href='#' onclick='centerToMap("+places[0].lon+","+places[0].lat+","+zoom+");return false;'>"+places[0].name + "</a><br />";
+    centerToMap(places[0].lon, places[0].lat, zoom);
+
+    if (places.length > 1) {
+     message = message + "Other places:<br />";
+      for (var i = 1; i< places.length; i++){
+        var place = places[i];
+        message = message + "<a href='#' onclick='centerToMap("+place.lon+","+place.lat+","+zoom+");return false;'>"+place.name + "</a><br />"
+      }
+    }
+    jQuery("#to_map_notification_inner").html(message);
+    jQuery("#to_map_notification").show('slow');
+  }
+
+}
+function centerToMap(lon, lat, zoom){
+  var newCenter = new OpenLayers.LonLat(lon, lat).transform(to_map.displayProjection, to_map.projection);
+  to_map.setCenter(newCenter, zoom);
 }
