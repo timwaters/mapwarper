@@ -1,0 +1,986 @@
+
+
+= NYPL Warper API Notes  =
+News:
+
+0.3 OAuth authentication.
+
+0.2 Removed XML as that's clunky.
+
+0.1 Added callback / JSONP
+
+add a callback param to get the JSON returned with a callback.
+
+[http://mapwarper.net/maps/7449/gcps?format=json&amp;callback=myCamelCallback http://mapwarper.net/maps/7449/gcps?format=json&callback=myCamelCallback]
+
+
+{{{
+myCamelCallback(
+{ "items" : [ { "created_at" : "2008/07/22 18:58:21 -0400",
+        "error" : 0.0,
+        "id" : 5200,
+        "lat" : 52.796119927500001,
+        "lon" : -4.7362793675999999,
+        "mapscan_id" : 7449,
+        "updated_at" : "2009/03/06 14:22:06 -0500",
+        "x" : 2112.2062499999902,
+        "y" : 3078.63625
+      },
+      { "created_at" : "2009/03/06 14:20:30 -0500",
+        "error" : 0.0,
+        "id" : 9577,
+        "lat" : 51.345211861199999,
+        "lon" : 1.41580814,
+        "mapscan_id" : 7449,
+        "updated_at" : "2010/05/25 11:56:52 -0400",
+        "x" : 4521.5737499999996,
+        "y" : 4062.855
+      }
+    ],
+  "stat" : "ok"
+}
+)
+}}}
+
+
+== list of maps   ==
+=== query / search for maps  ===
+example call:
+
+GET[http://mapwarper.net/maps?field=title&amp;query=New&amp;sort_key=updated_at&amp;sort_order=desc&amp;show_warped=1&amp;format=json http://mapwarper.net/maps?field=title&query=New&sort_key=updated_at&sort_order=desc&show_warped=1&format=json]
+
+==== query parameters  ====
+field       title|description|nypl_digital_id|catnyp
+
+      (if no field parameter, field is title, by default)
+
+query        optional text for search query based on field chosen, case insensitive.
+
+      simple exact string text search, i.e. a search for "city New York" gives no results, but a search for "city of New York" gives 22
+
+sort_key      title|updated_at|status
+
+sort_order     asc|desc
+
+show_warped   1 [1 = only return maps that have already been warped]
+
+format    json
+
+page     page number
+
+
+=== outputs  ===
+==== json  ====
+
+{{{
+{ "stat": "ok",
+ "current_page": 1,
+"items": [
+   {
+     "status": "warped",
+     "map_type": "is_map",
+     "updated_at": "2010/03/25 10:52:42 -0400",
+    "title": "A chart of Delaware Bay and River : containing a full and exact description of the shores, creeks, harbours, soundings, shoals, sands, and bearings of the most considerable land marks \u0026c. \u0026c. / faithfully coppied [sic] from that published at Philadelphia",
+     "id": 6985,
+     "description": "from A new edition, much enlarged, of the second part of the North American pilot, for New England, New York, Pennsylvania, New Jersey, Maryland, Virginia, North and South Carolina, Georgia, Florida, and the Havanna : including general charts of the British Ch",
+     "height": 4744,
+     "nypl_digital_id": "1030125",
+     "catnyp": "b7166511",
+     "mask_status": null,
+     "bbox": "-75.9831134505588,38.552727388127,-73.9526411829395,40.4029389105122",
+     "width": 5875,
+     "created_at": "2008/06/28 18:19:34 -0400"
+   },
+
+   {
+     "status":
+...
+
+}],"total_pages":132,"per_page":10,"total_entries":1314}
+}}}
+
+
+== Geo / Search Maps  ==
+Returns a paginated list of rectified maps based on a bounding box.
+
+bbox  string - comma separated string, bounding box of the rectified geotiff
+
+     y.min (lon min) ,x.min (lat min) ,y.max (lon max), x.max (lat max)
+
+    e.g.-75.9831134505588,38.552727388127,-73.9526411829395,40.4029389105122
+
+operation -  intersect|within
+
+     intersect, preferred, uses PostGIS ST_Intersects operation to get rectified maps,
+
+     whose extents are intersected with the bbox parameter. Ordered by closeness
+
+     (by area) to the bbox extent.
+
+     within uses a postgis ST_Within operation to get maps by the extent of the
+
+     rectified image, that occur within the bbox parameter. Only returns maps that
+
+     are found entirely within the bbox extent.
+
+format - json
+
+
+
+example call:
+
+[http://mapwarper.net/maps/geosearch?bbox=-74.4295114013431,39.71182637980763,-73.22376188967249,41.07147471270077&amp;format=json&amp;page=1&amp;operation=intersect
+
+ http://mapwarper.net/maps/geosearch?bbox=-74.4295114013431,39.71182637980763,-73.22376188967249,41.07147471270077&format=json&page=1&operation=intersect]
+
+=== Outputs  ===
+
+{{{
+{"stat": "ok",
+ "current_page": 1,
+ "items": [
+   {
+     "updated_at": "2010/03/25 10:52:25 -0400",
+     "title": "Map of the counties of Orange and Rockland / by David H. Burr ; engd. by Rawdon, Clark \u0026amp; Co., Albany, \u0026amp; Rawdon, Wright \u0026amp; Co., N. York.",
+     "id": 12851,
+     "description": "from An atlas of the state of New York : containing a map of the state and of the several counties / by David H. Burr.",
+     "nypl_digital_id": "433847",
+     "bbox": "-75.126810998457,40.7450450274136,-73.460790365527,41.843831161244"
+   },
+   {
+     "updated_at": "2010/03/25 10:52:26 -0400",
+......
+
+}
+ ],
+ "total_pages": 61,
+ "per_page": 20,
+ "total_entries": 1206
+}
+}}}
+
+
+== Get a map  ==
+example call GET[http://mapwarper.net/maps/8461.json http://mapwarper.net/maps/8461.json]
+
+or [http://mapwarper.net/maps/8461?format=json http://mapwarper.net/maps/8461?format=json]
+
+==== outputs:  ====
+
+{{{
+{
+ "stat": "ok",
+ "items": [
+   {
+     "status": "warped",
+     "map_type": "is_map",
+     "updated_at": "2010/03/25 11:12:41 -0400",
+   "title": "Double Page Plate No. 34: [Bounded by (New Town Creek) Commercial Street, Ash Street, Oakland Street, Paidge Avenue, Sutton Street, Meserole Avenue, Diamond Street, Calyer Street, Manhattan Avenue, Greenpoint Avenue, West Street and Bay Street.]",
+     "id": 8461,
+     "description": "from Atlas of the Brooklyn borough of the City of New York : originally Kings Co.; complete in three volumes ... based upon official maps and plans ... / by and under the supervision of Hugo Ullitz, C.E.",
+     "height": 4920,
+     "nypl_digital_id": "1517475",
+     "catnyp": null,
+     "mask_status": null,
+     "bbox": "-73.9656432253048,40.7255401662787,-73.9405456042296,40.7411978079278",
+     "width": 6299,
+     "created_at": "2008/06/28 18:19:34 -0400"
+   }
+ ]
+}
+}}}
+
+
+If the map is not found, with format=json, the following response will be returned
+
+{"items":[],"stat":"not found"}
+
+with a HTTP 404 status
+
+
+== Map variables  ==
+title - string
+
+description - string
+
+width - integer - width of unrectified image
+
+height - integer - height of unrectified image
+
+status - integer [0 : unloaded, 1 : loading, 2 : available, 3 : warping, 4 : warped, 5 : published]
+
+loading is the status set when the master image is being requested from the NYPL repository
+
+available is set when the image has finished being copied, and ready to being warped
+
+warping is the status temporarily set during the warping process
+
+warped status is set after rectification
+
+published is set when the map should no longer be edited. Not currently used.
+
+map_type - integer [0 : index, 1 : is_map, 2 : not_map ]
+
+index to mark a map as actually being an index / overview map
+
+is_map, default map type
+
+not_map, used to mark a map as something that's not a map, like a plate showing sea monsters, for example
+
+bbox - string - comma separated string, bounding box of the rectified geotiff
+
+  y.min (lon min) ,x.min (lat min) ,y.max (lon max), x.max (lat max)
+
+  e.g.-75.9831134505588,38.552727388127,-73.9526411829395,40.4029389105122
+
+updated_at - date when object was last updated
+
+created_at - date when first created
+
+nypl_digital_id - NYPL digital id, used for thumbnail and link to bibliographic extras
+
+catnyp_id - NYPL digital catalalog id used for link to bibliographic
+
+mask_status - status of masking int. [0 : unmasked ,1 : masking ,2 : masked]
+
+
+== Get Map Status  ==
+GET[http://mapwarper.net/maps/8991/status http://mapwarper.net/maps/8991/status]
+
+returns text,
+
+If a map has no status (i.e. not been transferred yet) this request will return "loading".
+
+This request is used to poll a map whilst the map is being transfered from the NYPL image server to the map server, usually takes a few seconds, could take several. Sometimes, it doesn't succeed.
+
+
+== Layers   ==
+=== Query / List Layers  ===
+==== query parameters  ====
+field       name|description|catnyp
+
+      (if no field parameter, field is name by default)
+
+query        optional text for search query based on field chosen, case insensitive.
+
+      simple exact string text search, i.e. a search for "city New York" gives no results, but a search for "city of New York" gives 22
+
+sort_key      name|depicts_year|updated_at|mapscans _count|percent
+
+sort_order     asc|desc
+
+format    json
+
+page     page number
+
+Example:
+
+[http://mapwarper.net/layers?field=name&amp;query=New+York&amp;format=json http://mapwarper.net/layers?field=name&query=New+York&format=json]
+
+
+JSON
+
+
+{{{
+{
+ "current_page": 1,
+ "items": [
+   {
+     "name": "Atlas of New York and vicinity : from actual surveys / by and under the direction of F. W. Beers, assisted by A. B. Prindle \u0026 others",
+     "is_visible": true,
+     "updated_at": "2010/02/25 11:09:33 -0500",
+     "mapscans_count": 50,
+     "id": 873,
+     "rectified_mapscans_count": 9,
+     "catnyp": "b5639903",
+     "depicts_year": "1868",
+     "bbox": "-73.949323,40.831269,-73.673187,41.300783",
+     "created_at": "2009/03/23 21:21:19 -0400"
+   },
+   {
+     "name":
+............
+}
+ ],
+ "total_pages": 6,
+ "per_page": 20,
+ "total_entries": 105
+}
+}}}
+
+
+== A Map's Layers  ==
+use the map_id param:
+
+[http://mapwarper.net/layers?map_id=10090&amp;field=name&amp;sort_key=mapscans_count&amp;sort_order=asc&amp;query=New&amp;format=json http://mapwarper.net/layers?map_id=10090&field=name&sort_key=mapscans_count&sort_order=asc&query=New&format=json]
+
+alternatively, the URL can be constructed from the point of view of a map:
+
+http://mapwarper.net/maps/10090/layers.json
+
+==== Outputs  ====
+
+{{{
+{
+ "stat": "ok",
+"items": [
+   {
+     "name": "New topographical atlas of the counties of Albany and Schenectady, New York : from actual surveys / by S.N. \u0026 D.G. Beers and assistants.",
+     "is_visible": true,
+     "updated_at": "2009/10/12 19:47:13 -0400",
+     "mapscans_count": 30,
+     "id": 931,
+     "rectified_mapscans_count": 20,
+     "catnyp": "b5589358",
+     "depicts_year": "1866",
+     "bbox": "-74.433033,42.247915,-73.478985,43.136618",
+     "created_at": "2009/03/23 21:21:19 -0400"
+   },
+   {
+     "name": "New York",
+     "is_visible": false,
+     "updated_at": "2010/02/21 13:39:43 -0500",
+     "mapscans_count": 2501,
+     "id": 919,
+     "rectified_mapscans_count": 96,
+     "catnyp": null,
+     "depicts_year": null,
+     "bbox": "-83.179076,39.640270,-69.331971,45.723733",
+     "created_at": "2009/03/23 21:21:19 -0400"
+   }
+ ]
+}
+}}}
+
+
+If not found, with format=json, the following response will be returned
+
+{"items":[],"stat":"not found"}
+
+with a HTTP 404 status
+
+== Layer  ==
+Get Layer:
+
+gets a single layer.
+
+[http://mapwarper.net/layers/760.json http://mapwarper.net/layers/760.js]on
+
+or[http://mapwarper.net/layers/760?format=json http://mapwarper.net/layers/760?format=json]
+
+==== outputs  ====
+
+{{{
+{
+ "stat": "ok",
+ "items": [
+   {
+     "name": "America: being the latest, and most accurate description of the Nevv vvorld; containing the original of the inhabitants, and the remarkable voyages thither. The conquest of the vast empires of Mexico and Peru, and other large provinces and territories, wi",
+     "is_visible": true,
+     "updated_at": "2009/10/12 19:37:38 -0400",
+     "mapscans_count": 115,
+     "id": 760,
+     "rectified_mapscans_count": 1,
+     "catnyp": "b6082770",
+     "depicts_year": "1671",
+     "bbox": "-65.077269,32.107121,-64.553078,32.521725",
+     "created_at": "2009/03/23 21:21:19 -0400"
+   }
+ ]
+}
+}}}
+
+If not found, with format=json, the following response will be returned
+
+{"items":[],"stat":"not found"}
+
+with a HTTP 404 status
+
+Layer Variables
+
+bbox - bounding box, based on the extents of the tileindex shapefile that makes up the layer with maps.
+
+mapscans_count - how many maps a layer has. Where a map is defined using the map_type => is_map variable - excludes title pages for instance.
+
+rectified_mapscans_count - How many maps are rectified in the layer
+
+percent - the percentage of rectified maps out of total number of maps
+
+depicts_year - the year which this layer depicts
+
+is_visible - boolean. if it's set to false, usually indicates a meta layer, or collection of atlases. These meta-layers will not have WMS.
+
+
+== A Layer's Maps  ==
+Returns paginated list of maps for a given layer.
+
+[http://mapwarper.net/layers/maps/890?format=json&amp;show_warped=0 http://mapwarper.net/layers/890/maps?format=json&show_warped=]1
+
+show_warped  0|1 (default is 1, only returns rectified maps, 0 show all maps)
+
+
+==== Response  ====
+JSON
+
+
+{{{
+{
+ "stat": "ok",
+ "current_page": 1,
+ "items": [
+   {
+     "status": null,
+     "map_type": "not_map",
+     "updated_at": "2009/07/03 13:26:45 -0400",
+     "title": "The generall historie of Virginia, New-England, and the Summer isles: with the names of the adventurers, planters, and governours from their first beginning ano: 1584. to this present 1626. With the proceedings of those severall colonies and the accident",
+     "id": 12893,
+     "description": "from The generall historie of Virginia, New-England, and the Summer isles : with the names of the adventurers, planters, and governours from their first beginning ano: 1584. to this present 1626. With the proceedings of those severall colonies and the accidents that befell them in all their journyes and discoveries. Also the maps and descriptions of all those countryes, their commodities, people, government, customes, and religion yet knowne. Divided into sixe bookes. / By Captaine Iohn Smith sometymes governour in those countryes \u0026 admirall of New England.",
+     "height": null,
+     "nypl_digital_id": "433895",
+     "catnyp": null,
+     "mask_status": null,
+     "bbox": null,
+     "width": null,
+     "created_at": "2008/06/28 18:19:34 -0400"
+   }
+ ],
+
+ "total_pages": 1,
+ "per_page": 50,
+ "total_entries": 1
+}
+}}}
+
+
+== Map & Layer WMS  ==
+=== Map WMS  ===
+http://mapwarper.net/maps/wms/8561
+
+=== Layer WMS  ===
+http://mapwarper.net/layers/wms/931
+
+
+== Map & Layer KML  ==
+=== Map KML  ===
+http://mapwarper.net/maps/8561.kml
+
+=== Layer KML  ===
+http://mapwarper.net/layers/931.kml
+
+------------------------------
+
+'''Ground Control Points'''
+
+== Get a Maps Ground Control Points  ==
+GET[http://mapwarper.net/maps/8561/gcps.json http://mapwarper.net/maps/8561/gcps.json]
+
+or,[http://mapwarper.net/maps/8561/gcps?format=json http://mapwarper.net/maps/8561/gcps?format=json]
+
+returns list of GCPs with calculated error.
+
+=== outputs  ===
+==== JSON  ====
+
+{{{
+{
+ "stat": "ok",
+ "items": [
+   {
+     "lon": -73.960261342,
+     "updated_at": "2008/08/08 07:38:27 -0400",
+     "x": 5635.0,
+     "y": 889.0,
+     "mapscan_id": 8561,
+     "id": 3489,
+     "error": 2.12607673635957,
+     "lat": 40.6903369015,
+     "created_at": "2008/07/11 14:49:59 -0400"
+   },
+   {
+     "lon": -73.934082982,
+     "updated_at": "2008/08/08 07:38:27 -0400",
+     "x": 4719.0,
+     "y": 4014.0,
+     "mapscan_id": 8561,
+     "id": 3490,
+     "error": 6.01964128034223,
+     "lat": 40.6933793515,
+     "created_at": "2008/07/11 14:49:59 -0400"
+   },
+....
+ ]
+}
+}}}
+
+
+If the map is not found, with format=json, the following response will be returned
+
+{"items":[],"stat":"not found"}
+
+with a HTTP 404 status
+
+
+==== fields  ====
+x,y coordinates for unrectifed image
+
+lat, lon coordinates to rectify to
+
+mapscan_id - the map id
+
+error - float, error for that point
+
+'''Ground Control Points'''
+
+'''with the following calls, if the GCP is not found, with format=json, the following response will be returned'''
+
+'''{"items":[],"stat":"not found"} '''
+
+'''with a HTTP 404 status'''
+
+
+=== GCP - Get single point  ===
+http://mapwarper.net/gcp/{gcp_id}?format=|json
+
+http://mapwarper.net/gcp/9579?format=json
+
+
+JSON
+
+
+{{{
+{
+ "stat": "ok",
+ "items": [
+   {
+     "lon": -5.6943786435,
+     "updated_at": "2010/05/25 12:07:29 -0400",
+     "x": 1544.54636904762,
+     "y": 4892.97321428,
+     "mapscan_id": 7449,
+     "id": 9579,
+     "lat": 50.1082502287,
+     "created_at": "2009/03/06 14:23:44 -0500"
+   }
+ ]
+}
+}}}
+
+
+=== GCP - add GCP  ===
+Requires authentication
+
+POST http://mapwarper.net/gcp/add/{map_id}
+
+example http://mapwarper.net/gcp/add/7449
+
+''where map_id is the map which wants a new gcp''
+
+example with CURL
+
+curl -X POST -d "x=1.1&y=2.3&format=json" -u name@example.com:password http://mapwarper.net/gcp/add/7449
+
+'''params'''
+
+Note, pass in the map id with this, sorry - this may change later!
+
+ lat, lon, x, y are optional, if these are not present, the GCP is created with this missing value set as 0
+
+ lat   lat of destination map (0 if not given)
+
+ lon   lon of destination map (0 if not given)
+
+ x    x of image (0 if not given)
+
+ y      y of image (0 if not given)
+
+ format   json
+
+
+
+==== returns:  ====
+==== JSON  ====
+
+{{{
+{
+ "stat": "ok",
+ "items": [
+   {
+     "lon": -73.960261342,
+     "updated_at": "2008/08/08 07:38:27 -0400",
+     "x": 5635.0,
+     "y": 889.0,
+     "mapscan_id": 8561,
+     "id": 3489,
+     "error": 2.12607673635957,
+     "lat": 40.6903369015,
+     "created_at": "2008/07/11 14:49:59 -0400"
+   },
+   {
+     "lon": -73.934082982,
+     "updated_at": "2008/08/08 07:38:27 -0400",
+     "x": 4719.0,
+     "y": 4014.0,
+     "mapscan_id": 8561,
+     "id": 3490,
+     "error": 6.01964128034223,
+     "lat": 40.6933793515,
+     "created_at": "2008/07/11 14:49:59 -0400"
+   },
+...
+ ]
+}
+}}}
+
+
+==== Errors  ====
+In case of an error, the output response would be similar as follows:
+
+
+{{{
+{
+ "errors": [
+  [
+     "x",
+     "is not a number"
+   ]
+ ],
+ "stat": "fail",
+"items": [],
+ "message": "Could not add GCP"
+}
+}}}
+
+
+
+
+=== GCP - Update entire GCP  ===
+Requires authentication
+
+PUT http://mapwarper.net/gcp/update/{gcp_id}
+
+http://mapwarper.net/gcp/update/14803
+
+where gcp_id is the id of the ground control point
+
+example using CURL and HTTP BASIC
+
+curl -X PUT -d "lat=54.33&lon=-1.467&x=3666.335&y=2000.12&format=json" -u user@example.com:password http://mapwarper.net/gcp/update/14803
+
+ lat    lat of destination map
+
+ lon    lon of destination map
+
+ x     x of image
+
+ y     y of image
+
+ format  json
+
+
+
+returns, list of GCPS, with error calculations (see above)
+
+
+
+in case of error:
+
+
+{{{
+{"items":[],"errors":[["lat","is not a number"]],"stat":"fail","message":"Could not update GCP"}
+}}}
+
+
+
+
+=== GCP - Update one field of a GCP  ===
+Requires authentication
+
+PUT http://mapwarper.net/gcp/update_field/{gcp_id}
+
+where gcp_id is the id of the ground control point
+
+http://mapwarper.net/gcp/update_field/14803
+
+params
+
+attribute    lat|lon|x|y
+
+value      value to change
+
+format     json
+
+returns list of GCPS, with error calculations (see above)
+
+in case of error:
+
+
+{{{
+{"items":[],"errors":[["lat","is not a number"]],"stat":"fail","message":"Could not update GCP"}
+}}}
+
+
+
+=== GCP - Delete GCP  ===
+Requires authentication
+
+DELETE http://mapwarper.net/gcp/destroy/{gcp_id}
+
+where gcp_id is the id of the ground control point
+
+e.g. http://mapwarper.net/gcp/destroy/14805
+
+params:
+
+format   json
+
+returns list of GCPS, with error calculations (see above)
+
+in case of error:
+
+
+{{{
+{"items":[],"errors":[["field","message about field"]],"stat":"fail","message":"Could not delete GCP"}
+
+}}}
+
+
+
+
+== Cropping  ==
+Requires authentication
+
+uses GML to mask a portion of the map, so that areas on a map that are not masked become transparent.
+
+=== Crop - Get mask  ===
+GET http://mapwarper.net/shared/masks/{map_id}.gml.ol
+
+http://mapwarper.net/shared/masks/7449.gml.ol
+
+http://mapwarper.net/shared/masks/7449.gml.ol?1274110931 (with a timestamp to assist in browser cache busting)
+
+gets a GML file, containing Polygons of the clipping mask
+
+example:
+
+
+{{{
+<wfs:FeatureCollection xmlns:wfs="http://www.opengis.net/wfs"><gml:featureMember xmlns:gml="http://www.opengis.net/gml"><feature:features xmlns:feature="http://mapserver.gis.umn.edu/mapserver" fid="OpenLayers.Feature.Vector_207"><feature:geometry><gml:Polygon><gml:outerBoundaryIs><gml:LinearRing><gml:coordinates decimal="." cs="," ts=" ">1474.9689999999998,5425.602 3365.091,5357.612 3582.659,5126.446 3555.463,4813.692 3637.051,4487.34 4276.157,3753.048 4575.313,3113.942 4493.725,1917.318 4072.187,1645.358 3079.533,1441.388 2467.623,1427.79 2304.447,1264.614 1529.3609999999999,1332.6039999999998 1542.9589999999998,1862.926 2005.291,2202.876 1624.547,2542.826 </nowiki><nowiki>1651.743,3195.53 1665.341,3698.656 1692.5369999999998,3997.812 2005.291,4201.782 2005.291,4419.35 1570.155,5140.044 1474.9689999999998,5425.602</gml:coordinates></gml:LinearRing></gml:outerBoundaryIs></gml:Polygon></feature:geometry></feature:features></gml:featureMember><gml:featureMember xmlns:gml="http://www.opengis.net/gml"><feature:features xmlns:feature="http://mapserver.gis.umn.edu/mapserver" fid="OpenLayers.Feature.Vector_201"><feature:geometry><gml:Polygon><gml:outerBoundaryIs><gml:LinearRing><gml:coordinates decimal="." cs="," ts=" ">1447.773,4854.486 1828.5169999999998,4582.526 1950.899,4242.576 1774.125,4065.802 1583.753,3902.626 1610.949,3345.108 1597.3509999999999,2923.57 1447.773,2638.0119999999997 1379.783,2787.59 1338.989,4854.486 1447.773,4854.486</gml:coordinates></gml:LinearRing></gml:outerBoundaryIs></gml:Polygon></feature:geometry></feature:features></gml:featureMember></wfs:FeatureCollection>
+}}}
+
+
+=== Crop - Save mask  ===
+Requires authentication
+
+POST http://mapwarper.net/maps/{map_id}/save_mask
+
+e.g. http://mapwarper.net/maps/7449/save_mask
+
+
+with CURL
+
+
+{{{
+curl -X POST -d "format=json" -d 'output=<wfs:FeatureCollection xmlns:wfs="http://www.opengis.net/wfs"><gml:featureMember xmlns:gml="http://www.opengis.net/gml"><feature:features xmlns:feature="http://mapserver.gis.umn.edu/mapserver" fid="OpenLayers.Feature.Vector_207"><feature:geometry><gml:Polygon><gml:outerBoundaryIs><gml:LinearRing><gml:coordinates decimal="." cs="," ts=" ">1490.0376070686068,5380.396178794179 3342.4880893970894,5380.214910602912 3582.659,5126.446 3555.463,4813.692 3637.051,4487.34 4276.157,3753.048 4575.313,3113.942 4546.465124740124,1412.519663201663 2417.4615530145525,1317.354124740125 1431.415054054054,1294.9324823284824 1447.7525384615387,2187.807392931393 1434.5375363825372,5034.563750519751 1490.0376070686068,5380.396178794179</gml:coordinates></gml:LinearRing></gml:outerBoundaryIs></gml:Polygon></feature:geometry></feature:features></gml:featureMember></wfs:FeatureCollection>' -u user@example.com:pass  http://mapwarper.net/maps/7449/save_mask
+}}}
+
+
+params:
+
+format  jsonoutput     a GML string containing for example:
+
+
+{{{
+<wfs:FeatureCollection xmlns:wfs="http://www.opengis.net/wfs"><gml:featureMember xmlns:gml="http://www.opengis.net/gml"><feature:features xmlns:feature="http://mapserver.gis.umn.edu/mapserver" fid="OpenLayers.Feature.Vector_207"><feature:geometry><gml:Polygon><gml:outerBoundaryIs><gml:LinearRing><gml:coordinates decimal="." cs="," ts=" ">1490.0376070686068,5380.396178794179 3342.4880893970894,5380.214910602912 3582.659,5126.446 3555.463,4813.692 3637.051,4487.34 4276.157,3753.048 4575.313,3113.942 4546.465124740124,1412.519663201663 2417.4615530145525,1317.354124740125 1431.415054054054,1294.9324823284824 1447.7525384615387,2187.807392931393 1434.5375363825372,5034.563750519751 1490.0376070686068,5380.396178794179</gml:coordinates></gml:LinearRing></gml:outerBoundaryIs></gml:Polygon></feature:geometry></feature:features></gml:featureMember></wfs:FeatureCollection>
+}}}
+
+
+
+Returns:
+
+text string with a message indicating success or failure:
+
+{"stat":"ok", "message":"Map clipping mask saved (gml)"}
+
+
+=== Crop - Delete mask  ===
+Requires authentication
+
+deletes a maskPOST http://mapwarper.net/maps/{map_id}/delete_mask
+
+params: format=json
+
+returns string indicating success or failure i.e "mask deleted"
+
+{"stat":"ok","message":"mask deleted"}
+
+If the map is not found, with format=json, the following response will be returned
+
+{"items":[],"stat":"not found"}
+
+with a HTTP 404 status
+
+
+=== Crop - Mask map  ===
+Requires authentication
+
+POST http://mapwarper.net/maps/{map_id}/mask_map
+
+applies the clipping mask to a map, but does not rectify it
+
+A clipping mask should be saved before calling this.
+
+Response:
+
+{"stat":"ok","message":"Map cropped"}
+
+If no clipping mask can be found,
+
+{"stat":"fail","message":"Mask file not found"}
+
+
+If the map is not found, with format=json, the following response will be returned
+
+{"items":[],"stat":"not found"}
+
+with a HTTP 404 status
+
+
+=== Crop - Save, Mask and Warp Map  ===
+Requires authentication
+
+POST http://mapwarper.net/maps/{map_id}/save_mask_and_warp
+
+rolls the calls into one. Saves mask, applies mask to map, and rectifies map using the mask
+
+
+params:
+
+output - GML string containing polygon(s) to mask over (see save mask)
+
+
+returns - text message indicating success,
+
+{"stat":"ok","message":"Map masked and rectified!"}
+
+in the case where a map has less than 3 Control Points, a message indicating that, whilst the mask was saved, and applied, the map needs more points to be able to rectify
+
+{"stat":"ok","message":"Map masked but it needs more control points to rectify"}
+
+If the map is not found, with format=json, the following response will be returned
+
+{"items":[],"stat":"not found"}
+
+with a HTTP 404 status
+
+
+== Warping  ==
+Requires authentication
+
+Warps or Rectifies a map according to it's saved GCPs and the parameters passed in.
+
+POST http://mapwarper.net/maps/{map_id}/rectify
+
+e.g. http://mapwarper.net/maps/7449/rectify
+
+with curl
+
+curl -X POST -d "use_mask=false&format=json" -u email@example.com:password  http://mapwarper.net/maps/7449/rectify
+
+params:
+
+resample_options  (optional - nearest neighbour is given as default)
+
+           near - Nearest Neighbour - fastest (default)
+
+           bilinear - Binlinear interpolation
+
+           cubic  - Cubic (good, slower)
+
+           cubicspline - Cubic Spline slowest, best quality
+
+
+
+transform_options  (optional - auto is given as default)
+
+           auto (default)
+
+           p1 - 1st Order Polynomial - min 3 points
+
+           p2 - 2nd order polynomial - min 6 points
+
+           p3 - 3rd order polynomial - min 10 points
+
+           tps - Thin Plate Spline - (many points, evenly spread)
+
+
+
+use_mask      true|false applies any saved mask to the map, optional, defaults to false
+
+
+returns: if map is rectified
+
+{"stat":"ok","message":"Map rectified."}
+
+If the map hasnt got enough GCPS saved, the map won't be warped:
+
+{"stat":"fail","message":"not enough GCPS to rectify"}
+
+If the map is not found, with format=json, the following response will be returned
+
+{"items":[],"stat":"not found"}
+
+with a HTTP 404 status
+
+
+== callback / JSONP  ==
+add a callback param to get the JSON returned with a callback.
+
+[http://mapwarper.net/maps/7449/gcps?format=json&amp;callback=myCamelCallback http://mapwarper.net/maps/7449/gcps?format=json&callback=myCamelCallback]
+
+returns:
+
+
+{{{
+myCamelCallback({"items":[{"lon":-4.7362793676,"updated_at":"2009/03/06 14:22:06 -0500","x":2112.20624999999,"y":3078.63625,"mapscan_id":7449,"id":5200,"error":0.0,"lat":52.7961199275,"created_at":"2008/07/22 18:58:21 -0400"},{"lon":1.41580814,"updated_at":"2010/05/25 11:56:52 -0400","x":4521.57375,"y":4062.855,"mapscan_id":7449,"id":9577,"error":0.0,"lat":51.3452118612,"created_at":"2009/03/06 14:20:30 -0500"}],"stat":"ok"})
+}}}
+
+
+== Authentication  ==
+=== HTTP Basic  ===
+For example with curl:
+
+curl -X POST -d "use_mask=false&format=json" -u email@example.com:password  http://mapwarper.net/maps/7449/rectify
+
+=== OAuth  ===
+First thing is to be set up as a User with the developer role. An admin can do this.
+
+Register the application:
+
+[http://mapwarper.net/oauth_clients http://mapwarper.net/oauth_clients]
+
+
+Consumer Key: UCrascb8cKascascasc
+
+Consumer Secret: Cjc58b1ascLOonYjTrQanascascas2
+
+Request Token URL http://mapwarper.net/oauth/request_token
+
+Access Token URL http://mapwarper.net/oauth/access_token
+
+Authorize URL http://mapwarper.net/oauth/authorize
+
+Using Ruby's OAuth gem in irb:
+
+@consumer = OAuth::Consumer.new "UCrascb8cKascascasc", "Cjc58b1ascLOonYjTrQanascascas2", {:site => "http://mapwarper.net", :request_token_path => "/oauth/request_token", :access_token_path => "/oauth/access_token", :authorize_path => "/oauth/authorize", :http_method => :post}
+
+@request_token = @consumer.get_request_token
+
+@request_token.authorize_url
+
+=> "http://mapwarper.net/oauth/authorize?auth_token=DpMacac3kXTx6vascasc"
+
+@access_token = @request_token.get_access_token(:oauth_verifier => "ascascascug")
+
+@resp = @access_token.post "/gcp/add/7449", {:x=>1, :y=>2, :format => "json"}
+
+=> #<Net::HTTPOK 200 OK readbody=true>
