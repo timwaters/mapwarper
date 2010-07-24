@@ -7,10 +7,12 @@ class SessionsController < ApplicationController
    # render new.rhtml
    def new
      @html_title = "Login"
+     if  (["Rectify_tab", "Crop_tab", "Align_tab", "Export_tab","Activity_tab", "Comments_tab"].include?(params[:back].to_s) && params[:mapid])
+       session[:return_to] = map_path(:id => params[:mapid], :anchor => params[:back])
+   end
    end
 
    def create
-#   logger.info "create" 
       password_authentication(params[:email], params[:password])
    end
 

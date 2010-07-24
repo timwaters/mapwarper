@@ -122,11 +122,14 @@ module AuthenticatedSystem
     # to access the requested action.  For example, a popup window might
     # simply close itself.
     def access_denied
+      logger.debug("access_denied")
       respond_to do |format|
         format.html do
           if request.xhr?
+          store_location
           #send a javascript-based redirect
-            render :inline => "<script>document.location.href = '<%=url_for(:controller => '/sessions', :action => 'new')%>';</script>"
+            render :inline => "<script>document.location.href = '<%=url_for(new_session_path)%>';</script>"
+            return
           else
           store_location
           redirect_to new_session_path
@@ -143,7 +146,7 @@ module AuthenticatedSystem
       respond_to do |format|
         format.html do
           domain_name = "http://"+ SITE_URL
-          dnamelen = domain_name.length
+          dname_len = domain_name.length
           http_referer = session[:refer_to]
           if http_referer.nil?
             store_referer
@@ -151,12 +154,10 @@ module AuthenticatedSystem
           end
 
           #flash[:error] = "You don't have permission to complete that action"
-       
-          if http_referer[0..(dnamelen-1)] != domain_name
+          if http_referer[0..(dname_len-1)] != domain_name
             session[:refer_to] = nil
             redirect_to root_path
           else
-            logger.info "4"
             redirect_to_referer_or_default(root_path)
           end
         end
@@ -173,11 +174,7 @@ module AuthenticatedSystem
     #
     # We can return to this location by calling #redirect_back_or_default.
     def store_location
-      if RAILS_ENV == 'production'
         session[:return_to] = request.request_uri
-      else
-      session[:return_to] =  (ActionController::Base.relative_url_root || '' ) + request.request_uri
-    end
     end
 
     def store_referer

@@ -1,5 +1,17 @@
-<p>
+<% content_for :head do %>
+  <script type="text/javascript">
+    //workaround to pass in the tab hash so that we can be redirected here when logged in
+    jQuery(document).ready(function(){
+        if (jQuery.historyCurrentHash && jQuery("#notice>a[href]").length > 0) {
+        var hash_param = jQuery.historyCurrentHash.substr(1);
+        var newhref = jQuery("#notice>a")[0].href + "?back="+hash_param + "&mapid=<%=@map.id.to_s%>";
+        jQuery("#notice>a[href]")[0].href = newhref;
+          }
+        });
+</script>
+<% end %>
+  <p>
   A low resolution preview is shown below.  <br />
   </p>
-  <%=image_tag  @map.upload.url(:medium) %>
+  <%=image_tag ("http://images.nypl.org/?t=w&id=#{@map.nypl_digital_id}") %>
 
