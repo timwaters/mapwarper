@@ -1,0 +1,10 @@
+<h3> Comment on this <%= object.class %> <h3>
+    <% form_tag :controller => 'comments', :action => 'add_comment'  do %>
+<%# text_field 'comment', 'title' %>
+<%= text_area 'comment', 'comment', :rows => "4" %>
+<br />
+<%= submit_tag 'Add Comment' %>
+
+<%= hidden_field 'commentable', 'commentable', :value => object.class %>
+<%= hidden_field 'commentable', 'commentable_id', :value => object.id %>
+<% end  %>

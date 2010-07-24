@@ -1,5 +1,5 @@
 class MapsController < ApplicationController
-   layout 'mapdetail', :only => [:show, :edit, :preview, :warp, :clip, :align, :activity, :warped, :export, :metadata]
+   layout 'mapdetail', :only => [:show, :edit, :preview, :warp, :clip, :align, :activity, :warped, :export, :metadata, :comments]
   #before_filter :login_required, :only => [:destroy, :delete]
   before_filter :login_or_oauth_required, :only => [:new, :create, :edit, :update, :destroy, :delete, :warp, :rectify, :clip, :align,
  :warp_align, :mask_map, :delete_mask, :save_mask, :save_mask_and_warp ]
@@ -24,6 +24,17 @@ class MapsController < ApplicationController
     if request.xhr?
       @xhr_flag = "xhr"
       render :layout => "tab_container"
+    end
+  end
+
+  def comments
+    @html_title = "comments"
+    @selected_tab = 7
+    @current_tab = "comments"
+    @comments = @map.comments
+    choose_layout_if_ajax
+    respond_to do | format |
+      format.html {}
     end
   end
 

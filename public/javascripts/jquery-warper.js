@@ -4,7 +4,7 @@ jQuery.preloadImages = function(){ for(var i = 0; i<arguments.length; i++)
 jQuery.preloadImages("/images/spinner.gif");
 
 function jqHighlight(element){
-  jQuery("#"+element).effect('highlight',{}, 7000);
+  jQuery("#"+element).effect('highlight',{}, 1000);
 }
 
 function bigModalDialog(message){

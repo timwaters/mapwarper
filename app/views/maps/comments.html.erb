@@ -1,0 +1,11 @@
+<h2> Comments </h2>
+<%unless @comments.empty? -%>
+<%= render :partial => 'comments/comment', :collection => @comments %>
+<% else -%>
+  There's no comments for this map, why not add one now! <br />
+<% end -%>
+<% if logged_in? %>
+  <%= render :partial => 'comments/comment_form', :object => @map -%>
+<% else -%>
+  <%= link_to "Log in to add a comment",new_session_path(:back => "Comments_tab", :mapid => @map.id) %> 
+<% end -%>

@@ -1,0 +1,16 @@
+<div class="comment">
+  <span class="comment_text">
+    <%= (h comment.comment).gsub("\n","<br/>") -%> <br />
+  </span>
+  <span class="comment_metadata">
+    <% if comment.user -%>
+      <%= link_to comment.user.login, user_path(comment.user) -%>
+    <% end -%>
+    - <%= time_ago_in_words(comment.created_at) %> ago.
+    <%if logged_in? -%>
+      <% if current_user == comment.user || admin_authorized? %>
+        <%= link_to "delete", url_for(:controller => "comments", :action => "destroy", :id => comment.id), :method => :delete, :confirm => "Really delete this comment?"%>
+      <% end -%>
+    <% end -%>
+  </span>
+</div>

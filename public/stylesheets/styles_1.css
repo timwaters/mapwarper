@@ -1,3 +1,12 @@
+div.comment {
+  padding-bottom: 5px;
+  font-size: smaller;
+}
+div.comment span.comment_metadata {
+  font-size: smaller;
+  font-style: italic;
+}
+
 #warper-maindiv {
     margin: 1.5em;
 }

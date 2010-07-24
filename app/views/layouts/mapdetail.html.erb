@@ -77,12 +77,7 @@
         }); //end tabshow
 
       });//end jquery function
-      var addthis_share =  {  templates: {
-          twitter: 'Checking out {{url}} (from @mapwarper)'
-        } };
-      var addthis_config = {
-        ui_click : true
-      };
+
     </script>
     <script type="text/javascript">
       // PageLoad function
@@ -143,7 +138,8 @@
       {:name=>"warped",:divname=>"Preview_Rectified_Map", :label=>"Preview Map", :path=>warped_map_path(:id => @map)},
       {:name=>"export",:divname=>"Export", :label=>"Export", :path=>export_map_path(:id => @map)},
       {:name=>"metadata",:divname=>"Metadata", :label=>"Metadata", :path=>metadata_map_path(:id => @map)},
-      {:name=>"activity",:divname=>"Activity_History", :label=>"Activity",:path=> map_activity_path(:id => @map)}    ]  %>
+      {:name=>"activity",:divname=>"Activity_History", :label=>"Activity",:path=> map_activity_path(:id => @map)},
+      {:name=>"comments",:divname=>"Comments", :label=>"Comments", :count=>@map.comments.size.to_s, :path=>comments_map_path(:id => @map)}  ] %>
     <div id="wooTabs">
       <ul>
         <% @tabs.each do |tab| %>
@@ -152,7 +148,9 @@
             <% @current_tab_divname = tab[:divname] %>
           <% end %>
           <% unless @disabled_tabs && @disabled_tabs.include?(tab[:name]) -%>
-            <li><a id="aa<%=tab[:label]%>" rel="history" href="<%=tab[:path]%>" title="<%=tab[:label]%>"><span><%=tab[:label]%></span></a></li>
+           <li><a id="aa<%=tab[:label]%>" rel="history" href="<%=tab[:path]%>" title="<%=tab[:label]%>">
+           <span><%=tab[:label]%><% if tab[:count] -%> (<%=tab[:count]-%>)<%end-%></span>
+           </a></li>
           <% end -%>
         <% end -%>
       </ul>
@@ -173,6 +171,7 @@
     </div>
 
     <%= render :partial => 'shared/analyticsbottom', :locals => {
-      :map => @map, :current_tab => @current_tab } %>
+            :map => @map, :current_tab => @current_tab
+          } %>
   </body>
 </html>

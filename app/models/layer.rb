@@ -6,6 +6,7 @@ class Layer < ActiveRecord::Base
   has_many :maps,:through => :layers_maps
   #has_many :layer_properties #could be has_one
   belongs_to :user
+  acts_as_commentable  
 
   #replace "has_finder" with "named_scope" if we use a newer rails 2 (uses has_finder gem)
   named_scope :visible, :order=> 'id', :conditions => {:is_visible => true}

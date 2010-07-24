@@ -128,8 +128,10 @@
 
       jQuery(document).ready(function(){
         jQuery.historyInit(pageload); //TODO
+
         // set onlick event for buttons
         jQuery("a[rel='history']").click(function(){
+      //
           var hash = this.href;
           hash = hash.replace(/^.*#/, '') + tabSuffix;
 
@@ -155,13 +157,14 @@
     <table id="map_table">
       <%= render :partial => 'layers/layer_detail', :object => @layer, :locals => {:variety => "detail"} %>
     </table>
-    <%#  {:name=>"digitize",:divname=>"Digitize", :label=>"Digitize", :path=>digitize_layer_path(:id => @layer)}, %>
+  
     <% @tabs = [{:name=>"show",:divname=>"Show", :label=>"Show", :path=>layer_path(:id => @layer)},
       {:name=>"edit",:divname=>"Edit", :label=>"Edit", :path=>edit_layer_path(:id => @layer)},
       {:name=>"digitize",:divname=>"Digitize", :label=>"Digitize", :path=>digitize_layer_path(:id => @layer)},
       {:name=>"export",:divname=>"Export", :label=>"Export", :path=>export_layer_path(:id => @layer)},
-      {:name=>"metadata", :divname=>"Metadata", :label=>"Metadata", :path => metadata_layer_path(:id => @layer)}
-    ]  %>
+      {:name=>"metadata", :divname=>"Metadata", :label=>"Metadata", :path => metadata_layer_path(:id => @layer)},
+      {:name=>"comments",:divname=>"Comments", :label=>"Comments", :count=>@layer.comments.size.to_s, :path=>comments_layer_path(:id => @layer)}
+     ]  %>
     <div id="wooTabs">
       <ul>
         <% @tabs.each do |tab| -%>
@@ -170,7 +173,7 @@
             <% @current_tab_divname = tab[:divname] -%>
           <% end -%>
           <% unless @disabled_tabs && @disabled_tabs.include?(tab[:name]) -%>
-            <li><a rel="history" href="<%=tab[:path]%>" title="<%=tab[:label]%>"><span><%=tab[:label]%></span></a></li>
+             <li><a rel="history" href="<%=tab[:path]%>" title="<%=tab[:label]%>"><span><%=tab[:label]%><% if tab[:count] -%> (<%=tab[:count]-%>)<%end-%> </span></a></li>
           <% end -%>
         <% end -%>
       </ul>
