@@ -6,6 +6,6 @@
 
     <% form_for :user, :url => user_url(@user), :html => { :method => :put } do |f| %>
     <p>Name:<br /><%= f.text_field :login, :size => 60 %></p>
-
+    <p>Profile Description:<br /><%= f.text_area :description, :rows => '4' %></p>
     <%= submit_tag "Save" %>
     <% end %>

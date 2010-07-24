@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100724213721) do
+ActiveRecord::Schema.define(:version => 20100724222024) do
 
   create_table "audits", :force => true do |t|
     t.integer  "auditable_id"
@@ -425,6 +425,7 @@ ActiveRecord::Schema.define(:version => 20100724213721) do
     t.string   "password_reset_code",       :limit => 40
     t.boolean  "enabled",                                 :default => true
     t.integer  "updated_by"
+    t.text     "description",                             :default => ""
   end
 
 end
