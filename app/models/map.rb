@@ -450,6 +450,60 @@ class Map < ActiveRecord::Base
     gcps
   end
 
+     def mask!
+
+      self.mask_status = :masking
+      save!
+      format = self.mask_file_format
+
+      if format == "gml"
+         return "no masking file found, have you created a clipping mask and saved it?"  if !File.exists?(masking_file_gml)
+         masking_file = self.masking_file_gml
+         layer = "features"
+      elsif format == "json"
+         return "no masking file found, have you created a clipping mask and saved it?"  if !File.exists?(masking_file_json)
+         masking_file = self.masking_file_json
+         layer = "OGRGeoJson"
+      else
+         return "no masking file matching specified format found."
+      end
+
+      masked_src_filename = self.masked_src_filename
+      if File.exists?(masked_src_filename)
+         #deleting old masked image
+         File.delete(masked_src_filename)
+      end
+      #copy over orig to a new unmasked file
+      File.copy(unwarped_filename, masked_src_filename)
+      #TODO ADD -i switch when we have newer gdal
+      require 'open3'
+      r_stdin, r_stdout, r_stderr = Open3::popen3(
+      "gdal_rasterize -i  -burn 17 -b 1 -b 2 -b 3 #{masking_file} -l #{layer} #{masked_src_filename}"
+      )
+      logger.info "gdal_rasterize -i  -burn 17 -b 1 -b 2 -b 3 #{masking_file} -l #{layer} #{masked_src_filename}"
+      r_out  = r_stdout.readlines.to_s
+      r_err = r_stderr.readlines.to_s
+
+       #if there is an error, and it's not a warning about SRS
+      if r_err.size > 0 && r_err.split[0] != "Warning"
+         #error, need to fail nicely
+         logger.error "ERROR gdal rasterize script: "+ r_err
+         logger.error "Output = " +r_out
+         r_out = "ERROR with gdal rasterise script: " + r_err + "<br /> You may want to try it again? <br />" + r_out
+
+      else
+
+        r_out = "Success! Map was cropped!"
+      end
+
+      self.mask_status = :masked
+      save!
+      r_out
+   end
+
+   # gdal_rasterize -i -burn 17 -b 1 -b 2 -b 3 SSS.json -l OGRGeoJson orig.tif
+   # gdal_rasterize -burn 17 -b 1 -b 2 -b 3 SSS.gml -l features orig.tif
+
   #Main warp method
   def warp!(resample_option, transform_option, use_mask="false")
 
@@ -577,54 +631,6 @@ class Map < ActiveRecord::Base
       end
     end
   end
-
-     def mask!
-
-      self.mask_status = :masking
-      save!
-      format = self.mask_file_format
-
-      if format == "gml"
-         return "no masking file found, have you created a clipping mask and saved it?"  if !File.exists?(masking_file_gml)
-         masking_file = self.masking_file_gml
-         layer = "features"
-      elsif format == "json"
-         return "no masking file found, have you created a clipping mask and saved it?"  if !File.exists?(masking_file_json)
-         masking_file = self.masking_file_json
-         layer = "OGRGeoJson"
-      else
-         return "no masking file matching specified format found."
-      end
-
-      masked_src_filename = self.masked_src_filename
-      if File.exists?(masked_src_filename)
-         #deleting old masked image
-         File.delete(masked_src_filename)
-      end
-      #copy over orig to a new unmasked file
-      File.copy(unwarped_filename, masked_src_filename)
-      #TODO ADD -i switch when we have newer gdal
-      require 'open3'
-      r_stdin, r_stdout, r_stderr = Open3::popen3(
-      "gdal_rasterize -a_srs '+init=epsg:4326' -i -burn 17 -b 1 -b 2 -b 3 #{masking_file} -l #{layer} #{masked_src_filename}"
-      )
-      logger.info "gdal_rasterize -a_srs '+init=epsg:4326'  -i -burn 17 -b 1 -b 2 -b 3 #{masking_file} -l #{layer} #{masked_src_filename}"
-      r_out  = r_stdout.readlines.to_s
-      r_err = r_stderr.readlines.to_s
-      if r_err.size > 0
-         #error, need to fail nicely
-         logger.error "ERROR gdal rasterize script: "+ r_err
-         logger.error "Output = " +r_out
-         r_out = "ERROR with gdal rasterise script: " + r_err + "<br /> You may want to try it again? <br />" + r_out
-      else
-       # r_out = "Okay, rasterise command ran fine! <div id = 'scriptout'>" + r_out + "</div>"
-        r_out = "Success! Map was cropped!"
-      end
-
-      self.mask_status = :masked
-      save!
-      r_out
-   end
 
   
   def delete_mask

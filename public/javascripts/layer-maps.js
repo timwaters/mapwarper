@@ -105,7 +105,7 @@ function loadMapFeatures(){
 function loadItems(resp){
   var g = new OpenLayers.Format.JSON();
   jobj = g.read(resp.responseText);
-  lmaps = g.read(jobj.maps);
+  lmaps = jobj.items;
   for (var a=0;a<lmaps.length;a++){
     var lmap = lmaps[a];
     addMapToMapLayer(lmap);
@@ -138,7 +138,7 @@ function onFeatureSelect(feature) {
       "<br /> <a href='"+mapBaseURL+"/"+feature.mapId+"#Rectify_tab' target='_blank'>Edit this map</a>"+
       "</div>",
     null, true, onPopupClose);
-  popup.maxSize = new OpenLayers.Size(250,350);
+  popup.minSize = new OpenLayers.Size(180,150);
   feature.popup = popup;
   layerMap.addPopup(popup);
 }

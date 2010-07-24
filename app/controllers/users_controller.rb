@@ -22,6 +22,12 @@ class UsersController < ApplicationController
       @html_title = "Showing User "+ @user.login.capitalize
       @mymaps = @user.maps.paginate(:page => params[:page],:per_page => 8, :order => "updated_at DESC")
       @current_user_maps = current_user.maps
+      respond_to do | format |
+        format.html {}
+        format.js {}
+        format.json {render :json => {:stat => "ok",:items => @user.to_a}.to_json(:only =>[:login, :created_at, :stat, :items, :enabled ])  }
+   end
+
    end
 
    # render new.rhtml
@@ -121,23 +127,6 @@ class UsersController < ApplicationController
      end
       redirect_to :action => 'index'
    end
-
-
-#   def activate
-#     @user = User.find_by_activation_code(params[:id]) unless params[:id].blank?
-#     if @user and @user.activate
-#       self.current_user = @user
-#      # redirect_back_or_default(:action => 'show')
-#       flash[:notice] = "Signup complete! Please sign in to continue."
-#       redirect_to login_path
-#     elsif params[:id].blank?
-#       flash[:error] = "The activation code was missing. Please follow the URL from your email."
-#       redirect_back_or_default('/')
-#     else
-#       flash[:error] = "We couldn't find a  user with that activation code -- check your email? Or maybe you've already activated -- try signing in."
-#       redirect_back_or_default('/')
-#     end
-  #  end
 
   #called from admin console thingy
    def force_activate

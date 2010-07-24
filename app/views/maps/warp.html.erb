@@ -2,7 +2,7 @@
 <%= javascript_tag "window._token = '#{form_authenticity_token}'" %>
 <script type="text/javascript" charset="utf-8">
   var icon_imgPath = '<%=image_path("icons/").split('?').first%>';
-  var gcp_add_url = "<%= url_for :controller => 'gcp', :action=> 'add', :id=> @map %>";
+  var gcp_add_url = "<%= url_for :controller => 'gcp', :action=> 'add', :mapid=> @map %>";
   var gcp_update_url = "<%= url_for :controller => 'gcp', :action=> 'update' %>";
   var gcp_update_field_url = "<%= url_for :controller => 'gcp', :action => 'update_field' %>";
 
@@ -26,7 +26,6 @@
   <% end %>
   //set up jquery for the hidden tables
   jQuery(document).ready(function(){
-    
       jQuery('#popoverNotice').hide();
       jQuery('#gcp_table_div').hide();
       jQuery('#advanced_form_options').hide();
@@ -143,10 +142,10 @@
         <% end %>
         Apply <%= link_to "clipping mask", map_path(:id =>@map, :anchor=>"Crop_tab") %> when rectifying?
         <label for="use_mask1">
-          <input  id="use_mask1" type="radio" name="use_mask" value="true" />Yes
+        <input <% if @map.mask_status == :masked -%>checked<%end-%> id="use_mask1" type="radio" name="use_mask" value="true" />Yes
         </label>
         <label for="use_mask2">
-          <input checked="checked" name="use_mask" id="use_mask2" type="radio" value="false" />No
+          <input <% if @map.mask_status == :unmasked -%>checked<%end-%> name="use_mask" id="use_mask2" type="radio" value="false" />No
         </label>
       </div>
 

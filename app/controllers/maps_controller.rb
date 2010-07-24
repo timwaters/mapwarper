@@ -1,10 +1,8 @@
 class MapsController < ApplicationController
-  # GET /maps
-  # GET /maps.xml
-  layout 'mapdetail', :only => [:show, :edit, :preview, :warp, :clip, :align, :activity, :warped, :export, :metadata]
+   layout 'mapdetail', :only => [:show, :edit, :preview, :warp, :clip, :align, :activity, :warped, :export, :metadata]
   #before_filter :login_required, :only => [:destroy, :delete]
   before_filter :login_or_oauth_required, :only => [:new, :create, :edit, :update, :destroy, :delete, :warp, :rectify, :clip, :align,
- :warp_align, :mask_map, :delete_mask, :save_mask, :save_mask_and_warp, :export ]
+ :warp_align, :mask_map, :delete_mask, :save_mask, :save_mask_and_warp ]
   before_filter :check_administrator_role, :only => [:publish]
   before_filter :find_map_if_available,
     :except => [:show, :index, :wms, :mapserver_wms, :warp_aligned, :status, :new, :create, :update, :edit, :tag, :geosearch]
@@ -13,6 +11,12 @@ class MapsController < ApplicationController
   before_filter :check_if_map_is_editable, :only => [:edit, :update]
   before_filter :check_if_map_can_be_deleted, :only => [:destroy, :delete]
   
+  skip_before_filter :verify_authenticity_token, :only => [:save_mask, :delete_mask, :save_mask_and_warp, :mask_map, :rectify]
+  #before_filter :semi_verify_authenticity_token, :only => [:save_mask, :delete_mask, :save_mask_and_warp, :mask_map, :rectify]
+  rescue_from ActiveRecord::RecordNotFound, :with => :bad_record
+
+
+
   helper :sort
   include SortHelper
 
@@ -20,6 +24,16 @@ class MapsController < ApplicationController
     if request.xhr?
       @xhr_flag = "xhr"
       render :layout => "tab_container"
+    end
+  end
+
+ def gcps
+    @map = Map.find(params[:id])
+    gcps = @map.gcps_with_error
+    respond_to do |format|
+      #format.json { render :json => gcps.to_json(:methods => :error)}
+      format.json { render :json => {:stat => "ok", :items => gcps.to_a}.to_json(:methods => :error), :callback => params[:callback]}
+      format.xml { render :xml => gcps.to_xml(:methods => :error)}
     end
   end
 
@@ -128,6 +142,7 @@ class MapsController < ApplicationController
     end
   end
 
+
   def map_type
     @map = Map.find(params[:id])
     map_type = params[:map][:map_type]
@@ -142,6 +157,19 @@ class MapsController < ApplicationController
       render :text => "Map has changed. Map type: "+@map.map_type.to_s
     end
   end
+
+ def clip
+    #TODO delete current_tab
+    @current_tab = "clip"
+    @selected_tab = 3
+    @html_title = "Cropping Map "+ @map.id.to_s
+    @gml_exists = "false"
+    if File.exists?(@map.masking_file_gml+".ol")
+      @gml_exists = "true"
+    end
+    choose_layout_if_ajax
+  end
+
 
   def index
 
@@ -190,17 +218,27 @@ class MapsController < ApplicationController
         @maps = Map.public.paginate(paginate_params)
       end
 
-
       @html_title = "Browse Maps"
       if request.xhr?
         render :action => 'index.rjs'
       else
         respond_to do |format|
           format.html{ render :layout =>'application' }  # index.html.erb
-          format.xml  { render :xml => @maps }
+        format.xml  { render :xml => @maps.to_xml(:root => "maps", :except => [:content_type, :size, :bbox_geom, :uuid, :parent_uuid, :filename, :parent_id,  :map, :thumbnail]) {|xml|
+        xml.tag!'stat', "ok"
+        xml.tag!'total-entries', @maps.total_entries
+        xml.tag!'per-page', @maps.per_page
+        xml.tag!'current-page',@maps.current_page} }
+
+        format.json { render :json => {:stat => "ok",
+          :current_page => @maps.current_page,
+          :per_page => @maps.per_page,
+          :total_entries => @maps.total_entries,
+          :total_pages => @maps.total_pages,
+          :items => @maps.to_a}.to_json(:except => [:content_type, :size, :bbox_geom, :uuid, :parent_uuid, :filename, :parent_id,  :map, :thumbnail]) , :callback => params[:callback]
+        }
         end
       end
-
    else
      redirect_to :action => 'tag', :id => @query
    end
@@ -319,7 +357,6 @@ class MapsController < ApplicationController
      redirect_to thumb
    end
 
-
   def status
     map = Map.find(params[:id])
     if map.status.nil?
@@ -352,7 +389,8 @@ class MapsController < ApplicationController
       if @map.status.nil? or @map.status == :unloaded or @map.status == :loading
         @disabled_tabs += ["warped"]
       end
-      
+        flash.now[:notice] = "You may need to %s to start editing the map"
+        flash.now[:notice_item] = ["log in", new_session_path]
       if request.xhr?
         @xhr_flag = "xhr"
         render :layout => "tab_container"
@@ -361,6 +399,10 @@ class MapsController < ApplicationController
           format.html #
           format.kml {render :action => "show_kml", :layout => false}
           format.rss {render :action=> 'show'}
+           format.xml {render :xml => @map.to_xml(:except => [:content_type, :size, :bbox_geom, :uuid, :parent_uuid, :filename, :parent_id,  :map, :thumbnail])
+}
+           format.json {render :json =>{:stat => "ok", :items => @map.to_a}.to_json(:except => [:content_type, :size, :bbox_geom, :uuid, :parent_uuid, :filename, :parent_id,  :map, :thumbnail]), :callback => params[:callback]
+}
         end
       end
       return #stop doing anything more
@@ -368,6 +410,8 @@ class MapsController < ApplicationController
 
     #End doing stuff for not logged in users.
 
+
+    #
     # Logged in users
     unless logged_in? and (current_user.own_this_map?(params[:id])  or current_user.has_role?("editor"))
       @disabled_tabs += ["edit"]
@@ -377,51 +421,56 @@ class MapsController < ApplicationController
     if @map.status != :warped
       @title += "This map has not been rectified yet."
     end
-    #choose_layout_if_ajax
-    if request.xhr?
-      @xhr_flag = "xhr"
-      render :layout => "tab_container"
-    else
-      respond_to do |format|
-        format.html
-        format.kml {render :action => "show_kml", :layout => false}
-
-      end
-    end
-  end
-
-  def clip
-    #TODO delete current_tab
-    @current_tab = "clip"
-    @selected_tab = 3
-    @html_title = "Cropping Map "+ @map.id.to_s
-    @gml_exists = "false"
-    if File.exists?(@map.masking_file_gml+".ol")
-      @gml_exists = "true"
-    end
     choose_layout_if_ajax
+
+    respond_to do |format|
+      format.html
+      format.kml {render :action => "show_kml", :layout => false}
+      format.xml {render :xml => @map.to_xml(:except => [:content_type, :size, :bbox_geom, :uuid, :parent_uuid, :filename, :parent_id,  :map, :thumbnail])
+      }
+      format.json {render :json =>{:stat => "ok", :items => @map.to_a}.to_json(:except => [:content_type, :size, :bbox_geom, :uuid, :parent_uuid, :filename, :parent_id,  :map, :thumbnail]), :callback => params[:callback] }
+    end
   end
 
+ 
   #should check for admin only
   def publish
-    #  @map = Map.find(params[:id])
     @map.publish
     render :text => "Map will be published. (this functionality doesn't do anything at the moment)"
   end
 
   def save_mask
     message = @map.save_mask(params[:output])
-    render :text => message
+    respond_to do | format |
+      format.html {render :text => message}
+      format.js { render :text => message} if request.xhr?
+      format.json {render :json => {:stat =>"ok", :message => message}.to_json , :callback => params[:callback]}
+    end
   end
 
   def delete_mask
     message = @map.delete_mask
-    render :text => message
-  end
+     respond_to do | format |
+       format.html { render :text => message}
+       format.js { render :text => message} if request.xhr?
+       format.json {render :json => {:stat =>"ok", :message => message}.to_json , :callback => params[:callback]}
+    end
+   end
 
   def mask_map
-    message = @map.mask!
-    render :text => message
+    respond_to do | format |
+      if File.exists?(@map.masking_file_gml)
+        message = @map.mask!
+        format.html { render :text => message }
+        format.js { render :text => message} if request.xhr?
+        format.json { render :json => {:stat =>"ok", :message => "Map cropped"}.to_json , :callback => params[:callback]}
+      else
+        message = "Mask file not found"
+        format.html { render :text => message  }
+        format.js { render :text => message} if request.xhr?
+        format.json { render :json => {:stat =>"fail", :message => message}.to_json , :callback => params[:callback]}
+      end
+    end
   end
   
   def save_mask_and_warp
@@ -429,13 +478,17 @@ class MapsController < ApplicationController
     @map.save_mask(params[:output])
     @map.mask!
     if @map.gcps.size.nil? || @map.gcps.size < 3
-      render :text => "Map masked, but it needs more control points to rectify. Click the Rectify tab to add some."
+      msg = "Map masked, but it needs more control points to rectify. Click the Rectify tab to add some."
     else
       params[:use_mask] = "true"
-      rectify
-      render :text => "Map masked and rectified!"
+      rectify_main
+      msg = "Map masked and rectified."
     end
 
+    respond_to do |format|
+      format.json {render :json => {:stat => "ok", :message => msg}.to_json , :callback => params[:callback]}
+      format.js { render :text => msg } if request.xhr?
+    end
   end
 
   def warped
@@ -457,7 +510,7 @@ class MapsController < ApplicationController
     choose_layout_if_ajax
   end
 
-
+   #just works with NSEW directions at the moment.
   def warp_aligned
     
     align = params[:align]
@@ -492,7 +545,6 @@ class MapsController < ApplicationController
     choose_layout_if_ajax
   end
 
-
    def warp
      @current_tab = "warp"
      @selected_tab = 2
@@ -513,62 +565,27 @@ class MapsController < ApplicationController
    end
 
 
+
+
   def rectify
-    resample_param = params[:resample_options]
-    transform_param = params[:transform_options]
-    masking_option = params[:mask]
-    resample_option = ""
-    transform_option = ""
-    case transform_param
-    when "auto"
-      transform_option = ""
-    when "p1"
-      transform_option = " -order 1 "
-    when "p2"
-      transform_option = " -order 2 "
-    when "p3"
-      transform_option = " -order 3 "
-    when "tps"
-      transform_option = " -tps "
-    else
-      transform_option = ""
-    end
+     rectify_main
 
-    case resample_param
-    when "near"
-      resample_option = " -rn "
-    when "bilinear"
-      resample_option = " -rb "
-    when "cubic"
-      resample_option = " -rc "
-    when "cubicspline"
-      resample_option = " -rcs "
-    when "lanczos" #its very very slow
-      resample_option = " -rn "
+     respond_to do |format|
+      unless @too_few
+       format.js if request.xhr?
+       format.html { render :text => @notice_text }
+       format.json { render :json=> {:stat => "ok", :message => @notice_text}.to_json, :callback => params[:callback] }
     else
-      resample_option = " -rn"
+        format.js if request.xhr?
+        format.html { render :text => @notice_text }
+        format.json { render :json=> {:stat => "fail", :message => "not enough GCPS to rectify"}.to_json , :callback => params[:callback]}
     end
-
-    use_mask = params[:use_mask]
-    @too_few = false
-    if @map.gcps.size.nil? || @map.gcps.size < 3
-      @too_few = true
-      @notice_text = "Sorry, the map needs at least three control points to be able to rectify it"
-      @output = @notice_text
-    else
-      if logged_in?
-        um  = current_user.my_maps.new(:map => @map)
-        um.save
-        # @map.users << current_user # another way creating the relationship
       end
 
-        @output = @map.warp! transform_option, resample_option, use_mask #,masking_option
-        @notice_text = "Map rectified!"
       end
 
-   redirect_to :action=> :index unless request.xhr?
 
-  end
+
 
   def metadata
     choose_layout_if_ajax
@@ -665,6 +682,14 @@ class MapsController < ApplicationController
     redirect_to(mapserver_url)
   end
 
+
+#veries token but only for the html view, turned off for xml and json calls - these calls would need to be authenticated anyhow.
+def semi_verify_authenticity_token
+  unless request.format.xml? || request.format.json?
+    verify_authenticity_token
+  end
+end
+
   def set_session_link_back link_url
     session[:link_back] = link_url
   end
@@ -688,6 +713,17 @@ class MapsController < ApplicationController
     end
   end
 
+ def bad_record
+      #logger.error("not found #{params[:id]}")
+     respond_to do | format |
+      format.html do
+       flash[:notice] = "Map not found"
+       redirect_to :action => :index
+      end
+     format.json {render :json => {:stat => "not found", :items =>[]}.to_json, :status => 404}
+     end
+ end
+
   #only allow editing by a user if the user owns it, or if and editor tries to edit it
   def check_if_map_is_editable
     if logged_in? and (current_user.own_this_map?(params[:id])  or current_user.has_role?("editor"))
@@ -709,7 +745,84 @@ class MapsController < ApplicationController
     elsif  (!@map.public? and !logged_in?) or((!@map.public? and logged_in?) and !(current_user.own_this_map?(params[:id])  or current_user.has_role?("editor")) )
        redirect_to maps_path
     end
-
   end
 
+     def rectify_main
+     resample_param = params[:resample_options]
+      transform_param = params[:transform_options]
+      masking_option = params[:mask]
+      resample_option = ""
+      transform_option = ""
+      case transform_param
+      when "auto"
+         transform_option = ""
+      when "p1"
+         transform_option = " -order 1 "
+      when "p2"
+         transform_option = " -order 2 "
+      when "p3"
+         transform_option = " -order 3 "
+      when "tps"
+         transform_option = " -tps "
+      else
+         transform_option = ""
+      end
+
+      case resample_param
+      when "near"
+         resample_option = " -rn "
+      when "bilinear"
+         resample_option = " -rb "
+      when "cubic"
+         resample_option = " -rc "
+      when "cubicspline"
+         resample_option = " -rcs "
+      when "lanczos" #its very very slow
+         resample_option = " -rn "
+      else
+         resample_option = " -rn"
+      end
+
+      use_mask = params[:use_mask]
+      @too_few = false
+      if @map.gcps.size.nil? || @map.gcps.size < 3
+        @too_few = true
+        @notice_text = "Sorry, the map needs at least three control points to be able to rectify it"
+        @output = @notice_text
+      else
+        if logged_in?
+           um  = current_user.my_maps.new(:map => @map)
+           um.save
+
+          # two ways of creating the relationship
+          # @map.users << current_user
+        end
+
+        @output = @map.warp! transform_option, resample_option, use_mask #,masking_option
+        @notice_text = "Map rectified."
+      end
+   end
+
+  def store_location
+    case request.parameters[:action]
+    when "warp"
+      anchor = "Rectify_tab"
+    when "clip"
+      anchor = "Crop_tab"
+    when "align"
+      anchor = "Align_tab"
+    when "export"
+      anchor = "Export_tab"
+    else
+      anchor = ""
+  end
+    if request.parameters[:action] &&  request.parameters[:id]
+      session[:return_to] = map_path(:id => request.parameters[:id], :anchor => anchor)
+    else
+      session[:return_to] = request.request_uri
+    end
+  end
+
+
 end
+

@@ -9,15 +9,27 @@ class GcpController < ApplicationController
   rescue_from ActiveRecord::RecordNotFound, :with => :bad_record
 
   def show
+
+    respond_to do | format |
     if Gcp.exists?(params[:id])
       @gcp = Gcp.find(params[:id])
-      render :text => @gcp.inspect
+        format.json {render :json => {:stat => "ok", :items => @gcp.to_a}.to_json, :callback => params[:callback]  }
+        format.xml  {render :xml => @gcp.to_xml}
     else
-      render :text => "This ground control point does not exist anymore"
+        format.html do
+          flash[:notice] = "Invalid GCP"
+          redirect_to :action => :index
     end
+        format.json {render :json => {:stat => "not found", :items=>[]}.to_json, :status => 404 }
+        format.xml  {render :xml => {}.to_xml(:root=> "gcp")}
+  end
+    end
+
   end
 
-
+  def custom
+    render :text => params[:id]
+  end
 
   def update
     @gcp = Gcp.find(params[:id])
@@ -26,14 +38,25 @@ class GcpController < ApplicationController
     y = params[:y]
     lon = params[:lon]
     lat = params[:lat]
+
+    respond_to do |format |
     if @gcp.update_attributes(:x => x,:y => y, :lon => lon, :lat => lat)
+
       @map = @gcp.map
       @gcps = @map.gcps_with_error
 
-      redirect_to_index unless request.xhr?
+        format.js if request.xhr?
+        format.html { redirect_to_index }
+        format.json { render :json => {:stat => "ok", :items => @gcps.to_a}.to_json(:methods => :error) , :callback => params[:callback]}
+        format.xml {render :xml => @gcps.to_xml(:methods => :error)}
     else
-      redirect_to_index("points couldnt be updated")
+
+        format.json { render :json => {:stat => "fail", :message =>"Could not update GCP", :errors => @gcp.errors.to_a, :items => []}.to_json , :callback => params[:callback]}
+        format.html {  redirect_to_index("points couldnt be updated")}
     end
+
+  end
+
 
   end
 
@@ -43,33 +66,46 @@ class GcpController < ApplicationController
     attribute = params[:attribute]
     value = params[:value]
 
+     respond_to do |format|
     if @gcp.update_attribute(attribute, value)
-      # render :text => @gcp.send(attribute).to_s
       @map = @gcp.map
       @gcps = @map.gcps_with_error
+
       if request.xhr?
-        render :action => 'update'
-      else
-        redirect_to_index
+           format.js {render :action => 'update'}
       end
-      #       redirect_to_index unless request.xhr?
+         format.html { redirect_to_index }
+         format.json { render :json => {:stat => "ok", :items => @gcps.to_a}.to_json(:methods => :error), :callback => params[:callback] }
+         format.xml {render :xml => @gcps.to_xml(:methods => :error)}
+
     else
-      redirect_to_index("Control point couldnt be updated")
-      # format.html { render :action => "edit" }
+
+         format.json { render :json => {:stat => "fail", :message =>"Could not update GCP", :errors => @gcp.errors.to_a, :items => []}.to_json , :callback => params[:callback]}
+         format.html {redirect_to_index("Control point couldnt be updated")}
     end
+     end
 
   end
 
   def destroy
     @gcp = Gcp.find(params[:id])
     @map = @gcp.map
-    
-    @gcp.destroy
+     respond_to do | format |
+       if @gcp.destroy
     @map.reload
     @gcps = @map.gcps_with_error
+         format.js if request.xhr?
+         format.html { redirect_to_index }
+         format.json { render :json => {:stat => "ok", :items => @gcps.to_a}.to_json(:methods => :error), :callback => params[:callback] }
+         format.xml {render :xml => @gcps.to_xml(:methods => :error)}
     
-    redirect_to_index unless request.xhr?
+       else
+         format.json { render :json => {:stat => "fail", :message =>"Could not delete GCP", :errors => @gcp.errors.to_a, :items => []}.to_json, :callback => params[:callback] }
   end
+     end
+
+
+   end
 
 
   def add
@@ -78,21 +114,31 @@ class GcpController < ApplicationController
     y = params[:y] || 0
     lat = params[:lat] || 0
     lon = params[:lon] || 0
-    id = params[:id]
-    if params[:id]
-      @gcp = Gcp.new(:map_id=>params[:id].to_i, :x=>x, :y=>y, :lat=>lat, :lon=>lon)
+    id = params[:mapid]
+    if params[:mapid]
+      @gcp = Gcp.new(:map_id=>params[:mapid].to_i, :x=>x, :y=>y, :lat=>lat, :lon=>lon)
     else
       @gcp = Gcp.new(:x=>x, :y=>y, :lat=>lat, :lon=>lon)
     end
 
-    #todo check this
-    @gcp.save!
-    @map = @gcp.map
-    @gcps = @map.gcps_with_error
+    respond_to do | format |
+      if @gcp.save
+        @map = @gcp.map
+        @gcps = @map.gcps_with_error
 
-    redirect_to_index unless request.xhr?
+        format.js if request.xhr?
+        format.html { redirect_to_index }
+        format.json { render :json => {:stat => "ok", :items => @gcps.to_a}.to_json(:methods => :error), :callback => params[:callback]}
+        format.xml {render :xml => @gcps.to_xml(:methods => :error)}
+
+      else
+        format.json { render :json => {:stat => "fail", :message =>"Could not add GCP", :errors => @gcp.errors.to_a, :items => []}.to_json, :callback => params[:callback]}
+      end
+    end
+
+
   end
-   
+
   def index
   end
 
@@ -121,5 +167,4 @@ class GcpController < ApplicationController
       format.json {render :json => {:stat => "not found", :items =>[]}.to_json, :status => 404}
     end
   end
-
 end

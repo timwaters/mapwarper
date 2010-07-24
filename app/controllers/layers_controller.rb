@@ -6,7 +6,7 @@ class LayersController < ApplicationController
   before_filter :check_administrator_role, :only => [:publish, :toggle_visibility, :merge, :remove_map, :update_year, :update, :destroy, :create]
   before_filter :find_layer, :only => [:show, :export, :metadata, :digitize, :toggle_visibility, :update_year, :publish, :remove_map, :merge, :maps, :thumb]
 
-
+  rescue_from ActiveRecord::RecordNotFound, :with => :bad_record
   helper :sort
   include SortHelper
 
@@ -15,7 +15,6 @@ class LayersController < ApplicationController
   def thumb
     redirect_to @layer.thumb
   end
-
 
   require 'yahoo-geoplanet'
   def geosearch
@@ -155,16 +154,45 @@ end
     else
       respond_to do |format|
         format.html {render :layout => "application"}
-        format.json {render :json => {:layers => @map.layers.visible.to_json}}  #only to be called if theres a maps in the url
+
+        format.xml { render :xml => @layers.to_xml(:root => "layers", :except => [:uuid, :parent_uuid, :description]) {|xml|
+          xml.tag!'total-entries', @layers.total_entries
+          xml.tag!'per-page', @layers.per_page
+          xml.tag!'current-page',@layers.current_page}
+        }
+        format.json {render :json => {:stat => "ok", :items => @layers.to_a}.to_json(:except => [:uuid, :parent_uuid, :description]), :callback => params[:callback] }
       end
     end
   end
 
-  #method returns json object of a layers warped maps
+
+#method returns json or xml representation of a layers maps
   def maps
-    @maps = @layer.maps.warped
+  paginate_params = {
+    :page => params[:page],
+    :per_page => 50,
+    :order => :map_type
+  }
+
+  show_warped = params[:show_warped]
+  unless show_warped == "0"
+    lmaps = @layer.maps.warped.paginate(paginate_params)
+  else
+    lmaps = @layer.maps.paginate(paginate_params)
+  end
     respond_to do |format|
-      format.json {render :json => {:maps => @maps.to_json(:only => [:id, :bbox, :title, :width, :height])}}
+    #format.json {render :json =>lmaps.to_json(:stat => "ok",:except => [:content_type, :size, :bbox_geom, :uuid, :parent_uuid, :filename, :parent_id,  :map, :thumbnail])}
+    format.json {render :json =>{:stat => "ok",
+      :current_page => lmaps.current_page,
+      :per_page => lmaps.per_page,
+      :total_entries => lmaps.total_entries,
+      :total_pages => lmaps.total_pages,
+      :items => lmaps.to_a}.to_json(:except => [:content_type, :size, :bbox_geom, :uuid, :parent_uuid, :filename, :parent_id,  :map, :thumbnail]), :callback => params[:callback] }
+
+    format.xml {render :xml => lmaps.to_xml(:root => "maps",:except => [:content_type, :size, :bbox_geom, :uuid, :parent_uuid, :filename, :parent_id,  :map, :thumbnail])  {|xml|
+      xml.tag!'total-entries', lmaps.total_entries
+      xml.tag!'per-page', lmaps.per_page
+      xml.tag!'current-page',lmaps.current_page} }
     end
   end
 
@@ -194,7 +222,9 @@ end
     else
       respond_to do |format|
         format.html {render :layout => "layerdetail"}# show.html.erb
-        format.json {render :json => {:layer => @layer, :maps => @layer.maps.warped}.to_json }
+      #format.json {render :json => @layer.to_json(:except => [:uuid, :parent_uuid, :description])}
+      format.json {render :json => {:stat => "ok", :items => @layer.to_a}.to_json(:except => [:uuid, :parent_uuid, :description]), :callback => params[:callback] }
+      format.xml {render :xml => @layer.to_xml(:except => [:uuid, :parent_uuid, :description])}
         format.kml {render :action => "show_kml", :layout => false}
       end
     end
@@ -305,6 +335,7 @@ end
     @current_tab = "export"
     @selected_tab = 3
 
+    @html_title = "Export Layer "+ @layer.id.to_s
     if request.xhr?
       @xhr_flag = "xhr"
       render :layout => "layer_tab_container"
@@ -342,6 +373,25 @@ end
 
   end
 
+
+#ajax method
+def toggle_visibility
+  @layer.is_visible = !@layer.is_visible
+  @layer.save
+  @layer.update_layer
+  if @layer.is_visible
+    update_text = "(Visible)"
+  else
+    update_text = "(Not Visible)"
+  end
+  render :text => update_text
+end
+
+def update_year
+  @layer.update_attributes(params[:layer])
+  render :text => "Depicts : " + @layer.depicts_year.to_s
+end
+
   #merge this layer with another one
   #moves all child object to new parent
   def merge
@@ -356,6 +406,7 @@ end
     end
   end
 
+
   def remove_map
     @map = Map.find(params[:map_id])
     if request.get?
@@ -368,23 +419,6 @@ end
     end
   end
 
-  def toggle_visibility
-    @layer.is_visible = !@layer.is_visible
-    @layer.save
-    @layer.update_layer
-    if @layer.is_visible
-      update_text = "(Visible)"
-    else
-      update_text = "(Not Visible)"
-    end
-    render :text => update_text
-  end
-
-  def update_year
-    @layer.update_attributes(params[:layer])
-    render :text => "Depicts : " + @layer.depicts_year.to_s
-  end
-
   def publish
     if @layer.rectified_percent < 100
       render :text => "Layer has less than 100% of its maps rectified"
@@ -394,6 +428,8 @@ end
       render :text => "Layer will be published (this functionality is disabled at the moment)"
     end
   end
+
+
 
   require 'mapscript'
   include Mapscript
@@ -565,4 +601,34 @@ end
     end
   end
   
+ def bad_record
+   #logger.error("not found #{params[:id]}")
+   respond_to do | format |
+     format.html do
+     flash[:notice] = "Layer not found"
+     redirect_to :action => :index
 end
+   format.json {render :json => {:stat => "not found", :items =>[]}.to_json, :status => 404}
+   end
+ end
+
+ def store_location
+   case request.parameters[:action]
+   when "digitize"
+     anchor = "Digitize_tab"
+   when "metadata"
+     anchor = "Metadata_tab"
+   when "export"
+     anchor = "Export_tab"
+   else
+     anchor = ""
+   end
+   if request.parameters[:action] &&  request.parameters[:id]
+     session[:return_to] = layer_path(:id => request.parameters[:id], :anchor => anchor)
+   else
+     session[:return_to] = request.request_uri
+   end
+ end
+end
+
+

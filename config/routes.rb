@@ -24,11 +24,18 @@ ActionController::Routing::Routes.draw do |map|
 
   map.connect '/maps/activity', :controller => 'audits', :action => 'for_map_model'
 
-  map.connect '/gcps/:id', :controller => 'gcp', :action=> 'show'
-  map.connect '/gcps/show/:id', :controller=> 'gcp', :action=>'show'
+  map.connect '/gcp/', :controller => 'gcp', :action => 'index'
+  map.connect '/gcp/:id', :controller => 'gcp', :action=> 'show'
+#  map.connect '/gcp/show/:id', :controller=> 'gcp', :action=>'show'
+  #map.connect '/gcps/update/:id', :controller => 'gcp', :action => 'update'
+  #map.connect '/gcps/update_field/:id', :controller => 'gcp', :action => 'update_field'
+  map.connect '/gcp/destroy/:id', :controller => 'gcp', :action => 'destroy', :conditions => {:method => :delete}
+  map.connect '/gcp/add/:mapid', :controller => 'gcp', :action => 'add'
+
 
   map.my_maps '/users/:user_id/maps', :controller => 'my_maps', :action => 'list'
-
+  #map.connect '/users/:user_id/maps/new', :controller => 'my_maps', :action => 'new'
+  #map.connect '/users/:user_id/maps/:id', :controller => 'my_maps', :action => 'show'
   map.add_my_map '/users/:user_id/maps/create/:map_id', :controller => 'my_maps', :action => 'create', :conditions => { :method => :post }
   map.destroy_my_map '/users/:user_id/maps/destroy/:map_id', :controller => 'my_maps', :action => 'destroy', :conditions => { :method => :post}
 
@@ -61,21 +68,35 @@ ActionController::Routing::Routes.draw do |map|
   map.align_map '/maps/align/:id', :controller => 'maps', :action => 'align'
   map.warped_map '/maps/preview/:id', :controller => 'maps', :action => 'warped'
   map.export_map '/maps/export/:id', :controller => 'maps', :action => 'export'
-  map.map_status '/maps/status/:id', :controller => 'maps', :action => 'status'
+  #map.map_status '/maps/status/:id', :controller => 'maps', :action => 'status'
+  map.map_status '/maps/:id/status', :controller => 'maps', :action => 'status'
   map.metadata_map '/maps/metadata/:id', :controller => 'maps', :action => 'metadata'
+
   map.export_map '/maps/export/:id', :controller => 'maps', :action => 'export'
   map.formatted_export_map '/maps/export/:id.:format', :controller => 'maps', :action => 'export'
   map.wms_map '/maps/wms/:id', :controller => 'maps', :action => 'wms'
+  map.comments_map '/maps/:id/comments', :controller => 'maps', :action => 'comments'
+
+  map.connect '/maps/:id/rectify', :controller => 'maps', :action => 'rectify'
+  map.connect '/maps/:id/save_mask_and_warp', :controller => 'maps', :action => 'save_mask_and_warp'
+  map.connect '/maps/:id/save_mask', :controller => 'maps', :action => 'save_mask'
+  map.connect '/maps/:id/delete_mask', :controller => 'maps', :action => 'delete_mask'
+  map.connect '/maps/:id/mask_map', :controller => 'maps', :action => 'mask_map'
 
   map.connect '/maps/geosearch', :controller => 'maps', :action => 'geosearch'
   map.connect '/maps/geo', :controller => 'maps', :action => 'geo'
 
   map.map_tag '/maps/tag/:id', :controller => 'maps', :action => 'tag', :requirements => { :id => %r([^/;,?]+) }
 
+  map.connect '/maps/:id/gcps.:format', :controller => 'maps', :action => 'gcps'
+  map.connect '/maps/tile/:id/:z/:x/:y.png', :controller => 'maps', :action => 'tile'
+
   map.connect '/layers/geosearch', :controller => 'layers', :action => 'geosearch'
   map.connect '/layers/thumb/:id', :controller => 'layers', :action => 'thumb'
-  #map.connect '/layers/:id/maps.:format', :controller => 'layers', :action => 'maps'
+ map.connect '/layers/:id/maps.:format', :controller => 'layers', :action => 'maps'
   map.connect '/layers/wms2', :controller => 'layers', :action => 'wms2'
+map.comments_layer '/layers/:id/comments', :controller => 'layers', :action => 'comments'
+
   map.resources :maps  do |a |
     a.resources :layers
   end
@@ -84,24 +105,22 @@ ActionController::Routing::Routes.draw do |map|
   map.digitize_layer '/layers/digitize/:id', :controller => 'layers', :action => 'digitize'
   map.export_layer '/layers/export/:id', :controller => 'layers', :action => 'export'
   map.metadata_layer '/layers/metadata/:id', :controller => 'layers', :action => 'metadata'
-
+  map.connect '/layers/tile/:id/:z/:x/:y.png', :controller => 'layers', :action => 'tile'
   map.connect 'digitize/subtype.:format', :controller => 'digitize', :action=> 'subtype'
-
 
   # The priority is based upon order of creation: first created -> highest priority.
 
 
   #for legacy urls
   #map.connect '/mapscans/*', :controller => 'maps'
-  #map.connect '/mapscans/:id', :controller => 'maps', :action => "show"
-  #map.connect '/mapscans/:action/:id', :controller => 'maps'
-  #map.connect '/mapscans/:action/:id.:format', :controller => 'maps'
+  map.connect '/maps/:id', :controller => 'maps', :action => "show"
+  map.connect '/maps/:action/:id', :controller => 'maps'
+  map.connect '/maps/:action/:id.:format', :controller => 'maps'
 
   # Install the default routes as the lowest priority.
   map.connect ':controller/:action/:id'
   map.connect ':controller/:action/:id.:format'
-  #map.connect '', :controller => "maps"
+  #map.connect '', :controller => "mapscans"
   map.connect '', :controller => "home"
-  #for legacy urls
-  #map.connect '/mapscans/:action/:id', :controller => 'maps'
+
 end
