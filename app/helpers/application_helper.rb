@@ -48,7 +48,7 @@ end
   html << link_to('Layers', layers_path) if @layers || @layer
   end
 
-  html << link_to('Layer '+@layer.id.to_s, layer_path(@layer)) if @layer.id
+  html << link_to('Layer '+@layer.id.to_s, layer_path(@layer)) if @layer && @layer.id
   html.join(' &gt; '  )
 end
 
