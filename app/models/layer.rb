@@ -1,7 +1,7 @@
 class Layer < ActiveRecord::Base
   validates_presence_of :name
   validates_length_of :depicts_year, :maximum => 4,:allow_nil => true, :allow_blank => true
-  validates_numericality_of :depicts_year
+  validates_numericality_of :depicts_year, :if => Proc.new {|c| not c.depicts_year.blank?}
   has_many :layers_maps, :dependent => :destroy
   has_many :maps,:through => :layers_maps
   #has_many :layer_properties #could be has_one
