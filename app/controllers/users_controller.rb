@@ -10,9 +10,17 @@ class UsersController < ApplicationController
       @html_title = "Users"
       sort_init 'email'
       sort_update
+      @query = params[:query]
+      @field = %w(login email).detect{|f| f == (params[:field])}
+      if @query && @query.strip.length > 0 && @field
+        conditions = ["#{@field}  ~* ?", '(:punct:|^|)'+@query+'([^A-z]|$)']
+      else
+        conditions = nil
+      end
       @users = User.paginate(:page=> params[:page],
                             :per_page => 30,
-                            :order => sort_clause
+                            :order => sort_clause,
+                            :conditions => conditions
                             )
    end
 

@@ -1,4 +1,16 @@
-<h2>All Users</h2>
+
+<% form_tag url_for(:controller => "users"), :id=>"searchform",:name=> "searchform", :method => :get do -%>
+ User Search
+ <select id="field" name="field">
+    <%= options_for_select([ ["Name", "login"],
+                           ["Email", "email"]], @field)-%>
+    </select>
+  for
+  <%= text_field_tag 'query', @query -%>
+  <input type="submit" value=" Go ">
+<% end -%>
+<h2>Users <%if @query && @query.length > 0 %>&mdash; Searched for "<%=@query%>"
+    <%end-%></h2>
 
 <%= will_paginate @users %>
 <table class="usertable">
