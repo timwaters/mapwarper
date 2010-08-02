@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100724222024) do
+ActiveRecord::Schema.define(:version => 20100802161012) do
 
   create_table "audits", :force => true do |t|
     t.integer  "auditable_id"
@@ -61,6 +61,14 @@ ActiveRecord::Schema.define(:version => 20100724222024) do
     t.float    "y"
     t.decimal  "lat",        :precision => 15, :scale => 10
     t.decimal  "lon",        :precision => 15, :scale => 10
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "groups", :force => true do |t|
+    t.string   "name"
+    t.text     "description"
+    t.integer  "creator_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -145,6 +153,13 @@ ActiveRecord::Schema.define(:version => 20100724222024) do
   end
 
   add_index "maps", ["bbox_geom"], :name => "index_maps_on_bbox_geom", :spatial => true
+
+  create_table "memberships", :force => true do |t|
+    t.integer  "user_id"
+    t.integer  "group_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "my_maps", :force => true do |t|
     t.integer  "map_id"

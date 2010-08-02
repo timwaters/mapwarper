@@ -3,6 +3,10 @@ require 'base64'
 class User < ActiveRecord::Base
    # Virtual attribute for the unencrypted password
    attr_accessor :password
+   
+   has_many :memberships, :dependent => :destroy
+   has_many :groups, :through => :memberships
+   
    has_many :my_maps, :dependent => :destroy
    has_many :maps, :through => :my_maps, :uniq => true
    has_many :layers
