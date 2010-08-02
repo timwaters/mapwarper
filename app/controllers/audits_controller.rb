@@ -24,7 +24,7 @@ class AuditsController < ApplicationController
     @audits = Activity.paginate(:page => params[:page],
       :per_page => 20,
       :order => "created_at DESC",
-      :conditions => ['user_id = ?', params[:id] ])
+      :conditions => ['user_id = ?', @user.id ])
     @title = "Recent Activity for User " +@user.login.capitalize
     render :action => 'index'
   end
