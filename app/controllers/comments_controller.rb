@@ -1,8 +1,26 @@
 class CommentsController < ApplicationController
 
   before_filter :login_required
+  #before_filter :check_administrator_role, :only => [:index]
 
   rescue_from ActiveRecord::RecordNotFound, :with => :bad_record
+  helper :sort
+  include SortHelper
+
+  def index
+    @html_title = "Comments"
+    sort_init 'created_at'
+    sort_update
+    @query = params[:query]
+
+    @comments = Comment.paginate(:page => params[:page],
+      :per_page => 30,
+      :order => sort_clause
+    )
+    respond_to do | format |
+      format.html {}
+    end
+  end
   
   def destroy
     comment = Comment.find(params[:id])

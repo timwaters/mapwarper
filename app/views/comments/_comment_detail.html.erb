@@ -1,0 +1,23 @@
+<tr class="<%= cycle('table0', 'table1')%>" >
+  <td width="60%">
+    <span class="comment_text">
+      <%= (h comment_detail.comment).gsub("\n","<br/>") -%> <br />
+    </span>
+  </td>
+   <td>
+    <%= link_to comment_detail.commentable_type.to_s + " "+ comment_detail.commentable_id.to_s, polymorphic_path(comment_detail.commentable) %>
+  </td>
+  <td>
+    <% if comment_detail.user -%>
+      <%= link_to comment_detail.user.login, user_path(comment_detail.user) -%>
+    <% end -%>
+  </td>
+  <td><%= time_ago_in_words(comment_detail.created_at) %> ago</td>
+  <td>
+    <%if logged_in? -%>
+      <% if current_user == comment_detail.user || admin_authorized? %>
+        <%= link_to "delete", url_for(:controller => "comments", :action => "destroy", :id => comment_detail.id), :method => :delete, :confirm => "Really delete this comment?"%>
+      <% end -%>
+    <% end -%>
+  </td>
+</tr>

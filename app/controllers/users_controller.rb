@@ -5,7 +5,9 @@ class UsersController < ApplicationController
    before_filter :login_required, :only => [:show, :edit, :update]
    before_filter :check_super_user_role, :only => [:index, :destroy, :enable, :disable, :force_activate, :disable_and_reset, :force_resend_activaton]
    helper :sort
-  include SortHelper
+   include SortHelper
+
+  
    def index
       @html_title = "Users"
       sort_init 'email'
