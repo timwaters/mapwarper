@@ -23,7 +23,6 @@ namespace :import do
       puts "Maps will be uploaded by user "+user.login.to_s
     end
 
-    #layer - existing, new, blank
     if Layer.exists?(args.layer.to_i)
       layer = Layer.find(args.layer.to_i)
       puts "Maps will be associated with Layer " + layer.id.to_s
@@ -75,12 +74,10 @@ namespace :import do
         print '+'
         map = Map.new(:title => ourfilename + default_title_suffix, :description => default_description, :publisher => default_publisher , :authors => default_authors, :scale => default_scale)
         ourfile = File.join(basedir , ourfilename)
-        #map.map_type = :is_map
         map.owner = user
         map.users << user
         if layer
           map.layers << layer
-          #layer.update_counts
         end
         
         File.open(ourfile) { |photo_file| map.upload = photo_file }
