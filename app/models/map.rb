@@ -24,7 +24,7 @@ class Map < ActiveRecord::Base
 
   acts_as_audited :except => [:filename]
 
-   acts_as_commentable
+  acts_as_commentable
   acts_as_enum :status, [:unloaded, :loading, :available, :warping, :warped, :published]
   acts_as_enum :mask_status, [:unmasked, :masking, :masked]
   acts_as_enum :map_type, [:index, :is_map, :not_map ]
@@ -49,7 +49,7 @@ class Map < ActiveRecord::Base
   #############################################
 
   def validate_on_create
-    errors.add(:filename, "is already being used") if Map.find_by_filename(upload.original_filename)
+    errors.add(:filename, "is already being used") if Map.find_by_upload_file_name(upload.original_filename)
   end
 
 
@@ -119,7 +119,7 @@ class Map < ActiveRecord::Base
       self.filename = tiffed_filename
       
     end
-
+    self.map_type = :is_map
     save!
   end
 
