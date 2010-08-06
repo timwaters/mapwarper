@@ -57,7 +57,7 @@ namespace :import do
 
     #////////////////#
     puts "Directory containing images: " + basedir
-    puts "Going to import " + (Dir.entries(basedir).size - 2).to_s + " images."
+    puts "Found " + (Dir.entries(basedir).size - 2).to_s + " files in this directory. Will try to import images."
     puts
     puts "WARNING: This may slow down this computer, especially if you've a lot of images!"
     print "Are you sure you want to continue ? [y/N] "
