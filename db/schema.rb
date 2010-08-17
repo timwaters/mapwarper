@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100802161012) do
+ActiveRecord::Schema.define(:version => 20100809131346) do
 
   create_table "audits", :force => true do |t|
     t.integer  "auditable_id"
@@ -72,6 +72,16 @@ ActiveRecord::Schema.define(:version => 20100802161012) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  create_table "groups_maps", :force => true do |t|
+    t.integer  "group_id"
+    t.integer  "map_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "groups_maps", ["map_id", "group_id"], :name => "index_groups_maps_on_map_id_and_group_id", :unique => true
+  add_index "groups_maps", ["map_id"], :name => "index_groups_maps_on_map_id"
 
   create_table "indshp", :primary_key => "gid", :force => true do |t|
     t.float         "altitude"
@@ -160,6 +170,9 @@ ActiveRecord::Schema.define(:version => 20100802161012) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  add_index "memberships", ["user_id", "group_id"], :name => "index_memberships_on_user_id_and_group_id", :unique => true
+  add_index "memberships", ["user_id"], :name => "index_memberships_on_user_id"
 
   create_table "my_maps", :force => true do |t|
     t.integer  "map_id"

@@ -15,6 +15,8 @@ class Map < ActiveRecord::Base
   has_many :gcps,  :dependent => :destroy
   has_many :layers_maps,  :dependent => :destroy
   has_many :layers, :through => :layers_maps # ,:after_add, :after_remove
+  has_many :groups_maps, :dependent => :destroy
+  has_many :groups, :through => :groups_maps
   acts_as_taggable
   has_attached_file :upload, :styles => {:thumb => ["100x100>", :png]} ,
     :url => '/:attachment/:id/:style/:basename.:extension'

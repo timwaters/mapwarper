@@ -1,0 +1,33 @@
+
+<% form_tag url_for(:controller => "groups"), :id=>"searchform",:name=> "searchform", :method => :get do -%>
+  Groups Search
+  <select id="field" name="field">
+    <%= options_for_select([ ["Name", "name"],
+        ["Description", "description"]], @field)-%>
+  </select>
+  for
+  <%= text_field_tag 'query', @query -%>
+  <input type="submit" value=" Go " />
+<% end -%>
+<h2>Groups <%if @query && @query.length > 0 %>&mdash; Searched for "<%=@query%>"
+  <%end-%></h2>
+<%= link_to 'Add new group', new_group_url %>
+<%= will_paginate @groups %>
+<table class="usertable">
+  <thead>
+    <tr>
+      <%= sort_header_tag('name', :title => "Name") %>
+      <th>Description</th>
+      <th>Maps</th>
+      <th>Members</th>
+      <%= sort_header_tag('creator', :title => "Creator") %>
+      <%= sort_header_tag('updated_at', :title => "Last updated") %>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    <%= render :partial => "group", :collection => @groups %>
+  </tbody>
+</table>
+<%= will_paginate @users %>
+

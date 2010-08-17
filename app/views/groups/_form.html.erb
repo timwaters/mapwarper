@@ -1,0 +1,14 @@
+<% form_for @group do |f| %>
+
+  <b><%= f.label :name  %></b> <br />
+  <%= f.text_field :name %>
+
+  </p>
+  <p>
+    <b><%= f.label :description %></b><br />
+    <%= f.text_area :description %>
+  </p>
+<br />
+
+<%= f.submit((defined?(page) && page =~ /new/) ? "Create" : "Update" )%>
+<% end  %>

@@ -7,7 +7,7 @@
     </select>
   for
   <%= text_field_tag 'query', @query -%>
-  <input type="submit" value=" Go ">
+  <input type="submit" value=" Go " />
 <% end -%>
 <h2>Users <%if @query && @query.length > 0 %>&mdash; Searched for "<%=@query%>"
     <%end-%></h2>

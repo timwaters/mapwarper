@@ -93,9 +93,9 @@ ActionController::Routing::Routes.draw do |map|
 
   map.connect '/layers/geosearch', :controller => 'layers', :action => 'geosearch'
   map.connect '/layers/thumb/:id', :controller => 'layers', :action => 'thumb'
- map.connect '/layers/:id/maps.:format', :controller => 'layers', :action => 'maps'
+  map.connect '/layers/:id/maps.:format', :controller => 'layers', :action => 'maps'
   map.connect '/layers/wms2', :controller => 'layers', :action => 'wms2'
-map.comments_layer '/layers/:id/comments', :controller => 'layers', :action => 'comments'
+  map.comments_layer '/layers/:id/comments', :controller => 'layers', :action => 'comments'
 
   map.resources :maps  do |a |
     a.resources :layers
@@ -108,6 +108,7 @@ map.comments_layer '/layers/:id/comments', :controller => 'layers', :action => '
   map.connect '/layers/tile/:id/:z/:x/:y.png', :controller => 'layers', :action => 'tile'
   map.connect 'digitize/subtype.:format', :controller => 'digitize', :action=> 'subtype'
 
+  map.resources :groups
   # The priority is based upon order of creation: first created -> highest priority.
 
 

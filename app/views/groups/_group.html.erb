@@ -1,0 +1,10 @@
+<tr class="<%= cycle('table0', 'table1') -%>">
+<td><%= link_to(( h group.name), group_path(group.id), :method => :get)  -%></td>
+<td><%=h group.description -%></td>
+<td><%= pluralize(group.maps.count, 'map') %> </td>
+<td><%= pluralize(group.users.count, 'user') %> </td>
+<td><%= link_to(( h group.creator.login), user_path(group.creator.id), :method => :get)  -%></td>
+<td><%=h time_ago_in_words(group.updated_at) -%> ago</td>
+<td><%= link_to('edit', edit_group_path(group)) %> </td>
+<!-- TODO add comments -->
+</tr>
