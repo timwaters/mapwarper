@@ -8,7 +8,7 @@ class CommentsController < ApplicationController
   include SortHelper
 
   def index
-    @html_title = "Comments"
+    @html_title = "Browse Comments"
     sort_init 'created_at'
     sort_update
     @query = params[:query]
@@ -52,17 +52,17 @@ class CommentsController < ApplicationController
     redirect_to polymorphic_path(commentable, :anchor => "Comments_tab")
   end
 
-private
- def bad_record
-      #logger.error("not found #{params[:id]}")
-     respond_to do | format |
+  private
+  def bad_record
+    #logger.error("not found #{params[:id]}")
+    respond_to do | format |
       format.html do
-       flash[:notice] = "Comment not found"
-       redirect_to :root
+        flash[:notice] = "Comment not found"
+        redirect_to :root
       end
-     format.json {render :json => {:stat => "not found", :items =>[]}.to_json, :status => 404}
-     end
- end 
+      format.json {render :json => {:stat => "not found", :items =>[]}.to_json, :status => 404}
+    end
+  end
 
 
 
