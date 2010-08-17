@@ -1,4 +1,4 @@
-<h3> Comment on this <%= object.class %> <h3>
+<h3> Comment on this <%= object.class %> </h3>
     <% form_tag :controller => 'comments', :action => 'add_comment'  do %>
 <%# text_field 'comment', 'title' %>
 <%= text_area 'comment', 'comment', :rows => "4" %>
