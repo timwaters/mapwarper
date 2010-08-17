@@ -1,15 +1,25 @@
 <%= link_to "&lt; Browse Groups", groups_path %>
 
 <h2>Group: <%=h @group.name %></h2>
-<% if admin_authorized? %><%=link_to('Edit this group', edit_group_path(@group)) %> | <%=  link_to 'Delete this group.',
+<% if admin_authorized? %>
+  <%=link_to('Edit this group', edit_group_path(@group)) %> | <%=  link_to 'Delete this group.',
     {:controller=>"groups", :action =>"destroy", :id => @group},  :method => :delete, :confirm => "Are you sure?" %>
 <% end %>
 
 <p>Created: <%= @group.created_at.to_s(:long) %> by <%= link_to(( h @group.creator.login), user_path(@group.creator.id), :method => :get)  -%></p>
 <h3>Description:</h3>
 <p><%= (h @group.description).gsub("\n","<br/>") %></p>
-<td><%= pluralize(@group.maps.count, 'map') %> </td>
-<td><%= pluralize(@group.users.count, 'user') %> </td>
+<p><%= pluralize(@group.maps.count, 'map') %>
+  <%= pluralize(@group.users.count, 'user') %> </p>
+<p>
+  <% if logged_in? -%>
+    <% if current_user.groups.to_a.include?(@group) %>
+      <%= link_to('Leave this group', destroy_group_user_path(:group_id => @group, :id => current_user), :method => :delete) -%>
+    <%  else -%>
+      <%=link_to("Join this group", new_group_user_path(@group)) %>
+    <% end -%>
+  <% end -%>
+</p>
 <h3>Group Maps: <%= pluralize(@group.maps.count, 'map') %> </h3>
 
 <div id="groupmaps">
@@ -39,10 +49,10 @@
   <%=will_paginate @group_users %>
   <p>
     <% @group_users.each do | user | %>
-    <%= link_to(( h user.login), user_path(user.id), :method => :get)  -%>&nbsp
+      <%= link_to(( h user.login), user_path(user.id))  -%>&nbsp
     <% end %>
 
   </p>
-<%= will_paginate @group_users  %>
+  <%= will_paginate @group_users  %>
 </div>
 

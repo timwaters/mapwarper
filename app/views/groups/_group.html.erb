@@ -5,6 +5,6 @@
 <td><%= pluralize(group.users.count, 'user') %> </td>
 <td><%= link_to(( h group.creator.login), user_path(group.creator.id), :method => :get)  -%></td>
 <td><%=h time_ago_in_words(group.updated_at) -%> ago</td>
-<td><%= link_to('edit', edit_group_path(group)) %> </td>
+<td><% if admin_authorized? -%><%= link_to('edit', edit_group_path(group)) -%><%  end %> </td>
 <!-- TODO add comments -->
 </tr>
