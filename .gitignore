@@ -10,6 +10,7 @@ config/environments/production.rb
 db/*.sqlite3
 db/mapfiles/*
 db/maptileindex/*
+db/schema.rb
 nbproject
 public/mapimages/dst/*
 public/mapimages/src/*
