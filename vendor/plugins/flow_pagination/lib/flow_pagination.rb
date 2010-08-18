@@ -34,7 +34,7 @@ module FlowPagination
               :url => { :controller => cont,
               :action => act,
               :params => @template.params.merge!(:page => self.next_page)},
-              :loading => "$('moar-button').replace('Loading....<br /><img src=\"/shared/images/load.gif\">');",
+              :loading => "$('moar-button').replace('Loading....<br /><img src=\"/images/load.gif\">');",
               :method => "GET"}, {:id => "moar-button",:class=>"moar-button"})
       end
       @template.content_tag(:div, flow_pagination, :id => 'flow_pagination')
