@@ -108,11 +108,15 @@ ActionController::Routing::Routes.draw do |map|
   map.connect '/layers/tile/:id/:z/:x/:y.png', :controller => 'layers', :action => 'tile'
   map.connect 'digitize/subtype.:format', :controller => 'digitize', :action=> 'subtype'
 
-  map.resources :groups do |group|
-    group.resources :users, :controller => :memberships
-  end
-
+  map.resources :groups 
+  
+  map.new_group_user '/groups/:group_id/users/new', :controller => 'memberships', :action => 'new'
   map.destroy_group_user '/groups/:group_id/users/destroy/:id', :controller => 'memberships', :action => 'destroy', :conditions => { :method => :delete}
+ 
+  map.group_users '/groups/:group_id/users', :controller => 'users', :action => 'index_for_group'
+  map.group_maps '/groups/:group_id/maps', :controller => 'mapss', :action => 'index_for_map'
+
+ 
   
   # The priority is based upon order of creation: first created -> highest priority.
 

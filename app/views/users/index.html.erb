@@ -1,31 +1,36 @@
-
-<% form_tag url_for(:controller => "users"), :id=>"searchform",:name=> "searchform", :method => :get do -%>
- User Search
- <select id="field" name="field">
-    <%= options_for_select([ ["Name", "login"],
-                           ["Email", "email"]], @field)-%>
+<% if admin_authorized? %>
+  <% form_tag url_for(:controller => "users"), :id=>"searchform",:name=> "searchform", :method => :get do -%>
+    User Search
+    <select id="field" name="field">
+      <%= options_for_select([ ["Name", "login"],
+          ["Email", "email"]], @field)-%>
     </select>
-  for
-  <%= text_field_tag 'query', @query -%>
-  <input type="submit" value=" Go " />
-<% end -%>
-<h2>Users <%if @query && @query.length > 0 %>&mdash; Searched for "<%=@query%>"
-    <%end-%></h2>
+    for
+    <%= text_field_tag 'query', @query -%>
+    <input type="submit" value=" Go " />
+  <% end -%>
+<% end %>
+<h2>Users
+  <% if @group -%> in Group <%= @group.id.to_s -%>. <% end -%>
+  <%if @query && @query.length > 0 %>&mdash; Searched for "<%=@query%>"
+  <%end-%></h2>
 
 <%= will_paginate @users %>
 <table class="usertable">
   <thead>
-<tr>
-<%= sort_header_tag('login', :title => "Username") %>
-<%= sort_header_tag('email', :title => "Email") %>
-<%= sort_header_tag('enabled', :title => "Enabled?") %>
-<%= sort_header_tag('activated_at', :title => "Activated?") %>
-<th>Roles</th>
-</tr>
-</thead>
-<tbody>
-<%= render :partial => "user", :collection => @users %>
-</tbody>
+    <tr>
+      <%= sort_header_tag('login', :title => "Username") %>
+      <% if admin_authorized? %>
+        <%= sort_header_tag('email', :title => "Email") %>
+        <%= sort_header_tag('enabled', :title => "Enabled?") %>
+        <%= sort_header_tag('activated_at', :title => "Activated?") %>
+        <th>Roles</th>
+      <% end -%>
+    </tr>
+  </thead>
+  <tbody>
+    <%= render :partial => "user", :collection => @users %>
+  </tbody>
 </table>
 <%= will_paginate @users %>
 

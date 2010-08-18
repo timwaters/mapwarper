@@ -26,6 +26,25 @@ class UsersController < ApplicationController
                             )
    end
 
+   def index_for_group
+      @group = Group.find(params[:group_id])
+      @html_title = "Users in Group " + @group.id.to_s
+      sort_init 'email'
+      sort_update
+      @query = params[:query]
+      @field = %w(login email).detect{|f| f == (params[:field])}
+      if @query && @query.strip.length > 0 && @field
+        conditions = ["#{@field}  ~* ?", '(:punct:|^|)'+@query+'([^A-z]|$)']
+      else
+        conditions = nil
+      end
+      @users = @group.users.paginate(:page=> params[:page],
+                            :per_page => 30,
+                            :order => sort_clause,
+                            :conditions => conditions
+                            )
+      render :action => 'index'
+   end
   
    def show
       @user = User.find(params[:id]) || current_user
