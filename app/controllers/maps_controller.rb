@@ -40,7 +40,7 @@ class MapsController < ApplicationController
     lat = params[:lat]
     zoom = params[:zoom]
     respond_to do |format|
-      if map.update_attributes(:rough_lon  => lon, :rough_lat => lat, :rough_zoom => zoom ) and lat and lon
+      if map.update_attributes(:rough_lon  => lon, :rough_lat => lat, :rough_zoom => zoom ) && lat && lon
         map.save_rough_centroid(lon, lat)
         format.json {render :json =>{:stat => "ok", :items => map.to_a}.to_json(:except => [:content_type, :size, :bbox_geom, :uuid, :parent_uuid, :filename, :parent_id,  :map, :thumbnail, :rough_centroid]), :callback => params[:callback]
         }
@@ -64,7 +64,7 @@ class MapsController < ApplicationController
   def set_rough_state
     map = Map.find(params[:id])
     respond_to do |format|
-      if map.update_attributes(:rough_state => params[:rough_state]) and Map::ROUGH_STATE.include? params[:rough_state].to_sym
+      if map.update_attributes(:rough_state => params[:rough_state]) && Map::ROUGH_STATE.include?(params[:rough_state].to_sym)
         format.json { render :json => {:stat => "ok", :items => ["id" => map.id, "rough_state" => map.rough_state]}.to_json, :callback => params[:callback] }
       else
         format.json { render :json => {:stat => "fail", :message =>"Could not update state", :errors => map.errors.to_a, :items => []}.to_json , :callback => params[:callback]}
