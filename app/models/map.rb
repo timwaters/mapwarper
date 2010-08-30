@@ -30,7 +30,8 @@ class Map < ActiveRecord::Base
   acts_as_enum :status, [:unloaded, :loading, :available, :warping, :warped, :published]
   acts_as_enum :mask_status, [:unmasked, :masking, :masked]
   acts_as_enum :map_type, [:index, :is_map, :not_map ]
-  default_values :status => :unloaded, :mask_status => :unmasked, :map_type => :is_map
+  acts_as_enum :rough_state, [:step_1, :step_2, :step_3, :step_4]
+  default_values :status => :unloaded, :mask_status => :unmasked, :map_type => :is_map, :rough_state => :step_1
 
   named_scope :public, :conditions => ['public = ?', true]
   named_scope :warped, :conditions => {:status => Map.status(:warped), :map_type => Map.map_type(:is_map) }
@@ -39,6 +40,7 @@ class Map < ActiveRecord::Base
   attr_accessor :error
 
   validates_presence_of :title
+  validates_numericality_of :rough_lat, :rough_lon, :rough_zoom, :allow_nil => true
 
   before_create :save_dimensions
   after_create :setup_image
@@ -127,6 +129,7 @@ class Map < ActiveRecord::Base
       
     end
     self.map_type = :is_map
+    self.rough_state = :step_1
     save!
   end
 
@@ -312,6 +315,11 @@ class Map < ActiveRecord::Base
     end
   end
 
+  def save_rough_centroid(lon,lat)
+   self.rough_centroid =  Point.from_lon_lat(lon,lat)
+   self.save
+  end
+  
   def save_bbox
     stdin, stdout, stderr = Open3::popen3("gdalinfo #{warped_filename}")
     unless stderr.readlines.to_s.size > 0

@@ -91,6 +91,12 @@ ActionController::Routing::Routes.draw do |map|
   map.connect '/maps/:id/gcps.:format', :controller => 'maps', :action => 'gcps'
   map.connect '/maps/tile/:id/:z/:x/:y.png', :controller => 'maps', :action => 'tile'
 
+  map.connect '/maps/:id/rough_state.:format', :controller => 'maps', :action => 'get_rough_state' ,:conditions => { :method => :get}
+  map.connect '/maps/:id/rough_state.:format', :controller => 'maps', :action => 'set_rough_state' ,:conditions => { :method => :post}
+  map.connect '/maps/:id/rough_centroid.:format', :controller => 'maps', :action => 'get_rough_centroid' ,:conditions => { :method => :get}
+  map.connect '/maps/:id/rough_centroid.:format', :controller => 'maps', :action => 'set_rough_centroid' ,:conditions => { :method => :post}
+
+
   map.connect '/layers/geosearch', :controller => 'layers', :action => 'geosearch'
   map.connect '/layers/thumb/:id', :controller => 'layers', :action => 'thumb'
   map.connect '/layers/:id/maps.:format', :controller => 'layers', :action => 'maps'
