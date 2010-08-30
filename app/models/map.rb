@@ -337,7 +337,7 @@ class Map < ActiveRecord::Base
     if bbox.nil?
       x_array = []
       y_array = []
-      self.gcps.each do |gcp|
+      self.gcps.hard.each do |gcp|
         #logger.info "GCP lat #{gcp[:lat]} , lon #{gcp[:lon]} "
         x_array << gcp[:lat]
         y_array << gcp[:lon]
@@ -390,10 +390,10 @@ class Map < ActiveRecord::Base
    #results it nicer gpcs to edit with later
    def align_with_warped (srcmap, align = nil, append = false)
       srcmap = Map.find(srcmap)
-      origgcps = srcmap.gcps
+      origgcps = srcmap.hard.gcps
 
       #clear out original gcps, unless we want to append the copied gcps to the existing ones
-      self.gcps.destroy_all unless append == true
+      self.gcps.hard.destroy_all unless append == true
 
       #extent of source from gdalinfo
       stdin, stdout, sterr = Open3::popen3("gdalinfo #{srcmap.warped_filename}")
@@ -422,7 +422,7 @@ class Map < ActiveRecord::Base
          a.save
       end
 
-      newgcps = self.gcps
+      newgcps = self.gcps.hard
    end
 
    #attempts to align based on the width and height of
@@ -434,7 +434,7 @@ class Map < ActiveRecord::Base
       origgcps = srcmap.gcps
 
       #clear out original gcps, unless we want to append the copied gcps to the existing ones
-      self.gcps.destroy_all unless append == true
+      self.gcps.hard.destroy_all unless append == true
 
       origgcps.each do |gcp|
          new_gcp = Gcp.new()
@@ -455,13 +455,17 @@ class Map < ActiveRecord::Base
          new_gcp.save
       end
 
-      newgcps = self.gcps
+      newgcps = self.gcps.hard
    end
 
-  # map gets error attibute set and gcps get error attribute set
-  def gcps_with_error
-    gcps = Gcp.find(:all, :conditions =>["map_id = ?", self.id], :order => 'created_at')
-    gcps, map_error = ErrorCalculator::calc_error(gcps)
+    # map gets error attibute set and gcps get error attribute set
+  def gcps_with_error(soft=nil)
+    unless soft == 'true'
+      gcps = Gcp.hard.find(:all, :conditions =>["map_id = ?", self.id], :order => 'created_at')
+    else
+      gcps = Gcp.soft.find(:all, :conditions =>["map_id = ?", self.id], :order => 'created_at')
+    end
+      gcps, map_error = ErrorCalculator::calc_error(gcps)
     @error = map_error
     #send back the gpcs with error calculation
     gcps
@@ -527,7 +531,7 @@ class Map < ActiveRecord::Base
     self.status = :warping
     save!
 
-    gcp_array = self.gcps
+    gcp_array = self.gcps.hard
 
     gcp_string = ""
 

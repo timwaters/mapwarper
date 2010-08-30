@@ -5,24 +5,13 @@ class GcpController < ApplicationController
 
   #before_filter :login_or_oauth_required, :except => [:show, :index]
   before_filter :login_or_oauth_required, :only => [:custom, :update, :update_field, :add, :destroy]
-   
+  before_filter :find_gcp, :only => [:show, :update,:update_field, :destroy ]
   rescue_from ActiveRecord::RecordNotFound, :with => :bad_record
 
   def show
-
     respond_to do | format |
-    if Gcp.exists?(params[:id])
-      @gcp = Gcp.find(params[:id])
-        format.json {render :json => {:stat => "ok", :items => @gcp.to_a}.to_json, :callback => params[:callback]  }
-        format.xml  {render :xml => @gcp.to_xml}
-    else
-        format.html do
-          flash[:notice] = "Invalid GCP"
-          redirect_to :action => :index
-    end
-        format.json {render :json => {:stat => "not found", :items=>[]}.to_json, :status => 404 }
-        format.xml  {render :xml => {}.to_xml(:root=> "gcp")}
-  end
+      format.json {render :json => {:stat => "ok", :items => @gcp.to_a}.to_json, :callback => params[:callback]  }
+      format.xml  {render :xml => @gcp.to_xml}
     end
 
   end
@@ -32,18 +21,19 @@ class GcpController < ApplicationController
   end
 
   def update
-    @gcp = Gcp.find(params[:id])
-    
+     
     x = params[:x]
     y = params[:y]
     lon = params[:lon]
     lat = params[:lat]
+    name = params[:name]
+    soft = params[:soft]
 
     respond_to do |format |
-    if @gcp.update_attributes(:x => x,:y => y, :lon => lon, :lat => lat)
+    if @gcp.update_attributes(:x => x,:y => y, :lon => lon, :lat => lat, :name => name, :soft => soft)
 
       @map = @gcp.map
-      @gcps = @map.gcps_with_error
+      @gcps = @map.gcps_with_error(params[:soft])
 
         format.js if request.xhr?
         format.html { redirect_to_index }
@@ -61,7 +51,6 @@ class GcpController < ApplicationController
   end
 
   def update_field
-    @gcp = Gcp.find(params[:id])
     @map = @gcp.map
     attribute = params[:attribute]
     value = params[:value]
@@ -69,7 +58,7 @@ class GcpController < ApplicationController
      respond_to do |format|
     if @gcp.update_attribute(attribute, value)
       @map = @gcp.map
-      @gcps = @map.gcps_with_error
+      @gcps = @map.gcps_with_error(params[:soft])
 
       if request.xhr?
            format.js {render :action => 'update'}
@@ -88,12 +77,11 @@ class GcpController < ApplicationController
   end
 
   def destroy
-    @gcp = Gcp.find(params[:id])
     @map = @gcp.map
      respond_to do | format |
        if @gcp.destroy
-    @map.reload
-    @gcps = @map.gcps_with_error
+       @map.reload
+        @gcps = @map.gcps_with_error
          format.js if request.xhr?
          format.html { redirect_to_index }
          format.json { render :json => {:stat => "ok", :items => @gcps.to_a}.to_json(:methods => :error), :callback => params[:callback] }
@@ -115,8 +103,11 @@ class GcpController < ApplicationController
     lat = params[:lat] || 0
     lon = params[:lon] || 0
     id = params[:mapid]
+    name = params[:name]
+    soft = params[:soft]
+
     if params[:mapid]
-      @gcp = Gcp.new(:map_id=>params[:mapid].to_i, :x=>x, :y=>y, :lat=>lat, :lon=>lon)
+      @gcp = Gcp.new(:map_id=>params[:mapid].to_i, :x=>x, :y=>y, :lat=>lat, :lon=>lon, :name => name, :soft => soft)
     else
       @gcp = Gcp.new(:x=>x, :y=>y, :lat=>lat, :lon=>lon)
     end
@@ -124,7 +115,7 @@ class GcpController < ApplicationController
     respond_to do | format |
       if @gcp.save
         @map = @gcp.map
-        @gcps = @map.gcps_with_error
+        @gcps = @map.gcps_with_error(params[:soft])
 
         format.js if request.xhr?
         format.html { redirect_to_index }
@@ -143,6 +134,10 @@ class GcpController < ApplicationController
   end
 
   private
+  def find_gcp
+     @gcp = Gcp.find(params[:id]) 
+  end
+
   #veries token but only for the html view, turned off for xml and json calls - these calls would need to be authenticated anyhow.
   def semi_verify_authenticity_token
     unless request.format.xml? || request.format.json?

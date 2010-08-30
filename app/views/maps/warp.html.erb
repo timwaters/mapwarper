@@ -19,7 +19,7 @@
   var layer_baseurl = '<%=url_for :controller => 'layers', :action => 'wms' %>';
   var layers_array = [<%=@other_layers.join(",")-%>];
   var map_bounds = new OpenLayers.Bounds();
-   <% if @map.gcps.size > 0 %>
+   <% if @map.gcps.hard.size > 0 %>
     map_bounds = new OpenLayers.Bounds(<%=@map.bounds-%>);
     map_has_bounds = true;
     map_center = map_bounds.getCenterLonLat();

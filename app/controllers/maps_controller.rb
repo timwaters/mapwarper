@@ -84,9 +84,10 @@ class MapsController < ApplicationController
     end
   end
 
+  #pass in soft true to get soft gcps
  def gcps
     @map = Map.find(params[:id])
-    gcps = @map.gcps_with_error
+    gcps = @map.gcps_with_error(params[:soft])
     respond_to do |format|
       #format.json { render :json => gcps.to_json(:methods => :error)}
       format.json { render :json => {:stat => "ok", :items => gcps.to_a}.to_json(:methods => :error), :callback => params[:callback]}
@@ -534,7 +535,7 @@ class MapsController < ApplicationController
     logger.info "save mask and warp"
     @map.save_mask(params[:output])
     @map.mask!
-    if @map.gcps.size.nil? || @map.gcps.size < 3
+    if @map.gcps.hard.size.nil? || @map.gcps.hard.size < 3
       msg = "Map masked, but it needs more control points to rectify. Click the Rectify tab to add some."
     else
       params[:use_mask] = "true"
@@ -552,7 +553,7 @@ class MapsController < ApplicationController
     @current_tab = "warped"
     @selected_tab = 5
     @html_title = "Viewing Rectfied Map "+ @map.id.to_s
-    if @map.status == :warped and @map.gcps.size > 2
+    if @map.status == :warped and @map.gcps.hard.size > 2
       @title = "Viewing warped map"
       width = @map.width
       height = @map.height
@@ -606,7 +607,7 @@ class MapsController < ApplicationController
      @current_tab = "warp"
      @selected_tab = 2
      @html_title = "Rectifying Map "+ @map.id.to_s
-     @bestguess_places = @map.find_bestguess_places  if @map.gcps.empty?
+     @bestguess_places = @map.find_bestguess_places  if @map.gcps.hard.empty?
      @other_layers = Array.new
      @map.layers.visible.each do |layer| 
        @other_layers.push(layer.id)
@@ -881,7 +882,7 @@ end
 
       use_mask = params[:use_mask]
       @too_few = false
-      if @map.gcps.size.nil? || @map.gcps.size < 3
+      if @map.gcps.hard.size.nil? || @map.gcps.hard.size < 3
         @too_few = true
         @notice_text = "Sorry, the map needs at least three control points to be able to rectify it"
         @output = @notice_text

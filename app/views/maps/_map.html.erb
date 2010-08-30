@@ -61,8 +61,8 @@
     <%=h time_ago_in_words(map.updated_at) -%> ago.
   </td>
   <td>
-    <%if map.gcps.size > 0 %>
-      <%=pluralize(map.gcps.size, "control point") -%>.
+    <%if map.gcps.hard.size > 0 %>
+      <%=pluralize(map.gcps.hard.size, "control point") -%>.
     <%else-%>
       Unrectified.
     <%end-%>
