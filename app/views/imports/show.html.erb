@@ -1,0 +1,40 @@
+<%= link_to "&lt; Browse imports", imports_path %>
+
+<h2>Import: <%=h @import.name %></h2>
+<p>Created: <%= @import.created_at.to_s(:long) %> by <%= link_to(( h @import.user.login), user_path(@import.user.id), :method => :get)  -%></p>
+<p>
+  <% if admin_authorized? %>
+    <%=link_to('Edit this import', edit_import_path(@import)) %><br /><br />
+    <%=  link_to 'Delete this import.', {:controller=>"imports", :action =>"destroy", :id => @import},  :method => :delete, :confirm => "Are you sure?" %>
+  <% end %>
+</p>
+
+<p><b>Path</b><br />
+  <%= @import.path %>
+</p>
+<p><b>Map title suffix - added before filename </b><br />
+  <%= @import.map_title_suffix %>
+</p>
+<p><b>Default map description</b> <br />
+  <%= @import.map_description %>
+</p>
+<p><b>Default map publisher</b> <br />
+  <%= @import.map_publisher %>
+</p>
+<p><b>Default map authors </b><br />
+  <%= @import.map_author %>
+</p>
+<p><b>Layer ID to add imported maps into existing layer. -99 to create new layer, blank for no layer </b><br />
+  <%= @import.layer_id %>
+</p>
+<p><b>layer title if one needs to be created</b><br />
+  <%= @import.layer_title %>
+</p>
+<p><b>Assigned user to own these</b><br />
+  <%= @import.uploader_user_id %>
+</p>
+
+<br />
+<% if admin_authorized? %>
+<b><%=link_to('START IMPORT', start_import_path(@import), :confirm => "Ready to Start this import?") %></b>
+<%end%>

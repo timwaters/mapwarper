@@ -11,6 +11,7 @@ class Map < ActiveRecord::Base
   has_many :my_maps, :dependent => :destroy
   has_many :users, :through => :my_maps
   belongs_to :owner, :class_name => "User"
+  belongs_to :import
   has_one :user, :through => :my_maps
   has_many :gcps,  :dependent => :destroy
   has_many :layers_maps,  :dependent => :destroy
@@ -390,7 +391,7 @@ class Map < ActiveRecord::Base
    #results it nicer gpcs to edit with later
    def align_with_warped (srcmap, align = nil, append = false)
       srcmap = Map.find(srcmap)
-      origgcps = srcmap.hard.gcps
+      origgcps = srcmap.gcps.hard
 
       #clear out original gcps, unless we want to append the copied gcps to the existing ones
       self.gcps.hard.destroy_all unless append == true

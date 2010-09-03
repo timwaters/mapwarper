@@ -1,0 +1,42 @@
+<% form_for @import do |f| %>
+  <p>
+    <b><%= f.label :name, "Name (give a name to the import, required)"  %></b> <br />
+    <%= f.text_field :name %>
+  </p>
+  <p>
+    <b><%= f.label :path, "Path on server for directory where maps are (required)"  %></b> <br />
+    <%= f.text_field :path %>
+  </p>
+  <p>
+    <b><%= f.label :map_title_suffix, "Map title suffix (added before filename, optional)"  %></b> <br />
+    <%= f.text_field :map_title_suffix %>
+  </p>
+  <p>
+    <b><%= f.label :map_description, "Default map description (optional)"  %></b> <br />
+    <%= f.text_field :map_description %>
+  </p>
+  <p>
+    <b><%= f.label :map_publisher, "Default map publisher (optional)"  %></b> <br />
+    <%= f.text_field :map_publisher %>
+  </p>
+  <p>
+    <b><%= f.label :map_author, "Default map authors (optional)"  %></b> <br />
+    <%= f.text_field :map_author %>
+  </p>
+  <p>
+    <b><%= f.label :layer_id, "Layer ID to add imported maps into existing layer. -99 to create new layer, leave blank for no layer (optional)"  %></b> <br />
+    <%= f.text_field :layer_id %>
+  </p>
+    <p>
+    <b><%= f.label :layer_title, "Title for new layer (if new layer required, see above)"  %></b> <br />
+    <%= f.text_field :layer_title %>
+  </p>
+  <p>
+    <b><%= f.label :uploader_user_id, "User id for user to be assigned as uploading these (defaults to you, required)"  %></b> <br />
+    <%= f.text_field :uploader_user_id %>
+  </p>
+
+  <br />
+
+  <%= f.submit((defined?(page) && page =~ /new/) ? "Create" : "Update" )%>
+<% end  %>

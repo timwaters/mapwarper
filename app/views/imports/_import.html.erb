@@ -1,0 +1,9 @@
+<tr class="<%= cycle('table0', 'table1') -%>">
+  <td><%= import.id.to_s %> </td>
+  <td><%= pluralize(import.maps.count, 'map') %> </td>
+  <td><%= link_to(( h import.name), import_path(import.id), :method => :get)  -%></td>
+
+  <td><%= link_to(( h import.user.login), user_path(import.user.id), :method => :get)  -%></td>
+  <td><%=h time_ago_in_words(import.updated_at) -%> ago</td>
+  <td><% if admin_authorized? -%><%= link_to('edit', edit_import_path(import)) -%><%  end %> </td>
+</tr>
