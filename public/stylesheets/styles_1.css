@@ -1,3 +1,31 @@
+tr.import-maps textarea{
+    margin-left:4.5em;
+}
+tr.import-maps input{
+    margin-left:4.5em;
+}
+span.import-span-map{
+    margin-left:4em;
+}
+tr.import-maps input.import-textfield-map{
+    width: 25em;
+}
+tr.import-maps textarea.import-textarea-map{
+    width: 25em;
+    height: 6em;
+}
+tr.import-maps label{
+    width: 4em;
+    float: left;
+    margin-right: 0.2em;
+    display: block
+}
+tr.import-maps label.import-delete-map{
+    margin-left: 2em;
+    width: 3em;
+    text-align: center;
+    width: auto;
+}
 form.new_import input {
     width:35em;
 }

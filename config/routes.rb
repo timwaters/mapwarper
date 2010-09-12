@@ -122,7 +122,7 @@ ActionController::Routing::Routes.draw do |map|
   map.group_users '/groups/:group_id/users', :controller => 'users', :action => 'index_for_group'
   map.group_maps '/groups/:group_id/maps', :controller => 'mapss', :action => 'index_for_map'
 
-  map.resources :imports, :member => {:review => :get, :start => :get, :status => :get }
+  map.resources :imports, :member => {:maps => :get, :start => :get, :status => :get }
  
   
   # The priority is based upon order of creation: first created -> highest priority.

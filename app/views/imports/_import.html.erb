@@ -1,9 +1,15 @@
 <tr class="<%= cycle('table0', 'table1') -%>">
-  <td><%= import.id.to_s %> </td>
-  <td><%= pluralize(import.maps.count, 'map') %> </td>
+  <td><%= link_to(import.id.to_s, import_path(import.id)) %> </td>
   <td><%= link_to(( h import.name), import_path(import.id), :method => :get)  -%></td>
-
+  <td><%= link_to(pluralize(import.maps.count, 'map'), maps_import_path(import.id)) %> (Imported: <%=  import.imported_count %>) </td>
   <td><%= link_to(( h import.user.login), user_path(import.user.id), :method => :get)  -%></td>
   <td><%=h time_ago_in_words(import.updated_at) -%> ago</td>
-  <td><% if admin_authorized? -%><%= link_to('edit', edit_import_path(import)) -%><%  end %> </td>
+  <td><%= import.state  %> </td>
+  <td><% if admin_authorized? -%>
+  <%  if import.state == "ready" -%>
+      <%= link_to('edit', edit_import_path(import)) -%>
+  <%  elsif import.state == "imported" -%>
+      <%= link_to('edit maps', maps_import_path(import)) -%>
+    <% end  %>
+<%  end %> </td>
 </tr>

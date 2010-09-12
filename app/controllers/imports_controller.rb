@@ -5,6 +5,7 @@ class ImportsController < ApplicationController
   before_filter :login_required
   before_filter :check_administrator_role
   before_filter :find_import, :except => [:index, :new, :create]
+  before_filter :check_imported, :only => [:start]
 
   rescue_from ActiveRecord::RecordNotFound, :with => :bad_record
 
@@ -25,62 +26,70 @@ class ImportsController < ApplicationController
       flash[:notice] = "New Import Created!"
       redirect_to import_url(@import)
     else
+      flash[:error] = "Something went wrong creating the import"
       render :action => 'new'
     end
   end
 
 
   def edit
-
-    @import.user = current_user
-    @import.state = "ready"
   end
 
   def show
-
   end
 
   def destroy
-
-    if @import .destroy
+    if @import.destroy
       flash[:notice] = "Import deleted!"
     else
       flash[:notice] = "Import couldn't be deleted."
     end
-
     redirect_to imports_path
   end
  
   def update
-    @import.map_count = 12
     if @import.update_attributes(params[:import])
-
       flash[:notice] = "Successfully updated import."
       redirect_to import_url(@import)
     else
+      flash[:error] = "Something went wrong updating the import"
       render :action => 'edit'
     end
   end
 
   def start
-    #starts import, shows message saying it is importing
-    #spawn do
-    #end
-    @import.start_importing
-    render :text => @import.status_message
+    spawn do
+      @import.start_importing
+    end
   end
 
   def status
-    render :text => @import.status_message
+    render :text => @import.status
   end
 
-  def finished
+  def maps
+    @upload_user = User.find(@import.uploader_user_id)
+    if @import.layer_id == -99
+      @layer = @import.maps.first.layers.first
+    elsif @import.layer_id != nil
+      @layer = Layer.find(@import.layer_id)
+    end
+    
+
     #show finished import, or alter show?
   end
 
   private
+  
   def find_import
     @import = Import.find(params[:id])
+  end
+
+  def check_imported
+    if @import.state == "imported"
+      flash[:notice] = "Sorry, can't be done, this import has already been imported."
+      redirect_to imports_path
+    end
   end
 
   def bad_record

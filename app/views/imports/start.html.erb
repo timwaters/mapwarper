@@ -1,4 +1,51 @@
+<script type="text/javascript">
+  var keepOnPolling = true;
+  function pollServer(){
+    if (keepOnPolling) {
+      jQuery.ajax({
+        method: 'get',
+        url : '<%= status_import_path(@import)%>',
+        dataType : 'text',
+        success: function (text) {
+          console.log(text);
+          if (text.indexOf("Finished")!=-1){
+            keepOnPolling = false;
+            jQuery('#afterImport').show();
+            jQuery('#spinner').hide();
+          }
+          jQuery('#updateMe').html(text);
+        },
+        error: function(){
+          keepOnPolling = false;
+          jQuery('#updateMe').html("Something went wrong with the request to the server");
+          jQuery('#spinner').hide();
+        }
+      });
+    }else{
+      jQuery('#spinner').hide();
+    }
+  }
 
-start
-here progress will be shown
+    
 
+
+  jQuery(document).ready(function(){
+    jQuery('#afterImport').hide();
+    jQuery('#spinner').show();
+    var myvar = setInterval(pollServer, 4000);
+ 
+  });
+    
+</script>
+
+<h2>Importing...</h2>
+
+<span id="spinner" style="display:none;"><%= image_tag 'spinner-horiz.gif' %></span>
+Progress:<br />
+<div id="updateMe">
+  Importing....
+</div>
+<div id="afterImport">
+  <h3>All done!</h3>
+  Import finished, <%= link_to"click here to edit the maps", maps_import_path(@import) %>
+</div>
