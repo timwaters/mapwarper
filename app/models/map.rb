@@ -103,13 +103,13 @@ class Map < ActiveRecord::Base
       logger.info "We convert to tiff"
       # -co compress=DEFLATE for compression?
       # -expand rgb   for tifs with LZW compression. sigh
-      command  = "gdal_translate #{self.upload.path} #{outsize} -co PHOTOMETRIC=RGB -co PROFILE=BASELINE #{tiffed_file_path}"
+      command  = "#{GDAL_PATH}gdal_translate #{self.upload.path} #{outsize} -co PHOTOMETRIC=RGB -co PROFILE=BASELINE #{tiffed_file_path}"
       logger.info command
       ti_stdin, ti_stdout, ti_stderr =  Open3::popen3( command )
       logger.info ti_stdout.readlines.to_s
       logger.info ti_stderr.readlines.to_s
 
-      command = "gdaladdo -r average #{tiffed_file_path} 2 4 8 16 32 64"
+      command = "#{GDAL_PATH}gdaladdo -r average #{tiffed_file_path} 2 4 8 16 32 64"
       o_stdin, o_stdout, o_stderr = Open3::popen3(command)
       logger.info command
 
@@ -322,7 +322,7 @@ class Map < ActiveRecord::Base
   end
   
   def save_bbox
-    stdin, stdout, stderr = Open3::popen3("gdalinfo #{warped_filename}")
+    stdin, stdout, stderr = Open3::popen3("#{GDAL_PATH}gdalinfo #{warped_filename}")
     unless stderr.readlines.to_s.size > 0
     info = stdout.readlines.to_s
     string,west,south = info.match(/Lower Left\s+\(\s*([-.\d]+),\s+([-.\d]+)/).to_a
@@ -397,7 +397,7 @@ class Map < ActiveRecord::Base
       self.gcps.hard.destroy_all unless append == true
 
       #extent of source from gdalinfo
-      stdin, stdout, sterr = Open3::popen3("gdalinfo #{srcmap.warped_filename}")
+      stdin, stdout, sterr = Open3::popen3("#{GDAL_PATH}gdalinfo #{srcmap.warped_filename}")
       info = stdout.readlines.to_s
       stringLW,west,south = info.match(/Lower Left\s+\(\s*([-.\d]+), \s+([-.\d]+)/).to_a
       stringUR,east,north = info.match(/Upper Right\s+\(\s*([-.\d]+), \s+([-.\d]+)/).to_a
@@ -500,9 +500,9 @@ class Map < ActiveRecord::Base
       #TODO ADD -i switch when we have newer gdal
       require 'open3'
       r_stdin, r_stdout, r_stderr = Open3::popen3(
-      "gdal_rasterize -i  -burn 17 -b 1 -b 2 -b 3 #{masking_file} -l #{layer} #{masked_src_filename}"
+      "#{GDAL_PATH}gdal_rasterize -i  -burn 17 -b 1 -b 2 -b 3 #{masking_file} -l #{layer} #{masked_src_filename}"
       )
-      logger.info "gdal_rasterize -i  -burn 17 -b 1 -b 2 -b 3 #{masking_file} -l #{layer} #{masked_src_filename}"
+      logger.info "#{GDAL_PATH}gdal_rasterize -i  -burn 17 -b 1 -b 2 -b 3 #{masking_file} -l #{layer} #{masked_src_filename}"
       r_out  = r_stdout.readlines.to_s
       r_err = r_stderr.readlines.to_s
 
@@ -560,10 +560,10 @@ class Map < ActiveRecord::Base
     logger.info "gdal translate"
 
     t_stdin, t_stdout, t_stderr = Open3::popen3(
-      "gdal_translate -a_srs '+init=epsg:4326' -of VRT #{src_filename} #{temp_filename}.vrt #{gcp_string}"
+      "#{GDAL_PATH}gdal_translate -a_srs '+init=epsg:4326' -of VRT #{src_filename} #{temp_filename}.vrt #{gcp_string}"
     )
 
-    logger.info "gdal_translate -a_srs '+init=epsg:4326' -of VRT #{src_filename} #{temp_filename}.vrt #{gcp_string}"
+    logger.info "#{GDAL_PATH}gdal_translate -a_srs '+init=epsg:4326' -of VRT #{src_filename} #{temp_filename}.vrt #{gcp_string}"
     t_out  = t_stdout.readlines.to_s
     t_err = t_stderr.readlines.to_s
 
@@ -579,7 +579,7 @@ class Map < ActiveRecord::Base
     memory_limit =  (defined?(GDAL_MEMORY_LIMIT)) ? "-wm "+GDAL_MEMORY_LIMIT.to_s :  ""
 
     #check for colorinterop=pal ? -disnodata 255 or -dstalpha
-    command = "gdalwarp #{memory_limit}  #{transform_option}  #{resample_option} -dstalpha #{mask_options} -s_srs 'EPSG:4326' #{temp_filename}.vrt #{dest_filename} -co TILED=YES -co COMPRESS=JPEG -co JPEG_QUALITY=85"
+    command = "#{GDAL_PATH}gdalwarp #{memory_limit}  #{transform_option}  #{resample_option} -dstalpha #{mask_options} -s_srs 'EPSG:4326' #{temp_filename}.vrt #{dest_filename} -co TILED=YES -co COMPRESS=JPEG -co JPEG_QUALITY=85"
     w_stdin, w_stdout, w_stderr = Open3::popen3(command)
     logger.info command
 
@@ -595,7 +595,7 @@ class Map < ActiveRecord::Base
       warp_output = w_out
 
       # gdaladdo
-    command = "gdaladdo -r average #{dest_filename} 2 4 8 16 32 64"
+    command = "#{GDAL_PATH}gdaladdo -r average #{dest_filename} 2 4 8 16 32 64"
       o_stdin, o_stdout, o_stderr = Open3::popen3(command)
       logger.info command
 
@@ -740,7 +740,7 @@ class Map < ActiveRecord::Base
 
    def convert_to_png
      logger.info "start convert to png ->  #{warped_png_filename}"
-     ext_command = "gdal_translate -of png #{warped_filename} #{warped_png_filename}"
+     ext_command = "#{GDAL_PATH}gdal_translate -of png #{warped_filename} #{warped_png_filename}"
      stdin, stdout, stderr = Open3::popen3(ext_command)
      logger.debug ext_command
      if stderr.readlines.to_s.size > 0

@@ -25,6 +25,8 @@ create folders shared/system/mapimages/src and /dst and /dst/png
 
 
 database - standard rails db migrate should do the trick - mysql or sqlite3 should
+make sure you login as the admin set up in the migration 010 and use this to create a new user, and use this to disable this initial default admin
+
 be fine. Change the database.example file to your database.yml 
 
 imagemagick required for paperclip and thumbnail handling....
