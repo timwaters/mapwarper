@@ -15,6 +15,7 @@ It cannot find it on the PATH.
 Some files you will need to put manually there, and capistrano copies across to the correct place, basically enables
 the code not to have site specific stuff in svn.
 
+config/initializers/session_store.rb.example into shared/config/session_store.rb
 config/initializers/mail.rb. put mail.rb into shared/config folder
 config/environments/production.rb again, into shared/config folder
 config/database.yml.production into shared/config folder

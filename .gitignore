@@ -6,6 +6,7 @@ doc/app
 config/*deploy.rb
 !config/example_deploy.rb
 config/database.yml
+config/initializers/session_store.rb
 config/environments/production.rb
 db/*.sqlite3
 db/mapfiles/*
