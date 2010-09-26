@@ -23,15 +23,11 @@
 <div id="searchmap-container">
   <div id="searchmap-list-block">
 
-    <% unless @layers.size > 0 %>
-      No Layers Found.
-    <%else%>
 
       <table id="searchmap-table" style="table-layout:fixed">
 
 
       </table>
-    <%end %>
   </div>
   <div id="searchmap-block">
  <form id='placeSearchForm'  onsubmit='doPlaceSearch(this); return false;' class='geosearchform'>
