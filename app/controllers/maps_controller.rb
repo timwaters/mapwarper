@@ -532,19 +532,26 @@ class MapsController < ApplicationController
   end
   
   def save_mask_and_warp
-    logger.info "save mask and warp"
+    logger.debug "save mask and warp"
     @map.save_mask(params[:output])
-    @map.mask!
-    if @map.gcps.hard.size.nil? || @map.gcps.hard.size < 3
-      msg = "Map masked, but it needs more control points to rectify. Click the Rectify tab to add some."
+    unless @map.status == :warping
+      @map.mask!
+      stat = "ok"
+      if @map.gcps.hard.size.nil? || @map.gcps.hard.size < 3
+        msg = "Map masked, but it needs more control points to rectify. Click the Rectify tab to add some."
+        stat = "fail"
+      else
+        params[:use_mask] = "true"
+        rectify_main
+        msg = "Map masked and rectified."
+      end
     else
-      params[:use_mask] = "true"
-      rectify_main
-      msg = "Map masked and rectified."
+      stat = "fail"
+      msg = "Mask saved, but not applied as the map is currently being rectified somewhere else, please try again later."
     end
 
     respond_to do |format|
-      format.json {render :json => {:stat => "ok", :message => msg}.to_json , :callback => params[:callback]}
+      format.json {render :json => {:stat => stat, :message => msg}.to_json , :callback => params[:callback]}
       format.js { render :text => msg } if request.xhr?
     end
   end
@@ -626,22 +633,22 @@ class MapsController < ApplicationController
 
 
 
-  def rectify
+   def rectify
      rectify_main
 
      respond_to do |format|
-      unless @too_few
-       format.js if request.xhr?
-       format.html { render :text => @notice_text }
-       format.json { render :json=> {:stat => "ok", :message => @notice_text}.to_json, :callback => params[:callback] }
-    else
-        format.js if request.xhr?
-        format.html { render :text => @notice_text }
-        format.json { render :json=> {:stat => "fail", :message => "not enough GCPS to rectify"}.to_json , :callback => params[:callback]}
-    end
-      end
-
-      end
+       unless @too_few || @fail
+         format.js if request.xhr?
+         format.html { render :text => @notice_text }
+         format.json { render :json=> {:stat => "ok", :message => @notice_text}.to_json, :callback => params[:callback] }
+       else
+         format.js if request.xhr?
+         format.html { render :text => @notice_text }
+         format.json { render :json=> {:stat => "fail", :message => @notice_text}.to_json , :callback => params[:callback]}
+       end
+     end
+     
+   end
 
 
 
@@ -885,6 +892,11 @@ end
       if @map.gcps.hard.size.nil? || @map.gcps.hard.size < 3
         @too_few = true
         @notice_text = "Sorry, the map needs at least three control points to be able to rectify it"
+        @output = @notice_text
+      elsif @map.status == :warping
+        logger.debug "WARPING"
+        @fail = true
+        @notice_text = "Sorry, the map is currently being rectified somewhere else, please try again later."
         @output = @notice_text
       else
         if logged_in?
