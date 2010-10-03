@@ -1,0 +1,45 @@
+<h2>User Statistics</h2>
+
+<%= will_paginate @users_activity %>
+<table class="usertable">
+  <thead>
+    <tr>
+      <%= sort_header_tag('username', :title => "User") %>
+      <%= sort_header_tag('total_count', :title => "Total") %>
+      <%= sort_header_tag('map_count', :title => "Total Map Changes") %>
+      <%= sort_header_tag('gcp_count', :title => "Total Points Changes") %>
+      <%= sort_header_tag('gcp_create_count', :title => "Created Points") %>
+      <%= sort_header_tag('gcp_update_count', :title => "Updated Points") %>
+      <%= sort_header_tag('gcp_destroy_count', :title => "Deleted Points") %>
+      <th>Further Details</th>
+    </tr>
+  </thead>
+  <tbody>
+
+    <% @users_activity.each do | user | %>
+      <tr class="<%= cycle('table0', 'table1') -%>">
+        <td><% if user.user_id %>
+            <%= link_to(user.username, user_path(user.user_id))%>
+          <% else %>
+            Unknown
+          <% end %>
+          </td>
+        <td><%=user.total_count %></td>
+        <td><%=user.map_count %></td>
+        <td><%=user.gcp_count %></td>
+        <td><%=user.gcp_create_count %></td>
+        <td><%=user.gcp_update_count %></td>
+        <td><%=user.gcp_destroy_count %></td>
+        <td>
+          <% if user.user_id %>
+            <%= link_to("User Activity", user_activity_path(user.user_id)) %>
+          <% else %>
+          <% end %>
+        </td>
+      </tr>
+    <% end %>
+
+  </tbody>
+</table>
+<%= will_paginate @users_activity %>
+

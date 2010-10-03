@@ -11,6 +11,7 @@ ActionController::Routing::Routes.draw do |map|
   
   map.user_activity '/users/:id/activity', :controller => 'audits', :action => 'for_user'
   map.formatted_user_activity '/users/:id/activity.:format', :controller => 'audits', :action => 'for_user'
+  map.connect '/users/stats', :controller => 'users', :action => 'stats'
 
   map.maps_activity '/maps/activity', :controller => 'audits', :action => 'for_map_model'
   map.formatted_maps_activity  '/maps/activity.:format', :controller => 'audits', :action => 'for_map_model'

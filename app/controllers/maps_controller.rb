@@ -894,7 +894,6 @@ end
         @notice_text = "Sorry, the map needs at least three control points to be able to rectify it"
         @output = @notice_text
       elsif @map.status == :warping
-        logger.debug "WARPING"
         @fail = true
         @notice_text = "Sorry, the map is currently being rectified somewhere else, please try again later."
         @output = @notice_text

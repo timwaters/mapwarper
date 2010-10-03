@@ -3,11 +3,30 @@ class UsersController < ApplicationController
    before_filter :not_logged_in_required, :only => [:new, :create]
    
    before_filter :login_required, :only => [:show, :edit, :update]
-   before_filter :check_super_user_role, :only => [:index, :destroy, :enable, :disable, :force_activate, :disable_and_reset, :force_resend_activaton]
+   before_filter :check_super_user_role, :only => [:index, :destroy, :enable, :disable, :force_activate, :disable_and_reset, :force_resend_activaton, :stats]
    helper :sort
    include SortHelper
 
+   def stats
+     sort_init "total_count"
+     sort_update
   
+     @html_title = "Users Stats"
+
+     the_sql = "select user_id, username, COUNT(user_id) as total_count,
+      COUNT(case when auditable_type='Gcp' then 1 end) as gcp_count,
+      COUNT(case when auditable_type='Map' or auditable_type='Mapscan' then 1 end) as map_count,
+      COUNT(case when action='update' and auditable_type='Gcp' then 1 end) as gcp_update_count,
+      COUNT(case when action='create' and auditable_type='Gcp' then 1 end) as gcp_create_count,
+      COUNT(case when action='destroy' and auditable_type='Gcp' then 1 end) as gcp_destroy_count
+      from audits group by user_id, username ORDER BY #{sort_clause}"
+
+     @users_activity = Activity.paginate_by_sql(the_sql,
+                        :page => params[:page],
+                        :per_page => 30)
+   end
+
+
    def index
       @html_title = "Users"
       sort_init 'email'

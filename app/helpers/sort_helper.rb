@@ -84,6 +84,7 @@ module SortHelper
     @sort_name = options[:name]
     @sort_default = {:key => default_key, :order => options[:default_order]}
     @icons_dir = options[:icons_dir]
+    session[@sort_name] = @sort_default
   end
 
   # Updates the sort state. Call this in the controller prior to calling

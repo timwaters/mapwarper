@@ -1,7 +1,7 @@
 class Gcp < ActiveRecord::Base
 belongs_to :map
 
-
+acts_as_audited
 validates_numericality_of :x, :y, :lat, :lon
 validates_presence_of :x, :y, :lat, :lon, :map_id
 
