@@ -5,7 +5,7 @@ class ApplicationController < ActionController::Base
   helper :all # include all helpers, all the time
   filter_parameter_logging :password
   include AuthenticatedSystem
-  audit Map
+  audit Map, Gcp
   # See ActionController::RequestForgeryProtection for details
   # Uncomment the :secret if you're not using the cookie session store
   protect_from_forgery # :secret => '02fd3a68fbbf6bb592746ba9dd1e79d6'
