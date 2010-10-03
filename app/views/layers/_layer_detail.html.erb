@@ -26,6 +26,7 @@
     <%= pluralize layer.maps_count,'map' -%>
     (<%= pluralize layer.rectified_maps_count, 'map'-%> rectified <%=number_to_percentage(layer.rectified_percent, :precision=>0)-%>)
   </span><br />
+  <% if admin_authorized? -%>
   <span class="layer_visibility">
     <span id="vis-text-<%=layer.id%>">
       <% if layer.is_visible -%>
@@ -35,7 +36,7 @@
       <%end-%>
     </span>
     
-    <% if admin_authorized? -%>
+    
       <% unless variety == "digitizer" %>
         <%= link_to_remote("Toggle Visibility", :update => "vis-text-#{layer.id}", :url => { :action => "toggle_visibility", :id => layer})%> |
       <% end -%>
@@ -56,6 +57,6 @@
 
   </span>
 </td>
-
+</tr>
 
 

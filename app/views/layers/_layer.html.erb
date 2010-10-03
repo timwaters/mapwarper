@@ -21,7 +21,7 @@
     <%- end -%>
 </span>
   <br />
-
+<% if admin_authorized? -%>
   <span class="layer_visibility">
     <br />
     <span id="vis-text-<%=layer.id%>">
@@ -32,7 +32,7 @@
       <%end-%>
     </span>
       
-    <% if admin_authorized? -%>
+    
       <%= link_to_remote("Toggle Visibility", :update => "vis-text-#{layer.id}", :url => { :action => "toggle_visibility", :id => layer})%> |
     <% end  %>
     <%= link_to "Edit Layer", layer_path(:id=>layer, :anchor=>"Edit_tab") -%> |
@@ -60,4 +60,5 @@
   <%=number_to_percentage(layer.rectified_percent, :precision=>0) %><br />
   (<%= pluralize layer.rectified_maps_count, 'map'-%>)
 </td>
+</tr>
  
