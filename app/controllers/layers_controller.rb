@@ -3,8 +3,9 @@ class LayersController < ApplicationController
 
   layout 'layerdetail', :only => [:show,  :edit, :export, :metadata]
   before_filter :login_or_oauth_required , :except => [:wms, :wms2, :show_kml, :show, :index, :metadata, :maps, :thumb, :geosearch, :comments, :tile]
-  before_filter :check_administrator_role, :only => [:publish, :toggle_visibility, :merge, :remove_map, :update_year, :update, :destroy, :create]
+  before_filter :check_administrator_role, :only => [:publish, :toggle_visibility, :merge] # :remove_map, :update_year, :update, :destroy, :create
   before_filter :find_layer, :only => [:show, :export, :metadata, :digitize, :toggle_visibility, :update_year, :publish, :remove_map, :merge, :maps, :thumb, :comments]
+  before_filter :check_if_layer_is_editable, :only => [:edit, :update, :remove_map, :update_year, :update, :destroy]
 
   rescue_from ActiveRecord::RecordNotFound, :with => :bad_record
   helper :sort
@@ -214,7 +215,7 @@ end
       @disabled_tabs = ["digitize","export"]
     end
 
-    if  logged_in? && (@layer.user  = current_user or current_user.has_role?("editor"))
+    if  logged_in? and (current_user.own_this_layer?(params[:id]) or current_user.has_role?("editor"))
       @maps = @layer.maps.paginate(:page => params[:page], :per_page => 30, :order => :map_type)
     else
       @disabled_tabs += ["edit"]
@@ -616,6 +617,17 @@ end
    end
 
   private
+
+  def check_if_layer_is_editable
+    if logged_in? and (current_user.own_this_layer?(params[:id])  or current_user.has_role?("editor"))
+      @layer = Layer.find(params[:id])
+    else
+      flash[:notice] = "Sorry, you cannot edit another person's Layer"
+      redirect_to layer_path
+    end
+  end
+
+
 #
 # tile utility methods. calculates the bounding box for a given TMS tile.
 # Based on http://www.maptiler.org/google-maps-coordinates-tile-bounds-projection/

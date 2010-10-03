@@ -21,21 +21,23 @@
     <%- end -%>
 </span>
   <br />
-<% if admin_authorized? -%>
-  <span class="layer_visibility">
-    <br />
-    <span id="vis-text-<%=layer.id%>">
-      <% if layer.is_visible -%>
-        (Visible)
-      <% else -%>
-        (Not Visible)
-      <%end-%>
-    </span>
-      
-    
+  <% if admin_authorized? -%>
+    <span class="layer_visibility">
+      <br />
+      <span id="vis-text-<%=layer.id%>">
+        <% if layer.is_visible -%>
+          (Visible)
+        <% else -%>
+          (Not Visible)
+        <%end-%>
+      </span>
+
+
       <%= link_to_remote("Toggle Visibility", :update => "vis-text-#{layer.id}", :url => { :action => "toggle_visibility", :id => layer})%> |
     <% end  %>
-    <%= link_to "Edit Layer", layer_path(:id=>layer, :anchor=>"Edit_tab") -%> |
+    <% if admin_authorized? or current_user.own_this_layer?(layer.id) -%>
+        <%= link_to "Edit Layer", layer_path(:id=>layer, :anchor=>"Edit_tab") -%> |
+      <% end -%>
     <% if admin_authorized? -%>
       <%= link_to("Merge", :controller => "layers", :action=> "merge", :id => layer) %> |
       <%= link_to("Publish", :controller => "layers", :action=> "publish", :id=>layer)%> |

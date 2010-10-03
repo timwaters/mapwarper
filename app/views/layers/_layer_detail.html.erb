@@ -27,24 +27,21 @@
     (<%= pluralize layer.rectified_maps_count, 'map'-%> rectified <%=number_to_percentage(layer.rectified_percent, :precision=>0)-%>)
   </span><br />
   <% if admin_authorized? -%>
-  <span class="layer_visibility">
-    <span id="vis-text-<%=layer.id%>">
-      <% if layer.is_visible -%>
-        (Visible)
-      <% else -%>
-        (Not Visible)
-      <%end-%>
-    </span>
-    
-    
+    <span class="layer_visibility">
+      <span id="vis-text-<%=layer.id%>">
+        <% if layer.is_visible -%>
+          (Visible)
+        <% else -%>
+          (Not Visible)
+        <%end-%>
+      </span>
+
+  
       <% unless variety == "digitizer" %>
         <%= link_to_remote("Toggle Visibility", :update => "vis-text-#{layer.id}", :url => { :action => "toggle_visibility", :id => layer})%> |
       <% end -%>
     <% end  %>
-    <% if  logged_in? && (@layer.user  = current_user or current_user.has_role?("editor")) %>
-    <%= link_to "Edit Layer", edit_layer_path(:id=>layer) -%> |
-    <% end  %>
-   <% if admin_authorized? -%>
+    <% if admin_authorized? -%>
       <%= link_to("Merge", :controller => "layers", :action=> "merge", :id => layer) %> |
       <%= link_to("Publish", :controller => "layers", :action=> "publish", :id=>layer)%> |
     <%end -%>
