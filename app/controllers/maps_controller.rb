@@ -671,58 +671,64 @@ class MapsController < ApplicationController
   def wms
     
     unless @@mapscript_exists
-       mapserver_wms
+      mapserver_wms
     else
-    @map = Map.find(params[:id])
-    #status is additional query param to show the unwarped wms
-    status = params["STATUS"].to_s.downcase || "unwarped"
-    ows = Mapscript::OWSRequest.new
+      begin
+        @map = Map.find(params[:id])
+        #status is additional query param to show the unwarped wms
+        status = params["STATUS"].to_s.downcase || "unwarped"
+        ows = Mapscript::OWSRequest.new
+        
+        ok_params = Hash.new
+        # params.each {|k,v| k.upcase! } frozen string error
+        params.each {|k,v| ok_params[k.upcase] = v }
+        [:request, :version, :transparency, :service, :srs, :width, :height, :bbox, :format, :srs].each do |key|
+          ows.setParameter(key.to_s, ok_params[key.to_s.upcase]) unless ok_params[key.to_s.upcase].nil?
+        end
 
-    ok_params = Hash.new
-    # params.each {|k,v| k.upcase! } frozen string error
-    params.each {|k,v| ok_params[k.upcase] = v }
-    [:request, :version, :transparency, :service, :srs, :width, :height, :bbox, :format, :srs].each do |key|
-      ows.setParameter(key.to_s, ok_params[key.to_s.upcase]) unless ok_params[key.to_s.upcase].nil?
-    end
+        ows.setParameter("STYLES", "")
+        ows.setParameter("LAYERS", "image")
+        ows.setParameter("COVERAGE", "image")
 
-    ows.setParameter("STYLES", "")
-    ows.setParameter("LAYERS", "image")
-    ows.setParameter("COVERAGE", "image")
+        mapsv = Mapscript::MapObj.new(File.join(RAILS_ROOT, '/db/maptemplates/wms.map'))
+        projfile = File.join(RAILS_ROOT, '/lib/proj')
+        mapsv.setConfigOption("PROJ_LIB", projfile)
+        #map.setProjection("init=epsg:900913")
+        mapsv.applyConfigOptions
+        rel_url_root =  (ActionController::Base.relative_url_root.blank?)? '' : ActionController::Base.relative_url_root
+        mapsv.setMetaData("wms_onlineresource",
+          "http://" + request.host_with_port + rel_url_root + "/maps/wms/#{@map.id}")
 
-    mapsv = Mapscript::MapObj.new(File.join(RAILS_ROOT, '/db/maptemplates/wms.map'))
-    projfile = File.join(RAILS_ROOT, '/lib/proj')
-    mapsv.setConfigOption("PROJ_LIB", projfile)
-    #map.setProjection("init=epsg:900913")
-    mapsv.applyConfigOptions
-    rel_url_root =  (ActionController::Base.relative_url_root.blank?)? '' : ActionController::Base.relative_url_root
-    mapsv.setMetaData("wms_onlineresource",
-      "http://" + request.host_with_port + rel_url_root + "/maps/wms/#{@map.id}")
+        raster = Mapscript::LayerObj.new(mapsv)
+        raster.name = "image"
+        raster.type = Mapscript::MS_LAYER_RASTER
 
-    raster = Mapscript::LayerObj.new(mapsv)
-    raster.name = "image"
-    raster.type = Mapscript::MS_LAYER_RASTER
+        if status == "unwarped"
+          raster.data = @map.unwarped_filename
 
-    if status == "unwarped"
-      raster.data = @map.unwarped_filename
+        else #show the warped map
+          raster.data = @map.warped_filename
+        end
 
-    else #show the warped map
-      raster.data = @map.warped_filename
-    end
+        raster.status = Mapscript::MS_ON
+        raster.dump = Mapscript::MS_TRUE
+        raster.metadata.set('wcs_formats', 'GEOTIFF')
+        raster.metadata.set('wms_title', @map.title)
+        raster.metadata.set('wms_srs', 'EPSG:4326 EPSG:4269 EPSG:900913')
+        raster.debug = Mapscript::MS_TRUE
 
-    raster.status = Mapscript::MS_ON
-    raster.dump = Mapscript::MS_TRUE
-    raster.metadata.set('wcs_formats', 'GEOTIFF')
-    raster.metadata.set('wms_title', @map.title)
-    raster.metadata.set('wms_srs', 'EPSG:4326 EPSG:4269 EPSG:900913')
-    raster.debug = Mapscript::MS_TRUE
+        Mapscript::msIO_installStdoutToBuffer
+        result = mapsv.OWSDispatch(ows)
+        content_type = Mapscript::msIO_stripStdoutBufferContentType || "text/plain"
+        result_data = Mapscript::msIO_getStdoutBufferBytes
 
-    Mapscript::msIO_installStdoutToBuffer
-    result = mapsv.OWSDispatch(ows)
-    content_type = Mapscript::msIO_stripStdoutBufferContentType || "text/plain"
-    result_data = Mapscript::msIO_getStdoutBufferBytes
+        send_data result_data, :type => content_type, :disposition => "inline"
+        Mapscript::msIO_resetHandlers
+      rescue RuntimeError => e
+        @e = e
+        render :layout =>'application'
+      end
 
-    send_data result_data, :type => content_type, :disposition => "inline"
-    Mapscript::msIO_resetHandlers
     end
   end
 

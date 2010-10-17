@@ -1,0 +1,22 @@
+<%# this is only called when there's a problem %>
+<h3>WMS Error </h3>
+<p>
+Sorry, there was a problem with this WMS request, however, this message may not mean anything is wrong.<br /><br />
+
+<b>Please Note:</b> A Web Map Service (WMS) map is meant to be requested by a computer application
+and not usually directly by a user in a web browser. This may be why you are seeing this message. <br /><br />
+
+The error message was:<b> <%=  @e.to_s %></b> <br /><br />
+Most commonly, you may be seeing something like 'SERVICE parameter missing' which needs to be added to the URL - this is
+usually done by the mapping application automatically.<br />
+<br />
+An example well formatted WMS request is: <br />
+'server/layers/wms/1234?FORMAT=image/png&STATUS=warped&SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&STYLES=&EXCEPTIONS=application/vnd.ogc.se_inimage&SRS=EPSG:900913&BBOX=-1251698.7478552,5008334.8183854,-625526.61225521,5634506.9539854&WIDTH=256&HEIGHT=256'
+
+
+</p>
+<p>
+  <h3>Further Info</h3>
+  <a href="http://en.wikipedia.org/wiki/Web_Map_Service">Wikipedia entry about WMS</a>
+
+</p>

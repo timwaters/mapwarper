@@ -445,57 +445,61 @@ end
   require 'mapscript'
   include Mapscript
   def wms()
+    begin
+      @layer = Layer.find(params[:id])
+      ows = Mapscript::OWSRequest.new
 
-    @layer = Layer.find(params[:id])
-    ows = Mapscript::OWSRequest.new
+      ok_params = Hash.new
+      # params.each {|k,v| k.upcase! } frozen string error
 
-    ok_params = Hash.new
-    # params.each {|k,v| k.upcase! } frozen string error
+      params.each {|k,v| ok_params[k.upcase] = v }
 
-    params.each {|k,v| ok_params[k.upcase] = v }
+      [:request, :version, :transparency, :service, :srs, :width, :height, :bbox, :format, :srs].each do |key|
 
-    [:request, :version, :transparency, :service, :srs, :width, :height, :bbox, :format, :srs].each do |key|
+        ows.setParameter(key.to_s, ok_params[key.to_s.upcase]) unless ok_params[key.to_s.upcase].nil?
+      end
 
-      ows.setParameter(key.to_s, ok_params[key.to_s.upcase]) unless ok_params[key.to_s.upcase].nil?
+      ows.setParameter("STYLES", "")
+      ows.setParameter("LAYERS", "image")
+      #ows.setParameter("COVERAGE", "image")
+
+      map = Mapscript::MapObj.new(File.join(RAILS_ROOT, '/db/maptemplates/wms.map'))
+      projfile = File.join(RAILS_ROOT, '/lib/proj')
+      map.setConfigOption("PROJ_LIB", projfile)
+      #map.setProjection("init=epsg:900913")
+      map.applyConfigOptions
+
+      # logger.info map.getProjection
+      map.setMetaData("wms_onlineresource",
+        "http://" + request.host_with_port + "/layers/wms/#{@layer.id}")
+
+      raster = Mapscript::LayerObj.new(map)
+      raster.name = "image"
+      raster.type =  Mapscript::MS_LAYER_RASTER
+      raster.tileindex = @layer.tileindex_path
+      raster.tileitem = "Location"
+
+      raster.status = Mapscript::MS_ON
+      #raster.setProjection( "+init=" + str(epsg).lower() )
+      raster.dump = Mapscript::MS_TRUE
+
+      #raster.setProjection('init=epsg:4326')
+      raster.metadata.set('wcs_formats', 'GEOTIFF')
+      raster.metadata.set('wms_title', @layer.name)
+      raster.metadata.set('wms_srs', 'EPSG:4326 EPSG:4269 EPSG:900913')
+      raster.debug = Mapscript::MS_TRUE
+
+      Mapscript::msIO_installStdoutToBuffer
+      result = map.OWSDispatch(ows)
+      content_type = Mapscript::msIO_stripStdoutBufferContentType || "text/plain"
+      result_data = Mapscript::msIO_getStdoutBufferBytes
+
+      send_data result_data, :type => content_type, :disposition => "inline"
+      Mapscript::msIO_resetHandlers
+    rescue RuntimeError => e
+      @e = e
+      render :layout =>'application'
     end
-
-    ows.setParameter("STYLES", "")
-    ows.setParameter("LAYERS", "image")
-    #ows.setParameter("COVERAGE", "image")
-
-    map = Mapscript::MapObj.new(File.join(RAILS_ROOT, '/db/maptemplates/wms.map'))
-    projfile = File.join(RAILS_ROOT, '/lib/proj')
-    map.setConfigOption("PROJ_LIB", projfile)
-    #map.setProjection("init=epsg:900913")
-    map.applyConfigOptions
-
-    # logger.info map.getProjection
-    map.setMetaData("wms_onlineresource",
-      "http://" + request.host_with_port + "/layers/wms/#{@layer.id}")
-
-    raster = Mapscript::LayerObj.new(map)
-    raster.name = "image"
-    raster.type =  Mapscript::MS_LAYER_RASTER
-    raster.tileindex = @layer.tileindex_path
-    raster.tileitem = "Location"
-
-    raster.status = Mapscript::MS_ON
-    #raster.setProjection( "+init=" + str(epsg).lower() )
-    raster.dump = Mapscript::MS_TRUE
-
-    #raster.setProjection('init=epsg:4326')
-    raster.metadata.set('wcs_formats', 'GEOTIFF')
-    raster.metadata.set('wms_title', @layer.name)
-    raster.metadata.set('wms_srs', 'EPSG:4326 EPSG:4269 EPSG:900913')
-    raster.debug = Mapscript::MS_TRUE
-
-    Mapscript::msIO_installStdoutToBuffer
-    result = map.OWSDispatch(ows)
-    content_type = Mapscript::msIO_stripStdoutBufferContentType || "text/plain"
-    result_data = Mapscript::msIO_getStdoutBufferBytes
-
-    send_data result_data, :type => content_type, :disposition => "inline"
-    Mapscript::msIO_resetHandlers
   end
 
 
@@ -505,93 +509,97 @@ end
   def wms2
 
     @layer_name = params[:LAYERS]
+    begin
+      ows = Mapscript::OWSRequest.new
 
-    ows = Mapscript::OWSRequest.new
+      ok_params = Hash.new
+      # params.each {|k,v| k.upcase! } frozen string error
 
-    ok_params = Hash.new
-    # params.each {|k,v| k.upcase! } frozen string error
+      params.each {|k,v| ok_params[k.upcase] = v }
 
-    params.each {|k,v| ok_params[k.upcase] = v }
+      [:request, :version, :transparency, :service, :srs, :width, :height, :bbox, :format, :srs, :layers].each do |key|
 
-    [:request, :version, :transparency, :service, :srs, :width, :height, :bbox, :format, :srs, :layers].each do |key|
-
-      ows.setParameter(key.to_s, ok_params[key.to_s.upcase]) unless ok_params[key.to_s.upcase].nil?
-    end
-
-    ows.setParameter("STYLES", "")
-    #ows.setParameter("LAYERS", "image")
-
-    map = Mapscript::MapObj.new(File.join(RAILS_ROOT, '/db/maptemplates/wms.map'))
-    projfile = File.join(RAILS_ROOT, '/lib/proj')
-    map.setConfigOption("PROJ_LIB", projfile)
-    #map.setProjection("init=epsg:900913")
-    map.applyConfigOptions
-
-    # logger.info map.getProjection
-    map.setMetaData("wms_onlineresource",
-      "http://" + request.host_with_port  + "/layers/wms2")
-    unless @layer_name
-
-      Layer.visible.each do |layer|
-        if layer.rectified_maps_count > 0
-          raster = Mapscript::LayerObj.new(map)
-          #raster.name = "layer_"+layer.id.to_s
-          raster.name = "layer_"+layer.id.to_s
-          raster.type =  Mapscript::MS_LAYER_RASTER
-          raster.tileindex = layer.tileindex_path
-          raster.tileitem = "Location"
-
-          raster.status = Mapscript::MS_ON
-          raster.dump = Mapscript::MS_TRUE
-
-          raster.metadata.set('wcs_formats', 'GEOTIFF')
-          # raster.metadata.set('wms_title', "layer "+layer.id.to_s)
-          raster.metadata.set('wms_title', layer.id.to_s + ": "+snippet(layer.name, 15))
-
-          raster.metadata.set('wms_abstract', layer.rectified_maps_count.to_s + "maps. "+
-              layer.rectified_percent.to_i.to_s + "% Complete"+
-              "[Depicts:"+layer.depicts_year.to_s+"]")
-
-          raster.metadata.set('wms_keywordlist', 'depictsYear:'+layer.depicts_year.to_s +
-              ',totalMaps:' + layer.maps.count.to_s +
-              ',numberWarpedMaps:'+ layer.rectified_maps_count.to_s +
-              ',percentComplete:'+ layer.rectified_percent.to_i.to_s +
-              ',lastUpdated:' + layer.updated_at.to_s )
-          raster.metadata.set('wms_srs', 'EPSG:4326 EPSG:4269 EPSG:900913')
-          raster.debug = Mapscript::MS_TRUE
-        end
+        ows.setParameter(key.to_s, ok_params[key.to_s.upcase]) unless ok_params[key.to_s.upcase].nil?
       end
 
-    else
-      single_layer = Layer.find(@layer_name.to_s.delete("layer_"))
-      raster = Mapscript::LayerObj.new(map)
-      raster.name = "layer_"+single_layer.id.to_s
-      raster.type =  Mapscript::MS_LAYER_RASTER
-      raster.tileindex = single_layer.tileindex_path
-      raster.tileitem = "Location"
+      ows.setParameter("STYLES", "")
+      #ows.setParameter("LAYERS", "image")
 
-      raster.status = Mapscript::MS_ON
-      raster.dump = Mapscript::MS_TRUE
+      map = Mapscript::MapObj.new(File.join(RAILS_ROOT, '/db/maptemplates/wms.map'))
+      projfile = File.join(RAILS_ROOT, '/lib/proj')
+      map.setConfigOption("PROJ_LIB", projfile)
+      #map.setProjection("init=epsg:900913")
+      map.applyConfigOptions
 
-      raster.metadata.set('wcs_formats', 'GEOTIFF')
-      raster.metadata.set('wms_title', single_layer.name)
-      raster.metadata.set('wms_srs', 'EPSG:4326 EPSG:4269 EPSG:900913')
-      raster.metadata.set('wms_keywordlist', 'depictsYear:'+layer.depicts_year.to_s +
-          ',totalMaps:' + layer.maps.count.to_s +
-          ',warpedMaps:'+ layer.rectified_maps_count.to_s +
-          ',percentComplete:'+ layer.rectified_percent.to_i.to_s +
-          ',lastUpdated:' + layer.updated_at.to_s )
+      # logger.info map.getProjection
+      map.setMetaData("wms_onlineresource",
+        "http://" + request.host_with_port  + "/layers/wms2")
+      unless @layer_name
 
-      raster.debug = Mapscript::MS_TRUE
+        Layer.visible.each do |layer|
+          if layer.rectified_maps_count > 0
+            raster = Mapscript::LayerObj.new(map)
+            #raster.name = "layer_"+layer.id.to_s
+            raster.name = "layer_"+layer.id.to_s
+            raster.type =  Mapscript::MS_LAYER_RASTER
+            raster.tileindex = layer.tileindex_path
+            raster.tileitem = "Location"
+
+            raster.status = Mapscript::MS_ON
+            raster.dump = Mapscript::MS_TRUE
+
+            raster.metadata.set('wcs_formats', 'GEOTIFF')
+            # raster.metadata.set('wms_title', "layer "+layer.id.to_s)
+            raster.metadata.set('wms_title', layer.id.to_s + ": "+snippet(layer.name, 15))
+
+            raster.metadata.set('wms_abstract', layer.rectified_maps_count.to_s + "maps. "+
+                layer.rectified_percent.to_i.to_s + "% Complete"+
+                "[Depicts:"+layer.depicts_year.to_s+"]")
+
+            raster.metadata.set('wms_keywordlist', 'depictsYear:'+layer.depicts_year.to_s +
+                ',totalMaps:' + layer.maps.count.to_s +
+                ',numberWarpedMaps:'+ layer.rectified_maps_count.to_s +
+                ',percentComplete:'+ layer.rectified_percent.to_i.to_s +
+                ',lastUpdated:' + layer.updated_at.to_s )
+            raster.metadata.set('wms_srs', 'EPSG:4326 EPSG:4269 EPSG:900913')
+            raster.debug = Mapscript::MS_TRUE
+          end
+        end
+
+      else
+        single_layer = Layer.find(@layer_name.to_s.delete("layer_"))
+        raster = Mapscript::LayerObj.new(map)
+        raster.name = "layer_"+single_layer.id.to_s
+        raster.type =  Mapscript::MS_LAYER_RASTER
+        raster.tileindex = single_layer.tileindex_path
+        raster.tileitem = "Location"
+
+        raster.status = Mapscript::MS_ON
+        raster.dump = Mapscript::MS_TRUE
+
+        raster.metadata.set('wcs_formats', 'GEOTIFF')
+        raster.metadata.set('wms_title', single_layer.name)
+        raster.metadata.set('wms_srs', 'EPSG:4326 EPSG:4269 EPSG:900913')
+        raster.metadata.set('wms_keywordlist', 'depictsYear:'+layer.depicts_year.to_s +
+            ',totalMaps:' + layer.maps.count.to_s +
+            ',warpedMaps:'+ layer.rectified_maps_count.to_s +
+            ',percentComplete:'+ layer.rectified_percent.to_i.to_s +
+            ',lastUpdated:' + layer.updated_at.to_s )
+
+        raster.debug = Mapscript::MS_TRUE
+      end
+
+      Mapscript::msIO_installStdoutToBuffer
+      result = map.OWSDispatch(ows)
+      content_type = Mapscript::msIO_stripStdoutBufferContentType || "text/plain"
+      result_data = Mapscript::msIO_getStdoutBufferBytes
+
+      send_data result_data, :type => content_type, :disposition => "inline"
+      Mapscript::msIO_resetHandlers
+    rescue RuntimeError => e
+      @e = e
+      render :action => 'wms',:layout =>'application'
     end
-
-    Mapscript::msIO_installStdoutToBuffer
-    result = map.OWSDispatch(ows)
-    content_type = Mapscript::msIO_stripStdoutBufferContentType || "text/plain"
-    result_data = Mapscript::msIO_getStdoutBufferBytes
-
-    send_data result_data, :type => content_type, :disposition => "inline"
-    Mapscript::msIO_resetHandlers
   end
 
   def tile
