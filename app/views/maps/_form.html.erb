@@ -20,6 +20,11 @@
 
   <div class="column span-12 last">
     <p>
+      <b>Subject Area</b><span class="tiny-text">(optional)</span><br />
+      <%= f.text_field :subject_area %>
+    </p>
+
+    <p>
       <b>Metadata Unique ID</b><span class="tiny-text">(optional)</span><br />
       <%= f.text_field :unique_id %>
     </p>
@@ -28,7 +33,12 @@
       <b>Source / Bibliographic Ref URL</b><span class="tiny-text">(optional)</span><br />
       <%= f.text_field :source_uri %>
     </p>
-    
+
+    <p>
+      <b>Call Number</b><span class="tiny-text">(optional)</span><br />
+      <%= f.text_field :call_number %>
+    </p>
+
     <p>
       <b>Publisher</b><span class="tiny-text">(optional)</span><br />
       <%= f.text_field :publisher %>
@@ -42,7 +52,12 @@
       <b>Author(s)</b><span class="tiny-text">(optional)</span><br />
       <%= f.text_field :authors %>
     </p>
-    
+
+     <p>
+      <b>Date Depicted</b><span class="tiny-text">(year, optional)</span><br />
+      <%= f.text_field :date_depicted %>
+     </p>
+
     <p>
       <b>Published Date</b><span class="tiny-text">(optional)</span><br />
       <%= f.date_select(:published_date, :include_blank => true, :order => [:day, :month, :year ], :start_year => 1600, :end_year =>Time.now.year)  %>
