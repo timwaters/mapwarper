@@ -19,28 +19,32 @@
   </div>
 
   <div class="column span-12 last">
+    <p>
+      <b>Metadata Unique ID</b><span class="tiny-text">(optional)</span><br />
+      <%= f.text_field :unique_id %>
+    </p>
+    
      <p>
-      <b>Source / Bibliographic Ref URL</b><br />
+      <b>Source / Bibliographic Ref URL</b><span class="tiny-text">(optional)</span><br />
       <%= f.text_field :source_uri %>
     </p>
 
     <p>
-      <b>Publisher</b><br />
+      <b>Publisher</b><span class="tiny-text">(optional)</span><br />
       <%= f.text_field :publisher %>
     </p>
-
+    
     <p>
-      <b>Author(s)</b><br />
+      <b>Place of Publication</b><span class="tiny-text">(optional)</span><br />
+      <%= f.text_field :publication_place %>
+    </p>
+    <p>
+      <b>Author(s)</b><span class="tiny-text">(optional)</span><br />
       <%= f.text_field :authors %>
     </p>
-
+    
     <p>
-      <b>Scale</b><br />
-      <%= f.text_field :scale %>
-    </p>
-
-    <p>
-      <b>Published Date</b><br />
+      <b>Published Date</b><span class="tiny-text">(optional)</span><br />
       <%= f.date_select(:published_date, :include_blank => true, :order => [:day, :month, :year ], :start_year => 1600, :end_year =>Time.now.year)  %>
     </p>
 
@@ -48,6 +52,22 @@
       <b>Reprint Date </b><span class="tiny-text">(optional)</span><br />
       <%= f.date_select(:reprint_date, :include_blank => true, :order => [:day, :month, :year ], :start_year => 1600, :end_year =>Time.now.year)  %>
     </p>
+    
+    <p>
+      <b>Scale</b><span class="tiny-text">(optional)</span><br />
+      <%= f.text_field :scale %>
+    </p>
+
+     <p>
+      <b>Metadata Projection</b><span class="tiny-text">(optional)</span><br />
+      <%= f.text_field :metadata_projection %>
+    </p>
+    <p>
+      <b>Metadata Location</b><span class="tiny-text">(optional)</span><br />
+      <b>Lat: </b> <%= f.text_field :metadata_lat %><br />
+      <b>Lon: </b> <%= f.text_field :metadata_lon %>
+    </p>
+
   </div>
 
   <div class="column span-24">

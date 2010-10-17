@@ -42,6 +42,7 @@ class Map < ActiveRecord::Base
 
   validates_presence_of :title
   validates_numericality_of :rough_lat, :rough_lon, :rough_zoom, :allow_nil => true
+  validates_numericality_of :metadata_lat, :metadata_lon, :allow_nil => true
 
   before_create :save_dimensions
   after_create :setup_image
