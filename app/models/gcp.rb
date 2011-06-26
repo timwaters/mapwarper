@@ -1,20 +1,28 @@
 class Gcp < ActiveRecord::Base
-belongs_to :map
+  belongs_to :map
 
-acts_as_audited
-validates_numericality_of :x, :y, :lat, :lon
-validates_presence_of :x, :y, :lat, :lon, :map_id
+  after_save :update_map_timestamp
+  after_destroy :update_map_timestamp
 
-named_scope  :soft, :conditions => {:soft => true}
-named_scope  :hard, :conditions => ["gcps.soft IS NULL OR gcps.soft = 'F'"]
+  acts_as_audited
+  validates_numericality_of :x, :y, :lat, :lon
+  validates_presence_of :x, :y, :lat, :lon, :map_id
 
-attr_accessor :error
+  named_scope  :soft, :conditions => {:soft => true}
+  named_scope  :hard, :conditions => ["gcps.soft IS NULL OR gcps.soft = 'F'"]
 
-def gdal_string
+  attr_accessor :error
+
+  def gdal_string
 	
-gdal_string = " -gcp " + x.to_s + ", " + y.to_s + ", " + lon.to_s + ", " + lat.to_s
+    gdal_string = " -gcp " + x.to_s + ", " + y.to_s + ", " + lon.to_s + ", " + lat.to_s
 
-end
+  end
+
+  private
+  def update_map_timestamp
+    self.map.update_gcp_touched_at
+  end
 
 end
 

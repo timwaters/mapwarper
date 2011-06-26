@@ -2,6 +2,7 @@
 
 = NYPL Warper API Notes  =
 News:
+0.4 Added two new attributes to a Map - rectified_at and gcp_touched_at
 
 0.3 OAuth authentication.
 

@@ -175,6 +175,10 @@ class Map < ActiveRecord::Base
     end
   end
 
+  def update_gcp_touched_at
+      self.touch(:gcp_touched_at)
+  end
+
 
   #############################################
   #ACCESSOR METHODS
@@ -622,6 +626,7 @@ class Map < ActiveRecord::Base
          spawn do
            convert_to_png
          end
+      self.touch(:rectified_at)
     else
       self.status = :available
     end
