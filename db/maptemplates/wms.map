@@ -1,5 +1,5 @@
 MAP 
-  NAME "Map Warper"
+  NAME "MapWarper"
   SIZE 256 256
   EXTENT -180 -90 180 90
   IMAGETYPE png
@@ -17,7 +17,9 @@ MAP
     METADATA
       "wms_title"     "Map Warper WMS"	
       "wms_srs"       "EPSG:4269 EPSG:4326 EPSG:900913"
+      "wms_enable_request" "*"
     END
+   
   END
     
   OUTPUTFORMAT
@@ -29,7 +31,7 @@ MAP
   END
   OUTPUTFORMAT
     NAME "png"
-    DRIVER "GD/PNG"
+    DRIVER "AGG/PNG"
     IMAGEMODE "rgba"
     EXTENSION "png"
     MIMETYPE "image/png"
@@ -38,7 +40,7 @@ MAP
   END
   OUTPUTFORMAT
     NAME "png8"
-    DRIVER "GD/PNG"
+    DRIVER "AGG/PNG"
     IMAGEMODE "rgba"
     EXTENSION "png"
     MIMETYPE "image/png"
