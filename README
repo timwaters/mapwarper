@@ -12,6 +12,12 @@ gdal - needs to be installed, again FWTOOLS good. the path to the gdal executabl
  directory can be added / changed in config/environments/production.rb and/or development.rb if
 It cannot find it on the PATH.
 
+libmapscript-ruby also needed.
+
+Versions - from ubuntuGIS
+libmapscript-ruby version 5.6.6-2~lucid1
+gdal-bin version 1.7.3-2~lucid1
+
 Some files you will need to put manually there, and capistrano copies across to the correct place, basically enables
 the code not to have site specific stuff in svn.
 
