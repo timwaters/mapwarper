@@ -68,7 +68,9 @@ var oamlayer = new OpenLayers.Layer.WMS( "OpenAerialMap",
    "http://openaerialmap.org/wms/",
    {layers: "world"}, { gutter: 15, buffer:0});
 
-var googleSat = new OpenLayers.Layer.Google( "Google Satellite", {type: G_SATELLITE_MAP, 'sphericalMercator': true});
-var googleMaps = new OpenLayers.Layer.Google( "Google Streets", { 'sphericalMercator': true});
-var googleHybrid = new OpenLayers.Layer.Google("Google Hybrid", {type: G_HYBRID_MAP, 'sphericalMercator': true});
+if(typeof(G_SATELLITE_MAP) !== 'undefined'){
+  var googleSat = new OpenLayers.Layer.Google( "Google Satellite", {type: G_SATELLITE_MAP, 'sphericalMercator': true});
+  var googleMaps = new OpenLayers.Layer.Google( "Google Streets", { 'sphericalMercator': true});
+  var googleHybrid = new OpenLayers.Layer.Google("Google Hybrid", {type: G_HYBRID_MAP, 'sphericalMercator': true});
+}
 
