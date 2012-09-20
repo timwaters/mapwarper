@@ -1,3 +1,54 @@
+/* http://meyerweb.com/eric/tools/css/reset/ 
+   v2.0 | 20110126
+   License: none (public domain)
+*/ /*added by karen*/
+
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed, 
+figure, figcaption, footer, header, hgroup, 
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	font-size: 100%;
+	font: inherit;
+	vertical-align: baseline;
+}
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure, 
+footer, header, hgroup, menu, nav, section {
+	display: block;
+}
+body {
+	line-height: 1;
+}
+ol, ul {
+	list-style: none;
+}
+blockquote, q {
+	quotes: none;
+}
+blockquote:before, blockquote:after,
+q:before, q:after {
+	content: '';
+	content: none;
+}
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+
+/* end reset */
+
 tr.import-maps textarea{
     margin-left:4.5em;
 }
@@ -42,6 +93,12 @@ div.comment span.comment_metadata {
 #warper-maindiv {
     margin: 1.5em;
 }
+
+#warper-maindiv h4 {
+	font-weight: bold;
+	margin-top: 24px;
+}
+
 /*
 * for map form
 */
@@ -56,11 +113,13 @@ form.edit_map {float: left;}
     font-size: 0.6em;
 }
 .publicprivate {
-    color:    #C0C0C0;
+    color: #C0C0C0;
     font-style: italic;
 }
 
-.tags {     font-size: 0.8em;    }
+.tags {
+  font-size: 0.8em;
+}
 
 div#to_map_notification{
   top: 2px;
@@ -70,11 +129,11 @@ div#to_map_notification{
   z-index:5000;
   position: absolute;
   padding: 2px;
-  margin: 0px;
   line-height: 1.3em !important;
   overflow: visible !important;
   font-size: 11px !important;
 }
+
 div#to_map_notify_close{
   position: absolute;
   font-size: 17px !important;
@@ -84,44 +143,51 @@ div#to_map_notify_close{
   border: 2px solid gray;
   padding-bottom: 1px;
 }
+
 div#to_map_notification_inner{
  margin-right: 15px;
 }
+
 div#export_toolbox {
 font-style: normal;
 }
+
 div#export_toolbox a.export_button {
 font-size: 12px;
 
 }
+
 div#export_toolbox a.export_button img{
 vertical-align: middle;
 }
+
 div.export_float_div {
-background-color:#FF0;z-index:5000;
+background-color:#FF0;
+z-index:5000;
 position: absolute;
 background: url(http://s7.addthis.com/static/t00/atbkg.png);
 padding: 5px !important;
-margin: 0px !important;
 line-height: 1.3em !important;
 overflow: visible !important;
 font-size: 12px !important;
 }
+
 div.export_float_div div#export_window_inner{
 width:200px;
-  background: white;
+background: white;
 border: 1px solid white;
 }
+
 div#export_window_head{
 background: #F2F2F2;
 padding: 4px;
 border-bottom: 1px solid #E5E5E5;
 }
+
 div#export_window_head a{
 font-weight: bold;
 position: absolute;
 right: 10px;
-
 }
 div#export_window_foot{
 background: #F2F2F2;
@@ -130,6 +196,7 @@ height: 12px;
 position: relative;
 font-size: 10px !important;
 }
+
 div#export_window_content ul{
 list-style-type: none;
 margin-left: 0px;
@@ -150,9 +217,11 @@ a.addthis_button_compact{
   font-size: 10px;
   font-weight: normal;
 }
+
 .searchmap-popup {
 font-size: 10px;
 }
+
 #searchmap
 {     margin-left: 2px;
         position: relative;
@@ -165,56 +234,66 @@ font-size: 10px;
 #searchmap-container{
 height: 650px;
 }
+
 #searchmap-list-block {
 width: 55%;
 overflow: auto;
 height: 100%;
 float: left;
 }
+
 #searchmap-block{
 width: 44%;
 float: right;
 }
+
 #searchmap-table td {
 font-size: 70%;
 }
+
 #searchmap-table td.mini-map-thumb {
 width: 80px;
 }
+
 #searchmap-table tfoot td {
   text-align: center;
   font-size: 110%;
 }
 
 .normal { background-color: #CCCCCC }
+
 .highlight { background-color: #8888FF }
 
-#under-searchmap-container{
+#under-searchmap-container {
 clear: both;
 }
-#geofrm input.geosearch-button
-{
-	font-size:110%;
-	font-weight:700;
-	overflow:visible;
-	padding-bottom:0;
-	padding-left:1em;
-	padding-right:1em;
+
+#geofrm input.geosearch-button {
+font-size:110%;
+font-weight:700;
+overflow:visible;
+padding-bottom:0;
+padding-left:1em;
+padding-right:1em;
 }
 
 .layermap-popup {
 font-size: 10px;
 }
+
 .geosearchform div{
 display: inline;
 }
+
 .geosearchform {
 display: inline;
 padding-bottom:5px;
 }
+
 .map-type-form {
  display: inline;
 }
+
 .map-type-form div{
  display: inline;
 }
@@ -241,9 +320,11 @@ padding-bottom:5px;
   z-index: 1500;
   height: 8px;
 }
+
 #warped-slider .ui-slider-handle{
   height: 15px;
 }
+
 #digitizer-slider {
   bottom: 30px;
   width: 15em;
@@ -256,6 +337,7 @@ padding-bottom:5px;
 #digitizer-slider .ui-slider-handle{
   height: 15px;
 }
+
 .moar-button {
 width: 90%;
 height: 2.7em;
@@ -270,59 +352,71 @@ ul.list {
 .admin-only {
   color: #00FF00;
 }
+
 body
 {
   	background: #fff;
-	font-family: Verdana, Helvetica, Arial, sans-serif;
-	font-size:95%;
-	color: #5e564b;
-	margin: 0 0 0 0;
+	font-family:Lato, 'Segoe UI', 'Lucida Grande', 'Century Gothic', Helvetica, Arial, Verdana, sans-serif; /*KAREN CHANGED ORDER OF FONTS*/
+	line-height:1.5; /*KAREN ADDED*/
+	font-size:100%;
+	color: #666; /*KAREN CHANGED*/
+	font-size:16px;
 }
 
-#headerDiv-layer h1 {
-font-size: 2em; margin: .67em 0  !important;
+h1 {
+font-size: 28px; 	
 }
 
- h2 {
-font-size: 1.5em;
-margin: .83em 0;
+h2 {
+font-size: 26px;
 }
- h3 {
-font-size: 1.17em;
-margin: .83em 0;
+
+h3 {
+font-size: 24px;
 }
 
 h1,h2,h3,h4,h5,h6 {
-	font-weight: 100  !important;
-	color: #000;
+	color: #222; /*karen changed*/
+/*	font-family:'Sorts Mill Goudy';*/
+	margin:10px 0;
 }
 
-a, a:link {
-	color: #002200;
+a/*, a:link */{
+	color: #222;
 	text-decoration: none;
 }
 
-a:visited {
+a:hover {
+	color:#447a05;
+}
+
+/*a:visited {
 	color: #002200;
 }
 
 a:hover {
-	color: #00CC00;
-}
+	color: #061478; /*CHANGED KAREN*/
+}*/
 
 h1 {
-	background: url(/images/header_logo.png) 0 50% scroll no-repeat;
-	padding: 8px 0 7px 60px !important;
-	margin: 10px 1em !important;
-    font-size: 2em !important;
+	background: url(http://mapwarper.net/images/header_logo.png) 0 50% scroll no-repeat; /*PLEASE CHANGE PATH TO /images/header_logo.png*/
+	padding: 10px 1em; 
 }
 
 h1 a, h1 a:link, h1 a:visited {
 	color: #000;
 }
 
+.paraMargin {
+	margin-bottom: 20px;
+}
+
+.paraMargin p {
+	margin-bottom: 10px;
+}
+
 p {
-	line-height: 1.6;
+/*	line-height: 1.6;*/ /*REMOVED BY KAREN*/
 }
 .nypl_link {
 	background: #5e564b;
@@ -334,9 +428,60 @@ p {
 	color: #fff;
 }
 
+/*.headerDiv .user_status a*/ .buttonWarper, input[type="submit"] {
+	background: #191970;
+ 	color:#e3e3d4;
+	font-weight: 600;
+	padding: 6px 6px 3px 6px; /*KAREN CHANGED AND REMOVED IMPORTANT*/
+	border-radius:4px;
+	text-transform:uppercase;
+	font-size:80%;
+	display:inline-block;
+	margin-left:4px;
+	border:none;
+}
 
+#headerDiv + a {
+	padding-left: 30px;
+}
 
-#sortable {list-style-type: none; margin:0; padding: 0;}
+#container .buttonWarper {
+	background:#556b2f;
+}
+
+#container .buttonWarper:hover {
+	color:#556b2f;
+	background: #E3E3D4;
+}
+
+input[type="text"], select {
+	border-radius:4px;
+	padding:4px 3px;
+} 
+
+input[type="submit"]  {
+	padding:6px 3px 5px 3px;
+	background:#888;
+	color:#fff;
+	cursor:pointer;
+}
+
+select {
+	border:1px solid #ccc;
+}
+
+/*.headerDiv .user_status a:hover*/ .buttonWarper:hover, input[type="submit"]:hover { /*KAREN ADDED*/
+    box-shadow:1px 2px 4px 2px rgba(0,0,0,0.2), inset 1px 2px 4px rgba(255,255,255,0.4);;
+	background: #e3e3d4;
+	background:rgba(255,255,255,0.7); /*KAREN ADDED*/
+	color:#191970;
+	-moz-transition:all 0.42 ease-in-out;
+	-webkit-transition:all 0.2s ease-in-out;
+	transition:all 0.2s ease-in-out;
+
+}
+
+#sortable {list-style-type: none;}
 #sortable li {margin: 3px 3px 3px 0; padding: 1px; float: left; width: 150px; height: 150px; font-size: 2em; text-align: center;line-height:150px; }
 #sortable li img {vertical-align: middle;display: inline; }
 #mapgrid {width:350px; margin:auto;}
@@ -381,25 +526,60 @@ font-weight: strong;
 
 .headerDiv {
 	position: relative;
-	margin: 0 !important;
-	background: #e2dedb url(/images/header_bg.jpg) 0 -30px scroll;
-	padding: 1px 0 0 0 !important;;
+	background: #e2dedb url(http://mapwarper.net/images/header_bg.jpg) 0 -30px scroll; /*PLEASE CHANGE PATH TO /images/header_bg.jpg*/
+	padding: 2px 10px 0 10px;
 }
 
 h1 span {
 	color: #5e564b;
+	vertical-align:super;
+	font-size:45%;
 }
 
 .headerDiv .user_status {
 	position: absolute;
-	top:1em  !important;;
-	right:1em  !important;;
-	text-align: right;
+	top:1em;
+	right:1em;
 }
-.headerDiv .user_status a {
-	background: #e3e3d4;
-	font-weight: bold;
-	padding: 0 3px 3px  !important;;
+
+#tag-cloud h4 {
+font-size: 1.17em;
+}
+
+.tagCloudLink {
+	background:rgba(255,255,255,0.4);
+	padding:10px;
+	border-radius: 6px;
+}
+
+.tagCloudLink a {
+	color:#556b2f;
+}
+
+.tagCloudLink a:hover {
+	color: #191970 !important;
+
+}
+
+.css3 {
+font-size:130%;
+color:#3d5b08 !important;
+}
+
+.css4 {
+font-size:160%;
+}
+
+.list-item {
+	padding-bottom:14px;
+}
+
+.list-item a:first-of-type {
+	font-weight:600;
+}
+
+.readMore {
+	font-variant:small-caps;
 }
 
 #align_form_div {
@@ -460,8 +640,11 @@ width: 100%;
 }
 #search-form {
 	padding: 1em;
-	background: #fff;
+	background: #eeeee0;
 	border: 1px solid #ccc;
+	border-radius:6px;
+	margin-bottom: 10px;
+	overflow:hidden; /*to clear float*/
 }
 #searchform #query{
       width:10em;
@@ -504,33 +687,37 @@ clear: both;
 	font-weight: bold;
 }
 
+.browseButtonBlock {
+	float:left;
+	padding-top:14px;
+}
+
 .clear{
 	clear: both;        /* extend height of .main to longest column */
 	height: 1px;
     overflow: hidden;   /* prevent IE expanding the container */
-	margin: 0;          /* keep flush with surrounding blocks */
 
 }
 #container {
-    margin: 0;
 }
 
 #left-col {
 	float: left;
-	margin: 1em;
+	margin: 10px 30px 10px 10px;
 	padding: 1em;
 	width: 320px;
 	background: #eeeee0;
 	border: 1px solid #ccc;
+	border-radius:6px;
 }
 
-#left-col h2 {
+#left-col h2:first-of-type {
 	margin-top: 0;
 }
 
 #right-col{
-margin-left:386px;
-padding: 1em 1em 1em 0;
+/*margin-left:386px;*/
+padding: 10px;
 }
 
 #whats_this_all_about
@@ -632,20 +819,13 @@ font-weight: bold;
 	padding:10px;
 }
 
-#nav {
-	margin: 0;
-	padding: 0;
-}
 #navlist {
-	padding: 3px 0 3px 1em;
-	margin: 0;
+	padding: 3px 0 0 1em;
 	border-bottom: 1px solid #999;
 	font-weight: bold;
 }
 
 #navlist li {
-	list-style: none;
-	margin: 0;
 	display: inline;
 }
 
@@ -656,15 +836,24 @@ font-weight: bold;
 	border-bottom: none;
 	background: #e3e3d4;
 	text-decoration: none;
+	border-radius:4px 4px 0 0; /*added by karen*/
+	background: #ddd; /*KAREN CHANGED*/
+	background:rgba(255,255,255,0.7); /*KAREN ADDED*/
 }
 
 #navlist li a:hover {
-	background: white;
+	background: #191970; /*KAREN CHANGED*/
+	color:#E3E3D4;
+	-moz-transition:all 0.3s ease-in-out;
+	-webkit-transition:all 0.3s ease-in-out;
+	transition:all 0.3s ease-in-out;
+
 }
 
 #navlist li span {
-	background: white;
-	border-bottom: 1px solid white;
+	background: #191970; /*KAREN CHANGED*/
+	color:#E3E3D4;
+	border-bottom: 1px solid #191970;
 }
 
 #footer {
@@ -699,49 +888,72 @@ font-weight: bold;
 }
 
 #map_table, #layer_table {
-	border-bottom: 1px solid #ccc;
+	border: 1px solid #ccc;
+	margin-bottom:10px;
         clear: right;
 }
 
+#map_table tr:nth-of-type(odd), #layer_table tr:nth-of-type(odd) {
+	background: #EEEEE0;
+}
+
+#map_table tr:nth-of-type(even), #layer_table tr:nth-of-type(even) {
+	background: #e5e5d5;
+}
+
 #map_table td, #map_table th, #layer_table td, #layer_table th {
-	border-top: 1px solid #ccc;
-	padding: 5px 15px;
+	border-top: 1px solid #ddd;
+	padding: 8px 15px;
 	vertical-align: top;
 	text-align: left;
-	margin: 0;
 }
+
+#map_table th, #layer_table th {
+	font-weight:600;
+	font-size:90%;
+	text-transform:uppercase;
+}
+ 
  #layer_table_detail td, #layer_table_detail th {
 	border-top: 1px solid #ccc;
         background: #ccffcc;
 	padding: 5px 15px;
 	vertical-align: top;
 	text-align: left;
-	margin: 0;
 }
 
 
 
-#map_table th {
-	font-weight: bold;
-	background: #e3e3d4;
+#map_table th, #layer_table th {
+	background: #999;
+	color: #fff;
 }
-#layer_table th {
-        font-weight: bold;
-        background: #ccffcc;
+
+#map_table th:nth-child(odd), #layer_table th:nth-child(odd) {
+	background: #888;
 }
 
 #map_table a img, #layer_table a img {
 	border: 1px solid #fff;
+	max-width: 102px;
+	max-height: 102px;
 }
 
 #map_table a:hover img, #layer_table a:hover img{
-	border: 1px solid #f90;
+	border: 1px solid #bbb;
+	-o-transform: scale(3.0);
+	-moz-transform: scale(3.0);
+	-webkit-transform: scale(3.0);
+	transform: scale(3.0);
+	-webkit-transition: all 0.3s ease-in;
+	position: relative;
+	left: 80px;
 }
 
 
 .layer_mapcount {
-  font-size:1.1em;
-  font-weight:bold;
+/*  font-size:1.1em;
+  font-weight:bold;*/
 }
 .layer_visibility {
 font-size:smaller;
@@ -766,12 +978,8 @@ font-style:italic;
         color: #010;
 }
 .maplist_title a, .layer_title a {
-  text-decoration: none;
- color: #010;
 }
 .maplist_title a:hover {
-  text-decoration: underline;
-  color: #0C0;
 }
 .continue_link {
 	margin: 1em;
@@ -1094,4 +1302,20 @@ div.olControlMousePosition
   background-repeat: no-repeat;
   background-position: -178px -23px;
 
+}
+
+.headerDiv h1 {
+	font-size:36px; /*change later*/
+	font-family:Vidaloka, Georgia, "Times New Roman", Times, serif;
+	margin-left:20px;
+	line-height: 1;
+}
+
+.breadCrumb {
+	font-weight: 600;
+	padding-left: 30px;
+}
+
+.breadCrumb a:last-of-type {
+	color: #191970;
 }
