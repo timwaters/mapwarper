@@ -422,7 +422,7 @@ p {
 	color: #fff;
 }
 
-/*.headerDiv .user_status a*/ .buttonWarper, input[type="submit"] {
+.buttonWarper, input[type="submit"], .headerDiv .user_status a  {
 	background: #191970;
  	color:#e3e3d4;
 	font-weight: 600;
@@ -439,21 +439,21 @@ p {
 	padding-left: 30px;
 }
 
-#container .buttonWarper {
+#warper-maindiv .buttonWarper {
 	background:#556b2f;
 }
 
-#container .buttonWarper:hover {
+#warper-maindiv .buttonWarper:hover {
 	color:#556b2f;
 	background: #E3E3D4;
 }
 
-input[type="text"], select {
+input[type="text"], input[type="password"], select {
 	border-radius:4px;
 	padding:4px 3px;
 } 
 
-input[type="submit"]  {
+input[type="submit"], .submitStyle  {
 	padding:6px 3px 5px 3px;
 	background:#888;
 	color:#fff;
@@ -464,7 +464,11 @@ select {
 	border:1px solid #ccc;
 }
 
+<<<<<<< HEAD
  .buttonWarper:hover, input[type="submit"]:hover { /*KAREN ADDED*/
+=======
+.buttonWarper:hover, input[type="submit"]:hover, .headerDiv .user_status a:hover { /*KAREN ADDED*/
+>>>>>>> 457b7cb... html changes
     box-shadow:1px 2px 4px 2px rgba(0,0,0,0.2), inset 1px 2px 4px rgba(255,255,255,0.4);;
 	background: #e3e3d4;
 	background:rgba(255,255,255,0.7); /*KAREN ADDED*/
@@ -748,6 +752,7 @@ padding: 10px;
 .map_links
 {
 	font-size:60%;
+	display: block;
 }
 
 .hidden {
@@ -866,6 +871,18 @@ font-weight: bold;
 	float:right;
 }
 
+.fontSmall {
+	font-size: 80%;
+}
+
+.widthTh {
+	width: 40%;
+}
+
+thWidth. {
+	width: 50%;
+}
+
 .table0
 {
 	background:#EAEAD7 none repeat scroll 0;
@@ -887,6 +904,7 @@ font-weight: bold;
 	border: 1px solid #ccc;
 	margin-bottom:10px;
         clear: right;
+	width: 100%;
 }
 
 #map_table tr:nth-of-type(odd), #layer_table tr:nth-of-type(odd) {
@@ -929,13 +947,13 @@ font-weight: bold;
 	background: #888;
 }
 
-#map_table a img, #layer_table a img {
+#map_table a img, #layer_table a img, #results a img {
 	border: 1px solid #fff;
 	max-width: 102px;
 	max-height: 102px;
 }
 
-#map_table a:hover img, #layer_table a:hover img{
+#map_table a:hover img, #layer_table a:hover img, #results a:hover img {
 	border: 1px solid #bbb;
 	position: relative;
 }

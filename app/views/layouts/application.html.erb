@@ -16,6 +16,8 @@
     <%# TODO install jrails and get rid of prototype -%>
     <%= javascript_include_tag "prototype" %>
 
+    <link href='http://fonts.googleapis.com/css?family=Lato:400,700|Sorts+Mill+Goudy|Vidaloka' rel='stylesheet' type='text/css'>
+      
     <script language="javascript" type="text/javascript">
       OpenLayers.ImgPath = '<%=request.protocol + request.host_with_port + ActionController::Base.relative_url_root.to_s%>/javascripts/openlayers/img/';
       var addthis_share =  {  templates: {

@@ -1,34 +1,37 @@
 <div id="container">
 
 <div id="left-col">
-<div id="video-intro"><h2>Overview</h2>
- Find maps and other imagery, upload, and rectify against a real map.<br />
- You can then download and use the rectified map in your mapping applications.<br />
- Just sign up and you can start uploading and get warping!
-  <h4>
-  <%= link_to "Upload Map!", new_map_path -%>
-  </h4>
+<div id="video-intro" class="paraMargin">
+ <h2>Overview</h2>
+ <p>Find maps and other imagery, upload, and rectify against a real map.</p>
+ <p>You can then download and use the rectified map in your mapping applications.</p>
+ <p>Just sign up and you can start uploading and get warping!</p>
+ 
+  <%= link_to "Upload Map!", new_map_path , :class => "buttonWarper"-%>
+ 
 </div>
 
-<div>
+<div class="paraMargin">
 <h2>What is it?</h2>
 <p>It's a free to use, open source map warper / map georectifier, it's a bit unstable! This project is supported by <a href="http://entropyfree.com">Entropy Free</a> and the <a href="http://maps.nypl.org">New York Public Library</a>.
-</p><p>
-Note: This has been migrated from it's old home at <a href="warper.geothings.net">warper.geothings.net</a> .
-It's now running much faster and previous limits about file sizes and image dimensions have been raised much higher!
-<br />
-Mail me at tim@geothings.net for more information!
 </p>
+<p>Note: This has been migrated from it's old home at <a href="warper.geothings.net">warper.geothings.net</a> .
+It's now running much faster and previous limits about file sizes and image dimensions have been raised much higher!</p>
+<p>Mail me at tim@geothings.net for more information!</p>
 </div>
-<div id="tag-cloud">
-  <h4 class="smaller">Tags</h4>
-  <% tag_cloud @tags, %w(css1 css2 css3 css4) do |tag, css_class| %>
+
+<div id="tag-cloud" class="paraMargin">
+  <h3>Tags</h3>
+  <p class="tagCloudLink">
+ <% tag_cloud @tags, %w(css1 css2 css3 css4) do |tag, css_class| %>
     <%= link_to tag.name, { :controller=>:maps, :action => :tag, :id => tag.name }, :class => css_class %>
   <% end %>
+  </p>
 </div>
-<div id="news">
+
+<div id="news" class="paraMargin">
   
-<h4 class="smaller">News</h4>
+<h3>News</h3>
 <% cache "news_feeds" do %>
 <table>
   <% @feeds.each do |feed| %>
@@ -39,7 +42,7 @@ Mail me at tim@geothings.net for more information!
           <br />
           <span class="news-description">
             <%= snippet(feed[:description], 30) %>
-            <%= link_to('read more', feed[:link], :title => "read more", :target => "_blank") %>
+            <%= link_to('read more', feed[:link], :title => "read more", :target => "_blank", :class => "readMore") %>
           </span>
         </p>
       </td>
@@ -54,11 +57,14 @@ Mail me at tim@geothings.net for more information!
 <div id="right-col">
   <div id="search-form">
     <%= render :partial => 'shared/search' -%>
-</div>
+    <br/>
+    <p class="browseButtonBlock">OR
+      <%= link_to 'Browse All Maps', maps_path, :class => "buttonWarper" %>
+    </p>
+  </div>
 
 <div id="map_list">
-  <h2><%= link_to 'Browse All Maps', maps_path %>
-  </h2>
+  
 
   <% if @my_maps -%>
     <h3>My Maps</h3>
@@ -92,7 +98,7 @@ Mail me at tim@geothings.net for more information!
     <%= render :partial => 'maps/map', :collection => @maps unless @maps.nil? %>
   </table>
 
-  <%= link_to 'See all Maps', maps_path %>
+  <%= link_to 'See all Maps', maps_path, :class => "buttonWarper" %>
 
 </div>
 
@@ -103,7 +109,7 @@ Mail me at tim@geothings.net for more information!
     <thead>
       <tr>
         <th>Layer</th>
-        <th>Title</th>
+        <th class="widthTh">Title</th>
         <th>Year</th>
         <th>Number of Maps</th>
         <th>Percentage Complete</th>
@@ -111,8 +117,8 @@ Mail me at tim@geothings.net for more information!
     </thead>
     <%= render :partial => 'layers/layer', :collection => @layers unless @layers.nil? %>
   </table>
-<%= link_to "View all Layers", layers_path %><br />
-<%= link_to "Create a new layer", new_layer_path %>
+<%= link_to "View all Layers", layers_path, :class => "buttonWarper" %><br />
+<%= link_to "Create a new layer", new_layer_path, :class => "buttonWarper" %>
 </div>
 
 </div>

@@ -1,6 +1,9 @@
 
-<div id="search-form"><%= render :partial => 'shared/search' -%></div>
-New: <%= link_to 'Find Rectified Maps by Location',  url_for(:controller => 'maps', :action=>'geosearch')%>
+<div id="search-form"><%= render :partial => 'shared/search' -%>
+<br />
+New: <%= link_to 'Find Rectified Maps by Location',  url_for(:controller => 'maps', :action=>'geosearch'), :class => "buttonWarper" %>
+</div>
+
 <div class="browse">
 
   <h2>Browse Maps

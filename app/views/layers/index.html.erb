@@ -18,8 +18,10 @@
       <%= text_field_tag 'query', @query -%>
       <input type="submit" value=" Go ">
     <% end %>
+      <br/>
+       New: <%= link_to 'Find Layers by Location',  url_for(:controller => 'layers', :action=>'geosearch', :class => "buttonWarper")%>
   </div>
-New: <%= link_to 'Find Layers by Location',  url_for(:controller => 'layers', :action=>'geosearch')%>
+
   <h2><%= @html_title -%>
     <%if @query && @query.length > 0 %>&mdash; Searched for "<%=@query%>"
     <%end-%>
@@ -44,7 +46,7 @@ New: <%= link_to 'Find Layers by Location',  url_for(:controller => 'layers', :a
     <thead>
       <tr>
         <th>Layer</th>
-        <th>Title</th>
+        <th class="thWidth">Title</th>
         <th>Year</th>
         <th>Number of Maps</th>
         <th>Percentage Complete</th>

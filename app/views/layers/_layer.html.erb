@@ -20,7 +20,7 @@
     Links: <%= link_to 'Source / Biblio Ref',layer.source_uri  %>
     <%- end -%>
 </span>
-  <br />
+  <!--<br />-->
   <% if admin_authorized? -%>
     <span class="layer_visibility">
       <br />
@@ -44,7 +44,7 @@
     <%end -%>
 
     <% if layer.is_visible && layer.rectified_maps_count > 0 %>
-      <%= link_to("Download KML", layer_url(:id => layer, :format=>:kml)) %>
+      <%= link_to("Download KML", layer_url(:id => layer, :format=>:kml), :class => "fontSmall") %>
     <% end %>
 
   </span>
