@@ -1,0 +1,25 @@
+<h2>Merge Layer <span class="admin-only">(admins only)</span></h2>
+<p>
+Merge this layer with another. <br />
+Deletes the reference of <%= pluralize @layer.maps_count,'map' -%>  from Layer <%=@layer.id %> and moves them onto the specified destination layer.<br />
+This cannot be undone!
+</p>
+<table>
+  <tr>
+    <td><%= image_tag(@layer.thumb) %></td>
+    <td>Layer <%=@layer.id%> : <%= link_to h(@layer.name),  layer_path(@layer) -%>
+    </td>
+  </tr>
+</table>
+
+Move all <%= pluralize @layer.maps_count,'map' -%> to this layer:
+
+<% form_for :layer, :url=> { :action=>"merge"},
+  :html => {:method => :put } do |f| %>
+    <%= f.hidden_field :id %>
+    <label for="dest_id">Destination Layer</label>
+    <%= text_field_tag :dest_id %>
+    <br />
+    <%= submit_tag 'Merge Layer!', :confirm => "Are you sure, this cannot be undone?" %>
+  <%end-%>
+
