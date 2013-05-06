@@ -115,7 +115,7 @@ end
 
 
   def index
-    sort_init 'created_at'
+    sort_init('created_at', {:default_order => "desc"})
     session[@sort_name] = nil  #remove the session sort as we have percent
     sort_update
     @query = params[:query]
