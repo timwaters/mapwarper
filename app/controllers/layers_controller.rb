@@ -459,6 +459,7 @@ end
         ows.setParameter(key.to_s, ok_params[key.to_s.upcase]) unless ok_params[key.to_s.upcase].nil?
       end
 
+      ows.setParameter("VeRsIoN","1.1.1")
       ows.setParameter("STYLES", "")
       ows.setParameter("LAYERS", "image")
       #ows.setParameter("COVERAGE", "image")

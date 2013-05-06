@@ -1,7 +1,7 @@
 <h2>Layer</h2>
 <ul>
   <li>
-    WMS: <%=link_to "WMS base URL", :action => "wms", :id => @layer %>  <br />
+    WMS: <%=link_to "WMS Capabilties URL", :action => "wms", :id => @layer, :request => "GetCapabilities", :service => "WMS", :version => "1.1.1"  %>  <br />
     <% wms_link = "http://#{request.host_with_port}/layers/wms/#{@layer.id}?request=GetMap&version=1.1.1&styles=&format=image/png&srs=epsg:4326&exceptions=application/vnd.ogc.se_inimage&" %>
     <%= link_to("WMS link suitable for JOSM OpenStreetMap Editor", wms_link) %> <br />
   </li>
@@ -32,4 +32,4 @@
         </li>
     <% end -%>
     </ul>
--->>
+-->
