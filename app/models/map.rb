@@ -35,7 +35,8 @@ class Map < ActiveRecord::Base
   default_values :status => :unloaded, :mask_status => :unmasked, :map_type => :is_map, :rough_state => :step_1
 
   named_scope :public, :conditions => ['public = ?', true]
-  named_scope :warped, :conditions => {:status => Map.status(:warped), :map_type => Map.map_type(:is_map) }
+  named_scope :warped, :conditions => {:status => [Map.status(:warped), Map.status(:published)], :map_type => Map.map_type(:is_map) }
+  named_scope :published, :conditions => {:status => Map.status(:published), :map_type => Map.map_type(:is_map)}
 
   named_scope :real_maps, :conditions => {:map_type => Map.map_type(:is_map)}
   attr_accessor :error
@@ -276,7 +277,7 @@ class Map < ActiveRecord::Base
   
   #saves tilecache's config file
   def self.save_tilecache_config
-    @maps = Map.all(:conditions => "status = 4")
+    @maps = Map.published
 
     cfg = File.open(RAILS_ROOT+"/public/cgi/tilecache.cfg",  File::CREAT|File::TRUNC|File::RDWR, 0666)
     template = File.open(RAILS_ROOT + "/db/maptemplates/tilecache.text.erb").read
@@ -293,7 +294,15 @@ class Map < ActiveRecord::Base
   end
   
   def available?
-    return [:available,:warping,:warped].include?(status)
+    return [:available,:warping, :warped, :published].include?(status)
+  end
+
+  def published?
+    status == :published
+  end
+
+  def warped_or_published?
+    return [:warped, :published].include?(status)
   end
 
    #Layer.with_year orders by size
@@ -385,15 +394,22 @@ class Map < ActiveRecord::Base
   end
 
 
-  #method to publish the map to cluster
+  #method to publish the map
+  #sets status to published
   def publish
-    #self.status = :published
-    #save!
+    self.status = :published
+    self.save
+  end
+  
+  #unpublishes a map, sets it's status to warped
+  def unpublish
+    self.status = :warped
+    self.save
   end
 
    #attempts to align based on the extent and offset of the
    #reference map's warped image
-   #results it nicer gpcs to edit with later
+   #results it nicer gcps to edit with later
    def align_with_warped (srcmap, align = nil, append = false)
       srcmap = Map.find(srcmap)
       origgcps = srcmap.gcps.hard
@@ -533,7 +549,7 @@ class Map < ActiveRecord::Base
 
   #Main warp method
   def warp!(resample_option, transform_option, use_mask="false")
-
+    prior_status = self.status
     self.status = :warping
     save!
 
@@ -622,7 +638,11 @@ class Map < ActiveRecord::Base
 
       # don't care too much if overviews threw a random warning
     if w_err.size <= 0 and t_err.size <= 0
-      self.status = :warped
+      if prior_status == :published
+        self.status = :published
+      else
+        self.status = :warped
+      end
          spawn do
            convert_to_png
          end

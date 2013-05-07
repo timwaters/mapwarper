@@ -1,5 +1,5 @@
 
-<%unless @map.status == :warped and @map.gcps.hard.size > 2 %>
+<%unless @map.warped_or_published? && @map.gcps.hard.size > 2 %>
  Sorry, you'll have to rectify a map before you can view it.
 <% else %>
 <% content_for :head do %>

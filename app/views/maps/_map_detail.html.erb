@@ -58,14 +58,18 @@
     <%- if map.source_uri -%>
     Links: <%= link_to 'Source / Biblio Ref',map.source_uri  %>
     <%- end -%>
-    <% if map.status == :warped or map.status == :available %>
-      <% if admin_authorized? %>
-        | <%= link_to("Publish",{:controller => "maps", :action => "publish", :id => map}, :confirm => "Really publish this map? This will mean that no further editing can be done") -%>
-
-      <% end -%>
+    <% if !admin_authorized? && map.published? %>
+    | <strong>Published [<a href="#" title="This map has been published by an admin and no further editing is possible.">?</a>]</strong>
+    <% end %>
+    <% if admin_authorized? %>
+      <% if map.status == :warped  %>
+        | <%= link_to("Publish",{:controller => "maps", :action => "publish", :id => map, :to => "publish"}, :confirm => "Really publish this map? This will mean that no further editing can be done") -%>
+      <% elsif map.published? %>
+        | <%= link_to("UnPublish",{:controller => "maps", :action => "publish", :id => map, :to => "unpublish"}, :confirm => "Really un publish this map? This will mean that the map can be edited now") -%>
+      <% end %>
     <% end -%>
 
-    <%if map.status == :warped %> |
+     <%if map.warped_or_published? %> |
       <%= link_to("Download KML", map_url(:id => map, :format=>:kml)) %>
     <% end %>
 

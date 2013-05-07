@@ -43,7 +43,7 @@
     <% end  %>
     <% if admin_authorized? -%>
       <%= link_to("Merge", :controller => "layers", :action=> "merge", :id => layer) %> |
-      <%= link_to("Publish", :controller => "layers", :action=> "publish", :id=>layer)%> |
+      <!-- <%= link_to("Publish", :controller => "layers", :action=> "publish", :id=>layer)%> | -->
     <%end -%>
     <% if layer.is_visible && layer.rectified_maps_count > 0 %>
       <%= link_to("Download KML", layer_url(:id => layer, :format=>:kml)) %>
