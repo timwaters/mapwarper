@@ -11,11 +11,12 @@ New: <%= link_to 'Find Rectified Maps by Location',  url_for(:controller => 'map
   <div id="search-sort">
     <%= render :partial => 'shared/sort' -%>
   </div>
-<!--
-  <div id="search-pagination-top">
-    <%= will_paginate @maps %>
+  <div class="warper_pagination">
+    <div id="search-pagination-top">
+      <%= will_paginate @maps %>
+    </div>
   </div>
-  -->
+
   <table id="map_table" cellpadding="3">
     <thead>
       <tr>
@@ -31,10 +32,11 @@ New: <%= link_to 'Find Rectified Maps by Location',  url_for(:controller => 'map
     </tbody>
   </table>
 
-  <div id="search-pagination-bottom">
-    <%= will_paginate @maps, :renderer => FlowPagination::LinkRenderer %>
+  <div class="warper_pagination">
+    <div id="search-pagination-bottom">
+      <%= will_paginate @maps %>
+    </div>
   </div>
-
 </div>
 
 

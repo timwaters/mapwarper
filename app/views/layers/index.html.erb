@@ -16,7 +16,7 @@
       </select>
       for
       <%= text_field_tag 'query', @query -%>
-      <input type="submit" value=" Go ">
+      <input type="submit" value=" Go " />
     <% end %>
   </div>
 New: <%= link_to 'Find Layers by Location',  url_for(:controller => 'layers', :action=>'geosearch')%>
@@ -34,11 +34,12 @@ New: <%= link_to 'Find Layers by Location',  url_for(:controller => 'layers', :a
   <%= sort_header_tag('maps_count', :title=> "Number of Maps") %> |
   <%= sort_header_tag('percent', :title => "Percent Complete") %> |
 </div>
-<!--
-<div id="search-pagination-top">
-<%# will_paginate @layers %>
+<div class="warper_pagination">
+  <div id="search-pagination-top">
+    <%= will_paginate @layers %>
+  </div>
 </div>
--->
+
 <div id="layers-div">
   <table id="layer_table" cellpadding="3">
     <thead>
@@ -56,8 +57,9 @@ New: <%= link_to 'Find Layers by Location',  url_for(:controller => 'layers', :a
 
   </table>
 </div>
-
-<div id="search-pagination-bottom">
-  <%= will_paginate @layers, :renderer => FlowPagination::LinkRenderer  %>
+<div class="warper_pagination">
+  <div id="search-pagination-bottom">
+    <%= will_paginate @layers %>
+  </div>
 </div>
 

@@ -19,17 +19,6 @@ def strip_brackets(str)
   str.gsub(/[\]\[()]/,"")
 end
 
-#jquery.pageless helper
-def pageless(total_pages, url=nil)
-  opts = {
-    :totalPages => total_pages,
-    :url => url,
-    :loaderMsg => 'Loading more results',
-    :params => {:query => @query, :sort_key => params[:sort_key], :sort_order => params[:sort_order]}
-  }
-
-  javascript_tag("jQuery('#results').pageless(#{opts.to_json});")
-end
 
 #from rails way
   def breadcrumbs(stop_at_controller=nil)

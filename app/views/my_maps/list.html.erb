@@ -4,11 +4,12 @@
 <p>
 Showing list of maps saved or edited by a user.
 </p>
-<!--
-<div id="search-pagination-top">
-<%=will_paginate @mymaps %>
+<div class="warper_pagination">
+  <div id="search-pagination-top">
+    <%=will_paginate @mymaps %>
+  </div>
 </div>
--->
+
 <table id="map_table" cellpadding="3">
     <thead>
       <tr>
@@ -22,6 +23,8 @@ Showing list of maps saved or edited by a user.
     <%= render :partial => 'maps/map', :collection => @mymaps unless @mymaps.nil? %>
   </tbody>
 </table>
+<div class="warper_pagination">
  <div id="search-pagination-bottom">
-   <%= will_paginate @mymaps, :renderer => FlowPagination::LinkRenderer %>
+   <%= will_paginate @mymaps %>
  </div>
+</div>
