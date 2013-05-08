@@ -60,6 +60,9 @@ New: <%= link_to 'Find Layers by Location',  url_for(:controller => 'layers', :a
 <div class="warper_pagination">
   <div id="search-pagination-bottom">
     <%= will_paginate @layers %>
+    <div class="per_page_select">
+       <%= page_entries_info @layers %>&nbsp;<%= select_tag :per_page, options_for_select([10,20,50,100], @per_page.to_i), :onchange => "if(this.value){reload_with_page(this.value)};" %> per page.
+    </div>
   </div>
 </div>
 

@@ -533,6 +533,11 @@ clear: both;
 .warper_pagination .next_page {
   margin-left: 1em; }
 
+.warper_pagination .per_page_select {
+  text-transform: none;
+  font-weight: normal;
+  font-size: smaller;
+}
 
 .clear{
 	clear: both;        /* extend height of .main to longest column */

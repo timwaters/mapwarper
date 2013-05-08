@@ -258,10 +258,10 @@ class MapsController < ApplicationController
       else
         sort_nulls = " NULLS FIRST"
       end
-
+      @per_page = params[:per_page] || 10
       paginate_params = {
         :page => params[:page],
-        :per_page => 10,
+        :per_page => @per_page,
         :order => sort_clause + sort_nulls,
         :conditions => conditions
       }
