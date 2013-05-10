@@ -717,7 +717,8 @@ class MapsController < ApplicationController
         raster.metadata.set('wcs_formats', 'GEOTIFF')
         raster.metadata.set('wms_title', @map.title)
         raster.metadata.set('wms_srs', 'EPSG:4326 EPSG:4269 EPSG:900913')
-        raster.debug = Mapscript::MS_TRUE
+        #raster.debug = Mapscript::MS_TRUE
+        raster.setProcessingKey("CLOSE_CONNECTION", "ALWAYS")
 
         Mapscript::msIO_installStdoutToBuffer
         result = mapsv.OWSDispatch(ows)
