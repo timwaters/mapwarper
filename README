@@ -3,9 +3,21 @@ README
 
 Mapwarper is an open source map geo-rectification, warping and georeferencing application.
 It enables a user to upload an image, a scanned map or aerial photo for example, and by placing control points on a
-reference map and the image, to warp it, to stretch it to fit. The application can be seen in use at http://mapwarper.net
+reference map and the image, to warp it, to stretch it to fit.
 
-The resulting map can be exported as a GeoTIFF, WMS, Tiles, and KML
+The application can be seen in use at http://mapwarper.net for public use and in library setting at http://maps.nypl.org
+
+The application is a web based crowdsourced geospatial project that enables people and organisations to collaboratively publish images of maps online
+and digitize and extract vector information from them. Users rectify, warp or stretch images of historical maps with a reference basemap,
+assigning locations on image and map that line up with each other. Often these historical maps were in big paper books, and so for the first
+time they can be stitched together and shown as a whole, in digital format. Users can crop around the maps, and join them together into layers.
+By georeferencing the images, they can be warped or georectified to match the locations in space, and used in GIS software and other services.
+One such use of these warped maps is an application that that helps people digitize, that is, trace over the maps to extract information from them.
+For example, buildings in 18th Century Manhattan, details changing land use, building type etc. This application is called the Digitizer.
+
+The application runs as a Ruby on Rails application using a number of open source geospatial libraries and technologies, including PostGIS, Mapserver, Geoserver, and GDAL tools.
+
+The resulting maps can be exported as a PNG, GeoTIFF, WMS, Tiles, and KML for use in many different applications.
 
 Groups of maps can be made into "layers" that will stictch together the composite map images.
 
