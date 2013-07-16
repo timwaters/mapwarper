@@ -27,6 +27,8 @@ There is also a vector digitizer application that works on layers also. It uses 
 SETUP
 ------
 
+This application is a bit peculiar to set up, sorry! I do intend to moderise it. One of things is that it doesn't like modern rubygems but 1.7.2 is fine. Blame the way Ruby has great backwards compatibilties, then revel in the power of rvm, this message and the following documentation!
+
 Some things you may need to set up first:
 
 libgdal-ruby is used to get the raster extents to update the bounding box of a warped map
