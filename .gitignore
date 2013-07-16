@@ -1,3 +1,4 @@
+.rvmrc
 log/*.log
 tmp/**/*
 tmp/
