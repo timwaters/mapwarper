@@ -57,6 +57,7 @@ see deploy.rb for details
 
 create folders shared/system/mapimages/src and /dst and /dst/png
 
+(or if you are not using capistrano, public/mapimages/src  public/mapimages/dst public/mapimages/dst/png)
 
 database - standard rails db migrate should do the trick - mysql or sqlite3 should
 make sure you login as the admin set up in the migration 010 and use this to create a new user, and use this to disable this initial default admin
@@ -105,18 +106,28 @@ rails (2.3.5)
 rake (0.9.2.2)
 yahoo-geoplanet (0.2.1)
 
+notes on getting it running in RVM
+  *. use an old version of rubygems (as we need old version of rake) - see below
+  *. specify vgem install nokogiri -v=1.5.5 (as newer versions of nokogiri require ruby 1.9)
+  *. mapscript-
+  you have to have installed libmapscript-ruby1.8 system wide anyway, and then copy (or possibly link) the .so file into the ruby load path of the rmv ruby.
+* find where mapscript library lives
+dpkg -L libmapscript-ruby1.8
+* find the ruby load paths in rhte rvm
+ruby -e 'puts $LOAD_PATH'
+* copy it across
+* copy usr/lib/ruby/1.8/x86_64-linux/mapscript.so /home/tim/.rvm/rubies/ruby-1.8.7-p371/lib/ruby/site_ruby/1.8/x86_64-linux/
+ * gdal - do the same with gdal - copy the library across 
+cp  /usr/lib/ruby/1.8/x86_64-linux/gdal /home/tim/.rvm/rubies/ruby-1.8.7-p371/lib/ruby/site_ruby/1.8/x86_64-linux/ -r
+
+
+
 example command history for install
 
-   75  2013-05-25 16:09:19 apt-cache search mapscript
-   76  2013-05-25 16:09:35 apt-cache show libmapscript-ruby
-   77  2013-05-25 16:10:01 apt-cache show gdal-bin
-   79  2013-05-25 16:10:31 apt-cache search libgdal-ruby
-   80  2013-05-25 16:10:40 apt-cache show libgdal-ruby
    81  2013-05-25 16:11:04 sudo apt-get install gdal-bin
    82  2013-05-25 16:11:49 sudo apt-get install libgdal-ruby
    83  2013-05-25 16:12:03 ruby -v
    84  2013-05-25 16:12:17 sudo apt-get install libmapscript-ruby
-   85  2013-05-25 16:12:55 apt-cache search postgis
    86  2013-05-25 16:13:55 sudo apt-get install python-software-properties
    87  2013-05-25 16:14:14 sudo apt-add-repository ppa:ubuntugis/ppa
    88  2013-05-25 16:14:30 sudo apt-get update
