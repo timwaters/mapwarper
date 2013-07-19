@@ -19,17 +19,6 @@ def strip_brackets(str)
   str.gsub(/[\]\[()]/,"")
 end
 
-#jquery.pageless helper
-def pageless(total_pages, url=nil)
-  opts = {
-    :totalPages => total_pages,
-    :url => url,
-    :loaderMsg => 'Loading more results',
-    :params => {:query => @query, :sort_key => params[:sort_key], :sort_order => params[:sort_order]}
-  }
-
-  javascript_tag("jQuery('#results').pageless(#{opts.to_json});")
-end
 
 #from rails way
   def breadcrumbs(stop_at_controller=nil)
@@ -89,6 +78,25 @@ def message_for_item(message, item = nil)
     message % link_to(*item)
   else
     message % item
+  end
+end
+
+def page_entries_info(collection, options = {})
+  entry_name = options[:entry_name] ||
+    (collection.empty?? 'entry' : collection.first.class.name.underscore.sub('_', ' '))
+
+  if collection.total_pages < 2
+    case collection.size
+    when 0; "No #{entry_name.pluralize} found"
+    when 1; "<b>1</b> #{entry_name}"
+    else;   "<b>all #{collection.size}</b> #{entry_name.pluralize}"
+    end
+  else
+    %{<b>%d&nbsp;-&nbsp;%d</b> of <b>%d</b> total} % [
+      collection.offset + 1,
+      collection.offset + collection.length,
+      collection.total_entries
+    ]
   end
 end
 

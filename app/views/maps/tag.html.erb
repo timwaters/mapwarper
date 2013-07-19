@@ -12,8 +12,10 @@
 <div id="tags-search-sort">
   <%= render :partial => 'shared/sort' -%>
 </div>
-<div id="search-pagination-top">
-  <%= will_paginate @maps %>
+<div class="warper_pagination">
+  <div id="search-pagination-top">
+    <%= will_paginate @maps %>
+  </div>
 </div>
   <table id="" cellpadding="3">
   <tr>
@@ -24,4 +26,6 @@
    <%= render :partial => 'map', :collection => @maps unless @maps.nil? %>
 
 </table>
-<%= will_paginate @maps %>
+<div class="warper_pagination">
+  <%= will_paginate @maps %>
+</div>

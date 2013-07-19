@@ -1,10 +1,11 @@
 <%=render :partial => 'layers/layermap', :object => @layer unless @layer.rectified_maps_count  < 1 || !@layer.is_visible?%>
 <h3>Maps <span id="view-maps-index-link"></span></h3>
-<!--
-<div id="search-pagination-top">
-<%# will_paginate @maps %>
+<div class="warper_pagination">
+  <div id="search-pagination-top">
+  <%= will_paginate @maps %>
+  </div>
 </div>
--->
+
 <div id="loading-spinner" style="width:100px;margin-left:auto;margin-right:auto" class="hidden">Loading..... <br /><img src="/images/load.gif" /> </div>
 <div id="map_table_div">
   <table id="map_table" cellpadding="3">
@@ -21,10 +22,11 @@
       <%= render :partial => 'maps/map', :collection => @maps unless @maps.nil? %>
     </tbody>
   </table>
-
+<div class="warper_pagination">
   <div id="search-pagination-bottom">
-    <%= will_paginate @maps , :renderer => FlowPagination::LinkRenderer%>
+    <%= will_paginate @maps %>
   </div>
+</div>
 </div>
 
 <%= link_to("Create New Layer", new_layer_url) %>

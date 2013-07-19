@@ -188,7 +188,7 @@ class MapsController < ApplicationController
     @current_tab = "export"
     @selected_tab = 6
     @html_title = "Export Map" + @map.id.to_s
-    unless @map.status == :warped && @map.map_type == :is_map
+    unless @map.warped_or_published? && @map.map_type == :is_map
       flash.now[:notice] = "Map needs to be rectified before being able to be exported"
     end
     choose_layout_if_ajax
@@ -230,8 +230,8 @@ class MapsController < ApplicationController
 
 
   def index
-
-    sort_init 'updated_at'
+    sort_init('updated_at', {:default_order => "desc"})
+    
     sort_update
     @show_warped = params[:show_warped]
     request.query_string.length > 0 ?  qstring = "?" + request.query_string : qstring = ""
@@ -258,10 +258,10 @@ class MapsController < ApplicationController
       else
         sort_nulls = " NULLS FIRST"
       end
-
+      @per_page = params[:per_page] || 10
       paginate_params = {
         :page => params[:page],
-        :per_page => 10,
+        :per_page => @per_page,
         :order => sort_clause + sort_nulls,
         :conditions => conditions
       }
@@ -472,11 +472,15 @@ class MapsController < ApplicationController
     #
     # Logged in users
     unless logged_in? and (current_user.own_this_map?(params[:id])  or current_user.has_role?("editor"))
-      @disabled_tabs += ["edit"]
+      @disabled_tabs += ["edit"]  #don't allow anyone else to edit it, unless you are an editor
+      if @map.published?
+        @disabled_tabs += ["warp", "clip", "align"]  #dont show any others unless you're an editor
+      end
     end
+
     @title = "Viewing original map. "
 
-    if @map.status != :warped
+    if !@map.warped_or_published?
       @title += "This map has not been rectified yet."
     end
     choose_layout_if_ajax
@@ -493,8 +497,14 @@ class MapsController < ApplicationController
  
   #should check for admin only
   def publish
-    @map.publish
-    render :text => "Map will be published. (this functionality doesn't do anything at the moment)"
+    if params[:to] == "publish" && @map.status == :warped
+      @map.publish
+    elsif params[:to] == "unpublish" && @map.status == :published
+      @map.unpublish
+    end
+
+    flash[:notice] = "Map changed. New Status: " + @map.status.to_s
+    redirect_to @map
   end
 
   def save_mask
@@ -560,10 +570,8 @@ class MapsController < ApplicationController
     @current_tab = "warped"
     @selected_tab = 5
     @html_title = "Viewing Rectfied Map "+ @map.id.to_s
-    if @map.status == :warped and @map.gcps.hard.size > 2
+    if @map.warped_or_published? && @map.gcps.hard.size > 2
       @title = "Viewing warped map"
-      width = @map.width
-      height = @map.height
       @other_layers = Array.new
       @map.layers.visible.each do |layer|
         @other_layers.push(layer.id)
@@ -604,8 +612,6 @@ class MapsController < ApplicationController
     @html_title = "Align Maps "
     @current_tab = "align"
     @selected_tab = 3
-    width = @map.width
-    height = @map.height
 
     choose_layout_if_ajax
   end
@@ -621,11 +627,6 @@ class MapsController < ApplicationController
      end
 
      @gcps = @map.gcps_with_error 
-
-     width = @map.width
-     height = @map.height
-     width_ratio = width / 180
-     height_ratio = height / 90
 
      choose_layout_if_ajax 
    end
@@ -686,6 +687,7 @@ class MapsController < ApplicationController
           ows.setParameter(key.to_s, ok_params[key.to_s.upcase]) unless ok_params[key.to_s.upcase].nil?
         end
 
+        ows.setParameter("VeRsIoN","1.1.1")
         ows.setParameter("STYLES", "")
         ows.setParameter("LAYERS", "image")
         ows.setParameter("COVERAGE", "image")
@@ -715,7 +717,8 @@ class MapsController < ApplicationController
         raster.metadata.set('wcs_formats', 'GEOTIFF')
         raster.metadata.set('wms_title', @map.title)
         raster.metadata.set('wms_srs', 'EPSG:4326 EPSG:4269 EPSG:900913')
-        raster.debug = Mapscript::MS_TRUE
+        #raster.debug = Mapscript::MS_TRUE
+        raster.setProcessingKey("CLOSE_CONNECTION", "ALWAYS")
 
         Mapscript::msIO_installStdoutToBuffer
         result = mapsv.OWSDispatch(ows)

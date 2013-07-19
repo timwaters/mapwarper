@@ -1,6 +1,34 @@
 README 
 --------
 
+Mapwarper is an open source map geo-rectification, warping and georeferencing application.
+It enables a user to upload an image, a scanned map or aerial photo for example, and by placing control points on a
+reference map and the image, to warp it, to stretch it to fit.
+
+The application can be seen in use at http://mapwarper.net for public use and in library setting at http://maps.nypl.org
+
+The application is a web based crowdsourced geospatial project that enables people and organisations to collaboratively publish images of maps online
+and digitize and extract vector information from them. Users rectify, warp or stretch images of historical maps with a reference basemap,
+assigning locations on image and map that line up with each other. Often these historical maps were in big paper books, and so for the first
+time they can be stitched together and shown as a whole, in digital format. Users can crop around the maps, and join them together into layers.
+By georeferencing the images, they can be warped or georectified to match the locations in space, and used in GIS software and other services.
+One such use of these warped maps is an application that that helps people digitize, that is, trace over the maps to extract information from them.
+For example, buildings in 18th Century Manhattan, details changing land use, building type etc. This application is called the Digitizer.
+
+The application runs as a Ruby on Rails application using a number of open source geospatial libraries and technologies, including PostGIS, Mapserver, Geoserver, and GDAL tools.
+
+The resulting maps can be exported as a PNG, GeoTIFF, WMS, Tiles, and KML for use in many different applications.
+
+Groups of maps can be made into "layers" that will stictch together the composite map images.
+
+There is also a vector digitizer application that works on layers also. It uses the WFS-V  protocol and so geoserver is needed for this.
+
+
+SETUP
+------
+
+This application is a bit peculiar to set up, sorry! I do intend to moderise it. One of things is that it doesn't like modern rubygems but 1.7.2 is fine. Blame the way Ruby has great backwards compatibilties, then revel in the power of rvm, this message and the following documentation!
+
 Some things you may need to set up first:
 
 libgdal-ruby is used to get the raster extents to update the bounding box of a warped map
@@ -29,6 +57,7 @@ see deploy.rb for details
 
 create folders shared/system/mapimages/src and /dst and /dst/png
 
+(or if you are not using capistrano, public/mapimages/src  public/mapimages/dst public/mapimages/dst/png)
 
 database - standard rails db migrate should do the trick - mysql or sqlite3 should
 make sure you login as the admin set up in the migration 010 and use this to create a new user, and use this to disable this initial default admin
@@ -50,7 +79,174 @@ MAX_ATTACHMENT_SIZE = 5.megabyte #max upload file size
 GDAL_MEMORY_LIMIT = 20 # max memory used for gdal_warp, may keep some servers sweet
 if you comment these out, then no constraints are used
 --
-tim waters 
+tim waters (tim_at_geothings.net)
 
-tim_at_geothings_dotnet
+---
+
+This may help you even more:
+
+gem list on a server:
+
+actionmailer (2.3.5)
+actionpack (2.3.5)
+activerecord (2.3.5)
+activeresource (2.3.5)
+activesupport (2.3.5)
+fastercsv (1.5.5)
+georuby (2.0.0)
+hpricot (0.8.6)
+i18n (0.6.1, 0.4.2)
+passenger (4.0.3)
+multi_json (1.7.3)
+nokogiri (1.5.9)
+oauth (0.4.7)
+pg (0.15.1)
+rack (1.0.1)
+rails (2.3.5)
+rake (0.9.2.2)
+yahoo-geoplanet (0.2.1)
+
+notes on getting it running in RVM
+  *. use an old version of rubygems (as we need old version of rake) - see below
+  *. specify vgem install nokogiri -v=1.5.5 (as newer versions of nokogiri require ruby 1.9)
+  *. mapscript-
+  you have to have installed libmapscript-ruby1.8 system wide anyway, and then copy (or possibly link) the .so file into the ruby load path of the rmv ruby.
+* find where mapscript library lives
+dpkg -L libmapscript-ruby1.8
+* find the ruby load paths in rhte rvm
+ruby -e 'puts $LOAD_PATH'
+* copy it across
+* copy usr/lib/ruby/1.8/x86_64-linux/mapscript.so /home/tim/.rvm/rubies/ruby-1.8.7-p371/lib/ruby/site_ruby/1.8/x86_64-linux/
+ * gdal - do the same with gdal - copy the library across 
+cp  /usr/lib/ruby/1.8/x86_64-linux/gdal /home/tim/.rvm/rubies/ruby-1.8.7-p371/lib/ruby/site_ruby/1.8/x86_64-linux/ -r
+
+
+
+example command history for install
+
+   81  2013-05-25 16:11:04 sudo apt-get install gdal-bin
+   82  2013-05-25 16:11:49 sudo apt-get install libgdal-ruby
+   83  2013-05-25 16:12:03 ruby -v
+   84  2013-05-25 16:12:17 sudo apt-get install libmapscript-ruby
+   86  2013-05-25 16:13:55 sudo apt-get install python-software-properties
+   87  2013-05-25 16:14:14 sudo apt-add-repository ppa:ubuntugis/ppa
+   88  2013-05-25 16:14:30 sudo apt-get update
+   89  2013-05-25 16:14:54 sudo apt-get install postgresql-9.1-postgis
+   90  2013-05-25 16:16:51 psql -l
+
+   91  2013-05-25 16:16:59 sudo passwd postgres
+  103  2013-05-25 16:22:05 sudo -i -u postgres creatuser $USER
+  115  2013-05-25 16:25:01 sudo su postgres
+  116  2013-05-25 16:26:37 psql
+  117  2013-05-25 16:26:43 sudo su postgres
+  118  2013-05-25 16:26:57 psql
+
+  119  2013-05-25 16:28:14 ruby -v
+  120  2013-05-25 16:28:24 apt-cache search ruby1.0-dev
+  121  2013-05-25 16:28:29 apt-cache search ruby1.9-dev
+  122  2013-05-25 16:28:35 apt-cache search ruby-dev
+  123  2013-05-25 16:28:54 sudo apt-get install build-essential
+  127  2013-05-25 16:31:02 sudo apt-get install apache2
+  129  2013-05-25 16:31:45 sudo apt-get install imagemagick
+
+  132  2013-05-25 17:00:36 sudo service apache2 restart
+
+
+  136  2013-05-25 17:24:49 gem list
+  137  2013-05-25 17:25:00 sudo gem install rails -v=2.3.5
+  138  2013-05-25 17:29:33 gem install yahoo-geoplanet
+  139  2013-05-25 17:29:52 sudo gem install yahoo-geoplanet
+  140  2013-05-25 17:30:31 sudo gem install nokogiri
+  141  2013-05-25 17:30:46 sudo apt-get install libxml2
+  142  2013-05-25 17:31:26 sudo apt-get install libreadline-ruby1.8 libruby1.8 libopenssl-ruby
+  143  2013-05-25 17:31:33 sudo apt-get install libxslt-dev libxml2-dev
+  144  2013-05-25 17:31:53 sudo gem install nokogiri
+  145  2013-05-25 17:33:45 gem instal georuby
+  146  2013-05-25 17:33:51 sudo gem install georuby
+  147  2013-05-25 17:34:12 sudo gem instal pg
+  148  2013-05-25 17:35:32 sudo apt-get install libpq-dev
+  149  2013-05-25 17:37:31 sudo gem instal pg
+  150  2013-05-25 17:37:43 sudo gem install pg
+
+Rubygems
+
+  234  2013-05-26 15:29:03 wget http://production.cf.rubygems.org/rubygems/rubygems-1.7.2.tgz
+  235  2013-05-26 15:29:13 tar xzvf rubygems-1.7.2.tgz
+  236  2013-05-26 15:29:28 sudo apt-get remove rubygems
+  237  2013-05-26 15:29:48 cd rubygems-1.7.2
+  238  2013-05-26 15:29:54 sudo ruby setup.rb
+  239  2013-05-26 15:30:18 sudo ln -s /usr/bin/gem1.8 /usr/bin/gem
+
+
+  153  2013-05-25 17:38:15 mkidr warper_dev
+  154  2013-05-25 17:38:21 mkdir warper_dev
+  156  2013-05-25 17:38:49 git clone git://github.com/timwaters/mapwarper.git
+  166  2013-05-25 17:41:54 vim config/initializers/session_store.example
+  167  2013-05-25 17:42:29 ls config/initializers/
+  168  2013-05-25 17:42:35 ls
+  169  2013-05-25 17:42:38 mv session_store.rb config/initializers/
+  170  2013-05-25 17:42:54 cp config/initializers/mail.example config/initializers/mail.rb
+  171  2013-05-25 17:42:58 cd config/initializers/mail.rb
+  172  2013-05-25 17:43:03 vim config/initializers/mail.rb
+  173  2013-05-25 17:43:35 cp config/environments/production.example config/environments/production.rb
+  174  2013-05-25 17:43:42 vim config/environments/production.rb
+  175  2013-05-25 17:44:20 cp config/database.example config/database.yml
+  176  2013-05-25 17:44:33 mkdir public/mapimages
+  177  2013-05-25 17:44:40 mkdir public/mapimages/src
+  178  2013-05-25 17:44:42 mkdir public/mapimages/dst
+  179  2013-05-25 17:44:44 mkdir public/mapimages/dst/png
+  180  2013-05-25 17:45:11 vim config/database.yml
+  181  2013-05-25 17:46:03 rake -T
+  182  2013-05-25 17:46:06 ls
+  183  2013-05-25 17:46:23 more Rakefile
+  184  2013-05-25 17:46:42 apt-cache search rake
+  185  2013-05-25 17:46:46 gem list
+  190  2013-05-25 17:48:18 sudo gem install rake -v=0.9.2.2
+  191  2013-05-25 17:48:36 sudo gem uninstall rake
+  192  2013-05-25 17:48:43 rake --version
+  193  2013-05-25 17:48:49 rake -T
+  194  2013-05-25 17:49:19 sudo gem install fastercsv -v=1.5.5
+  195  2013-05-25 17:49:33 rake -T
+  196  2013-05-25 17:49:45 rake -T db
+  197  2013-05-25 17:49:58 rake db:create
+  198  2013-05-25 17:50:15 psql -l
+  199  2013-05-25 17:51:01 psql -d warper_hack
+  200  2013-05-25 17:51:32 rake db:migrate
+  201  2013-05-25 17:52:17 sudo gem install oauth -v=0.4.7
+  202  2013-05-25 17:52:29 rake db:migrate
+  203  2013-05-25 17:53:28 script/console
+  204  2013-05-25 17:53:41 script/server
+  205  2013-05-25 17:56:06 vim /etc/apache2/sites-enabled/
+  206  2013-05-25 17:57:01 sudo vim /etc/apache2/sites-available/warper_hack
+  207  2013-05-25 18:00:12 ls /etc/apache2/mods-enabled/
+  208  2013-05-25 18:00:43 ls /etc/apache2/mods-available/
+  209  2013-05-25 18:00:55 sudo a2enmod proxy
+  210  2013-05-25 18:01:01 sudo a2enmod proxy_http
+
+  311  2013-05-26 16:02:17 sudo gem install passenger
+  312  2013-05-26 16:03:05 sudo passenger-install-apache2-module
+  313  2013-05-26 16:03:32 apt-get install libcurl4-openssl-dev or libcurl4-gnutls-dev
+  314  2013-05-26 16:03:42 sudo apt-get install libcurl4-openssl-dev or libcurl4-gnutls-dev
+  315  2013-05-26 16:03:52 sudo apt-get install libcurl4-openssl-dev
+  316  2013-05-26 16:04:21 sudo apt-get install apache2-threaded-dev
+  317  2013-05-26 16:04:52 sudo apt-get install libapr1-dev
+  318  2013-05-26 16:05:02 sudo apt-get install libaprutil1-dev
+  319  2013-05-26 16:05:08 sudo passenger-install-apache2-module
+  325  2013-05-26 16:09:46 sudo vim /etc/apache2/mods-available/passenger.conf
+  326  2013-05-26 16:09:59 sudo vim /etc/apache2/mods-available/passenger.load
+
+
+  212  2013-05-25 18:01:47 sudo service apache2 restart
+  213  2013-05-25 18:01:51 ls /etc/apache2/mods-enabled/
+  214  2013-05-25 18:02:15 ls /etc/apache2/sites-available/
+  215  2013-05-25 18:02:25 sudo a2ensite warper_hack
+  216  2013-05-25 18:02:30 sudo service apache2 restart
+  217  2013-05-25 18:02:37 script/server
+  218* 2013-05-25 18:03:07 more /etc/apache2/sites-enabled/
+  219  2013-05-25 18:03:11 script/server
+  220  2013-05-25 18:03:54 sudo a2dissite 000-default
+  221  2013-05-25 18:03:58 sudo service apache2 restart
+  222  2013-05-25 18:04:02 script/server
+
+  sudo gem install i18n -v=0.4.2
 

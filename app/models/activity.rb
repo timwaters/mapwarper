@@ -29,6 +29,8 @@ class Activity < Audit
                summ = "Map started rectification process"
             when :warped
                summ = "Map successfully rectified"
+            when :published
+               summ = "Map successfully published"
             else
                summ =""
             end

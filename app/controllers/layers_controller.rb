@@ -115,7 +115,7 @@ end
 
 
   def index
-    sort_init 'created_at'
+    sort_init('created_at', {:default_order => "desc"})
     session[@sort_name] = nil  #remove the session sort as we have percent
     sort_update
     @query = params[:query]
@@ -139,9 +139,10 @@ end
       sort_nulls = " NULLS FIRST"
     end
 
+    @per_page = params[:per_page] || 20
     paginate_params = {
       :page => params[:page],
-      :per_page => 20,
+      :per_page => @per_page,
       :select => select,
       :order => sort_clause + sort_nulls,
       :conditions => conditions
@@ -459,6 +460,7 @@ end
         ows.setParameter(key.to_s, ok_params[key.to_s.upcase]) unless ok_params[key.to_s.upcase].nil?
       end
 
+      ows.setParameter("VeRsIoN","1.1.1")
       ows.setParameter("STYLES", "")
       ows.setParameter("LAYERS", "image")
       #ows.setParameter("COVERAGE", "image")

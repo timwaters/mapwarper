@@ -21,6 +21,8 @@ if Gem::VERSION >= "1.3.6"
   end
 end
 
+require 'lib/silent_logger'
+
 Rails::Initializer.run do |config|
   # Settings in config/environments/* take precedence over those specified here.
   # Application configuration should go into files in config/initializers
@@ -55,4 +57,5 @@ Rails::Initializer.run do |config|
   # Make Active Record use UTC-base instead of local time
   # config.active_record.default_timezone = :utc
 config.active_record.observers = :user_observer
+config.logger = SelectiveLogger.new  config.log_path
 end

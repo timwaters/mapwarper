@@ -11,11 +11,12 @@ class ApplicationController < ActionController::Base
   protect_from_forgery # :secret => '02fd3a68fbbf6bb592746ba9dd1e79d6'
 
  
-layout 'application'
+  layout 'application'
    
-
-
-
+  def log_processing
+    logger.silent = "wms" == params[:action]
+    super
+  end
 
 
 end

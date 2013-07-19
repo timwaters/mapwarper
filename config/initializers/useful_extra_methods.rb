@@ -9,6 +9,8 @@ def to_json(options = {})
   }.to_json(options)
 end
 end
+WillPaginate::ViewHelpers.pagination_options[:prev_label] = '← Prev'
+WillPaginate::ViewHelpers.pagination_options[:next_label] = 'Next →'
 
 if RUBY_VERSION < "1.8.7"
 require 'enumerator'
