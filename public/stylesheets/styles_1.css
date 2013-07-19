@@ -390,17 +390,11 @@ a:hover {
 	color:#447a05;
 }
 
-/*a:visited {
-	color: #002200;
-}
 
-a:hover {
-	color: #061478; /*CHANGED KAREN*/
-}*/
 
 h1 {
-	background: url(http://mapwarper.net/images/header_logo.png) 0 50% scroll no-repeat; /*PLEASE CHANGE PATH TO /images/header_logo.png*/
-	padding: 10px 1em; 
+	background: url(/images/header_logo.png) 0 50% scroll no-repeat; 
+  padding: 10px 1em; 
 }
 
 h1 a, h1 a:link, h1 a:visited {
@@ -470,7 +464,7 @@ select {
 	border:1px solid #ccc;
 }
 
-/*.headerDiv .user_status a:hover*/ .buttonWarper:hover, input[type="submit"]:hover { /*KAREN ADDED*/
+ .buttonWarper:hover, input[type="submit"]:hover { /*KAREN ADDED*/
     box-shadow:1px 2px 4px 2px rgba(0,0,0,0.2), inset 1px 2px 4px rgba(255,255,255,0.4);;
 	background: #e3e3d4;
 	background:rgba(255,255,255,0.7); /*KAREN ADDED*/
@@ -526,7 +520,7 @@ font-weight: strong;
 
 .headerDiv {
 	position: relative;
-	background: #e2dedb url(http://mapwarper.net/images/header_bg.jpg) 0 -30px scroll; /*PLEASE CHANGE PATH TO /images/header_bg.jpg*/
+	background: #e2dedb url(/images/header_bg.jpg) 0 -30px scroll; /*PLEASE CHANGE PATH TO /images/header_bg.jpg*/
 	padding: 2px 10px 0 10px;
 }
 
@@ -540,6 +534,8 @@ h1 span {
 	position: absolute;
 	top:1em;
 	right:1em;
+  top: 0.5em;
+  text-align: right;
 }
 
 #tag-cloud h4 {
@@ -941,13 +937,7 @@ font-weight: bold;
 
 #map_table a:hover img, #layer_table a:hover img{
 	border: 1px solid #bbb;
-	-o-transform: scale(3.0);
-	-moz-transform: scale(3.0);
-	-webkit-transform: scale(3.0);
-	transform: scale(3.0);
-	-webkit-transition: all 0.3s ease-in;
 	position: relative;
-	left: 80px;
 }
 
 
