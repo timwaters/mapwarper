@@ -765,7 +765,9 @@ padding: 10px;
 {
   clear:right;
 }
-
+.ui-tabs-nav li a {
+padding: 0.5em 0.6em !important;
+}
 #panel-under-tabs{
   clear: both;
  /* border-right: 1px solid #776655;
@@ -1350,6 +1352,7 @@ div.olControlMousePosition
 	font-family:Vidaloka, Georgia, "Times New Roman", Times, serif;
 	margin-left:20px;
 	line-height: 1;
+    padding: 8px 0 7px 60px !important;
 }
 
 .breadCrumb {
