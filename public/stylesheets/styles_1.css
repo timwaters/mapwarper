@@ -536,6 +536,7 @@ h1 span {
 	right:1em;
   top: 0.5em;
   text-align: right;
+  font-size: 14px;
 }
 
 #tag-cloud h4 {
@@ -899,8 +900,8 @@ thWidth. {
 #map_table, #layer_table {
 	border: 1px solid #ccc;
 	margin-bottom:10px;
-        clear: right;
-	width: 100%;
+    clear: right;
+	width: auto;
 }
 
 #map_table tr:nth-of-type(odd), #layer_table tr:nth-of-type(odd) {
