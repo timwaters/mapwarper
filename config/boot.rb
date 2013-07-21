@@ -1,3 +1,5 @@
+# Configured for Bundler and Rails 2.3 per http://gembundler.com/rails23.html
+#
 # Don't change this file!
 # Configure your app in config/environment.rb and config/environments/*.rb
 require 'thread'
@@ -103,6 +105,20 @@ module Rails
           File.read("#{RAILS_ROOT}/config/environment.rb")
         end
     end
+  end
+end
+ 
+class Rails::Boot
+  def run
+    load_initializer
+
+    Rails::Initializer.class_eval do
+      def load_gems
+        @bundler_loaded ||= Bundler.require :default, Rails.env
+      end
+    end
+
+    Rails::Initializer.run(:set_load_path)
   end
 end
 
