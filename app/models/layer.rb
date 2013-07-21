@@ -151,8 +151,8 @@ class Layer < ActiveRecord::Base
           [ extents[0], extents[3] ],
           [ extents[0], extents[1] ]
         ]
-        logger.debug poly_array.inspect
-        self.bbox_geom = Polygon.from_coordinates([poly_array])
+        logger.error poly_array.inspect
+        self.bbox_geom = Polygon.from_coordinates([poly_array], -1)
 
         @bounds = extent
         save!

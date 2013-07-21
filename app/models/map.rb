@@ -367,7 +367,7 @@ class Map < ActiveRecord::Base
   #returns a GeoRuby polygon object representing the bounds
   def bounds_polygon
     bounds_float  = bounds.split(',').collect {|i| i.to_f}
-    Polygon.from_coordinates([ [bounds_float[0..1]] , [bounds_float[2..3]] ])
+    Polygon.from_coordinates([ [bounds_float[0..1]] , [bounds_float[2..3]] ], -1)
   end
 
   def converted_bbox
@@ -673,7 +673,7 @@ class Map < ActiveRecord::Base
           [ extents[0], extents[3] ],
           [ extents[0], extents[1] ]
         ]
-        self.bbox_geom = Polygon.from_coordinates([poly_array])
+        self.bbox_geom = Polygon.from_coordinates([poly_array], -1)
         save
       rescue
       end

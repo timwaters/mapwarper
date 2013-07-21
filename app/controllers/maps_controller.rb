@@ -136,7 +136,7 @@ class MapsController < ApplicationController
         [ extents[0], extents[1] ]
       ]
 
-      bbox_polygon = Polygon.from_coordinates([bbox_poly_ary]).as_ewkt
+      bbox_polygon = Polygon.from_coordinates([bbox_poly_ary], -1).as_ewkt
       if params[:operation] == "within"
         conditions = ["ST_Within(bbox_geom, ST_GeomFromText('#{bbox_polygon}'))"]
       else
@@ -716,7 +716,7 @@ class MapsController < ApplicationController
         raster.dump = Mapscript::MS_TRUE
         raster.metadata.set('wcs_formats', 'GEOTIFF')
         raster.metadata.set('wms_title', @map.title)
-        raster.metadata.set('wms_srs', 'EPSG:4326 EPSG:4269 EPSG:900913')
+        raster.metadata.set('wms_srs', 'EPSG:4326 EPSG:3857 EPSG:4269 EPSG:900913')
         #raster.debug = Mapscript::MS_TRUE
         raster.setProcessingKey("CLOSE_CONNECTION", "ALWAYS")
 
