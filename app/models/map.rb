@@ -4,6 +4,7 @@ require "matrix"
 require 'erb'
 require 'rexml/document'
 require 'nokogiri'
+require 'open-uri'
 include ErrorCalculator
 
 
@@ -40,6 +41,7 @@ class Map < ActiveRecord::Base
 
   named_scope :real_maps, :conditions => {:map_type => Map.map_type(:is_map)}
   attr_accessor :error
+  attr_accessor :upload_url
 
   validates_presence_of :title
   validates_numericality_of :rough_lat, :rough_lon, :rough_zoom, :allow_nil => true
@@ -50,19 +52,40 @@ class Map < ActiveRecord::Base
   after_destroy :delete_images
   after_destroy :delete_map, :update_counter_cache, :update_layers
   after_save :update_counter_cache
-
+  before_validation :download_remote_image, :if => :upload_url_provided?
+  
   #############################################
   #CUSTOM VALIDATIONS
   #############################################
 
   def validate_on_create
     errors.add(:filename, "is already being used") if Map.find_by_upload_file_name(upload.original_filename)
+    errors.add(:upload_url, "is invalid or inaccessible") if upload.original_filename.nil? && upload_url_provided?
   end
 
 
   #############################################
   #FILTERS
   #############################################
+
+  def upload_url_provided?
+    !self.upload_url.blank?
+  end
+
+  def download_remote_image
+    self.upload = do_download_remote_image
+  end
+
+  def do_download_remote_image
+    begin
+      io = open(URI.parse(upload_url))
+      def io.original_filename; base_uri.path.split('/').last; end
+      io.original_filename.blank? ? nil : io
+    rescue => e 
+      logger.debug "Error with URL upload"
+      logger.debug e
+    end
+  end
 
   def save_dimensions
     if ["image/jpeg", "image/tiff", "image/png", "image/gif", "image/bmp"].include?(upload.content_type.to_s)

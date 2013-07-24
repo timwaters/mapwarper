@@ -86,28 +86,33 @@
   </div>
 
   <div class="column span-24">
-      <%- if defined?(page)  && page =~ /new/ -%>
+    <%- if defined?(page)  && page =~ /new/ -%>
       <p>
         <label for="upload"><b>Upload An Image File:</b>
-          <br /><% if @max_size %>
-            Max size:
-            <%=  number_to_human_size @max_size %>.
+          <% if @max_size %>
+            Max size: <%=  number_to_human_size @max_size %>.
           <% end %>
           <%= @upload_file_message %>
         </label> <br />
         <%= f.file_field :upload %>
       </p>
+      OR
+      <p>
+        <label for="upload_url"><b>Upload from a URL:</b></label>
+        <%= f.text_field :upload_url %>
+        <%# text_field_tag(:upload_url, "", :size=>40, :class=>"upload_url") %>
+      </p>
     <%- end -%>
 
-<%- if defined?(page)  && (page =~ /edit/ && logged_in? && (current_user == @map.owner || current_user.has_role?("editor")) || page =~ /new/ ) -%>
-<p>
-Map visibility. <br /><%= f.radio_button :public, "true" %><label for="map_public_true">Public(default)</label> <br/>
-<%= f.radio_button :public, "false" %><label for="map_public_false">Don't list the map (only you can see it)</label>
-</p>
-<%- end -%>
+    <%- if defined?(page)  && (page =~ /edit/ && logged_in? && (current_user == @map.owner || current_user.has_role?("editor")) || page =~ /new/ ) -%>
+      <p>
+        Map visibility. <br /><%= f.radio_button :public, "true" %><label for="map_public_true">Public(default)</label> <br/>
+        <%= f.radio_button :public, "false" %><label for="map_public_false">Don't list the map (only you can see it)</label>
+      </p>
+    <%- end -%>
     <p>
       <%= f.submit((defined?(page) && page =~ /new/) ? "Create" : "Update" )%>
     </p>
-    
+
   </div>
 <% end %>
