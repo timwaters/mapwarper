@@ -46,13 +46,13 @@ class Map < ActiveRecord::Base
   validates_presence_of :title
   validates_numericality_of :rough_lat, :rough_lon, :rough_zoom, :allow_nil => true
   validates_numericality_of :metadata_lat, :metadata_lon, :allow_nil => true
-
+  
+  before_create :download_remote_image, :if => :upload_url_provided?
   before_create :save_dimensions
   after_create :setup_image
   after_destroy :delete_images
   after_destroy :delete_map, :update_counter_cache, :update_layers
   after_save :update_counter_cache
-  before_validation :download_remote_image, :if => :upload_url_provided?
   
   #############################################
   #CUSTOM VALIDATIONS
@@ -60,7 +60,6 @@ class Map < ActiveRecord::Base
 
   def validate_on_create
     errors.add(:filename, "is already being used") if Map.find_by_upload_file_name(upload.original_filename)
-    errors.add(:upload_url, "is invalid or inaccessible") if upload.original_filename.nil? && upload_url_provided?
   end
 
 
@@ -73,7 +72,13 @@ class Map < ActiveRecord::Base
   end
 
   def download_remote_image
-    self.upload = do_download_remote_image
+    img_upload = do_download_remote_image
+    unless img_upload
+      errors.add(:upload_url, "is invalid or inaccessible")
+      return false
+    end
+    self.upload = img_upload
+    self.source_uri = upload_url
   end
 
   def do_download_remote_image
@@ -81,9 +86,10 @@ class Map < ActiveRecord::Base
       io = open(URI.parse(upload_url))
       def io.original_filename; base_uri.path.split('/').last; end
       io.original_filename.blank? ? nil : io
-    rescue => e 
+    rescue => e
       logger.debug "Error with URL upload"
       logger.debug e
+      return false
     end
   end
 
