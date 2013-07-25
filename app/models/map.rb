@@ -79,6 +79,12 @@ class Map < ActiveRecord::Base
     end
     self.upload = img_upload
     self.source_uri = upload_url
+
+    if Map.find_by_upload_file_name(upload.original_filename)
+      errors.add(:filename, "is already being used")
+      return false
+    end
+    
   end
 
   def do_download_remote_image
