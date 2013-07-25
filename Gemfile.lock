@@ -11,6 +11,7 @@ GEM
     activeresource (2.3.5)
       activesupport (= 2.3.5)
     activesupport (2.3.5)
+    fastercsv (1.5.3)
     fastthread (1.0.7)
     georuby (2.0.0)
     hpricot (0.8.6)
@@ -37,6 +38,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  fastercsv
   fastthread
   georuby
   i18n (= 0.4.2)
