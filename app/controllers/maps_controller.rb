@@ -164,7 +164,7 @@ class MapsController < ApplicationController
     end
 
     paginate_params = {
-      :select => "bbox, title, description, updated_at, id",
+      :select => "bbox, title, description, updated_at, id, depicts_year",
       :page => params[:page],
       :per_page => 20,
       :order => sort_geo + sort_clause + sort_nulls,
