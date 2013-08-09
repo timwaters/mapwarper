@@ -76,6 +76,8 @@ ActionController::Routing::Routes.draw do |map|
   map.export_map '/maps/export/:id', :controller => 'maps', :action => 'export'
   map.formatted_export_map '/maps/export/:id.:format', :controller => 'maps', :action => 'export'
   map.wms_map '/maps/wms/:id', :controller => 'maps', :action => 'wms'
+  map.wms_layer '/layers/wms/:id', :controller => 'layers', :action => 'wms'
+  
   map.comments_map '/maps/:id/comments', :controller => 'maps', :action => 'comments'
 
   map.connect '/maps/:id/rectify', :controller => 'maps', :action => 'rectify'

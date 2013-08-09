@@ -14,12 +14,12 @@
   (<%= link_to("View KML in Google Maps", "http://maps.google.com?q="+map_url(:id => @map, :format => :kml), :target => "_blank") %> )</li>
   <li>
     <% josm_url = url_for(wms_map_url(:id => @map)) + "?request=GetMap&version=1.1.1&styles=&format=image/png&srs={proj}&exceptions=application/vnd.ogc.session.inimage&width={width}&height={height}&BBOX={bbox}&" %>
-    WMS: <%= link_to("WMS base URL", url_for(wms_map_url(:id=>@map, :request => "GetCapabilities", :service => "WMS", :version => "1.1.1")) )%>
+    WMS: <%= link_to("WMS Capabilities URL", url_for(wms_map_url(:id=>@map, :request => "GetCapabilities", :service => "WMS", :version => "1.1.1")) )%>
     (<%= link_to "for JOSM OpenStreetMap Editor", josm_url %>    )
   </li>
 <li>
-  <% tile_url = url_for(:controller => "maps", :action => "tile", :x => "x", :y => "y", :z => "z", :only_path => false) %>
-    Tiles (Google/OSM scheme): <%=link_to "Tiles base URL", tile_url %>
+<% tile_url = url_for(:controller => "maps", :action => "tile", :id => @map, :only_path => false)+ "/{z}/{x}/{y}.png" %>
+Tiles (Google/OSM scheme): <%= tile_url %>
   </li>
 </ul>
 Bibliographic:

@@ -1,13 +1,13 @@
 <h2>Layer</h2>
 <ul>
   <li>
-    WMS: <%=link_to "WMS Capabilties URL", :action => "wms", :id => @layer, :request => "GetCapabilities", :service => "WMS", :version => "1.1.1"  %>  <br />
-    <% wms_link = "http://#{request.host_with_port}/layers/wms/#{@layer.id}?request=GetMap&version=1.1.1&styles=&format=image/png&srs=epsg:4326&exceptions=application/vnd.ogc.se_inimage&" %>
-    <%= link_to("WMS link suitable for JOSM OpenStreetMap Editor", wms_link) %> <br />
+  WMS: <%=link_to "WMS Capabilties URL", :action => "wms", :id => @layer, :request => "GetCapabilities", :service => "WMS", :version => "1.1.1"  %>  <br />
+   <% josm_url = url_for(wms_layer_url(:id => @layer)) + "?request=GetMap&version=1.1.1&styles=&format=image/png&srs={proj}&exceptions=application/vnd.ogc.session.inimage&width={width}&height={height}&BBOX={bbox}&" %>
+    <%= link_to("WMS link suitable for JOSM OpenStreetMap Editor", josm_url) %> <br />
   </li>
   <li>
-  <% tile_url = url_for(:controller => "layers", :action => "tile", :x => "x", :y => "y", :z => "z", :only_path => false) %>
-    Tiles (Google/OSM scheme): <%=link_to "Tiles base URL", tile_url %>
+  <% tile_url = url_for(:controller => "layers", :action => "tile", :id => @layer, :only_path => false) + "/{z}/{x}/{y}.png" %>
+    Tiles (Google/OSM scheme): <%= tile_url %>
   </li>
   <li>
     KML: <%= link_to("Download KML", formatted_layer_url(:id => @layer, :format=>:kml)) %>
