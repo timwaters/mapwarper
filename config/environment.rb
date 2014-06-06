@@ -6,6 +6,7 @@ ENV['RAILS_ENV'] ||= 'production'
 #GDAL_PATH = ENV['GDAL_PATH'] || ""
 # Specifies gem version of Rails to use when vendor/rails is not present
 RAILS_GEM_VERSION = '2.3.5' unless defined? RAILS_GEM_VERSION
+require 'thread'
 
 # Bootstrap the Rails environment, frameworks, and default configuration
 require File.join(File.dirname(__FILE__), 'boot')

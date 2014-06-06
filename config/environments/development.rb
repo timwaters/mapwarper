@@ -1,7 +1,7 @@
 # Settings specified here will take precedence over those in config/environment.rb
-SITE_URL = "local.mapwarper.net"
-SITE_NAME = "map warper"
-SITE_EMAIL = "robot@mapwarper.net"
+SITE_URL = "ec2-54-200-182-131.us-west-2.compute.amazonaws.com"
+SITE_NAME = "warper basic"
+SITE_EMAIL = "ummm@words.com"
 MAPSERVER_URL = "/mapserv"  #url to the mapserv executable
 
 #paths to directories to put various files in
@@ -37,10 +37,10 @@ config.action_view.debug_rjs                         = true
 # Don't care if the mailer can't send
 config.action_mailer.raise_delivery_errors = false
 
-#GDAL_PATH  = "/home/tim/bin/FWTools-2.0.6/bin_safe/"
-GDAL_PATH  = ""
+GDAL_PATH  = "$HOME/FWTools-2.0.6/bin_safe/"
+#GDAL_PATH  = ""
 GOOGLE_ANALYTICS_CODE = "UA-12240034-2"
 GOOGLE_ANALYTICS_COOKIE_PATH = "/warper-dev/"
 Yahoo_app_id = "lbQ2VNLV34EoEmxF9dguamWEFSXjI7adJ.ACHkdChT2JGmQ0Bj.jP1cF0nmh5XP3"
-ADDTHIS_USER = "timwaters"
+ADDTHIS_USER = "gis"
 ADDTHIS_TWITTER_USER = "mapwarper"
