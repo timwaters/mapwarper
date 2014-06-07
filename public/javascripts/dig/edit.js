@@ -39,14 +39,14 @@ Ext.onReady(function() {
     refLayer.setOpacity(1);
     refLayer.visibility = true;
 
-    var mapnik_d = mapnik.clone(); 
-   
+    var mapnik_d = mapnik.clone();
+
     map = new OpenLayers.Map(options);
 
     digextent = refLayerBounds.transform(map.displayProjection, map.projection);
     var extent = digextent;
 
-    map.addLayer(mapnik_d);
+    map.addLayers([googleSat,mapnik_d,googleMaps,googleHybrid]);
 
     map.addLayer(refLayer);
 
@@ -64,7 +64,7 @@ Ext.onReady(function() {
         bodyStyle: cursorURLStyle,
         extent: extent
       });
-  
+
  var containingMapPanel = new Ext.Panel({
      items:[mapPanel, {xtype: 'box', el: 'digitizer-slider' }],
      layout:'fit',
@@ -84,7 +84,7 @@ Ext.onReady(function() {
 
     var buildMaterialsUrl = jsPath + "dig/combo/buildMaterials.json";
     var buildUseTypeUrl = jsPath + "dig/combo/buildUseType2.json";
-    var buildUseSubTypeUrl = subtypeURL; //the queryable url that fetches the subtypes ?query=Health 
+    var buildUseSubTypeUrl = subtypeURL; //the queryable url that fetches the subtypes ?query=Health
     var buildLayerProps = [
     // new mapfish.widgets.editing.StringProperty(
     //   {name: 'created_at', showInGrid: false, extFieldCfg: {hidden: true, hideLabel: true}}),
@@ -163,7 +163,7 @@ Ext.onReady(function() {
     new mapfish.widgets.editing.ComboStringProperty(
       {name: 'feature_type', label: 'Feature Type', url: transportFeatTypeUrl, showInGrid: true}),
     new mapfish.widgets.editing.BooleanProperty(
-      {name: 'crossing', label: 'Crossing (overhead)', showInGrid: true}), 
+      {name: 'crossing', label: 'Crossing (overhead)', showInGrid: true}),
     new mapfish.widgets.editing.StringProperty(
       {name: 'comment', label: 'Comment', showInGrid: true}),
     new mapfish.widgets.editing.IntegerProperty(
@@ -361,8 +361,8 @@ Ext.onReady(function() {
           autoScroll: true,
           items: [
           fePanel]
-        }, 
-        containingMapPanel                       
+        },
+        containingMapPanel
         ]
       });
 

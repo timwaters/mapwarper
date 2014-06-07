@@ -12,10 +12,11 @@
     <%= javascript_include_tag "jquery-ui-1.7.custom.min.js" %>
     <%= javascript_include_tag "jquery.history.js" %>
     <%= javascript_include_tag "prototype" %>
-    <!--
-   <script src="http://maps.google.com/maps?file=api&amp;v=2&amp;sensor=false&amp;key=<%=GOOGLE_MAPS_KEY-%>"
-            type="text/javascript"></script>
-    -->
+
+    <!-- <script src="http://maps.google.com/maps?file=api&v=2&sensor=false"></script>
+    Think this is the old-skool way -->
+    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?sensor=false"></script>
+
     <%= javascript_include_tag "openlayers/2.8/OpenLayers-2.8/OpenLayers" %>
     <%= javascript_include_tag "layers" %>
     <script type="text/javascript">
@@ -159,7 +160,7 @@
     <table id="map_table">
       <%= render :partial => 'layers/layer_detail', :object => @layer, :locals => {:variety => "detail"} %>
     </table>
-  
+
     <% @tabs = [{:name=>"show",:divname=>"Show", :label=>"Show", :path=>layer_path(:id => @layer)},
       {:name=>"edit",:divname=>"Edit", :label=>"Edit", :path=>edit_layer_path(:id => @layer)},
       {:name=>"digitize",:divname=>"Digitize", :label=>"Digitize", :path=>digitize_layer_path(:id => @layer)},
