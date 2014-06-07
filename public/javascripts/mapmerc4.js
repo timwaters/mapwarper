@@ -78,8 +78,7 @@ function init() {
     }
 
 
-    jpl_wms.setVisibility(false);
-    to_map.addLayer(jpl_wms);
+    to_map.addLayers([googleSat,googleMaps,googleHybrid]);
 
     if (map_has_bounds) {
       map_bounds_merc = new OpenLayers.Bounds();
@@ -694,7 +693,7 @@ function addLayerToDest(frm){
     num =frm.layer_num.value;
     new_wms_url = empty_wms_url+'/'+num;
 
-    new_warped_layer = new OpenLayers.Layer.WMS.Untiled("warped map "+num, new_wms_url, 
+    new_warped_layer = new OpenLayers.Layer.WMS.Untiled("warped map "+num, new_wms_url,
         {   format: 'image/png', status: 'warped' },
         {   TRANSPARENT: 'true', reproject: 'true' },
         {   gutter: 15, buffer: 0},

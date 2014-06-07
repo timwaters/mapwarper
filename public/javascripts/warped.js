@@ -47,8 +47,14 @@ function warpedinit(){
    warped_wmslayer.setIsBaseLayer(false);
    warpedmap.addLayer(warped_wmslayer);
 
-   jpl_wms3 = jpl_wms.clone();
-   warpedmap.addLayer(jpl_wms3);
+   // jpl_wms3 = jpl_wms.clone();
+   // warpedmap.addLayer(jpl_wms3);
+
+   var gms = new OpenLayers.Layer.Google("Google Satellite", {type: G_SATELLITE_MAP, 'sphericalMercator': true});
+   var gmr = new OpenLayers.Layer.Google("Google Streets", {'sphericalMercator': true});
+   var gmh = new OpenLayers.Layer.Google("Google Hybrid", {type: G_HYBRID_MAP, 'sphericalMercator': true});
+
+   warpedmap.addLayers([gmr,gms,gmh]);
 
    clipmap_bounds_merc  = warped_bounds.transform(warpedmap.displayProjection, warpedmap.projection);
 

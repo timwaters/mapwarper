@@ -19,7 +19,7 @@ var selectedFeature;
 var firstGo = true;
 function searchmapinit(){
   jQuery('#loadingDiv').hide();
-  
+
   OpenLayers.IMAGE_RELOAD_ATTEMPTS = 3;
   OpenLayers.Util.onImageLoadErrorColor = "transparent";
   var options_warped = {
@@ -41,7 +41,7 @@ function searchmapinit(){
   searchmap = new OpenLayers.Map('searchmap', options_warped);
   // create OSM layer
   mapnik_s = mapnik.clone();
-  searchmap.addLayer(mapnik_s);
+  searchmap.addLayers([googleSat,mapnik_s,googleMaps,googleHybrid]);
 
   //set up the map index layer to help find individual maps
     var mapIndexLayerStyle = OpenLayers.Util.extend({
@@ -65,7 +65,7 @@ function searchmapinit(){
         fillOpacity: 0.4,
         strokeWidth: 2
     };
-  
+
     var styleMap = new OpenLayers.StyleMap({
         'default': no_style,
         'select': style_blue
@@ -74,17 +74,17 @@ function searchmapinit(){
   mapIndexLayer = new OpenLayers.Layer.Vector("Map Outlines", {styleMap: styleMap, visibility: false});
   mapIndexSelCtrl = new OpenLayers.Control.SelectFeatureNoClick(mapIndexLayer, {hover:false, onSelect: onFeatureSelect, onUnselect: onFeatureUnselect});
   searchmap.addControl(mapIndexSelCtrl);
-  mapIndexSelCtrl.deactivate(); 
+  mapIndexSelCtrl.deactivate();
 
   searchmap.addLayer(mapIndexLayer);
-  searchmap.events.register("moveend", this, updateSearch); 
+  searchmap.events.register("moveend", this, updateSearch);
 
   clipmap_bounds_merc  = new OpenLayers.Bounds();
   clipmap_bounds_merc = gs_bounds.transform(searchmap.displayProjection, searchmap.projection);
 
   searchmap.zoomToExtent(clipmap_bounds_merc, true);
 
- 
+
   addClickToTable();
   do_search();
 }
@@ -130,7 +130,7 @@ function addClickToTable(){
 
 function doPlaceSearch(frm){
   var place = frm.place.value;
-  var options = { 
+  var options = {
     'place': place,
     'format': 'json'
   };
@@ -152,7 +152,7 @@ function doPlaceZoom(resp){
 
   function do_search(pageNum){
   jQuery('#loadingDiv').show();
-  
+
   if (typeof pageNum == "undefined"){
       pageNum = 1;
     }
@@ -169,12 +169,12 @@ function doPlaceZoom(resp){
 }
 function clearMapTable(){
   jQuery("#searchmap-table").empty();
-  
+
 }
 function loadItems(resp){
     clearMapTable();
     removeAllPopups(searchmap);
- 
+
     mapIndexLayer.destroyFeatures();
     var j = new OpenLayers.Format.JSON();
     jj = j.read(resp.responseText);
@@ -204,7 +204,7 @@ function onFeatureUnselect(feature) {
   searchmap.removePopup(feature.popup);
   feature.popup.destroy();
   feature.popup = null;
-} 
+}
 
 function removeAllPopups(map){
   for (var i=0; i<map.popups.length; i++) {

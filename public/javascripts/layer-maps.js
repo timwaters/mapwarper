@@ -6,7 +6,7 @@ function init(){
   OpenLayers.IMAGE_RELOAD_ATTEMPTS = 3;
   OpenLayers.Util.onImageLoadErrorColor = "transparent";
 
-  var switcher = new OpenLayers.Control.LayerSwitcher(); 
+  var switcher = new OpenLayers.Control.LayerSwitcher();
   var options = {
     projection: new OpenLayers.Projection("EPSG:900913"),
     displayProjection: new OpenLayers.Projection("EPSG:4326"),
@@ -23,10 +23,12 @@ function init(){
     ]
   };
 
-  layerMap = new OpenLayers.Map("map",options);
-  mapnik_lay1 = mapnik.clone();
+#  gmr = googleMaps.clone();
+#  gmh = googleHybrid.clone();
+#  gms = googleSat.clone();
 
-  layerMap.addLayers([mapnik_lay1]);
+  layerMap.addLayers([googleSat, mapnik_lay1, googleMaps,googleHybrid]);
+#  layerMap.addLayers([gms,mapnik_lay1,gmh,gmr]);
 
   wmslayer =  new OpenLayers.Layer.WMS
   ( "Layer"+layer_id,
@@ -39,20 +41,20 @@ function init(){
   wmslayer.setIsBaseLayer(false);
   wmslayer.visibility = true;
   layerMap.addLayer(wmslayer);
-  
+
   bounds_merc = new OpenLayers.Bounds();
   bounds_merc = warped_bounds.transform(layerMap.displayProjection, layerMap.projection);
-  
+
   layerMap.zoomToExtent(bounds_merc);
   layerMap.updateSize();
-  
+
   layerMap.events.register("zoomend", mapnik_lay1, function(){
       if (this.map.getZoom() > 18 && this.visibility == true){
         this.map.setBaseLayer(nyc_lay1);
         switcher.maximizeControl();
-      } 
+      }
     });
-  
+
   //set up the map index layer to help find individual maps
   var mapIndexLayerStyle = OpenLayers.Util.extend({strokeWidth: 3}, OpenLayers.Feature.Vector.style['default']);
   var mapIndexSelectStyle = OpenLayers.Util.extend({}, OpenLayers.Feature.Vector.style['select']);
@@ -66,7 +68,7 @@ function init(){
       'default': style_red,
       'select': mapIndexSelectStyle
     });
-  
+
   mapIndexLayer = new OpenLayers.Layer.Vector("Map Outlines", {styleMap: styleMap, visibility: false});
   mapIndexSelCtrl = new OpenLayers.Control.SelectFeature(mapIndexLayer, {hover:false, onSelect: onFeatureSelect, onUnselect: onFeatureUnselect});
   layerMap.addControl(mapIndexSelCtrl);
@@ -119,7 +121,7 @@ function failMessage(resp){
 function addMapToMapLayer(mapitem){
   var feature = new OpenLayers.Feature.Vector((
       new OpenLayers.Bounds.fromString(mapitem.bbox).transform(layerMap.displayProjection, layerMap.projection)).toGeometry());
-  feature.mapTitle = mapitem.title; 
+  feature.mapTitle = mapitem.title;
   feature.mapId = mapitem.id;
   mapIndexLayer.addFeatures([feature]);
 }
@@ -129,7 +131,7 @@ function onPopupClose(evt) {
 }
 function onFeatureSelect(feature) {
   selectedFeature = feature;
-  popup = new OpenLayers.Popup.FramedCloud("amber_lamps", 
+  popup = new OpenLayers.Popup.FramedCloud("amber_lamps",
     feature.geometry.getBounds().getCenterLonLat(),
     null,
     "<div class='layermap-popup'> Map "+
@@ -147,4 +149,4 @@ function onFeatureUnselect(feature) {
   layerMap.removePopup(feature.popup);
   feature.popup.destroy();
   feature.popup = null;
-}  
+}
