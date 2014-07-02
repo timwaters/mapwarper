@@ -12,33 +12,10 @@
     <%= javascript_include_tag "jquery-ui-1.7.custom.min.js" %>
     <%= javascript_include_tag "jquery.history.js" %>
     <%= javascript_include_tag "prototype" %>
-    <!--
-   <script src="http://maps.google.com/maps?file=api&amp;v=2&amp;sensor=false&amp;key=<%=GOOGLE_MAPS_KEY-%>"
-            type="text/javascript"></script>
-    -->
+    
     <%= javascript_include_tag "openlayers/2.8/OpenLayers-2.8/OpenLayers" %>
     <%= javascript_include_tag "layers" %>
-    <script type="text/javascript">
-      OpenLayers.ImgPath = '<%=request.protocol + request.host_with_port%>/javascripts/openlayers/img/';
-      var jsPath = '<%= compute_public_path("", "javascripts").split('?').first %>';
-      var cssPath = '<%= compute_public_path("", "stylesheets").split('?').first %>';
-      var gMfLocation = jsPath + 'dig/mfbase/mapfish/';
-      var browserIsIE6orBefore = false;
-    </script>
-    <!--[if lte IE 7]>
-          <script type="text/javascript">
-            var browserIsIE6orBefore = true;
-          </script>
-    <![endif]-->
 
-<%#note: these for digitizer %>
-<%= stylesheet_link_tag "dig/ext/resources/css/ext-all.css" %>
-<%= stylesheet_link_tag "dig/mfbase/mapfish/mapfish.css" %>
-<%= stylesheet_link_tag "dig/ext/resources/css/xtheme-gray.css" %>
-<%= javascript_include_tag "dig/mfbase/ext/adapter/ext/ext-base" -%>
-<%= javascript_include_tag "dig/mfbase/ext/ext-all" %>
-<%= javascript_include_tag "dig/GeoExt/script/GeoExt" %>
-<%= javascript_include_tag "dig/mfbase/mapfish/MapFish" %>
 
     <script type="text/javascript">
           var addthis_share =  {  templates: { twitter: '{{url}} (from @<%=ADDTHIS_TWITTER_USER%>)' } };
@@ -68,17 +45,7 @@
         jQuery("#wooTabs").tabs({
           selected: <%=@selected_tab||0 %>,
           select: function(event, ui){
-            if(ui.panel.id == "Digitize" && browserIsIE6orBefore){
-              var url = jQuery.data(ui.tab, 'load.tabs');
-
-              if (url) {
-                location.href = url;
-                return false;
-              }
               return true;
-            } else{
-              return true;
-            }
           } //select
         });
 
@@ -96,11 +63,6 @@
           if (ui.panel.id == "Show"){
             if (typeof layerMap != 'undefined'){
               layerMap.updateSize();
-            }
-          } else if (ui.panel.id == "Digitize"){
-            if (typeof digitizerPanel != 'undefined'){
-              digitizerPanel.doLayout();
-              mapPanel.map.zoomToExtent(digextent);
             }
           }
 
@@ -162,7 +124,6 @@
   
     <% @tabs = [{:name=>"show",:divname=>"Show", :label=>"Show", :path=>layer_path(:id => @layer)},
       {:name=>"edit",:divname=>"Edit", :label=>"Edit", :path=>edit_layer_path(:id => @layer)},
-      {:name=>"digitize",:divname=>"Digitize", :label=>"Digitize", :path=>digitize_layer_path(:id => @layer)},
       {:name=>"export",:divname=>"Export", :label=>"Export", :path=>export_layer_path(:id => @layer)},
       {:name=>"metadata", :divname=>"Metadata", :label=>"Metadata", :path => metadata_layer_path(:id => @layer)},
       {:name=>"comments",:divname=>"Comments", :label=>"Comments", :count=>@layer.comments.size.to_s, :path=>comments_layer_path(:id => @layer)}

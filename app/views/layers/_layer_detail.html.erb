@@ -37,9 +37,7 @@
       </span>
 
   
-      <% unless variety == "digitizer" %>
-        <%= link_to_remote("Toggle Visibility", :update => "vis-text-#{layer.id}", :url => { :action => "toggle_visibility", :id => layer})%> |
-      <% end -%>
+      <%= link_to_remote("Toggle Visibility", :update => "vis-text-#{layer.id}", :url => { :action => "toggle_visibility", :id => layer})%> | 
     <% end  %>
     <% if admin_authorized? -%>
       <%= link_to("Merge", :controller => "layers", :action=> "merge", :id => layer) %> |

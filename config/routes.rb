@@ -111,11 +111,9 @@ ActionController::Routing::Routes.draw do |map|
   end
   map.resources :layers
 
-  map.digitize_layer '/layers/digitize/:id', :controller => 'layers', :action => 'digitize'
   map.export_layer '/layers/export/:id', :controller => 'layers', :action => 'export'
   map.metadata_layer '/layers/metadata/:id', :controller => 'layers', :action => 'metadata'
   map.connect '/layers/tile/:id/:z/:x/:y.png', :controller => 'layers', :action => 'tile'
-  map.connect 'digitize/subtype.:format', :controller => 'digitize', :action=> 'subtype'
 
   map.resources :groups 
   

@@ -4,7 +4,7 @@ class LayersController < ApplicationController
   layout 'layerdetail', :only => [:show,  :edit, :export, :metadata]
   before_filter :login_or_oauth_required , :except => [:wms, :wms2, :show_kml, :show, :index, :metadata, :maps, :thumb, :geosearch, :comments, :tile]
   before_filter :check_administrator_role, :only => [:publish, :toggle_visibility, :merge] # :remove_map, :update_year, :update, :destroy, :create
-  before_filter :find_layer, :only => [:show, :export, :metadata, :digitize, :toggle_visibility, :update_year, :publish, :remove_map, :merge, :maps, :thumb, :comments]
+  before_filter :find_layer, :only => [:show, :export, :metadata, :toggle_visibility, :update_year, :publish, :remove_map, :merge, :maps, :thumb, :comments]
   before_filter :check_if_layer_is_editable, :only => [:edit, :update, :remove_map, :update_year, :update, :destroy]
 
   rescue_from ActiveRecord::RecordNotFound, :with => :bad_record
@@ -212,8 +212,8 @@ end
     @current_tab = "show"
     @selected_tab = 0
     @disabled_tabs =  []
-    unless @layer.rectified_maps_count > 0 #i.e. if the layer has no maps, then dont let people digitizer or export
-      @disabled_tabs = ["digitize","export"]
+    unless @layer.rectified_maps_count > 0 #i.e. if the layer has no maps, then dont let people  export
+      @disabled_tabs = ["export"]
     end
 
     if  logged_in? and (current_user.own_this_layer?(params[:id]) or current_user.has_role?("editor"))
@@ -363,26 +363,6 @@ end
     @selected_tab = 4
     #@layer_properties = @layer.layer_properties
     choose_layout_if_ajax
-  end
-
-  def digitize
-    @current_tab = "digitize"
-    @selected_tab = 2
-    @html_title = "Digitizing Layer "+ @layer.id.to_s
-
-    if request.xhr?
-      @xhr_flag = "xhr"
-      render :action => "digitize", :layout => "tab_container"
-    else
-      if @layer.rectified_maps_count > 0
-        respond_to do |format|
-          format.html {render :layout => "layerdetail"}
-        end
-      else
-        redirect_to :action => 'show'
-      end
-    end
-
   end
 
 
@@ -686,8 +666,6 @@ end
 
  def store_location
    case request.parameters[:action]
-   when "digitize"
-     anchor = "Digitize_tab"
    when "metadata"
      anchor = "Metadata_tab"
    when "export"

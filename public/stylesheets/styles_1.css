@@ -325,18 +325,6 @@ padding-bottom:5px;
   height: 15px;
 }
 
-#digitizer-slider {
-  bottom: 30px;
-  width: 15em;
-  margin-bottom: -10px;
-  margin-left:auto;
-  margin-right:auto;
-  z-index: 1500;
-  height: 8px;
-}
-#digitizer-slider .ui-slider-handle{
-  height: 15px;
-}
 
 .moar-button {
 width: 90%;
@@ -914,7 +902,7 @@ font-weight: bold;
 	width: 40%;
 }
 
-thWidth. {
+.thWidth {
 	width: 50%;
 }
 
