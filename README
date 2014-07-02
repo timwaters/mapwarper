@@ -1,6 +1,8 @@
 README 
 --------
 
+As of July 2014 work is being done to upgrade this Rails 2.3.5 branch to a later Rails and Ruby version.
+
 Mapwarper is an open source map geo-rectification, warping and georeferencing application.
 It enables a user to upload an image, a scanned map or aerial photo for example, and by placing control points on a
 reference map and the image, to warp it, to stretch it to fit.
