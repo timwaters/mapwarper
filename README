@@ -23,6 +23,10 @@ Groups of maps can be made into "layers" that will stictch together the composit
 
 There is also a vector digitizer application that works on layers also. It uses the WFS-V  protocol and so geoserver is needed for this.
 
+NOTE ON CODE
+-----
+
+Rails2 branch is for older rails 2.3.5 code. Master will be updated to work with latest version of rails / ruby. The digitizer component is now in it's own repository (named digitizer) and it is removed from master and later versions but is in Rails2 branch. 
 
 SETUP
 ------
