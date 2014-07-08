@@ -1,16 +1,37 @@
 <!DOCTYPE html>
 <html>
-<head>
-  <title>Rails4Mapwarper</title>
-  <%= stylesheet_link_tag    'application', media: 'all' %>
-  <%= javascript_include_tag 'application' %>
-  <%= csrf_meta_tags %>
-</head>
-<body>
-<p class="notice"><%= notice %></p>
-<p class="alert"><%= alert %></p>
+  <head>
+    <title><%= h(@html_title) || ''-%> Map Warper</title>
+    <%= stylesheet_link_tag    'application', media: 'all' %>
+    <%= javascript_include_tag 'application' %>
+    <link href='http://fonts.googleapis.com/css?family=Lato:400,700|Sorts+Mill+Goudy|Vidaloka' rel='stylesheet' type='text/css'>
+    <%= csrf_meta_tags %>
 
-<%= yield %>
+    <%= yield :head %>
+  </head>
+  <body>
+    <p class="notice"><%= notice %></p>
+    <p class="alert"><%= alert %></p>
 
-</body>
+    <div id="headerDiv" class="headerDiv">
+      <h1><%= link_to "Map Warper", root_path %></h1>
+      <%= render :partial => 'shared/header' %>
+      <%= render :partial => 'shared/nav' %>
+    </div>
+    <%= breadcrumbs "application" %>
+    <div id="warper-maindiv">
+
+      <%= flash_messages %>
+
+      <%= yield %>
+    </div>
+
+    <div id="footer">
+      <%= render :partial => 'shared/footer' %>
+    </div>
+
+    <%= render :partial => 'shared/analytics' %>
+
+
+  </body>
 </html>
