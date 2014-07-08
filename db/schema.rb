@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20110626154733) do
+ActiveRecord::Schema.define(version: 20140707165304) do
 
   create_table "audits", force: true do |t|
     t.integer  "auditable_id"
@@ -115,12 +115,12 @@ ActiveRecord::Schema.define(version: 20110626154733) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "user_id"
-    t.string   "depicts_year",         limit: 4,                               default: ""
-    t.integer  "maps_count",                                                   default: 0
-    t.integer  "rectified_maps_count",                                         default: 0
-    t.boolean  "is_visible",                                                   default: true
+    t.string   "depicts_year",         limit: 4,                             default: ""
+    t.integer  "maps_count",                                                 default: 0
+    t.integer  "rectified_maps_count",                                       default: 0
+    t.boolean  "is_visible",                                                 default: true
     t.string   "source_uri"
-    t.spatial  "bbox_geom",            limit: {:srid=>4326, :type=>"polygon"}
+    t.spatial  "bbox_geom",            limit: {:srid=>-1, :type=>"polygon"}
   end
 
   add_index "layers", ["bbox_geom"], :name => "index_layers_on_bbox_geom", :spatial => true
@@ -156,15 +156,16 @@ ActiveRecord::Schema.define(version: 20110626154733) do
     t.datetime "published_date"
     t.datetime "reprint_date"
     t.integer  "owner_id"
-    t.boolean  "public",                                                                                   default: true
-    t.boolean  "downloadable",                                                                             default: true
+    t.boolean  "public",                                                                                 default: true
+    t.boolean  "downloadable",                                                                           default: true
     t.string   "cached_tag_list"
-    t.integer  "map_type",                                                                                 default: 1
+    t.integer  "map_type"
     t.string   "source_uri"
-    t.spatial  "bbox_geom",              limit: {:srid=>4236, :type=>"polygon"}
-    t.decimal  "rough_lat",                                                      precision: 15, scale: 10
-    t.decimal  "rough_lon",                                                      precision: 15, scale: 10
-    t.spatial  "rough_centroid",         limit: {:srid=>4326, :type=>"point"}
+    t.spatial  "bbox_geom",              limit: {:srid=>-1, :type=>"polygon"}
+    t.integer  "placing_state"
+    t.decimal  "rough_lat",                                                    precision: 15, scale: 10
+    t.decimal  "rough_lon",                                                    precision: 15, scale: 10
+    t.spatial  "rough_centroid",         limit: {:srid=>-1, :type=>"point"}
     t.integer  "rough_zoom"
     t.integer  "rough_state"
     t.integer  "import_id"
@@ -172,9 +173,9 @@ ActiveRecord::Schema.define(version: 20110626154733) do
     t.string   "subject_area"
     t.string   "unique_id"
     t.string   "metadata_projection"
-    t.decimal  "metadata_lat",                                                   precision: 15, scale: 10
-    t.decimal  "metadata_lon",                                                   precision: 15, scale: 10
-    t.string   "date_depicted",          limit: 4,                                                         default: ""
+    t.decimal  "metadata_lat",                                                 precision: 15, scale: 10
+    t.decimal  "metadata_lon",                                                 precision: 15, scale: 10
+    t.string   "date_depicted",          limit: 4,                                                       default: ""
     t.string   "call_number"
     t.datetime "rectified_at"
     t.datetime "gcp_touched_at"
@@ -259,18 +260,25 @@ ActiveRecord::Schema.define(version: 20110626154733) do
   create_table "users", force: true do |t|
     t.string   "login"
     t.string   "email"
-    t.string   "crypted_password",          limit: 40
-    t.string   "salt",                      limit: 40
+    t.string   "encrypted_password",        limit: 128, default: "",   null: false
+    t.string   "password_salt",                         default: "",   null: false
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "remember_token"
     t.datetime "remember_token_expires_at"
-    t.string   "activation_code",           limit: 40
-    t.datetime "activated_at"
-    t.string   "password_reset_code",       limit: 40
-    t.boolean  "enabled",                              default: true
+    t.string   "confirmation_token"
+    t.datetime "confirmed_at"
+    t.string   "reset_password_token",      limit: 40
+    t.boolean  "enabled",                               default: true
     t.integer  "updated_by"
-    t.text     "description",                          default: ""
+    t.text     "description",                           default: ""
+    t.datetime "confirmation_sent_at"
+    t.datetime "remember_created_at"
+    t.integer  "sign_in_count",                         default: 0,    null: false
+    t.datetime "current_sign_in_at"
+    t.datetime "last_sign_in_at"
+    t.string   "current_sign_in_ip"
+    t.string   "last_sign_in_ip"
   end
 
 end
