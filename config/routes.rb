@@ -1,10 +1,47 @@
 Rails.application.routes.draw do
-  root 'maps#index' 
+  root 'home#index'
+  get '/about' => 'home#about', :as => 'about'
+  get '/help' => 'home#help', :as => 'help'
+  
   devise_for :users
+  
+  resources :users do
+    member do
+      put 'enable'
+      put 'disable'
+    end
+    collection do
+      get 'stats'
+    end
+    resource :user_account
+    resources :roles
+  end
   
   resources :maps  do 
     resources :layers
   end
+  
+  resources :layers
+  
+  get '/users/:user_id/maps' => 'my_maps#list', :as => 'my_maps'
+  
+  
+  get '/activity'  => 'audits#index', :as => 'activity'
+  get '/users/:id/activity' => 'audits#for_user', :as => 'user_activity'
+  
+  resources :comments
+  
+  resources :groups 
+  
+  resources :imports do
+    member do
+      get 'maps'
+      get 'start'
+      get 'status'
+    end
+  end
+  
+  
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
