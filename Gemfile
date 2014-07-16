@@ -44,3 +44,5 @@ gem 'devise-encryptable'
 gem 'pg'
 gem 'activerecord-postgis-adapter'
 
+gem 'acts-as-taggable-on', '~> 3.3.0'
+

@@ -5,6 +5,9 @@ class User < ActiveRecord::Base
     :recoverable, :rememberable, :trackable, :validatable, :encryptable
   has_many :permissions
   has_many :roles, :through => :permissions
+  
+  has_many :my_maps, :dependent => :destroy
+  has_many :maps, -> { uniq }, :through => :my_maps
    
   #attr_accessor :password
   #attr_accessible :password_confirmation

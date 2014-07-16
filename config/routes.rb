@@ -17,14 +17,19 @@ Rails.application.routes.draw do
     resources :roles
   end
   
-  resources :maps  do 
+  resources :maps  do
+    member do
+      get 'map_type'
+    end
     resources :layers
   end
   
   resources :layers
   
   get '/users/:user_id/maps' => 'my_maps#list', :as => 'my_maps'
-  
+  post '/users/:user_id/maps/create/:map_id' => 'my_maps#create', :as => 'add_my_map'
+  post '/users/:user_id/maps/destroy/:map_id' => 'my_maps#destroy', :as => 'destroy_my_map'
+
   
   get '/activity'  => 'audits#index', :as => 'activity'
   get '/users/:id/activity' => 'audits#for_user', :as => 'user_activity'

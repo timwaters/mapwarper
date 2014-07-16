@@ -5,12 +5,9 @@ class HomeController < ApplicationController
   def index
     @html_title =  "Home - "
 
-#    #@tags  = Tag.counts(:limit => 60)
-#    @tags = Map.tag_counts(:conditions => "public = true", :limit=>100)
-#    @maps = Map.public.find(:all,
-#      :order => "updated_at DESC",
-#      :conditions => 'status = 4 OR status IN (2,3,4) ', 
-#      :limit => 3, :include =>:gcps)
+#   #@tags  = Tag.counts(:limit => 60)
+    @tags = Map.where(:public => true).tag_counts(:limit => 100)
+    @maps = Map.where(:public => true, :status => [2,3,4]).order(:updated_at =>  :desc).limit(3).includes(:gcps)
 #
 #    @layers = Layer.find(:all,:order => "updated_at DESC", :limit => 3, :include=> :maps)
 #    get_news_feeds

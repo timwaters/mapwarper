@@ -23,10 +23,10 @@
     <div id="tag-cloud" class="paraMargin">
       <h3>Tags</h3>
       <p class="tagCloudLink">
-<%# FIXME  %>
-<%# tag_cloud @tags, %w(css1 css2 css3 css4) do |tag, css_class| %>
-<%# link_to tag.name, { :controller=>:maps, :action => :tag, :id => tag.name }, :class => css_class %>
-<%# end %>
+
+      <% tag_cloud @tags, %w(css1 css2 css3 css4) do |tag, css_class| %>
+      <% link_to tag.name, { :controller=>:maps, :action => :tag, :id => tag.name }, :class => css_class %>
+      <% end %>
       </p>
     </div>
 

@@ -1,0 +1,13 @@
+
+<%if @layer %> <%#only change the map list for layer views %>
+    <% form_tag(map_type_map_url(@map.id), :remote => true) do  -%>
+
+      <%= select("map", :map_type, Map.map_type_hash, {},:onchange => "this.form.onsubmit()") -%>
+      <input type="hidden" name="layerid" value="<%=@layer.id%>" />
+    <% end -%>
+  <% else-%>
+    <% form_tag(map_type_map_url(@map.id), :remote => true) do %>
+    <%= select("map", :map_type, Map.map_type_hash, {},:onchange => "this.form.onsubmit()") -%>
+  <% end -%>
+
+<% end -%>
