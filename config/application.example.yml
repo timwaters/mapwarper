@@ -1,0 +1,17 @@
+defaults: &defaults
+  email: example_user@example.com
+  addthis_twitter_user: example_user@example.com
+  addthis_user: example_user
+  google_analytics_code: 123
+  google_analytics_cookie_path:  ""
+
+development:
+  <<: *defaults
+
+test:
+  <<: *defaults
+  email: test_user@example.com
+
+production:
+  <<: *defaults
+  email: production_user@example.com
