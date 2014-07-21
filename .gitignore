@@ -17,6 +17,8 @@
 
 # Ignore the database config
 config/database.yml
+config/application.yml
+
 
 nbproject
 *.*~
