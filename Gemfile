@@ -47,3 +47,5 @@ gem 'activerecord-postgis-adapter'
 gem 'acts-as-taggable-on', '~> 3.3.0'
 
 gem 'paperclip', '~> 4.2.0'
+
+gem 'acts_as_commentable'
