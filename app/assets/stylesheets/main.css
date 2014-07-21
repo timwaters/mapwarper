@@ -381,7 +381,7 @@ a:hover {
 
 
 h1 {
-	background: url(/images/header_logo.png) 0 50% scroll no-repeat; 
+	background: url(/assets/header_logo.png) 0 50% scroll no-repeat; 
   padding: 10px 1em; 
 }
 
@@ -508,7 +508,7 @@ font-weight: strong;
 
 .headerDiv {
 	position: relative;
-	background: #e2dedb url(/images/header_bg.jpg) 0 -30px scroll; /*PLEASE CHANGE PATH TO /images/header_bg.jpg*/
+	background: #e2dedb url(/assets/header_bg.jpg) 0 -30px scroll; 
 	padding: 2px 10px 0 10px;
 }
 

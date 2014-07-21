@@ -12,8 +12,12 @@
 //
 //= require jquery
 //= require jquery_ujs
+//= require jquery-ui
 //= require_tree .
-//= require openlayers/2.8/OpenLayers-2.8/OpenLayers
-//= require progressbar/js/bramus/jsProgressBarHandler
+//= require jquery-bramus-progressbar/jquery-bramus-progressbar
 //= require general
+//= require jquery.history
+//= require jquery-warper
+//= require layers
+//= require unwarped
 

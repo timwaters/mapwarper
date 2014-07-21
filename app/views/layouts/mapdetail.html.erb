@@ -3,23 +3,21 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <title>Map Warper: <%= h(snippet(@html_title, 40)) || ''-%> </title>
-    <%= stylesheet_link_tag "custom-theme/jquery-ui-1.7.custom.css" %>
-    <%# stylesheet_link_tag "openlayers/theme/default/style" %>
+<%# stylesheet_link_tag "/assets/custom-theme/jquery-ui-1.7.custom.css" %>
+<%# stylesheet_link_tag "openlayers/theme/default/style" %>
     <%= stylesheet_link_tag "application" %>
-    <%= stylesheet_link_tag "tabs" %>
-    <%# javascript_include_tag "jquery-1.3.2.min.js" %>
+    <%= javascript_include_tag "openlayers/2.8/OpenLayers-2.8/OpenLayers" %>
+    <%= javascript_include_tag "application" %>
+<%# stylesheet_link_tag "tabs" %>
+<%# javascript_include_tag "jquery-1.3.2.min.js" %>
     <%= javascript_tag "jQuery.noConflict();" -%>
-    <%# javascript_include_tag "jquery-ui-1.7.custom.min.js" %>
-    <%= javascript_include_tag "jquery.history.js" %>
-    <%= javascript_include_tag "jquery-warper" -%>
-    <%= javascript_include_tag "prototype" %>
-
-    <%# javascript_include_tag "openlayers/2.8/OpenLayers-2.8/OpenLayers" %>
-
-    <%= javascript_include_tag "layers" %>
+<%# javascript_include_tag "jquery-ui-1.7.custom.min.js" %>
+<%# javascript_include_tag "jquery.history.js" %>
+<%# javascript_include_tag "jquery-warper" -%>
+<%# javascript_include_tag "prototype" %>
+<%# javascript_include_tag "layers" %>
 
     <script type="text/javascript">
-      OpenLayers.ImgPath = '<%=request.protocol + request.host_with_port + ActionController::Base.relative_url_root.to_s%>/javascripts/openlayers/img/';
       var addthis_share = {templates: {twitter: '{{url}} (from @<%=ADDTHIS_TWITTER_USER%>)'}};
       var addthis_config = {ui_click: true};
 
@@ -108,61 +106,61 @@
   <% if @onload -%>
     <body onload="<%=@onload%>">
     <%else-%>
-      <body>
-      <%end%>
-      <%= render :partial => 'shared/analyticstop' %>
-      <div id="headerDiv" class="headerDiv">
-        <h1><%= link_to "Map Warper", root_path %></h1>
-        <%= render :partial => 'shared/header' %>
-        <%= render :partial => 'shared/nav' %>
-      </div>
-      <%= breadcrumbs %>
-      <table id="map_table">
-        <%= render :partial => 'maps/map_detail', :object => @map, :locals => {:variety => "detail"} %>
-      </table>
+    <body>
+    <%end%>
+    <%= render :partial => 'shared/analyticstop' %>
+    <div id="headerDiv" class="headerDiv">
+      <h1><%= link_to "Map Warper", root_path %></h1>
+      <%= render :partial => 'shared/header' %>
+      <%= render :partial => 'shared/nav' %>
+    </div>
+    <%= breadcrumbs %>
+    <table id="map_table">
+      <%= render :partial => 'maps/map_detail', :object => @map, :locals => {:variety => "detail"} %>
+    </table>
 
-      <% @tabs = [{:name=>"show",:divname=>"Show", :label=>"Show", :path=>map_path},
-        {:name=>"edit",:divname=>"Edit", :label=>"Edit", :path=>edit_map_path(:id => @map)},
-        {:name=>"warp",:divname=>"Rectify", :label=>"Rectify", :path=>warp_map_path(:id => @map)},
-        {:name=>"clip",:divname=>"Crop", :label=>"Crop", :path=>clip_map_path(:id => @map)},
-        {:name=>"align",:divname=>"Align", :label=>"Align", :path=>align_map_path(:id => @map)},
-        {:name=>"warped",:divname=>"Preview_Rectified_Map", :label=>"Preview Map", :path=>warped_map_path(:id => @map)},
-        {:name=>"export",:divname=>"Export", :label=>"Export", :path=>export_map_path(:id => @map)},
-        {:name=>"metadata",:divname=>"Metadata", :label=>"Metadata", :path=>metadata_map_path(:id => @map)},
-        {:name=>"activity",:divname=>"Activity_History", :label=>"Activity",:path=> map_activity_path(:id => @map)},
-        {:name=>"comments",:divname=>"Comments", :label=>"Comments", :count=>@map.comments.size.to_s, :path=>comments_map_path(:id => @map)}  ] %>
-      <div id="wooTabs">
-        <ul>
-          <% @tabs.each do |tab| %>
-            <% if @current_tab == tab[:name] %>
-              <% tab[:path] = "#"+tab[:divname]  %>
-              <% @current_tab_divname = tab[:divname] %>
-            <% end %>
-            <% unless @disabled_tabs && @disabled_tabs.include?(tab[:name]) -%>
-              <li><a id="aa<%=tab[:label]%>" rel="history" href="<%=tab[:path]%>" title="<%=tab[:label]%>">
-                  <span><%=tab[:label]%><% if tab[:count] -%> (<%=tab[:count]-%>)<%end-%></span>
-                </a></li>
-            <% end -%>
+    <% @tabs = [{:name=>"show",:divname=>"Show", :label=>"Show", :path=>map_path},
+      {:name=>"edit",:divname=>"Edit", :label=>"Edit", :path=>edit_map_path(:id => @map)},
+      {:name=>"warp",:divname=>"Rectify", :label=>"Rectify", :path=>warp_map_path(:id => @map)},
+      {:name=>"clip",:divname=>"Crop", :label=>"Crop", :path=>clip_map_path(:id => @map)},
+      {:name=>"align",:divname=>"Align", :label=>"Align", :path=>align_map_path(:id => @map)},
+      {:name=>"warped",:divname=>"Preview_Rectified_Map", :label=>"Preview Map", :path=>warped_map_path(:id => @map)},
+      {:name=>"export",:divname=>"Export", :label=>"Export", :path=>export_map_path(:id => @map)},
+      {:name=>"metadata",:divname=>"Metadata", :label=>"Metadata", :path=>metadata_map_path(:id => @map)},
+      {:name=>"activity",:divname=>"Activity_History", :label=>"Activity",:path=> map_activity_path(:id => @map)},
+      {:name=>"comments",:divname=>"Comments", :label=>"Comments", :count=>@map.comments.size.to_s, :path=>comments_map_path(:id => @map)}  ] %>
+    <div id="wooTabs">
+      <ul>
+        <% @tabs.each do |tab| %>
+          <% if @current_tab == tab[:name] %>
+            <% tab[:path] = "#"+tab[:divname]  %>
+            <% @current_tab_divname = tab[:divname] %>
+          <% end %>
+          <% unless @disabled_tabs && @disabled_tabs.include?(tab[:name]) -%>
+            <li><a id="aa<%=tab[:label]%>" rel="history" href="<%=tab[:path]%>" title="<%=tab[:label]%>">
+                <span><%=tab[:label]%><% if tab[:count] -%> (<%=tab[:count]-%>)<%end-%></span>
+              </a></li>
           <% end -%>
-        </ul>
-        <div id="<%=@current_tab_divname %>" >
-          <%= flash_messages %>
-          <%= yield %>
-        </div>
-
+        <% end -%>
+      </ul>
+      <div id="<%=@current_tab_divname %>" >
+        <%= flash_messages %>
+        <%= yield %>
       </div>
 
-      <div id="panel-under-tabs">
+    </div>
 
-      </div>
+    <div id="panel-under-tabs">
+
+    </div>
 
 
-      <div id="footer">
-        <%= render :partial => 'shared/footer' %>
-      </div>
+    <div id="footer">
+      <%= render :partial => 'shared/footer' %>
+    </div>
 
-      <%= render :partial => 'shared/analyticsbottom', :locals => {
-        :map => @map, :current_tab => @current_tab
-        } %>
-    </body>
+    <%= render :partial => 'shared/analyticsbottom', :locals => {
+      :map => @map, :current_tab => @current_tab
+      } %>
+  </body>
 </html>
