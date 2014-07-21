@@ -122,6 +122,81 @@ class Map < ActiveRecord::Base
   end
   
   #############################################
+  #ACCESSOR METHODS
+  #############################################
+
+  def maps_dir
+    defined?(SRC_MAPS_DIR) ? SRC_MAPS_DIR :  File.join(Rails.root, "/public/mapimages/src/")
+  end
+
+  def dest_dir
+    defined?(DST_MAPS_DIR) ?  DST_MAPS_DIR : File.join(Rails.root, "/public/mapimages/dst/")
+  end
+
+
+  def warped_dir
+    dest_dir
+  end
+
+  def unwarped_filename
+    File.join(maps_dir, self.filename)
+  end
+
+  def warped_filename
+    File.join(warped_dir, id.to_s) + ".tif"
+  end
+
+  def warped_png_dir
+    File.join(dest_dir, "/png/")
+  end
+
+  def warped_png
+    unless File.exists?(warped_png_filename)
+      convert_to_png
+    end
+    warped_png_filename
+  end
+  
+  def warped_png_filename
+    filename = File.join(warped_png_dir, id.to_s) + ".png"
+  end
+
+  def warped_png_aux_xml
+    warped_png + ".aux.xml"
+  end
+
+  def public_warped_tif_url
+    "mapimages/dst/"+id.to_s + ".tif"
+  end
+  
+  def public_warped_png_url
+    public_warped_tif_url + ".png"
+  end
+
+  def mask_file_format
+    "gml"
+  end
+
+  def temp_filename
+    # self.full_filename  + "_temp"
+    File.join(warped_dir, id.to_s) + "_temp"
+  end
+
+  def masking_file_gml
+    File.join(Rails.root, "/public/mapimages/",  self.id.to_s) + ".gml"
+  end
+
+  #file made when rasterizing
+  def masking_file_gfs
+    File.join(Rails.root, "/public/mapimages/",  self.id.to_s) + ".gfs"
+  end
+
+  def masked_src_filename
+    self.unwarped_filename + "_masked";
+  end
+  
+  
+  #############################################
   #INSTANCE METHODS
   #############################################
   
