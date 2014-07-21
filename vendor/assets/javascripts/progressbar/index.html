@@ -1,0 +1,232 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html>
+<head>
+	<title>jsProgressBarHandler Demo | Javascript Progress/Percentage Bar</title>
+	<meta http-equiv="content-type" content="text/html; charset=iso-8859-1" />
+
+	<!-- jsProgressBarHandler prerequisites : prototype.js -->
+	<script type="text/javascript" src="js/prototype/prototype.js"></script>
+
+	<!-- jsProgressBarHandler core -->
+	<script type="text/javascript" src="js/bramus/jsProgressBarHandler.js"></script>
+
+
+	<style type = "text/css">
+
+		/* General Links */
+		a:link { text-decoration : none; color : #3366cc; border: 0px;}
+		a:active { text-decoration : underline; color : #3366cc; border: 0px;}
+		a:visited { text-decoration : none; color : #3366cc; border: 0px;}
+		a:hover { text-decoration : underline; color : #ff5a00; border: 0px;}
+		img { padding: 0px; margin: 0px; border: none;}
+
+		body {
+			margin : 0 auto;
+			width:100%;
+			font-family: 'Verdana';
+			color: #40454b;
+			font-size: 12px;
+			text-align:center;
+		}
+
+
+
+		.content {
+			margin:20px;
+			line-height:20px;
+		}
+
+		body h1 {
+			font-size:14px;
+			font-weight:bold;
+			color:#CC0000;
+			padding:5px;
+			border-bottom:solid;
+			border-bottom-width:1px;
+			border-bottom-color:#333333;
+		}
+
+		body h2 {
+			font-size:14px;
+			font-weight:bold;
+			color:#CC0000;
+			padding:5px;
+			border-bottom:solid;
+			border-bottom-width:1px;
+			border-bottom-color:#333333;
+		}
+
+		#demo {
+			margin : 0 auto;
+			width:100%;
+		}
+
+		#demo .extra {
+			padding-left:30px;
+		}
+
+		#demo .options {
+			padding-left:10px;
+		}
+
+		#demo .getOption {
+			padding-left:10px;
+			padding-right:20px;
+		}
+
+	</style>
+
+</head>
+
+<body>
+
+	<div style="width:540px;margin : 0 auto; text-align:left;" >
+
+		<p style="background: #ffff99; text-align: center; color: #000; border: 1px solid #ff9900; padding: 5px; font-size: 12px; font-weight: bold;">Looking for the <a href="http://www.bram.us/demo/projects/jsprogressbarhandler/ajaxprogressbar.html" title="">ajax demo</a>?</p>
+
+		<h1>jsProgressBarHandler 0.3.3 | Javascript Progress/Percentage Bar</h1>
+
+		<div id="demo">
+
+			<h2>1. Automatically created Progress Bars (Default Styling)</h2>
+			<span style="color:#006600;font-weight:bold;">Program Efficiency</span> <br/>
+			<span class="progressBar" id="element1">15%</span>
+			<span class="extra"><a href="#" onclick="myJsProgressBarHandler.setPercentage('element1','0');return false;"><img src="images/icons/empty.gif" alt="" title="" onmouseout="$('Text1').innerHTML ='&laquo; Select Options'" onmouseover="$('Text1').innerHTML ='Empty Bar'"/></a></span>
+			<span class="options"><a href="#" onclick="myJsProgressBarHandler.setPercentage('element1','+5');return false;"><img src="images/icons/add.gif" alt="" title="" onmouseout="$('Text1').innerHTML ='&laquo; Select Options'" onmouseover="$('Text1').innerHTML ='Add 5%'"/></a></span>
+			<span class="options"><a href="#" onclick="myJsProgressBarHandler.setPercentage('element1','-5');return false;"><img src="images/icons/minus.gif" alt="" title="" onmouseout="$('Text1').innerHTML ='&laquo; Select Options'" onmouseover="$('Text1').innerHTML ='Minus 5%'" /></a></span>
+			<span class="options"><a href="#" onclick="myJsProgressBarHandler.setPercentage('element1','15');return false;"><img src="images/icons/set.gif" alt="" title="" onmouseout="$('Text1').innerHTML ='&laquo; Select Options'" onmouseover="$('Text1').innerHTML ='Set 15%'"/></a></span>
+			<span class="options"><a href="#" onclick="myJsProgressBarHandler.setPercentage('element1','100');return false;"><img src="images/icons/fill.gif" alt="" title="" onmouseout="$('Text1').innerHTML ='&laquo; Select Options'" onmouseover="$('Text1').innerHTML ='Fill 100%'" /></a></span>
+			<span class="getOption"><a href="#" onclick="alert(myJsProgressBarHandler.getPercentage('element1'));return false;"><img src="images/icons/get.gif" alt="" title="" onmouseout="$('Text1').innerHTML ='&laquo; Select Options'" onmouseover="$('Text1').innerHTML ='Get Current %'"/></a></span>
+			<span id="Text1" style="font-weight:bold">&laquo; Select Options</span>
+			<br/><br/>
+
+
+			<span style="color:#006600;font-weight:bold;">Website Projects Progress</span> <br/>
+			<span class="progressBar" id="element2">35%</span>
+			<span class="extra"><a href="#" onclick="myJsProgressBarHandler.setPercentage('element2','0');return false;"><img src="images/icons/empty.gif" alt="" title="" onmouseout="$('Text2').innerHTML ='&laquo; Select Options'" onmouseover="$('Text2').innerHTML ='Empty Bar'"/></a></span>
+			<span class="options"><a href="#" onclick="myJsProgressBarHandler.setPercentage('element2','+10');return false;"><img src="images/icons/add.gif" alt="" title="" onmouseout="$('Text2').innerHTML ='&laquo; Select Options'" onmouseover="$('Text2').innerHTML ='Add 10%'"/></a></span>
+			<span class="options"><a href="#" onclick="myJsProgressBarHandler.setPercentage('element2','-5');return false;"><img src="images/icons/minus.gif" alt="" title="" onmouseout="$('Text2').innerHTML ='&laquo; Select Options'" onmouseover="$('Text2').innerHTML ='Minus 5%'" /></a></span>
+			<span class="options"><a href="#" onclick="myJsProgressBarHandler.setPercentage('element2','35');return false;"><img src="images/icons/set.gif" alt="" title="" onmouseout="$('Text2').innerHTML ='&laquo; Select Options'" onmouseover="$('Text2').innerHTML ='Set 35%'"/></a></span>
+			<span class="options"><a href="#" onclick="myJsProgressBarHandler.setPercentage('element2','80');return false;"><img src="images/icons/fill.gif" alt="" title="" onmouseout="$('Text2').innerHTML ='&laquo; Select Options'" onmouseover="$('Text2').innerHTML ='Fill 80%'" /></a></span>
+			<span class="getOption"><a href="#" onclick="alert(myJsProgressBarHandler.getPercentage('element2'));return false;"><img src="images/icons/get.gif" alt="" title="" onmouseout="$('Text2').innerHTML ='&laquo; Select Options'" onmouseover="$('Text2').innerHTML ='Get Current %'"/></a></span>
+			<span id="Text2" style="font-weight:bold">&laquo; Select Options</span>
+			<br/><br/>
+
+			<span style="color:#006600;font-weight:bold;">Weight Loss Progress</span> <br/>
+			<span class="progressBar" id="element3">50%</span>
+			<span class="extra"><a href="#" onclick="myJsProgressBarHandler.setPercentage('element3','0');return false;"><img src="images/icons/empty.gif" alt="" title="" onmouseout="$('Text3').innerHTML ='&laquo; Select Options'" onmouseover="$('Text3').innerHTML ='Empty Bar'"/></a></span>
+			<span class="options"><a href="#" onclick="myJsProgressBarHandler.setPercentage('element3','+25');return false;"><img src="images/icons/add.gif" alt="" title="" onmouseout="$('Text3').innerHTML ='&laquo; Select Options'" onmouseover="$('Text3').innerHTML ='Add 25%'"/></a></span>
+			<span class="options"><a href="#" onclick="myJsProgressBarHandler.setPercentage('element3','-15');return false;"><img src="images/icons/minus.gif" alt="" title="" onmouseout="$('Text3').innerHTML ='&laquo; Select Options'" onmouseover="$('Text3').innerHTML ='Minus 15%'" /></a></span>
+			<span class="options"><a href="#" onclick="myJsProgressBarHandler.setPercentage('element3','50');return false;"><img src="images/icons/set.gif" alt="" title="" onmouseout="$('Text3').innerHTML ='&laquo; Select Options'" onmouseover="$('Text3').innerHTML ='Set 50%'"/></a></span>
+			<span class="options"><a href="#" onclick="myJsProgressBarHandler.setPercentage('element3','65');return false;"><img src="images/icons/fill.gif" alt="" title="" onmouseout="$('Text3').innerHTML ='&laquo; Select Options'" onmouseover="$('Text3').innerHTML ='Fill 65%'" /></a></span>
+			<span class="getOption"><a href="#" onclick="alert(myJsProgressBarHandler.getPercentage('element3'));return false;"><img src="images/icons/get.gif" alt="" title="" onmouseout="$('Text3').innerHTML ='&laquo; Select Options'" onmouseover="$('Text3').innerHTML ='Get Current %'"/></a></span>
+			<span id="Text3" style="font-weight:bold">&laquo; Select Options</span>
+			<br/><br/>
+
+			<span style="color:#006600;font-weight:bold;">Upload Progress Bar</span> <br/>
+			<span class="progressBar" id="element4">80%</span>
+			<span class="extra"><a href="#" onclick="myJsProgressBarHandler.setPercentage('element4','0');return false;"><img src="images/icons/empty.gif" alt="" title="" onmouseout="$('Text4').innerHTML ='&laquo; Select Options'" onmouseover="$('Text4').innerHTML ='Empty Bar'"/></a></span>
+			<span class="options"><a href="#" onclick="myJsProgressBarHandler.setPercentage('element4','+45');return false;"><img src="images/icons/add.gif" alt="" title="" onmouseout="$('Text4').innerHTML ='&laquo; Select Options'" onmouseover="$('Text4').innerHTML ='Add 45%'"/></a></span>
+			<span class="options"><a href="#" onclick="myJsProgressBarHandler.setPercentage('element4','-30');return false;"><img src="images/icons/minus.gif" alt="" title="" onmouseout="$('Text4').innerHTML ='&laquo; Select Options'" onmouseover="$('Text4').innerHTML ='Minus 30%'" /></a></span>
+			<span class="options"><a href="#" onclick="myJsProgressBarHandler.setPercentage('element4','80');return false;"><img src="images/icons/set.gif" alt="" title="" onmouseout="$('Text4').innerHTML ='&laquo; Select Options'" onmouseover="$('Text4').innerHTML ='Set 80%'"/></a></span>
+			<span class="options"><a href="#" onclick="myJsProgressBarHandler.setPercentage('element4','50');return false;"><img src="images/icons/fill.gif" alt="" title="" onmouseout="$('Text4').innerHTML ='&laquo; Select Options'" onmouseover="$('Text4').innerHTML ='Fill 50%'" /></a></span>
+			<span class="getOption"><a href="#" onclick="alert(myJsProgressBarHandler.getPercentage('element4'));return false;"><img src="images/icons/get.gif" alt="" title="" onmouseout="$('Text4').innerHTML ='&laquo; Select Options'" onmouseover="$('Text4').innerHTML ='Get Current %'"/></a></span>
+			<span id="Text4" style="font-weight:bold">&laquo; Select Options</span>
+			<br/><br/>
+
+			<h2>2. Manually created Progress Bars (Custom Styling)</h2>
+
+			<span style="color:#006600;font-weight:bold;">Custom Progress Bar (without text, without animation)</span> <br/>
+			<span id="element5">50%</span>
+			<span class="extra"><a href="#" onclick="manualPB.setPercentage('0');return false;"><img src="images/icons/empty.gif" alt="" title="" onmouseout="$('Text5').innerHTML ='&laquo; Select Options'" onmouseover="$('Text5').innerHTML ='Empty Bar'"/></a></span>
+			<span class="options"><a href="#" onclick="manualPB.setPercentage('+15');return false;"><img src="images/icons/add.gif" alt="" title="" onmouseout="$('Text5').innerHTML ='&laquo; Select Options'" onmouseover="$('Text5').innerHTML ='Add 15%'"/></a></span>
+			<span class="options"><a href="#" onclick="manualPB.setPercentage('-30');return false;"><img src="images/icons/minus.gif" alt="" title="" onmouseout="$('Text5').innerHTML ='&laquo; Select Options'" onmouseover="$('Text5').innerHTML ='Minus 30%'" /></a></span>
+			<span class="options"><a href="#" onclick="manualPB.setPercentage('80');return false;"><img src="images/icons/set.gif" alt="" title="" onmouseout="$('Text5').innerHTML ='&laquo; Select Options'" onmouseover="$('Text5').innerHTML ='Set 80%'"/></a></span>
+			<span class="options"><a href="#" onclick="manualPB.setPercentage('50');return false;"><img src="images/icons/fill.gif" alt="" title="" onmouseout="$('Text5').innerHTML ='&laquo; Select Options'" onmouseover="$('Text5').innerHTML ='Fill 50%'" /></a></span>
+			<span class="getOption"><a href="#" onclick="alert(manualPB.getPercentage());return false;"><img src="images/icons/get.gif" alt="" title="" onmouseout="$('Text5').innerHTML ='&laquo; Select Options'" onmouseover="$('Text5').innerHTML ='Get Current %'"/></a></span>
+			<span id="Text5" style="font-weight:bold">&laquo; Select Options</span>
+			<br/><br/>
+
+			<span style="color:#006600;font-weight:bold;">Multi Color Bar</span> <br/>
+			<span id="element6">[ Loading Progress Bar ]</span>
+			<span class="extra"><a href="#" onclick="manualPB2.setPercentage('0', true);return false;"><img src="images/icons/empty.gif" alt="" title="" onmouseout="$('Text6').innerHTML ='&laquo; Select Options'" onmouseover="$('Text6').innerHTML ='Empty Bar'"/></a></span>
+			<span class="options"><a href="#" onclick="manualPB2.setPercentage('+10');return false;"><img src="images/icons/add.gif" alt="" title="" onmouseout="$('Text6').innerHTML ='&laquo; Select Options'" onmouseover="$('Text6').innerHTML ='Add 10%'"/></a></span>
+			<span class="options"><a href="#" onclick="manualPB2.setPercentage('-5');return false;"><img src="images/icons/minus.gif" alt="" title="" onmouseout="$('Text6').innerHTML ='&laquo; Select Options'" onmouseover="$('Text6').innerHTML ='Minus 5%'" /></a></span>
+			<span class="options"><a href="#" onclick="manualPB2.setPercentage('30');return false;"><img src="images/icons/set.gif" alt="" title="" onmouseout="$('Text6').innerHTML ='&laquo; Select Options'" onmouseover="$('Text6').innerHTML ='Set 30%'"/></a></span>
+			<span class="options"><a href="#" onclick="manualPB2.setPercentage('98'); manualPB2.setPercentage('30'); return false;"><img src="images/icons/fill.gif" alt="" title="" onmouseout="$('Text6').innerHTML ='&laquo; Select Options'" onmouseover="$('Text6').innerHTML ='Fill 98%, and then 30%'" /></a></span>
+			<span class="getOption"><a href="#" onclick="alert(manualPB2.getPercentage());return false;"><img src="images/icons/get.gif" alt="" title="" onmouseout="$('Text6').innerHTML ='&laquo; Select Options'" onmouseover="$('Text6').innerHTML ='Get Current %'"/></a></span>
+			<span id="Text6" style="font-weight:bold">&laquo; Select Options</span>
+			<br /><br />
+
+			<script type="text/javascript">
+				document.observe('dom:loaded', function() {
+
+					// first manuale progressbar : different bar (width, height, images) and no animation
+					manualPB = new JS_BRAMUS.jsProgressBar(
+								$('element5'),
+								75,
+								{
+									showText	: false,
+									animate		: false,
+									width		: 154,
+									height		: 11,
+									boxImage	: 'images/bramus/custom1_box.gif',
+									barImage	: 'images/bramus/custom1_bar.gif'
+								}
+							);
+
+					// second manual example : multicolor (and take all other default paramters)
+					manualPB2 = new JS_BRAMUS.jsProgressBar(
+								$('element6'),
+								52,
+								{
+
+									barImage	: Array(
+										'images/bramus/percentImage_back4.png',
+										'images/bramus/percentImage_back3.png',
+										'images/bramus/percentImage_back2.png',
+										'images/bramus/percentImage_back1.png'
+									),
+
+									onTick : function(pbObj) {
+
+										switch(pbObj.getPercentage()) {
+
+											case 98:
+												alert('Hey, we\'re at 98!');
+											break;
+
+											case 100:
+												alert('Progressbar full at 100% ... maybe do a redirect or sth like that here?');
+											break;
+
+										}
+
+										return true;
+									}
+								}
+							);
+				}, false);
+			</script>
+
+		</div>
+
+		<p style="background: #ffff99; text-align: center; color: #000; border: 1px solid #ff9900; padding: 5px; font-size: 12px; font-weight: bold;">This page is a testpage of jsProgressBarHandler - see <a href="http://www.bram.us/projects/js_bramus/jsprogressbarhandler/" title="jsProgressBarHandler | Javascript Progress/Percentage Bar">http://www.bram.us/projects/js_bramus/jsprogressbarhandler/</a> for details</p>
+
+	</div>
+
+	<!-- STATS -->
+	<script src="/mint/?js" type="text/javascript"></script>
+
+	<script src="http://www.google-analytics.com/urchin.js" type="text/javascript"></script>
+	<script type="text/javascript">
+		// <![CDATA[
+		_uacct = "UA-107008-4";
+		urchinTracker();
+		// ]]>
+	</script>
+
+</body>
+</html>

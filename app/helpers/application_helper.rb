@@ -1,6 +1,6 @@
 module ApplicationHelper
   
-   def admin_authorized?
+  def admin_authorized?
     user_signed_in? && current_user.has_role?('administrator')
   end
   
@@ -41,6 +41,12 @@ module ApplicationHelper
     str.gsub(/[\]\[()]/,"")
   end
   
+  def snippet(thought, wordcount)
+    if thought
+      thought.split[0..(wordcount-1)].join(" ") +(thought.split.size > wordcount ? "..." : "")
+    end
+  end
+  
   def error_messages_for(*objects)
     options = objects.extract_options!
     options[:header_message] ||= I18n.t(:"activerecord.errors.header", :default => "Invalid Fields")
@@ -52,6 +58,6 @@ module ApplicationHelper
         content_tag(:h2, options[:header_message]) + content_tag(:p, options[:message]) + content_tag(:ul, list_items.join.html_safe)
       end
     end
-end
+  end
   
 end

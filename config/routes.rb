@@ -20,19 +20,44 @@ Rails.application.routes.draw do
   resources :maps  do
     member do
       get 'map_type'
+      get 'export'
+      get 'warp'
+      get 'clip'
+      get 'rectify'
+      get 'align'
+      get 'warped'
+      get 'metadata'
+      get 'comments'
     end
     resources :layers
   end
   
-  resources :layers
+
+  
+  get '/maps/wms/:id' => "maps#wms", :as => 'wms_map'
+  get '/maps/tile/:id/:z/:x/:y' => "maps#tile", :as => 'tile_map'
+  
+  resources :layers do
+    member do
+      get 'comments'
+    end
+  end
   
   get '/users/:user_id/maps' => 'my_maps#list', :as => 'my_maps'
   post '/users/:user_id/maps/create/:map_id' => 'my_maps#create', :as => 'add_my_map'
   post '/users/:user_id/maps/destroy/:map_id' => 'my_maps#destroy', :as => 'destroy_my_map'
 
-  
-  get '/activity'  => 'audits#index', :as => 'activity'
   get '/users/:id/activity' => 'audits#for_user', :as => 'user_activity'
+  
+  get '/maps/activity' => 'audits#for_map_model', :as => "maps_activity"
+  get '/maps/acitvity.:format' => 'audits#for_map_model', :as => "formatted_maps_activity"
+  get '/maps/:id/activity' => 'audis#for_map', :as => "map_activity"
+  get '/maps/:id/activity.:format' => 'audits#for_map', :as => "formatted_map_activity"
+
+  get '/activity' => 'audits#index', :as => "activity"
+  get '/activity/:id' => 'audis#show', :as => "activity_details"
+  get '/activity.:format' => 'audits#index', :as => "formatted_activity"
+
   
   resources :comments
   

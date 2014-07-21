@@ -1,0 +1,11 @@
+  <script type="text/javascript">
+    try {
+      var pageTracker = _gat._getTracker("<%=GOOGLE_ANALYTICS_CODE %>");
+      pageTracker._setCookiePath("<%=GOOGLE_ANALYTICS_COOKIE_PATH %>");
+      <%- if @layer -%>
+      pageTracker._trackPageview("layers/<%=@current_tab%>/<%=@layer.id%>");
+        <%- else -%>
+      pageTracker._trackPageview("maps/<%=@current_tab%>/<%=@map.id%>");
+        <%- end -%>
+    } catch(err) {}</script>
+
