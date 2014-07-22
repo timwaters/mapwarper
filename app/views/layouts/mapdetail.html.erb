@@ -80,7 +80,16 @@
             hash = encodeURIComponent(hash);
           }
           hash = hash.slice(0, -tabSuffix.length)
-          jQuery("#wooTabs").tabs("select", hash);
+          var tab_divs = jQuery("div.ui-tabs-panel", jQuery("#wooTabs").tabs());
+          var select_tab_index = 0;
+          jQuery.each(tab_divs, function( index, value ) {
+            if (hash === value.id){
+              select_tab_index = index;
+            }
+          });
+          
+          jQuery("#wooTabs").tabs( "option", "active", select_tab_index );
+          //jQuery("#wooTabs").tabs("select", hash);
         } else {
           //if there is no hash, wat to do? currently, nothing, as by default it should be displayed tab.
           //show tab  //jQuery("#wooTabs").tabs("select", 0);
@@ -92,10 +101,8 @@
 
         // set onlick event for buttons
         jQuery("a[rel='history']").click(function() {
-          //
-          var hash = this.href;
-          hash = hash.replace(/^.*#/, '') + tabSuffix;
 
+          hash = this.title + tabSuffix;
           jQuery.historyLoad(hash);
         });
       });
