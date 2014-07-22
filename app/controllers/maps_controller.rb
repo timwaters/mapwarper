@@ -1,6 +1,14 @@
 class MapsController < ApplicationController
 
   layout 'mapdetail', :only => [:show, :edit, :preview, :warp, :clip, :align, :activity, :warped, :export, :metadata, :comments]
+  
+  before_filter :find_map_if_available,
+    :except => [:show, :index, :wms, :tile, :mapserver_wms, :warp_aligned, :status, :new, :create, :update, :edit, :tag, :geosearch]
+
+  before_filter :check_link_back, :only => [:show, :warp, :clip, :align, :warped, :export, :activity]
+  before_filter :check_if_map_is_editable, :only => [:edit, :update]
+  before_filter :check_if_map_can_be_deleted, :only => [:destroy, :delete]
+  skip_before_filter :verify_authenticity_token, :only => [:save_mask, :delete_mask, :save_mask_and_warp, :mask_map, :rectify, :set_rough_state, :set_rough_centroid]
 
   # GET /posts
   # GET /posts.json
@@ -25,8 +33,6 @@ class MapsController < ApplicationController
   end
   
   def create
-    logger.debug params.inspect
-    logger.debug params[:map].inspect
     @map = Map.new(map_params)
 
     if user_signed_in?
@@ -43,6 +49,56 @@ class MapsController < ApplicationController
         format.html { render :action => "new", :layout =>'application' }
         format.xml  { render :xml => @map.errors, :status => :unprocessable_entity }
       end
+    end
+  end
+  
+  def edit
+    @current_tab = :edit
+    @selected_tab = 1
+    @html_title = "Editing Map #{@map.title} on"
+    choose_layout_if_ajax
+    respond_to do |format|
+      format.html {} #{ render :layout =>'application' }  # new.html.erb
+      format.xml  { render :xml => @map }
+    end
+  end
+  
+  def update
+   
+    if @map.update_attributes(map_params)
+      flash.now[:notice] = 'Map was successfully updated.'
+    else
+      flash.now[:error] = 'There was an error updating the map' 
+    end
+    
+    if request.xhr?
+      @xhr_flag = "xhr"
+      render :action => "edit", :layout => "tab_container"
+    else
+      respond_to do |format|
+        format.html { redirect_to map_path }
+        format.xml  { render :xml => @map.errors, :status => :unprocessable_entity }
+      end
+    end
+    
+  end
+  
+  def delete
+    respond_to do |format|
+      format.html {render :layout => 'application'}
+    end
+  end
+  
+  #only editors or owners of maps
+  def destroy
+    if @map.destroy
+      flash[:notice] = "Map deleted!"
+    else
+      flash[:notice] = "Map wasnt deleted"
+    end
+    respond_to do |format|
+      format.html { redirect_to(maps_url) }
+      format.xml  { head :ok }
     end
   end
   
@@ -113,15 +169,15 @@ class MapsController < ApplicationController
 
     respond_to do |format|
       format.html
-     # format.kml {render :action => "show_kml", :layout => false}
-     # format.xml {render :xml => @map.to_xml(:except => [:content_type, :size, :bbox_geom, :uuid, :parent_uuid, :filename, :parent_id,  :map, :thumbnail, :rough_centroid])  }
-    #  format.json {render :json =>{:stat => "ok", :items => @map.to_a}.to_json(:except => [:content_type, :size, :bbox_geom, :uuid, :parent_uuid, :filename, :parent_id,  :map, :thumbnail, :rough_centroid]), :callback => params[:callback] }
+      # format.kml {render :action => "show_kml", :layout => false}
+      # format.xml {render :xml => @map.to_xml(:except => [:content_type, :size, :bbox_geom, :uuid, :parent_uuid, :filename, :parent_id,  :map, :thumbnail, :rough_centroid])  }
+      #  format.json {render :json =>{:stat => "ok", :items => @map.to_a}.to_json(:except => [:content_type, :size, :bbox_geom, :uuid, :parent_uuid, :filename, :parent_id,  :map, :thumbnail, :rough_centroid]), :callback => params[:callback] }
     end
     
     
   end
   
-include Mapscript if require 'mapscript'
+  include Mapscript if require 'mapscript'
 
   def wms
     
@@ -205,6 +261,71 @@ include Mapscript if require 'mapscript'
   
   
   private
+  
+  #veries token but only for the html view, turned off for xml and json calls - these calls would need to be authenticated anyhow.
+  def semi_verify_authenticity_token
+    unless request.format.xml? || request.format.json?
+      verify_authenticity_token
+    end
+  end
+
+  def set_session_link_back link_url
+    session[:link_back] = link_url
+  end
+
+  def check_link_back
+    @link_back = session[:link_back]
+    if @link_back.nil?
+      @link_back = url_for(:action => 'index')
+    end
+  
+    session[:link_back] = @link_back
+  end
+
+  #only allow deleting by a user if the user owns it
+  def check_if_map_can_be_deleted
+    if user_signed_in? and (current_user.own_this_map?(params[:id])  or current_user.has_role?("editor"))
+      @map = Map.find(params[:id])
+    else
+      flash[:notice] = "Sorry, you cannot delete other people's maps!"
+      redirect_to map_path
+    end
+  end
+
+  def bad_record
+    #logger.error("not found #{params[:id]}")
+    respond_to do | format |
+      format.html do
+        flash[:notice] = "Map not found"
+        redirect_to :action => :index
+      end
+      format.json {render :json => {:stat => "not found", :items =>[]}.to_json, :status => 404}
+    end
+  end
+
+  #only allow editing by a user if the user owns it, or if and editor tries to edit it
+  def check_if_map_is_editable
+    if user_signed_in? and (current_user.own_this_map?(params[:id])  or current_user.has_role?("editor"))
+      @map = Map.find(params[:id])
+    elsif Map.find(params[:id]).owner.nil?
+      @map = Map.find(params[:id])
+    else
+      flash[:notice] = "Sorry, you cannot edit other people's maps"
+      redirect_to map_path
+    end
+  end
+
+  def find_map_if_available
+
+    @map = Map.find(params[:id])
+
+    if @map.status.nil? or @map.status == :unloaded or @map.status == :loading 
+      redirect_to map_path
+    elsif  (!@map.public? and !logged_in?) or((!@map.public? and logged_in?) and !(current_user.own_this_map?(params[:id])  or current_user.has_role?("editor")) )
+      redirect_to maps_path
+    end
+  end
+  
   
   def map_params
     params.require(:map).permit!

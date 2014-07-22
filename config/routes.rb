@@ -28,6 +28,7 @@ Rails.application.routes.draw do
       get 'warped'
       get 'metadata'
       get 'comments'
+      get 'delete'
     end
     resources :layers
   end

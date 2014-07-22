@@ -1,4 +1,12 @@
-<%= form_for(@map, :html => {:multipart => true}) do |f| %>
+<script type="text/javascript">
+  jQuery(document).ready(function() {
+    jQuery("form.edit_map").bind("ajax:success", function(event, data, status, xhr) {
+      jQuery("#Edit").html(data);
+    });
+  });
+</script>
+<%= form_for(@map, :remote=>true, :html => {:multipart => true}) do |f| %>
+<%# remote_form_for(@map, :update => "Edit", :html => {:multipart => true}) do |f| %>
   <div class="column span-12">
     <p>
       <b>Title</b><br />
@@ -7,13 +15,13 @@
 
     <p>
       <b>Description </b><span class="tiny-text">(max 256 chars)</span><br />
-      <%= f.text_area(:description, :cols => 30, :rows => 12) %>
+      <%= f.text_area(:description, :rows => 12, :cols => 30) %>
     </p>
     <p>
       <b>Tags </b><span class="tiny-text">(comma separated)</span> <br />
       <%= f.text_field :tag_list %>
     </p>
-       <p>
+    <p>
       <%= f.select(:map_type, Map.map_type_hash, :selected=>:is_map) -%>
     </p>
   </div>
@@ -23,6 +31,7 @@
       <b>Subject Area</b><span class="tiny-text">(optional)</span><br />
       <%= f.text_field :subject_area %>
     </p>
+
 
     <p>
       <b>Metadata Unique ID</b><span class="tiny-text">(optional)</span><br />
@@ -53,10 +62,10 @@
       <%= f.text_field :authors %>
     </p>
 
-     <p>
+    <p>
       <b>Date Depicted</b><span class="tiny-text">(year, optional)</span><br />
       <%= f.text_field :date_depicted %>
-     </p>
+    </p>
 
     <p>
       <b>Published Date</b><span class="tiny-text">(optional)</span><br />
@@ -67,7 +76,7 @@
       <b>Reprint Date </b><span class="tiny-text">(optional)</span><br />
       <%= f.date_select(:reprint_date, :include_blank => true, :order => [:day, :month, :year ], :start_year => 1600, :end_year =>Time.now.year)  %>
     </p>
-    
+
     <p>
       <b>Scale</b><span class="tiny-text">(optional)</span><br />
       <%= f.text_field :scale %>
@@ -89,18 +98,13 @@
     <%- if defined?(page)  && page =~ /new/ -%>
       <p>
         <label for="upload"><b>Upload An Image File:</b>
-          <% if @max_size %>
-            Max size: <%=  number_to_human_size @max_size %>.
+          <br /><% if @max_size %>
+            Max size:
+            <%=  number_to_human_size @max_size %>.
           <% end %>
           <%= @upload_file_message %>
         </label> <br />
         <%= f.file_field :upload %>
-      </p>
-      OR
-      <p>
-        <label for="upload_url"><b>Upload from a URL:</b></label>
-        <%= f.text_field :upload_url %>
-        <%# text_field_tag(:upload_url, "", :size=>40, :class=>"upload_url") %>
       </p>
     <%- end -%>
 

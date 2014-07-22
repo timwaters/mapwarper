@@ -1,0 +1,10 @@
+<h3>Really delete the map? </h3>
+All images, uploaded and rectified will be deleted.<br />
+All control points deleted. <br />
+All WMS, KML and export options will be unavailable for users.<br />
+<p>
+<%=  button_to 'No, get me out of here!', map_path(@map), :method=>:get %>
+<br /><br /><br />
+<%=  button_to 'Yes, Delete map!', map_path(@map),:method=>:delete, :href => '#' %>
+
+</p>
