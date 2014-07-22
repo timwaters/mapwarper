@@ -65,8 +65,9 @@ GEM
     jquery-rails (3.1.1)
       railties (>= 3.0, < 5.0)
       thor (>= 0.14, < 2.0)
-    jquery-ui-rails (5.0.0)
-      railties (>= 3.2.16)
+    jquery-ui-rails (3.0.1)
+      jquery-rails
+      railties (>= 3.1.0)
     json (1.8.1)
     mail (2.5.4)
       mime-types (~> 1.16)
@@ -153,7 +154,7 @@ DEPENDENCIES
   devise-encryptable
   jbuilder (~> 2.0)
   jquery-rails
-  jquery-ui-rails
+  jquery-ui-rails (= 3.0.1)
   paperclip (~> 4.2.0)
   pg
   rails (= 4.1.2)
