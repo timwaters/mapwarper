@@ -29,6 +29,7 @@ Rails.application.routes.draw do
       get 'metadata'
       get 'comments'
       get 'delete'
+      get 'status'
     end
     resources :layers
   end

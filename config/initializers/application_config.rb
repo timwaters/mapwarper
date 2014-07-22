@@ -8,3 +8,7 @@ GOOGLE_ANALYTICS_CODE  = APP_CONFIG['google_analytics_code']
 GOOGLE_ANALYTICS_COOKIE_PATH = APP_CONFIG['google_analytics_cookie_path']
 DST_MAPS_DIR = File.join(Rails.root, APP_CONFIG['dst_maps_dir'])
 SRC_MAPS_DIR =  File.join(Rails.root, APP_CONFIG['src_maps_dir'])
+#MAX_DIMENSION
+#MAX_ATTACHMENT_SIZE
+#GDAL_MEMORY_LIMIT
+GDAL_PATH = APP_CONFIG['gdal_path'] || ""
