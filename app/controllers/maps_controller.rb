@@ -102,6 +102,15 @@ class MapsController < ApplicationController
     end
   end
   
+  def status
+    map = Map.find(params[:id])
+    if map.status.nil?
+      sta = "loading"
+    else
+      sta = map.status.to_s
+    end
+    render :text =>  sta
+  end
   
   def show
 
