@@ -45,6 +45,9 @@ Rails.application.routes.draw do
   resources :layers do
     member do
       get 'comments'
+      get 'merge'
+      get 'publish'
+      get 'toggle_visibility'
     end
   end
   
@@ -75,7 +78,7 @@ Rails.application.routes.draw do
       get 'status'
     end
   end
-  
+   
   
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
