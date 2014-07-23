@@ -53,7 +53,7 @@ gem 'acts_as_commentable'
 
 gem 'will_paginate', '~> 3.0'
 gem 'timed_fragment_cache'
-
+gem 'spawnling', '~>2.1'
 
 group :development do
    gem 'thin'

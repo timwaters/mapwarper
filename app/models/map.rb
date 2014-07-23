@@ -336,6 +336,124 @@ class Map < ActiveRecord::Base
     end
   end
   
+  
+  
+  #
+  # FIXME -clear up this method - don't return the text, just raise execption if necessary
+  #
+  # gdal_rasterize -i -burn 17 -b 1 -b 2 -b 3 SSS.json -l OGRGeoJson orig.tif
+  # gdal_rasterize -burn 17 -b 1 -b 2 -b 3 SSS.gml -l features orig.tif
+
+  #Main warp method
+  def warp!(resample_option, transform_option, use_mask="false")
+    prior_status = self.status
+    self.status = :warping
+    save!
+    
+    gcp_array = self.gcps.hard
+    
+    gcp_string = ""
+    
+    gcp_array.each do |gcp|
+      gcp_string = gcp_string + gcp.gdal_string
+    end
+    
+    mask_options = ""
+    if use_mask == "true" && self.mask_status == :masked
+      src_filename = self.masked_src_filename
+      mask_options = " -srcnodata '17 17 17' "
+    else
+      src_filename = self.unwarped_filename
+    end
+    
+    dest_filename = self.warped_filename
+    temp_filename = self.temp_filename
+    
+    #delete existing temp images @map.delete_images
+    if File.exists?(dest_filename)
+      #logger.info "deleted warped file ahead of making new one"
+      File.delete(dest_filename)
+    end
+    
+    logger.info "gdal translate"
+    
+    t_stdin, t_stdout, t_stderr = Open3::popen3(
+      "#{GDAL_PATH}gdal_translate -a_srs '+init=epsg:4326' -of VRT #{src_filename} #{temp_filename}.vrt #{gcp_string}"
+    )
+    
+    logger.info "#{GDAL_PATH}gdal_translate -a_srs '+init=epsg:4326' -of VRT #{src_filename} #{temp_filename}.vrt #{gcp_string}"
+    t_out  = t_stdout.readlines.to_s
+    t_err = t_stderr.readlines.to_s
+    
+    if t_err.size > 0
+      logger.error "ERROR gdal translate script: "+ t_err
+      logger.error "Output = " +t_out
+      t_out = "ERROR with gdal translate script: " + t_err + "<br /> You may want to try it again? <br />" + t_out
+    else
+      t_out = "Okay, translate command ran fine! <div id = 'scriptout'>" + t_out + "</div>"
+    end
+    trans_output = t_out
+    
+    memory_limit =  (defined?(GDAL_MEMORY_LIMIT)) ? "-wm "+GDAL_MEMORY_LIMIT.to_s :  ""
+    
+    #check for colorinterop=pal ? -disnodata 255 or -dstalpha
+    command = "#{GDAL_PATH}gdalwarp #{memory_limit}  #{transform_option}  #{resample_option} -dstalpha #{mask_options} -s_srs 'EPSG:4326' #{temp_filename}.vrt #{dest_filename} -co TILED=YES -co COMPRESS=LZW"
+    w_stdin, w_stdout, w_stderr = Open3::popen3(command)
+    logger.info command
+    
+    w_out = w_stdout.readlines.to_s
+    w_err = w_stderr.readlines.to_s
+    if w_err.size > 0
+      logger.error "Error gdal warp script" + w_err
+      logger.error "output = "+w_out
+      w_out = "error with gdal warp: "+ w_err +"<br /> try it again?<br />"+ w_out
+    else
+      w_out = "Okay, warp command ran fine! <div id='scriptout'>" + w_out +"</div>"
+    end
+    warp_output = w_out
+    
+    # gdaladdo
+    command = "#{GDAL_PATH}gdaladdo -r average #{dest_filename} 2 4 8 16 32 64"
+    o_stdin, o_stdout, o_stderr = Open3::popen3(command)
+    logger.info command
+    
+    o_out = o_stdout.readlines.to_s
+    o_err = o_stderr.readlines.to_s
+    if o_err.size > 0
+      logger.error "Error gdal overview script" + o_err
+      logger.error "output = "+o_out
+      o_out = "error with gdal overview: "+ o_err +"<br /> try it again?<br />"+ o_out
+    else
+      o_out = "Okay, overview command ran fine! <div id='scriptout'>" + o_out +"</div>"
+    end
+    overview_output = o_out
+    
+    if File.exists?(temp_filename + '.vrt')
+      logger.info "deleted temp vrt file"
+      File.delete(temp_filename + '.vrt')
+    end
+    
+    # don't care too much if overviews threw a random warning
+    if w_err.size <= 0 and t_err.size <= 0
+      if prior_status == :published
+        self.status = :published
+      else
+        self.status = :warped
+      end
+      Spawnling.new do
+        convert_to_png
+      end
+      self.touch(:rectified_at)
+    else
+      self.status = :available
+    end
+    save!
+    update_layers
+    update_bbox
+    output = "Step 1: Translate: "+ trans_output + "<br />Step 2: Warp: " + warp_output + \
+      "Step 3: Add overviews:" + overview_output
+  end
+  
   ############
   #PRIVATE
   ############
