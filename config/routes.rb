@@ -31,6 +31,9 @@ Rails.application.routes.draw do
       get 'delete'
       get 'status'
     end
+    collection do
+        get 'geosearch'
+    end
     resources :layers
   end
   

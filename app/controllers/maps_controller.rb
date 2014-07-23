@@ -10,12 +10,9 @@ class MapsController < ApplicationController
   before_filter :check_if_map_can_be_deleted, :only => [:destroy, :delete]
   skip_before_filter :verify_authenticity_token, :only => [:save_mask, :delete_mask, :save_mask_and_warp, :mask_map, :rectify, :set_rough_state, :set_rough_centroid]
 
-  # GET /posts
-  # GET /posts.json
-  def index
-    @maps = Map.all
-  end
-
+  helper :sort
+  include SortHelper
+  
   def new
     @map = Map.new
     @html_title = "Upload a new map to "
@@ -185,6 +182,85 @@ class MapsController < ApplicationController
     
     
   end
+  
+  def index
+    sort_init('updated_at', {:default_order => "desc"})
+    
+    sort_update
+    @show_warped = params[:show_warped]
+    request.query_string.length > 0 ?  qstring = "?" + request.query_string : qstring = ""
+    
+    set_session_link_back url_for(:controller=> 'maps', :action => 'index',:skip_relative_url_root => false, :only_path => false )+ qstring
+    
+    @query = params[:query]
+    
+    @field = %w(tags title description status publisher authors).detect{|f| f == (params[:field])}
+    
+    unless @field == "tags"
+      
+      @field = "title" if @field.nil?
+      
+      #we'll use POSIX regular expression for searches    ~*'( |^)robinson([^A-z]|$)' and to strip out brakets etc  ~*'(:punct:|^|)plate 6([^A-z]|$)';
+      if @query && @query.strip.length > 0 && @field
+        conditions = ["#{@field}  ~* ?", '(:punct:|^|)'+@query+'([^A-z]|$)']
+      else
+        conditions = nil
+      end
+      
+      if params[:sort_order] && params[:sort_order] == "desc"
+        sort_nulls = " NULLS LAST"
+      else
+        sort_nulls = " NULLS FIRST"
+      end
+      @per_page = params[:per_page] || 10
+      paginate_params = {
+        :page => params[:page],
+        :per_page => @per_page
+      }
+      order_options = sort_clause + sort_nulls
+      where_options = conditions
+        #order('name').where('name LIKE ?', "%#{search}%").paginate(page: page, per_page: 10)
+
+      if @show_warped == "1"
+        @maps = Map.warped.are_public.where(where_options).order(order_options).paginate(paginate_params)
+      elsif @show_warped == "1" && (user_signed_in? and current_user.has_role?("editor"))
+        @maps = Map.warped.where(where_options).order(order_options).paginate(paginate_params)
+      elsif  @show_warped != "1" && (user_signed_in? and current_user.has_role?("editor"))
+        @maps = Map.where(where_options).order(order_options).paginate(paginate_params)
+      else
+        @maps = Map.are_public.where(where_options).order(order_options).paginate(paginate_params)
+      end
+      
+      @html_title = "Browse Maps"
+      if request.xhr?
+        render :action => 'index.rjs'
+      else
+        respond_to do |format|
+          format.html{ render :layout =>'application' }  # index.html.erb
+          format.xml  { render :xml => @maps.to_xml(:root => "maps", :except => [:content_type, :size, :bbox_geom, :uuid, :parent_uuid, :filename, :parent_id,  :map, :thumbnail, :rough_centroid]) {|xml|
+              xml.tag!'stat', "ok"
+              xml.tag!'total-entries', @maps.total_entries
+              xml.tag!'per-page', @maps.per_page
+              xml.tag!'current-page',@maps.current_page} }
+          
+          format.json { render :json => {:stat => "ok",
+              :current_page => @maps.current_page,
+              :per_page => @maps.per_page,
+              :total_entries => @maps.total_entries,
+              :total_pages => @maps.total_pages,
+              :items => @maps.to_a}.to_json(:except => [:content_type, :size, :bbox_geom, :uuid, :parent_uuid, :filename, :parent_id,  :map, :thumbnail, :rough_centroid], :methods => :depicts_year) , :callback => params[:callback]
+          }
+        end
+      end
+    else
+      redirect_to :action => 'tag', :id => @query
+    end
+  end
+  
+  def geosearch
+    
+  end
+  
   
   include Mapscript if require 'mapscript'
 

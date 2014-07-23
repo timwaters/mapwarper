@@ -15,11 +15,16 @@ class Map < ActiveRecord::Base
   validates_attachment_content_type :upload, :content_type => ["image/jpg", "image/jpeg", "image/png", "image/gif", "image/tiff"]
 
   acts_as_taggable
+  acts_as_commentable
   acts_as_enum :map_type, [:index, :is_map, :not_map ]
   acts_as_enum :status, [:unloaded, :loading, :available, :warping, :warped, :published]
   acts_as_enum :mask_status, [:unmasked, :masking, :masked]
   acts_as_enum :rough_state, [:step_1, :step_2, :step_3, :step_4]
-  acts_as_commentable
+  
+  scope :warped,    -> { where({ :status => [Map.status(:warped), Map.status(:published)], :map_type => Map.map_type(:is_map)  }) }
+  scope :published, -> { where({:status => Map.status(:published), :map_type => Map.map_type(:is_map)})}
+  scope :are_public, -> { where(public: true) }
+  scope :real_maps, -> { where({:map_type => Map.map_type(:is_map)})}
   
   attr_accessor :upload_url
   
