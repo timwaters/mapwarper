@@ -1,1 +1,1 @@
-require "#{ Rails.root }/lib/rss_parser.rb"
+require "#{ Rails.root }/lib/rss_parser/rss_parser.rb"
