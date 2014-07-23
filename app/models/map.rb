@@ -21,6 +21,7 @@ class Map < ActiveRecord::Base
   acts_as_enum :status, [:unloaded, :loading, :available, :warping, :warped, :published]
   acts_as_enum :mask_status, [:unmasked, :masking, :masked]
   acts_as_enum :rough_state, [:step_1, :step_2, :step_3, :step_4]
+  audited :allow_mass_assignment => true
   
   scope :warped,    -> { where({ :status => [Map.status(:warped), Map.status(:published)], :map_type => Map.map_type(:is_map)  }) }
   scope :published, -> { where({:status => Map.status(:published), :map_type => Map.map_type(:is_map)})}

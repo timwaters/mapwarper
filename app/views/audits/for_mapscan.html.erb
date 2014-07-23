@@ -1,0 +1,7 @@
+<table>
+  <%= render :partial => "maps/map", :object => @map %>
+</table>
+<h2>Changes for map <%= link_to @map.id , @map %></h2>
+<%= will_paginate @audits -%>
+  <%= render :partial => "audit_table",:object=>@audits -%>
+  <%= will_paginate @audits -%>

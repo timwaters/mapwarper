@@ -46,14 +46,14 @@ gem 'pg'
 gem 'activerecord-postgis-adapter'
 
 gem 'acts-as-taggable-on', '~> 3.3.0'
-
 gem 'paperclip', '~> 4.2.0'
-
 gem 'acts_as_commentable'
-
 gem 'will_paginate', '~> 3.0'
 gem 'timed_fragment_cache'
 gem 'spawnling', '~>2.1'
+
+#Rails 4 support for the audited (acts_as_audited gem) is not quite rails4 worthy - see #https://github.com/collectiveidea/audited/pull/166
+gem 'audited-activerecord', github: 'timwaters/audited', branch: 'rails4'  
 
 group :development do
    gem 'thin'
