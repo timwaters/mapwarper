@@ -23,6 +23,7 @@ class Map < ActiveRecord::Base
   
   attr_accessor :upload_url
   
+  after_initialize :default_values
   before_create :download_remote_image, :if => :upload_url_provided?
   before_create :save_dimensions
   after_create :setup_image
@@ -33,6 +34,13 @@ class Map < ActiveRecord::Base
   ##################
   # CALLBACKS
   ###################
+  
+  def default_values
+    self.status  ||= :unloaded  
+    self.mask_status  ||= :unmasked  
+    self.map_type  ||= :is_map  
+    self.rough_state ||= :step_1  
+  end
   
   def upload_url_provided?
     !self.upload_url.blank?
