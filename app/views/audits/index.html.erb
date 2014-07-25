@@ -1,8 +1,8 @@
-<%= link_to "&lt; Back", :back %>
+<%= link_to "&lt; Back".html_safe, :back %>
 <h2> <%= @title %> </h2>
 
 <%=image_tag 'feed-icon-14x14.png' -%> <%= link_to 'RSS Feed' , 'http://'+ request.host_with_port + request.path + '.rss' %>&nbsp;
-<% if @linktomap %><%= link_to "Show Just Map Activity", :controller=>"maps", :action=>"activity" %><% end %>
+<% if @linktomap %><%= link_to "Show Just Map Activity", maps_activity_path %><% end %>
 <br /><br />
 
 <%= will_paginate @audits %>

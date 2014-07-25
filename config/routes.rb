@@ -17,6 +17,8 @@ Rails.application.routes.draw do
     resources :roles
   end
   
+  get '/maps/activity' => 'audits#for_map_model', :as => "maps_activity"
+  
   resources :maps  do
     member do
       get 'map_type'
@@ -37,8 +39,10 @@ Rails.application.routes.draw do
     resources :layers
   end
   
-
+  get '/gcp/' => 'gcp#index', :as => "gcps"
+  get '/gcp/:id' => 'gcps#show', :as => "gcp"
   
+
   get '/maps/wms/:id' => "maps#wms", :as => 'wms_map'
   get '/maps/tile/:id/:z/:x/:y' => "maps#tile", :as => 'tile_map'
   
@@ -57,13 +61,13 @@ Rails.application.routes.draw do
 
   get '/users/:id/activity' => 'audits#for_user', :as => 'user_activity'
   
-  get '/maps/activity' => 'audits#for_map_model', :as => "maps_activity"
+  
   get '/maps/acitvity.:format' => 'audits#for_map_model', :as => "formatted_maps_activity"
   get '/maps/:id/activity' => 'audis#for_map', :as => "map_activity"
   get '/maps/:id/activity.:format' => 'audits#for_map', :as => "formatted_map_activity"
 
   get '/activity' => 'audits#index', :as => "activity"
-  get '/activity/:id' => 'audis#show', :as => "activity_details"
+  get '/activity/:id' => 'audits#show', :as => "activity_details"
   get '/activity.:format' => 'audits#index', :as => "formatted_activity"
 
   

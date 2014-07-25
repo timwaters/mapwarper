@@ -607,6 +607,14 @@ width:100%;
 text-align:left;
 }
 
+.activity-details {
+width:50%;
+
+}
+.activity-details th {
+text-align:left;
+}
+
 #add_layer_control {
   float:right;
   font-size: x-small;

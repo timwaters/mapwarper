@@ -1,23 +1,30 @@
-class Activity < Audit
-  #Audit 
-
-  def uname
-    if username.to_s == "--- :false\n"
-      uname = nil
-    else 
+module AuditsHelper
+  
+  def actual_username(username)
+    uname = nil
+    if username.to_s != "--- :false\n"
       uname = username 
     end
+    
     uname
   end
-  def activity_action
+  
+  def formatted_action(action)
     action.gsub(/\W/, "").titleize
-
   end
-  def summary
+
+  def summary(audit)
     summ  = ""
-    if changes && auditable_type == "Map"
-      if changes["status"] && changes["status"] != "status"
-        map_action  =  Map::STATUS[changes["status"]]
+    if audit.changes && audit.auditable_type == "Map"
+      changes = audit.audited_changes
+
+      if changes && changes["status"] && changes["status"] != "status"
+        if changes["status"].class == Array && changes["status"][1]
+          map_action  = Map::STATUS[changes["status"][1]]
+        else
+          map_action = :missing
+        end
+        
         case map_action
         when :unloaded
           summ = "Map was unloaded"
@@ -37,8 +44,13 @@ class Activity < Audit
 
       end #status
 
-      if changes["mask_status"] && changes["status"] != "mask_status"
-        mask_action = Map::MASK_STATUS[changes["mask_status"]]
+      if changes && changes["mask_status"] && changes["status"] != "mask_status"
+        
+        if changes["mask_status"].class == Array && changes["mask_status"][1]
+          mask_action  = Map::MASK_STATUS[changes["mask_status"]]
+        else
+          mask_action = :missing
+        end
         case mask_action
         when :unmasked
           summ = "Map was unmasked"
@@ -56,6 +68,5 @@ class Activity < Audit
 
     summ
   end
-
-
+  
 end

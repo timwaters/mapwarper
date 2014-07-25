@@ -11,21 +11,21 @@ xml.channel do
     end 
 
     xml.item do
-      if audit.uname
-        changed_by = "  by " + audit.uname.capitalize 
+      if audit.username
+        changed_by = "  by " + audit.username.capitalize 
       else
         changed_by = " by -- "
       end
 
-        xml.title typename + ' ' + audit.auditable_id.to_s + " changed" + changed_by
+      xml.title typename + ' ' + audit.auditable_id.to_s + " changed" + changed_by
       
-        xml.description "Action: "+ audit.action.gsub(/\W/, "")  + "<br /> " + audit.summary +  "<br />Version: "+ audit.version.to_s 
+      xml.description "Action: "+ audit.action.gsub(/\W/, "")  + "\n" + summary(audit) +  "\n Version: "+ audit.version.to_s 
         
-        xml.pubDate audit.created_at.to_s(:rfc822)
-        xml.link activity_details_url(:id => audit)
+      xml.pubDate audit.created_at.to_s(:rfc822)
+      xml.link activity_details_url(:id => audit)
 
-        xml.guid
-      end
-
+      xml.guid
     end
+
   end
+end
