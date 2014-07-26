@@ -1,4 +1,6 @@
 require "open3"
+require "error_calculator"
+include ErrorCalculator
 class Map < ActiveRecord::Base
   
   has_many :gcps,  :dependent => :destroy
@@ -184,26 +186,26 @@ class Map < ActiveRecord::Base
   end
   
   def update_layer
-#    self.layers.each do |layer|
-#      layer.update_layer
-#    end unless self.layers.empty?
+    #    self.layers.each do |layer|
+    #      layer.update_layer
+    #    end unless self.layers.empty?
   end
   
   def update_layers
-#    logger.info "updating (visible) layers"
-#    unless self.layers.visible.empty?
-#      self.layers.visible.each  do |layer|
-#        layer.update_layer
-#      end
-#    end
+    #    logger.info "updating (visible) layers"
+    #    unless self.layers.visible.empty?
+    #      self.layers.visible.each  do |layer|
+    #        layer.update_layer
+    #      end
+    #    end
   end
   
   def update_counter_cache
-#    logger.info "update_counter_cache"
-#    unless self.layers.empty?
-#      self.layers.each do |layer|
-#        layer.update_counts
-#      end
+    #    logger.info "update_counter_cache"
+    #    unless self.layers.empty?
+    #      self.layers.each do |layer|
+    #        layer.update_counts
+    #      end
     #    end
   end
   
@@ -351,7 +353,142 @@ class Map < ActiveRecord::Base
   end
   
   
+  #attempts to align based on the extent and offset of the
+  #reference map's warped image
+  #results it nicer gcps to edit with later
+  def align_with_warped (srcmap, align = nil, append = false)
+    srcmap = Map.find(srcmap)
+    origgcps = srcmap.gcps.hard
+
+    #clear out original gcps, unless we want to append the copied gcps to the existing ones
+    self.gcps.hard.destroy_all unless append == true
+
+    #extent of source from gdalinfo
+    stdin, stdout, sterr = Open3::popen3("#{GDAL_PATH}gdalinfo #{srcmap.warped_filename}")
+    info = stdout.readlines.to_s
+    stringLW,west,south = info.match(/Lower Left\s+\(\s*([-.\d]+), \s+([-.\d]+)/).to_a
+    stringUR,east,north = info.match(/Upper Right\s+\(\s*([-.\d]+), \s+([-.\d]+)/).to_a
+
+    lon_shift = west.to_f - east.to_f
+    lat_shift = south.to_f - north.to_f
+
+    origgcps.each do |gcp|
+      a = Gcp.new()
+      a = gcp.clone
+      if align == "east"
+        a.lon -= lon_shift
+      elsif align == "west"
+        a.lon += lon_shift
+      elsif align == "north"
+        a.lat -= lat_shift
+      elsif align == "south"
+        a.lat += lat_shift
+      else
+        #if no align, then dont change the gcps
+      end
+      a.map = self
+      a.save
+    end
+
+    newgcps = self.gcps.hard
+  end
+
+  #attempts to align based on the width and height of
+  #reference map's un warped image
+  #results it potential better fit than align_with_warped
+  #but with less accessible gpcs to edit
+  def align_with_original(srcmap, align = nil, append = false)
+    srcmap = Map.find(srcmap)
+    origgcps = srcmap.gcps
+
+    #clear out original gcps, unless we want to append the copied gcps to the existing ones
+    self.gcps.hard.destroy_all unless append == true
+
+    origgcps.each do |gcp|
+      new_gcp = Gcp.new()
+      new_gcp = gcp.clone
+      if align == "east"
+        new_gcp.x -= srcmap.width
+
+      elsif align == "west"
+        new_gcp.x += srcmap.width
+      elsif align == "north"
+        new_gcp.y += srcmap.height
+      elsif align == "south"
+        new_gcp.y -= srcmap.height
+      else
+        #if no align, then dont change the gcps
+      end
+      new_gcp.map = self
+      new_gcp.save
+    end
+
+    newgcps = self.gcps.hard
+  end
   
+  # map gets error attibute set and gcps get error attribute set
+  def gcps_with_error(soft=nil)
+    unless soft == 'true'
+      gcps = Gcp.hard.find(:all, :conditions =>["map_id = ?", self.id], :order => 'created_at')
+    else
+      gcps = Gcp.soft.find(:all, :conditions =>["map_id = ?", self.id], :order => 'created_at')
+    end
+    gcps, map_error = ErrorCalculator::calc_error(gcps)
+    @error = map_error
+    #send back the gpcs with error calculation
+    gcps
+  end
+
+  def mask!
+
+    self.mask_status = :masking
+    save!
+    format = self.mask_file_format
+
+    if format == "gml"
+      return "no masking file found, have you created a clipping mask and saved it?"  if !File.exists?(masking_file_gml)
+      masking_file = self.masking_file_gml
+      layer = "features"
+    elsif format == "json"
+      return "no masking file found, have you created a clipping mask and saved it?"  if !File.exists?(masking_file_json)
+      masking_file = self.masking_file_json
+      layer = "OGRGeoJson"
+    else
+      return "no masking file matching specified format found."
+    end
+
+    masked_src_filename = self.masked_src_filename
+    if File.exists?(masked_src_filename)
+      #deleting old masked image
+      File.delete(masked_src_filename)
+    end
+    #copy over orig to a new unmasked file
+    File.copy(unwarped_filename, masked_src_filename)
+    #TODO ADD -i switch when we have newer gdal
+    require 'open3'
+    r_stdin, r_stdout, r_stderr = Open3::popen3(
+      "#{GDAL_PATH}gdal_rasterize -i  -burn 17 -b 1 -b 2 -b 3 #{masking_file} -l #{layer} #{masked_src_filename}"
+    )
+    logger.info "#{GDAL_PATH}gdal_rasterize -i  -burn 17 -b 1 -b 2 -b 3 #{masking_file} -l #{layer} #{masked_src_filename}"
+    r_out  = r_stdout.readlines.to_s
+    r_err = r_stderr.readlines.to_s
+
+    #if there is an error, and it's not a warning about SRS
+    if r_err.size > 0 && r_err.split[0] != "Warning"
+      #error, need to fail nicely
+      logger.error "ERROR gdal rasterize script: "+ r_err
+      logger.error "Output = " +r_out
+      r_out = "ERROR with gdal rasterise script: " + r_err + "<br /> You may want to try it again? <br />" + r_out
+
+    else
+
+      r_out = "Success! Map was cropped!"
+    end
+
+    self.mask_status = :masked
+    save!
+    r_out
+  end
   #
   # FIXME -clear up this method - don't return the text, just raise execption if necessary
   #

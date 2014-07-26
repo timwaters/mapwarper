@@ -10,7 +10,7 @@ class Layer < ActiveRecord::Base
   validates_numericality_of :depicts_year, :if => Proc.new {|c| not c.depicts_year.blank?}
   
   scope :with_year, -> { where(:depicts_year =>  'is not null').order(:maps_count) }
-  scope :visible, -> {where(:is_visible => tryue).order(:id)}
+  scope :visible, -> {where(:is_visible => true).order(:id)}
   scope :with_maps, -> {where(:rectified_maps_count => '>= 1').order(:rectified_maps_count)}
 
     
