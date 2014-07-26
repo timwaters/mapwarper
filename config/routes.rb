@@ -32,6 +32,8 @@ Rails.application.routes.draw do
       get 'comments'
       get 'delete'
       get 'status'
+      get 'publish'
+      get 'unpublish'
     end
     collection do
         get 'geosearch'

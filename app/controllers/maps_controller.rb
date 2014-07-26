@@ -183,6 +183,53 @@ class MapsController < ApplicationController
     
   end
   
+  #should check for admin only
+  def publish
+    if params[:to] == "publish" && @map.status == :warped
+      @map.publish
+    elsif params[:to] == "unpublish" && @map.status == :published
+      @map.unpublish
+    end
+
+    flash[:notice] = "Map changed. New Status: " + @map.status.to_s
+    redirect_to @map
+  end
+
+  def save_mask
+    message = @map.save_mask(params[:output])
+    respond_to do | format |
+      format.html {render :text => message}
+      format.js { render :text => message} if request.xhr?
+      format.json {render :json => {:stat =>"ok", :message => message}.to_json , :callback => params[:callback]}
+    end
+  end
+
+  def delete_mask
+    message = @map.delete_mask
+    respond_to do | format |
+      format.html { render :text => message}
+      format.js { render :text => message} if request.xhr?
+      format.json {render :json => {:stat =>"ok", :message => message}.to_json , :callback => params[:callback]}
+    end
+  end
+
+  def mask_map
+    respond_to do | format |
+      if File.exists?(@map.masking_file_gml)
+        message = @map.mask!
+        format.html { render :text => message }
+        format.js { render :text => message} if request.xhr?
+        format.json { render :json => {:stat =>"ok", :message => "Map cropped"}.to_json , :callback => params[:callback]}
+      else
+        message = "Mask file not found"
+        format.html { render :text => message  }
+        format.js { render :text => message} if request.xhr?
+        format.json { render :json => {:stat =>"fail", :message => message}.to_json , :callback => params[:callback]}
+      end
+    end
+  end
+  
+  
   def index
     sort_init('updated_at', {:default_order => "desc"})
     
@@ -219,7 +266,7 @@ class MapsController < ApplicationController
       }
       order_options = sort_clause + sort_nulls
       where_options = conditions
-        #order('name').where('name LIKE ?', "%#{search}%").paginate(page: page, per_page: 10)
+      #order('name').where('name LIKE ?', "%#{search}%").paginate(page: page, per_page: 10)
 
       if @show_warped == "1"
         @maps = Map.warped.are_public.where(where_options).order(order_options).paginate(paginate_params)

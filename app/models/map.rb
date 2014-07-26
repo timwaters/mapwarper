@@ -204,7 +204,20 @@ class Map < ActiveRecord::Base
 #      self.layers.each do |layer|
 #        layer.update_counts
 #      end
-#    end
+    #    end
+  end
+  
+  #method to publish the map
+  #sets status to published
+  def publish
+    self.status = :published
+    self.save
+  end
+  
+  #unpublishes a map, sets it's status to warped
+  def unpublish
+    self.status = :warped
+    self.save
   end
   
   #############################################

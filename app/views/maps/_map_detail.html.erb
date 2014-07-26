@@ -63,9 +63,9 @@
       <% end %>
       <% if admin_authorized? %>
         <% if map.status == :warped  %>
-          | <%= link_to("Publish",{:controller => "maps", :action => "publish", :id => map, :to => "publish"}, :confirm => "Really publish this map? This will mean that no further editing can be done") -%>
+          | <%= link_to("Publish",publish_map_path(:id => map, :to => "publish"), :confirm => "Really publish this map? This will mean that no further editing can be done") -%>
         <% elsif map.published? %>
-          | <%= link_to("UnPublish",{:controller => "maps", :action => "publish", :id => map, :to => "unpublish"}, :confirm => "Really un publish this map? This will mean that the map can be edited now") -%>
+          | <%= link_to("UnPublish",publish_map_path(:id => map, :to => "unpublish"), :confirm => "Really un publish this map? This will mean that the map can be edited now") -%>
         <% end %>
       <% end -%>
 
