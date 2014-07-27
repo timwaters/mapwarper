@@ -498,56 +498,53 @@ class Map < ActiveRecord::Base
   end
 
   def mask!
-
+    require 'fileutils'
+    
     self.mask_status = :masking
     save!
     format = self.mask_file_format
-
+    
     if format == "gml"
       return "no masking file found, have you created a clipping mask and saved it?"  if !File.exists?(masking_file_gml)
       masking_file = self.masking_file_gml
       layer = "features"
-    elsif format == "json"
-      return "no masking file found, have you created a clipping mask and saved it?"  if !File.exists?(masking_file_json)
-      masking_file = self.masking_file_json
-      layer = "OGRGeoJson"
     else
       return "no masking file matching specified format found."
     end
-
+    
     masked_src_filename = self.masked_src_filename
     if File.exists?(masked_src_filename)
       #deleting old masked image
       File.delete(masked_src_filename)
     end
     #copy over orig to a new unmasked file
-    File.copy(unwarped_filename, masked_src_filename)
-    #TODO ADD -i switch when we have newer gdal
-    require 'open3'
-    r_stdin, r_stdout, r_stderr = Open3::popen3(
-      "#{GDAL_PATH}gdal_rasterize -i  -burn 17 -b 1 -b 2 -b 3 #{masking_file} -l #{layer} #{masked_src_filename}"
-    )
-    logger.info "#{GDAL_PATH}gdal_rasterize -i  -burn 17 -b 1 -b 2 -b 3 #{masking_file} -l #{layer} #{masked_src_filename}"
-    r_out  = r_stdout.readlines.to_s
-    r_err = r_stderr.readlines.to_s
-
+    FileUtils.copy(unwarped_filename, masked_src_filename)
+    
+    
+    command = "#{GDAL_PATH}gdal_rasterize -i  -burn 17 -b 1 -b 2 -b 3 #{masking_file} -l #{layer} #{masked_src_filename}"
+    r_stdout, r_stderr = Open3.capture3( command )
+    logger.info command
+    
+    r_out  = r_stdout
+    r_err = r_stderr
+    
     #if there is an error, and it's not a warning about SRS
-    if r_err.size > 0 && r_err.split[0] != "Warning"
+    if !r_err.blank? #&& r_err.split[0] != "Warning"
       #error, need to fail nicely
       logger.error "ERROR gdal rasterize script: "+ r_err
       logger.error "Output = " +r_out
       r_out = "ERROR with gdal rasterise script: " + r_err + "<br /> You may want to try it again? <br />" + r_out
-
     else
-
       r_out = "Success! Map was cropped!"
     end
-
+    
     self.mask_status = :masked
     save!
     r_out
   end
-  #
+  
+  
+  
   # FIXME -clear up this method - don't return the text, just raise execption if necessary
   #
   # gdal_rasterize -i -burn 17 -b 1 -b 2 -b 3 SSS.json -l OGRGeoJson orig.tif
@@ -707,8 +704,6 @@ class Map < ActiveRecord::Base
   def save_mask(vector_features)
     if self.mask_file_format == "gml"
       msg = save_mask_gml(vector_features)
-    elsif self.mask_file_format == "json"
-      msg = save_mask_json(vector_features)
     else
       msg = "Mask format unknown"
     end
@@ -719,6 +714,7 @@ class Map < ActiveRecord::Base
   #parses geometry from openlayers, and saves it to file.
   #GML format
   def save_mask_gml(features)
+    require 'rexml/document'
     if File.exists?(self.masking_file_gml)
       File.delete(self.masking_file_gml)
     end

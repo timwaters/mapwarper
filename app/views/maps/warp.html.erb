@@ -150,12 +150,6 @@
     });
   </script>
         <%= f.submit 'Warp Image! &rarr;'.html_safe, {:class  => "warp_button", :id=>"warp_button"}%>
-  <%# submit_to_remote 'submit', 'Warp Image! &rarr;',
-  :url => {:controller => 'maps', :action=> 'rectify', :id =>@map },
-  :before => "bigModalDialog('Rectifying.....');",
-  :failure => "gcp_notice('Sorry, there appears to be an error sending the request to the server, try again?...');",
-  :complete => "closeBigModalDialog();",
-  :html => { :class  => "warp_button", :id=>"warp_button"} %>
       </p>
       <div id ="clipping_mask_buttons">
 

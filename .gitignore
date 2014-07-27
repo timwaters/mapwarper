@@ -29,3 +29,4 @@ public/uploads/*
 #ignore default map images
 public/mapimages/src/*
 public/mapimages/dst/*
+public/mapimages/*

@@ -35,6 +35,7 @@ Rails.application.routes.draw do
       get 'publish'
       get 'unpublish'
       post 'save_mask_and_warp'
+      delete 'delete_mask'
     end
     collection do
         get 'geosearch'

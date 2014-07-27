@@ -495,7 +495,7 @@ class MapsController < ApplicationController
     message = @map.delete_mask
     respond_to do | format |
       format.html { render :text => message}
-      format.js { render :text => message} if request.xhr?
+      format.js { render :text => message} #if request.xhr?
       format.json {render :json => {:stat =>"ok", :message => message}.to_json , :callback => params[:callback]}
     end
   end
@@ -505,12 +505,12 @@ class MapsController < ApplicationController
       if File.exists?(@map.masking_file_gml)
         message = @map.mask!
         format.html { render :text => message }
-        format.js { render :text => message} if request.xhr?
-        format.json { render :json => {:stat =>"ok", :message => "Map cropped"}.to_json , :callback => params[:callback]}
+        format.js { render :text => message} #if request.xhr?
+        format.json { render :json => {:stat =>"ok", :message => message}.to_json , :callback => params[:callback]}
       else
         message = "Mask file not found"
         format.html { render :text => message  }
-        format.js { render :text => message} if request.xhr?
+        format.js { render :text => message} #if request.xhr?
         format.json { render :json => {:stat =>"fail", :message => message}.to_json , :callback => params[:callback]}
       end
     end
