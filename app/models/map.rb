@@ -686,6 +686,73 @@ class Map < ActiveRecord::Base
     end
   end
   
+  def delete_mask
+    logger.info "delete mask"
+    if File.exists?(self.masking_file_gml)
+      File.delete(self.masking_file_gml)
+    end
+    if File.exists?(self.masking_file_gml+".ol")
+      File.delete(self.masking_file_gml+".ol")
+    end
+    if File.exists?(self.masking_file_gfs)
+      File.delete(self.masking_file_gfs)
+    end
+    
+    self.mask_status = :unmasked
+    save!
+    "mask deleted"
+  end
+  
+  
+  def save_mask(vector_features)
+    if self.mask_file_format == "gml"
+      msg = save_mask_gml(vector_features)
+    elsif self.mask_file_format == "json"
+      msg = save_mask_json(vector_features)
+    else
+      msg = "Mask format unknown"
+    end
+    msg
+  end
+  
+  
+  #parses geometry from openlayers, and saves it to file.
+  #GML format
+  def save_mask_gml(features)
+    if File.exists?(self.masking_file_gml)
+      File.delete(self.masking_file_gml)
+    end
+    if File.exists?(self.masking_file_gml+".ol")
+      File.delete(self.masking_file_gml+".ol")
+    end
+    if File.exists?(self.masking_file_gfs)
+      File.delete(self.masking_file_gfs)
+    end
+    origfile = File.new(self.masking_file_gml+".ol", "w+")
+    origfile.puts(features)
+    origfile.close
+    
+    doc = REXML::Document.new features
+    REXML::XPath.each( doc, "//gml:coordinates") { | element|
+      # blimey element.text.split(' ').map {|i| i.split(',')}.map{ |i| i[0] => i[1]}.inject({}){|i,j| i.merge(j)}
+      coords_array = element.text.split(' ')
+      new_coords_array = Array.new
+      coords_array.each do |coordpair|
+        coord = coordpair.split(',')
+        coord[1] = self.height - coord[1].to_f
+        newcoord = coord.join(',')
+        new_coords_array << newcoord
+      end
+      element.text = new_coords_array.join(' ')
+      
+    } #element
+    gmlfile = File.new(self.masking_file_gml, "w+")
+    doc.write(gmlfile)
+    gmlfile.close
+    message = "Map clipping mask saved (gml)"
+  end
+  
+ 
   ############
   #PRIVATE
   ############

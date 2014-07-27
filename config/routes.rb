@@ -34,9 +34,11 @@ Rails.application.routes.draw do
       get 'status'
       get 'publish'
       get 'unpublish'
+      post 'save_mask_and_warp'
     end
     collection do
         get 'geosearch'
+        get 'tag'
     end
     resources :layers
   end

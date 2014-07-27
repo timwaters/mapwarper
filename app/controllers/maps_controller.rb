@@ -193,13 +193,11 @@ class MapsController < ApplicationController
     sort_update
     @tags = params[:id] || @query
     @html_title = "Maps tagged with #{@tags} on "
-    @maps = Map.public.paged_find_tagged_with(
-      @tags,
+    @maps = Map.are_public.order(sort_clause).tagged_with(@tags).paginate(
       :page => params[:page],
-      :per_page => 20,
-      :order => sort_clause)
+      :per_page => 20)
     respond_to do |format|
-      format.html{ render :layout =>'application' }  # index.html.erb
+      format.html { render :layout =>'application' }  # index.html.erb
       format.xml  { render :xml => @maps }
       format.rss  { render  :layout => false }
     end
