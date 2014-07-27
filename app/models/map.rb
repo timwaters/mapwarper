@@ -414,7 +414,7 @@ class Map < ActiveRecord::Base
   #attempts to align based on the extent and offset of the
   #reference map's warped image
   #results it nicer gcps to edit with later
-  def align_with_warped (srcmap, align = nil, append = false)
+  def align_with_warped(srcmap, align = nil, append = false)
     srcmap = Map.find(srcmap)
     origgcps = srcmap.gcps.hard
 

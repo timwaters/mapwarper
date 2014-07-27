@@ -36,6 +36,7 @@ Rails.application.routes.draw do
       get 'unpublish'
       post 'save_mask_and_warp'
       delete 'delete_mask'
+      post 'warp_aligned'
     end
     collection do
         get 'geosearch'
@@ -43,6 +44,8 @@ Rails.application.routes.draw do
     end
     resources :layers
   end
+  
+  get '/maps/thumb/:id' => 'maps#thumb', :as =>'thumb_map'
   
   get '/gcps/' => 'gcp#index', :as => "gcps"
   get '/gcps/:id' => 'gcps#show', :as => "gcp"
