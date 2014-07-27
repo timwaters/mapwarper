@@ -577,11 +577,11 @@ class MapsController < ApplicationController
 
     respond_to do |format|
       unless @too_few || @fail
-        format.js if request.xhr?
+        format.js 
         format.html { render :text => @notice_text }
         format.json { render :json=> {:stat => "ok", :message => @notice_text}.to_json, :callback => params[:callback] }
       else
-        format.js if request.xhr?
+        format.js
         format.html { render :text => @notice_text }
         format.json { render :json=> {:stat => "fail", :message => @notice_text}.to_json , :callback => params[:callback]}
       end
@@ -589,8 +589,8 @@ class MapsController < ApplicationController
      
   end
 
-    
-  include Mapscript if require 'mapscript'
+  require 'mapscript'
+  include Mapscript
 
   def wms
     
@@ -722,7 +722,7 @@ class MapsController < ApplicationController
       @notice_text = "Sorry, the map is currently being rectified somewhere else, please try again later."
       @output = @notice_text
     else
-      if logged_in?
+      if user_signed_in?
         um  = current_user.my_maps.new(:map => @map)
         um.save
 

@@ -25,7 +25,7 @@ Rails.application.routes.draw do
       get 'export'
       get 'warp'
       get 'clip'
-      get 'rectify'
+      post 'rectify'
       get 'align'
       get 'warped'
       get 'metadata'
@@ -45,8 +45,8 @@ Rails.application.routes.draw do
   get '/gcps/:id' => 'gcps#show', :as => "gcp"
   delete '/gcps/:id/destroy' => 'gcps#destroy', :as => "destroy_gcp"
   post '/gcps/add/:mapid' => 'gcps#add', :as => "add_gcp"
-  patch '/gcps/update' => 'gcps#update', :as => "update_gcp"
-  patch '/gcps/update_field' => 'gcps#update_field', :as => "update_field_gcp"
+  put '/gcps/update/:id' => 'gcps#update', :as => "update_gcp"
+  put '/gcps/update_field/:id' => 'gcps#update_field', :as => "update_field_gcp"
   
 
   get '/maps/wms/:id' => "maps#wms", :as => 'wms_map'

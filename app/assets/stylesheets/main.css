@@ -1138,7 +1138,7 @@ font-style:italic;
 	font-size:110%;
 	font-weight:700;
 	overflow:visible;
-	padding-bottom:0;
+	padding-bottom:0.2em;
 	padding-left:1em;
 	padding-right:1em;
 }

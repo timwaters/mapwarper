@@ -556,7 +556,7 @@ class Map < ActiveRecord::Base
   #Main warp method
   def warp!(resample_option, transform_option, use_mask="false")
     prior_status = self.status
-    self.status = :warping
+    #self.status = :warping
     save!
     
     gcp_array = self.gcps.hard
@@ -585,16 +585,16 @@ class Map < ActiveRecord::Base
     end
     
     logger.info "gdal translate"
+  
+    command = "#{GDAL_PATH}gdal_translate -a_srs '+init=epsg:4326' -of VRT #{src_filename} #{temp_filename}.vrt #{gcp_string}"
+    t_stdout, t_stderr = Open3.capture3( command )
     
-    t_stdin, t_stdout, t_stderr = Open3::popen3(
-      "#{GDAL_PATH}gdal_translate -a_srs '+init=epsg:4326' -of VRT #{src_filename} #{temp_filename}.vrt #{gcp_string}"
-    )
+    logger.info command
     
-    logger.info "#{GDAL_PATH}gdal_translate -a_srs '+init=epsg:4326' -of VRT #{src_filename} #{temp_filename}.vrt #{gcp_string}"
-    t_out  = t_stdout.readlines.to_s
-    t_err = t_stderr.readlines.to_s
+    t_out  = t_stdout
+    t_err = t_stderr
     
-    if t_err.size > 0
+    if !t_err.blank?
       logger.error "ERROR gdal translate script: "+ t_err
       logger.error "Output = " +t_out
       t_out = "ERROR with gdal translate script: " + t_err + "<br /> You may want to try it again? <br />" + t_out
@@ -607,12 +607,12 @@ class Map < ActiveRecord::Base
     
     #check for colorinterop=pal ? -disnodata 255 or -dstalpha
     command = "#{GDAL_PATH}gdalwarp #{memory_limit}  #{transform_option}  #{resample_option} -dstalpha #{mask_options} -s_srs 'EPSG:4326' #{temp_filename}.vrt #{dest_filename} -co TILED=YES -co COMPRESS=LZW"
-    w_stdin, w_stdout, w_stderr = Open3::popen3(command)
+    w_stdout, w_stderr = Open3.capture3( command )
     logger.info command
     
-    w_out = w_stdout.readlines.to_s
-    w_err = w_stderr.readlines.to_s
-    if w_err.size > 0
+    w_out = w_stdout
+    w_err = w_stderr
+    if !w_err.blank?
       logger.error "Error gdal warp script" + w_err
       logger.error "output = "+w_out
       w_out = "error with gdal warp: "+ w_err +"<br /> try it again?<br />"+ w_out
@@ -623,12 +623,12 @@ class Map < ActiveRecord::Base
     
     # gdaladdo
     command = "#{GDAL_PATH}gdaladdo -r average #{dest_filename} 2 4 8 16 32 64"
-    o_stdin, o_stdout, o_stderr = Open3::popen3(command)
+    o_stdout, o_stderr = Open3.capture3( command )
     logger.info command
     
-    o_out = o_stdout.readlines.to_s
-    o_err = o_stderr.readlines.to_s
-    if o_err.size > 0
+    o_out = o_stdout
+    o_err = o_stderr
+    if !o_err.blank? 
       logger.error "Error gdal overview script" + o_err
       logger.error "output = "+o_out
       o_out = "error with gdal overview: "+ o_err +"<br /> try it again?<br />"+ o_out
@@ -663,6 +663,29 @@ class Map < ActiveRecord::Base
       "Step 3: Add overviews:" + overview_output
   end
   
+  def update_bbox
+    
+    if File.exists? self.warped_filename
+      logger.info "updating bbox..."
+      begin
+        extents = get_raster_extents self.warped_filename
+        self.bbox = extents.join ","
+        logger.debug "SAVING BBOX GEOM"
+        poly_array = [
+          [ extents[0], extents[1] ],
+          [ extents[2], extents[1] ],
+          [ extents[2], extents[3] ],
+          [ extents[0], extents[3] ],
+          [ extents[0], extents[1] ]
+        ]
+        self.bbox_geom =  GeoRuby::SimpleFeatures::Polygon.from_coordinates([poly_array], 4326)
+        save
+      rescue Exception => e
+        logger.debug e.inspect
+      end
+    end
+  end
+  
   ############
   #PRIVATE
   ############
@@ -670,12 +693,12 @@ class Map < ActiveRecord::Base
   def convert_to_png
     logger.info "start convert to png ->  #{warped_png_filename}"
     ext_command = "#{GDAL_PATH}gdal_translate -of png #{warped_filename} #{warped_png_filename}"
-    stdin, stdout, stderr = Open3::popen3(ext_command)
+    stdout, stderr = Open3.capture3( ext_command )
     logger.debug ext_command
-    if stderr.readlines.to_s.size > 0
+    if !stderr.blank?
       logger.error "ERROR convert png #{warped_filename} -> #{warped_png_filename}"
-      logger.error stderr.readlines.to_s
-      logger.error stdout.readlines.to_s
+      logger.error stderr
+      logger.error stdout
     else
       logger.info "end, converted to png -> #{warped_png_filename}"
     end

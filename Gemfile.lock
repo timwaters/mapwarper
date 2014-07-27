@@ -70,6 +70,8 @@ GEM
     erubis (2.7.0)
     eventmachine (1.0.3)
     execjs (2.2.1)
+    gdal (0.0.5)
+    georuby (2.2.1)
     hike (1.2.3)
     i18n (0.6.9)
     jbuilder (2.1.1)
@@ -175,6 +177,8 @@ DEPENDENCIES
   coffee-rails (~> 4.0.0)
   devise
   devise-encryptable
+  gdal
+  georuby
   jbuilder (~> 2.0)
   jquery-rails
   jquery-ui-rails (= 3.0.1)

@@ -3,8 +3,8 @@
   <script type="text/javascript" charset="utf-8">
     var icon_imgPath = '/assets/icons/';
     var gcp_add_url = "<%= url_for add_gcp_path :mapid=> @map %>";
-    var gcp_update_url = "<%= url_for update_gcp_path %>";
-    var gcp_update_field_url = "<%= url_for update_field_gcp_path %>";
+    var gcp_update_url = "/gcps/update";
+    var gcp_update_field_url = "/gcps/update_field";
 
     var from_map;
     var to_map;
@@ -139,7 +139,17 @@
         </select>
       </div>
       <p>
-        <%= f.submit 'Warp Image! &rarr;'.html_safe %>
+        
+   <script type="text/javascript">
+    jQuery(document).ready(function() {
+      jQuery("form#gcp_form").bind("ajax:before", function(event, data, status, xhr) {
+        bigModalDialog('Rectifying.....');
+      }).bind("ajax:error", function(){
+        gcp_notice('Sorry, there appears to be an error sending the request to the server, try again?...');  
+      });
+    });
+  </script>
+        <%= f.submit 'Warp Image! &rarr;'.html_safe, {:class  => "warp_button", :id=>"warp_button"}%>
   <%# submit_to_remote 'submit', 'Warp Image! &rarr;',
   :url => {:controller => 'maps', :action=> 'rectify', :id =>@map },
   :before => "bigModalDialog('Rectifying.....');",

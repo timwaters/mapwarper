@@ -310,24 +310,19 @@ function update_gcp_field(gcp_id, elem) {
   jQuery('#spinner').show();
   gcp_notice('Updating...');
 
-  var options = {
-    method: "put",
-    parameters: 'authenticity_token=' + encodeURIComponent(window._token) + "&attribute=" + attrib + "&value=" + value,
-    asynchronous: true,
-    onSuccess: function(transport) {
-      gcp_notice("Control Point updated!");
-      move_map_markers(gcp_id, elem);
-    },
-    onFailure: function(transport) {
-      gcp_notice("Had trouble updating that point with the server. Try again?");
-      elem.value = value;
-    },
-    onComplete: function(transport) {
-      jQuery('#spinner').hide();
-    },
-    evalScripts: true};
-
-  request = new Ajax.Request(url, options);
+  var request = jQuery.ajax({
+    type: "PUT",
+    url: url,
+    data: {authenticity_token: encodeURIComponent(window._token), attribute: attrib, value: value}}
+  ).success(function() {
+    gcp_notice("Control Point updated!");
+    move_map_markers(gcp_id, elem);
+  }).done(function() {
+    jQuery('#spinner').hide();
+  }).fail(function() {
+    gcp_notice("Had trouble updating that point with the server. Try again?");
+    elem.value = value;
+  });
 }
 
 function update_gcp(gcp_id, listele) {
@@ -356,22 +351,19 @@ function update_gcp(gcp_id, listele) {
   }
   gcp_notice('Updating...');
   jQuery('#spinner').show();
-  var options = {
-    method: "put",
-    parameters: 'authenticity_token=' + encodeURIComponent(window._token) + "&x=" + x + "&y=" + y + "&lon=" + lon + "&lat=" + lat,
-    asynchronous: true,
-    onSuccess: function(transport) {
-      gcp_notice("Control Point updated");
-    },
-    onFailure: function(transport) {
-      gcp_notice("Had trouble updating that point with the server. Try again?");
-    },
-    onComplete: function(transport) {
-      jQuery('#spinner').hide();
-    },
-    evalScripts: true};
-
-  request = new Ajax.Request(url, options);
+  
+  var request = jQuery.ajax({
+    type: "PUT",
+    url: url,
+    data: {authenticity_token: encodeURIComponent(window._token), x: x, y: y, lon: lon, lat: lat}}
+  ).success(function() {
+    gcp_notice("Control Point updated!");
+  }).done(function() {
+    jQuery('#spinner').hide();
+  }).fail(function() {
+    gcp_notice("Had trouble updating that point with the server. Try again?");
+    elem.value = value;
+  });
 
 }
 
@@ -480,24 +472,6 @@ function save_new_gcp(x, y, lon, lat) {
   url = gcp_add_url;
   gcp_notice("Adding...");
   jQuery('#spinner').show();
-
-  var options = {
-    asynchronous: true,
-    evalScripts: true,
-    method: "post",
-    parameters: 'authenticity_token=' + encodeURIComponent(window._token) + "&x=" + x + "&y=" + y + "&lat=" + lat + "&lon=" + lon,
-    onComplete: function(transport) {
-      update_row_numbers();
-      jQuery('#spinner').hide();
-    },
-    onFailure: function(transport) {
-      gcp_notice("Had trouble saving that point to the server. Try again?");
-    },
-    onSuccess: function() {
-    }
-  };
- // request = new Ajax.Request(url, options);
-  
   
   var request = jQuery.ajax({
     type: "POST",
