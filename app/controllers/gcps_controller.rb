@@ -76,9 +76,9 @@ class GcpsController < ApplicationController
   def destroy
     @map = @gcp.map
     @gcp_id = @gcp.id
-logger.debug(request.xhr?)
+
     respond_to do |format|
-      if true#@gcp.destroy
+      if @gcp.destroy
         @map.reload
         @gcps = @map.gcps_with_error
         format.js
