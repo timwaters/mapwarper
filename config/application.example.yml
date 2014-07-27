@@ -6,6 +6,7 @@ defaults: &defaults
   google_analytics_cookie_path:  ""
   src_map_dir: "/public/mapimages/src/"
   dst_map_dir: "/public/mapimages/dst/"
+  yahoo_app_id: "ascas"
 
 development:
   <<: *defaults
