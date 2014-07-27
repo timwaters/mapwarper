@@ -22,7 +22,6 @@
 
   <script type="text/javascript">
     jQuery(document).ready(function() {
-      
       jQuery("a#<%=  "delete_gcp_#{gcp.id}" %>").button().bind("ajax:before", function(event, data, status, xhr) {
         jQuery('#spinner').show();
         gcp_notice('Deleting...');

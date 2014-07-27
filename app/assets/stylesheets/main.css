@@ -1360,3 +1360,24 @@ div.olControlMousePosition
 .breadCrumb a:last-of-type {
 	color: #191970;
 }
+
+fieldset#control_panel_fieldset { 
+  border:1px solid green;
+  padding-left: 0.3em;
+  padding-right: 0.3em;
+}
+fieldset#control_panel_fieldset legend {
+  padding: 0.2em 0.5em;
+  border:1px solid green;
+  color:green;
+  font-size:90%;
+  margin-left: 1em;
+}
+
+fieldset#control_panel_fieldset a:hover {
+  color:#447a05;
+} 
+
+fieldset#control_panel_fieldset a {
+  color:#222;
+} 
