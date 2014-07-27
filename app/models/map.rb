@@ -30,6 +30,7 @@ class Map < ActiveRecord::Base
   scope :are_public, -> { where(public: true) }
   scope :real_maps, -> { where({:map_type => Map.map_type(:is_map)})}
   
+  attr_accessor :error
   attr_accessor :upload_url
   
   after_initialize :default_values
@@ -209,6 +210,10 @@ class Map < ActiveRecord::Base
     #    end
   end
   
+  def update_gcp_touched_at
+    self.touch(:gcp_touched_at)
+  end
+  
   #method to publish the map
   #sets status to published
   def publish
@@ -352,6 +357,59 @@ class Map < ActiveRecord::Base
     end
   end
   
+  def save_rough_centroid(lon,lat)
+    self.rough_centroid =  Point.from_lon_lat(lon,lat)
+    self.save
+  end
+  
+  def save_bbox
+    stdin, stdout, stderr = Open3::popen3("#{GDAL_PATH}gdalinfo #{warped_filename}")
+    unless stderr.readlines.to_s.size > 0
+      info = stdout.readlines.to_s
+      string,west,south = info.match(/Lower Left\s+\(\s*([-.\d]+),\s+([-.\d]+)/).to_a
+      string,east,north = info.match(/Upper Right\s+\(\s*([-.\d]+),\s+([-.\d]+)/).to_a
+      self.bbox = [west,south,east,north].join(",")
+    else
+      logger.debug "Save bbox error "+ stderr.readlines.to_s
+    end
+  end
+  
+  def bounds
+    if bbox.nil?
+      x_array = []
+      y_array = []
+      self.gcps.hard.each do |gcp|
+        #logger.info "GCP lat #{gcp[:lat]} , lon #{gcp[:lon]} "
+        x_array << gcp[:lat]
+        y_array << gcp[:lon]
+      end
+      #south, west, north, east
+      our_bounds = [y_array.min ,x_array.min ,y_array.max, x_array.max].join ','
+    else
+      bbox
+    end
+  end
+  
+  
+  #returns a GeoRuby polygon object representing the bounds
+  def bounds_polygon
+    bounds_float  = bounds.split(',').collect {|i| i.to_f}
+    Polygon.from_coordinates([ [bounds_float[0..1]] , [bounds_float[2..3]] ], -1)
+  end
+  
+  def converted_bbox
+    bnds = self.bounds.split(",")
+    cbounds = []
+    c_in, c_out, c_err =
+      Open3::popen3("echo #{bnds[0]} #{bnds[1]} | cs2cs +proj=latlong +datum=WGS84 +to +proj=merc +ellps=sphere +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0 +k=1.0")
+    info = c_out.readlines.to_s
+    string,cbounds[0], cbounds[1] = info.match(/([-.\d]+)\s*([-.\d]+).*/).to_a
+    c_in, c_out, c_err =
+      Open3::popen3("echo #{bnds[2]} #{bnds[3]} | cs2cs +proj=latlong +datum=WGS84 +to +proj=merc +ellps=sphere +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0 +k=1.0")
+    info = c_out.readlines.to_s
+    string,cbounds[2], cbounds[3] = info.match(/([-.\d]+)\s*([-.\d]+).*/).to_a
+    cbounds.join(",")
+  end
   
   #attempts to align based on the extent and offset of the
   #reference map's warped image
@@ -429,9 +487,9 @@ class Map < ActiveRecord::Base
   # map gets error attibute set and gcps get error attribute set
   def gcps_with_error(soft=nil)
     unless soft == 'true'
-      gcps = Gcp.hard.find(:all, :conditions =>["map_id = ?", self.id], :order => 'created_at')
+      gcps = Gcp.hard.where(["map_id = ?", self.id]).order(:created_at)
     else
-      gcps = Gcp.soft.find(:all, :conditions =>["map_id = ?", self.id], :order => 'created_at')
+      gcps = Gcp.soft.where(["map_id = ?", self.id]).order(:created_at)
     end
     gcps, map_error = ErrorCalculator::calc_error(gcps)
     @error = map_error

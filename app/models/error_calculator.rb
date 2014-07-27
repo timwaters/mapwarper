@@ -3,7 +3,7 @@
 #oldmapsonline.org Klokan Petr Pridal gcps2wld.py (new BSD licence)
 #takes in an enumeration of control points, and returns them with error attribute
 #and returns the rms of the whole lot
-
+require "matrix"
 module ErrorCalculator
 
 
@@ -92,7 +92,7 @@ module ErrorCalculator
         end
         error = rmse #rms error for map
       rescue ExceptionForMatrix::ErrNotRegular => whoops
-        Rails.logger.error("error in matrix: " + whoops)
+        Rails.logger.error("error in matrix: " + whoops.inspect)
         gcps.each do |gcp|
           gcp.error = 0.0
         end
