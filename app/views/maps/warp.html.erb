@@ -56,7 +56,7 @@
       update_row_numbers();
 
   <% if @bestguess_places -%>
-        var bestGuessResult = <%= @bestguess_places.to_json -%>;
+        var bestGuessResult = <%= @bestguess_places.to_json.html_safe -%>;
         bestGuess(bestGuessResult);
   <% end -%>
 

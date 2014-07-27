@@ -56,7 +56,8 @@ gem 'spawnling', '~>2.1'
 gem 'audited-activerecord', github: 'timwaters/audited', branch: 'rails4'  
 
 gem 'gdal'
-gem "georuby"
+gem 'georuby'
+gem 'nokogiri'
 
 group :development do
    gem 'thin'

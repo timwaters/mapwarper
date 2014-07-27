@@ -766,6 +766,90 @@ class Map < ActiveRecord::Base
       logger.info "end, converted to png -> #{warped_png_filename}"
     end
   end
+  
+  #uses Yahoo Geo placemaker to get the places mentioned in the title and description
+  #it will also get a sibling map, if that has been rectified, to help determine appropriate zoom scale
+  #TODO - weight the results to bias the text in the title, and experiment with the focusWoeid
+  def find_bestguess_places
+    require 'nokogiri'
 
+    url = URI.parse('http://wherein.yahooapis.com/v1/document')
+    appid = APP_CONFIG['yahoo_app_id']
+    builder = Nokogiri::XML::Builder.new do |xml|
+      xml.root {
+        xml.title {
+          xml.text self.title.to_s
+        }
+        xml.description {
+          xml.text self.description.to_s
+        }
+      }
+    end
+    documentContent = builder.to_xml
+    documentType = "text/xml"
+    focusWoeid = 2459115  #focus to new york
+    post_args = {
+      #'focusWoeid' => focusWoeid,
+      'appid' => appid,
+      'documentContent' => documentContent,
+      'documentType' => documentType
+    }
+    begin
+      resp, data = Net::HTTP.post_form(url, post_args)
+       @newresults = Nokogiri::XML.parse(data)
+      xmlroot = @newresults.root
+      if xmlroot && xmlroot.at('document') && xmlroot.at('document').children.size > 1
+        south_west = [xmlroot.at('document > extents > southWest > longitude').children[0].text,
+          xmlroot.at('document > extents > southWest > latitude').children[0].text]
+        north_east = [xmlroot.at('document > extents > northEast > longitude').children[0].text,
+          xmlroot.at('document > extents > northEast > latitude').children[0].text]
+        extents = [south_west + north_east].join ','
+        
+        places = Array.new
+        place_woeids = Array.new
+        place_count = 0
+        xmlroot.xpath('/xmlns:contentlocation/xmlns:document/xmlns:placeDetails/xmlns:place').each do | place |
+          place_hash = Hash.new
+          place_hash[:name] = place.at('name').children[0].text
+          place_hash[:lon] = place.at('centroid > longitude').children[0].text
+          place_hash[:lat] = place.at('centroid > latitude').children[0].text
+          places << place_hash
+          place_woeids << place.at('woeId').children[0].text
+          place_count += 1
+        end
+        
+        if !self.layers.visible.empty? && !self.layers.visible.first.maps.warped.empty?
+          sibling_extent = self.layers.visible.first.maps.warped.last.bbox
+        else
+          sibling_extent = nil
+        end
+        top_places = Array.new
+        
+        xmlroot.xpath('/xmlns:contentlocation/xmlns:document/xmlns:referenceList/xmlns:reference').each do | reference |
+          if "/root[1]/title[1]" ==  reference.at('xpath').children[0].text
+            ref_woeid =  reference.at('woeIds').children[0].text.split.first
+            if place_woeids.include? ref_woeid
+              top_places <<  places[place_woeids.index(ref_woeid)]
+            end
+          end
+        end
+        
+        temp_a = places - top_places
+        places = top_places + temp_a
+        placemaker_result = {:status => "ok", :map_id => self.id, :extents => extents, :count => place_count, :places => places, :sibling_extent=> sibling_extent}
+        
+      else
+        placemaker_result = {:status => "fail", :code => "no results"}
+      end
+      
+      
+    rescue SocketError => e
+      logger.error "Socket error in find bestguess places" + e.to_s
+      placemaker_result = {:status => "fail", :code => "socketError"}
+    end
+    logger.debug placemaker_result
+    placemaker_result
+  end
+  
   
 end
