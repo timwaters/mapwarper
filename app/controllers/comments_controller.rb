@@ -13,10 +13,8 @@ class CommentsController < ApplicationController
     sort_update
     @query = params[:query]
 
-    @comments = Comment.paginate(:page => params[:page],
-      :per_page => 30,
-      :order => sort_clause
-    )
+    @comments = Comment.order(sort_clause).paginate(:page => params[:page], :per_page => 30)
+    
     respond_to do | format |
       format.html {}
     end
