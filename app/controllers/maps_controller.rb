@@ -310,9 +310,9 @@ class MapsController < ApplicationController
     choose_layout_if_ajax
     respond_to do | format |
       format.html {}
-      format.tif {  send_file @map.warped_filename, :x_sendfile => (RAILS_ENV != "development") }
-      format.png  { send_file @map.warped_png, :x_sendfile => (RAILS_ENV != "development") }
-      format.aux_xml { send_file @map.warped_png_aux_xml,:x_sendfile => (RAILS_ENV != "development") }
+      format.tif     { send_file @map.warped_filename, :x_sendfile => (Rails.env != "development") }
+      format.png     { send_file @map.warped_png, :x_sendfile => (Rails.env != "development") }
+      format.aux_xml { send_file @map.warped_png_aux_xml,:x_sendfile => (Rails.env != "development") }
     end
   end
   
