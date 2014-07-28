@@ -13,11 +13,12 @@
 //= require jquery
 //= require jquery_ujs
 //= require jquery.ui.all
-//= require_tree .
+
 //= require jquery-bramus-progressbar/jquery-bramus-progressbar
 //= require general
 //= require jquery.history
 //= require jquery-warper
 //= require layers
 //= require unwarped
+//= require SelectFeatureNoClick
 

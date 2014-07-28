@@ -203,8 +203,94 @@ class MapsController < ApplicationController
     end
   end
   
-  def geosearch
     
+  def geosearch
+    require 'geoplanet'
+    sort_init 'updated_at'
+    sort_update
+
+    extents = [-74.1710,40.5883,-73.4809,40.8485] #NYC
+
+    #TODO change to straight javascript call.
+    if params[:place] && !params[:place].blank?
+      place_query = params[:place]
+      GeoPlanet.appid = APP_CONFIG['yahoo_app_id']
+      
+      geoplanet_result = GeoPlanet::Place.search(place_query, :count => 2)
+      
+      if geoplanet_result[0]
+        g_bbox =  geoplanet_result[0].bounding_box.map!{|x| x.reverse}
+        extents = g_bbox[1] + g_bbox[0]
+        render :json => extents.to_json
+        return
+      else
+        render :json => extents.to_json
+        return
+      end
+    end
+
+    if params[:bbox] && params[:bbox].split(',').size == 4
+      begin
+        extents = params[:bbox].split(',').collect {|i| Float(i)}
+      rescue ArgumentError
+        logger.debug "arg error with bbox, setting extent to defaults"
+      end
+    end
+    @bbox = extents.join(',')
+
+    if extents
+      bbox_poly_ary = [
+        [ extents[0], extents[1] ],
+        [ extents[2], extents[1] ],
+        [ extents[2], extents[3] ],
+        [ extents[0], extents[3] ],
+        [ extents[0], extents[1] ]
+      ]
+
+      bbox_polygon = GeoRuby::SimpleFeatures::Polygon.from_coordinates([bbox_poly_ary], -1).as_ewkt
+      if params[:operation] == "within"
+        conditions = ["ST_Within(bbox_geom, ST_GeomFromText('#{bbox_polygon}'))"]
+      else
+        conditions = ["ST_Intersects(bbox_geom, ST_GeomFromText('#{bbox_polygon}'))"]
+      end
+
+    else
+      conditions = nil
+    end
+
+
+    if params[:sort_order] && params[:sort_order] == "desc"
+      sort_nulls = " NULLS LAST"
+    else
+      sort_nulls = " NULLS FIRST"
+    end
+
+
+      @operation = params[:operation]
+
+    if @operation == "intersect"
+      sort_geo = "ABS(ST_Area(bbox_geom) - ST_Area(ST_GeomFromText('#{bbox_polygon}'))) ASC,  "
+    else
+      sort_geo ="ST_Area(bbox_geom) DESC ,"
+    end
+
+    paginate_params = {
+      :page => params[:page],
+      :per_page => 20
+    }
+    order_params = sort_geo + sort_clause + sort_nulls
+    @maps = Map.select("bbox, title, description, updated_at, id, date_depicted").warped.where(conditions).order(order_params).paginate(paginate_params)
+    @jsonmaps = @maps.to_json # (:only => [:bbox, :title, :id, :nypl_digital_id])
+    respond_to do |format|
+      format.html{ render :layout =>'application' }
+      #format.json { render :json => @maps.to_json(:stat => "ok")}
+      format.json { render :json => {:stat => "ok",
+        :current_page => @maps.current_page,
+        :per_page => @maps.per_page,
+        :total_entries => @maps.total_entries,
+        :total_pages => @maps.total_pages,
+        :items => @maps.to_a}.to_json(:methods => :depicts_year) , :callback => params[:callback]}
+    end
   end
   
   

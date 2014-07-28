@@ -25,90 +25,93 @@ class LayersController < ApplicationController
     redirect_to @layer.thumb
   end
 
-#  require 'yahoo-geoplanet'
-#  def geosearch
-#    sort_init 'updated_at'
-#    sort_update
-#
-#    extents = [-74.1710,40.5883,-73.4809,40.8485] #NYC
-#
-#    #TODO change to straight javascript call.
-#    if params[:place] && !params[:place].blank?
-#      place_query = params[:place]
-#      Yahoo::GeoPlanet.app_id = Yahoo_app_id
-#      geoplanet_result = Yahoo::GeoPlanet::Place.search(place_query, :count => 2)
-#      if geoplanet_result[0]
-#        g_bbox =  geoplanet_result[0].bounding_box.map!{|x| x.reverse}
-#        extents = g_bbox[1] + g_bbox[0]
-#        render :json => extents.to_json
-#        return
-#      else
-#        render :json => extents.to_json
-#        return
-#      end
-#    end
-#
-#    if params[:bbox] && params[:bbox].split(',').size == 4
-#      begin
-#        extents = params[:bbox].split(',').collect {|i| Float(i)}
-#      rescue ArgumentError
-#        logger.debug "arg error with bbox, setting extent to defaults"
-#      end
-#    end
-#    @bbox = extents.join(',')
-#    if extents
-#      bbox_poly_ary = [
-#        [ extents[0], extents[1] ],
-#        [ extents[2], extents[1] ],
-#        [ extents[2], extents[3] ],
-#        [ extents[0], extents[3] ],
-#        [ extents[0], extents[1] ]
-#      ]
-#
-#      bbox_polygon = Polygon.from_coordinates([bbox_poly_ary], -1).as_ewkt
-#      if params[:operation] == "within"
-#        conditions = ["ST_Within(bbox_geom, ST_GeomFromText('#{bbox_polygon}'))"]
-#      else
-#        conditions = ["ST_Intersects(bbox_geom, ST_GeomFromText('#{bbox_polygon}'))"]
-#      end
-#
-#    else
-#      conditions = nil
-#    end
-#
-#
-#    if params[:sort_order] && params[:sort_order] == "desc"
-#      sort_nulls = " NULLS LAST"
-#    else
-#      sort_nulls = " NULLS FIRST"
-#    end
-#    @operation = params[:operation]
-#
-#    if @operation == "intersect"
-#      sort_geo = "ABS(ST_Area(bbox_geom) - ST_Area(ST_GeomFromText('#{bbox_polygon}'))) ASC,  "
-#    else
-#      sort_geo ="ST_Area(bbox_geom) DESC ,"
-#    end
-#
-#    paginate_params = {
-#      :select => "bbox, name, updated_at, id, maps_count, rectified_maps_count, depicts_year",
-#      :page => params[:page],
-#      :per_page => 20,
-#      :order => sort_geo + sort_clause + sort_nulls,
-#      :conditions => conditions
-#    }
-#    @layers = Layer.visible.with_maps.paginate(paginate_params)
-#    @jsonlayers = @layers.to_json
-#    respond_to do |format|
-#      format.html{ render :layout =>'application' }
-#      format.json { render :json => {:stat => "ok",
-#          :current_page => @layers.current_page,
-#          :per_page => @layers.per_page,
-#          :total_entries => @layers.total_entries,
-#          :total_pages => @layers.total_pages,
-#          :items => @layers.to_a}.to_json , :callback => params[:callback]}
-#    end
-#  end
+  
+  def geosearch
+    require 'geoplanet'
+    sort_init 'updated_at'
+    sort_update
+
+    extents = [-74.1710,40.5883,-73.4809,40.8485] #NYC
+
+    #TODO change to straight javascript call.
+    if params[:place] && !params[:place].blank?
+      place_query = params[:place]
+      GeoPlanet.appid = APP_CONFIG['yahoo_app_id']
+      
+      geoplanet_result = GeoPlanet::Place.search(place_query, :count => 2)
+      if geoplanet_result[0]
+        g_bbox =  geoplanet_result[0].bounding_box.map!{|x| x.reverse}
+        extents = g_bbox[1] + g_bbox[0]
+        render :json => extents.to_json
+        return
+      else
+        render :json => extents.to_json
+        return
+      end
+    end
+
+    if params[:bbox] && params[:bbox].split(',').size == 4
+      begin
+        extents = params[:bbox].split(',').collect {|i| Float(i)}
+      rescue ArgumentError
+        logger.debug "arg error with bbox, setting extent to defaults"
+      end
+    end
+    @bbox = extents.join(',')
+    if extents
+      bbox_poly_ary = [
+        [ extents[0], extents[1] ],
+        [ extents[2], extents[1] ],
+        [ extents[2], extents[3] ],
+        [ extents[0], extents[3] ],
+        [ extents[0], extents[1] ]
+      ]
+
+      bbox_polygon = Polygon.from_coordinates([bbox_poly_ary], -1).as_ewkt
+      if params[:operation] == "within"
+        conditions = ["ST_Within(bbox_geom, ST_GeomFromText('#{bbox_polygon}'))"]
+      else
+        conditions = ["ST_Intersects(bbox_geom, ST_GeomFromText('#{bbox_polygon}'))"]
+      end
+
+    else
+      conditions = nil
+    end
+    
+    
+    if params[:sort_order] && params[:sort_order] == "desc"
+      sort_nulls = " NULLS LAST"
+    else
+      sort_nulls = " NULLS FIRST"
+    end
+    @operation = params[:operation]
+    
+    if @operation == "intersect"
+      sort_geo = "ABS(ST_Area(bbox_geom) - ST_Area(ST_GeomFromText('#{bbox_polygon}'))) ASC,  "
+    else
+      sort_geo ="ST_Area(bbox_geom) DESC ,"
+    end
+    
+    
+    paginate_params = {
+      :page => params[:page],
+      :per_page => 20
+    }
+    order_params = sort_geo + sort_clause + sort_nulls
+    @layers = Layer.select("bbox, name, updated_at, id, maps_count, rectified_maps_count,
+                       depicts_year").visible.with_maps.where(conditions).paginate(paginate_params)
+    
+    @jsonlayers = @layers.to_json
+    respond_to do |format|
+      format.html{ render :layout =>'application' }
+      format.json { render :json => {:stat => "ok",
+          :current_page => @layers.current_page,
+          :per_page => @layers.per_page,
+          :total_entries => @layers.total_entries,
+          :total_pages => @layers.total_pages,
+          :items => @layers.to_a}.to_json , :callback => params[:callback]}
+    end
+  end
 
 
 

@@ -10,7 +10,11 @@
 
     <%= yield :head %>
   </head>
-  <body>
+  <% if @onload -%>
+    <body onload="<%=@onload%>">
+  <%else-%>
+    <body>
+  <%end%>
     <p class="notice"><%= notice %></p>
     <p class="alert"><%= alert %></p>
 
