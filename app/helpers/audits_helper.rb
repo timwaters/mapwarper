@@ -47,7 +47,7 @@ module AuditsHelper
       if changes && changes["mask_status"] && changes["status"] != "mask_status"
         
         if changes["mask_status"].class == Array && changes["mask_status"][1]
-          mask_action  = Map::MASK_STATUS[changes["mask_status"]]
+          mask_action  = Map::MASK_STATUS[changes["mask_status"][1]]
         else
           mask_action = :missing
         end

@@ -76,7 +76,7 @@ Rails.application.routes.draw do
   
   
   get '/maps/acitvity.:format' => 'audits#for_map_model', :as => "formatted_maps_activity"
-  get '/maps/:id/activity' => 'audis#for_map', :as => "map_activity"
+  get '/maps/:id/activity' => 'audits#for_map', :as => "map_activity"
   get '/maps/:id/activity.:format' => 'audits#for_map', :as => "formatted_map_activity"
 
   get '/activity' => 'audits#index', :as => "activity"

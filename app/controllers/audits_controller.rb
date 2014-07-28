@@ -44,7 +44,7 @@ class AuditsController < ApplicationController
         @xhr_flag = "xhr"
         format.html { render  :layout => 'tab_container' }
       else
-        format.html {render :layout => 'mapdetail'}
+        format.html {render :layout => 'application' }
       end
       format.rss {render :action=> 'index'}
     end
