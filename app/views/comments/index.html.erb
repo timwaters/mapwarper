@@ -1,0 +1,20 @@
+<h2>Comments </h2>
+
+<%= will_paginate @comments %>
+<table class="commentstable">
+  <thead>
+    <tr>
+      <th>Comment</th>
+      <%= sort_header_tag('commentable_type', :title => "Comment On") %>
+      <%= sort_header_tag('user_id', :title => "User") %>
+      <%= sort_header_tag('created_at', :title => "Created At") %>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+  <%= render :partial => "comment_detail", :collection => @comments %>
+</tbody>
+</table>
+
+
+<%= will_paginate @comments %>

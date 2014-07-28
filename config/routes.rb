@@ -85,6 +85,9 @@ Rails.application.routes.draw do
 
   
   resources :comments
+  #get '/maps/:id/comments' => 'maps#comments', :as => "comments_map"
+ # get '/layers/:id/comments' => 'layers#comments', :as => "comments_layer"
+
   
   resources :groups 
   
