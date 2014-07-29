@@ -675,7 +675,9 @@ class Map < ActiveRecord::Base
           [ extents[0], extents[3] ],
           [ extents[0], extents[1] ]
         ]
-        self.bbox_geom =  GeoRuby::SimpleFeatures::Polygon.from_coordinates([poly_array], -1)
+
+        self.bbox_geom = GeoRuby::SimpleFeatures::Polygon.from_coordinates([poly_array], -1).as_wkt
+
         save
       rescue Exception => e
         logger.debug e.inspect

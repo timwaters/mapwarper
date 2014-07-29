@@ -11,9 +11,9 @@ class Layer < ActiveRecord::Base
   
   scope :with_year, -> { where(:depicts_year =>  'is not null').order(:maps_count) }
   scope :visible, -> {where(:is_visible => true).order(:id)}
-  scope :with_maps, -> {where(:rectified_maps_count => '>= 1').order(:rectified_maps_count)}
+  scope :with_maps, -> {where('rectified_maps_count >= 1').order(:rectified_maps_count)}
+  
 
-    
   after_create :update_layer
   after_destroy :delete_tileindex
 
@@ -153,7 +153,7 @@ class Layer < ActiveRecord::Base
           [ extents[0], extents[1] ]
         ]
         logger.error poly_array.inspect
-        self.bbox_geom = GeoRuby::SimpleFeatures::Polygon.from_coordinates([poly_array], -1)
+        self.bbox_geom = GeoRuby::SimpleFeatures::Polygon.from_coordinates([poly_array], -1).as_wkt
 
         @bounds = extent
         save!
