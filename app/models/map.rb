@@ -187,27 +187,27 @@ class Map < ActiveRecord::Base
   end
   
   def update_layer
-    #    self.layers.each do |layer|
-    #      layer.update_layer
-    #    end unless self.layers.empty?
+    self.layers.each do |layer|
+      layer.update_layer
+    end unless self.layers.empty?
   end
   
   def update_layers
-    #    logger.info "updating (visible) layers"
-    #    unless self.layers.visible.empty?
-    #      self.layers.visible.each  do |layer|
-    #        layer.update_layer
-    #      end
-    #    end
+    logger.info "updating (visible) layers"
+    unless self.layers.visible.empty?
+      self.layers.visible.each  do |layer|
+        layer.update_layer
+      end
+    end
   end
   
   def update_counter_cache
-    #    logger.info "update_counter_cache"
-    #    unless self.layers.empty?
-    #      self.layers.each do |layer|
-    #        layer.update_counts
-    #      end
-    #    end
+    logger.info "update_counter_cache"
+    unless self.layers.empty?
+      self.layers.each do |layer|
+        layer.update_counts
+      end
+    end
   end
   
   def update_gcp_touched_at
@@ -675,7 +675,7 @@ class Map < ActiveRecord::Base
           [ extents[0], extents[3] ],
           [ extents[0], extents[1] ]
         ]
-        self.bbox_geom =  GeoRuby::SimpleFeatures::Polygon.from_coordinates([poly_array], 4326)
+        self.bbox_geom =  GeoRuby::SimpleFeatures::Polygon.from_coordinates([poly_array], -1)
         save
       rescue Exception => e
         logger.debug e.inspect

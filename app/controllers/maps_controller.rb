@@ -283,7 +283,7 @@ class MapsController < ApplicationController
     @jsonmaps = @maps.to_json # (:only => [:bbox, :title, :id, :nypl_digital_id])
     respond_to do |format|
       format.html{ render :layout =>'application' }
-      #format.json { render :json => @maps.to_json(:stat => "ok")}
+      
       format.json { render :json => {:stat => "ok",
         :current_page => @maps.current_page,
         :per_page => @maps.per_page,
@@ -336,7 +336,7 @@ class MapsController < ApplicationController
           format.kml {render :action => "show_kml", :layout => false}
           #format.rss {render :action=> 'show'}
           # format.xml {render :xml => @map.to_xml(:except => [:content_type, :size, :bbox_geom, :uuid, :parent_uuid, :filename, :parent_id,  :map, :thumbnail, :rough_centroid]) }
-          format.json {render :json =>{:stat => "ok", :items => @map.to_a}.to_json(:except => [:content_type, :size, :bbox_geom, :uuid, :parent_uuid, :filename, :parent_id,  :map, :thumbnail, :rough_centroid]), :callback => params[:callback] }
+          format.json {render :json =>{:stat => "ok", :items => @map}.to_json(:except => [:content_type, :size, :bbox_geom, :uuid, :parent_uuid, :filename, :parent_id,  :map, :thumbnail, :rough_centroid]), :callback => params[:callback] }
         end
       end
       
@@ -368,7 +368,7 @@ class MapsController < ApplicationController
       format.html
        format.kml {render :action => "show_kml", :layout => false}
       # format.xml {render :xml => @map.to_xml(:except => [:content_type, :size, :bbox_geom, :uuid, :parent_uuid, :filename, :parent_id,  :map, :thumbnail, :rough_centroid])  }
-        format.json {render :json =>{:stat => "ok", :items => @map.to_a}.to_json(:except => [:content_type, :size, :bbox_geom, :uuid, :parent_uuid, :filename, :parent_id,  :map, :thumbnail, :rough_centroid]), :callback => params[:callback] }
+        format.json {render :json =>{:stat => "ok", :items => @map}.to_json(:except => [:content_type, :size, :bbox_geom, :uuid, :parent_uuid, :filename, :parent_id,  :map, :thumbnail, :rough_centroid]), :callback => params[:callback] }
     end
     
     
@@ -503,7 +503,7 @@ class MapsController < ApplicationController
   def get_rough_centroid
     map = Map.find(params[:id])
     respond_to do |format|
-      format.json {render :json =>{:stat => "ok", :items => map.to_a}.to_json(:except => [:content_type, :size, :bbox_geom, :uuid, :parent_uuid, :filename, :parent_id,  :map, :thumbnail, :rough_centroid]), :callback => params[:callback]  }
+      format.json {render :json =>{:stat => "ok", :items => map}.to_json(:except => [:content_type, :size, :bbox_geom, :uuid, :parent_uuid, :filename, :parent_id,  :map, :thumbnail, :rough_centroid]), :callback => params[:callback]  }
     end
   end
   
@@ -515,7 +515,7 @@ class MapsController < ApplicationController
     respond_to do |format|
       if map.update_attributes(:rough_lon  => lon, :rough_lat => lat, :rough_zoom => zoom ) && lat && lon
         map.save_rough_centroid(lon, lat)
-        format.json {render :json =>{:stat => "ok", :items => map.to_a}.to_json(:except => [:content_type, :size, :bbox_geom, :uuid, :parent_uuid, :filename, :parent_id,  :map, :thumbnail, :rough_centroid]), :callback => params[:callback]
+        format.json {render :json =>{:stat => "ok", :items => map}.to_json(:except => [:content_type, :size, :bbox_geom, :uuid, :parent_uuid, :filename, :parent_id,  :map, :thumbnail, :rough_centroid]), :callback => params[:callback]
         }
       else
         format.json { render :json => {:stat => "fail", :message => "Rough centroid not set", :items => [], :errors => map.errors.to_a}.to_json, :callback => params[:callback]}

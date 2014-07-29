@@ -67,7 +67,7 @@ class LayersController < ApplicationController
         [ extents[0], extents[1] ]
       ]
 
-      bbox_polygon = Polygon.from_coordinates([bbox_poly_ary], -1).as_ewkt
+      bbox_polygon = GeoRuby::SimpleFeatures::Polygon.from_coordinates([bbox_poly_ary], -1).as_ewkt
       if params[:operation] == "within"
         conditions = ["ST_Within(bbox_geom, ST_GeomFromText('#{bbox_polygon}'))"]
       else
@@ -232,7 +232,7 @@ class LayersController < ApplicationController
       respond_to do |format|
         format.html {render :layout => "layerdetail"}# show.html.erb
         #format.json {render :json => @layer.to_json(:except => [:uuid, :parent_uuid, :description])}
-        format.json {render :json => {:stat => "ok", :items => @layer.to_a}.to_json(:except => [:uuid, :parent_uuid, :description]), :callback => params[:callback] }
+        format.json {render :json => {:stat => "ok", :items => @layer}.to_json(:except => [:uuid, :parent_uuid, :description]), :callback => params[:callback] }
         format.xml {render :xml => @layer.to_xml(:except => [:uuid, :parent_uuid, :description])}
         format.kml {render :action => "show_kml", :layout => false}
       end
