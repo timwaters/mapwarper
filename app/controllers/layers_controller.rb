@@ -1,7 +1,7 @@
 class LayersController < ApplicationController
   layout 'layerdetail', :only => [:show,  :edit, :export, :metadata]
-  before_filter :login_or_oauth_required , :except => [:wms, :wms2, :show_kml, :show, :index, :metadata, :maps, :thumb, :geosearch, :comments, :tile]
-  before_filter :check_administrator_role, :only => [:publish, :toggle_visibility, :merge] # :remove_map, :update_year, :update, :destroy, :create
+  #FIXME #TODO before_filter :login_or_oauth_required , :except => [:wms, :wms2, :show_kml, :show, :index, :metadata, :maps, :thumb, :geosearch, :comments, :tile]
+  #FIXME #TODO before_filter :check_administrator_role, :only => [:publish, :toggle_visibility, :merge] # :remove_map, :update_year, :update, :destroy, :create
   before_filter :find_layer, :only => [:show, :export, :metadata, :toggle_visibility, :update_year, :publish, :remove_map, :merge, :maps, :thumb, :comments]
   before_filter :check_if_layer_is_editable, :only => [:edit, :update, :remove_map, :update_year, :update, :destroy]
 
@@ -156,7 +156,7 @@ class LayersController < ApplicationController
       @layers = Layer.select(select).where(conditions).order(sort_clause + sort_nulls).paginate(paginate_params)
       @html_title = "Browse Layer List"
     end
-logger.debug @layers.inspect    
+   
     if request.xhr?
       # for pageless :
       # #render :partial => 'layer', :collection => @layers
@@ -180,15 +180,14 @@ logger.debug @layers.inspect
   def maps
     paginate_params = {
       :page => params[:page],
-      :per_page => 50,
-      :order => :map_type
+      :per_page => 50
     }
 
     show_warped = params[:show_warped]
     unless show_warped == "0"
-      lmaps = @layer.maps.warped.paginate(paginate_params)
+      lmaps = @layer.maps.warped.order(:map_type).paginate(paginate_params)
     else
-      lmaps = @layer.maps.paginate(paginate_params)
+      lmaps = @layer.maps.order(:map_type).paginate(paginate_params)
     end
     respond_to do |format|
       #format.json {render :json =>lmaps.to_json(:stat => "ok",:except => [:content_type, :size, :bbox_geom, :uuid, :parent_uuid, :filename, :parent_id,  :map, :thumbnail])}
@@ -215,10 +214,10 @@ logger.debug @layers.inspect
     end
 
     if  user_signed_in? and (current_user.own_this_layer?(params[:id]) or current_user.has_role?("editor"))
-      @maps = @layer.maps.paginate(:page => params[:page], :per_page => 30, :order => :map_type)
+      @maps = @layer.maps.order(:map_type).paginate(:page => params[:page], :per_page => 30)
     else
       @disabled_tabs += ["edit"]
-      @maps = @layer.maps.public.paginate(:page => params[:page], :per_page => 30, :order => :map_type)
+      @maps = @layer.maps.are_public.order(:map_type).paginate(:page => params[:page], :per_page => 30)
     end
     @html_title = "Layer "+ @layer.id.to_s + " " + @layer.name.to_s
 
@@ -252,7 +251,7 @@ logger.debug @layers.inspect
   end
 
   def create
-    @layer = Layer.new params[:layer]
+    @layer = Layer.new(layer_params)
     #@maps = current_user.maps.warped
     @layer.user = current_user
 
@@ -297,12 +296,13 @@ logger.debug @layers.inspect
     @layer = Layer.find(params[:id])
     @maps = current_user.maps
     @layer.maps = Map.find(params[:map_ids]) if params[:map_ids]
-    if @layer.update_attributes(params[:layer])
+    if @layer.update_attributes(layer_params)
       @layer.update_layer
       @layer.update_counts
       flash.now[:notice] = "Layer was successfully updated."
       #redirect_to layer_url(@layer)
     else
+    flash.now[:error] = "The layer was not able to be updated"
 
     end
     if request.xhr?
@@ -374,12 +374,12 @@ logger.debug @layers.inspect
     else
       update_text = "(Not Visible)"
     end
-    render :text => update_text
+    render :json => {:message => update_text}
   end
 
   def update_year
     @layer.update_attributes(params[:layer])
-    render :text => "Depicts : " + @layer.depicts_year.to_s
+    render :json => {:message => "Depicts : " + @layer.depicts_year.to_s }
   end
 
   #merge this layer with another one
@@ -443,8 +443,8 @@ logger.debug @layers.inspect
       ows.setParameter("LAYERS", "image")
       #ows.setParameter("COVERAGE", "image")
 
-      map = Mapscript::MapObj.new(File.join(RAILS_ROOT, '/db/maptemplates/wms.map'))
-      projfile = File.join(RAILS_ROOT, '/lib/proj')
+      map = Mapscript::MapObj.new(File.join(Rails.root, '/lib/mapserver/wms.map'))
+      projfile = File.join(Rails.root, '/lib/proj')
       map.setConfigOption("PROJ_LIB", projfile)
       #map.setProjection("init=epsg:900913")
       map.applyConfigOptions
@@ -677,6 +677,11 @@ logger.debug @layers.inspect
       session[:return_to] = request.request_uri
     end
   end
+  
+  def layer_params
+    params.require(:layer).permit(:name, :description, :source_uri, :depicts_year)
+  end
+  
 end
 
 

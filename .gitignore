@@ -30,3 +30,6 @@ public/uploads/*
 public/mapimages/src/*
 public/mapimages/dst/*
 public/mapimages/*
+
+#ignore tileindex files
+db/*

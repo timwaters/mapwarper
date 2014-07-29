@@ -20,7 +20,7 @@ class Layer < ActiveRecord::Base
   def tileindex_filename;   self.id.to_s + '.shp' ; end
   
   def tileindex_dir
-    defined?(TILEINDEX_DIR) ? TILEINDEX_DIR : File.join(RAILS_ROOT, '/db/maptileindex')
+    defined?(TILEINDEX_DIR) ? TILEINDEX_DIR : File.join(Rails.root, '/db/maptileindex')
   end
 
   def tileindex_path;  File.join(tileindex_dir, tileindex_filename) ;  end
@@ -134,11 +134,12 @@ class Layer < ActiveRecord::Base
     unless self.maps.warped.empty?
       command = "ogrinfo #{tileindex} -al -so -ro"
       logger.info command
-      stdin, stdout, stderr = Open3::popen3(command)
-      sout = stdout.readlines.to_s
-      serr = stderr.readlines.to_s
-      if serr.size > 0
-        logger.error "Error set bounds with layer get extent "+ err
+      #stdin, stdout, stderr = Open3::popen3(command)
+      stdout, stderr = Open3.capture3( command )
+      sout = stdout
+      serr = stderr
+      if !serr.blank? 
+        logger.error "Error set bounds with layer get extent "+ serr
       else
         extent = sout.scan(/^\w+: \(([0-9\-.]+), ([0-9\-.]+)\) \- \(([0-9\-.]+), ([0-9\-.]+)\)$/).flatten.join(",")
 
@@ -152,7 +153,7 @@ class Layer < ActiveRecord::Base
           [ extents[0], extents[1] ]
         ]
         logger.error poly_array.inspect
-        self.bbox_geom = Polygon.from_coordinates([poly_array], -1)
+        self.bbox_geom = GeoRuby::SimpleFeatures::Polygon.from_coordinates([poly_array], 4326)
 
         @bounds = extent
         save!

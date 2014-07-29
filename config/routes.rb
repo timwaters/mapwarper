@@ -58,18 +58,28 @@ Rails.application.routes.draw do
   get '/maps/wms/:id' => "maps#wms", :as => 'wms_map'
   get '/maps/tile/:id/:z/:x/:y' => "maps#tile", :as => 'tile_map'
   
+  get '/layers/wms/:id' => "layers#wms", :as => "wms_layer"
+  get '/layers/tile/:id/:z/:x/:y' => "layers#tile", :as => 'tile_layer'
+  
   resources :layers do
     member do
       get 'comments'
       get 'merge'
       get 'publish'
       get 'toggle_visibility'
+      post 'update_year'
       get 'wms'
+      get 'maps'
+      get 'export'
+      get 'metadata'
+      get 'delete'
     end
     collection do 
       get 'geosearch'
     end
   end
+  
+  get '/remove_map/:id/remove_map/:map_id' => 'layers#remove_map', :as => 'remove_layer_map'
   
   get '/users/:user_id/maps' => 'my_maps#list', :as => 'my_maps'
   post '/users/:user_id/maps/create/:map_id' => 'my_maps#create', :as => 'add_my_map'

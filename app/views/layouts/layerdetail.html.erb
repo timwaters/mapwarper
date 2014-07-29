@@ -3,17 +3,6 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <title>Map Warper: <%= h(snippet(@html_title, 40)) || ''-%> </title>
-    <%# stylesheet_link_tag "custom-theme/jquery-ui-1.7.custom.css" %>
-    <%# stylesheet_link_tag "openlayers/theme/default/style" %>
-    <%# stylesheet_link_tag "styles_1" %>
-    <%# javascript_include_tag "jquery-1.3.2.min.js" %>
-    <%# javascript_tag "jQuery.noConflict();" -%>
-    <%# javascript_include_tag "jquery-ui-1.7.custom.min.js" %>
-    <%# javascript_include_tag "jquery.history.js" %>
-    <%# javascript_include_tag "prototype" %>
-
-    <%# javascript_include_tag "openlayers/2.8/OpenLayers-2.8/OpenLayers" %>
-    <%# javascript_include_tag "layers" %>
     <%= stylesheet_link_tag "application" %>
     <%= javascript_include_tag "openlayers/2.8/OpenLayers-2.8/OpenLayers" %>
     <%= javascript_include_tag "application" %>
@@ -90,13 +79,13 @@
           //jQuery("#wooTabs").tabs("select", hash);
           var tab_divs = jQuery("div.ui-tabs-panel", jQuery("#wooTabs").tabs());
           var select_tab_index = 0;
-          jQuery.each(tab_divs, function( index, value ) {
-            if (hash === value.id){
+          jQuery.each(tab_divs, function(index, value) {
+            if (hash === value.id) {
               select_tab_index = index;
             }
           });
-          
-          jQuery("#wooTabs").tabs( "option", "active", select_tab_index );
+
+          jQuery("#wooTabs").tabs("option", "active", select_tab_index);
         } else {
           //if there is no hash, wat to do? currently, nothing, as by default it should be displayed tab.
           //show tab  //jQuery("#wooTabs").tabs("select", 0);
@@ -108,10 +97,8 @@
 
         // set onlick event for buttons
         jQuery("a[rel='history']").click(function() {
-          //
-         // var hash = this.href;
-         // hash = hash.replace(/^.*#/, '') + tabSuffix;
-           ar hash = this.title + tabSuffix;
+  
+          var hash = this.title + tabSuffix;
           jQuery.historyLoad(hash);
         });
       });
@@ -121,65 +108,80 @@
   <% if @onload -%>
     <body onload="<%=@onload%>">
     <%else-%>
-      <body>
-      <%end%>
-      <div id="headerDiv" class="headerDiv">
-        <h1><%= link_to "Map Warper", root_path %></h1>
-        <%= render :partial => 'shared/header' %>
-        <%= render :partial => 'shared/nav' %>
-      </div>
-      <span class="breadcrumbs"><%= breadcrumbs %></span>
+    <body>
+    <%end%>
+    <div id="headerDiv" class="headerDiv">
+      <h1><%= link_to "Map Warper", root_path %></h1>
+      <%= render :partial => 'shared/header' %>
+      <%= render :partial => 'shared/nav' %>
+    </div>
+    <span class="breadcrumbs"><%= breadcrumbs %></span>
 
 
-      <table id="map_table">
-        <%= render :partial => 'layers/layer_detail', :object => @layer, :locals => {:variety => "detail"} %>
-      </table>
+    <table id="map_table">
+      <%= render :partial => 'layers/layer_detail', :object => @layer, :locals => {:variety => "detail"} %>
+    </table>
 
-      <% @tabs = [{:name=>"show",:divname=>"Show", :label=>"Show", :path=>layer_path(:id => @layer)},
-        {:name=>"edit",:divname=>"Edit", :label=>"Edit", :path=>edit_layer_path(:id => @layer)},
-        {:name=>"export",:divname=>"Export", :label=>"Export", :path=>export_layer_path(:id => @layer)},
-        {:name=>"metadata", :divname=>"Metadata", :label=>"Metadata", :path => metadata_layer_path(:id => @layer)},
-        {:name=>"comments",:divname=>"Comments", :label=>"Comments", :count=>@layer.comments.size.to_s, :path=>comments_layer_path(:id => @layer)}
-        ]  %>
-      <div id="wooTabs">
-        <ul>
-          <% @tabs.each do |tab| -%>
-            <% if @current_tab == tab[:name] -%>
-              <% tab[:path] = "#"+tab[:divname]  -%>
-              <% @current_tab_divname = tab[:divname] -%>
-            <% end -%>
-            <% unless @disabled_tabs && @disabled_tabs.include?(tab[:name]) -%>
-              <li><a rel="history" href="<%=tab[:path]%>" title="<%=tab[:label]%>"><span><%=tab[:label]%><% if tab[:count] -%> (<%=tab[:count]-%>)<%end-%> </span></a></li>
-            <% end -%>
+    <% @tabs = [{:name=>"show",:divname=>"Show", :label=>"Show", :path=>layer_path(:id => @layer)},
+      {:name=>"edit",:divname=>"Edit", :label=>"Edit", :path=>edit_layer_path(:id => @layer)},
+      {:name=>"export",:divname=>"Export", :label=>"Export", :path=>export_layer_path(:id => @layer)},
+      {:name=>"metadata", :divname=>"Metadata", :label=>"Metadata", :path => metadata_layer_path(:id => @layer)},
+      {:name=>"comments",:divname=>"Comments", :label=>"Comments", :count=>@layer.comments.size.to_s, :path=>comments_layer_path(:id => @layer)}
+      ]  %>
+    <div id="wooTabs">
+      <ul>
+        <% @tabs.each do |tab| -%>
+          <% if @current_tab == tab[:name] -%>
+            <% tab[:path] = "#"+tab[:divname]  -%>
+            <% @current_tab_divname = tab[:divname] -%>
           <% end -%>
-        </ul>
-        <div id="<%=@current_tab_divname %>" >
-          <%= flash_messages %>
-          <%= yield %>
-        </div>
-
+          <% unless @disabled_tabs && @disabled_tabs.include?(tab[:name]) -%>
+            <li><a rel="history" href="<%=tab[:path]%>" title="<%=tab[:label]%>"><span><%=tab[:label]%><% if tab[:count] -%> (<%=tab[:count]-%>)<%end-%> </span></a></li>
+          <% end -%>
+        <% end -%>
+      </ul>
+      <div id="<%=@current_tab_divname %>" >
+        <%= flash_messages %>
+        <%= yield %>
       </div>
 
-      <div id="panel-under-tabs">
+    </div>
+
+    <div id="panel-under-tabs">
+
+    </div>
+
+    <% if admin_authorized? %>
+      <div id="year-dialog" class="hidden">
+        Add / edit year that this layer depicts: <br />
+
+
+        <script type="text/javascript">
+        jQuery(document).ready(function() {
+          jQuery("form#year-form").bind("ajax:success", function(e, data, status, xhr) {
+
+            jQuery("#depicts-year-span-top").html(data.message);
+          }).bind("ajax:before", function() {
+
+          }).bind("ajax:complete", function() {
+            jQuery('#year-dialog').dialog('close');
+            jQuery('#depicts-year-span-top').effect('highlight', {}, 3000);
+          }).bind("ajax:error", function() {
+            alert('Sorry, something went wrong trying to save this');
+          });
+        });
+        </script>
+
+        <%= form_for(@layer, {:html => {:id =>"year-form"} , :url =>update_year_layer_path(@layer.id), :remote => true }) do |f| %>
+          <%= f.text_field :depicts_year, :size =>10 %>
+          <%= submit_tag "Save" %>
+        <% end %>          
 
       </div>
-
-      <% if admin_authorized? %>
-        <div id="year-dialog" class="hidden">
-          Add / edit year that this layer depicts: <br />
-          <% remote_form_for :layer, @layer, :html => {:id =>"year-form" },
-            :url => url_for(:controller => 'layers', :action => 'update_year', :id => @layer.id),
-            :complete => "jQuery('#year-dialog').dialog('close');jQuery('#depicts-year-span-top').effect('highlight', {}, 3000); ",
-            :update => "depicts-year-span-top",
-            :failure => "alert('Sorry, something went wrong trying to save this');"  do |f| %>
-            <%= f.text_field :depicts_year, :size =>10 %>
-            <%= submit_tag "Save" %>
-          <% end %>
-        </div>
-      <% end %>
-      <div id="footer">
-        <%= render :partial => 'shared/footer' %>
-      </div>
-      <%= render :partial => 'shared/analytics' %>
-    </body>
+    <% end %>
+    <div id="footer">
+      <%= render :partial => 'shared/footer' %>
+    </div>
+    <%= render :partial => 'shared/analytics' %>
+  </body>
 </html>

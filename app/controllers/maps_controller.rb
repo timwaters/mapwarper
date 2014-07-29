@@ -324,8 +324,8 @@ class MapsController < ApplicationController
         @disabled_tabs += ["warped"]
       end
       
-      flash.now[:notice] = "You may need to %s to start editing the map"
-      flash.now[:notice_item] = ["log in", new_session_path]
+      flash.now[:notice] = "You may need to log in to start editing the map"
+      #flash.now[:notice_item] = ["log in", "new_session_path"]
       
       if request.xhr?
         @xhr_flag = "xhr"
@@ -333,10 +333,10 @@ class MapsController < ApplicationController
       else
         respond_to do |format|
           format.html 
-          #format.kml {render :action => "show_kml", :layout => false}
+          format.kml {render :action => "show_kml", :layout => false}
           #format.rss {render :action=> 'show'}
-          #format.xml {render :xml => @map.to_xml(:except => [:content_type, :size, :bbox_geom, :uuid, :parent_uuid, :filename, :parent_id,  :map, :thumbnail, :rough_centroid]) }
-          #format.json {render :json =>{:stat => "ok", :items => @map.to_a}.to_json(:except => [:content_type, :size, :bbox_geom, :uuid, :parent_uuid, :filename, :parent_id,  :map, :thumbnail, :rough_centroid]), :callback => params[:callback] }
+          # format.xml {render :xml => @map.to_xml(:except => [:content_type, :size, :bbox_geom, :uuid, :parent_uuid, :filename, :parent_id,  :map, :thumbnail, :rough_centroid]) }
+          format.json {render :json =>{:stat => "ok", :items => @map.to_a}.to_json(:except => [:content_type, :size, :bbox_geom, :uuid, :parent_uuid, :filename, :parent_id,  :map, :thumbnail, :rough_centroid]), :callback => params[:callback] }
         end
       end
       
@@ -366,9 +366,9 @@ class MapsController < ApplicationController
 
     respond_to do |format|
       format.html
-      # format.kml {render :action => "show_kml", :layout => false}
+       format.kml {render :action => "show_kml", :layout => false}
       # format.xml {render :xml => @map.to_xml(:except => [:content_type, :size, :bbox_geom, :uuid, :parent_uuid, :filename, :parent_id,  :map, :thumbnail, :rough_centroid])  }
-      #  format.json {render :json =>{:stat => "ok", :items => @map.to_a}.to_json(:except => [:content_type, :size, :bbox_geom, :uuid, :parent_uuid, :filename, :parent_id,  :map, :thumbnail, :rough_centroid]), :callback => params[:callback] }
+        format.json {render :json =>{:stat => "ok", :items => @map.to_a}.to_json(:except => [:content_type, :size, :bbox_geom, :uuid, :parent_uuid, :filename, :parent_id,  :map, :thumbnail, :rough_centroid]), :callback => params[:callback] }
     end
     
     
