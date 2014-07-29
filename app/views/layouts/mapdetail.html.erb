@@ -93,7 +93,7 @@
         // set onlick event for buttons
         jQuery("a[rel='history']").click(function() {
 
-          hash = this.title + tabSuffix;
+          var hash = this.title + tabSuffix;
           jQuery.historyLoad(hash);
         });
       });

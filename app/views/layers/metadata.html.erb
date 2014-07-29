@@ -1,0 +1,21 @@
+<h2>metadata</h2>
+
+<div class="column span-12">
+  <p>
+    <b>Name</b> <br />
+    <%= @layer.name %>
+  </p>
+  <p>
+    <b>Description</b><br />
+    <%= @layer.description %>
+  </p>
+  <p>
+    <b>Source/ Bibliographic Ref URL</b><br />
+    <%= @layer.source_uri %>
+  </p>
+</div>
+<span>
+  <span id="depicts-year-span">
+    Depicts Year: <%if @layer.depicts_year%><%= @layer.depicts_year %><%end%>
+  </span>
+</span>

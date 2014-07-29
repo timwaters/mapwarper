@@ -66,6 +66,9 @@ Rails.application.routes.draw do
       get 'toggle_visibility'
       get 'wms'
     end
+    collection do 
+      get 'geosearch'
+    end
   end
   
   get '/users/:user_id/maps' => 'my_maps#list', :as => 'my_maps'

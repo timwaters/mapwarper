@@ -1,0 +1,10 @@
+<h2>Edit layer</h2>
+<%= error_messages_for :layer %>
+<em>Note: All Layers are public, you can add your private maps to them, they won't be listed<br />
+but they will be seen on the final map image.</em>
+<%- if (current_user = @layer.user || admin_authorized?) -%>
+  <p>&mdash; <%=  link_to 'Delete this layer.',
+  {:controller=>"layers", :action=>"delete", :id => @layer} %> &mdash; </p>
+
+<% end %>
+<%= render :partial => "form_remote", :locals => {:page => "edit"} %>

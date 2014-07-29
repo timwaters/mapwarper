@@ -1,20 +1,23 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
-  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<!DOCTYPE html>
+<html>
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <title>Map Warper: <%= h(snippet(@html_title, 40)) || ''-%> </title>
-    <%= stylesheet_link_tag "custom-theme/jquery-ui-1.7.custom.css" %>
-    <%= stylesheet_link_tag "openlayers/theme/default/style" %>
-    <%= stylesheet_link_tag "styles_1" %>
-    <%= javascript_include_tag "jquery-1.3.2.min.js" %>
-    <%= javascript_tag "jQuery.noConflict();" -%>
-    <%= javascript_include_tag "jquery-ui-1.7.custom.min.js" %>
-    <%= javascript_include_tag "jquery.history.js" %>
-    <%= javascript_include_tag "prototype" %>
+    <%# stylesheet_link_tag "custom-theme/jquery-ui-1.7.custom.css" %>
+    <%# stylesheet_link_tag "openlayers/theme/default/style" %>
+    <%# stylesheet_link_tag "styles_1" %>
+    <%# javascript_include_tag "jquery-1.3.2.min.js" %>
+    <%# javascript_tag "jQuery.noConflict();" -%>
+    <%# javascript_include_tag "jquery-ui-1.7.custom.min.js" %>
+    <%# javascript_include_tag "jquery.history.js" %>
+    <%# javascript_include_tag "prototype" %>
 
+    <%# javascript_include_tag "openlayers/2.8/OpenLayers-2.8/OpenLayers" %>
+    <%# javascript_include_tag "layers" %>
+    <%= stylesheet_link_tag "application" %>
     <%= javascript_include_tag "openlayers/2.8/OpenLayers-2.8/OpenLayers" %>
-    <%= javascript_include_tag "layers" %>
+    <%= javascript_include_tag "application" %>
+    <%= javascript_tag "jQuery.noConflict();" -%>
 
 
     <script type="text/javascript">
@@ -84,7 +87,16 @@
             hash = encodeURIComponent(hash);
           }
           hash = hash.slice(0, -tabSuffix.length)
-          jQuery("#wooTabs").tabs("select", hash);
+          //jQuery("#wooTabs").tabs("select", hash);
+          var tab_divs = jQuery("div.ui-tabs-panel", jQuery("#wooTabs").tabs());
+          var select_tab_index = 0;
+          jQuery.each(tab_divs, function( index, value ) {
+            if (hash === value.id){
+              select_tab_index = index;
+            }
+          });
+          
+          jQuery("#wooTabs").tabs( "option", "active", select_tab_index );
         } else {
           //if there is no hash, wat to do? currently, nothing, as by default it should be displayed tab.
           //show tab  //jQuery("#wooTabs").tabs("select", 0);
@@ -97,9 +109,9 @@
         // set onlick event for buttons
         jQuery("a[rel='history']").click(function() {
           //
-          var hash = this.href;
-          hash = hash.replace(/^.*#/, '') + tabSuffix;
-
+         // var hash = this.href;
+         // hash = hash.replace(/^.*#/, '') + tabSuffix;
+           ar hash = this.title + tabSuffix;
           jQuery.historyLoad(hash);
         });
       });

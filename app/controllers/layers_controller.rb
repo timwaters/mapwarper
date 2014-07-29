@@ -131,7 +131,7 @@ class LayersController < ApplicationController
       select = "*, round(rectified_maps_count::float / maps_count::float * 100) as percent"
       conditions.nil? ? conditions = ["maps_count > 0"] : conditions.add_condition('maps_count > 0')
     else
-      select = nil
+      select = "*"
     end
 
     if params[:sort_order] && params[:sort_order] == "desc"
@@ -143,23 +143,20 @@ class LayersController < ApplicationController
     @per_page = params[:per_page] || 20
     paginate_params = {
       :page => params[:page],
-      :per_page => @per_page,
-      :select => select,
-      :order => sort_clause + sort_nulls,
-      :conditions => conditions
+      :per_page => @per_page
     }
 
     map = params[:map_id]
     if !map.nil?
       @map = Map.find(map)
-      @layers = @map.layers.paginate(paginate_params)
+      @layers = @map.layers.select(select).where(conditions).order(sort_clause + sort_nulls).paginate(paginate_params)
       @html_title = "Layer List for Map #{@map.id}"
       @page = "for_map"
     else
-      @layers = Layer.paginate(paginate_params)
+      @layers = Layer.select(select).where(conditions).order(sort_clause + sort_nulls).paginate(paginate_params)
       @html_title = "Browse Layer List"
     end
-    
+logger.debug @layers.inspect    
     if request.xhr?
       # for pageless :
       # #render :partial => 'layer', :collection => @layers
