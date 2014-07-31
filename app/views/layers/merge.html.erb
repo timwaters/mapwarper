@@ -14,7 +14,7 @@ This cannot be undone!
 
 Move all <%= pluralize @layer.maps_count,'map' -%> to this layer:
 
-<% form_for :layer, :url=> { :action=>"merge"},
+<%= form_for :layer, :url=> { :action=>"merge"},
   :html => {:method => :put } do |f| %>
     <%= f.hidden_field :id %>
     <label for="dest_id">Destination Layer</label>

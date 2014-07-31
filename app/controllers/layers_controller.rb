@@ -390,8 +390,8 @@ class LayersController < ApplicationController
       render :layout => 'application'
     elsif request.put?
       @dest_layer = Layer.find(params[:dest_id])
-      #TODO uncomment following line to enable this
-      #@layer.merge(@dest_layer.id)
+      
+      @layer.merge(@dest_layer.id)
       render :text  => "Layer has been merged into new layer - all maps copied across! (functionality disabled at the moment)"
     end
   end
@@ -399,14 +399,9 @@ class LayersController < ApplicationController
 
   def remove_map
     @map = Map.find(params[:map_id])
-    if request.get?
-      #shows the form
-      render :layout => 'application'
-    elsif request.put?
-      #TODO uncomment following line to enable this
-      #@layer.remove_map(@map.id)
-      render :text =>  "Map has been removed from this layer (functionality disabled at the moment) "
-    end
+    
+    @layer.remove_map(@map.id)
+    render :text =>  "Dummy text - Map removed from this layer "
   end
 
   def publish

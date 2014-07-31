@@ -41,7 +41,7 @@
 
 
       <% if admin_authorized? and @layer -%>
-        | <%= link_to "remove map from this layer", remove_layer_map_path(:id => @layer.id, :map_id => map.id) %>
+        | <%= link_to "remove map from this layer", remove_layer_map_path(:id => @layer.id, :map_id => map.id), :method => :put %>
       <%end -%>
 
       <% if admin_authorized? -%>

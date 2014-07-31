@@ -80,7 +80,7 @@
           </thead>
           <%= render :partial => 'maps/map', :collection => @my_maps  unless @my_maps.nil? %>
         </table>
-        <%= link_to "See all of My Maps", my_maps_path(:user_id => current_user) -%>
+        <%= link_to "See all of My Maps", my_maps_path(:user_id => current_user), :class => "buttonWarper" -%>
       <%end -%>
 
       <br/>

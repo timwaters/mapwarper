@@ -1,5 +1,5 @@
 <h3> Comment on this <%= comment_obj.class %> </h3>
-<%= csrf_meta_tags %>
+
 <%= form_tag comments_path  do %>
   <%= text_area 'comment', 'comment', :rows => "4" %>
   <br />

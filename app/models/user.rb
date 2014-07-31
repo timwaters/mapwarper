@@ -8,6 +8,10 @@ class User < ActiveRecord::Base
   
   has_many :my_maps, :dependent => :destroy
   has_many :maps, -> { uniq }, :through => :my_maps
+ 
+  has_many :layers
+  has_many :memberships, :dependent => :destroy
+  has_many :groups, :through => :memberships
    
   #attr_accessor :password
   #attr_accessible :password_confirmation

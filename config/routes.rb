@@ -79,7 +79,8 @@ Rails.application.routes.draw do
     end
   end
   
-  get '/remove_map/:id/remove_map/:map_id' => 'layers#remove_map', :as => 'remove_layer_map'
+  put '/layers/:id/remove_map/:map_id' => 'layers#remove_map', :as => 'remove_layer_map'
+  put '/layers/:id/merge' => 'layers#merge', :as => 'do_merge_layer'
   
   get '/users/:user_id/maps' => 'my_maps#list', :as => 'my_maps'
   post '/users/:user_id/maps/create/:map_id' => 'my_maps#create', :as => 'add_my_map'

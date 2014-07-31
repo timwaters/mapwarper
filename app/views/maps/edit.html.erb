@@ -1,7 +1,5 @@
 <h2>Editing Map Attributes</h2>
-<% content_for :head do %>
-  <%= csrf_meta_tag %>
-<% end %>
+
 <%= error_messages_for @map %>
 
 <%- if (current_user = @map.owner || admin_authorized?) -%>

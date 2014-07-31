@@ -64,7 +64,7 @@ class Layer < ActiveRecord::Base
     dest_layer = Layer.find(destination_layer_id)
     logger.info "layer #{self.id} merge to #{dest_layer.id.to_s}"
 
-    self.map_layers.each do | map_layer|
+    self.layers_maps.each do | map_layer|
       map_layer.layer = dest_layer
       map_layer.save
     end
@@ -78,7 +78,7 @@ class Layer < ActiveRecord::Base
   #removes map from a layer
   def remove_map(map_id)
     logger.info "layer #{self.id} will have map #{map_id} removed from it"
-    map_layer = LayersMap.find(:first, :conditions =>["map_id = ? and layer_id = ?", map_id, self.id])
+    map_layer = LayersMap.where(["map_id = ? and layer_id = ?", map_id, self.id]).first
     logger.info "this relationship to be deleted"
     logger.info map_layer.inspect
     map_layer.destroy
