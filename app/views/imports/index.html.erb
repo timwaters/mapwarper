@@ -1,0 +1,22 @@
+
+<h2>Imports</h2>
+<%= link_to 'Add new import', new_import_url %>
+<%= will_paginate @imports %>
+<table class="usertable">
+  <thead>
+    <tr>
+      <th>Id</th>
+      <th>Name</th>
+      <th>maps</th>
+      <th>User</th>
+      <th>Created</th>
+      <th>Status</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    <%= render :partial => "import", :collection => @imports %>
+  </tbody>
+</table>
+<%= will_paginate @users %>
+
