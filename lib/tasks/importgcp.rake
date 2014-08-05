@@ -1,4 +1,4 @@
-require 'fastercsv'
+#require 'fastercsv'
 
 namespace :import do
   desc "Imports GCP from a CSV file"

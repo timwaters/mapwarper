@@ -1,4 +1,4 @@
-require 'gdal/gdal'
+require 'gdal-ruby/gdal'
 
 def get_raster_extents (filename)
     raster = Gdal::Gdal.open(filename)

@@ -21,7 +21,7 @@ if Gem::VERSION >= "1.3.6"
   end
 end
 
-require 'lib/silent_logger'
+require 'silent_logger.rb'
 
 Rails::Initializer.run do |config|
   # Settings in config/environments/* take precedence over those specified here.

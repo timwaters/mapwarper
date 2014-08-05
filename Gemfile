@@ -11,4 +11,6 @@ gem "simple-rss"
 gem "libxml-ruby"
 gem "nokogiri", "1.5.5"
 gem "rake", "0.9.2.2"
-gem "fastercsv"
+#gem "fastercsv"
+gem "gdal"#, github: 'timwaters/gdal-ruby', branch: 'flags'
+

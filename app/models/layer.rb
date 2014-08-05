@@ -132,13 +132,14 @@ class Layer < ActiveRecord::Base
     logger.debug "set_bounds in layer"
     tileindex = custom_path || tileindex_path
     unless self.maps.warped.empty?
-      command = "ogrinfo #{tileindex} -al -so -ro"
+     command = "ogrinfo #{tileindex} -al -so -ro"
       logger.info command
-      stdin, stdout, stderr = Open3::popen3(command)
-      sout = stdout.readlines.to_s
-      serr = stderr.readlines.to_s
-      if serr.size > 0
-        logger.error "Error set bounds with layer get extent "+ err
+      #stdin, stdout, stderr = Open3::popen3(command)
+      stdout, stderr = Open3.capture3( command )
+      sout = stdout
+      serr = stderr
+      if !serr.blank? 
+        logger.error "Error set bounds with layer get extent "+ serr
       else
         extent = sout.scan(/^\w+: \(([0-9\-.]+), ([0-9\-.]+)\) \- \(([0-9\-.]+), ([0-9\-.]+)\)$/).flatten.join(",")
 
