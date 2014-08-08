@@ -1,0 +1,2 @@
+module MyMapsHelper
+end

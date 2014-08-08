@@ -19,7 +19,7 @@ class RssParser
       data[:items] << new_items
     end
     data
-    rescue SocketError => se
+    rescue Exception => se
       RAILS_DEFAULT_LOGGER.error "RssParser SocketError " + se.to_s
       data = {
       :title    => "",
