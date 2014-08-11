@@ -552,7 +552,7 @@ class Map < ActiveRecord::Base
          File.delete(masked_src_filename)
       end
       #copy over orig to a new unmasked file
-      File.copy(unwarped_filename, masked_src_filename)
+      FileUtils.copy(unwarped_filename, masked_src_filename)
       #TODO ADD -i switch when we have newer gdal
       require 'open3'
       r_stdin, r_stdout, r_stderr = Open3::popen3(
