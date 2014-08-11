@@ -28,10 +28,14 @@ NOTE ON CODE
 
 Rails2 branch is for older rails 2.3.5 code. Master will be updated to work with latest version of rails / ruby. The digitizer component is now in it's own repository (named digitizer) and it is removed from master and later versions but is in Rails2 branch. 
 
+For Ruby 1.9.x  - use the ruby1.9.2 branch.  Read the README on that branch for easy install instructions using rvm
+
 SETUP
 ------
 
-This application is a bit peculiar to set up, sorry! I do intend to moderise it. One of things is that it doesn't like modern rubygems but 1.7.2 is fine. Blame the way Ruby has great backwards compatibilties, then revel in the power of rvm, this message and the following documentation!
+NOTE - 
+
+Look at the ruby1.9.2 branch for easier instructions!!
 
 Some things you may need to set up first:
 
