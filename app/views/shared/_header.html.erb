@@ -7,8 +7,8 @@
     <%= link_to "Settings", edit_user_path(current_user) %>
     <%= link_to "Log Out", destroy_user_session_url %>
   <% else %>
-    <%= link_to "Sign In", new_session_path %>
-    <%= link_to "Create Account", new_user_path %>
+    <%= link_to "Sign In", new_user_session_path %>
+    <%= link_to "Create Account", new_user_registration_path %>
   <% end %>
   <% if user_signed_in? %>
     <% if current_user.has_role?("administrator") || current_user.has_role?("super user") %>
