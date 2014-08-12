@@ -4,8 +4,8 @@ defaults: &defaults
   addthis_user: example_user
   google_analytics_code: 123
   google_analytics_cookie_path:  ""
-  src_map_dir: "/public/mapimages/src/"
-  dst_map_dir: "/public/mapimages/dst/"
+  src_maps_dir: "/public/mapimages/src/"
+  dst_maps_dir: "/public/mapimages/dst/"
   yahoo_app_id: "ascas"
 
 development:
