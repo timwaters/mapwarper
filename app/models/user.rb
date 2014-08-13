@@ -12,6 +12,10 @@ class User < ActiveRecord::Base
   has_many :layers
   has_many :memberships, :dependent => :destroy
   has_many :groups, :through => :memberships
+  
+  validates_presence_of    :login
+  validates_length_of      :login,    :within => 3..40
+  validates_uniqueness_of  :login, :case_sensitive => false
    
   #attr_accessor :password
   #attr_accessible :password_confirmation

@@ -817,6 +817,17 @@ border-style:ridge;
 	padding:10px;
 }
 
+#error_explanation
+{
+	border:5px solid #F93;
+	font-size:smaller;
+	padding:10px;
+}
+
+div.field_with_errors {
+    display:inline;
+}
+
 #loading {
   font-size:1.2em;
   color:#E71C1C;
