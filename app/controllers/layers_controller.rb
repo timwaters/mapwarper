@@ -145,11 +145,13 @@ class LayersController < ApplicationController
       :page => params[:page],
       :per_page => @per_page
     }
-
+    
+    order_options = "layers."+ sort_clause  + sort_nulls
+    
     map = params[:map_id]
     if !map.nil?
       @map = Map.find(map)
-      @layers = @map.layers.select(select).where(conditions).order(sort_clause + sort_nulls).paginate(paginate_params)
+      @layers = @map.layers.select(select).where(conditions).order(order_options).paginate(paginate_params)
       @html_title = "Layer List for Map #{@map.id}"
       @page = "for_map"
     else
