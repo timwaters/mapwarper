@@ -9,6 +9,7 @@ Rails.application.routes.draw do
     member do
       put 'enable'
       put 'disable'
+      put 'disable_and_reset'
     end
     collection do
       get 'stats'

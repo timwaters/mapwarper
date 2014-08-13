@@ -4,8 +4,8 @@
     <%= link_to h(current_user.login.capitalize), user_path(current_user) %>
     <%= link_to "My Maps", my_maps_path(current_user) %>
     <%= link_to "My Activity", user_activity_path(current_user) %>
-    <%= link_to "Settings", edit_user_path(current_user) %>
-    <%= link_to "Log Out", destroy_user_session_url, :method => :delete %>
+    <%= link_to "Settings", edit_user_registration_path %>
+    <%= link_to "Log Out", destroy_user_session_path, :method => :delete %>
   <% else %>
     <%= link_to "Sign In", new_user_session_path %>
     <%= link_to "Create Account", new_user_registration_path %>

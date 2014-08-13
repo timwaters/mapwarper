@@ -172,9 +172,9 @@ class Map < ActiveRecord::Base
       logger.info "Deleted Map warped"
       File.delete(warped_filename)
     end
-    if File.exists?(warped_png)
+    if File.exists?(warped_png_filename)
       logger.info "deleted warped png"
-      File.delete(warped_png)
+      File.delete(warped_png_filename)
     end
     if File.exists?(unwarped_filename)
       logger.info "deleting unwarped"

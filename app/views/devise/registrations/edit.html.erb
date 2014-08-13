@@ -5,9 +5,12 @@
 
   <div><%= f.label :login, "Name" %><br />
   <%= f.text_field :login, autofocus: true %></div>
+  
+  <div><%= f.label :description, "Short profile description (optional)" %><br />
+  <%= f.text_area :description %></div>
 
   <div><%= f.label :email %><br />
-  <%= f.email_field :email, autofocus: true %></div>
+  <%= f.email_field :email %></div>
 
   <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
     <div>Currently waiting confirmation for: <%= resource.unconfirmed_email %></div>
@@ -27,6 +30,7 @@
 
 <h3>Cancel my account</h3>
 
-<p>Unhappy? <%= button_to "Cancel my account", registration_path(resource_name), data: { confirm: "Are you sure?" }, method: :delete %></p>
+<p>Unhappy? This will delete all the maps you uploaded and layers you created. <br />
+ <%= button_to "Cancel my account", registration_path(resource_name), data: { confirm: "Are you sure?" }, method: :delete %></p>
 
 <%= link_to "Back", :back %>
