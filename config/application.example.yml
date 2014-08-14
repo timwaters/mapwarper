@@ -7,6 +7,8 @@ defaults: &defaults
   src_maps_dir: "/public/mapimages/src/"
   dst_maps_dir: "/public/mapimages/dst/"
   yahoo_app_id: "ascas"
+  host: "localhost:3000"
+  mailer_sender: "robot@localhost"
 
 development:
   <<: *defaults
