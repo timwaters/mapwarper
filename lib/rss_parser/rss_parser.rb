@@ -20,7 +20,7 @@ class RssParser
     end
     data
     rescue SocketError => se
-      RAILS_DEFAULT_LOGGER.error "RssParser SocketError " + se.to_s
+      Rails.logger.error "RssParser SocketError " + se.to_s
       data = {
       :title    => "",
       :home_url => "",
