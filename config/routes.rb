@@ -3,7 +3,7 @@ Rails.application.routes.draw do
   get '/about' => 'home#about', :as => 'about'
   get '/help' => 'home#help', :as => 'help'
   
-  devise_for :users, :path => 'u'
+  devise_for :users, :path => 'u',:controllers => { :registrations => "users_registrations" }
   
   resources :users do
     member do

@@ -8,7 +8,7 @@ defaults: &defaults
   dst_maps_dir: "/public/mapimages/dst/"
   yahoo_app_id: "ascas"
   host: "localhost:3000"
-  mailer_sender: "robot@localhost"
+  site_name: "MapWarper"
 
 development:
   <<: *defaults

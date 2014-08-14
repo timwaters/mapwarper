@@ -16,4 +16,4 @@ GDAL_PATH = APP_CONFIG['gdal_path'] || ""
 #TILEINDEX_DIR
 
 ActionMailer::Base.default_url_options[:host] = APP_CONFIG['host']
-Devise.mailer_sender = APP_CONFIG['mailer_sender']
+Devise.mailer_sender = APP_CONFIG['email']
