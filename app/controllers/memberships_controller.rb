@@ -1,8 +1,8 @@
 class MembershipsController < ApplicationController
   before_filter :find_group
- #FIXME RAILS4
- # before_filter :login_required
-  #FIXME RAILS4
+
+  before_filter :authenticate_user!
+
 
   def new
     membership =  @group.memberships.new(:user => current_user)

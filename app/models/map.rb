@@ -263,7 +263,11 @@ class Map < ActiveRecord::Base
   end
 
   def unwarped_filename
-    File.join(maps_dir, self.filename)
+    if self.filename
+      File.join(maps_dir, self.filename) 
+    else
+      ""
+    end
   end
 
   def warped_filename

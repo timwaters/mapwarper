@@ -1,8 +1,8 @@
 class ImportsController < ApplicationController
-  #FIXME RAILS4
-  #before_filter :login_required
-  #before_filter :check_administrator_role
-  #FIXME RAILS4
+
+  before_filter :authenticate_user!
+  before_filter :check_administrator_role
+
   before_filter :find_import, :except => [:index, :new, :create]
   before_filter :check_imported, :only => [:start]
 

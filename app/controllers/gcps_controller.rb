@@ -1,10 +1,8 @@
 class GcpsController < ApplicationController
   layout 'application'
   skip_before_filter :verify_authenticity_token, :only => [:update, :update_field, :add, :destroy, :show]
-  #before_filter :semi_verify_authenticity_token, :only => [:update, :update_field, :add, :destroy]
 
-  #before_filter :login_or_oauth_required, :except => [:show, :index]
-  # before_filter :login_or_oauth_required, :only => [:update, :update_field, :add, :destroy]
+  before_filter :authenticate_user!, :only => [:update, :update_field, :add, :destroy]
   before_filter :find_gcp, :only => [:show, :update,:update_field, :destroy ]
   rescue_from ActiveRecord::RecordNotFound, :with => :bad_record
 
@@ -137,12 +135,6 @@ class GcpsController < ApplicationController
     @gcp = Gcp.find(params[:id]) 
   end
 
-  #veries token but only for the html view, turned off for xml and json calls - these calls would need to be authenticated anyhow.
-  def semi_verify_authenticity_token
-    unless request.format.xml? || request.format.json?
-      verify_authenticity_token
-    end
-  end
 
   #redirect helper method in case the request doesnt come from
   #ajax / prototype

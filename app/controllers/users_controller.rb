@@ -1,13 +1,11 @@
 class UsersController < ApplicationController
   layout 'application'
   
-#RAILS4 FIXME
-  #before_filter :not_logged_in_required, :only => [:new, :create]
-#
-#  before_filter :login_required, :only => [:show, :edit, :update]
-# RAILS4 FIXME
-  #before_filter :check_super_user_role, :only => [:index, :destroy, :enable, :disable, :force_activate, :disable_and_reset, :force_resend_activaton, :stats]
-# RAILS4 FIXME
+  before_filter :authenticate_user!, :only => [:show, :edit, :update]
+
+  before_filter :check_super_user_role, :only => [:index, :destroy, :enable, :disable, :stats, :disable_and_reset]
+
+  rescue_from ActiveRecord::RecordNotFound, :with => :bad_record
   
   helper :sort
   include SortHelper
@@ -156,56 +154,15 @@ class UsersController < ApplicationController
     redirect_to :action => 'index'
   end
 
-  def activate
-    @user = User.find_by_activation_code(params[:id])
-    if @user and @user.activate
-      self.current_user = @user
-      redirect_back_or_default(:controller => '/user_account', :action => 'index')
-      flash[:notice] = "Your account has been activated."
-    end
-    redirect_to :action => 'index'
-  end
-
-  #called from admin console thingy
-  def force_activate
-    @user = User.find(params[:id])
-    if !@user.active?
-      @user.force_activate!
-      if @user.active?
-        flash[:notice] = "User activated"
-      else
-        flash[:error] = "There was a problem activating this user."
+  def bad_record
+    respond_to do | format |
+      format.html do
+        flash[:notice] = "User not found"
+        redirect_to root_path
       end
-    else
-      flash[:notice] = "User already active"
-    end
-    redirect_to :action => 'index'
-  end
-
-  #only admin can do this
-  def force_resend_activation
-    @user = User.find(params[:id])
-    if @user && !@user.active?
-      flash[:notice] = "Activation email sent to user."
-      UserMailer.deliver_signup_notification(@user)
-    else
-      flash[:notice] = "Activation email was not sent, maybe because it has already been activated!"
-    end
-    redirect_to :action => 'show'
-  end
-
-  def resend_activation
-    return unless request.post?
-
-    @user = User.find_by_email(params[:email])
-    if @user && !@user.active?
-      flash[:notice] = "Activation email has been resent, check your email."
-      UserMailer.deliver_signup_notification(@user)
-      redirect_to login_path and return
-    else
-      flash[:notice] = "Activation email was not sent, either because the email was not the same as you gave when you signed up, or you have already been activated!"
-
+      format.json {render :json => {:stat => "not found", :items =>[]}.to_json, :status => 404}
     end
   end
+
 
 end

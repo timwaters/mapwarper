@@ -1,10 +1,9 @@
 class GroupsController < ApplicationController
 
   before_filter :find_group, :only => [:show, :edit, :update, :destroy]
-  #FIXME Rails4
-  #before_filter :login_required, :except => [:index]
-  #before_filter :check_administrator_role, :only => [ :create, :edit, :update, :destroy]
-  #FIXME Rails4
+
+  before_filter :authenticate_user!, :except => [:index]
+  before_filter :check_administrator_role, :only => [ :new, :create, :edit, :update, :destroy]
   
   rescue_from ActiveRecord::RecordNotFound, :with => :bad_record
   

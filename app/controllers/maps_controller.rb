@@ -1,7 +1,12 @@
 class MapsController < ApplicationController
 
   layout 'mapdetail', :only => [:show, :edit, :preview, :warp, :clip, :align, :activity, :warped, :export, :metadata, :comments]
-  #TODO login requires roles etc
+  
+  before_filter :store_location, :only => [:warp, :align, :clip, :export, :edit ]
+  
+  before_filter :authenticate_user!, :only => [:new, :create, :edit, :update, :destroy, :delete, :warp, :rectify, :clip, :align, :warp_align, :mask_map, :delete_mask, :save_mask, :save_mask_and_warp, :set_rough_state, :set_rough_centroid, :publish ]
+ 
+  before_filter :check_administrator_role, :only => [:publish]
  
   before_filter :find_map_if_available,
     :except => [:show, :index, :wms, :tile, :mapserver_wms, :warp_aligned, :status, :new, :create, :update, :edit, :tag, :geosearch]
@@ -837,12 +842,6 @@ class MapsController < ApplicationController
     return merc_x, merc_y
   end
   
-  #veries token but only for the html view, turned off for xml and json calls - these calls would need to be authenticated anyhow.
-  def semi_verify_authenticity_token
-    unless request.format.xml? || request.format.json?
-      verify_authenticity_token
-    end
-  end
 
   def set_session_link_back link_url
     session[:link_back] = link_url
@@ -896,14 +895,17 @@ class MapsController < ApplicationController
 
     if @map.status.nil? or @map.status == :unloaded or @map.status == :loading 
       redirect_to map_path
-    elsif  (!@map.public? and !logged_in?) or((!@map.public? and logged_in?) and !(current_user.own_this_map?(params[:id])  or current_user.has_role?("editor")) )
+    elsif  (!@map.public? and !user_signed_in?) or((!@map.public? and user_signed_in?) and !(current_user.own_this_map?(params[:id])  or current_user.has_role?("editor")) )
       redirect_to maps_path
     end
   end
-  
-  
+
   def map_params
-    params.require(:map).permit!
+    params.require(:map).permit(:title, :description, :tag_list, :map_type, :subject_area, :unique_id, 
+      :source_uri, :call_number, :publisher, :publication_place, :authors, :date_depicted, :scale,
+      :metadata_projection, :metadata_lat, :metadata_lon, :public,
+      "published_date(3i)", "published_date(2i)", "published_date(1i)", "reprint_date(3i)", 
+      "reprint_date(2i)", "reprint_date(1i)", :upload_url, :upload ) 
   end
   
   def choose_layout_if_ajax
@@ -928,11 +930,15 @@ class MapsController < ApplicationController
     else
       anchor = ""
     end
+
+    return if anchor.blank?
+
     if request.parameters[:action] &&  request.parameters[:id]
-      session[:return_to] = map_path(:id => request.parameters[:id], :anchor => anchor)
+      session[:user_return_to] = map_path(:id => request.parameters[:id], :anchor => anchor)
     else
-      session[:return_to] = request.request_uri
+      session[:user_return_to] = request.request_uri
     end
+    
   end
   
   
