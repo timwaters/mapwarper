@@ -44,17 +44,14 @@ permission.role = role
 permission.user = user
 permission.save(false)
 
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
 
 * Deployment instructions
 
 * ...
 
+API
 
-Please feel free to use a different markup language if you do not plan to run
-<tt>rake doc:app</tt>.
+See README_API.md for API details
 
 
 TODO
