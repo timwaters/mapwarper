@@ -42,6 +42,9 @@ gem 'spring',        group: :development
 gem 'devise'
 gem 'devise-encryptable'
 
+gem 'omniauth-twitter'
+gem 'omniauth-osm'
+
 gem 'pg'
 gem 'activerecord-postgis-adapter'
 

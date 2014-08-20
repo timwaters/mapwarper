@@ -9,6 +9,10 @@ defaults: &defaults
   yahoo_app_id: "ascas"
   host: "localhost:3000"
   site_name: "MapWarper"
+  omniauth_osm_key: "ABC"
+  omniauth_osm_secret: "ABC"
+  omniauth_twitter_key: "ABC"
+  omniauth_twitter_secret: "ABC"
 
 development:
   <<: *defaults

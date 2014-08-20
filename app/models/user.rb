@@ -2,7 +2,8 @@ class User < ActiveRecord::Base
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable, :registerable,
-    :recoverable, :rememberable, :trackable, :validatable, :encryptable
+    :recoverable, :rememberable, :trackable, :validatable, :encryptable, 
+    :omniauthable, :omniauth_providers => [:twitter, :osm]
   has_many :permissions
   has_many :roles, :through => :permissions
   
@@ -45,6 +46,37 @@ class User < ActiveRecord::Base
   #Method checks to see if the user is enabled (it will therefore not allow a user who is disabled to log in)
   def active_for_authentication?
     super and self.enabled?
+  end
+  
+  def self.find_for_twitter_oauth(auth, signed_in_resource=nil)
+    user = User.where(:provider => auth.provider, :uid => auth.uid).first
+    # Create user if not exists
+    unless user
+      user = User.create(
+        login: auth.extra.raw_info.name,
+        provider: auth.provider,
+        uid: auth.uid,
+        email: "#{auth.info.nickname}@twitter.com", # make sure this is unique
+        password: Devise.friendly_token[0,20]
+      )
+    end
+    user
+  end
+
+
+  def self.find_for_osm_oauth(auth, signed_in_resource=nil)
+    user = User.where(:provider => auth.provider, :uid => auth.uid).first
+    # Create user if not exists
+    unless user
+      user = User.create(
+        login: auth.info.display_name,
+        provider: auth.provider,
+        uid: auth.uid,
+        email: "#{auth.info.display_name}@osm.org", # make sure this is unique
+        password: Devise.friendly_token[0,20]
+      )
+    end
+    user
   end
   
 protected

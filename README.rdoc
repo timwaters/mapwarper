@@ -14,7 +14,10 @@ Postgis 1.5 (may work with 2.0)
 
 * Configuration
 
-
+create and configure the following files
+* config/secrets.yml
+* config/database.yml
+* config/application.yml
 
 * Database creation
 
