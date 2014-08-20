@@ -11,8 +11,8 @@ xml.channel do
     end 
 
     xml.item do
-      if audit.username
-        changed_by = "  by " + audit.username.capitalize 
+      if audit.user.login
+        changed_by = "  by " + audit.user.login.capitalize 
       else
         changed_by = " by -- "
       end

@@ -1,13 +1,5 @@
 module AuditsHelper
   
-  def actual_username(username)
-    uname = nil
-    if username.to_s != "--- :false\n"
-      uname = username 
-    end
-    
-    uname
-  end
   
   def formatted_action(action)
     action.gsub(/\W/, "").titleize

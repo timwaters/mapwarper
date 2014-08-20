@@ -15,9 +15,9 @@
     end %>
 
   <td class="<%= cl %>">
-    <%=  %>
-    <% if actual_username(audit.username) -%>
-      <%= link_to audit.username, :controller=>"users",:action=>"show", :id=>audit.user_id -%>
+    <% user = audit.user
+      if user -%>
+      <%= link_to user.login, :controller=>"users",:action=>"show", :id=>user.id-%>
     <% else -%>
       &mdash;
     <%end%>
