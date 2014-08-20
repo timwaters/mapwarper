@@ -32,4 +32,4 @@ public/mapimages/dst/*
 public/mapimages/*
 
 #ignore tileindex files
-db/*
+db/maptileindex/*
