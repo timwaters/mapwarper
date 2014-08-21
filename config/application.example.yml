@@ -13,6 +13,9 @@ defaults: &defaults
   omniauth_osm_secret: "ABC"
   omniauth_twitter_key: "ABC"
   omniauth_twitter_secret: "ABC"
+  omniauth_mediawiki_site: "https://commons.wikimedia.org"
+  omniauth_mediawiki_key: "ABC"
+  omniauth_mediawiki_secret: "ABC"
 
 development:
   <<: *defaults

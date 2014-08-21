@@ -88,6 +88,7 @@ GEM
       jquery-rails
       railties (>= 3.1.0)
     json (1.8.1)
+    jwt (1.0.0)
     mail (2.5.4)
       mime-types (~> 1.16)
       treetop (~> 1.4.8)
@@ -102,6 +103,9 @@ GEM
     omniauth (1.2.2)
       hashie (>= 1.2, < 4)
       rack (~> 1.0)
+    omniauth-mediawiki (0.0.1)
+      jwt (~> 1.0)
+      omniauth-oauth (~> 1.0)
     omniauth-oauth (1.0.1)
       oauth
       omniauth (~> 1.0)
@@ -207,6 +211,7 @@ DEPENDENCIES
   jquery-rails
   jquery-ui-rails (= 3.0.1)
   nokogiri
+  omniauth-mediawiki
   omniauth-osm
   omniauth-twitter
   paperclip (~> 4.2.0)

@@ -3,7 +3,7 @@ class User < ActiveRecord::Base
   # :confirmable, :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable, :registerable,
     :recoverable, :rememberable, :trackable, :validatable, :encryptable, 
-    :omniauthable, :omniauth_providers => [:twitter, :osm]
+    :omniauthable, :omniauth_providers => [:twitter, :osm, :mediawiki]
   has_many :permissions
   has_many :roles, :through => :permissions
   
@@ -73,6 +73,21 @@ class User < ActiveRecord::Base
         provider: auth.provider,
         uid: auth.uid,
         email: "#{auth.info.display_name}@osm.org", # make sure this is unique
+        password: Devise.friendly_token[0,20]
+      )
+    end
+    user
+  end
+  
+   def self.find_for_mediawiki_oauth(auth, signed_in_resource=nil)
+    user = User.where(:provider => auth.provider, :uid => auth.uid.to_s).first
+    # Create user if not exists
+    unless user
+      user = User.create(
+        login: auth.info.name,
+        provider: auth.provider,
+        uid: auth.uid,
+        email: "#{auth.info.name}+warper@mediawiki.org", # make sure this is unique
         password: Devise.friendly_token[0,20]
       )
     end

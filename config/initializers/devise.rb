@@ -235,6 +235,8 @@ Devise.setup do |config|
   config.omniauth :twitter,  APP_CONFIG["omniauth_twitter_key"], APP_CONFIG["omniauth_twitter_secret"]
   
   config.omniauth :osm, APP_CONFIG["omniauth_osm_key"], APP_CONFIG["omniauth_osm_secret"]
+  
+  config.omniauth :mediawiki,  APP_CONFIG["omniauth_mediawiki_key"], APP_CONFIG["omniauth_mediawiki_secret"], {:client_options => {:site => APP_CONFIG["omniauth_mediawiki_site"] }}
 
   # ==> Warden configuration
   # If you want to use other strategies, that are not supported by Devise, or
