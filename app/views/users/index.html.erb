@@ -4,7 +4,7 @@
     User Search
     <select id="field" name="field">
       <%= options_for_select([ ["Name", "login"],
-          ["Email", "email"]], @field)-%>
+          ["Email", "email"],["OAuth Provider", "provider"] ], @field)-%>
     </select>
     for
     <%= text_field_tag 'query', @query -%>
@@ -22,6 +22,7 @@
     <tr>
       <%= sort_header_tag('login', :title => "Username") %>
       <% if admin_authorized? %>
+        <%= sort_header_tag('provider', :title => "OAuth Provider") %>
         <%= sort_header_tag('email', :title => "Email") %>
         <%= sort_header_tag('enabled', :title => "Enabled?") %>
         <th>Roles</th>

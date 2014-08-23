@@ -1,6 +1,7 @@
 <tr class="<%= cycle('table0', 'table1') -%>">
   <td><%= link_to(( h user.login), user_path(user.id), :method => :get)  -%></td>
   <% if admin_authorized? %>
+    <td><%=h user.provider -%></td>
     <td><%=h user.email -%></td>
     <td><%= user.enabled ? 'yes' : 'no' -%>&nbsp;
       <% unless user == current_user -%>

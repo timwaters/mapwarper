@@ -37,6 +37,16 @@ class User < ActiveRecord::Base
     Layer.exists?(:id => layer_id.to_i, :user_id => self.id)
   end
   
+  def provider_name
+    if provider && provider == "mediawiki"
+      "Wikimedia Commons"
+    elsif provider && provider == "osm"
+      "OpenStreetMap"
+    else
+      provider
+    end
+  end
+  
   #Called by Devise 
   #Method checks to see if the user is enabled (it will therefore not allow a user who is disabled to log in)
   def active_for_authentication?

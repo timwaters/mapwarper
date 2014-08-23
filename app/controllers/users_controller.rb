@@ -41,7 +41,7 @@ class UsersController < ApplicationController
     sort_init 'email'
     sort_update
     @query = params[:query]
-    @field = %w(login email).detect{|f| f == (params[:field])}
+    @field = %w(login email provider).detect{|f| f == (params[:field])}
     if @query && @query.strip.length > 0 && @field
       conditions = ["#{@field}  ~* ?", '(:punct:|^|)'+@query+'([^A-z]|$)']
     else
@@ -57,7 +57,7 @@ class UsersController < ApplicationController
     sort_init 'email'
     sort_update
     @query = params[:query]
-    @field = %w(login email).detect{|f| f == (params[:field])}
+    @field = %w(login email provider).detect{|f| f == (params[:field])}
     if @query && @query.strip.length > 0 && @field
       conditions = ["#{@field}  ~* ?", '(:punct:|^|)'+@query+'([^A-z]|$)']
     else
@@ -114,6 +114,10 @@ class UsersController < ApplicationController
 
   def disable_and_reset
     @user = User.find(params[:id])
+    if @user.provider?
+      flash[:error] = "Sorry, users from other providers are not able to be reset"
+      return redirect_to :action => 'show'
+    end
     unless @user.has_role?("administrator") ||  @user.has_role?("super user")
       generated_password = Devise.friendly_token.first(8)
       @user.password=generated_password
