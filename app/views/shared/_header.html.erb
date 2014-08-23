@@ -1,7 +1,11 @@
 <div class="user_status">
   <% if user_signed_in? %>
     Logged in as:
-    <%= link_to h(current_user.login.capitalize), user_path(current_user) %>
+    <% if current_user.provider? %>
+      <%= link_to "#{image_tag(current_user.provider+'_logo.png', width: '17', height: '17', class: 'user_provider')} #{current_user.login.capitalize}".html_safe, user_path(current_user) %>
+    <% else %>
+      <%= link_to h(current_user.login.capitalize), user_path(current_user) %>
+    <% end %>
     <%= link_to "My Maps", my_maps_path(current_user) %>
     <%= link_to "My Activity", user_activity_path(current_user) %>
     <%= link_to "Settings", edit_user_registration_path %>
