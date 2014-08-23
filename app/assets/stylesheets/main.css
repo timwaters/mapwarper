@@ -1409,3 +1409,26 @@ fieldset#control_panel_fieldset a:hover {
 fieldset#control_panel_fieldset a {
   color:#222;
 } 
+
+.omniauth_links a {
+	background: #191970;
+ 	color:#e3e3d4;
+	font-weight: 600;
+	padding: 6px 6px 3px 6px; 
+	border-radius:4px;
+	display:inline-block;
+	margin-left:4px;
+	border:none;
+}
+
+.omniauth_links a:hover { 
+  box-shadow:1px 2px 4px 2px rgba(0,0,0,0.2), inset 1px 2px 4px rgba(255,255,255,0.4);;
+	background: #e3e3d4;
+	background:rgba(255,255,255,0.7); 
+	color:#191970;
+	-moz-transition:all 0.42 ease-in-out;
+	-webkit-transition:all 0.2s ease-in-out;
+	transition:all 0.2s ease-in-out;
+
+}
+
