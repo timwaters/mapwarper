@@ -17,14 +17,23 @@ class AuditsController < ApplicationController
 
 
   def for_user
-    @user = User.find(params[:id])
-    @html_title = "Activity for " + @user.login.capitalize
-
+    user_id = params[:id].to_i
+    @user = User.where(id: user_id).first
+    if @user
+      @html_title = "Activity for " + @user.login.capitalize
+      @title = "Recent Activity for User " +@user.login.capitalize
+    else
+      @html_title = "Activity for not found user #{params[:id]}"
+      @title = "Recent Activity for not found user #{params[:id]}"
+    end
+    
+    
+    
     order_options = "created_at DESC"
-    where_options = ['user_id = ?', @user.id ]
+    where_options = ['user_id = ?', user_id ]
     @audits = Audited::Adapters::ActiveRecord::Audit.unscoped.where(where_options).order(order_options).paginate(:page => params[:page],
       :per_page => 20)
-    @title = "Recent Activity for User " +@user.login.capitalize
+      
     render :action => 'index'
   end
 
