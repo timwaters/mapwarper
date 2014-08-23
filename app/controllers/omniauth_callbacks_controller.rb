@@ -38,6 +38,19 @@ class  OmniauthCallbacksController < Devise::OmniauthCallbacksController
       redirect_to root_path
     end
   end
+  
+  def github
+    @user = User.find_for_github_oauth(request.env["omniauth.auth"], current_user)
+    if @user.persisted?
+      flash[:notice] = I18n.t "devise.omniauth_callbacks.success", :kind => "Github"
+      sign_in_and_redirect @user, :event => :authentication
+     # sign_in @user, :event => :authentication
+     # redirect_to session[:user_return_to] root_path
+    else
+      session["devise.github_data"] = request.env["omniauth.auth"]
+      redirect_to root_path
+    end
+  end
 
 
 end

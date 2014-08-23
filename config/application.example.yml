@@ -16,6 +16,9 @@ defaults: &defaults
   omniauth_mediawiki_site: "https://commons.wikimedia.org"
   omniauth_mediawiki_key: "ABC"
   omniauth_mediawiki_secret: "ABC"
+  omniauth_github_key: "ABC"
+  omniauth_github_secret: "ABC"
+  
 
 development:
   <<: *defaults

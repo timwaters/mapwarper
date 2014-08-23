@@ -3,7 +3,7 @@ class User < ActiveRecord::Base
   # :confirmable, :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable, :registerable,
     :recoverable, :rememberable, :trackable, :validatable, :encryptable, 
-    :omniauthable, :omniauth_providers => [:twitter, :osm, :mediawiki]
+    :omniauthable, :omniauth_providers => [ :osm, :mediawiki, :github]
   has_many :permissions
   has_many :roles, :through => :permissions
   
@@ -16,12 +16,7 @@ class User < ActiveRecord::Base
   
   validates_presence_of    :login
   validates_length_of      :login,    :within => 3..40
-  validates_uniqueness_of  :login, :case_sensitive => false
-   
-  #attr_accessor :description
-  #attr_accessor :password
-  #attr_accessible :password_confirmation
-  #attr_accessible :login, :email, :password, :description
+  validates_uniqueness_of  :login, :scope => :email, :case_sensitive => false
   
     
   after_destroy :delete_maps
@@ -88,6 +83,21 @@ class User < ActiveRecord::Base
         provider: auth.provider,
         uid: auth.uid,
         email: "#{auth.info.name}+warper@mediawiki.org", # make sure this is unique
+        password: Devise.friendly_token[0,20]
+      )
+    end
+    user
+  end
+  
+  def self.find_for_github_oauth(auth, signed_in_resource=nil)
+    user = User.where(:provider => auth.provider, :uid => auth.uid.to_s).first
+ 
+    unless user
+      user = User.create(
+        login: auth.info.name,
+        provider: auth.provider,
+        uid: auth.uid,
+        email: "#{auth.info.nickname}+warper@github.com", # make sure this is unique
         password: Devise.friendly_token[0,20]
       )
     end
