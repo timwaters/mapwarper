@@ -27,7 +27,7 @@
           beforeLoad: function( event, ui ) {
             ui.jqXHR.error(function() {
               if (ui.jqXHR.status == 401){
-                <% flash  = "Sorry. You may need to <a class='unauthorized' href='#{url_for(new_user_session_path)}'>Sign In</a> to view this." %>
+                <% flash  = "Sorry. You may need to <a class='unauthorized' href='#{url_for(new_user_session_path)}'>Log In</a> to view this." %>
                 var flash = "<%= flash.html_safe %>";
                 jQuery(ui.panel).html(flash)
               }
