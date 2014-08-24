@@ -62,8 +62,8 @@ gem 'audited-activerecord', github: 'timwaters/audited', branch: 'rails4'
 
 gem 'gdal'
 gem 'georuby'
-gem 'nokogiri'
 gem 'geoplanet'
+gem 'yql', '0.0.2'
 
 group :development do
    gem 'thin'
