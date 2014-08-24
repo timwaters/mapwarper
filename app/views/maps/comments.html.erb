@@ -7,5 +7,5 @@
 <% if user_signed_in? %>
   <%= render :partial => 'comments/comment_form', :object => @map, as: 'comment_obj' -%>
 <% else -%>
-  <%= link_to "Log in to add a comment",new_session_path(:back => "Comments_tab", :mapid => @map.id) %> 
+  <%= link_to "Log in to add a comment", new_user_session_path() %> 
 <% end -%>

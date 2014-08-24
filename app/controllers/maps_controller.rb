@@ -2,7 +2,7 @@ class MapsController < ApplicationController
 
   layout 'mapdetail', :only => [:show, :edit, :preview, :warp, :clip, :align, :activity, :warped, :export, :metadata, :comments]
   
-  before_filter :store_location, :only => [:warp, :align, :clip, :export, :edit ]
+  before_filter :store_location, :only => [:warp, :align, :clip, :export, :edit, :comments ]
   
   before_filter :authenticate_user!, :only => [:new, :create, :edit, :update, :destroy, :delete, :warp, :rectify, :clip, :align, :warp_align, :mask_map, :delete_mask, :save_mask, :save_mask_and_warp, :set_rough_state, :set_rough_centroid, :publish ]
  
@@ -927,6 +927,8 @@ class MapsController < ApplicationController
       anchor = "Align_tab"
     when "export"
       anchor = "Export_tab"
+    when "comments"
+      anchor = "Comments_tab"
     else
       anchor = ""
     end
