@@ -59,12 +59,17 @@ class MyMapsController < ApplicationController
   def get_user
     @user = User.find(params[:user_id])
 
-    if  @user == current_user or  current_user.has_role?("editor")
-      @user
+    if user_signed_in?
+      if  @user == current_user or  current_user.has_role?("editor")
+        @user
+      else
+        return redirect_to user_path(current_user)
+      end
     else
-      redirect_to user_path(current_user)
+      return redirect_to maps_path
     end
 
   end
+
 
 end
