@@ -23,7 +23,7 @@ class HomeController < ApplicationController
   private
   
   def get_news_feeds
-    when_fragment_expired 'news_feeds', 1.day.from_now do
+    cache("news_feeds", :expires_in => 1.day.from_now) do 
       logger.info "getting news feed"
       @feeds = RssParser.run("http://thinkwhere.wordpress.com/tag/mapwarper/feed/")
       @feeds = @feeds[:items][0..1]

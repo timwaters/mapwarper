@@ -4,7 +4,7 @@ source 'https://rubygems.org'
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.1.5'
 # Use sqlite3 as the database for Active Record
-gem 'sqlite3'
+#gem 'sqlite3'
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 4.0.3'
 # Use Uglifier as compressor for JavaScript assets
@@ -54,7 +54,6 @@ gem 'acts-as-taggable-on', '~> 3.3.0'
 gem 'paperclip', '~> 4.2.0'
 gem 'acts_as_commentable'
 gem 'will_paginate', '~> 3.0'
-gem 'timed_fragment_cache'
 gem 'spawnling', '~>2.1'
 
 #Rails 4 support for the audited (acts_as_audited gem) is not quite rails4 worthy - see #https://github.com/collectiveidea/audited/pull/166
