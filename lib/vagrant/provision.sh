@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 
 # set locale to UTF-8 compatible. apologies to non-english speakers...
+#FIXME todo - remove errors with these
 update-locale LANG=en_GB.utf8 LC_ALL=en_GB.utf8
 locale-gen
 export LANG=en_GB.utf8
@@ -26,8 +27,11 @@ apt-get upgrade -y
 apt-get install -y ruby ruby-dev \
     postgresql-9.3-postgis-2.1 postgresql-server-dev-all postgresql-contrib \
     build-essential git-core \
-    libxml2-dev libxslt-dev imagemagick libmapserver1 libg gdal-bin ruby-mapscript
-    
+    libxml2-dev libxslt-dev imagemagick libmapserver1 gdal-bin libgdal-dev ruby-mapscript
+
+#FIXME and TODO
+#ruby gdal needs the build thingy set off
+
 gem1.9.1 install bundle
 
 ## install the bundle necessary for mapwarper
