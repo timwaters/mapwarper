@@ -344,10 +344,10 @@ ul.list {
 body
 {
   	background: #fff;
-	font-family:Lato, 'Segoe UI', 'Lucida Grande', 'Century Gothic', Helvetica, Arial, Verdana, sans-serif; /*KAREN CHANGED ORDER OF FONTS*/
-	line-height:1.5; /*KAREN ADDED*/
+	font-family:Lato, 'Segoe UI', 'Lucida Grande', 'Century Gothic', Helvetica, Arial, Verdana, sans-serif; 
+	line-height:1.5; 
 	font-size:100%;
-	color: #666; /*KAREN CHANGED*/
+	color: #666; 
 	font-size:16px;
 }
 
@@ -364,8 +364,7 @@ font-size: 24px;
 }
 
 h1,h2,h3,h4,h5,h6 {
-	color: #222; /*karen changed*/
-/*	font-family:'Sorts Mill Goudy';*/
+	color: #222; 
 	margin:10px 0;
 }
 
@@ -415,7 +414,6 @@ h1 a, h1 a:link, h1 a:visited {
 }
 
 p {
-/*	line-height: 1.6;*/ /*REMOVED BY KAREN*/
 }
 .nypl_link {
 	background: #5e564b;
@@ -431,7 +429,7 @@ p {
 	background: #191970;
  	color:#e3e3d4;
 	font-weight: 600;
-	padding: 6px 6px 3px 6px; /*KAREN CHANGED AND REMOVED IMPORTANT*/
+	padding: 6px 6px 3px 6px; 
 	border-radius:4px;
 	text-transform:uppercase;
 	font-size:80%;
@@ -481,7 +479,7 @@ select {
 .buttonWarper:hover, input[type="submit"]:hover, .headerDiv .user_status a:hover { /*KAREN ADDED*/
     box-shadow:1px 2px 4px 2px rgba(0,0,0,0.2), inset 1px 2px 4px rgba(255,255,255,0.4);;
 	background: #e3e3d4;
-	background:rgba(255,255,255,0.7); /*KAREN ADDED*/
+	background:rgba(255,255,255,0.7); 
 	color:#191970;
 	-moz-transition:all 0.42 ease-in-out;
 	-webkit-transition:all 0.2s ease-in-out;
@@ -683,7 +681,6 @@ clear: both;
         float: right;
 	clear: right;
 	text-transform: lowercase;
-	font-family: Verdana;
 	padding: 0.5em;
 	font-size: 0.8em;
 	font-weight: bold;
@@ -691,7 +688,6 @@ clear: both;
 
 #search-pagination-top {
 	text-transform: lowercase;
-	font-family: Verdana;
 	padding: 0.5em;
 	font-size: 0.8em;
 	font-weight: bold;
@@ -701,7 +697,6 @@ clear: both;
 #search-pagination-bottom {
 	text-align: center;
 	text-transform: lowercase;
-	font-family: Verdana;
 	padding: 0.4em;
 	font-size: 0.8em;
 	font-weight: bold;
@@ -905,13 +900,13 @@ font-weight: bold;
 	border-bottom: none;
 	background: #e3e3d4;
 	text-decoration: none;
-	border-radius:4px 4px 0 0; /*added by karen*/
-	background: #ddd; /*KAREN CHANGED*/
-	background:rgba(255,255,255,0.7); /*KAREN ADDED*/
+	border-radius:4px 4px 0 0; 
+	background: #ddd; 
+	background:rgba(255,255,255,0.7); 
 }
 
 #navlist li a:hover {
-	background: #191970; /*KAREN CHANGED*/
+	background: #191970; 
 	color:#E3E3D4;
 	-moz-transition:all 0.3s ease-in-out;
 	-webkit-transition:all 0.3s ease-in-out;
@@ -920,7 +915,7 @@ font-weight: bold;
 }
 
 #navlist li span {
-	background: #191970; /*KAREN CHANGED*/
+	background: #191970; 
 	color:#E3E3D4;
 	border-bottom: 1px solid #191970;
 }
@@ -1234,11 +1229,10 @@ color: #00aeff;
 
 #from_map,#to_map
 {
-        position: relative;
-        z-index: 2;
-	height:420px;
-        cursor: crosshair;
-
+  position: relative;
+  z-index: 2;
+  height:420px;
+  cursor: crosshair;
 }
 .map-off {
 	border:2px solid #999999;
@@ -1383,7 +1377,7 @@ div.olControlMousePosition
 
 .headerDiv h1 {
 	font-size:36px; /*change later*/
-	font-family:Vidaloka, Georgia, "Times New Roman", Times, serif;
+
 	margin-left:20px;
 	line-height: 1;
     padding: 8px 0 7px 60px !important;
