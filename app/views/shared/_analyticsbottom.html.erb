@@ -1,7 +1,7 @@
   <script type="text/javascript">
     try {
-      var pageTracker = _gat._getTracker("<%=GOOGLE_ANALYTICS_CODE %>");
-      pageTracker._setCookiePath("<%=GOOGLE_ANALYTICS_COOKIE_PATH %>");
+      var pageTracker = _gat._getTracker("<%=APP_CONFIG['google_analytics_code'] %>");
+      pageTracker._setCookiePath("<%=APP_CONFIG['google_analytics_cookie_path'] %>");
       <%- if @layer -%>
       pageTracker._trackPageview("layers/<%=@current_tab%>/<%=@layer.id%>");
         <%- else -%>

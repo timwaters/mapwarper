@@ -4,8 +4,8 @@ defaults: &defaults
   addthis_user: example_user
   google_analytics_code: 123
   google_analytics_cookie_path:  ""
-  src_maps_dir: "/public/mapimages/src/"
-  dst_maps_dir: "/public/mapimages/dst/"
+  src_maps_dir: 
+  dst_maps_dir: 
   yahoo_app_id: "ascas"
   host: "localhost:3000"
   site_name: "MapWarper"
@@ -30,3 +30,5 @@ test:
 production:
   <<: *defaults
   email: production_user@example.com
+  src_maps_dir: "/var/etc/maps/src/"
+  dst_maps_dir: "/var/etc/maps/dst/"

@@ -9,7 +9,7 @@
     <%= javascript_tag "jQuery.noConflict();" -%>
 
     <script type="text/javascript">
-      var addthis_share = {templates: {twitter: '{{url}} (from @<%=ADDTHIS_TWITTER_USER%>)'}};
+      var addthis_share = {templates: {twitter: '{{url}} (from @<%=APP_CONFIG['addthis_twitter_user']%>)'}};
       var addthis_config = {ui_click: true};
 
 
