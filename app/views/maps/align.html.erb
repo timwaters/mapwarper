@@ -9,7 +9,7 @@
 <% end %>
 
 <span id="gcp_notice"></span>
-If this map belongs to a layer with other maps, you can copy the control points from an adjacent map that has already been rectified to this one.<br />
+If this map belongs to a mosaic with other maps, you can copy the control points from an adjacent map that has already been rectified to this one.<br />
 Click + and choose a map, then drag and drop to choose the alignment.
 
 
@@ -54,7 +54,7 @@ Click + and choose a map, then drag and drop to choose the alignment.
 </div>
 <% counter = 0 %>
 <div id="dialog" title="Add Reference Map" >
-  Choose a rectified map to copy the control points from the same layers:
+  Choose a rectified map to copy the control points from the same mosaics:
   <div id="align-accordian">
     <%@map.layers.visible.each do |layer| %>
       <% unless layer.maps.warped.count == 0 || (layer.maps.warped.count ==1 && layer.maps.warped.first.id == @map.id) %>
@@ -81,7 +81,7 @@ Click + and choose a map, then drag and drop to choose the alignment.
     <% end %>
   </div>
   <% if counter == 0 %>
-    <em> Sorry, but there are no layers containing rectifed maps to choose from.
+    <em> Sorry, but there are no mosaics containing rectifed maps to choose from.
     </em>
   <% end %>
   <br />

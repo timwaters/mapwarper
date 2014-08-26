@@ -105,11 +105,11 @@
 
     <div id="layer_list">
 
-      <h3>Recent Layers</h3>
+      <h3>Recent Mosaics</h3>
       <table id="layer_table" cellpadding="3">
         <thead>
           <tr>
-            <th>Layer</th>
+            <th>Mosaic</th>
             <th class="widthTh">Title</th>
             <th>Year</th>
             <th>Number of Maps</th>
@@ -118,8 +118,8 @@
         </thead>
         <%= render :partial => 'layers/layer', :collection => @layers unless @layers.nil? %>
       </table>
-      <%= link_to "View all Layers", layers_path, :class => "buttonWarper" %><br />
-      <%= link_to "Create a new layer", new_layer_path, :class => "buttonWarper" %>
+      <%= link_to "View all Mosaics", layers_path, :class => "buttonWarper" %><br />
+      <%= link_to "Create a new mosaic", new_layer_path, :class => "buttonWarper" %>
     </div>
 
   </div>

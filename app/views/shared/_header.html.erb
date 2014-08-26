@@ -18,7 +18,7 @@
     <% if current_user.has_role?("administrator") || current_user.has_role?("super user") %>
       <br />
       <%= link_to "All Maps", maps_path %>
-      <%= link_to "All Layers", layers_path %>
+      <%= link_to "All Mosaics", layers_path %>
       <%= link_to "All Activity", activity_path %>
       <%= link_to "All Comments", comments_path %>
       <%= link_to "Groups", groups_path %>

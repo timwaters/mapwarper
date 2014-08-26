@@ -19,7 +19,7 @@
       <input type="submit" value=" Go " />
     <% end %>
     <br/>
-    New: <%= link_to 'Find Layers by Location',  url_for(:controller => 'layers', :action=>'geosearch'), :class => "buttonWarper"%>
+    New: <%= link_to 'Find Mosaics by Location',  url_for(:controller => 'layers', :action=>'geosearch'), :class => "buttonWarper"%>
   </div>
 
   <h2><%= @html_title -%>
@@ -46,7 +46,7 @@
   <table id="layer_table" cellpadding="3">
     <thead>
       <tr>
-        <th>Layer</th>
+        <th>Mosaic</th>
         <th class="thWidth">Title</th>
         <th>Year</th>
         <th>Number of Maps</th>

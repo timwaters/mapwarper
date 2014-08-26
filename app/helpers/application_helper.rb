@@ -37,10 +37,10 @@ module ApplicationHelper
     if @page && @page == "for_map"
       html << link_to('Map Layers', map_layers_path(@map))
     else
-      html << link_to('Layers', layers_path) if @layers || @layer
+      html << link_to('Mosaics', layers_path) if @layers || @layer
     end
 
-    html << link_to('Layer '+@layer.id.to_s, layer_path(@layer)) if @layer && @layer.id
+    html << link_to('Mosaic '+@layer.id.to_s, layer_path(@layer)) if @layer && @layer.id
     html.join(' &gt; '  ).html_safe
   end
   

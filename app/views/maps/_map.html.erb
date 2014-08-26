@@ -11,7 +11,7 @@
 
     <div class="map_description"><span><%=strip_brackets(h(map.description)) -%>
         <% if map.layers.count > 0 %>
-          (In <%=link_to(pluralize(map.layers.count, 'layer'), map_layers_path(map.id)) -%>)
+          (In <%=link_to(pluralize(map.layers.count, 'mosaic'), map_layers_path(map.id)) -%>)
         <%end %>
       </span>
 
@@ -41,7 +41,7 @@
 
 
       <% if admin_authorized? and @layer -%>
-        | <%= link_to "remove map from this layer", remove_layer_map_path(:id => @layer.id, :map_id => map.id), :method => :put %>
+        | <%= link_to "remove map from this mosaic", remove_layer_map_path(:id => @layer.id, :map_id => map.id), :method => :put %>
       <%end -%>
 
       <% if admin_authorized? -%>
