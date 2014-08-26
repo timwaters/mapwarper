@@ -3,6 +3,8 @@
 Mapwarper is an open source map geo-rectification, warping and georeferencing application.
 It enables a user to upload an image, a scanned map or aerial photo for example, and by placing control points on a reference map and the image, to warp it, to stretch it to fit.
 
+![Map Warper screenshot of main interface](/app/assets/images/Screenshot_MapWarper.png?raw=true "Map Warper screenshot of main interface")
+
 The application can be seen in use at http://mapwarper.net for public use and in library setting at http://maps.nypl.org
 
 The application is a web based crowdsourced geospatial project that enables people and organisations to collaboratively publish images of maps online and digitize and extract vector information from them. 
