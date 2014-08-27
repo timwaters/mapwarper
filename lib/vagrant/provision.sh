@@ -27,7 +27,7 @@ apt-get upgrade -y
 apt-get install -y ruby ruby-dev \
     postgresql-9.3-postgis-2.1 postgresql-server-dev-all postgresql-contrib \
     build-essential git-core \
-    libxml2-dev libxslt-dev imagemagick libmapserver1 gdal-bin libgdal-dev ruby-mapscript
+    libxml2-dev libxslt-dev imagemagick libmapserver1 gdal-bin libgdal-dev ruby-mapscript nodejs
 
 #FIXME and TODO
 #ruby gdal needs the build thingy set off

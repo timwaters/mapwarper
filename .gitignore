@@ -33,3 +33,6 @@ public/mapimages/*
 
 #ignore tileindex files
 db/maptileindex/*
+
+#vagrant local
+.vagrant
