@@ -16,7 +16,6 @@ set :deploy_via, :copy
 set :scm, :git
 
 set :user, "tim"
-set :group, "www-data"
 
 # Default value for :format is :pretty
 set :format, :pretty
