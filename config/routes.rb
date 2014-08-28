@@ -38,6 +38,11 @@ Rails.application.routes.draw do
       post 'save_mask_and_warp'
       delete 'delete_mask'
       post 'warp_aligned'
+      get 'gcps'
+      get 'rough_state' => 'maps#get_rough_state'
+      post 'rough_state' => 'maps#set_rough_state'
+      get 'rough_centroid'=> 'maps#get_rough_centroid'
+      post 'rough_centroid' => 'maps#set_rough_centroid'
     end
     collection do
         get 'geosearch'
@@ -70,6 +75,7 @@ Rails.application.routes.draw do
       get 'toggle_visibility'
       post 'update_year'
       get 'wms'
+      get 'wms2'
       get 'maps'
       get 'export'
       get 'metadata'

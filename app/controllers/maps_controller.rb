@@ -497,7 +497,7 @@ class MapsController < ApplicationController
     @map = Map.find(params[:id])
     gcps = @map.gcps_with_error(params[:soft])
     respond_to do |format|
-      #format.json { render :json => gcps.to_json(:methods => :error)}
+      format.html { render :json => {:stat => "ok", :items => gcps.to_a}.to_json(:methods => :error), :callback => params[:callback]}
       format.json { render :json => {:stat => "ok", :items => gcps.to_a}.to_json(:methods => :error), :callback => params[:callback]}
       format.xml { render :xml => gcps.to_xml(:methods => :error)}
     end
@@ -508,7 +508,7 @@ class MapsController < ApplicationController
   def get_rough_centroid
     map = Map.find(params[:id])
     respond_to do |format|
-      format.json {render :json =>{:stat => "ok", :items => map}.to_json(:except => [:content_type, :size, :bbox_geom, :uuid, :parent_uuid, :filename, :parent_id,  :map, :thumbnail, :rough_centroid]), :callback => params[:callback]  }
+      format.json {render :json =>{:stat => "ok", :items => map}.to_json(:except => [:content_type, :size, :bbox_geom, :uuid, :parent_uuid, :filename, :parent_id,  :map, :thumbnail]), :callback => params[:callback]  }
     end
   end
   
