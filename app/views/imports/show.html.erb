@@ -1,4 +1,4 @@
-<%= link_to "&lt; Browse imports", imports_path %>
+<%= link_to "&lt; Browse imports".html_safe, imports_path %>
 
 <h2>Import: <%=h @import.name %></h2>
 <p>Created: <%= @import.created_at.to_s(:long) %> by <%= link_to(( h @import.user.login), user_path(@import.user.id), :method => :get)  -%></p>
@@ -18,10 +18,10 @@
 <p><b>Default map authors </b><br />
   <%= @import.map_author %>
 </p>
-<p><b>Layer ID to add imported maps into existing layer. -99 to create new layer, blank for no layer </b><br />
+<p><b>Layer/Mosaic ID to add imported maps into existing layer. -99 to create new layer, blank for no layer </b><br />
   <%= @import.layer_id %>
 </p>
-<p><b>Layer title if one needs to be created</b><br />
+<p><b>Layer/Mosaic title if one needs to be created</b><br />
   <%= @import.layer_title %>
 </p>
 <p><b>Assigned user to own these</b><br />

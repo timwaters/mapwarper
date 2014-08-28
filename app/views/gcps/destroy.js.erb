@@ -1,0 +1,5 @@
+jQuery("#gcp_list").html("<%= escape_javascript(render(:partial => 'gcp', :collection => @gcps)) %>");
+jQuery("#gcp_notice").html("Control Point deleted sucessfully");
+jQuery('#spinner').hide();
+update_rms(<%="#{sprintf('%.2f',@map.error)}"%>);
+delete_markers(<%=@gcp_id%>);

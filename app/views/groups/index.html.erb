@@ -1,5 +1,5 @@
 
-<% form_tag url_for(:controller => "groups"), :id=>"searchform",:name=> "searchform", :method => :get do -%>
+<%= form_tag url_for(:controller => "groups"), :id=>"searchform",:name=> "searchform", :method => :get do -%>
   Groups Search
   <select id="field" name="field">
     <%= options_for_select([ ["Name", "name"],

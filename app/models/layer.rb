@@ -1,40 +1,40 @@
 class Layer < ActiveRecord::Base
+  has_many :layers_maps, :dependent => :destroy
+  has_many :maps,:through => :layers_maps
+  belongs_to :user
+  
+  acts_as_commentable  
+  
   validates_presence_of :name
   validates_length_of :depicts_year, :maximum => 4,:allow_nil => true, :allow_blank => true
   validates_numericality_of :depicts_year, :if => Proc.new {|c| not c.depicts_year.blank?}
-  has_many :layers_maps, :dependent => :destroy
-  has_many :maps,:through => :layers_maps
-  #has_many :layer_properties #could be has_one
-  belongs_to :user
-  acts_as_commentable  
-
-  #replace "has_finder" with "named_scope" if we use a newer rails 2 (uses has_finder gem)
-  named_scope :visible, :order=> 'id', :conditions => {:is_visible => true}
-  named_scope :with_year, :order => :maps_count, :conditions => "depicts_year is not null"
-  named_scope :with_maps, :order => :rectified_maps_count, :conditions => "rectified_maps_count >=  1"
-
   
+  scope :with_year, -> { where(:depicts_year =>  'is not null').order(:maps_count) }
+  scope :visible, -> {where(:is_visible => true).order(:id)}
+  scope :with_maps, -> {where('rectified_maps_count >= 1').order(:rectified_maps_count)}
+  
+
   after_create :update_layer
   after_destroy :delete_tileindex
 
   def tileindex_filename;   self.id.to_s + '.shp' ; end
   
   def tileindex_dir
-    defined?(TILEINDEX_DIR) ? TILEINDEX_DIR : File.join(RAILS_ROOT, '/db/maptileindex')
+    defined?(TILEINDEX_DIR) ? TILEINDEX_DIR : File.join(Rails.root, '/db/maptileindex')
   end
 
   def tileindex_path;  File.join(tileindex_dir, tileindex_filename) ;  end
-
+  
   def thumb
     if self.maps.first.nil?
-      '/images/missing.png'
+      '/assets/missing.png'
     elsif !self.maps.first.public?
-      '/images/private.png'
+      '/assets/private.png'
     else
       self.maps.first.upload.url(:thumb)
     end
   end
-
+  
   def update_layer
     create_tileindex
     set_bounds
@@ -64,7 +64,7 @@ class Layer < ActiveRecord::Base
     dest_layer = Layer.find(destination_layer_id)
     logger.info "layer #{self.id} merge to #{dest_layer.id.to_s}"
 
-    self.map_layers.each do | map_layer|
+    self.layers_maps.each do | map_layer|
       map_layer.layer = dest_layer
       map_layer.save
     end
@@ -78,12 +78,12 @@ class Layer < ActiveRecord::Base
   #removes map from a layer
   def remove_map(map_id)
     logger.info "layer #{self.id} will have map #{map_id} removed from it"
-    map_layer = LayersMap.find(:first, :conditions =>["map_id = ? and layer_id = ?", map_id, self.id])
+    map_layer = LayersMap.where(["map_id = ? and layer_id = ?", map_id, self.id]).first
     logger.info "this relationship to be deleted"
     logger.info map_layer.inspect
     map_layer.destroy
-   update_counts
-   update_layer
+    update_counts
+    update_layer
 
   end
 
@@ -134,17 +134,18 @@ class Layer < ActiveRecord::Base
     unless self.maps.warped.empty?
       command = "ogrinfo #{tileindex} -al -so -ro"
       logger.info command
-      stdin, stdout, stderr = Open3::popen3(command)
-      sout = stdout.readlines.to_s
-      serr = stderr.readlines.to_s
-      if serr.size > 0
-        logger.error "Error set bounds with layer get extent "+ err
+      #stdin, stdout, stderr = Open3::popen3(command)
+      stdout, stderr = Open3.capture3( command )
+      sout = stdout
+      serr = stderr
+      if !serr.blank? 
+        logger.error "Error set bounds with layer get extent "+ serr
       else
         extent = sout.scan(/^\w+: \(([0-9\-.]+), ([0-9\-.]+)\) \- \(([0-9\-.]+), ([0-9\-.]+)\)$/).flatten.join(",")
 
         self.bbox = extent.to_s
         extents =  extent.split(",").collect{|f| f.to_f}
-         poly_array = [
+        poly_array = [
           [ extents[0], extents[1] ],
           [ extents[2], extents[1] ],
           [ extents[2], extents[3] ],
@@ -152,7 +153,7 @@ class Layer < ActiveRecord::Base
           [ extents[0], extents[1] ]
         ]
         logger.error poly_array.inspect
-        self.bbox_geom = Polygon.from_coordinates([poly_array], -1)
+        self.bbox_geom = GeoRuby::SimpleFeatures::Polygon.from_coordinates([poly_array], -1).as_wkt
 
         @bounds = extent
         save!
@@ -190,6 +191,6 @@ class Layer < ActiveRecord::Base
 
     result
   end
-
+  
 
 end

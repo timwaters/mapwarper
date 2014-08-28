@@ -1,4 +1,4 @@
-<% form_for(@map, :html => {:multipart => true}) do |f| %>
+<%= form_for(@map, :html => {:multipart => true}) do |f| %>
   <div class="column span-12">
     <p>
       <b>Title</b><br />
@@ -104,10 +104,10 @@
       </p>
     <%- end -%>
 
-    <%- if defined?(page)  && (page =~ /edit/ && logged_in? && (current_user == @map.owner || current_user.has_role?("editor")) || page =~ /new/ ) -%>
+    <%- if defined?(page)  && (page =~ /edit/ && user_signed_in? && (current_user == @map.owner || current_user.has_role?("editor")) || page =~ /new/ ) -%>
       <p>
         Map visibility. <br /><%= f.radio_button :public, "true" %><label for="map_public_true">Public(default)</label> <br/>
-        <%= f.radio_button :public, "false" %><label for="map_public_false">Don't list the map (only you can see it)</label>
+        <%= f.radio_button :public, "false" %><label for="map_public_false">Don't list the map </label>
       </p>
     <%- end -%>
     <p>

@@ -1,6 +1,6 @@
-namespace :remove do
-  desc "Removes uploaded images from the filesystem, does NOT delete a map"
-  task :uploaded  => :environment do
+namespace :warper do
+  desc "Removes all uploaded images from the filesystem, does NOT delete maps from db"
+  task :remove_uploaded  => :environment do
     puts 'Deletes uploaded images from the filesystem'
     puts
     puts "WARNING: This will delete uploaded original images from the filesystem"

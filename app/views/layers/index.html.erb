@@ -8,7 +8,7 @@
 
   <div id="search-form">
 
-    <% form_tag url_for(:controller => "layers"), :id=>"searchform",:name=> "searchform", :method => :get do -%>
+    <%= form_tag url_for(:controller => "layers"), :id=>"searchform",:name=> "searchform", :method => :get do -%>
       Search
       <select id="field" name="field">
         <%= options_for_select([ ["Title", "name"],
@@ -18,8 +18,8 @@
       <%= text_field_tag 'query', @query -%>
       <input type="submit" value=" Go " />
     <% end %>
-      <br/>
-       New: <%= link_to 'Find Layers by Location',  url_for(:controller => 'layers', :action=>'geosearch', :class => "buttonWarper")%>
+    <br/>
+    New: <%= link_to 'Find Mosaics by Location',  url_for(:controller => 'layers', :action=>'geosearch'), :class => "buttonWarper"%>
   </div>
 
   <h2><%= @html_title -%>
@@ -46,7 +46,7 @@
   <table id="layer_table" cellpadding="3">
     <thead>
       <tr>
-        <th>Layer</th>
+        <th>Mosaic</th>
         <th class="thWidth">Title</th>
         <th>Year</th>
         <th>Number of Maps</th>
@@ -63,7 +63,7 @@
   <div id="search-pagination-bottom">
     <%= will_paginate @layers %>
     <div class="per_page_select">
-       <%= page_entries_info @layers %>&nbsp;<%= select_tag :per_page, options_for_select([10,20,50,100], @per_page.to_i), :onchange => "if(this.value){reload_with_page(this.value)};" %> per page.
+      <%= page_entries_info @layers %>&nbsp;<%= select_tag :per_page, options_for_select([10,20,50,100], @per_page.to_i), :onchange => "if(this.value){reload_with_page(this.value)};" %> per page.
     </div>
   </div>
 </div>

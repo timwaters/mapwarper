@@ -1,7 +1,8 @@
 class CommentsController < ApplicationController
 
-  before_filter :login_required
-  #before_filter :check_administrator_role, :only => [:index]
+  before_filter :authenticate_user!
+  before_filter :check_administrator_role, :only => [:index]
+ 
 
   rescue_from ActiveRecord::RecordNotFound, :with => :bad_record
   helper :sort
@@ -13,10 +14,8 @@ class CommentsController < ApplicationController
     sort_update
     @query = params[:query]
 
-    @comments = Comment.paginate(:page => params[:page],
-      :per_page => 30,
-      :order => sort_clause
-    )
+    @comments = Comment.order(sort_clause).paginate(:page => params[:page], :per_page => 30)
+    
     respond_to do | format |
       format.html {}
     end
@@ -35,14 +34,14 @@ class CommentsController < ApplicationController
     redirect_to polymorphic_path(commentable, :anchor => "Comments_tab")
   end
 
-  def add_comment
+  def create
     commentable_type = params[:commentable][:commentable]
     commentable_id = params[:commentable][:commentable_id]
     # Get the object that you want to comment
     commentable = Comment.find_commentable(commentable_type, commentable_id)
     #
     # Create a comment with the user submitted content
-    comment = Comment.new(params[:comment])
+    comment = Comment.new(comment_params)
     # Assign this comment to the logged in user
     comment.user_id = current_user.id
 
@@ -64,6 +63,9 @@ class CommentsController < ApplicationController
     end
   end
 
+  def comment_params
+    params.require(:comment).permit(:comment)
+  end
 
 
 end

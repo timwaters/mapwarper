@@ -5,6 +5,7 @@ class Import < ActiveRecord::Base
   validates_presence_of :path
   validates_presence_of :name
   validates_presence_of :uploader_user_id
+  validate :custom_validate
 
   before_save :count_files
   before_create :setup_import
@@ -29,7 +30,7 @@ class Import < ActiveRecord::Base
       logger.info "Starting import..."
       count = 0
       Dir.foreach(path) do | ourfilename |
-         logger.info "Looking at file: #{ourfilename} "
+        logger.info "Looking at file: #{ourfilename} "
         unless Map.exists?(:upload_file_name => ourfilename)
           title_suffix = ''
           title_suffix = ' ' + map_title_suffix unless map_title_suffix.blank?
@@ -85,7 +86,7 @@ class Import < ActiveRecord::Base
 
   protected
   
-  def validate
+  def custom_validate
     errors.add(:layer_id, "does not exist, or has not been specified properly") unless Layer.exists?(layer_id) || layer_id == nil || layer_id == -99
     errors.add(:uploader_user_id, "does not exist") if !User.exists?(uploader_user_id)
     errors.add(:layer_title, "is blank") if layer_title.blank? && layer_id == -99

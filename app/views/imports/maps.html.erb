@@ -3,23 +3,23 @@
 <p>From: <%= @import.path %> Found <%= @import.file_count.to_s %> files in directory. Imported <%= @import.imported_count %> Maps.
 </p>
 <% if @layer %>
-  <p>Layer: <%=link_to(@layer.name, layer_path(@layer))%></p>
+  <p>Mosaic: <%=link_to(@layer.name, layer_path(@layer))%></p>
 <% else %>
-  Maps not added to a Layer
+  Maps not added to a Mosaic
 <% end %>
 <p>Assigned user to own the maps: <%= link_to(@upload_user.login, user_path(@upload_user)) -%></p>
 <h3>Maps</h3>
-<% form_for @import do |import_form| %>
+<%= form_for @import do |import_form| %>
   <table>
     <% @import.maps.each do | map | %>
       <tr class="<%= cycle('table0', 'table1')%> import-maps " >
-        <% import_form.fields_for :maps, map do |map_form| %>
+        <%= import_form.fields_for :maps, map do |map_form| %>
           <td>
             <%= image_tag(map.upload.url(:thumb)) %><br />
             <%=  link_to "View in Warper", map_path(map) %>
           </td>
           <td>
-             <%= map_form.label "Filename" %> <span class="import-span-map"><%= map.upload_file_name %></span> <br />
+            <%= map_form.label "Filename" %> <span class="import-span-map"><%= map.upload_file_name %></span> <br />
             <%= map_form.label :title %>
             <%= map_form.text_field :title , { :class => 'import-textfield-map' } %><br />
             <%= map_form.label :description %>
@@ -33,10 +33,10 @@
 
           </td>
           <td>
-            
+
             <% unless map_form.object.new_record? %>
-              <%= map_form.check_box '_delete' %>
-              <%= map_form.label '_delete', 'Delete Map', { :class => 'import-delete-map' } %>
+              <%= map_form.check_box '_destroy' %>
+              <%= map_form.label '_destroy', 'Delete Map', { :class => 'import-delete-map' } %>
             <% end %>
 
           </td>

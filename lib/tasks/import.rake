@@ -1,14 +1,18 @@
-namespace :import do
+#called using arguments
+#example: RAILS_ENV=development rake warper:import_images['/home/tim/tmp/helsinki',2,,,'helsinki','helsinki2']
+
+namespace :warper do
   desc "Import images from a directory to map"
-  task :images, :directory, :user, :layer, :layer_name, :title, :description, :publisher, :authors, :scale, :needs => :environment  do |t, args|
+  task :import_images, [:directory, :user, :layer, :layer_name, :title, :description, :publisher, :authors, :scale]  => :environment  do |t, args|
+  
     puts "\nImporting images from directory into new map objects....\n"
     puts "Args were: #{args}"
-    usage = "::::::USAGE::::::\nrake import:images['path/to/dir/with/images REQUIRED',user id (int) REQUIRED, layer id (int) OPTIONAL [-99 for new layer, leave blank for no layer],
+    usage = "::::::USAGE::::::\nrake warper:import_images['path/to/dir/with/images REQUIRED',user id (int) REQUIRED, layer id (int) OPTIONAL [-99 for new layer, leave blank for no layer],
 'title for new layer' OPTIONAL, 'default title suffix for maps' OPTIONAL, 'default description for maps' OPTIONAL, 'default publisher for maps' OPTIONAL,
- 'default authors for maps' OPTIONAL, 'default scale for maps' OPTIONAL ] \n\nEXAMPLE  rake import:images['/home/tim/maps/yorkshire/',23,-99,'Best Yorkshire maps','Yorkshire'] "
+ 'default authors for maps' OPTIONAL, 'default scale for maps' OPTIONAL ] \n\nEXAMPLE  rake warper:import_images['/home/tim/maps/yorkshire/',23,-99,'Best Yorkshire maps','Yorkshire'] "
     #check to make sure the args are filled in properly
     
-    if args.directory.nil? || args.user.nil?
+    if args.directory.empty? || args.user.empty?
       puts "No directory or user passed in as args"
       puts usage
       break
@@ -26,8 +30,8 @@ namespace :import do
     if Layer.exists?(args.layer.to_i)
       layer = Layer.find(args.layer.to_i)
       puts "Maps will be associated with Layer " + layer.id.to_s
-    elsif !args.layer.nil? && args.layer.to_i == -99
-      unless args.layer_name.nil?
+    elsif !args.layer.empty? && args.layer.to_i == -99
+      unless args.layer_name.empty?
         puts "Creating new Layer with title: " + args.layer_name
       else
         puts "Creating new Layer..."
@@ -35,7 +39,7 @@ namespace :import do
       layer = Layer.new(:name => args.layer_name)
       layer.user = user
       layer.save
-    elsif !args.layer.nil? 
+    elsif !args.layer.empty? 
       puts "No layer found with id " + args.layer.to_s
       puts usage
       break
@@ -70,6 +74,7 @@ namespace :import do
 
     Dir.foreach(basedir) do | ourfilename |
       print '.'
+      print ourfilename
       unless Map.exists?(:upload_file_name => ourfilename)
         print '+'
         map = Map.new(:title => ourfilename + default_title_suffix, :description => default_description, :publisher => default_publisher , :authors => default_authors, :scale => default_scale)
@@ -83,13 +88,13 @@ namespace :import do
         File.open(ourfile) { |photo_file| map.upload = photo_file }
         
         count += 1 if map.save
-        if map.errors.on(:filename)
+        if map.errors.get(:filename)
           #should be caught, but just in case
           puts  ""
           puts "Map has same name, wasn't imported: " + ourfilename.to_s
          
         end
-      end if include_exts.include?(File.extname(ourfilename).to_s)
+      end if include_exts.include?(File.extname(ourfilename).downcase.to_s)
     end
     puts ""
     puts "Finished Importing. Number imported: "+ count.to_s

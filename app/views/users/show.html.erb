@@ -1,6 +1,9 @@
-<%= link_to "&lt; Browse Maps", maps_path %>
+<%= link_to "&lt; Browse Maps".html_safe, maps_path %>
 
 <h2>User: <%=h @user.login %></h2>
+<%- if @user.provider %>
+<p>A <%= image_tag(@user.provider+'_logo.png', width: '17', height: '17') %> <%=@user.provider_name.titlecase %> User </p>
+<%- end %>
 <p>Joined on: <%= @user.created_at.to_s(:long) %></p>
 <h3>Profile Description:</h3>
 <p><%= (h @user.description).gsub("\n","<br/>") %></p>

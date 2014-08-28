@@ -1,12 +1,13 @@
 <title>Map Warper- <%= h(@html_title) || ''-%> </title>
 
 <%= yield :head %>
-
+<%= csrf_meta_tags %>
 <%= javascript_tag @onload -%>
 </head> 
 <script type="text/javascript">
   var xhrFlag = "<%=@xhr_flag%>";
 </script> 
+
 <%= flash_messages %>
 
 <%= yield %> 

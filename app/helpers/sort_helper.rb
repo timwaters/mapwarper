@@ -79,7 +79,7 @@ module SortHelper
   def sort_init(default_key, options={})
     options = { :default_order => 'asc',
                 :name => params[:controller] + '_sort',
-                :icons_dir => '/images',
+                :icons_dir => '/assets',
               }.merge(options)
     @sort_name = options[:name]
     @sort_default = {:key => default_key, :order => options[:default_order]}
@@ -131,7 +131,7 @@ module SortHelper
 params = {:params => {:sort_key => column, :sort_order => order, :query => @query, :field => @field, :show_available => @show_available, :per_page => @per_page} } #if @query
     params = params.merge(options[:params]) if options[:params]
     link_to(text, params) +
-      (icon ? nbsp(2) + image_tag(File.join(@icons_dir,icon)) : '')
+      (icon ? nbsp(2) + image_tag(File.join(@icons_dir,icon)) : '').html_safe()
   end
 
   # Returns a table header <th> tag with a sort link for the named column
@@ -158,7 +158,7 @@ params = {:params => {:sort_key => column, :sort_order => order, :query => @quer
     text = options.delete(:text) || ActiveSupport::Inflector::titleize(column.humanize)
     options[:title]= "Sort by #{text}" unless options[:title]
     text = options[:title] || options.delete(:text) || ActiveSupport::Inflector::titleize(column.humanize)
-    content_tag('th', sort_link(column, text, options), options)
+    content_tag('th', sort_link(column, text.html_safe, options), options)
   end
 
   private

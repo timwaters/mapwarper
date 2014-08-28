@@ -1,7 +1,7 @@
 <tr>
   <td>
     <a name="a-map-row-<%=map.id%>"></a>
-    <%= link_to image_tag(map.upload.url(:thumb)), map %>
+<%= link_to image_tag(map.upload.url(:thumb)), map %>
   </td>
   <td>
     <div class="maplist_title">
@@ -11,7 +11,7 @@
 
     <div class="map_description"><span><%=strip_brackets(h(map.description)) -%>
         <% if map.layers.count > 0 %>
-          (In <%=link_to(pluralize(map.layers.count, 'layer'), map_layers_path(map.id)) -%>)
+          (In <%=link_to(pluralize(map.layers.count, 'mosaic'), map_layers_path(map.id)) -%>)
         <%end %>
       </span>
 
@@ -28,20 +28,20 @@
       <% if !admin_authorized? && map.published? %>
         <strong title ="This map has been published by an admin and no further editing is possible">Published</strong>
       <%  else %>
-        <%= link_to("Rectify Map", map_path(:id=> map,:anchor=>"Rectify_tab")) -%>
-       <% end %>
-      <% if logged_in? -%>
+        <%= link_to("Rectify Map", map_path(:id=> map.id,:anchor=>"Rectify_tab")) -%>
+      <% end %>
+      <% if user_signed_in? -%>
         <% current_user_maps = current_user.maps %>
         <% if current_user_maps.to_a.include?(map) -%>
-          | <%= link_to('Remove from My Maps', destroy_my_map_path(:user_id => current_user, :map_id => map), :method => :post, :confirm => "really remove this map from your list?") -%>
+          | <%= link_to('Remove from My Maps', destroy_my_map_path(:user_id => current_user, :map_id => map.id), :method => :post, :confirm => "really remove this map from your list?") -%>
         <% else -%>
-          | <%= link_to('Save to My Maps', add_my_map_path(:user_id => current_user, :map_id => map), :method => :post) -%>
+          | <%= link_to('Save to My Maps', add_my_map_path(:user_id => current_user, :map_id => map.id), :method => :post) -%>
         <% end -%>
       <% end -%>
 
 
       <% if admin_authorized? and @layer -%>
-        | <%= link_to "remove map from this layer", {:controller => "layers", :action=>"remove_map", :id => @layer, :map_id => map} %>
+        | <%= link_to "remove map from this mosaic", remove_layer_map_path(:id => @layer.id, :map_id => map.id), :method => :put %>
       <%end -%>
 
       <% if admin_authorized? -%>
@@ -55,8 +55,8 @@
     </div>
     <div class="map_links">
       <% if map.source_uri %>
-      Links: <%= link_to 'Source / Biblio Ref', map.source_uri  %>
-       <% end %>
+        Links: <%= link_to 'Source / Biblio Ref', map.source_uri  %>
+      <% end %>
     </div>
 
   </td>

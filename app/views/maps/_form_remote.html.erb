@@ -1,4 +1,11 @@
-<% remote_form_for(@map, :update => "Edit", :html => {:multipart => true}) do |f| %>
+<script type="text/javascript">
+  jQuery(document).ready(function() {
+    jQuery("form.edit_map").bind("ajax:success", function(event, data, status, xhr) {
+      jQuery("#Edit").html(data);
+    });
+  });
+</script>
+<%= form_for(@map, :remote=>true, :html => {:multipart => true}) do |f| %>
   <div class="column span-12">
     <p>
       <b>Title</b><br />
@@ -13,13 +20,13 @@
       <b>Tags </b><span class="tiny-text">(comma separated)</span> <br />
       <%= f.text_field :tag_list %>
     </p>
-       <p>
+    <p>
       <%= f.select(:map_type, Map.map_type_hash, :selected=>:is_map) -%>
     </p>
   </div>
 
   <div class="column span-12 last">
-     <p>
+    <p>
       <b>Subject Area</b><span class="tiny-text">(optional)</span><br />
       <%= f.text_field :subject_area %>
     </p>
@@ -29,22 +36,22 @@
       <b>Metadata Unique ID</b><span class="tiny-text">(optional)</span><br />
       <%= f.text_field :unique_id %>
     </p>
-    
-     <p>
+
+    <p>
       <b>Source / Bibliographic Ref URL</b><span class="tiny-text">(optional)</span><br />
       <%= f.text_field :source_uri %>
     </p>
-    
-     <p>
+
+    <p>
       <b>Call Number</b><span class="tiny-text">(optional)</span><br />
       <%= f.text_field :call_number %>
-     </p>
+    </p>
 
     <p>
       <b>Publisher</b><span class="tiny-text">(optional)</span><br />
       <%= f.text_field :publisher %>
     </p>
-    
+
     <p>
       <b>Place of Publication</b><span class="tiny-text">(optional)</span><br />
       <%= f.text_field :publication_place %>
@@ -54,10 +61,10 @@
       <%= f.text_field :authors %>
     </p>
 
-     <p>
+    <p>
       <b>Date Depicted</b><span class="tiny-text">(year, optional)</span><br />
       <%= f.text_field :date_depicted %>
-     </p>
+    </p>
 
     <p>
       <b>Published Date</b><span class="tiny-text">(optional)</span><br />
@@ -68,13 +75,13 @@
       <b>Reprint Date </b><span class="tiny-text">(optional)</span><br />
       <%= f.date_select(:reprint_date, :include_blank => true, :order => [:day, :month, :year ], :start_year => 1600, :end_year =>Time.now.year)  %>
     </p>
-    
+
     <p>
       <b>Scale</b><span class="tiny-text">(optional)</span><br />
       <%= f.text_field :scale %>
     </p>
 
-     <p>
+    <p>
       <b>Metadata Projection</b><span class="tiny-text">(optional)</span><br />
       <%= f.text_field :metadata_projection %>
     </p>
@@ -100,15 +107,15 @@
       </p>
     <%- end -%>
 
-<%- if defined?(page)  && (page =~ /edit/ && logged_in? && (current_user == @map.owner || current_user.has_role?("editor")) || page =~ /new/ ) -%>
-<p>
-Map visibility. <br /><%= f.radio_button :public, "true" %><label for="map_public_true">Public(default)</label> <br/>
-<%= f.radio_button :public, "false" %><label for="map_public_false">Don't list the map (only you can see it)</label>
-</p>
-<%- end -%>
+    <%- if defined?(page)  && (page =~ /edit/ && user_signed_in? && (current_user == @map.owner || current_user.has_role?("editor")) || page =~ /new/ ) -%>
+      <p>
+        Map visibility. <br /><%= f.radio_button :public, "true" %><label for="map_public_true">Public(default)</label> <br/>
+        <%= f.radio_button :public, "false" %><label for="map_public_false">Don't list the map</label>
+      </p>
+    <%- end -%>
     <p>
       <%= f.submit((defined?(page) && page =~ /new/) ? "Create" : "Update" )%>
     </p>
-    
+
   </div>
 <% end %>

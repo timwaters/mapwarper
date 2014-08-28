@@ -1,0 +1,34 @@
+defaults: &defaults
+  email: example_user@example.com
+  addthis_twitter_user: example_user@example.com
+  addthis_user: example_user
+  google_analytics_code: 123
+  google_analytics_cookie_path:  ""
+  src_maps_dir: 
+  dst_maps_dir: 
+  yahoo_app_id: "ascas"
+  host: "localhost:3000"
+  site_name: "MapWarper"
+  omniauth_osm_key: "ABC"
+  omniauth_osm_secret: "ABC"
+  omniauth_twitter_key: "ABC"
+  omniauth_twitter_secret: "ABC"
+  omniauth_mediawiki_site: "https://commons.wikimedia.org"
+  omniauth_mediawiki_key: "ABC"
+  omniauth_mediawiki_secret: "ABC"
+  omniauth_github_key: "ABC"
+  omniauth_github_secret: "ABC"
+  
+
+development:
+  <<: *defaults
+
+test:
+  <<: *defaults
+  email: test_user@example.com
+
+production:
+  <<: *defaults
+  email: production_user@example.com
+  src_maps_dir: "/var/etc/maps/src/"
+  dst_maps_dir: "/var/etc/maps/dst/"

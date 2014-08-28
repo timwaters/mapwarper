@@ -1,46 +1,37 @@
-# Settings specified here will take precedence over those in config/environment.rb
-SITE_URL = "local.mapwarper.net"
-SITE_NAME = "map warper"
-SITE_EMAIL = "robot@mapwarper.net"
-MAPSERVER_URL = "/mapserv"  #url to the mapserv executable
+Rails.application.configure do
+  # Settings specified here will take precedence over those in config/application.rb.
 
-#paths to directories to put various files in
-#SRC_MAPS_DIR = "/var/lib/maps/src/"
-#DEST_MAPS_DIR = "/var/lib/maps/maps/dest/"
-#TILEINDEX_DIR = "/var/lib/maps/dest/tileindex/"
+  # In the development environment your application's code is reloaded on
+  # every request. This slows down response time but is perfect for development
+  # since you don't have to restart the web server when you make code changes.
+  config.cache_classes = false
 
-#MAX_DIMENSION =  1500
-#MAX_ATTACHMENT_SIZE = 100.megabytes
-#GDAL_MEMORY_LIMIT = 30 #in mb
-#
-#for staging.mapwarper.net ABQIAAAAUs2kl_uF_gYL9qSq4yukexSgEqVDyz1BzXtcs2sjYKHX7Ct09xQKZPVFb7DDwZR1l3CCS6uyv18asQ
-#for beta.mapwarper.net
-GOOGLE_MAPS_KEY="AIzaSyC6Kf3DDfInm8tTeK9e5VjZbkvAn4nQLmI"
-#GOOGLE_MAPS_KEY="ABQIAAAAUs2kl_uF_gYL9qSq4yukexRxkxcYXm5XhASGm0Epb0TXzVu4RRQ76q3JFV3Uf57gZY19BEkCZK2xBA"
-# In the development environment your application's code is reloaded on
-# every request.  This slows down response time but is perfect for development
-# since you don't have to restart the webserver when you make code changes.
+  # Do not eager load code on boot.
+  config.eager_load = false
 
-#if we want auditing in dev mode, we gotta set these to true see above# it sucks for dev. 
-config.cache_classes = false
-config.action_controller.perform_caching             = false
+  # Show full error reports and disable caching.
+  config.consider_all_requests_local       = true
+  config.action_controller.perform_caching = false
 
+  # Don't care if the mailer can't send.
+  config.action_mailer.raise_delivery_errors = false
 
-# Log error messages when you accidentally call methods on nil.
-config.whiny_nils = true
+  # Print deprecation notices to the Rails logger.
+  config.active_support.deprecation = :log
 
-# Show full error reports and disable caching
-config.action_controller.consider_all_requests_local = true
-config.action_view.debug_rjs                         = true
+  # Raise an error on page load if there are pending migrations.
+  config.active_record.migration_error = :page_load
 
+  # Debug mode disables concatenation and preprocessing of assets.
+  # This option may cause significant delays in view rendering with a large
+  # number of complex assets.
+  config.assets.debug = true
 
-# Don't care if the mailer can't send
-config.action_mailer.raise_delivery_errors = false
+  # Adds additional error checking when serving assets at runtime.
+  # Checks for improperly declared sprockets dependencies.
+  # Raises helpful error messages.
+  config.assets.raise_runtime_errors = true
 
-#GDAL_PATH  = "/home/tim/bin/FWTools-2.0.6/bin_safe/"
-GDAL_PATH  = ""
-GOOGLE_ANALYTICS_CODE = "UA-12240034-2"
-GOOGLE_ANALYTICS_COOKIE_PATH = "/warper-dev/"
-Yahoo_app_id = "lbQ2VNLV34EoEmxF9dguamWEFSXjI7adJ.ACHkdChT2JGmQ0Bj.jP1cF0nmh5XP3"
-ADDTHIS_USER = "timwaters"
-ADDTHIS_TWITTER_USER = "mapwarper"
+  # Raises error for missing translations
+  # config.action_view.raise_on_missing_translations = true
+end

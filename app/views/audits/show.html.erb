@@ -1,4 +1,4 @@
-<%= link_to "&lt; Back", :back -%>
+<%= link_to "&lt; Back".html_safe, :back -%>
 
 <h2>Activity Detail</h2>
 <table class="activity-table">
@@ -16,15 +16,19 @@
 
 <h3>Details</h3>
 <table  class="activity-details">
+  <thead>
+  <th>Item&nbsp;</th>
+  <th>Value</th>
+</thead>
+<% @audit.audited_changes.each do |key, value| -%>
   <tr>
-    <th>Item&nbsp;</th>
-    <th>Value</th>
-  </tr>
-  <% @audit.changes.each do |key, value| -%>
-    <tr>
-      <td><%= key-%> </td>
+    <td><%= key-%> </td>
+    <% if value.class == Array %>
+      <td><%="#{value[0] || "nil"} -> #{value[1]}" %></td>
+    <% else %>
       <td><%= value -%> </td>
-    </tr>
-  <% end if @audit.changes -%>
+    <% end %>
+  </tr>
+<% end if @audit.audited_changes -%>
 
 </table>

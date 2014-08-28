@@ -9,7 +9,7 @@
     <span class="maplist_title">
       <%=strip_brackets(h(map.title)) %>
     </span>
-   
+
     <br />
     <span class="map_description">
       <%=strip_brackets(h(map.description)) -%>
@@ -17,7 +17,7 @@
     <span class="map_summary">
       <%- if map.owner -%>Uploaded by <%= link_to(map.owner.login, user_path(map.owner)) -%>.<%-end-%>
       <%- if map.layers.count > 0 -%>
-        (In <%=link_to(pluralize(map.layers.count, 'layer'), map_layers_path(map.id)) -%>)
+        (In <%=link_to(pluralize(map.layers.count, 'mosaic'), map_layers_path(map.id)) -%>)
       <%-  end -%>
       <span class="map_year">
         <% if map.depicts_year -%>
@@ -32,7 +32,7 @@
         Unrectified.
       <%end-%>
     </span>
-      <br />
+    <br />
     <% if map.tags.count > 0 -%>
       <span class="map_summary">Tags:</span>
       <span class="tags">
@@ -44,42 +44,42 @@
     <% end -%>
 
     <span class="map_links">
-    <% if logged_in? %>
-      <% current_user_maps = current_user.maps %>
-      <% if current_user_maps.to_a.include?(map) %>
-        <%= link_to('Remove from My Maps',
-          destroy_my_map_path(:user_id => current_user, :map_id => map), :method => :post, :confirm => "really remove this map from your list?") -%>  |
-      <% else %>
-        <%= link_to('Save to My Maps',
-          add_my_map_path(:user_id => current_user, :map_id => map), :method => :post) -%>  |
+      <% if user_signed_in? %>
+        <% current_user_maps = current_user.maps %>
+        <% if current_user_maps.to_a.include?(map) %>
+          <%= link_to('Remove from My Maps',
+            destroy_my_map_path(:user_id => current_user, :map_id => map), :method => :post, :confirm => "really remove this map from your list?") -%>  |
+        <% else %>
+          <%= link_to('Save to My Maps',
+            add_my_map_path(:user_id => current_user, :map_id => map), :method => :post) -%>  |
+        <% end -%>
       <% end -%>
-    <% end -%>
 
-    <%- if map.source_uri -%>
-    Links: <%= link_to 'Source / Biblio Ref',map.source_uri  %>
-    <%- end -%>
-    <% if !admin_authorized? && map.published? %>
-    | <strong>Published [<a href="#" title="This map has been published by an admin and no further editing is possible.">?</a>]</strong>
-    <% end %>
-    <% if admin_authorized? %>
-      <% if map.status == :warped  %>
-        | <%= link_to("Publish",{:controller => "maps", :action => "publish", :id => map, :to => "publish"}, :confirm => "Really publish this map? This will mean that no further editing can be done") -%>
-      <% elsif map.published? %>
-        | <%= link_to("UnPublish",{:controller => "maps", :action => "publish", :id => map, :to => "unpublish"}, :confirm => "Really un publish this map? This will mean that the map can be edited now") -%>
+      <%- if map.source_uri -%>
+        Links: <%= link_to 'Source / Biblio Ref',map.source_uri  %>
+      <%- end -%>
+      <% if !admin_authorized? && map.published? %>
+        | <strong>Published [<a href="#" title="This map has been published by an admin and no further editing is possible.">?</a>]</strong>
       <% end %>
-    <% end -%>
+      <% if admin_authorized? %>
+        <% if map.status == :warped  %>
+          | <%= link_to("Publish",publish_map_path(:id => map, :to => "publish"), :confirm => "Really publish this map? This will mean that no further editing can be done") -%>
+        <% elsif map.published? %>
+          | <%= link_to("UnPublish",publish_map_path(:id => map, :to => "unpublish"), :confirm => "Really un publish this map? This will mean that the map can be edited now") -%>
+        <% end %>
+      <% end -%>
 
-     <%if map.warped_or_published? %> |
-      <%= link_to("Download KML", map_url(:id => map, :format=>:kml)) %>
-    <% end %>
+      <%if map.warped_or_published? %> |
+        <%= link_to("Download KML", map_url(:id => map, :format=>:kml)) %>
+      <% end %>
 
-    <% if admin_authorized? %>
-      | <%= render :partial  => 'maps/map_type', :object => @map %>
-    <% end %>
+      <% if admin_authorized? %>
+        | <%= render :partial  => 'maps/map_type', :object => @map %>
+      <% end %>
 
-        <div style="clear:both;"></div>
-         <%= render :partial => 'shared/addthis', :locals => {:title => map.title, :description =>map.description} %>
-         <%= render :partial => 'shared/export_window', :locals => {:map => @map} %>
+      <div style="clear:both;"></div>
+      <%= render :partial => 'shared/addthis', :locals => {:title => map.title, :description =>map.description} %>
+      <%= render :partial => 'shared/export_window', :locals => {:map => @map} %>
     </span>
   </td>
 </tr>

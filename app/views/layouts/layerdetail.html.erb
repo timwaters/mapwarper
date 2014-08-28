@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title>Map Warper: <%= h(snippet(@html_title, 40)) || ''-%> </title>
+    <%= stylesheet_link_tag "application" %>
+    <%= javascript_include_tag "openlayers/2.8/OpenLayers-2.8/OpenLayers" %>
+    <%= javascript_include_tag "application" %>
+    <%= javascript_tag "jQuery.noConflict();" -%>
+
+
+    <script type="text/javascript">
+      var addthis_share = {templates: {twitter: '{{url}} (from @<%=APP_CONFIG['addthis_twitter_user']%>)'}};
+      var addthis_config = {ui_click: true};
+
+      jQuery(function() {
+
+        jQuery("#year-dialog").dialog({
+          bgiframe: true,
+          autoOpen: false,
+          title: "Depicts Year (admin only)",
+          height: 200,
+          hide: 'slow',
+          width: 250,
+          modal: true,
+          buttons: {
+            Cancel: function() {
+              jQuery(this).dialog('close');
+            }
+          },
+          close: function() {
+          }
+        });
+        jQuery("#edit-year-link-top").click(function(e) {
+          jQuery("#year-dialog").dialog('open');
+        });
+
+        jQuery("#wooTabs").tabs({
+          selected: <%=@selected_tab||0 %>,
+          select: function(event, ui) {
+            return true;
+          } //select
+        });
+
+        jQuery("#wooTabs").bind("tabsselect", function(event, ui) {
+          if (typeof (pageTracker) !== 'undefined') {
+            pageTracker._trackEvent("Layer", ui.tab.title, '<%=@layer.id%>');
+          }
+        });
+        jQuery("#wooTabs").bind("tabsshow", function(event, ui) {
+          jQuery(".hidden-at-start").hide();
+        });
+
+        jQuery("#wooTabs").bind("tabsshow", function(event, ui) {
+
+          if (ui.panel.id == "Show") {
+            if (typeof layerMap != 'undefined') {
+              layerMap.updateSize();
+            }
+          }
+
+        });
+
+      });
+
+    </script>
+    <script type="text/javascript">
+      // PageLoad function
+      // This function is called when  1. after calling $.historyInit(); 2. after calling $.historyLoad(); 3. after pushing "Go Back" button of a browser
+      var tabSuffix = "_tab"; //suffix to be added to link to stop jumping
+      function pageload(hash) {
+        if (hash) {
+          // restore ajax loaded state
+          if (jQuery.browser.msie) {
+            // jquery's $.load() function does't work when hash include special characters like aao.
+            hash = encodeURIComponent(hash);
+          }
+          hash = hash.slice(0, -tabSuffix.length)
+          //jQuery("#wooTabs").tabs("select", hash);
+          var tab_divs = jQuery("div.ui-tabs-panel", jQuery("#wooTabs").tabs());
+          var select_tab_index = 0;
+          jQuery.each(tab_divs, function(index, value) {
+            if (hash === value.id) {
+              select_tab_index = index;
+            }
+          });
+
+          jQuery("#wooTabs").tabs("option", "active", select_tab_index);
+        } else {
+          //if there is no hash, wat to do? currently, nothing, as by default it should be displayed tab.
+          //show tab  //jQuery("#wooTabs").tabs("select", 0);
+        }
+      }
+
+      jQuery(document).ready(function() {
+        jQuery.historyInit(pageload); //TODO
+
+        // set onlick event for buttons
+        jQuery("a[rel='history']").click(function() {
+  
+          var hash = this.title + tabSuffix;
+          jQuery.historyLoad(hash);
+        });
+      });
+    </script>
+    <%= csrf_meta_tags %>
+    <%= yield :head %>
+  </head>
+  <% if @onload -%>
+    <body onload="<%=@onload%>">
+    <%else-%>
+    <body>
+    <%end%>
+    <div id="headerDiv" class="headerDiv">
+      <h1><%= link_to "Map Warper", root_path %></h1>
+      <%= render :partial => 'shared/header' %>
+      <%= render :partial => 'shared/nav' %>
+    </div>
+    <span class="breadcrumbs"><%= breadcrumbs %></span>
+
+
+    <table id="map_table">
+      <%= render :partial => 'layers/layer_detail', :object => @layer, :locals => {:variety => "detail"} %>
+    </table>
+
+    <% @tabs = [{:name=>"show",:divname=>"Show", :label=>"Show", :path=>layer_path(:id => @layer)},
+      {:name=>"edit",:divname=>"Edit", :label=>"Edit", :path=>edit_layer_path(:id => @layer)},
+      {:name=>"export",:divname=>"Export", :label=>"Export", :path=>export_layer_path(:id => @layer)},
+      {:name=>"metadata", :divname=>"Metadata", :label=>"Metadata", :path => metadata_layer_path(:id => @layer)},
+      {:name=>"comments",:divname=>"Comments", :label=>"Comments", :count=>@layer.comments.size.to_s, :path=>comments_layer_path(:id => @layer)}
+      ]  %>
+    <div id="wooTabs">
+      <ul>
+        <% @tabs.each do |tab| -%>
+          <% if @current_tab == tab[:name] -%>
+            <% tab[:path] = "#"+tab[:divname]  -%>
+            <% @current_tab_divname = tab[:divname] -%>
+          <% end -%>
+          <% unless @disabled_tabs && @disabled_tabs.include?(tab[:name]) -%>
+            <li><a rel="history" href="<%=tab[:path]%>" title="<%=tab[:label]%>"><span><%=tab[:label]%><% if tab[:count] -%> (<%=tab[:count]-%>)<%end-%> </span></a></li>
+          <% end -%>
+        <% end -%>
+      </ul>
+      <div id="<%=@current_tab_divname %>" >
+        <%= flash_messages %>
+        <%= yield %>
+      </div>
+
+    </div>
+
+    <div id="panel-under-tabs">
+
+    </div>
+
+    <% if admin_authorized? %>
+      <div id="year-dialog" class="hidden">
+        Add / edit year that this mosaic depicts: <br />
+
+
+        <script type="text/javascript">
+        jQuery(document).ready(function() {
+          jQuery("form#year-form").bind("ajax:success", function(e, data, status, xhr) {
+
+            jQuery("#depicts-year-span-top").html(data.message);
+          }).bind("ajax:before", function() {
+
+          }).bind("ajax:complete", function() {
+            jQuery('#year-dialog').dialog('close');
+            jQuery('#depicts-year-span-top').effect('highlight', {}, 3000);
+          }).bind("ajax:error", function() {
+            alert('Sorry, something went wrong trying to save this');
+          });
+        });
+        </script>
+
+        <%= form_for(@layer, {:html => {:id =>"year-form"} , :url =>update_year_layer_path(@layer.id), :remote => true }) do |f| %>
+          <%= f.text_field :depicts_year, :size =>10 %>
+          <%= submit_tag "Save" %>
+        <% end %>          
+
+      </div>
+    <% end %>
+    <div id="footer">
+      <%= render :partial => 'shared/footer' %>
+    </div>
+    <%= render :partial => 'shared/analytics' %>
+  </body>
+</html>

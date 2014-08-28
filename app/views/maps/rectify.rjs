@@ -1,2 +1,0 @@
-page << "gcp_notice('"+@notice_text+"');"
-page << "show_warped_map();" unless @too_few == true

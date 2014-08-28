@@ -1,6 +1,7 @@
 <tr class="<%= cycle('table0', 'table1') -%>">
   <td><%= link_to(( h user.login), user_path(user.id), :method => :get)  -%></td>
   <% if admin_authorized? %>
+    <td><%=h user.provider -%></td>
     <td><%=h user.email -%></td>
     <td><%= user.enabled ? 'yes' : 'no' -%>&nbsp;
       <% unless user == current_user -%>
@@ -13,12 +14,7 @@
       <% end -%>
       &nbsp;
     </td>
-    <td>
-      <%= user.active? ? 'yes' : 'no' -%>
-      <% if !user.active? -%>
-        <%= link_to('activate', force_activate_path(user.id), :method => :put) -%>
-      <% end-%>
-    </td>
+
     <td><%= link_to 'edit roles', user_roles_path(user) -%></td>
   <% end -%>
 </tr>

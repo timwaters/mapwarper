@@ -1,4 +1,4 @@
-<%= link_to "&lt; Browse Groups", groups_path %>
+<%= link_to "&lt; Browse Groups".html_safe, groups_path %>
 
 <h2>Group: <%=h @group.name %></h2>
 <% if admin_authorized? %>
@@ -37,7 +37,7 @@
 
 <h3>Group Members: <%= pluralize(@group.users.count, 'user') %> </h3>
 <p>
-  <% if logged_in? -%>
+  <% if user_signed_in? -%>
     <% if current_user.groups.to_a.include?(@group) %>
       <%= link_to('Leave this group', destroy_group_user_path(:group_id => @group, :id => current_user), :method => :delete) -%>
     <%  else -%>
@@ -46,5 +46,5 @@
   <% end -%>
 </p>
 <p>
-<%= link_to "List this group's users", group_users_path(@group) %>
+  <%= link_to "List this group's users", group_users_path(@group) %>
 </p>

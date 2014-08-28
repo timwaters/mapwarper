@@ -1,6 +1,6 @@
-namespace :layer do
+namespace :warper do
     desc "makes tileindex for all visible layers and gets the bounds for the layer. affects ALL layers. p"
-    task(:updatetileindex => :environment) do
+    task(:layer_updatetileindex => :environment) do
     puts "(Re)creating tileindex for all layers"
     puts "only affects visible layers, i.e. those where is_visible => true"
     puts "and only layers which have rectified maps within them"
@@ -10,7 +10,7 @@ namespace :layer do
     break unless STDIN.gets.match(/^y$/i)
     puts
     count = 0
-    layers = Layer.visible.find :all
+    layers = Layer.visible.all
     layers.each do |layer|
       layer.update_counts
       if layer.rectified_maps_count > 0

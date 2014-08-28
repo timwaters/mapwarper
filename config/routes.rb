@@ -1,144 +1,175 @@
-ActionController::Routing::Routes.draw do |map|
-  map.resources :oauth_clients
-
-  map.test_request '/oauth/test_request', :controller => 'oauth', :action => 'test_request'
-  map.access_token '/oauth/access_token', :controller => 'oauth', :action => 'access_token'
-  map.request_token '/oauth/request_token', :controller => 'oauth', :action => 'request_token'
-  map.authorize '/oauth/authorize', :controller => 'oauth', :action => 'authorize'
-  map.oauth '/oauth', :controller => 'oauth', :action => 'index'
-
-  map.root :controller => "home", :action => "index"
+Rails.application.routes.draw do
+  root 'home#index'
+  get '/about' => 'home#about', :as => 'about'
+  get '/help' => 'home#help', :as => 'help'
   
-  map.user_activity '/users/:id/activity', :controller => 'audits', :action => 'for_user'
-  map.formatted_user_activity '/users/:id/activity.:format', :controller => 'audits', :action => 'for_user'
-  map.connect '/users/stats', :controller => 'users', :action => 'stats'
-
-  map.maps_activity '/maps/activity', :controller => 'audits', :action => 'for_map_model'
-  map.formatted_maps_activity  '/maps/activity.:format', :controller => 'audits', :action => 'for_map_model'
-  map.map_activity '/maps/:id/activity', :controller => 'audits', :action => 'for_map'
-  map.formatted_map_activity '/maps/:id/activity.:format', :controller => 'audits', :action => 'for_map'
-
-  map.activity '/activity', :controller => 'audits'
-  map.formatted_activity '/activity.:format', :controller => 'audits'
-  map.activity_details '/activity/:id', :controller => 'audits',:action => 'show'
-
-
-  map.connect '/maps/activity', :controller => 'audits', :action => 'for_map_model'
-
-  map.connect '/gcp/', :controller => 'gcp', :action => 'index'
-  map.connect '/gcp/:id', :controller => 'gcp', :action=> 'show'
-#  map.connect '/gcp/show/:id', :controller=> 'gcp', :action=>'show'
-  #map.connect '/gcps/update/:id', :controller => 'gcp', :action => 'update'
-  #map.connect '/gcps/update_field/:id', :controller => 'gcp', :action => 'update_field'
-  map.connect '/gcp/destroy/:id', :controller => 'gcp', :action => 'destroy', :conditions => {:method => :delete}
-  map.connect '/gcp/add/:mapid', :controller => 'gcp', :action => 'add'
-
-
-  map.my_maps '/users/:user_id/maps', :controller => 'my_maps', :action => 'list'
-  #map.connect '/users/:user_id/maps/new', :controller => 'my_maps', :action => 'new'
-  #map.connect '/users/:user_id/maps/:id', :controller => 'my_maps', :action => 'show'
-  map.add_my_map '/users/:user_id/maps/create/:map_id', :controller => 'my_maps', :action => 'create', :conditions => { :method => :post }
-  map.destroy_my_map '/users/:user_id/maps/destroy/:map_id', :controller => 'my_maps', :action => 'destroy', :conditions => { :method => :post}
-
-
-
-  map.login '/login', :controller => 'sessions', :action => 'new'
-  map.logout '/logout', :controller => 'sessions', :action => 'destroy'
-  map.signup '/signup', :controller => 'users', :action => 'new'
-  map.resend_activation '/resend_activation', :controller => 'users', :action => 'resend_activation'
-  map.force_resend_activation '/force_resend_activation/:id', :controller => 'users', :action => 'force_resend_activation'
-  map.activate '/activate/:id', :controller => 'user_accounts', :action => 'show'
-  map.change_password '/change_password',   :controller => 'user_accounts', :action => 'edit'
-  map.forgot_password '/forgot_password',   :controller => 'passwords', :action => 'new'
-  map.reset_password '/reset_password/:id', :controller => 'passwords', :action => 'edit'
-  # map.resources :users, :has_many => :user_maps,
-  map.force_activate '/force_activate/:id', :controller => 'users', :action => 'force_activate', :conditions =>{:method => :put}
-  map.disable_and_reset '/disable_and_reset/:id', :controller => 'users', :action => 'disable_and_reset', :conditions => {:method => :put}
-  map.resources :users, :member => {:enable => :put, :disable => :put } do |users|
-    users.resource :user_account
-    users.resources :roles
+  devise_for :users, :path => 'u',:controllers => { :registrations => "users_registrations", :sessions => "sessions", :omniauth_callbacks => "omniauth_callbacks" }
+  
+  resources :users do
+    member do
+      put 'enable'
+      put 'disable'
+      put 'disable_and_reset'
+    end
+    collection do
+      get 'stats'
+    end
+    resource :user_account
+    resources :roles
   end
-
-  map.resource :session
-  map.resource :password
-  #end authentication route stuff
-
-  #nicer paths for often used map paths
-  map.warp_map '/maps/warp/:id', :controller => 'maps', :action => 'warp'
-  map.clip_map '/maps/crop/:id', :controller => 'maps', :action => 'clip'
-  map.align_map '/maps/align/:id', :controller => 'maps', :action => 'align'
-  map.warped_map '/maps/preview/:id', :controller => 'maps', :action => 'warped'
-  map.export_map '/maps/export/:id', :controller => 'maps', :action => 'export'
-  #map.map_status '/maps/status/:id', :controller => 'maps', :action => 'status'
-  map.map_status '/maps/:id/status', :controller => 'maps', :action => 'status'
-  map.metadata_map '/maps/metadata/:id', :controller => 'maps', :action => 'metadata'
-
-  map.export_map '/maps/export/:id', :controller => 'maps', :action => 'export'
-  map.formatted_export_map '/maps/export/:id.:format', :controller => 'maps', :action => 'export'
-  map.wms_map '/maps/wms/:id', :controller => 'maps', :action => 'wms'
-  map.wms_layer '/layers/wms/:id', :controller => 'layers', :action => 'wms'
   
-  map.comments_map '/maps/:id/comments', :controller => 'maps', :action => 'comments'
-
-  map.connect '/maps/:id/rectify', :controller => 'maps', :action => 'rectify'
-  map.connect '/maps/:id/save_mask_and_warp', :controller => 'maps', :action => 'save_mask_and_warp'
-  map.connect '/maps/:id/save_mask', :controller => 'maps', :action => 'save_mask'
-  map.connect '/maps/:id/delete_mask', :controller => 'maps', :action => 'delete_mask'
-  map.connect '/maps/:id/mask_map', :controller => 'maps', :action => 'mask_map'
-
-  map.connect '/maps/geosearch', :controller => 'maps', :action => 'geosearch'
-  map.connect '/maps/geo', :controller => 'maps', :action => 'geo'
-
-  map.map_tag '/maps/tag/:id', :controller => 'maps', :action => 'tag', :requirements => { :id => %r([^/;,?]+) }
-
-  map.connect '/maps/:id/gcps.:format', :controller => 'maps', :action => 'gcps'
-  map.connect '/maps/tile/:id/:z/:x/:y.png', :controller => 'maps', :action => 'tile'
-
-  map.connect '/maps/:id/rough_state.:format', :controller => 'maps', :action => 'get_rough_state' ,:conditions => { :method => :get}
-  map.connect '/maps/:id/rough_state.:format', :controller => 'maps', :action => 'set_rough_state' ,:conditions => { :method => :post}
-  map.connect '/maps/:id/rough_centroid.:format', :controller => 'maps', :action => 'get_rough_centroid' ,:conditions => { :method => :get}
-  map.connect '/maps/:id/rough_centroid.:format', :controller => 'maps', :action => 'set_rough_centroid' ,:conditions => { :method => :post}
-
-
-  map.connect '/layers/geosearch', :controller => 'layers', :action => 'geosearch'
-  map.connect '/layers/thumb/:id', :controller => 'layers', :action => 'thumb'
-  map.connect '/layers/:id/maps.:format', :controller => 'layers', :action => 'maps'
-  map.connect '/layers/wms2', :controller => 'layers', :action => 'wms2'
-  map.comments_layer '/layers/:id/comments', :controller => 'layers', :action => 'comments'
-
-  map.resources :maps  do |a |
-    a.resources :layers
+  get '/maps/activity' => 'audits#for_map_model', :as => "maps_activity"
+  
+  resources :maps  do
+    member do
+      get 'map_type'
+      get 'export'
+      get 'warp'
+      get 'clip'
+      post 'rectify'
+      get 'align'
+      get 'warped'
+      get 'metadata'
+      get 'comments'
+      get 'delete'
+      get 'status'
+      get 'publish'
+      get 'unpublish'
+      post 'save_mask_and_warp'
+      delete 'delete_mask'
+      post 'warp_aligned'
+    end
+    collection do
+        get 'geosearch'
+        get 'tag'
+    end
+    resources :layers
   end
-  map.resources :layers
-
-  map.export_layer '/layers/export/:id', :controller => 'layers', :action => 'export'
-  map.metadata_layer '/layers/metadata/:id', :controller => 'layers', :action => 'metadata'
-  map.connect '/layers/tile/:id/:z/:x/:y.png', :controller => 'layers', :action => 'tile'
-
-  map.resources :groups 
   
-  map.new_group_user '/groups/:group_id/users/new', :controller => 'memberships', :action => 'new'
-  map.destroy_group_user '/groups/:group_id/users/destroy/:id', :controller => 'memberships', :action => 'destroy', :conditions => { :method => :delete}
- 
-  map.group_users '/groups/:group_id/users', :controller => 'users', :action => 'index_for_group'
-  map.group_maps '/groups/:group_id/maps', :controller => 'mapss', :action => 'index_for_map'
+  get '/maps/thumb/:id' => 'maps#thumb', :as =>'thumb_map'
+  
+  get '/gcps/' => 'gcp#index', :as => "gcps"
+  get '/gcps/:id' => 'gcps#show', :as => "gcp"
+  delete '/gcps/:id/destroy' => 'gcps#destroy', :as => "destroy_gcp"
+  post '/gcps/add/:mapid' => 'gcps#add', :as => "add_gcp"
+  put '/gcps/update/:id' => 'gcps#update', :as => "update_gcp"
+  put '/gcps/update_field/:id' => 'gcps#update_field', :as => "update_field_gcp"
+  
 
-  map.resources :imports, :member => {:maps => :get, :start => :get, :status => :get }
- 
+  get '/maps/wms/:id' => "maps#wms", :as => 'wms_map'
+  get '/maps/tile/:id/:z/:x/:y' => "maps#tile", :as => 'tile_map'
+  
+  get '/layers/wms/:id' => "layers#wms", :as => "wms_layer"
+  get '/layers/tile/:id/:z/:x/:y' => "layers#tile", :as => 'tile_layer'
+  
+  resources :layers do
+    member do
+      get 'comments'
+      get 'merge'
+      get 'publish'
+      get 'toggle_visibility'
+      post 'update_year'
+      get 'wms'
+      get 'maps'
+      get 'export'
+      get 'metadata'
+      get 'delete'
+    end
+    collection do 
+      get 'geosearch'
+    end
+  end
+  
+  put '/layers/:id/remove_map/:map_id' => 'layers#remove_map', :as => 'remove_layer_map'
+  put '/layers/:id/merge' => 'layers#merge', :as => 'do_merge_layer'
+  
+  get '/users/:user_id/maps' => 'my_maps#list', :as => 'my_maps'
+  post '/users/:user_id/maps/create/:map_id' => 'my_maps#create', :as => 'add_my_map'
+  post '/users/:user_id/maps/destroy/:map_id' => 'my_maps#destroy', :as => 'destroy_my_map'
+
+  get '/users/:id/activity' => 'audits#for_user', :as => 'user_activity'
+  
+  
+  get '/maps/acitvity.:format' => 'audits#for_map_model', :as => "formatted_maps_activity"
+  get '/maps/:id/activity' => 'audits#for_map', :as => "map_activity"
+  get '/maps/:id/activity.:format' => 'audits#for_map', :as => "formatted_map_activity"
+
+  get '/activity' => 'audits#index', :as => "activity"
+  get '/activity/:id' => 'audits#show', :as => "activity_details"
+  get '/activity.:format' => 'audits#index', :as => "formatted_activity"
+
+  
+  resources :comments
+
+  
+  resources :groups 
+  
+  get '/groups/:group_id/users/new' => 'memberships#new', :as => 'new_group_user'
+  delete '/groups/:group_id/users/destroy/:id' => 'memberships#destroy', :as => 'destroy_group_user'
+  get '/groups/:group_id/users' => 'users#index_for_group', :as => 'group_users'
+  get '/groups/:group_id/map' => 'maps#index_for_map', :as => 'group_maps'
+
+  resources :imports do
+    member do
+      get 'maps'
+      get 'start'
+      get 'status'
+    end
+  end
+   
   
   # The priority is based upon order of creation: first created -> highest priority.
+  # See how all your routes lay out with "rake routes".
 
+  # You can have the root of your site routed with "root"
+  # root 'welcome#index'
 
-  #for legacy urls
-  #map.connect '/mapscans/*', :controller => 'maps'
-  map.connect '/maps/:id', :controller => 'maps', :action => "show"
-  map.connect '/maps/:action/:id', :controller => 'maps'
-  map.connect '/maps/:action/:id.:format', :controller => 'maps'
+  # Example of regular route:
+  #   get 'products/:id' => 'catalog#view'
 
-  # Install the default routes as the lowest priority.
-  map.connect ':controller/:action/:id'
-  map.connect ':controller/:action/:id.:format'
-  #map.connect '', :controller => "mapscans"
-  map.connect '', :controller => "home"
+  # Example of named route that can be invoked with purchase_url(id: product.id)
+  #   get 'products/:id/purchase' => 'catalog#purchase', as: :purchase
 
+  # Example resource route (maps HTTP verbs to controller actions automatically):
+  #   resources :products
+
+  # Example resource route with options:
+  #   resources :products do
+  #     member do
+  #       get 'short'
+  #       post 'toggle'
+  #     end
+  #
+  #     collection do
+  #       get 'sold'
+  #     end
+  #   end
+
+  # Example resource route with sub-resources:
+  #   resources :products do
+  #     resources :comments, :sales
+  #     resource :seller
+  #   end
+
+  # Example resource route with more complex sub-resources:
+  #   resources :products do
+  #     resources :comments
+  #     resources :sales do
+  #       get 'recent', on: :collection
+  #     end
+  #   end
+
+  # Example resource route with concerns:
+  #   concern :toggleable do
+  #     post 'toggle'
+  #   end
+  #   resources :posts, concerns: :toggleable
+  #   resources :photos, concerns: :toggleable
+
+  # Example resource route within a namespace:
+  #   namespace :admin do
+  #     # Directs /admin/products/* to Admin::ProductsController
+  #     # (app/controllers/admin/products_controller.rb)
+  #     resources :products
+  #   end
 end

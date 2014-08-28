@@ -1,0 +1,37 @@
+<% @gcp = gcp -%>
+<% if gcp.error < 5
+  errorclass = "blue"
+  elsif gcp.error >= 5 && gcp.error < 10
+  errorclass = "green"
+  elsif gcp.error >=10 && gcp.error < 50
+  errorclass = "orange"
+  elsif gcp.error >= 50
+  errorclass = "red"
+  else
+  errorclass = "blue"
+  end -%>
+<tr id="gcp<%= gcp.id %>">
+  <td id="gcp_id_tr<%=gcp.id%>"><span class="marker_number">&nbsp;</span>
+    <input id="gcp_id<%=gcp.id%>" type="hidden" value="<%= gcp.id %>" class="gcp_id" />
+  </td>
+  <td><input type="text" name="gcp[]" id="x<%=gcp.id%>" value="<%= gcp.x -%>" onchange="update_gcp_field(<%= gcp.id %>, this);" /></td>
+  <td><input type="text" name="gcp[]" id="y<%=gcp.id%>"  value="<%= gcp.y -%>" onchange="update_gcp_field(<%= gcp.id %>, this);"/></td>
+  <td><input type="text" name="gcp[]" id="lon<%=gcp.id%>"  value="<%= gcp.lon -%>" onchange="update_gcp_field(<%= gcp.id %>, this);" /></td>
+  <td><input type="text" name="gcp[]" id="lat<%=gcp.id%>"  value="<%= gcp.lat -%>"  onchange="update_gcp_field(<%= gcp.id %>, this);" /></td>
+  <td><input type="text" disabled="disabled" class="<%=errorclass%>" name="error<%=gcp.id%>" value="<%= sprintf("%.2f",gcp.error) %>" /></td>
+
+  <script type="text/javascript">
+    jQuery(document).ready(function() {
+      jQuery("a#<%=  "delete_gcp_#{gcp.id}" %>").button().bind("ajax:before", function(event, data, status, xhr) {
+        jQuery('#spinner').show();
+        gcp_notice('Deleting...');
+      }).bind("ajax:error", function(){
+        gcp_notice('Sorry, there seems to be an error with this delete request, try again?');   
+      });
+    });
+  </script>
+
+  <td> 
+    <%= link_to("delete", destroy_gcp_path(:id => gcp.id),  :id => "delete_gcp_#{gcp.id}", :class=>"delete_button", :remote => true,  :method => "delete",  data: { confirm: 'Really delete these points?'})%>
+  </td>
+</tr>

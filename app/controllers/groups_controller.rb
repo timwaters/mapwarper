@@ -1,11 +1,12 @@
 class GroupsController < ApplicationController
 
   before_filter :find_group, :only => [:show, :edit, :update, :destroy]
-  before_filter :login_required, :except => [:index]
-  before_filter :check_administrator_role, :only => [ :create, :edit, :update, :destroy]
+
+  before_filter :authenticate_user!, :except => [:index]
+  before_filter :check_administrator_role, :only => [ :new, :create, :edit, :update, :destroy]
   
   rescue_from ActiveRecord::RecordNotFound, :with => :bad_record
-  #TODO add comments 
+  
 
   helper :sort
   include SortHelper
@@ -23,13 +24,13 @@ class GroupsController < ApplicationController
       conditions = nil
     end
 
-    @groups = Group.paginate(:page => params[:page],:per_page => 20, :order => "updated_at DESC",  :conditions => conditions, :include => :groups_maps)
+    @groups = Group.where(conditions).order("updated_at DESC").paginate(:page => params[:page],:per_page => 20).includes(:groups_maps)
   end
 
 
   def show
-    @group_maps = @group.maps.paginate(:page => params[:page], :per_page => 10, :order => "groups_maps.created_at DESC")
-    @group_users = @group.users.paginate(:page => params[:page], :per_page => 100, :order => "memberships.created_at DESC")
+    @group_maps = @group.maps.order( "groups_maps.created_at DESC").paginate(:page => params[:page], :per_page => 10)
+    @group_users = @group.users.order("memberships.created_at DESC").paginate(:page => params[:page], :per_page => 100)
     @html_title = "Showing Group " + @group.id.to_s
   end
 
@@ -40,7 +41,7 @@ class GroupsController < ApplicationController
 
 
   def create
-    @group = Group.new(params[:group])
+    @group = Group.new(group_params)
     @group.creator = current_user
     if @group.save
       flash[:notice] = "New Group Created!"
@@ -57,7 +58,7 @@ class GroupsController < ApplicationController
 
 
   def update
-    if @group.update_attributes(params[:group])
+    if @group.update_attributes(group_params)
       flash[:notice] = "Successfully updated group."
       redirect_to group_url(@group)
     else
@@ -67,12 +68,12 @@ class GroupsController < ApplicationController
 
 
   def destroy
-  # if (group.creator == current_user) or admin_authorized?
-      if @group.destroy
-        flash[:notice] = "Group deleted!"
-      else
-        flash[:notice] = "Group couldn't be deleted."
-      end
+    # if (group.creator == current_user) or admin_authorized?
+    if @group.destroy
+      flash[:notice] = "Group deleted!"
+    else
+      flash[:notice] = "Group couldn't be deleted."
+    end
       
     redirect_to groups_path
   end
@@ -96,5 +97,8 @@ class GroupsController < ApplicationController
     end
   end
 
+  def group_params
+     params.require(:group).permit(:name, :description)
+  end
 
 end

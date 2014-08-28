@@ -1,12 +1,12 @@
-<% form_tag url_for(:controller => "maps"), :id=>"searchform",:name=> "searchform", :method => :get do -%>
+<%= form_tag url_for(:controller => "maps"), :id=>"searchform",:name=> "searchform", :method => :get do -%>
   Search  
- <select id="field" name="field">
+  <select id="field" name="field">
     <%= options_for_select([ ["Title", "title"], 
-                           ["Description", "description"], 
-                           ["Publisher", "publisher"],
-                           ["Author", "authors"],
-                            ["Tags", "tags"]], @field)-%>
-    </select>
+        ["Description", "description"], 
+        ["Publisher", "publisher"],
+        ["Author", "authors"],
+        ["Tags", "tags"]], @field)-%>
+  </select>
   for 
   <%= text_field_tag 'query', @query -%>
   <input type="submit" value=" Go ">

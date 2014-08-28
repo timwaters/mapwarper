@@ -9,28 +9,26 @@
   <% if audit.auditable_type.downcase == "map"
     typename = "Map"
     controller_name = "map"
-  elsif audit.auditable_type.downcase == "gcp"
+    elsif audit.auditable_type.downcase == "gcp"
     typename = "Control Point"
     controller_name = "gcp"
-  end %>
+    end %>
 
   <td class="<%= cl %>">
-    <% if audit.uname -%>
-      <%= link_to audit.uname, :controller=>"users",:action=>"show", :id=>audit.user_id -%>
+    <% user = audit.user
+      if user -%>
+      <%= link_to user.login, :controller=>"users",:action=>"show", :id=>user.id-%>
     <% else -%>
       &mdash;
     <%end%>
   </td>
 
   <td class="<%= cl %>">
-    <%= link_to typename + ' ' + audit.auditable_id.to_s,
-      :controller=> controller_name.pluralize,
-      :action => 'show',
-      :id => audit.auditable_id -%>
+    <%= link_to typename + ' ' + audit.auditable_id.to_s, activity_details_path(audit.auditable_id) -%>
   </td>
 
   <td class="<%= cl %>">
-    <%= audit.activity_action %> &mdash; <%= audit.summary %>
+    <%= formatted_action(audit.action) %> &mdash; <%= summary(audit) %>
   </td>
 
   <td class="<%= cl %>">

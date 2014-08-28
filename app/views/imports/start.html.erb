@@ -1,41 +1,41 @@
 <script type="text/javascript">
   var keepOnPolling = true;
-  function pollServer(){
+  function pollServer() {
     if (keepOnPolling) {
       jQuery.ajax({
         method: 'get',
-        url : '<%= status_import_path(@import)%>',
-        dataType : 'text',
-        success: function (text) {
+        url: '<%= status_import_path(@import)%>',
+        dataType: 'text',
+        success: function(text) {
           console.log(text);
-          if (text.indexOf("Finished")!=-1){
+          if (text.indexOf("Finished") != -1) {
             keepOnPolling = false;
             jQuery('#afterImport').show();
             jQuery('#spinner').hide();
           }
           jQuery('#updateMe').html(text);
         },
-        error: function(){
+        error: function() {
           keepOnPolling = false;
           jQuery('#updateMe').html("Something went wrong with the request to the server");
           jQuery('#spinner').hide();
         }
       });
-    }else{
+    } else {
       jQuery('#spinner').hide();
     }
   }
 
-    
 
 
-  jQuery(document).ready(function(){
+
+  jQuery(document).ready(function() {
     jQuery('#afterImport').hide();
     jQuery('#spinner').show();
     var myvar = setInterval(pollServer, 4000);
- 
+
   });
-    
+
 </script>
 
 <h2>Importing...</h2>

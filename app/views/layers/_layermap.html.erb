@@ -14,12 +14,12 @@
     }
   </style>
   <script type="text/javascript">
-    var warpedwms_url = '<%= url_for :controller => 'layers', :action => 'wms', :id => @layer -%>';
-    var warped_bounds =  new OpenLayers.Bounds(<%=@layer.get_bounds-%>);
+    var warpedwms_url = '<%= url_for wms_layer_path(:id => @layer.id) -%>';
+    var warped_bounds = new OpenLayers.Bounds(<%=@layer.get_bounds-%>);
     var layer_id = <%=@layer.id-%>;
-    var mapLayersURL = '<%=url_for :controller => 'layers', :action => 'maps', :id => @layer -%>';
+    var mapLayersURL = '<%=url_for :controller => 'layers', :action => 'maps', :id => @layer.id -%>';
     var mapBaseURL = '<%=url_for :controller=> 'maps' %>';
-    var mapThumbBaseURL =  "<%= url_for :controller => 'maps', :action => 'thumb'-%>/";
+    var mapThumbBaseURL = "/maps/thumb/";
 
   </script>
   <%= javascript_include_tag "layer-maps" -%>

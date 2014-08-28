@@ -1,16 +1,15 @@
 class ImportsController < ApplicationController
-  #status
-  #client polls this to check on status of import
-  #such like 1/200 images imported
-  before_filter :login_required
+
+  before_filter :authenticate_user!
   before_filter :check_administrator_role
+
   before_filter :find_import, :except => [:index, :new, :create]
   before_filter :check_imported, :only => [:start]
 
   rescue_from ActiveRecord::RecordNotFound, :with => :bad_record
 
   def index
-    @imports = Import.paginate(:page => params[:page],:per_page => 30, :order => "updated_at DESC")
+    @imports = Import.order("updated_at DESC").paginate(:page => params[:page],:per_page => 30)
   end
 
   def new
@@ -19,7 +18,7 @@ class ImportsController < ApplicationController
   end
 
   def create
-    @import = Import.new(params[:import])
+    @import = Import.new(import_params)
     @import.user = current_user
     @import.state = "ready"
     if @import.save
@@ -48,7 +47,7 @@ class ImportsController < ApplicationController
   end
  
   def update
-    if @import.update_attributes(params[:import])
+    if @import.update_attributes(import_params)
       flash[:notice] = "Successfully updated import."
       redirect_to import_url(@import)
     else
@@ -58,7 +57,7 @@ class ImportsController < ApplicationController
   end
 
   def start
-    spawn do
+    Spawnling.new do
       @import.start_importing
     end
   end
@@ -100,6 +99,11 @@ class ImportsController < ApplicationController
       end
       format.json {render :json => {:stat => "not found", :items =>[]}.to_json, :status => 404}
     end
+  end
+  
+  def import_params
+      params.require(:import).permit(:name,:path, :map_title_suffix, :map_description, :map_publisher, :map_author, :layer_id, :layer_title,  :uploader_user_id, 
+        :maps_attributes => [:title, :description, :publisher, :authors, :source_uri, :id, "_destroy"] )
   end
 
 end

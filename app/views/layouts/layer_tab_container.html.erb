@@ -1,5 +1,6 @@
 <%= yield :head %>
 <%= javascript_tag @onload -%>
+<%= csrf_meta_tags %>
 </head> 
 <script type="text/javascript">
   var xhrFlag = "<%=@xhr_flag%>";
@@ -12,5 +13,5 @@
     :locals => {
     :layer => @layer,
     :current_tab => @current_tab
-  } %>
+    } %>
 </div>

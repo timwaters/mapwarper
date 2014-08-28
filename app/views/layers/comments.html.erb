@@ -1,11 +1,11 @@
 <h2> Comments </h2>
 <%unless @comments.empty? -%>
-<%= render :partial => 'comments/comment', :collection => @comments %>
+  <%= render :partial => 'comments/comment', :collection => @comments %>
 <% else -%>
-  There's no comments for this layer, why not add one now! <br />
+  There's no comments for this mosaic, why not add one now! <br />
 <% end -%>
-<% if logged_in? %>
-  <%= render :partial => 'comments/comment_form', :object => @layer -%>
+<% if user_signed_in? %>
+  <%= render :partial => 'comments/comment_form', :object => @layer, as: 'comment_obj' -%>
 <% else -%>
   <%= link_to "Log in to add a comment",new_session_path %> 
 <% end -%>

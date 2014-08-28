@@ -1,126 +1,127 @@
 <div id="container">
 
-<div id="left-col">
-<div id="video-intro" class="paraMargin">
- <h2>Overview</h2>
- <p>Find maps and other imagery, upload, and rectify against a real map.</p>
- <p>You can then download and use the rectified map in your mapping applications.</p>
- <p>Just sign up and you can start uploading and get warping!</p>
- 
-  <%= link_to "Upload Map!", new_map_path , :class => "buttonWarper"-%>
- 
-</div>
+  <div id="left-col">
+    <div id="video-intro" class="paraMargin">
+      <h2>Overview</h2>
+      <p>Find maps and other imagery, upload, and rectify against a real map.</p>
+      <p>You can then download and use the rectified map in your mapping applications.</p>
+      <p>Just sign up and you can start uploading and get warping!</p>
 
-<div class="paraMargin">
-<h2>What is it?</h2>
-<p>It's a free to use, open source map warper / map georectifier, it's a bit unstable! This project is supported by <a href="http://entropyfree.com">Entropy Free</a> and the <a href="http://maps.nypl.org">New York Public Library</a>.
-</p>
-<p>Note: This has been migrated from it's old home at <a href="warper.geothings.net">warper.geothings.net</a> .
-It's now running much faster and previous limits about file sizes and image dimensions have been raised much higher!</p>
-<p>Mail me at tim@geothings.net for more information!</p>
-</div>
+      <%= link_to "Upload Map!", new_map_path , :class => "buttonWarper"-%>
 
-<div id="tag-cloud" class="paraMargin">
-  <h3>Tags</h3>
-  <p class="tagCloudLink">
- <% tag_cloud @tags, %w(css1 css2 css3 css4) do |tag, css_class| %>
-    <%= link_to tag.name, { :controller=>:maps, :action => :tag, :id => tag.name }, :class => css_class %>
-  <% end %>
-  </p>
-</div>
+    </div>
 
-<div id="news" class="paraMargin">
-  
-<h3>News</h3>
-<% cache "news_feeds" do %>
-<table>
-  <% @feeds.each do |feed| %>
-    <tr valign="top" class="<%= cycle('list-line-odd', 'list-line-even') %>">
-      <td class="list-item">
-        <p>
-          <%= link_to(feed[:title], feed[:link], :title => "click here to read this story", :target => "_blank") %>
-          <br />
-          <span class="news-description">
-            <%= snippet(feed[:description], 30) %>
-            <%= link_to('read more', feed[:link], :title => "read more", :target => "_blank", :class => "readMore") %>
-          </span>
-        </p>
-      </td>
-    </tr>
-  <% end unless @feeds.nil?%>
-</table>
-<% end %>
+    <div class="paraMargin">
+      <h2>What is it?</h2>
+      <p>It's a free to use, open source map warper / map georectifier and georeferencer. This project is supported by <a href="http://entropyfree.com">Entropy Free</a> and the <a href="http://maps.nypl.org">New York Public Library</a>.
+      </p>
+      <p>Note: This has been migrated from it's old home at <a href="warper.geothings.net">warper.geothings.net</a> .
+        It's now running much faster and previous limits about file sizes and image dimensions have been raised much higher!</p>
+      <p>Mail me at tim@geothings.net for more information!</p>
+    </div>
 
-</div>
+    <div id="tag-cloud" class="paraMargin">
+      <h3>Tags</h3>
+      <p class="tagCloudLink">
 
-</div>
-<div id="right-col">
-  <div id="search-form">
-    <%= render :partial => 'shared/search' -%>
-    <br/>
-    <p class="browseButtonBlock">OR
-      <%= link_to 'Browse All Maps', maps_path, :class => "buttonWarper" %>
-    </p>
+      <% tag_cloud @tags, %w(css1 css2 css3 css4) do |tag, css_class| %>
+      <% link_to tag.name, { :controller=>:maps, :action => :tag, :id => tag.name }, :class => css_class %>
+      <% end %>
+      </p>
+    </div>
+
+    <div id="news" class="paraMargin">
+
+      <h3>News</h3>
+      <% cache "news_feeds" do %>
+        <table>
+          <% @feeds.each do |feed| %>
+            <tr valign="top" class="<%= cycle('list-line-odd', 'list-line-even') %>">
+              <td class="list-item">
+                <p>
+                  <%= link_to(feed[:title], feed[:link], :title => "click here to read this story", :target => "_blank") %>
+                  <br />
+                  <span class="news-description">
+                    <%= snippet(feed[:description], 30) %>
+                    <%= link_to('read more', feed[:link], :title => "read more", :target => "_blank", :class => "readMore") %>
+                  </span>
+                </p>
+              </td>
+            </tr>
+          <% end unless @feeds.nil?%>
+        </table>
+      <% end %>
+
+    </div>
+
   </div>
+  <div id="right-col">
+    <div id="search-form">
+      <%= render :partial => 'shared/search' -%>
+      <br/>
+      <p class="browseButtonBlock">OR
+        <%= link_to 'Browse All Maps', maps_path, :class => "buttonWarper" %>
+      </p>
+    </div>
 
-<div id="map_list">
-  
+    <div id="map_list">
 
-  <% if @my_maps -%>
-    <h3>My Maps</h3>
-    <table id="map_table" cellpadding="3">
-    <thead>
-        <tr>
-          <th>Map</th>
-          <th>Title</th>
-          <th>Last modified</th>
-          <th>Status</th>
-        </tr>
-      </thead>
-        <%= render :partial => 'maps/map', :collection => @my_maps  unless @my_maps.nil? %>
-    </table>
-    <%= link_to "See all of My Maps", my_maps_path(:user_id => current_user) -%>
-  <%end -%>
 
-  <br/>
+      <% if @my_maps -%>
+        <h3>My Maps</h3>
+        <table id="map_table" cellpadding="3">
+          <thead>
+            <tr>
+              <th>Map</th>
+              <th>Title</th>
+              <th>Last modified</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <%= render :partial => 'maps/map', :collection => @my_maps  unless @my_maps.nil? %>
+        </table>
+        <%= link_to "See all of My Maps", my_maps_path(:user_id => current_user), :class => "buttonWarper" -%>
+      <%end -%>
 
-  <h3>Last Rectified Maps</h3>
+      <br/>
 
-  <table id="map_table" cellpadding="3">
-      <thead>
-        <tr>
-          <th>Map</th>
-          <th>Title</th>
-          <th>Last modified</th>
-          <th>Status</th>
-        </tr>
-      </thead>
-    <%= render :partial => 'maps/map', :collection => @maps unless @maps.nil? %>
-  </table>
+      <h3>Last Rectified Maps</h3>
 
-  <%= link_to 'See all Maps', maps_path, :class => "buttonWarper" %>
+      <table id="map_table" cellpadding="3">
+        <thead>
+          <tr>
+            <th>Map</th>
+            <th>Title</th>
+            <th>Last modified</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <%= render :partial => 'maps/map', :collection => @maps unless @maps.nil? %>
+      </table>
 
-</div>
+      <%= link_to 'See all Maps', maps_path, :class => "buttonWarper" %>
 
-<div id="layer_list">
+    </div>
 
-  <h3>Recent Layers</h3>
-  <table id="layer_table" cellpadding="3">
-    <thead>
-      <tr>
-        <th>Layer</th>
-        <th class="widthTh">Title</th>
-        <th>Year</th>
-        <th>Number of Maps</th>
-        <th>Percentage Complete</th>
-      </tr>
-    </thead>
-    <%= render :partial => 'layers/layer', :collection => @layers unless @layers.nil? %>
-  </table>
-<%= link_to "View all Layers", layers_path, :class => "buttonWarper" %><br />
-<%= link_to "Create a new layer", new_layer_path, :class => "buttonWarper" %>
-</div>
+    <div id="layer_list">
 
-</div>
-<div class="clear"></div>
+      <h3>Recent Mosaics</h3>
+      <table id="layer_table" cellpadding="3">
+        <thead>
+          <tr>
+            <th>Mosaic</th>
+            <th class="widthTh">Title</th>
+            <th>Year</th>
+            <th>Number of Maps</th>
+            <th>Percentage Complete</th>
+          </tr>
+        </thead>
+        <%= render :partial => 'layers/layer', :collection => @layers unless @layers.nil? %>
+      </table>
+      <%= link_to "View all Mosaics", layers_path, :class => "buttonWarper" %><br />
+      <%= link_to "Create a new mosaic", new_layer_path, :class => "buttonWarper" %>
+    </div>
+
+  </div>
+  <div class="clear"></div>
 </div>
