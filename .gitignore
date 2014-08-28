@@ -36,3 +36,6 @@ db/maptileindex/*
 
 #vagrant local
 .vagrant
+
+#public assets
+public/assets/**
