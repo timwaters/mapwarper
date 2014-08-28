@@ -2,7 +2,7 @@
 <html>
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-    <title>Map Warper: <%= h(snippet(@html_title, 40)) || ''-%> </title>
+    <title>Wikimaps Warper: <%= h(snippet(@html_title, 40)) || ''-%> </title>
     <%= stylesheet_link_tag "application" %>
     <%= javascript_include_tag "openlayers/2.8/OpenLayers-2.8/OpenLayers" %>
     <%= javascript_include_tag "application" %>
@@ -112,7 +112,7 @@
     <body>
     <%end%>
     <div id="headerDiv" class="headerDiv">
-      <h1><%= link_to "Map Warper", root_path %></h1>
+      <h1><%= link_to "Wikimaps Warper", root_path %></h1>
       <%= render :partial => 'shared/header' %>
       <%= render :partial => 'shared/nav' %>
     </div>
@@ -183,6 +183,6 @@
     <div id="footer">
       <%= render :partial => 'shared/footer' %>
     </div>
-    <%= render :partial => 'shared/analytics' %>
+    
   </body>
 </html>

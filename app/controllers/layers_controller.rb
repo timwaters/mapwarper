@@ -223,6 +223,9 @@ class LayersController < ApplicationController
       @maps = @layer.maps.are_public.order(:map_type).paginate(:page => params[:page], :per_page => 30)
     end
     @html_title = "Mosaic "+ @layer.id.to_s + " " + @layer.name.to_s
+    
+    #globally
+    @disabled_tabs += ["metadata", "comments"]
 
     if request.xhr?
       unless params[:page]

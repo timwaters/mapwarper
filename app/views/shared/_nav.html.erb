@@ -2,10 +2,11 @@
   <ul id="navlist">
     <li><%= link_to_unless_current("Home", root_path) { "<span>Home</span>".html_safe } %></li>
     <li><%= link_to_unless((current_page?(maps_url) && !current_page?(maps_url(:show_warped =>1))),"Browse All Maps", maps_url) { "<span>Browse All Maps</span>".html_safe } %></li>
-    <li><%= link_to_unless_current("Upload Map", new_map_path) { "<span>Upload Map</span>".html_safe } %></li>
+
     <li><%= link_to_unless_current("Browse All Mosaics",  layers_path) { "<span>Browse All Mosaics</span>".html_safe } %></li>
+    <% if user_signed_in? && current_user.has_role?("administrator") %>
     <li><%= link_to_unless_current("Add Mosaic", new_layer_path) { "<span>Add Mosaic</span>".html_safe } %></li>
-    <li><%= link_to_unless_current("About", about_path) { "<span>About</span>".html_safe } %></li>
-    <li><%= link_to_unless_current("Help", help_path) { "<span>Help</span>".html_safe } %></li>
+    <% end %>
+
   </ul>
 </div>

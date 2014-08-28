@@ -7,7 +7,7 @@
   </td>
   <td class="<%= cl %>">
     <span class="maplist_title">
-      <%=strip_brackets(h(map.title)) %>
+      <%=strip_brackets(h(URI.unescape(map.title))) %>
     </span>
 
     <br />
@@ -44,16 +44,7 @@
     <% end -%>
 
     <span class="map_links">
-      <% if user_signed_in? %>
-        <% current_user_maps = current_user.maps %>
-        <% if current_user_maps.to_a.include?(map) %>
-          <%= link_to('Remove from My Maps',
-            destroy_my_map_path(:user_id => current_user, :map_id => map), :method => :post, :confirm => "really remove this map from your list?") -%>  |
-        <% else %>
-          <%= link_to('Save to My Maps',
-            add_my_map_path(:user_id => current_user, :map_id => map), :method => :post) -%>  |
-        <% end -%>
-      <% end -%>
+
 
       <%- if map.source_uri -%>
         Links: <%= link_to 'Source / Biblio Ref',map.source_uri  %>
@@ -78,7 +69,7 @@
       <% end %>
 
       <div style="clear:both;"></div>
-      <%= render :partial => 'shared/addthis', :locals => {:title => map.title, :description =>map.description} %>
+
       <%= render :partial => 'shared/export_window', :locals => {:map => @map} %>
     </span>
   </td>

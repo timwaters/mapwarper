@@ -24,3 +24,5 @@
   <%= radio_button_tag('show_warped', 1, check_rectified, :id => 'rectified_maps') %>
 
 <% end -%>
+<br />
+New: <%= link_to 'Find Rectified Maps by Location',  url_for(:controller => 'maps', :action=>'geosearch'), :class => "buttonWarper" %>

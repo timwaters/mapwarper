@@ -323,13 +323,13 @@ class MapsController < ApplicationController
     # Not Logged in users
     #
     if !user_signed_in?
-      @disabled_tabs = ["warp", "edit", "clip", "align", "activity"]
+      @disabled_tabs = ["warp", "edit", "clip", "align", "metadata","comments", "activity"]
       
       if @map.status.nil? or @map.status == :unloaded or @map.status == :loading
         @disabled_tabs += ["warped"]
       end
       
-      flash.now[:notice] = "You may need to log in to start editing the map"
+      flash.now[:notice] = "Log in to start editing"
       #flash.now[:notice_item] = ["log in", "new_session_path"]
       
       if request.xhr?
@@ -361,6 +361,8 @@ class MapsController < ApplicationController
       end
     end
 
+    @disabled_tabs += ["align", "metadata","comments", "activity"]
+    
     @title = "Viewing original map. "
 
     if !@map.warped_or_published?

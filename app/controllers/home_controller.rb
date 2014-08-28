@@ -9,10 +9,9 @@ class HomeController < ApplicationController
     @maps = Map.where(:public => true, :status => [2,3,4]).order(:updated_at =>  :desc).limit(3).includes(:gcps)
     
     @layers = Layer.all.order(:updated_at => :desc).limit(3).includes(:maps)
-    get_news_feeds
     
     if user_signed_in?
-      @my_maps = current_user.maps.order(:updated_at => :desc).limit(3)
+      @my_maps = nil
     end
     respond_to do |format|
       format.html # index.html.erb

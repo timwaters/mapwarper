@@ -1,0 +1,19 @@
+<h2>Add new map from Wikimedia Commons</h2>
+<%= error_messages_for @map %>
+<b>
+  <%= @image_title %>
+</b>
+<% if user_signed_in? %>
+
+  <%=  form_tag wikimaps_path, :method => :post do  %>
+    <%# label_tag :path, "Commons Image Path" %> 
+    <%= hidden_field_tag   :path, params[:path] %>
+    <br />
+    <%= submit_tag "Add this map" %>
+  <% end %>
+
+<% else %>
+  <p>
+  This map is not in the Wikimaps Warper yet - to add it, <%= link_to "just log in", new_user_session_path %> and come back to this page.
+  </p>
+<% end %>
