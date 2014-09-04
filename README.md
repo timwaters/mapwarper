@@ -106,7 +106,7 @@ Creating a new user
     user.email = "super@superxyz123.com"
     user.password = "your_password"
     user.password_confirmation = "your_password"
-    user.save(false)
+    user.save
     user.send(:activate!)
 
     role = Role.find_by_name('super user')
@@ -115,22 +115,37 @@ Creating a new user
     permission  = Permission.new
     permission.role = role
     permission.user = user
-    permission.save(false)
+    permission.save
 
     role = Role.find_by_name('administrator')
     permission = Permission.new
     permission.role = role
     permission.user = user
-    permission.save(false)
+    permission.save
 
 
 ## Development 
 
-Via Vagrant - There is a vagrantfile you can use this uses a provision script in lib/vagrant
+Via Vagrant - There is a vagrantfile you can use this uses a provision script in lib/vagrant. Type
+
+    vagrant up
+    
+to get and install the virtual machine - this will also install the libraries and depencies and ruby gems for mapwarper into the virtual machine. See the file in lib/vagrant/provision.sh for more details about this process 
+
+After that runs, type vagrant ssh to login and then you can 
+
+    cd /vagrant
+    rails c
+
+Create a user in the console, as shown above and then exit
+
+    rails s
+
+to start the server, running on port 3000
 
 ## Deployment instructions
 
-Use capistrano
+The system can use capistrano for deployment
 
 ## API
 

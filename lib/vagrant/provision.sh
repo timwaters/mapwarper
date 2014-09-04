@@ -14,7 +14,7 @@ echo "grub-pc grub-pc/install_devices_disks_changed multiselect /dev/sda" | debc
 dpkg-reconfigure -f noninteractive grub-pc
 
 # upgrade all packages
-apt-get upgrade -y
+#apt-get upgrade -y
 
 # install packages as explained in INSTALL.md
 apt-get install -y ruby ruby-dev \
@@ -26,7 +26,7 @@ apt-get install -y ruby ruby-dev \
 #ruby gdal needs the build Werror=format-security removed currently
 sed -i 's/-Werror=format-security//g' /usr/lib/ruby/1.9.1/x86_64-linux/rbconfig.rb
  
-gem1.9.1 install bundle
+gem install bundle
 
 ## install the bundle necessary for mapwarper
 pushd /srv/mapwarper
