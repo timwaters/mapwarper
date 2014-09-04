@@ -1,12 +1,5 @@
 #!/usr/bin/env bash
 
-# set locale to UTF-8 compatible. apologies to non-english speakers...
-#FIXME todo - remove errors with these
-update-locale LANG=en_GB.utf8 LC_ALL=en_GB.utf8
-locale-gen
-export LANG=en_GB.utf8
-export LC_ALL=en_GB.utf8
-
 # make sure we have up-to-date packages
 apt-get update
 
@@ -29,34 +22,41 @@ apt-get install -y ruby ruby-dev \
     build-essential git-core \
     libxml2-dev libxslt-dev imagemagick libmapserver1 gdal-bin libgdal-dev ruby-mapscript nodejs
 
-#FIXME and TODO
-#ruby gdal needs the build thingy set off
 
+#ruby gdal needs the build Werror=format-security removed currently
+sed -i 's/-Werror=format-security//g' /usr/lib/ruby/1.9.1/x86_64-linux/rbconfig.rb
+ 
 gem1.9.1 install bundle
 
 ## install the bundle necessary for mapwarper
 pushd /srv/mapwarper
+
 # do bundle install as a convenience
-sudo -u vagrant -H bundle install
+sudo -u vagrant -H bundle install 
 # create user and database for openstreetmap-website
 db_user_exists=`sudo -u postgres psql postgres -tAc "select 1 from pg_roles where rolname='vagrant'"`
 if [ "$db_user_exists" != "1" ]; then
 		sudo -u postgres createuser -s vagrant
-		sudo -u vagrant -H createdb -E UTF-8 -O vagrant mapwarper_dev
+		sudo -u vagrant -H createdb -E UTF-8 -O vagrant mapwarper_development
 fi
 
 # build and set up postgres extensions
 
-sudo -u vagrant psql mapwarper_dev -c "create extension postgis;"
+sudo -u vagrant psql mapwarper_development -c "create extension postgis;"
 
 
 # set up sample configs
 if [ ! -f config/database.yml ]; then
-		sudo -u vagrant cp config/example.database.yml config/database.yml
+		sudo -u vagrant cp config/database.example.yml config/database.yml
 fi
 if [ ! -f config/application.yml ]; then
-		sudo -u vagrant cp config/example.application.yml config/application.yml
+		sudo -u vagrant cp config/application.example.yml config/application.yml
 fi
+if [ ! -f config/secrets.yml ]; then
+		sudo -u vagrant cp config/secrets.yml.example config/secrets.yml
+fi
+
+echo "now migrating database. This may take a few minutes"
 # migrate the database to the latest version
-sudo -u vagrant rake db:migrate
+sudo -u vagrant -H bundle exec rake db:migrate
 popd
