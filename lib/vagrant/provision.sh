@@ -56,7 +56,7 @@ if [ ! -f config/secrets.yml ]; then
 		sudo -u vagrant cp config/secrets.yml.example config/secrets.yml
 fi
 
-echo "now migrating database"
+echo "now migrating database. This may take a few minutes"
 # migrate the database to the latest version
 sudo -u vagrant -H bundle exec rake db:migrate
 popd
