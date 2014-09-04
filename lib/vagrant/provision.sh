@@ -30,8 +30,9 @@ gem1.9.1 install bundle
 
 ## install the bundle necessary for mapwarper
 pushd /srv/mapwarper
+
 # do bundle install as a convenience
-sudo -u vagrant -H bundle install
+sudo -u vagrant -H bundle install 
 # create user and database for openstreetmap-website
 db_user_exists=`sudo -u postgres psql postgres -tAc "select 1 from pg_roles where rolname='vagrant'"`
 if [ "$db_user_exists" != "1" ]; then
@@ -41,7 +42,7 @@ fi
 
 # build and set up postgres extensions
 
-sudo -u vagrant psql mapwarper_dev -c "create extension postgis;"
+sudo -u vagrant psql mapwarper_development -c "create extension postgis;"
 
 
 # set up sample configs
@@ -54,6 +55,8 @@ fi
 if [ ! -f config/secrets.yml ]; then
 		sudo -u vagrant cp config/secrets.yml.example config/secrets.yml
 fi
+
+echo "now migrating database"
 # migrate the database to the latest version
-sudo -u vagrant rake db:migrate
+sudo -u vagrant -H bundle exec rake db:migrate
 popd
