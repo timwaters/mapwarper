@@ -25,7 +25,7 @@ class  OmniauthCallbacksController < Devise::OmniauthCallbacksController
       redirect_to root_path
     end
   end
-  
+
   def mediawiki
     @user = User.find_for_mediawiki_oauth(request.env["omniauth.auth"], current_user)
     if @user.persisted?
@@ -34,7 +34,7 @@ class  OmniauthCallbacksController < Devise::OmniauthCallbacksController
      # sign_in @user, :event => :authentication
      # redirect_to session[:user_return_to] root_path
     else
-      session["devise.mediwiki_data"] = request.env["omniauth.auth"]
+      session["devise.mediawiki_data"] = request.env["omniauth.auth"]
       redirect_to root_path
     end
   end
