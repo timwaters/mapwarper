@@ -329,8 +329,9 @@ class MapsController < ApplicationController
         @disabled_tabs += ["warped"]
       end
       
-      flash.now[:notice] = "You may need to log in to start editing the map"
-      #flash.now[:notice_item] = ["log in", "new_session_path"]
+      flash.now[:notice] = "You may need to %s to start editing the map"
+      flash.now[:notice_item] = ["log in", :new_user_session]
+      session[:user_return_to] = request.url
       
       if request.xhr?
         @xhr_flag = "xhr"
@@ -361,11 +362,6 @@ class MapsController < ApplicationController
       end
     end
 
-    @title = "Viewing original map. "
-
-    if !@map.warped_or_published?
-      @title += "This map has not been rectified yet."
-    end
     
     choose_layout_if_ajax
 
@@ -425,7 +421,6 @@ class MapsController < ApplicationController
     @selected_tab = 5
     @html_title = "Viewing Rectfied Map "+ @map.id.to_s
     if @map.warped_or_published? && @map.gcps.hard.size > 2
-      @title = "Viewing warped map"
       @other_layers = Array.new
       @map.layers.visible.each do |layer|
         @other_layers.push(layer.id)
@@ -938,7 +933,7 @@ class MapsController < ApplicationController
     if request.parameters[:action] &&  request.parameters[:id]
       session[:user_return_to] = map_path(:id => request.parameters[:id], :anchor => anchor)
     else
-      session[:user_return_to] = request.request_uri
+      session[:user_return_to] = request.url
     end
     
   end
