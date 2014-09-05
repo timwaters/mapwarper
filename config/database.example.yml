@@ -1,7 +1,6 @@
 development:
   adapter: postgis
-  database: mapwarper_dev
-  host: localhost
+  database: mapwarper_development
   pool: 5
   timeout: 5000
 
