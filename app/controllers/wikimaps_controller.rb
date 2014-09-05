@@ -8,7 +8,9 @@ class WikimapsController < ApplicationController
     if params[:path]
       image_url = URI.escape("https:"+ params[:path])
       @image_title = File.basename(image_url)
-
+      
+      session[:user_return_to] = request.url unless user_signed_in?
+      
       if map = Map.find_by_unique_id(@image_title)
 
         if map.warped_or_published?
