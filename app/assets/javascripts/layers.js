@@ -56,7 +56,7 @@ var mapnik = new OpenLayers.Layer.TMS("OSM Mapnik", "http://tile.openstreetmap.o
     getURL: osm_getTileURL,
     displayOutsideMaxExtent: true,
     transitionEffect: 'resize',
-    attribution: '<a href="http://www.openstreetmap.org/">OpenStreetMap</a>'
+    attribution: '&copy <a href="http://www.openstreetmap.org/">OpenStreetMap</a> contributors'
 });
 
 
