@@ -8,3 +8,8 @@ Rails.application.config.assets.version = '1.0'
  Rails.application.config.assets.precompile += %w(layer-maps.js geosearch.js geosearch-map.js geosearch-layer.js warped.js align.js clip.js warp.js openlayers/2.8/OpenLayers-2.8/OpenLayers.js )
 
 Rails.application.config.assets.precompile += %w(*.png *.jpg *.jpeg *.gif)
+
+Rails.application.config.assets.precompile += %w( iD.js iD.css )
+Rails.application.config.assets.precompile += %w( iD/img/*.svg iD/img/*.png iD/img/*.gif )
+Rails.application.config.assets.precompile += %w( iD/img/pattern/*.png )
+Rails.application.config.assets.precompile += %w( iD/locales/*.json )

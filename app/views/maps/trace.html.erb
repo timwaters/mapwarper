@@ -1,0 +1,33 @@
+
+<table id="map_table">
+  <% overlay_partial = @overlay.class == Map ? 'maps/map_detail' : 'layers/layer_detail' %>
+  <%= render :partial => overlay_partial, :object => @overlay, :locals => {:variety => "detail"} %>
+
+</table>
+<% if !APP_CONFIG["id_key"].blank? %>
+  <div id="id-map">
+    <iframe frameBorder="0" id="id-embed" class="id-embed"></iframe>
+  </div>
+  <script>
+    var params = {};
+    
+    <% bounds = @overlay.class == Map ? @overlay.bounds : @overlay.get_bounds %>
+    var map_bounds = new OpenLayers.Bounds(<%=bounds-%>);
+
+    var map_center = map_bounds.getCenterLonLat();
+  
+    <% if @lat && @lon -%>
+      params.map = '16/<%= @lon %>/<%= @lat %>';
+    <% else -%>
+      params.map = '16/'+map_center.lon+'/'+map_center.lat;
+    <% end -%>
+    
+  <% if @overlay.class == Map %>
+    $('#id-embed').attr('src', '<%= id_map_url :locale => params[:locale] %>#'+ querystring.stringify(params));
+  <% else %>
+    $('#id-embed').attr('src', '<%= id_layer_url :locale => params[:locale] %>#'+ querystring.stringify(params));
+  <% end %>
+  </script>
+<% else %>
+  <script type="text/javascript">alert("Sorry iD is not configured.")</script>
+<% end %>

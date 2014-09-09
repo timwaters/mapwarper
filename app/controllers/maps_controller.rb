@@ -4,7 +4,7 @@ class MapsController < ApplicationController
   
   before_filter :store_location, :only => [:warp, :align, :clip, :export, :edit, :comments ]
   
-  before_filter :authenticate_user!, :only => [:new, :create, :edit, :update, :destroy, :delete, :warp, :rectify, :clip, :align, :warp_align, :mask_map, :delete_mask, :save_mask, :save_mask_and_warp, :set_rough_state, :set_rough_centroid, :publish ]
+  before_filter :authenticate_user!, :only => [:new, :create, :edit, :update, :destroy, :delete, :warp, :rectify, :clip, :align, :warp_align, :mask_map, :delete_mask, :save_mask, :save_mask_and_warp, :set_rough_state, :set_rough_centroid, :publish, :trace, :id]
  
   before_filter :check_administrator_role, :only => [:publish]
  
@@ -457,6 +457,23 @@ class MapsController < ApplicationController
   
   def metadata
     choose_layout_if_ajax
+  end
+  
+  
+  def trace
+    redirect_to map_path unless @map.published?
+    @overlay = @map
+  end
+  
+  def id
+    redirect_to map_path unless @map.published?
+    @overlay = @map
+    render "id", :layout => false
+  end
+  
+  # called by id JS oauth
+  def idland
+    render "idland", :layout => false
   end
   
   ###############

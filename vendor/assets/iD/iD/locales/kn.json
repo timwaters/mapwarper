@@ -1,0 +1,42 @@
+{
+    "modes": {
+        "add_area": {
+            "title": "ಪ್ರದೇಶ"
+        },
+        "add_point": {
+            "title": "ಬಿಂದು"
+        }
+    },
+    "help": {
+        "title": "ಸಹಾಯ"
+    },
+    "presets": {
+        "fields": {
+            "address": {
+                "placeholders": {
+                    "city": "ನಗರ"
+                }
+            },
+            "atm": {
+                "label": "ATM"
+            },
+            "source": {
+                "label": "ಮೂಲ"
+            }
+        },
+        "presets": {
+            "amenity/bank": {
+                "name": "ಬ್ಯಾಂಕ್"
+            },
+            "amenity/cinema": {
+                "name": "ಸಿನಿಮಾ"
+            },
+            "amenity/library": {
+                "name": "ಗ್ರಂಥಾಲಯ"
+            },
+            "highway/bus_stop": {
+                "name": "ಬಸ್ ನಿಲ್ದಾಣ"
+            }
+        }
+    }
+}

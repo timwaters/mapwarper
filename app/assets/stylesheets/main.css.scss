@@ -953,7 +953,7 @@ font-weight: bold;
 	clear:both;
 	padding: 1em;
 	margin: 1em 0;
-	border-top: 1px solid #5e564b;
+	/*border-top: 1px solid #5e564b; */
 }
 .star
 {
@@ -1461,3 +1461,14 @@ fieldset#control_panel_fieldset a {
 
 }
 
+/* Rules for the iD editor */
+
+.id-embed {
+  width: 100%;
+  height: 100%;
+}
+
+#id-map {
+  height: 700px;
+  border: 1px solid #999999;
+}
