@@ -43,7 +43,13 @@
     
     <% title = @overlay.class == Map ? @overlay.title : @overlay.name %>
     background_overlay.description = '<%= "#{APP_CONFIG['site_name']} #{@overlay.class.to_s} #{@overlay.id.to_s} #{h(title)} "%>';
-
+    
+    //iname is used as a hack to correctly give the source in the changeset comment assigned
+    background_overlay.iname = '<%= "#{APP_CONFIG['site_name']} #{@overlay.class.to_s} #{@overlay.id.to_s} "%>';
+    //twice to turn on and off to get the correct thing for source used in comment using iname
+    id.background().toggleOverlayLayer(background_overlay);
+    id.background().toggleOverlayLayer(background_overlay);
+    
     d3.select('#id-container')
       .call(id.ui());
   }
