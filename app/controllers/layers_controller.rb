@@ -419,13 +419,13 @@ class LayersController < ApplicationController
 
 
   def trace
-    #redirect_to layer_path unless @map.published?
+    redirect_to layer_path unless @layer.is_visible? && @layer.rectified_maps_count > 0
     @overlay = @layer
     render "maps/trace", :layout => "application"
   end
   
   def id
-    #redirect_to layer_path unless @map.published?
+    redirect_to layer_path unless @layer.is_visible? && @layer.rectified_maps_count > 0
     @overlay = @layer
     render "maps/id", :layout => false
   end
