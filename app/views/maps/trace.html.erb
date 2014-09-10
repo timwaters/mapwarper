@@ -1,4 +1,4 @@
-
+<h2>Trace into OpenHistoricalMap.org</h2>
 <table id="map_table">
   <% overlay_partial = @overlay.class == Map ? 'maps/map_detail' : 'layers/layer_detail' %>
   <%= render :partial => overlay_partial, :object => @overlay, :locals => {:variety => "detail"} %>

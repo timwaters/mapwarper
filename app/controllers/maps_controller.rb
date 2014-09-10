@@ -468,12 +468,12 @@ class MapsController < ApplicationController
   
   
   def trace
-    redirect_to map_path unless @map.published?
+    redirect_to map_path unless @map.warped_or_published?
     @overlay = @map
   end
   
   def id
-    redirect_to map_path unless @map.published?
+    redirect_to map_path unless @map.warped_or_published?
     @overlay = @map
     render "id", :layout => false
   end

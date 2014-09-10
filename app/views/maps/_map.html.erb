@@ -41,7 +41,8 @@
         | <%= render :partial  => 'maps/map_type', :object => @map -%>
       <% end -%>
 
-      <%if map.warped_or_published?-%> |
+      <%if map.warped_or_published?-%>
+        <%= link_to("Trace", trace_map_path(:id => map)) %> |
         <%= link_to("Download KML", map_url(:id => map, :format=>:kml)) -%>
       <% end -%>
     </div>
