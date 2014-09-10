@@ -21,4 +21,7 @@
 //= require layers
 //= require unwarped
 //= require SelectFeatureNoClick
+//= require querystring
+
+var querystring = require('querystring-component');
 

@@ -43,6 +43,9 @@ Rails.application.routes.draw do
       post 'rough_state' => 'maps#set_rough_state'
       get 'rough_centroid'=> 'maps#get_rough_centroid'
       post 'rough_centroid' => 'maps#set_rough_centroid'
+      get 'id'
+      get 'trace'
+      get 'idland'
     end
     collection do
         get 'geosearch'
@@ -80,6 +83,9 @@ Rails.application.routes.draw do
       get 'export'
       get 'metadata'
       get 'delete'
+      get 'id'
+      get 'trace'
+      get 'idland'
     end
     collection do 
       get 'geosearch'

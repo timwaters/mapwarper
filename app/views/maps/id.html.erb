@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset='utf-8'>
+  <%= stylesheet_link_tag 'iD' %>
+  <!--[if !IE || gte IE 9]><!-->
+  <%= javascript_include_tag 'iD' %>
+  <!-- <![endif]-->
+</head>
+<body>
+<div id='id-container'></div>
+<script>
+  if (typeof iD == 'undefined') {
+    document.getElementById('id-container').innerHTML = 'This editor is supported ' +
+      'in Firefox, Chrome, Safari, Opera, and Internet Explorer 9 and above. ' +
+      'Please upgrade your browser or use Potlatch 2 to edit the map.';
+    document.getElementById('id-container').className = 'unsupported';
+  } else {
+    <% locale = "en" %>
+
+    var id = iD()
+      .embed(true)
+      .assetPath("/iD/") <%# Can't use asset_path('iD/') in production. %>
+      .assetMap(<%= assets("iD").to_json.html_safe %>)
+      .locale("<%= locale %>", "<%= asset_path("iD/locales/#{locale}.json") %>")
+<% if false %>
+       .preauth({
+        url: "http://www.openstreetmap.org",
+        oauth_token: "<%= APP_CONFIG["id_key"] %>",
+        oauth_token_secret: "<%= APP_CONFIG["id_secret"] %>"
+        });
+<% end %>
+
+    var imagery_overlay = _.find(iD.data.imagery, function(d) {
+        return d.uuid && d.uuid === "mapwarper";
+    });
+
+    var background_overlay = _.find(id.background().overlayLayerSources(), function(d){
+        return d.uuid && d.uuid === "mapwarper";
+      });
+      
+    imagery_overlay.template = "/<%=@overlay.class.table_name%>/tile/<%=@overlay.id%>/{zoom}/{x}/{y}.png";
+    
+    <% title = @overlay.class == Map ? @overlay.title : @overlay.name %>
+    background_overlay.description = '<%= "#{APP_CONFIG['site_name']} #{@overlay.class.to_s} #{@overlay.id.to_s} #{h(title)} "%>';
+
+    d3.select('#id-container')
+      .call(id.ui());
+  }
+  
+</script>
+
+</body>
+</html>
