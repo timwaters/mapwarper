@@ -1,13 +1,15 @@
 <h2>Add new map from Wikimedia Commons</h2>
 <%= error_messages_for @map %>
-<b>
-  <%= @image_title %>
-</b>
+<h3>
+  <%= @image_title %> <br />
+  <%= image_tag @thumbnail_url %>
+</h3>
 <% if user_signed_in? %>
 
   <%=  form_tag wikimaps_path, :method => :post do  %>
     <%# label_tag :path, "Commons Image Path" %> 
     <%= hidden_field_tag   :path, params[:path] %>
+    <%= hidden_field_tag   :pageid, params[:pageid] %>
     <br />
     <%= submit_tag "Add this map" %>
   <% end %>

@@ -1,33 +1,73 @@
 class WikimapsController < ApplicationController
   require 'digest/md5'
+  require "open-uri"
   before_filter :authenticate_user! , :except => [:new]
   #skip_before_filter :verify_authenticity_token
 
   def new
     @html_title = "New wikimaps map "
-    if params[:path]
+    
+    if params[:pageid]
+      
+      url = URI.encode("https://commons.wikimedia.org/w/api.php?action=query&prop=imageinfo&iiprop=url&format=json&pageids="+params[:pageid])
+      data = URI.parse(url).read
+      
+      json = ActiveSupport::JSON.decode(data)
+      
+      image_url = json["query"]["pages"]["#{params[:pageid]}"]["imageinfo"][0]["url"]
+      @image_title = json["query"]["pages"]["#{params[:pageid]}"]["title"]
+      unique_id = File.basename(json["query"]["pages"]["#{params[:pageid]}"]["imageinfo"][0]["url"])
+      
+    elsif params[:path]
+      
       image_url = URI.escape("https:"+ params[:path])
       @image_title = File.basename(image_url)
+      unique_id = @image_title
       
-      session[:user_return_to] = request.url unless user_signed_in?
+    end
+    
+    @thumbnail_url = image_url.gsub("commons/", "commons/thumb/") + "/300px-" + File.basename(image_url).gsub("File:", "")
+    
+    session[:user_return_to] = request.url unless user_signed_in?
+    
+    if map = Map.find_by_unique_id(unique_id)
       
-      if map = Map.find_by_unique_id(@image_title)
-
-        if map.warped_or_published?
-          redirect_to map_path(:id => map, :anchor => "Preview_Map_tab")
-        elsif user_signed_in?
-          redirect_to map_path(:id => map, :anchor => "Rectify_tab")
-        else
-          redirect_to map
-        end
+      if map.warped_or_published?
+        redirect_to map_path(:id => map, :anchor => "Preview_Map_tab")
+      elsif user_signed_in?
+        redirect_to map_path(:id => map, :anchor => "Rectify_tab")
+      else
+        redirect_to map
       end
     end
-
+    
+    
   end
 
   def create
-    image_url = URI.escape("https:"+ params[:path])
-    image_title = File.basename(image_url)
+    
+    if params[:pageid] && !params[:pageid].blank?
+      url = URI.encode("https://commons.wikimedia.org/w/api.php?action=query&prop=imageinfo&iiprop=url&format=json&pageids="+params[:pageid])
+      data = URI.parse(url).read
+      json = ActiveSupport::JSON.decode(data)
+      
+      image_url =   json["query"]["pages"]["#{params[:pageid]}"]["imageinfo"][0]["url"]
+      image_title = json["query"]["pages"]["#{params[:pageid]}"]["title"]
+      description = "From: " + json["query"]["pages"]["#{params[:pageid]}"]["imageinfo"][0]["descriptionurl"]
+      source_uri = json["query"]["pages"]["#{params[:pageid]}"]["imageinfo"][0]["descriptionurl"]
+      
+      unique_id = File.basename(json["query"]["pages"]["#{params[:pageid]}"]["imageinfo"][0]["url"])
+    elsif params[:path] && !params[:path].blank?
+      
+      image_url = URI.escape("https:"+ params[:path])
+      image_title = File.basename(image_url)
+      description = nil
+      source_uri = nil
+      
+      unique_id = image_title
+      
+    end
+   
 
     if map = Map.find_by_unique_id(image_title)
       redirect_to map
@@ -36,9 +76,11 @@ class WikimapsController < ApplicationController
 
     map = {
       :title => image_title,
-      :unique_id => image_title,
+      :unique_id => unique_id,
       :public => true,
       :map_type => "is_map",
+      :description => description,
+      :source_uri => source_uri,
       :upload_url => image_url
     }
 
