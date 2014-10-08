@@ -731,7 +731,8 @@ class MapsController < ApplicationController
     raster = Mapscript::LayerObj.new(mapsv)
     raster.name = "image"
     raster.type = Mapscript::MS_LAYER_RASTER
-    
+    raster.addProcessing("RESAMPLE=BILINEAR")
+
     if status == "unwarped"
       raster.data = @map.unwarped_filename
       

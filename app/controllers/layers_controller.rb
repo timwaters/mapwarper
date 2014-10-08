@@ -474,6 +474,7 @@ class LayersController < ApplicationController
       raster = Mapscript::LayerObj.new(map)
       raster.name = "image"
       raster.type =  Mapscript::MS_LAYER_RASTER
+      raster.addProcessing("RESAMPLE=BILINEAR")
       raster.tileindex = @layer.tileindex_path
       raster.tileitem = "Location"
 
