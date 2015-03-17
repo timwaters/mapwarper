@@ -2,4 +2,13 @@
 #
 # To ban all spiders from the entire site uncomment the next two lines:
  User-Agent: *
- Disallow: /
+ Crawl-delay: 3
+ Allow: /$
+ Allow: /maps$
+ Allow: /maps/$
+ Allow: /layers/$
+ Allow: /layers$
+ Allow: /home
+ Disallow: /*
+ Disallow: /maps/*
+ Disallow: /layers/*
