@@ -46,9 +46,12 @@ module EnumFu
         p3 =  Proc.new { |sym|
           # Before patch (Do not allow nil value)
           #write_attribute name.to_s, self.class.const_get(const_name).index(sym.to_sym)
-          
+          if sym.class == Fixnum
+            write_attribute name.to_s, (sym.blank? ? nil : sym)
+          else
           # After patch by Georg Ledermann (Now it's possible to set as null Ex: c.status = nil )
-          write_attribute name.to_s, (sym.blank? ? nil : self.class.const_get(const_name).index(sym.to_sym))
+            write_attribute name.to_s, (sym.blank? ? nil : self.class.const_get(const_name).index(sym.to_sym))
+          end
         }
         define_method name.to_s+'=', p3
       end
