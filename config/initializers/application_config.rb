@@ -22,4 +22,5 @@ GDAL_PATH = APP_CONFIG['gdal_path'] || ""
 
 
 ActionMailer::Base.default_url_options[:host] = APP_CONFIG['host']
+ActionMailer::Base.delivery_method = :sendmail
 Devise.mailer_sender = APP_CONFIG['email']
