@@ -4,7 +4,16 @@ class RssParser
   require 'rexml/document'
   def self.run(url)
     begin
-    xml = REXML::Document.new Net::HTTP.get(URI.parse(url))
+      
+    uri = URI.parse(url)
+    http = Net::HTTP.new(uri.host, uri.port)
+    http.use_ssl = true
+    http.verify_mode = OpenSSL::SSL::VERIFY_NONE
+
+    request = Net::HTTP::Get.new(uri.request_uri)
+
+    response = http.request(request)
+    xml = REXML::Document.new response.body
 
     data = {
       :title    => xml.root.elements['channel/title'].text,
