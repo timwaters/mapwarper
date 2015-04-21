@@ -10,16 +10,15 @@
 </ul>
 
 <ul>
-  <li>KML: <%= link_to("Download KML file",  map_url(:id => @map, :format => :kml)) %>
-    (<%= link_to("View KML in Google Maps", "http://maps.google.com?q="+map_url(:id => @map, :format => :kml), :target => "_blank") %> )</li>
+  <li>KML: <%= link_to("Download KML file",  map_url(:id => @map, :format => :kml)) %> </li>
   <li>
     <% josm_url = url_for(wms_map_url(:id => @map)) + "?request=GetMap&version=1.1.1&styles=&format=image/png&srs={proj}&exceptions=application/vnd.ogc.session.inimage&width={width}&height={height}&BBOX={bbox}&" %>
     WMS: <%= link_to("WMS Capabilities URL", url_for(wms_map_url(:id=>@map, :request => "GetCapabilities", :service => "WMS", :version => "1.1.1")) )%>
     (<%= link_to "for JOSM OpenStreetMap Editor", josm_url %>    )
   </li>
   <li>
-    <% tile_url = url_for("/maps/tile/{z}/{x}/{y}.png") %>
-    Tiles (Google/OSM scheme): <%= tile_url %>
+    <% tile_url = url_for(tile_map_url(:x => "{X}",:y => "{y}", :x => "{x}", :z => "{z}", :format =>"png")) %>
+    Tiles (Google/OSM scheme): <%= URI.unescape(tile_url) %>
   </li>
 </ul>
 Bibliographic:
