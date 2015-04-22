@@ -16,7 +16,7 @@
     var wms_url = '<%= url_for :controller => 'maps', :action => 'wms', :id => @map  -%>';
     var empty_wms_url = '<%= url_for :controller => 'maps', :action => 'wms' -%>';
     var map_has_bounds = false;
-    var layer_baseurl = '<%=url_for :controller => 'layers', :action => 'wms' %>';
+    var layer_baseurl = '/layers/wms';
     var layers_array = [<%=@other_layers.join(",")-%>];
     var map_bounds = new OpenLayers.Bounds();
   <% if @map.gcps.hard.size > 0 %>
