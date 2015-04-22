@@ -1,7 +1,11 @@
-Thanks for signing up to use the <%= APP_CONFIG['site_name'] %>!
+<p>Thanks for signing up to use <%= APP_CONFIG['site_name'] %>!</p>
 
+<p>
 <%= APP_CONFIG['site_name'] %>  is a site where you can discover, georeference and upload your own maps and imagery. You can georectify or warp the map to base map to be able to use the map in new ways. You can download the georeferenced image in a number of formats including KML, WMS and Tiles.
+</p>
 
+<p>
 Your account has been created and you can log in using the email: <%=h @user.email %> at 
 <%= link_to url_for(new_user_session_url), new_user_session_url %>
+</p>
 

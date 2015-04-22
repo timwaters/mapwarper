@@ -1,7 +1,7 @@
 class User < ActiveRecord::Base
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
-  devise :database_authenticatable, :registerable,
+  devise :database_authenticatable, :registerable, :confirmable,
     :recoverable, :rememberable, :trackable, :validatable, :encryptable, 
     :omniauthable, :omniauth_providers => [ :osm, :mediawiki, :github]
   has_many :permissions
@@ -36,6 +36,13 @@ class User < ActiveRecord::Base
   def own_this_layer?(layer_id)
     Layer.exists?(:id => layer_id.to_i, :user_id => self.id)
   end
+ 
+  #override the confirm method from devise, called when a user confirms their email. Email auth only
+  def confirm!
+    UserMailer.new_registration(self).deliver
+    super
+  end
+  
   
   def provider_name
     if provider && provider == "mediawiki"
@@ -57,13 +64,15 @@ class User < ActiveRecord::Base
     user = User.where(:provider => auth.provider, :uid => auth.uid).first
     # Create user if not exists
     unless user
-      user = User.create(
+      user = User.new(
         login: auth.extra.raw_info.name,
         provider: auth.provider,
         uid: auth.uid,
         email: "#{auth.info.nickname}@twitter.com", # make sure this is unique
         password: Devise.friendly_token[0,20]
       )
+      user.skip_confirmation!
+      user.save!
     end
     user
   end
@@ -73,28 +82,32 @@ class User < ActiveRecord::Base
     user = User.where(:provider => auth.provider, :uid => auth.uid).first
     # Create user if not exists
     unless user
-      user = User.create(
+      user = User.new(
         login: auth.info.display_name,
         provider: auth.provider,
         uid: auth.uid,
-        email: "#{auth.info.display_name}@osm.org", # make sure this is unique
+        email: "#{auth.info.display_name}+warper@osm.org", # make sure this is unique
         password: Devise.friendly_token[0,20]
       )
+      user.skip_confirmation!
+      user.save!
     end
     user
   end
   
-   def self.find_for_mediawiki_oauth(auth, signed_in_resource=nil)
+  def self.find_for_mediawiki_oauth(auth, signed_in_resource=nil)
     user = User.where(:provider => auth.provider, :uid => auth.uid.to_s).first
     # Create user if not exists
     unless user
-      user = User.create(
+      user = User.new(
         login: auth.info.name,
         provider: auth.provider,
         uid: auth.uid,
         email: "#{auth.info.name}+warper@mediawiki.org", # make sure this is unique
         password: Devise.friendly_token[0,20]
       )
+      user.skip_confirmation!
+      user.save!
     end
     user
   end
@@ -103,18 +116,20 @@ class User < ActiveRecord::Base
     user = User.where(:provider => auth.provider, :uid => auth.uid.to_s).first
  
     unless user
-      user = User.create(
+      user = User.new(
         login: auth.info.name,
         provider: auth.provider,
         uid: auth.uid,
         email: "#{auth.info.nickname}+warper@github.com", # make sure this is unique
         password: Devise.friendly_token[0,20]
       )
+      user.skip_confirmation!
+      user.save!
     end
     user
   end
   
-protected
+  protected
 
   #called after the user has been destroyed
   #delete all user maps
