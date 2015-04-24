@@ -124,7 +124,7 @@ class UsersController < ApplicationController
       @user.password_confirmation=generated_password
       
       if @user.save
-        UserMailer.disabled_change_password(@user).deliver 
+        UserMailer.disabled_change_password(@user).deliver_now
         @user.send_reset_password_instructions
         flash[:notice] = "User changed and an email sent with password reset link"
       else
