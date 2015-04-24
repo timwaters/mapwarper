@@ -131,7 +131,7 @@ module SortHelper
 params = {:params => {:sort_key => column, :sort_order => order, :query => @query, :field => @field, :show_available => @show_available, :per_page => @per_page} } #if @query
     params = params.merge(options[:params]) if options[:params]
     link_to(text, params) +
-      (icon ? nbsp(2) + image_tag(File.join(@icons_dir,icon)) : '').html_safe()
+      (icon ? nbsp(2) + image_tag(icon) : '').html_safe()
   end
 
   # Returns a table header <th> tag with a sort link for the named column
