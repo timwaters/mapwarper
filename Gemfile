@@ -2,7 +2,7 @@ source 'https://rubygems.org'
 
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '4.1.5'
+gem 'rails', '4.2.1'
 # Use sqlite3 as the database for Active Record
 #gem 'sqlite3'
 # Use SCSS for stylesheets
@@ -42,7 +42,8 @@ gem 'omniauth-github'
 gem "omniauth-mediawiki"
 
 gem 'pg'
-gem 'activerecord-postgis-adapter'
+#gem 'activerecord-postgis-adapter'
+gem 'activerecord-postgis-adapter', '3.0.0.beta2'
 
 gem 'acts-as-taggable-on', '~> 3.3.0'
 gem 'paperclip', '~> 4.2.0'
@@ -59,6 +60,7 @@ gem 'geoplanet'
 gem 'yql', '0.0.2'
 
 group :development do
+   gem 'web-console', '~> 2.0'
    gem 'spring'
    gem 'thin'
    gem 'capistrano-rails',    :require => false
