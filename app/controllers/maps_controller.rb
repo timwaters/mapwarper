@@ -14,7 +14,7 @@ class MapsController < ApplicationController
   before_filter :check_link_back, :only => [:show, :warp, :clip, :align, :warped, :export, :activity]
   before_filter :check_if_map_is_editable, :only => [:edit, :update]
   before_filter :check_if_map_can_be_deleted, :only => [:destroy, :delete]
-  skip_before_filter :verify_authenticity_token, :only => [:save_mask, :delete_mask, :save_mask_and_warp, :mask_map, :rectify, :set_rough_state, :set_rough_centroid]
+  #skip_before_filter :verify_authenticity_token, :only => [:save_mask, :delete_mask, :save_mask_and_warp, :mask_map, :rectify, :set_rough_state, :set_rough_centroid]
   
   rescue_from ActiveRecord::RecordNotFound, :with => :bad_record
 

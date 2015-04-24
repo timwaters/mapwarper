@@ -1,6 +1,6 @@
 class GcpsController < ApplicationController
   layout 'application'
-  skip_before_filter :verify_authenticity_token, :only => [:update, :update_field, :add, :destroy, :show]
+  #skip_before_filter :verify_authenticity_token, :only => [:update, :update_field, :add, :destroy, :show]
 
   before_filter :authenticate_user!, :only => [:update, :update_field, :add, :destroy]
   before_filter :find_gcp, :only => [:show, :update,:update_field, :destroy ]
