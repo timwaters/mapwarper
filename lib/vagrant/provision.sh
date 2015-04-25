@@ -17,7 +17,7 @@ dpkg-reconfigure -f noninteractive grub-pc
 #apt-get upgrade -y
 
 # install packages as explained in INSTALL.md
-apt-get install -y ruby ruby-dev \
+apt-get install -y ruby1.9.1 libruby1.9.1 ruby1.9.1-dev ri1.9.1 \
     postgresql-9.3-postgis-2.1 postgresql-server-dev-all postgresql-contrib \
     build-essential git-core \
     libxml2-dev libxslt-dev imagemagick libmapserver1 gdal-bin libgdal-dev ruby-mapscript nodejs
@@ -26,7 +26,7 @@ apt-get install -y ruby ruby-dev \
 #ruby gdal needs the build Werror=format-security removed currently
 sed -i 's/-Werror=format-security//g' /usr/lib/ruby/1.9.1/x86_64-linux/rbconfig.rb
  
-gem install bundle
+gem1.9.1 install bundle
 
 ## install the bundle necessary for mapwarper
 pushd /srv/mapwarper
