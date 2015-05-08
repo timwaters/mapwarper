@@ -437,8 +437,7 @@ class Map < ActiveRecord::Base
     lat_shift = south.to_f - north.to_f
 
     origgcps.each do |gcp|
-      a = Gcp.new()
-      a = gcp.clone
+      a = Gcp.new(gcp.attributes.except("id"))
       if align == "east"
         a.lon -= lon_shift
       elsif align == "west"
@@ -469,8 +468,7 @@ class Map < ActiveRecord::Base
     self.gcps.hard.destroy_all unless append == true
 
     origgcps.each do |gcp|
-      new_gcp = Gcp.new()
-      new_gcp = gcp.clone
+      new_gcp = Gcp.new(gcp.attributes.except("id"))
       if align == "east"
         new_gcp.x -= srcmap.width
 
