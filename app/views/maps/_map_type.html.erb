@@ -1,13 +1,22 @@
+<script type="text/javascript">
+  <% form_id = "map_type_form#{@map.id}" %>
+  jQuery(document).ready(function () {
+    jQuery('form#<%=form_id%>').bind("ajax:complete", function (event, data, status, xhr) {
+        alert(data.responseText);
+    });
+  });
+</script>
+<%if @layer %> 
+  <%# need to change the map list for layer views %>
+  <%= form_tag(map_type_map_url(@map.id), :remote => true, :id=>form_id, :class=>"map-type-form") do  -%>
+    <%= select("map", :map_type, Map.map_type_hash, {}, :onchange => "jQuery('form##{form_id}').submit();") -%>
+    <input type="hidden" name="layerid" value="<%=@layer.id%>" />
+  <% end -%>
 
-<%if @layer %> <%#only change the map list for layer views %>
-    <% form_tag(map_type_map_url(@map.id), :remote => true) do  -%>
+<% else-%>
 
-      <%= select("map", :map_type, Map.map_type_hash, {},:onchange => "this.form.onsubmit()") -%>
-      <input type="hidden" name="layerid" value="<%=@layer.id%>" />
-    <% end -%>
-  <% else-%>
-    <% form_tag(map_type_map_url(@map.id), :remote => true) do %>
-    <%= select("map", :map_type, Map.map_type_hash, {},:onchange => "this.form.onsubmit()") -%>
+  <%= form_tag(map_type_map_url(@map.id), :remote => true, :id=>form_id,  :class=>"map-type-form") do %>
+    <%= select("map", :map_type, Map.map_type_hash, {},:onchange => "jQuery('form##{form_id }').submit();") -%>
   <% end -%>
 
 <% end -%>

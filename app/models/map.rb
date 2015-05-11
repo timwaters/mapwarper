@@ -351,6 +351,13 @@ class Map < ActiveRecord::Base
     return [:warped, :published].include?(status)
   end
   
+  def update_map_type(map_type)
+    if Map::MAP_TYPE.include? map_type.to_sym
+      self.update_attributes(:map_type => map_type.to_sym)
+      self.update_layers
+    end
+  end
+  
   def last_changed
     if self.gcps.size > 0
       self.gcps.last.created_at

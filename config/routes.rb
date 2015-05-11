@@ -22,7 +22,7 @@ Rails.application.routes.draw do
   
   resources :maps  do
     member do
-      get 'map_type'
+      post 'map_type'
       get 'export'
       get 'warp'
       get 'clip'

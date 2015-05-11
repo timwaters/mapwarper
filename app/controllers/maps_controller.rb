@@ -4,7 +4,7 @@ class MapsController < ApplicationController
   
   before_filter :store_location, :only => [:warp, :align, :clip, :export, :edit, :comments ]
   
-  before_filter :authenticate_user!, :only => [:new, :create, :edit, :update, :destroy, :delete, :warp, :rectify, :clip, :align, :warp_align, :mask_map, :delete_mask, :save_mask, :save_mask_and_warp, :set_rough_state, :set_rough_centroid, :publish, :trace, :id]
+  before_filter :authenticate_user!, :only => [:new, :create, :edit, :update, :destroy, :delete, :warp, :rectify, :clip, :align, :warp_align, :mask_map, :delete_mask, :save_mask, :save_mask_and_warp, :set_rough_state, :set_rough_centroid, :publish, :trace, :id, :map_type]
  
   before_filter :check_administrator_role, :only => [:publish]
  
@@ -12,7 +12,7 @@ class MapsController < ApplicationController
     :except => [:show, :index, :wms, :tile, :mapserver_wms, :warp_aligned, :status, :new, :create, :update, :edit, :tag, :geosearch]
 
   before_filter :check_link_back, :only => [:show, :warp, :clip, :align, :warped, :export, :activity]
-  before_filter :check_if_map_is_editable, :only => [:edit, :update]
+  before_filter :check_if_map_is_editable, :only => [:edit, :update, :map_type]
   before_filter :check_if_map_can_be_deleted, :only => [:destroy, :delete]
   #skip_before_filter :verify_authenticity_token, :only => [:save_mask, :delete_mask, :save_mask_and_warp, :mask_map, :rectify, :set_rough_state, :set_rough_centroid]
   
@@ -499,9 +499,8 @@ class MapsController < ApplicationController
       @layer = Layer.find(params[:layerid].to_i)
       @maps = @layer.maps.paginate(:per_page => 30, :page => 1, :order => :map_type)
     end
-    unless request.xhr?
-      render :text => "Map has changed. Map type: "+@map.map_type.to_s
-    end
+    
+    render :text => "Map has changed. Map type: "+@map.map_type.to_s
   end
 
   #pass in soft true to get soft gcps
