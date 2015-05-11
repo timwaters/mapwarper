@@ -36,11 +36,16 @@ class User < ActiveRecord::Base
   def own_this_layer?(layer_id)
     Layer.exists?(:id => layer_id.to_i, :user_id => self.id)
   end
- 
+  
   #override the confirm method from devise, called when a user confirms their email. Email auth only
   def confirm!
     UserMailer.new_registration(self).deliver_now
     super
+  end
+  
+
+  def force_confirm!
+    self.update_attribute(:confirmed_at, Time.now.utc)
   end
   
   

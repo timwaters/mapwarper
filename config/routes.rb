@@ -10,6 +10,7 @@ Rails.application.routes.draw do
       put 'enable'
       put 'disable'
       put 'disable_and_reset'
+      put 'force_confirm'
     end
     collection do
       get 'stats'

@@ -14,7 +14,12 @@
       <% end -%>
       &nbsp;
     </td>
-
+    <td>
+      <%= user.confirmed? ? 'yes' : 'no' -%>
+      <% if !user.confirmed? -%>
+        <%= link_to('activate', force_confirm_user_path(user.id), :method => :put) -%>  
+      <% end-%>
+    </td>
     <td><%= link_to 'edit roles', user_roles_path(user) -%></td>
   <% end -%>
 </tr>
