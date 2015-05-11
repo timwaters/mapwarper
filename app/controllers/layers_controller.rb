@@ -147,12 +147,13 @@ class LayersController < ApplicationController
       :per_page => @per_page
     }
     
-    order_options = "layers."+ sort_clause  + sort_nulls
+    order_options =  sort_clause  + sort_nulls
     
     map = params[:map_id]
     if !map.nil?
       @map = Map.find(map)
-      @layers = @map.layers.select(select).where(conditions).order(order_options).paginate(paginate_params)
+      layer_ids = @map.layers.map(&:id)
+      @layers = Layer.where(id: layer_ids).select('*, round(rectified_maps_count::float / maps_count::float * 100) as percent').where(conditions).order(order_options).paginate(paginate_params)
       @html_title = "Mosaic List for Map #{@map.id}"
       @page = "for_map"
     else

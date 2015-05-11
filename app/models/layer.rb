@@ -27,9 +27,9 @@ class Layer < ActiveRecord::Base
   
   def thumb
     if self.maps.first.nil?
-      '/assets/missing.png'
+      'missing.png'
     elsif !self.maps.first.public?
-      '/assets/private.png'
+      'private.png'
     else
       self.maps.first.upload.url(:thumb)
     end
@@ -46,9 +46,6 @@ class Layer < ActiveRecord::Base
     update_attribute(:rectified_maps_count, self.maps.warped.count)
   end
 
-  def rectified_maps_count
-    self.maps.warped.count #4 = rectified
-  end
 
 
   def rectified_percent
