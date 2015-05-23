@@ -3,7 +3,7 @@
 <h2>Group: <%=h @group.name %></h2>
 <% if admin_authorized? %>
   <%=link_to('Edit this group', edit_group_path(@group)) %> | <%=  link_to 'Delete this group.',
-    {:controller=>"groups", :action =>"destroy", :id => @group},  :method => :delete, :confirm => "Are you sure?" %>
+    {:controller=>"groups", :action =>"destroy", :id => @group},  :method => :delete, :data => {:confirm => "Are you sure?"} %>
 <% end %>
 
 <p>Created: <%= @group.created_at.to_s(:long) %> by <%= link_to(( h @group.creator.login), user_path(@group.creator.id), :method => :get)  -%></p>

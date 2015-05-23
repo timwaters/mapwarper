@@ -4,7 +4,7 @@
     Enabled? : <%= @user.enabled ? 'Yes' : 'No' -%> <br />
     Confirmed? <%= @user.confirmed? ? 'Yes' : 'No' -%> <br />
     <br />
-    <%= link_to('Delete User', user_path(@user.id), :method => :delete, :confirm => 'Are you sure') -%> This cannot be undone. Removes all their data.<br />
+    <%= link_to('Delete User', user_path(@user.id), :method => :delete, :data => {:confirm => 'Are you sure'} ) -%> This cannot be undone. Removes all their data.<br />
      
   
     <% if !@user.confirmed? -%>

@@ -20,6 +20,6 @@ Move all <%= pluralize @layer.maps_count,'map' -%> to this mosaic:
     <label for="dest_id">Destination Layer</label>
     <%= text_field_tag :dest_id %>
     <br />
-    <%= submit_tag 'Merge Mosaic!', :confirm => "Are you sure, this cannot be undone?" %>
+    <%= submit_tag 'Merge Mosaic!', :data => {:confirm => "Are you sure, this cannot be undone?"} %>
   <%end-%>
 

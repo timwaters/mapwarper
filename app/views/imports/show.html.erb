@@ -31,10 +31,10 @@
 <br />
 <% if admin_authorized? %>
   <%=link_to('Edit this import', edit_import_path(@import)) %><br /><br />
-  <%=  link_to 'Delete this import. (Does not delete maps)', {:controller=>"imports", :action =>"destroy", :id => @import},  :method => :delete, :confirm => "Are you sure?" %>
+  <%=  link_to 'Delete this import. (Does not delete maps)', {:controller=>"imports", :action =>"destroy", :id => @import},  :method => :delete, :data => {:confirm => "Are you sure?"} %>
   <br /> <br />
   <% if @import.state =="ready" %>
-    <b><%=link_to('START IMPORT', start_import_path(@import), :confirm => "Ready to Start this import?") %></b>
+    <b><%=link_to('START IMPORT', start_import_path(@import), :data => {:confirm => "Ready to Start this import?"} ) %></b>
   <% else %>
     <%=link_to('Edit Maps', maps_import_path(@import)) %>
   <% end %>

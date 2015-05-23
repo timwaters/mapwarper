@@ -48,7 +48,7 @@
         <% current_user_maps = current_user.maps %>
         <% if current_user_maps.to_a.include?(map) %>
           <%= link_to('Remove from My Maps',
-            destroy_my_map_path(:user_id => current_user, :map_id => map), :method => :post, :confirm => "really remove this map from your list?") -%>  |
+            destroy_my_map_path(:user_id => current_user, :map_id => map), :method => :post, :data => {:confirm => "really remove this map from your list?"} ) -%>  |
         <% else %>
           <%= link_to('Save to My Maps',
             add_my_map_path(:user_id => current_user, :map_id => map), :method => :post) -%>  |
@@ -63,9 +63,9 @@
       <% end %>
       <% if admin_authorized? %>
         <% if map.status == :warped  %>
-          | <%= link_to("Publish",publish_map_path(:id => map, :to => "publish"), :confirm => "Really publish this map? This will mean that no further editing can be done") -%>
+          | <%= link_to("Publish",publish_map_path(:id => map, :to => "publish"), :data => {:confirm => "Really publish this map? This will mean that no further editing can be done"} ) -%>
         <% elsif map.published? %>
-          | <%= link_to("UnPublish",publish_map_path(:id => map, :to => "unpublish"), :confirm => "Really un publish this map? This will mean that the map can be edited now") -%>
+          | <%= link_to("UnPublish",publish_map_path(:id => map, :to => "unpublish"), :data => {:confirm => "Really un publish this map? This will mean that the map can be edited now"} ) -%>
         <% end %>
       <% end -%>
 

@@ -16,7 +16,7 @@
   <td>
     <%if user_signed_in? -%>
       <% if current_user == comment_detail.user || admin_authorized? %>
-        <%= link_to "delete", url_for(:controller => "comments", :action => "destroy", :id => comment_detail.id), :method => :delete, :confirm => "Really delete this comment?"%>
+        <%= link_to "delete", url_for(:controller => "comments", :action => "destroy", :id => comment_detail.id), :method => :delete, :data => {:confirm => "Really delete this comment?"} %>
       <% else -%>
         ----
       <% end %>
