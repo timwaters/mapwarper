@@ -52,7 +52,7 @@
       <%end -%>
 
       <% if layer.is_visible && layer.rectified_maps_count > 0 %>
-        <%= link_to("Trace", trace_layer_path(:id => layer)) %> |
+        <%= link_to("Trace", trace_layer_url(:id => layer, :protocol => 'http')) %> |
         <%= link_to("Download KML", layer_url(:id => layer, :format=>:kml), :class => "fontSmall") %>
       <% end %>
 

@@ -6,16 +6,12 @@
     <%= link_to("WMS link suitable for JOSM OpenStreetMap Editor", josm_url) %> <br />
   </li>
   <li>
-  <% tile_url = url_for("/layers/tile/{z}/{x}/{y}.png") %>
+  <% tile_url = "http://warper.wmflabs.org/layers/tile/#{@layer.id}/{z}/{x}/{y}.png" %>
     Tiles (Google/OSM scheme): <%= tile_url %>
   </li>
   <li>
     KML: <%= link_to("Download KML", layer_url(:id => @layer, :format=>:kml)) %>
-    (<%= link_to("View KML in Google Maps", "http://maps.google.com?q="+layer_url(:id => @layer,
-        :format => :kml), :target => "_blank") %> )
   </li>
-  <li>
-    Bibliographic:  <%= link_to 'biblio record', "http://example.com" -%>
-  </li>
+
 </ul>
 <br />
