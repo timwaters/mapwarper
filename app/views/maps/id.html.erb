@@ -17,10 +17,10 @@
     document.getElementById('id-container').className = 'unsupported';
   } else {
     <% locale = "en" %>
-
+<%# Can't use asset_path('iD/') in production. ' %>
     var id = iD()
       .embed(true)
-      .assetPath("/iD/") <%# Can't use asset_path('iD/') in production. %>
+      .assetPath("/iD/") 
       .assetMap(<%= assets("iD").to_json.html_safe %>)
       .locale("<%= locale %>", "<%= asset_path("iD/locales/#{locale}.json") %>")
 <% if false %>
