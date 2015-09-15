@@ -12,6 +12,10 @@ class ApplicationController < ActionController::Base
   def check_administrator_role
     check_role("administrator")
   end
+  
+  def check_editor_role
+    check_role("editor")
+  end
 
   def check_developer_role
     check_role("developer")

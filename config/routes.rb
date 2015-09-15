@@ -63,6 +63,8 @@ Rails.application.routes.draw do
   put '/gcps/update/:id' => 'gcps#update', :as => "update_gcp"
   put '/gcps/update_field/:id' => 'gcps#update_field', :as => "update_field_gcp"
   
+  post '/gcps/add_many' => 'gcps#add_many', :as => 'add_many_gcps'
+  post '/gcps/add_many/:mapid' => 'gcps#add_many_to_map', :as => 'add_many_gcps_to_map'
 
   get '/maps/wms/:id' => "maps#wms", :as => 'wms_map'
   get '/maps/tile/:id/:z/:x/:y' => "maps#tile", :as => 'tile_map'

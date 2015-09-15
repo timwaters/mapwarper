@@ -61,6 +61,10 @@
   <% end -%>
 
     }
+    function csv_upload() {
+      jQuery("#upload_csv_form").append(jQuery("#file").clone()).hide();
+      jQuery("#upload_csv_form").submit();
+    }
   </script>
 
 <% end -%>
@@ -115,6 +119,12 @@
           </tbody>
         </table>
         <input type="button" value="Add Control Point Manually" onclick="save_new_gcp(0, 0, 0, 0);" />
+        <br />
+      <% if editor_authorized? %>
+        <label for="file">CSV File to Upload</label>
+        <%= file_field_tag :file %>
+        <input type="button" id="upload-csv-button" value="Upload CSV!"  />
+      <% end %>
       </div>
 
       <input type="hidden" name="map" value ="<%= @map.id %>" />
@@ -142,6 +152,13 @@
         
    <script type="text/javascript">
     jQuery(document).ready(function() {
+      jQuery("input#upload-csv-button").click(function(){
+        jQuery("#upload_csv_form").append(jQuery("#file").clone()).hide();
+        jQuery("#upload_csv_form").submit();
+      });
+      jQuery("form#gcp_form").submit(function( event ) {
+        jQuery("#file").val("");
+      });
       jQuery("form#gcp_form").bind("ajax:before", function(event, data, status, xhr) {
         if (event.target.id == "gcp_form"){
           bigModalDialog('Rectifying.....');
@@ -170,3 +187,10 @@
     <% end %>
   </div>
 </fieldset>
+
+
+<%= form_tag add_many_gcps_to_map_path(:mapid=>@map.id), multipart: true, :id => "upload_csv_form" do %>
+<% end %>
+
+
+

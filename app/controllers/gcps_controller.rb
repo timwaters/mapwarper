@@ -1,8 +1,9 @@
 class GcpsController < ApplicationController
   layout 'application'
-  skip_before_filter :verify_authenticity_token, :only => [:update, :update_field, :add, :destroy, :show]
+  skip_before_filter :verify_authenticity_token, :only => [:update, :update_field, :add, :destroy, :show, :add_many, :add_many_to_map]
 
-  before_filter :authenticate_user!, :only => [:update, :update_field, :add, :destroy]
+  before_filter :authenticate_user!, :only => [:update, :update_field, :add, :destroy, :add_many, :add_many_to_map]
+  before_filter :check_editor_role, :only => [:add_many, :add_many_to_map]
   before_filter :find_gcp, :only => [:show, :update,:update_field, :destroy ]
   rescue_from ActiveRecord::RecordNotFound, :with => :bad_record
 
@@ -119,6 +120,7 @@ class GcpsController < ApplicationController
         format.json { render :json => {:stat => "ok", :items => @gcps.to_a}.to_json(:methods => :error), :callback => params[:callback]}
         format.xml {render :xml => @gcps.to_xml(:methods => :error)}
 
+
       else
         format.json { render :json => {:stat => "fail", :message =>"Could not add GCP", :errors => @gcp.errors.to_a, :items => []}.to_json, :callback => params[:callback]}
       end
@@ -126,11 +128,61 @@ class GcpsController < ApplicationController
 
 
   end
-
+  
+  
+  # Adds Many GCPS to Multiple Maps
+  # ADMIN only
+  # Expects a CSV file or a JSON strong
+  #POST with mapid
+  #csv header: mapid,x,y,lat,lon,name
+  #json format: {"gcps":[{"mapid":26,"x":1.2,"y":2.2, "lat":11.1, "lon":21.1},..
+  #  curl -X POST http://localhost:3000/gcps/add_many.json -H "Content-Type: application/json" -d '{"gcps":[{"mapid":26,"x":1.2,"y":2.2},{"mapid":21,"x":1.2,"y":2.2}]}' --user email:pass
+  def add_many
+    gcps = nil
+    begin  
+      if params[:file]
+        gcps = Gcp.add_many_from_file(params[:file])
+      elsif params[:gcps] && request.format == "json"
+        gcps = Gcp.add_many_from_json(params[:gcps])
+      end
+      
+    rescue ActiveRecord::RecordNotFound => e
+      respond_to do | format |
+        format.html do
+          flash.now[:notice] = "record not found"
+          redirect_to :action => :index
+        end
+        format.json {render :json => {:stat => "record not found", :items =>[]}.to_json, :status => 404}
+      end
+      return false
+    end
+    
+    render :text => gcps
+  end
+  
+  # Adds Many GCPS to A Specific Map
+  # Any user
+  # Expects a CSV file
+  #curl -X POST http://localhost:3000/gcps/add_many/26.json --user tim@geothings.net:pass -F "file=@gcps2.csv"
+  #file csv
+  #x,y,lat,lon,name
+  #1.1,2.1,3.2,3.2
+  #1.1,2.1,3.2,3.2,foo
+  def add_many_to_map
+    gcps = nil
+    if params[:file] 
+      gcps = Gcp.add_many_from_file(params[:file], params[:mapid])
+    end
+    
+    redirect_to  map_path(:id => params[:mapid], :anchor => "Rectify_tab"), :notice => "GCPS saved"
+  end
+  
   def index
   end
 
   private
+  
+  
   def find_gcp
     @gcp = Gcp.find(params[:id]) 
   end
