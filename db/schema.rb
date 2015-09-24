@@ -11,10 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140819173754) do
-
-  # These are extensions that must be enabled in order to support this database
-  enable_extension "plpgsql"
+ActiveRecord::Schema.define(version: 20150922155026) do
 
   create_table "audits", force: true do |t|
     t.integer  "auditable_id"
@@ -169,6 +166,7 @@ ActiveRecord::Schema.define(version: 20140819173754) do
     t.integer  "map_type"
     t.string   "source_uri"
     t.spatial  "bbox_geom",              limit: {:srid=>-1, :type=>"polygon"}
+    t.integer  "placing_state"
     t.decimal  "rough_lat",                                                    precision: 15, scale: 10
     t.decimal  "rough_lon",                                                    precision: 15, scale: 10
     t.spatial  "rough_centroid",         limit: {:srid=>-1, :type=>"point"}
@@ -185,9 +183,11 @@ ActiveRecord::Schema.define(version: 20140819173754) do
     t.string   "call_number"
     t.datetime "rectified_at"
     t.datetime "gcp_touched_at"
+    t.string   "page_id"
   end
 
   add_index "maps", ["bbox_geom"], :name => "index_maps_on_bbox_geom", :spatial => true
+  add_index "maps", ["page_id"], :name => "index_maps_on_page_id", :unique => true
   add_index "maps", ["rough_centroid"], :name => "index_maps_on_rough_centroid", :spatial => true
 
   create_table "memberships", force: true do |t|
