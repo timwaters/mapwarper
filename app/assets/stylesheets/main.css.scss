@@ -92,6 +92,7 @@ div.comment span.comment_metadata {
 
 #warper-maindiv {
     margin: 1.5em;
+    margin-top: 0.2em;
 }
 
 #warper-maindiv h4 {
@@ -206,7 +207,7 @@ padding-left: 0px;
 div.addthis_toolbox {
 float:left;
 font-style: normal;
-padding-right: 2em;
+padding-right: 0.5em;
 }
 
 a.addthis_button_compact{
@@ -392,7 +393,14 @@ a:hover {
 }
 
 .ui-widget-content a.unauthorized:hover {
-color:#447a05;
+  background: #e3e3d4;
+  box-shadow:1px 2px 4px 2px rgba(0,0,0,0.2), inset 1px 2px 4px rgba(255,255,255,0.4);;
+  background: #e3e3d4;
+  color:#191970;
+  -moz-transition:all 0.42 ease-in-out;
+  -webkit-transition:all 0.2s ease-in-out;
+  transition:all 0.2s ease-in-out;
+  text-decoration: none !important;
 }
 
 
@@ -702,6 +710,9 @@ clear: both;
 	font-weight: bold;
 }
 
+#search-pagination-bottom .pagination{
+  margin-bottom: 10px;
+}
 
 .browseButtonBlock {
 	float:left;
@@ -803,7 +814,7 @@ padding: 0.5em 0.6em !important;
 
 .map_links
 {
-	font-size:60%;
+	font-size:70%;
 	display: block;
 }
 
@@ -909,6 +920,27 @@ font-weight: bold;
   padding-bottom: 2px;
 }
 
+/* responsive map tabs */
+@media screen and (max-width: 500px) {
+  .ui-tabs {font-size: 15px; }
+}
+@media screen and (max-width: 415px) {
+  .ui-tabs {font-size: 12px;}
+}
+
+
+/*responsive nav tabs*/
+
+
+@media screen and (max-width: 1270px) {
+  #navlist li.responsive_wide{ display:none;}
+}
+@media screen and (max-width: 825px) {
+  #navlist li.responsive_narrow{ display:none;}
+}
+@media screen and (max-width: 470px) {
+  #navlist li.responsive{ display:none;}
+}
 #navlist {
 	padding: 3px 0 0 1em;
 	border-bottom: 1px solid #999;
@@ -994,6 +1026,7 @@ font-weight: bold;
 	margin-bottom:10px;
     clear: right;
 	width: auto;
+  min-width: 410px;
 }
 
 #map_table tr:nth-of-type(odd), #layer_table tr:nth-of-type(odd) {
@@ -1031,6 +1064,14 @@ font-weight: bold;
 	background: #999;
 	color: #fff;
 }
+
+#map_table th a, #layer_table th a {
+	color: #fff;
+}
+#map_table th.year-sort, #layer_table th.year-sort {
+  min-width: 56px;
+}
+
 
 #map_table th:nth-child(odd), #layer_table th:nth-child(odd) {
 	background: #888;
@@ -1273,6 +1314,11 @@ border:2px solid #00f2ab;
 
 
 /* OPENLAYERS spechul stilz */
+.olPopupCloseBox {
+    background: transparent asset_url("close.gif") no-repeat scroll 0% 0%;
+        margin-right: -3px;
+    }
+
 div.olControlMousePosition
 {
 	bottom:0;
@@ -1471,4 +1517,25 @@ fieldset#control_panel_fieldset a {
 #id-map {
   height: 700px;
   border: 1px solid #999999;
+}
+.noUi-connect {
+  background-color: #D4BABD !important;
+}
+.noUi-target {
+  height: 15px !important;
+}
+.noUi-horizontal .noUi-handle{
+  height: 24px !important;
+}
+
+.progress-label{
+  position: absolute;
+  left: 50%;
+  font-weight: bold;
+  text-shadow: 1px 1px 0px #FFF; 
+}
+
+.ui-progressbar-value {
+  transition: width 0.5s;
+  -webkit-transition: width 0.5s;
 }
