@@ -2,7 +2,7 @@ namespace :warper do
   namespace :wikimaps do
     desc 'Calls wikimedia Commons to update the pageid of maps'
     task(update_pageid: :environment) do
-      puts 'this calls the wikimedia commons api and updates the pageid of maps which do not have one.'
+      puts 'This calls the wikimedia commons api and updates the pageid and image_url of maps which do not have one.'
       puts 'Are you sure you want to continure? [y/N]'
       break unless STDIN.gets.match(/^y$/i)
 
@@ -10,10 +10,12 @@ namespace :warper do
 
       count = 0
       unknown = []
-      maps = Map.all.where.not(unique_id: '').where(:page_id => nil )
+      
+      maps = Map.all.where.not(unique_id: '').where('page_id is null  OR image_url is null')
       maps.each do |map|
         title = URI.decode map.unique_id
-        uri = "#{site}/w/api.php?action=query&prop=info&format=json&titles=File:#{title}"
+      #  uri = "#{site}/w/api.php?action=query&prop=info&format=json&titles=File:#{title}"
+        uri = "#{site}/w/api.php?action=query&prop=imageinfo|info&iiprop=url&format=json&titles=File:#{title}"
         url = URI.parse(URI.encode(uri))
 
         http = Net::HTTP.new(url.host, url.port)
@@ -26,15 +28,17 @@ namespace :warper do
         resp = http.request(req)
 
         body = JSON.parse(resp.body)
-        body['query']['pages']
+        
         if body['query']['pages'].keys.size == 1
           pageid = body['query']['pages'].keys.first
-
+          
           if pageid != '-1'
             map.page_id = pageid
-            puts "saving"
-            puts map.inspect
-            puts pageid
+            image_url =  body['query']['pages'][pageid]['imageinfo'][0]['url']
+            map.image_url = image_url
+            
+            puts "saving Map:#{map.id} pageid:#{pageid} image_url:#{image_url}" 
+            
             map.save
             count += 1
           else

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150922155026) do
+ActiveRecord::Schema.define(version: 20150927153020) do
 
   create_table "audits", force: true do |t|
     t.integer  "auditable_id"
@@ -184,6 +184,7 @@ ActiveRecord::Schema.define(version: 20150922155026) do
     t.datetime "rectified_at"
     t.datetime "gcp_touched_at"
     t.string   "page_id"
+    t.string   "image_url"
   end
 
   add_index "maps", ["bbox_geom"], :name => "index_maps_on_bbox_geom", :spatial => true
