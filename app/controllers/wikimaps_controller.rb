@@ -69,7 +69,8 @@ class WikimapsController < ApplicationController
       description: description,
       source_uri: source_uri,
       upload_url: image_url,
-      page_id: page_id
+      page_id: page_id,
+      image_url: image_url
     }
 
     @map = Map.new(map)
