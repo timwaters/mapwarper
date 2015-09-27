@@ -491,7 +491,12 @@ class MapsController < ApplicationController
   
   def thumb
     map = Map.find(params[:id])
-    thumb = map.upload.url(:thumb)
+    if map.image_url
+      thumb = map.image_url.gsub('commons/', 'commons/thumb/') + '/100px-' + File.basename(map.image_url).gsub('File:', '')
+    else
+      thumb = map.upload.url(:thumb)
+    end
+    
     redirect_to thumb
   end
   

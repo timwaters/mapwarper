@@ -64,7 +64,7 @@ Click + and choose a map, then drag and drop to choose the alignment.
             <% unless map.id == @map.id %>
               <tr id="map-<%= map.id %>">
                 <td class="align-map-thumb">
-                  <%=  image_tag(map.upload.url(:thumb)) %>
+                  <%=  image_tag(map_thumb_url(map)) %>
                 </td>
                 <td class="align-map-title">
                   <%=map.title %>

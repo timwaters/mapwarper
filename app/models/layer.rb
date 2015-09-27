@@ -27,11 +27,15 @@ class Layer < ActiveRecord::Base
   
   def thumb
     if self.maps.first.nil?
-      '/assets/missing.png'
+      'missing.png'
     elsif !self.maps.first.public?
-      '/assets/private.png'
+      'private.png'
     else
-      self.maps.first.upload.url(:thumb)
+      if self.maps.first && self.maps.first.image_url
+        self.maps.first.image_url.gsub('commons/', 'commons/thumb/') + '/100px-' + File.basename(map.image_url).gsub('File:', '')
+      else
+        self.maps.first.upload.url(:thumb)
+      end
     end
   end
   

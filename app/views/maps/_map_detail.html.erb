@@ -3,7 +3,7 @@
 <tr>
   <% cl = cycle('table0', 'table1') %>
   <td class="<%= cl %>">
-    <%=  image_tag(map.upload.url(:thumb)) %>
+    <%=  image_tag(map_thumb_url(map)) %>
   </td>
   <td class="<%= cl %>">
     <span class="maplist_title">

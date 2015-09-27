@@ -15,7 +15,7 @@
       <tr class="<%= cycle('table0', 'table1')%> import-maps " >
         <%= import_form.fields_for :maps, map do |map_form| %>
           <td>
-            <%= image_tag(map.upload.url(:thumb)) %><br />
+            <%= image_tag(map_thumb_url(map)) %><br />
             <%=  link_to "View in Warper", map_path(map) %>
           </td>
           <td>

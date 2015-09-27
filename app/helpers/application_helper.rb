@@ -82,4 +82,12 @@ module ApplicationHelper
     assets
   end
   
+  def map_thumb_url(map)
+    if map.image_url
+      map.image_url.gsub('commons/', 'commons/thumb/') + '/100px-' + File.basename(map.image_url).gsub('File:', '')
+    else 
+      map.upload.url(:thumb)
+    end
+  end
+  
 end
