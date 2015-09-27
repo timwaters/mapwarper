@@ -25,8 +25,9 @@ function init(){
 
   layerMap = new OpenLayers.Map("map",options);
   mapnik_lay1 = mapnik.clone();
-
-  layerMap.addLayers([mapnik_lay1]);
+  
+  wikimedia_maps_clone = wikimedia_maps.clone();
+  layerMap.addLayers([mapnik_lay1,wikimedia_maps_clone]);
 
   wmslayer =  new OpenLayers.Layer.WMS
   ( "Layer"+layer_id,

@@ -27,6 +27,9 @@ function warpedinit() {
     // create OSM layer
     mapnik3 = mapnik.clone();
     warpedmap.addLayer(mapnik3);
+    
+    wikimedia_maps_clone = wikimedia_maps.clone();
+    warpedmap.addLayer(wikimedia_maps_clone);
 
     for (var i = 0; i < layers_array.length; i++) {
         warpedmap.addLayer(get_map_layer(layers_array[i]));

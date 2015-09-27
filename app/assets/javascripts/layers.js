@@ -60,6 +60,17 @@ var mapnik = new OpenLayers.Layer.TMS("OSM Mapnik", "http://tile.openstreetmap.o
 });
 
 
+var wikimedia_maps = new OpenLayers.Layer.TMS("Wikimedia maps", "https://maps.wikimedia.org/osm-intl/",{
+    type: 'png',
+    getURL: osm_getTileURL,
+    displayOutsideMaxExtent: true,
+    transitionEffect: 'resize',
+    attribution: 'Wikimedia maps beta | Map data &copy; <a href="http://openstreetmap.org/copyright">OpenStreetMap contributors</a>'
+  });
+
+
+
+
 var jpl_wms = new OpenLayers.Layer.WMS("NASA Landsat 7", "http://t1.hypercube.telascience.org/cgi-bin/landsat7", {
     layers: "landsat7"
 });

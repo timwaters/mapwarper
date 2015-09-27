@@ -42,6 +42,9 @@ function searchmapinit(){
   // create OSM layer
   mapnik_s = mapnik.clone();
   searchmap.addLayer(mapnik_s);
+  
+  wikimedia_maps_clone = wikimedia_maps.clone();
+  searchmap.addLayer(wikimedia_maps_clone);
 
   //set up the map index layer to help find individual maps
     var mapIndexLayerStyle = OpenLayers.Util.extend({

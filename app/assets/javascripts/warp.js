@@ -78,8 +78,8 @@ function init() {
   }
 
 
-  jpl_wms.setVisibility(false);
-  to_map.addLayer(jpl_wms);
+  wikimedia_maps.setVisibility(false);
+  to_map.addLayer(wikimedia_maps);
 
   if (map_has_bounds) {
     map_bounds_merc = new OpenLayers.Bounds();
