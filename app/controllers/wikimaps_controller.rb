@@ -70,7 +70,8 @@ class WikimapsController < ApplicationController
       source_uri: source_uri,
       upload_url: image_url,
       page_id: page_id,
-      image_url: image_url
+      image_url: image_url,
+      status: :loading
     }
 
     @map = Map.new(map)

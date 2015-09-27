@@ -3,8 +3,8 @@
   <script type="text/javascript">
     var map_id = '<%=h @map.id -%>';
     var title = 'unwarped map';
-    var unwarped_image_width = <%= @map.width %>;
-    var unwarped_image_height = <%= @map.height %>;
+    var unwarped_image_width = <%= @map.width || 0 %>;
+    var unwarped_image_height = <%= @map.height || 0%>;
     var wms_url = '<%= wms_map_path(@map)  -%>';
   </script>
 
@@ -23,11 +23,12 @@
 <% else %>
 
   <div id="loading">
-    Loading map... <span id="spinner"><%= image_tag 'spinner.gif' %></span></div>
+    Loading map...
+  </div>
 
 
-  <span class="progressBar" id="prog">20%</span>
-  <span id="map_status" class="mapstatus">requesting</span>
+  <div  id="prog"><div class="progress-label">10%</div></div>
+  <div id="map_status" class="mapstatus">requesting</div>
 
   <div id="loaded" style="display:none;" >
     Map has successfully loaded, page will automatically refresh in a couple of seconds.
@@ -38,72 +39,71 @@
     If it does not load properly a second time, please choose another map, and try again another day.
   </div>
 
-    <script type="text/javascript">
-      var updateInterval;
-      var myJsProgressBarHandler ;
-      jQuery(document).ready(function() {
-        updateInterval = setInterval(updateStatus, 5000);
-        myJsProgressBarHandler = new jQuery.JS_BRAMUS.JsProgressBar("#prog", 0, {animate: true, width: 240, height: 24});
-        
-      });
-  
-      function updateStatus() {
-        var status = jQuery("#map_status").html();
-       
-        if (status == "available" || status == "warped") {
-          clearInterval(updateInterval);
-        } else {
-          jQuery("#map_status").load("<%= url_for status_map_path(@map) %>",  function( response, status, xhr ) {updateProgress(response)});
-        }
-  
-      }
-  
-      function updateProgress(respText) {
-        updateBar(respText);
-        var status = jQuery("#map_status").html();
-            if (status == "unloaded") {
-              clearInterval(updateInterval);
-              jQuery("#loading").hide();
-              jQuery("#unloaded").show();
-            } else if (status == "available" || status == "warping"){
-              clearInterval(updateInterval);
-              jQuery("#loading").hide();
-              jQuery("#loaded").show();
-              timedRefresh(2500);
-            }
-  
-        }
-  
-       function updateBar(status) {
-         //console.log(status)
-        if (status == 'loading') {
-          var prev = myJsProgressBarHandler.getPercentage('prog');
-          //console.log("prev", prev)
-          var increment = Math.round(((100 - prev) / 100) * 20);
-          var newPercentage = prev + increment;
-          //console.log("newPercentage", newPercentage)
-          myJsProgressBarHandler.setPercentage( newPercentage, false);
-  
-        }
-        if (status == 'available') {
-          myJsProgressBarHandler.setPercentage('100');
-        }
-        if (status == 'unloaded') {
-          myJsProgressBarHandler.setPercentage( '10');
-  
-        }
-      }
-  
-      function timedRefresh(timeoutPeriod) {
-        setTimeout("location.reload(true);", timeoutPeriod);
-      }
-  
-  
-  
-  
-  
-    </script>
+  <script type="text/javascript">
+    var updateInterval;
+    
+    var progressbar;
+    jQuery(document).ready(function() {
+      updateInterval = setInterval(updateStatus, 5000);
+      progressbar = jQuery( "#prog" ).progressbar({
+        value: 10,
+        change: function() {
+        jQuery(".progress-label").text( progressbar.progressbar( "value" ) + "%" );
+      },
+    });
+    });
+    
+    function updateStatus(){
+      var status = jQuery("#map_status").html();
 
+      if (status == "available" || status == "warped") {
+        clearInterval(updateInterval);
+      } else {
+        jQuery("#map_status").load("<%= url_for status_map_path(@map) %>",  function( response, status, xhr ) {updateProgress(response)});
+      }
+    }
+    
+    function updateProgress(respText){
+      updateBar(respText);
+      var status = jQuery("#map_status").html();
+      if (status == "unloaded") {
+        clearInterval(updateInterval);
+        jQuery("#loading").hide();
+        jQuery("#unloaded").show();
+      } else if (status == "available" || status == "warping"){
+        clearInterval(updateInterval);
+        jQuery("#loading").hide();
+        jQuery("#loaded").show();
+        timedRefresh(2500);
+      }    
+    }
+    
+    function updateBar(status) {
+         //console.log(status)
+      if (status == 'loading') {
+        var prev = progressbar.progressbar( "value" ) || 0;
+        
+        var increment = Math.round(((100 - prev) / 100) * 20);
+        var newPercentage = prev + increment;
+        
+        progressbar.progressbar( "value", newPercentage );
+
+      }
+      if (status == 'available') {
+        progressbar.progressbar( "value", 100 );
+      }
+      if (status == 'unloaded') {
+        progressbar.progressbar( "value", 10 );
+
+      }
+    }
+  
+    function timedRefresh(timeoutPeriod) {
+      setTimeout("location.reload(true);", timeoutPeriod);
+    }
+    
+    
+  </script>
 
 <%end%>
 

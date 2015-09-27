@@ -39,9 +39,9 @@ class Map < ActiveRecord::Base
   attr_accessor :upload_url
   
   after_initialize :default_values
-  before_create :download_remote_image, :if => :upload_url_provided?
-  before_create :save_dimensions
-  after_create :setup_image
+  before_create :download_remote_image, :if => :upload_url_provided?, :unless => :unloaded?  
+  before_create :save_dimensions, :unless => :unloaded?  
+  after_create :setup_image, :unless => :unloaded?  
   after_destroy :delete_images
   after_destroy :delete_map, :update_counter_cache, :update_layers
   after_save :update_counter_cache
@@ -59,6 +59,23 @@ class Map < ActiveRecord::Base
   
   def upload_url_provided?
     !self.upload_url.blank?
+  end
+  
+  def unloaded?
+    self.status == :unloaded
+  end
+  
+  def resume_loading!
+    logger.debug "resume loading"
+    unless self.image_url.blank?
+      update_attribute :status, :loading
+      self.upload_url = self.image_url
+      logger.debug "image url provided"
+      download_remote_image
+      save_dimensions
+      save!
+      setup_image
+    end
   end
   
   def download_remote_image

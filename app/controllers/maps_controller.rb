@@ -325,14 +325,26 @@ class MapsController < ApplicationController
     if !user_signed_in?
       @disabled_tabs = ["warp", "edit", "clip", "align", "metadata","comments", "activity"]
       
-      if @map.status.nil? or @map.status == :unloaded or @map.status == :loading
-        @disabled_tabs += ["warped"]
-      end
-      
       flash.now[:notice] = "%s to start editing"
       flash.now[:notice_item] = ["Log in", :new_user_session]
       session[:user_return_to] = request.url
       
+      if @map.status.nil? or @map.status == :unloaded or @map.status == :loading
+        @disabled_tabs += ["warped", "export"]
+        
+        if request.xhr?
+          @xhr_flag = "xhr"
+          render :action => "preview", :layout => "tab_container"
+        else
+          respond_to do |format|
+            format.html {render :action=> 'preview'}
+            format.json {render :json =>{:stat => "ok", :items => @map}.to_json(:except => [:content_type, :size, :bbox_geom, :uuid, :parent_uuid, :filename, :parent_id,  :map, :thumbnail, :rough_centroid]), :callback => params[:callback] }
+          end
+        end
+        
+      else
+        
+      #logged out, and the map is not unloaded
       if request.xhr?
         @xhr_flag = "xhr"
         render :layout => "tab_container"
@@ -345,6 +357,8 @@ class MapsController < ApplicationController
           format.json {render :json =>{:stat => "ok", :items => @map}.to_json(:except => [:content_type, :size, :bbox_geom, :uuid, :parent_uuid, :filename, :parent_id,  :map, :thumbnail, :rough_centroid]), :callback => params[:callback] }
         end
       end
+      
+    end
       
       return #stop doing anything more
     end
@@ -362,6 +376,22 @@ class MapsController < ApplicationController
       end
     end
 
+    #note, trying to view an image that hasnt been requested, will cause it to be requested
+    if @map.status.nil? or @map.status == :unloaded
+      @disabled_tabs = ["warp", "edit", "metadata", "comments", "clip", "align", "warped", "preview","activity", "export"]
+      @title = "Viewing unwarped map."
+      logger.debug("starting spawn fetch image")
+      Spawnling.new do
+        begin
+          @map.resume_loading!
+        rescue => e
+          logger.error "Error in spawnling map.resume_loading call"
+          logger.error e.inspect
+        end
+      end
+      return
+    end
+
     @disabled_tabs += ["align", "metadata","comments", "activity"]
     
     @title = "Viewing original map. "
@@ -370,13 +400,14 @@ class MapsController < ApplicationController
       @title += "This map has not been rectified yet."
     end
     
-    choose_layout_if_ajax
-
-    respond_to do |format|
-      format.html
-       format.kml {render :action => "show_kml", :layout => false}
-      # format.xml {render :xml => @map.to_xml(:except => [:content_type, :size, :bbox_geom, :uuid, :parent_uuid, :filename, :parent_id,  :map, :thumbnail, :rough_centroid])  }
-        format.json {render :json =>{:stat => "ok", :items => @map}.to_json(:except => [:content_type, :size, :bbox_geom, :uuid, :parent_uuid, :filename, :parent_id,  :map, :thumbnail, :rough_centroid]), :callback => params[:callback] }
+    if request.xhr?
+     choose_layout_if_ajax
+    else
+      respond_to do |format|
+        format.html
+         format.kml {render :action => "show_kml", :layout => false}
+          format.json {render :json =>{:stat => "ok", :items => @map}.to_json(:except => [:content_type, :size, :bbox_geom, :uuid, :parent_uuid, :filename, :parent_id,  :map, :thumbnail, :rough_centroid]), :callback => params[:callback] }
+      end
     end
     
     

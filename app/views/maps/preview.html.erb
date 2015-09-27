@@ -1,0 +1,8 @@
+
+  <p>
+    This map is currently unloaded. You can log in to load it up into the system. <br />
+    From: <%= link_to @map.source_uri, @map.source_uri  %><br />
+    A low resolution preview of the map is shown below.  <br />
+  </p>
+  <% preview_url =  @map.image_url.gsub('commons/', 'commons/thumb/') + '/600px-' + File.basename(@map.image_url).gsub('File:', '') %>
+  <%= image_tag (preview_url) %>
