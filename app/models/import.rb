@@ -1,15 +1,44 @@
 class Import < ActiveRecord::Base
   has_many :maps
-  accepts_nested_attributes_for :maps,  :allow_destroy => true
+  
   belongs_to :user, :class_name => "User"
-  validates_presence_of :path
-  validates_presence_of :name
+  validates_presence_of :category
   validates_presence_of :uploader_user_id
   validate :custom_validate
 
   before_save :count_files
-  before_create :setup_import
 
+  after_initialize :default_values
+  
+  def default_values
+    self.status ||= :ready
+  end
+  
+  
+  #
+  # Calls the wikimedia Commons and returns the File Count within the category
+  # category in format "Category:1681 maps"
+  #
+  def self.count(category)
+    category = URI.encode(category)
+    url = "https://commons.wikimedia.org/w/api.php?action=query&prop=categoryinfo&format=json&titles=#{category}"
+   
+    #combined = /w/api.php?action=query&list=categorymembers&prop=categoryinfo&format=json&cmtitle=Category%3A1681_maps&titles=Category%3A1681_maps
+    puts "calling #{url}"
+    data = URI.parse(url).read
+    body = ActiveSupport::JSON.decode(data)
+    puts body.inspect
+    #{"batchcomplete"=>"", "query"=>{"pages"=>{"88441"=>{"pageid"=>88441, "ns"=>14, "title"=>"Category:Maps of Finland", "categoryinfo"=>{"size"=>610, "pages"=>2, "files"=>581, "subcats"=>27}}}}}
+   
+    file_count = 0
+    if body["query"]["pages"].keys.first != "-1"
+      page_id = body["query"]["pages"].keys.first
+      file_count = body["query"]["pages"][page_id]["categoryinfo"]["files"]
+    end
+    
+    file_count
+  end
+  
   def start_importing
     logger.info "Starting import"
     if state == "ready"  #don't want to import maps that are already importing, or that has already been imported
@@ -89,17 +118,8 @@ class Import < ActiveRecord::Base
   def custom_validate
     errors.add(:layer_id, "does not exist, or has not been specified properly") unless Layer.exists?(layer_id) || layer_id == nil || layer_id == -99
     errors.add(:uploader_user_id, "does not exist") if !User.exists?(uploader_user_id)
-    errors.add(:layer_title, "is blank") if layer_title.blank? && layer_id == -99
-    begin
-      errors.add(:path, "does not exist") if !File.exists?(path)
-      errors.add(:path, "has no files within the directory") if Dir.entries(path).size - 2 == 0
-    rescue Errno::ENOENT
-    end
   end
   
-  def setup_import
-    state = "ready"
-  end
   
   def count_files
     self.file_count = Dir.entries(self.path).size - 2
