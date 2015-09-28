@@ -56,6 +56,20 @@ class ImportsController < ApplicationController
     end
   end
 
+  # def start
+  #   
+  #   if @import.import_type == :latest
+  #     @import.prepare_run
+  #     Spawnling.new do
+  #       @import.import!(true)
+  #     end
+  #   else
+  #     @import.import!
+  #   end
+  #   
+  #   redirect_to @import
+  # end
+
   def start
     Spawnling.new do
       @import.start_importing
