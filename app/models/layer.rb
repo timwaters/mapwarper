@@ -32,7 +32,7 @@ class Layer < ActiveRecord::Base
       'private.png'
     else
       if self.maps.first && self.maps.first.image_url
-        self.maps.first.image_url.gsub('commons/', 'commons/thumb/') + '/100px-' + File.basename(map.image_url).gsub('File:', '')
+        self.maps.first.image_url.gsub('commons/', 'commons/thumb/') + '/100px-' + File.basename(self.maps.first.image_url).gsub('File:', '')
       else
         self.maps.first.upload.url(:thumb)
       end
