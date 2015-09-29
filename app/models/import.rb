@@ -18,23 +18,24 @@ class Import < ActiveRecord::Base
     self.update_attribute(:status, :running)
   end
   
-  def finish_import
+  def finish_import(options)
     self.status = :finished
     self.finished_at = Time.now
     self.save
-    create_layer
+    save_maps_to_layer(options[:append_layer]) unless self.maps.empty? || options[:save_layer] == false
     logger.info "Finished import #{Time.now}"
   end
   
-  def import!(options={:async => false})
-    async = options[:async] 
+  def import!(options={})
+    options = {:async => false, :append_layer => false, :save_layer => false}.merge(options)
     
+    async = options[:async]
     if valid? && count > 0
       prepare_run unless async
       log_info "Stared import #{Time.now}"
       begin
         import_maps
-        finish_import
+        finish_import(options)
       rescue => e
         log_error "Error with import #{e.inspect}"
         
@@ -129,15 +130,23 @@ class Import < ActiveRecord::Base
       # save map as unloaded
   end
 
-
-  def create_layer
-    log_info "Creating new layer and assigning maps to it"
-    if Layer.exists?(name: self.category)
+  #Append_layer = yes -> if a layer exists with the same name, append the maps to it
+  #Append_layer = no -> if a layer exists with the same name, don't assign additonal maps to it.
+  #Creates a new layer regardless if none already exists.
+  def save_maps_to_layer(append_layer)
+    log_info "Saving maps to layer"
+    if Layer.exists?(name: self.category) && append_layer == false
       log_error "Layer exists with the same name #{self.category}! Skipping creating new layer."
+    elsif Layer.exists?(name: self.category) && append_layer == true
+      existing_layer = Layer.find_by_name(self.category)
+      log_info "Appending maps to  existing layer #{existing_layer.inspect}"
+      existing_layer.maps << self.maps
     else
+  
       layer = Layer.new(name: self.category, user: self.user, source_uri: "https://commons.wikimedia.org/wiki/#{self.category}")
-      layer.maps = maps
+      layer.maps << self.maps
       layer.save
+      log_info "Saving maps to new Layer #{layer.inspect}"
     end
     
     log_info "Finished saving new layer"

@@ -13,10 +13,9 @@ namespace :warper do
       import = Import.new(category: category, uploader_user_id: user_id, user: user)
 
       if import.valid?
-        puts 'valid'
-        import.import!
+        import.import!({:append_layer => true, :save_layer => true})
       else
-        puts "Invalid import. errors were: #{import.errors.messages}"
+        puts "Invalid Import! Errors were: #{import.errors.messages}"
       end
     end # task
 
