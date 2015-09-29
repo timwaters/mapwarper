@@ -112,6 +112,8 @@ ActiveRecord::Schema.define(version: 20150928121219) do
     t.string   "category"
     t.datetime "finished_at"
     t.integer  "status"
+    t.boolean  "save_layer"
+    t.boolean  "append_layer"
   end
 
   create_table "layers", force: true do |t|
