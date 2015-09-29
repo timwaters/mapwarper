@@ -1,15 +1,27 @@
 class ImportsController < ApplicationController
 
   before_filter :authenticate_user!
-  before_filter :check_administrator_role
+  before_filter :check_editor_role
 
   before_filter :find_import, :except => [:index, :new, :create]
   before_filter :check_imported, :only => [:start]
 
   rescue_from ActiveRecord::RecordNotFound, :with => :bad_record
-
+  
+  helper :sort
+  include SortHelper
+  
   def index
-    @imports = Import.order("updated_at DESC").paginate(:page => params[:page],:per_page => 30)
+    sort_init('created_at', {:default_order => "desc"})
+    sort_update
+    if params[:sort_order] && params[:sort_order] == "desc"
+      sort_nulls = " NULLS LAST"
+    else
+      sort_nulls = " NULLS FIRST"
+    end
+    order_options = sort_clause + sort_nulls
+    
+    @imports = Import.order(order_options).paginate(:page => params[:page],:per_page => 50)
   end
 
   def new
@@ -20,7 +32,7 @@ class ImportsController < ApplicationController
   def create
     @import = Import.new(import_params)
     @import.user = current_user
-    @import.state = "ready"
+    @import.uploader_user_id = current_user.id
     if @import.save
       flash[:notice] = "New Import Created!"
       redirect_to import_url(@import)
@@ -30,11 +42,14 @@ class ImportsController < ApplicationController
     end
   end
 
-
   def edit
   end
 
   def show
+    @count = nil
+    if @import.status == :ready
+      @count = @import.count
+    end
   end
 
   def destroy
@@ -56,24 +71,13 @@ class ImportsController < ApplicationController
     end
   end
 
-  # def start
-  #   
-  #   if @import.import_type == :latest
-  #     @import.prepare_run
-  #     Spawnling.new do
-  #       @import.import!(true)
-  #     end
-  #   else
-  #     @import.import!
-  #   end
-  #   
-  #   redirect_to @import
-  # end
-
   def start
+    @import.prepare_run
     Spawnling.new do
-      @import.start_importing
+      @import.import!({:async => true, :append_layer => true, :save_layer => true})
     end
+    
+    redirect_to @import
   end
 
   def status
@@ -81,15 +85,17 @@ class ImportsController < ApplicationController
   end
 
   def maps
-    @upload_user = User.find(@import.uploader_user_id)
-    if @import.layer_id == -99
-      @layer = @import.maps.first.layers.first
-    elsif @import.layer_id != nil
-      @layer = Layer.find(@import.layer_id)
+  
+    sort_init('created_at', {:default_order => "desc"})
+    sort_update
+    if params[:sort_order] && params[:sort_order] == "desc"
+      sort_nulls = " NULLS LAST"
+    else
+      sort_nulls = " NULLS FIRST"
     end
+    order_options = sort_clause + sort_nulls
     
-
-    #show finished import, or alter show?
+    @maps = @import.maps.order(order_options).paginate(:page => params[:page],:per_page => 50)
   end
 
   private
@@ -99,8 +105,8 @@ class ImportsController < ApplicationController
   end
 
   def check_imported
-    if @import.state == "imported"
-      flash[:notice] = "Sorry, can't be done, this import has already been imported."
+    if @import.status != :ready
+      flash[:notice] = "Sorry, this import is either running or finished."
       redirect_to imports_path
     end
   end
@@ -114,10 +120,9 @@ class ImportsController < ApplicationController
       format.json {render :json => {:stat => "not found", :items =>[]}.to_json, :status => 404}
     end
   end
-  
+
   def import_params
-      params.require(:import).permit(:name,:path, :map_title_suffix, :map_description, :map_publisher, :map_author, :layer_id, :layer_title,  :uploader_user_id, 
-        :maps_attributes => [:title, :description, :publisher, :authors, :source_uri, :id, "_destroy"] )
+    params.require(:import).permit(:category, :append_layer, :save_layer)
   end
 
 end

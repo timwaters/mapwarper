@@ -1,8 +1,10 @@
 class Import < ActiveRecord::Base
   has_many :maps
-  
+  belongs_to :layer
   belongs_to :user, :class_name => "User"
+  
   validates_presence_of :category
+  validates :category, :uniqueness => true
   validates_presence_of :uploader_user_id
   validate :custom_validate
   
@@ -12,6 +14,8 @@ class Import < ActiveRecord::Base
   
   def default_values
     self.status ||= :ready
+    self.save_layer ||= true
+    self.append_layer ||= true
   end
   
   def prepare_run
@@ -141,12 +145,16 @@ class Import < ActiveRecord::Base
       existing_layer = Layer.find_by_name(self.category)
       log_info "Appending maps to  existing layer #{existing_layer.inspect}"
       existing_layer.maps << self.maps
+      self.layer = existing_layer
+      save
     else
   
-      layer = Layer.new(name: self.category, user: self.user, source_uri: "https://commons.wikimedia.org/wiki/#{self.category}")
-      layer.maps << self.maps
-      layer.save
-      log_info "Saving maps to new Layer #{layer.inspect}"
+      new_layer = Layer.new(name: self.category, user: self.user, source_uri: "https://commons.wikimedia.org/wiki/#{self.category}")
+      new_layer.maps << self.maps
+      new_layer.save
+      log_info "Saving maps to new Layer #{new_layer.inspect}"
+      self.layer = new_layer
+      save
     end
     
     log_info "Finished saving new layer"

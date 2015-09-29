@@ -1,5 +1,9 @@
+<%= link_to "&lt; Browse imports".html_safe, imports_path %>
+
 <h2>Edit Import</h2>
 
-<%= error_messages_for @import %>
+<div class="import_error_messages">
+  <%= error_messages_for @import %>
+</div>
 
 <%= render :partial => "form" %>

@@ -81,6 +81,19 @@ form.new_import input {
     width:35em;
 }
 
+
+div.import_error_messages div.error_messages {
+  border: 3px solid #EEC;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 5px;
+
+
+  font-weight: 700;
+  padding-top: 2px;
+  padding-bottom: 2px;
+}
+
 div.comment {
   padding-bottom: 5px;
   font-size: smaller;

@@ -1,22 +1,21 @@
-
 <h2>Imports</h2>
 <%= link_to 'Add new import', new_import_url %>
 <%= will_paginate @imports %>
 <table class="usertable">
   <thead>
     <tr>
-      <th>Id</th>
-      <th>Name</th>
-      <th>maps</th>
-      <th>User</th>
-      <th>Created</th>
-      <th>Status</th>
-      <th>Actions</th>
+      <%= sort_header_tag('id', :title => "Id") %>
+      <%= sort_header_tag('category', :title => "Category") %>
+      <%= sort_header_tag('user_id', :title => "User") %>
+      <%= sort_header_tag('created_at', :title => "Created At") %>
+      <%= sort_header_tag('status', :title => "Status") %>
+      <%= sort_header_tag('finished_at', :title => "Finished At") %>    
+      <th>Imported Maps</th>  
     </tr>
   </thead>
   <tbody>
     <%= render :partial => "import", :collection => @imports %>
   </tbody>
 </table>
-<%= will_paginate @users %>
+<%= will_paginate @imports %>
 
