@@ -54,8 +54,7 @@ class Import < ActiveRecord::Base
   
   
   def import_maps
-    site = 'https://commons.wikimedia.org'
-    #site = "http://commons.wikimedia.beta.wmflabs.org"
+    site = APP_CONFIG["omniauth_mediawiki_site"]
     category_members = []
 
     cmlimit = 500 # user max = 500 and bots can get 5000 (for users with the apihighlimits)
@@ -65,8 +64,8 @@ class Import < ActiveRecord::Base
     url = URI.parse(URI.encode(uri))
 
     http = Net::HTTP.new(url.host, url.port)
-    http.use_ssl = true
-    http.verify_mode = OpenSSL::SSL::VERIFY_NONE
+    http.use_ssl = true if url.scheme == "https"
+    http.verify_mode = OpenSSL::SSL::VERIFY_NONE if url.scheme == "https"
 
     req = Net::HTTP::Get.new(URI.encode(uri))
     req.add_field('User-Agent', 'WikiMaps Warper (Import Maps from Category) Script by Chippyy chippy2005@gmail.com')
@@ -128,10 +127,7 @@ class Import < ActiveRecord::Base
       log_info "Saved new Map: " + map.inspect
     end
 
-      # {"pageid"=>40820573, "ns"=>6, "title"=>"File:Senate Atlas, 1870–1907. Sheet XVI 12 Rauma.jpg"}
-      # query API for map
-      # build map
-      # save map as unloaded
+
   end
 
   #Append_layer = yes -> if a layer exists with the same name, append the maps to it
@@ -166,14 +162,13 @@ class Import < ActiveRecord::Base
   #
   def self.count(category)
     category = URI.encode(category)
-    url = "https://commons.wikimedia.org/w/api.php?action=query&prop=categoryinfo&format=json&titles=#{category}"
+    site = APP_CONFIG["omniauth_mediawiki_site"]
+    url = "#{site}/w/api.php?action=query&prop=categoryinfo&format=json&titles=#{category}"
    
     #combined = /w/api.php?action=query&list=categorymembers&prop=categoryinfo&format=json&cmtitle=Category%3A1681_maps&titles=Category%3A1681_maps
     log_info "calling #{url}"
     data = URI.parse(url).read
     body = ActiveSupport::JSON.decode(data)
-    log_info body.inspect
-    #{"batchcomplete"=>"", "query"=>{"pages"=>{"88441"=>{"pageid"=>88441, "ns"=>14, "title"=>"Category:Maps of Finland", "categoryinfo"=>{"size"=>610, "pages"=>2, "files"=>581, "subcats"=>27}}}}}
    
     file_count = 0
     if body["query"]["pages"].keys.first != "-1"

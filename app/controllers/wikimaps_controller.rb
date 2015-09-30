@@ -8,8 +8,8 @@ class WikimapsController < ApplicationController
     @html_title = 'New wikimaps map '
 
     if params[:pageid]
-
-      url = URI.encode('https://commons.wikimedia.org/w/api.php?action=query&prop=imageinfo&iiprop=url&format=json&pageids=' + params[:pageid])
+      site = APP_CONFIG["omniauth_mediawiki_site"]
+      url = URI.encode(site + '/w/api.php?action=query&prop=imageinfo&iiprop=url&format=json&pageids=' + params[:pageid])
       data = URI.parse(url).read
 
       json = ActiveSupport::JSON.decode(data)
@@ -42,7 +42,8 @@ class WikimapsController < ApplicationController
 
   def create
     if params[:pageid] && !params[:pageid].blank?
-      url = URI.encode('https://commons.wikimedia.org/w/api.php?action=query&prop=imageinfo&iiprop=url&format=json&pageids=' + params[:pageid])
+      site = APP_CONFIG["omniauth_mediawiki_site"]
+      url = URI.encode(site + '/w/api.php?action=query&prop=imageinfo&iiprop=url&format=json&pageids=' + params[:pageid])
       data = URI.parse(url).read
       json = ActiveSupport::JSON.decode(data)
 
