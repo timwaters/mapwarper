@@ -777,6 +777,91 @@ class Map < ActiveRecord::Base
   end
   
  
+  def update_commons_page(current_user=nil)
+    return false unless warped_or_published?
+    
+    site  = APP_CONFIG["omniauth_mediawiki_site"]
+    access_token = nil
+    if current_user.provider == "mediawiki"
+      consumer = OAuth::Consumer.new(APP_CONFIG["omniauth_mediawiki_key"], APP_CONFIG["omniauth_mediawiki_secret"], {:site => site })
+      access_token = OAuth::AccessToken.new(consumer, current_user.oauth_token, current_user.oauth_secret)
+    else
+      #use bots auth
+    end
+    
+    if access_token
+      uri = "#{site}/w/api.php?action=query&prop=revisions&rvprop=content&format=json&pageids=#{self.page_id}"
+      resp = access_token.get(URI.encode(uri))
+      
+      body = JSON.parse(resp.body)
+
+      pageid = body["query"]["pages"].keys.first
+      revision = body["query"]["pages"][pageid]["revisions"].first 
+      wikitext = revision["*"]
+
+      map_match = /\{{2}\s*(Map|Template:map)(.*)}}/mi.match(wikitext)
+
+      if map_match
+        map_template = map_match[0]
+        map_attrs = map_template.split("|")
+        new_attrs = []
+        
+        something_changed  = false
+        map_attrs.each do | map_attr |
+          if map_attr.include? "warped"
+            unless map_attr.split("=")[1].include?("yes")  # don't edit if it's already there
+              something_changed = true
+              map_attr = "warped=yes\n"
+            end    
+          end
+          new_attrs << map_attr
+        end
+
+        map_template = new_attrs.join("|")
+
+        wikitext.sub!(/\{{2}\s*(Map|Template:map)(.*)}}/mi, map_template)
+        
+        if something_changed
+          # Next fetch the edit csrf token
+          uri = "#{site}/w/api.php?action=query&meta=tokens&type=csrf&format=json"
+          resp = access_token.get(URI.encode(uri))
+          body = JSON.parse(resp.body)
+
+          token = body["query"]["tokens"]["csrftoken"]
+      
+          #Next save the new revison
+          uri = "#{site}/w/api.php"
+          
+          post_body =  { "action" => "edit",
+                          "pageid"=> self.page_id,
+                          "text" => wikitext,
+                          "summary" => "Updating map template warped attribute by Wikimaps Warper via OAuth",
+                          "watchlist" => "nochange",
+                          "bot"=> "true",
+                          "nocreate" => "true",
+                          "contentmodel" => "wikitext",
+                          "token" => token,
+                          "format" => "json"
+                        }
+          resp = access_token.post(URI.encode(uri), post_body)
+          logger.debug "API response to edit #{resp.body.inspect}"
+          #with a successul edit
+           #{}"{\"edit\":{\"result\":\"Success\",\"pageid\":51038,\"title\":\"File:Lawrence-h-slaughter-collection-of-english-maps-england.jpeg\",\"contentmodel\":\"wikitext\",\"oldrevid\":78406,\"newrevid\":78407,\"newtimestamp\":\"2015-09-30T17:02:07Z\"}}"
+           #Edit makes no change
+           #"{\"edit\":{\"result\":\"Success\",\"pageid\":51038,\"title\":\"File:Lawrence-h-slaughter-collection-of-english-maps-england.jpeg\",\"contentmodel\":\"wikitext\",\"nochange\":\"\"}}"
+
+        end
+        
+        
+      end
+      
+    end
+  end
+
+  
+  
+
+ 
   ############
   #PRIVATE
   ############

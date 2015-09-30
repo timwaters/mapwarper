@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150928121219) do
+ActiveRecord::Schema.define(version: 20150930155927) do
 
   create_table "audits", force: true do |t|
     t.integer  "auditable_id"
@@ -298,6 +298,8 @@ ActiveRecord::Schema.define(version: 20150928121219) do
     t.datetime "reset_password_sent_at"
     t.string   "provider"
     t.string   "uid"
+    t.string   "oauth_secret"
+    t.string   "oauth_token"
   end
 
 end

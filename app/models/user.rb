@@ -93,9 +93,14 @@ class User < ActiveRecord::Base
         provider: auth.provider,
         uid: auth.uid,
         email: "#{auth.info.name}+warper@mediawiki.org", # make sure this is unique
-        password: Devise.friendly_token[0,20]
+        password: Devise.friendly_token[0,20],
+        oauth_secret: auth.extra.access_token.secret,
+        oauth_token: auth.extra.access_token.token
       )
     end
+    
+    user.update_attributes({:oauth_secret =>  auth.extra.access_token.secret, :oauth_token => auth.extra.access_token.token}) if user.oauth_secret.nil?
+    
     user
   end
   
