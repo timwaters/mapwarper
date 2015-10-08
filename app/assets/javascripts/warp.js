@@ -70,9 +70,6 @@ function init() {
   warped_layer.setIsBaseLayer(false);
   to_map.addLayer(warped_layer);
 
-  to_map.addLayer(mapnik);
-
-
   for (var i = 0; i < layers_array.length; i++) {
     to_map.addLayer(get_map_layer(layers_array[i]));
   }
@@ -80,6 +77,7 @@ function init() {
 
   wikimedia_maps.setVisibility(false);
   to_map.addLayer(wikimedia_maps);
+  to_map.addLayer(mapnik);
 
   if (map_has_bounds) {
     map_bounds_merc = new OpenLayers.Bounds();
