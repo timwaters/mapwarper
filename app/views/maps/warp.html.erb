@@ -120,6 +120,7 @@
         </table>
         <input type="button" value="Add Control Point Manually" onclick="save_new_gcp(0, 0, 0, 0);" />
         <br />
+        <%= link_to "Download points as CSV", gcps_map_url(@map, :format=>:csv) %> <br />
       <% if editor_authorized? %>
         <label for="file">CSV File to Upload</label>
         <%= file_field_tag :file %>
