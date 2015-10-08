@@ -23,7 +23,8 @@ namespace :warper do
         http.verify_mode = OpenSSL::SSL::VERIFY_NONE
 
         req = Net::HTTP::Get.new(URI.encode(uri))
-        req.add_field('User-Agent', 'WikiMaps Warper Update PageID Script by User:Chippyy chippy2005@gmail.com development')
+        user_agent = "#{APP_CONFIG['site']} (Update PageID Rake Script) (https://commons.wikimedia.org/wiki/Commons:Wikimaps)"
+        req.add_field('User-Agent', user_agent)
 
         resp = http.request(req)
 

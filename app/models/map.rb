@@ -781,6 +781,8 @@ class Map < ActiveRecord::Base
     return false unless warped_or_published?
     
     site  = APP_CONFIG["omniauth_mediawiki_site"]
+    user_agent = "#{APP_CONFIG['site']} (Update Map FilePage) (https://commons.wikimedia.org/wiki/Commons:Wikimaps)"
+    
     access_token = nil
     if current_user.provider == "mediawiki"
       consumer = OAuth::Consumer.new(APP_CONFIG["omniauth_mediawiki_key"], APP_CONFIG["omniauth_mediawiki_secret"], {:site => site })
@@ -791,7 +793,7 @@ class Map < ActiveRecord::Base
     
     if access_token
       uri = "#{site}/w/api.php?action=query&prop=revisions&rvprop=content&format=json&pageids=#{self.page_id}"
-      resp = access_token.get(URI.encode(uri))
+      resp = access_token.get(URI.encode(uri), {'User-Agent' => user_agent})
       
       body = JSON.parse(resp.body)
 
@@ -824,7 +826,7 @@ class Map < ActiveRecord::Base
         if something_changed
           # Next fetch the edit csrf token
           uri = "#{site}/w/api.php?action=query&meta=tokens&type=csrf&format=json"
-          resp = access_token.get(URI.encode(uri))
+          resp = access_token.get(URI.encode(uri), {'User-Agent' => user_agent})
           body = JSON.parse(resp.body)
 
           token = body["query"]["tokens"]["csrftoken"]
@@ -843,7 +845,7 @@ class Map < ActiveRecord::Base
                           "token" => token,
                           "format" => "json"
                         }
-          resp = access_token.post(URI.encode(uri), post_body)
+          resp = access_token.post(URI.encode(uri), post_body, {'User-Agent' => user_agent})
           logger.debug "API response to edit #{resp.body.inspect}"
           #with a successul edit
            #{}"{\"edit\":{\"result\":\"Success\",\"pageid\":51038,\"title\":\"File:Lawrence-h-slaughter-collection-of-english-maps-england.jpeg\",\"contentmodel\":\"wikitext\",\"oldrevid\":78406,\"newrevid\":78407,\"newtimestamp\":\"2015-09-30T17:02:07Z\"}}"

@@ -55,6 +55,7 @@ class Import < ActiveRecord::Base
   
   def import_maps
     site = APP_CONFIG["omniauth_mediawiki_site"]
+    user_agent = "#{APP_CONFIG['site']} (Import Maps from Category) (https://commons.wikimedia.org/wiki/Commons:Wikimaps)"
     category_members = []
 
     cmlimit = 500 # user max = 500 and bots can get 5000 (for users with the apihighlimits)
@@ -68,7 +69,7 @@ class Import < ActiveRecord::Base
     http.verify_mode = OpenSSL::SSL::VERIFY_NONE if url.scheme == "https"
 
     req = Net::HTTP::Get.new(URI.encode(uri))
-    req.add_field('User-Agent', 'WikiMaps Warper (Import Maps from Category) Script by Chippyy chippy2005@gmail.com')
+    req.add_field('User-Agent', user_agent)
 
     resp = http.request(req)
     body = JSON.parse(resp.body)
@@ -78,7 +79,7 @@ class Import < ActiveRecord::Base
     until body['continue'].nil?
       url = uri + '&cmcontinue=' + body['continue']['cmcontinue']
       req = Net::HTTP::Get.new(URI.encode(url))
-      req.add_field('User-Agent', 'WikiMaps Warper (Import Maps from Category) Script by Chippyy chippy2005@gmail.com')
+      req.add_field('User-Agent', user_agent)
       resp = http.request(req)
       body = JSON.parse(resp.body)
 
@@ -90,7 +91,7 @@ class Import < ActiveRecord::Base
       member_pageid = member["pageid"]
       url = URI.encode("#{site}/w/api.php?action=query&prop=imageinfo&iiprop=url&format=json&pageids=#{member_pageid}")
       req = Net::HTTP::Get.new(URI.encode(url))
-      req.add_field('User-Agent', 'WikiMaps Warper (Import Maps from Category) Script by Chippyy chippy2005@gmail.com')
+      req.add_field('User-Agent', user_agent)
       resp = http.request(req)
       body = JSON.parse(resp.body)
 
