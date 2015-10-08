@@ -134,7 +134,7 @@ class GcpsController < ApplicationController
   # ADMIN only
   # Expects a CSV file or a JSON strong
   #POST with mapid
-  #csv header: mapid,x,y,lat,lon,name
+  #csv header: mapid,x,y,lon,lat,name
   #json format: {"gcps":[{"mapid":26,"x":1.2,"y":2.2, "lat":11.1, "lon":21.1},..
   #  curl -X POST http://localhost:3000/gcps/add_many.json -H "Content-Type: application/json" -d '{"gcps":[{"mapid":26,"x":1.2,"y":2.2},{"mapid":21,"x":1.2,"y":2.2}]}' --user email:pass
   def add_many
@@ -165,7 +165,7 @@ class GcpsController < ApplicationController
   # Expects a CSV file
   #curl -X POST http://localhost:3000/gcps/add_many/26.json --user tim@geothings.net:pass -F "file=@gcps2.csv"
   #file csv
-  #x,y,lat,lon,name
+  #x,y,lon,lat,name
   #1.1,2.1,3.2,3.2
   #1.1,2.1,3.2,3.2,foo
   def add_many_to_map

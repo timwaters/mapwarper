@@ -41,8 +41,8 @@ class Gcp < ActiveRecord::Base
     return gcps
   end
 
- #for a specific map, csv will be x,y,lat,lon,name
- #for multiple maps csv will be mapid,x,y,lat,lon,name
+ #for a specific map, csv will be x,y,lon,lat,name
+ #for multiple maps csv will be mapid,x,y,lon,lat,name
   def self.add_many_from_file(file, mapid=nil)
     gcps = []
     data = open(file)
@@ -50,8 +50,8 @@ class Gcp < ActiveRecord::Base
     points.by_row!
 
     #<CSV::Table mode:row row_count:3>
-    #<CSV::Row x:"1.1" y:"2.1" lat:"3.2" lon:"3.2" name:nil>
-    #<CSV::Row x:"1.1" y:"2.1" lat:"3.2" lon:"3.2" name:"foo">
+    #<CSV::Row x:"1.1" y:"2.1" lon:"3.2" lat:"3.2" name:nil>
+    #<CSV::Row x:"1.1" y:"2.1" lon:"3.2" lat:"3.2" name:"foo">
     Gcp.transaction do
       points.each do | point |
 
@@ -65,7 +65,7 @@ class Gcp < ActiveRecord::Base
         map = Map.find map_id.to_i
         
         name = point[:name]
-        gcp_conditions = {:x => point[:x].to_f, :y => point[:y].to_f, :lat => point[:lat].to_f, :lon => point[:lon].to_f, :map_id => map_id}
+        gcp_conditions = {:x => point[:x].to_f, :y => point[:y].to_f, :lon => point[:lon].to_f, :lat => point[:lat].to_f, :map_id => map_id}
         
         #don't save exactly the same point
         unless Gcp.exists?(gcp_conditions)
@@ -78,6 +78,15 @@ class Gcp < ActiveRecord::Base
     end #transaction
     
     return gcps
+  end
+  
+  def self.to_csv
+    CSV.generate do |csv|
+      csv << ["x", "y", "lon", "lat", "name"] ## Header values of CSV
+      all.each do |g|
+        csv << [g.x, g.y, g.lon, g.lat, g.name] ##Row values of CSV
+      end
+    end
   end
   
   private

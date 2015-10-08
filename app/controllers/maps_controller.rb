@@ -555,6 +555,7 @@ class MapsController < ApplicationController
       format.html { render :json => {:stat => "ok", :items => gcps.to_a}.to_json(:methods => :error), :callback => params[:callback]}
       format.json { render :json => {:stat => "ok", :items => gcps.to_a}.to_json(:methods => :error), :callback => params[:callback]}
       format.xml { render :xml => gcps.to_xml(:methods => :error)}
+      format.csv { send_data gcps.to_csv}
     end
   end
   
