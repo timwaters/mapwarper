@@ -23,9 +23,12 @@ class WikimapsController < ApplicationController
       @image_title = json['query']['pages']["#{params[:pageid]}"]['title']
       unique_id = File.basename(json['query']['pages']["#{params[:pageid]}"]['imageinfo'][0]['url'])
       page_id = params[:pageid]
-
-      @thumbnail_url = image_url.gsub('commons/', 'commons/thumb/') + '/300px-' + File.basename(image_url).gsub('File:', '')
-
+      extname = File.extname(json['query']['pages']["#{params[:pageid]}"]['imageinfo'][0]['url'])
+      if [".tiff", ".tif"].include? extname.downcase
+        @thumbnail_url = image_url.gsub('commons/', 'commons/thumb/') + '/lossless-page1-300px-' + File.basename(image_url).gsub('File:', '') + '.png'
+      else
+        @thumbnail_url = image_url.gsub('commons/', 'commons/thumb/') + '/300px-' +  File.basename(image_url).gsub('File:', '')
+      end
       session[:user_return_to] = request.url unless user_signed_in?
 
       if map = Map.find_by_page_id(page_id) || Map.find_by_unique_id(unique_id)
