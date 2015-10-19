@@ -149,9 +149,13 @@ class Map < ActiveRecord::Base
       tiffed_file_path = File.join(maps_dir , tiffed_filename)
       
       logger.info "We convert to tiff"
-      # -co compress=DEFLATE for compression?
-      # -expand rgb   for tifs with LZW compression. sigh
-      command  = "#{GDAL_PATH}gdal_translate #{self.upload.path} #{outsize} -co PHOTOMETRIC=RGB -co PROFILE=BASELINE #{tiffed_file_path}"
+
+      bands  = ""
+      if raster_bands_count(self.upload.path) == 1
+        bands = "-b 1 -b 1 -b 1"
+      end
+      
+      command  = "#{GDAL_PATH}gdal_translate #{self.upload.path} #{outsize} #{bands} -co PHOTOMETRIC=RGB -co PROFILE=BASELINE #{tiffed_file_path}"
       logger.info command
       ti_stdin, ti_stdout, ti_stderr =  Open3::popen3( command )
       logger.info ti_stdout.readlines.to_s
