@@ -7,13 +7,18 @@ class WikimapsController < ApplicationController
   def new
     @html_title = 'New wikimaps map '
 
-    if params[:pageid]
+    if params[:pageid] && !params[:pageid].blank?
       site = APP_CONFIG["omniauth_mediawiki_site"]
       url = URI.encode(site + '/w/api.php?action=query&prop=imageinfo&iiprop=url&format=json&pageids=' + params[:pageid])
       data = URI.parse(url).read
 
       json = ActiveSupport::JSON.decode(data)
-
+      
+       if json['query']['pages']["#{params[:pageid]}"]['imageinfo'].nil?
+         flash[:notice] = "No image found for that wiki page ID"
+         redirect_to maps_path 
+         return 
+       end
       image_url = json['query']['pages']["#{params[:pageid]}"]['imageinfo'][0]['url']
       @image_title = json['query']['pages']["#{params[:pageid]}"]['title']
       unique_id = File.basename(json['query']['pages']["#{params[:pageid]}"]['imageinfo'][0]['url'])
