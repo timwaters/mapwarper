@@ -3,7 +3,7 @@ class GcpsController < ApplicationController
   skip_before_filter :verify_authenticity_token, :only => [:update, :update_field, :add, :destroy, :show, :add_many, :add_many_to_map]
 
   before_filter :authenticate_user!, :only => [:update, :update_field, :add, :destroy, :add_many, :add_many_to_map]
-  before_filter :check_editor_role, :only => [:add_many, :add_many_to_map]
+  before_filter :check_editor_role, :only => [:add_many, :add_many_to_map, :bulk_import]
   before_filter :find_gcp, :only => [:show, :update,:update_field, :destroy ]
   rescue_from ActiveRecord::RecordNotFound, :with => :bad_record
 
@@ -137,6 +137,9 @@ class GcpsController < ApplicationController
   #csv header: mapid,x,y,lon,lat,name
   #json format: {"gcps":[{"mapid":26,"x":1.2,"y":2.2, "lat":11.1, "lon":21.1},..
   #  curl -X POST http://localhost:3000/gcps/add_many.json -H "Content-Type: application/json" -d '{"gcps":[{"mapid":26,"x":1.2,"y":2.2},{"mapid":21,"x":1.2,"y":2.2}]}' --user email:pass
+  #
+  #curl -X POST http://localhost:3000/gcps/add_many.json -F "file=@gcps_many_maps.csv" --user email:pass
+ #
   def add_many
     gcps = nil
     begin  
@@ -147,17 +150,20 @@ class GcpsController < ApplicationController
       end
       
     rescue ActiveRecord::RecordNotFound => e
+      
       respond_to do | format |
         format.html do
-          flash.now[:notice] = "record not found"
-          redirect_to :action => :index
+          flash[:notice] = "Record not found. #{e.message}"
+          redirect_to :bulk_import_gcps
         end
-        format.json {render :json => {:stat => "record not found", :items =>[]}.to_json, :status => 404}
+        format.json {render :json => {:stat => "record not found #{e.message}", :items =>[]}.to_json, :status => 404}
       end
       return false
     end
-    
-    render :text => gcps
+    respond_to do | format |
+      format.html {render action: 'add_many', :locals => {:gcps => gcps} }
+      format.json { render :json => {:stat => "ok", :items => gcps.to_a}.to_json(:methods => :error), :callback => params[:callback]}
+    end
   end
   
   # Adds Many GCPS to A Specific Map
@@ -178,6 +184,10 @@ class GcpsController < ApplicationController
   end
   
   def index
+  end
+  
+  def bulk_import
+    
   end
 
   private

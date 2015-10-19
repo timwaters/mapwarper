@@ -81,6 +81,12 @@ form.new_import input {
     width:35em;
 }
 
+.help {
+	margin: 1em;
+}
+
+code {
+font-family: monaco,menlo,monospace;}
 
 div.import_error_messages div.error_messages {
   border: 3px solid #EEC;
