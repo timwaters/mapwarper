@@ -882,6 +882,7 @@ class MapsController < ApplicationController
       end
 
       @output = @map.warp! transform_option, resample_option, use_mask #,masking_option
+      @map.update_commons_page(current_user) if user_signed_in?
       @notice_text = "Map rectified."
     end
   end

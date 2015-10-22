@@ -780,7 +780,9 @@ class Map < ActiveRecord::Base
     message = "Map clipping mask saved (gml)"
   end
   
- 
+  #
+  # Edits page as current user if oauthed mediawiki, else will edit as bot user
+  #
   def update_commons_page(current_user=nil)
     return false unless warped_or_published?
     
@@ -788,11 +790,19 @@ class Map < ActiveRecord::Base
     user_agent = "#{APP_CONFIG['site']} (Update Map FilePage) (https://commons.wikimedia.org/wiki/Commons:Wikimaps)"
     
     access_token = nil
+    consumer = OAuth::Consumer.new(APP_CONFIG["omniauth_mediawiki_key"], APP_CONFIG["omniauth_mediawiki_secret"], {:site => site })
+
+    summary = "Updating map template warped attribute by Wikimaps Warper via OAuth"
+    
     if current_user.provider == "mediawiki"
-      consumer = OAuth::Consumer.new(APP_CONFIG["omniauth_mediawiki_key"], APP_CONFIG["omniauth_mediawiki_secret"], {:site => site })
       access_token = OAuth::AccessToken.new(consumer, current_user.oauth_token, current_user.oauth_secret)
     else
-      #use bots auth
+      bot_user = User.where("provider = 'mediawiki' and login = ?", APP_CONFIG["mediawiki_bot_user"]).first
+      if bot_user
+        access_token = OAuth::AccessToken.new(consumer, bot_user.oauth_token, bot_user.oauth_secret)
+        summary = summary + ". On behalf of wikimaps warper user:#{current_user.id} #{current_user.login}."
+      end
+      
     end
     
     if access_token
@@ -812,7 +822,13 @@ class Map < ActiveRecord::Base
         map_attrs = map_template.split("|")
         new_attrs = []
         
+        bbox_array  = bbox.split(",").map{|s| s.to_f.round(7)}
+        longitude = "#{bbox_array[0]}/#{bbox_array[2]}"
+        latitude = "#{bbox_array[1]}/#{bbox_array[3]}"
+        
         something_changed  = false
+        new_warped = false
+                
         map_attrs.each do | map_attr |
           if map_attr.include? "warped"
             unless map_attr.split("=")[1].include?("yes")  # don't edit if it's already there
@@ -820,9 +836,30 @@ class Map < ActiveRecord::Base
               map_attr = "warped=yes\n"
             end    
           end
+          
+          if map_attr.include? "latitude"
+            if map_attr.split("=")[1].strip != latitude
+              something_changed = true
+              map_attr = "latitude=#{latitude}\n"  
+            end
+          end
+          if map_attr.include? "longitude"
+            if map_attr.split("=")[1].strip != longitude
+              something_changed = true
+              map_attr = "longitude=#{longitude}\n"  
+            end
+          end
+
           new_attrs << map_attr
         end
-
+        
+        puts map_attrs.inspect
+        #if it has help warp but no warped, we have to add in warped
+        if map_attrs.any? { | s| (s.include?("help warp") or s.include?("help_warp"))} && map_attrs.none? {|s| s.include? "warped"}
+          something_changed = true
+          new_attrs.insert(2, "warped=yes\n")
+        end
+        
         map_template = new_attrs.join("|")
 
         wikitext.sub!(/\{{2}\s*(Map|Template:map)(.*)}}/mi, map_template)
@@ -841,7 +878,7 @@ class Map < ActiveRecord::Base
           post_body =  { "action" => "edit",
                           "pageid"=> self.page_id,
                           "text" => wikitext,
-                          "summary" => "Updating map template warped attribute by Wikimaps Warper via OAuth",
+                          "summary" => summary,
                           "watchlist" => "nochange",
                           "bot"=> "true",
                           "nocreate" => "true",
@@ -850,12 +887,8 @@ class Map < ActiveRecord::Base
                           "format" => "json"
                         }
           resp = access_token.post(URI.encode(uri), post_body, {'User-Agent' => user_agent})
+          
           logger.debug "API response to edit #{resp.body.inspect}"
-          #with a successul edit
-           #{}"{\"edit\":{\"result\":\"Success\",\"pageid\":51038,\"title\":\"File:Lawrence-h-slaughter-collection-of-english-maps-england.jpeg\",\"contentmodel\":\"wikitext\",\"oldrevid\":78406,\"newrevid\":78407,\"newtimestamp\":\"2015-09-30T17:02:07Z\"}}"
-           #Edit makes no change
-           #"{\"edit\":{\"result\":\"Success\",\"pageid\":51038,\"title\":\"File:Lawrence-h-slaughter-collection-of-english-maps-england.jpeg\",\"contentmodel\":\"wikitext\",\"nochange\":\"\"}}"
-
         end
         
         

@@ -16,6 +16,7 @@ defaults: &defaults
   omniauth_mediawiki_site: "https://commons.wikimedia.org"
   omniauth_mediawiki_key: "ABC"
   omniauth_mediawiki_secret: "ABC"
+  mediawiki_bot_user: Wikimaps Bot
   omniauth_github_key: "ABC"
   omniauth_github_secret: "ABC"
   id_key: ""
