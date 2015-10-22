@@ -76,7 +76,7 @@ class UsersController < ApplicationController
     respond_to do | format |
       format.html {}
       format.js {}
-      format.json {render :json => {:stat => "ok",:items => @user.to_a}.to_json(:only =>[:login, :created_at, :stat, :items, :enabled ])  }
+      format.json {render :json => {:stat => "ok",:items => @user}.to_json(:only =>[:login, :created_at, :stat, :items, :enabled ])  }
     end
 
   end
