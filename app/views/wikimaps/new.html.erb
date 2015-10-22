@@ -7,8 +7,7 @@
 <% if user_signed_in? %>
 
   <%=  form_tag wikimaps_path, :method => :post do  %>
-    <%# label_tag :path, "Commons Image Path" %> 
-    <%= hidden_field_tag   :path, params[:path] %>
+
     <%= hidden_field_tag   :pageid, params[:pageid] %>
     <br />
     <%= submit_tag "Add this map" %>
