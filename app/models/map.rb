@@ -792,7 +792,7 @@ class Map < ActiveRecord::Base
     access_token = nil
     consumer = OAuth::Consumer.new(APP_CONFIG["omniauth_mediawiki_key"], APP_CONFIG["omniauth_mediawiki_secret"], {:site => site })
 
-    summary = "Updating map template warped attribute by Wikimaps Warper via OAuth"
+    summary = "Updating map template attributes by Wikimaps Warper via OAuth"
     
     if current_user.provider == "mediawiki"
       access_token = OAuth::AccessToken.new(consumer, current_user.oauth_token, current_user.oauth_secret)
