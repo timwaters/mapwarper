@@ -77,7 +77,7 @@ class User < ActiveRecord::Base
         login: auth.info.display_name,
         provider: auth.provider,
         uid: auth.uid,
-        email: "#{auth.info.display_name}@osm.org", # make sure this is unique
+        email: "#{auth.info.display_name.parameterize("_")}@osm.org", # make sure this is unique
         password: Devise.friendly_token[0,20]
       )
     end
@@ -92,7 +92,7 @@ class User < ActiveRecord::Base
         login: auth.info.name,
         provider: auth.provider,
         uid: auth.uid,
-        email: "#{auth.info.name}+warper@mediawiki.org", # make sure this is unique
+        email: "#{auth.info.name.parameterize("_")}+warper@mediawiki.org", # make sure this is unique
         password: Devise.friendly_token[0,20],
         oauth_secret: auth.extra.access_token.secret,
         oauth_token: auth.extra.access_token.token
