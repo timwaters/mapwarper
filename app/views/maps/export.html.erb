@@ -1,4 +1,5 @@
-<h2>Map</h2>
+<h2>Export</h2>
+<h3>Images</h3>
 <ul>
   <li>
     GeoTiff: <%= link_to  "Download rectified GeoTiff", export_map_url(:id => @map, :format => :tif) %>
@@ -8,9 +9,9 @@
     (and associated <%= link_to ".aux.xml", export_map_url(:id => @map, :format => :aux_xml) %> file)
   </li>
 </ul>
-
+<h3>Map Services</h3>
 <ul>
-  <li>KML: <%= link_to("Download KML file",  map_url(:id => @map, :format => :kml)) %></li>
+  <li>KML: <%= link_to("Download KML file",  map_url(:id => @map, :format => :kml)) %> (for use in Google Earth, etc)</li>
   <li>
     <% josm_url = url_for(wms_map_url(:id => @map)) + "?request=GetMap&version=1.1.1&styles=&format=image/png&srs={proj}&exceptions=application/vnd.ogc.session.inimage&width={width}&height={height}&BBOX={bbox}&" %>
     WMS: <%= link_to("WMS Capabilities URL", url_for(wms_map_url(:id=>@map, :request => "GetCapabilities", :service => "WMS", :version => "1.1.1")) )%>
@@ -21,4 +22,7 @@
     Tiles (Google/OSM scheme): <%= tile_url %>
   </li>
 </ul>
-
+<h3>Ground Control Points</h3>
+<ul>
+  <li>CSV: <%= link_to "Download control points as CSV", gcps_map_url(@map, :format=>:csv) %> </li>
+</ul>
