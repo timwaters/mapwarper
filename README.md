@@ -134,7 +134,7 @@ to get and install the virtual machine - this will also install the libraries an
 
 After that runs, type vagrant ssh to login and then you can 
 
-    cd /vagrant
+    cd /srv/mapwarper
     rails c
 
 Create a user in the console, as shown above and then exit
