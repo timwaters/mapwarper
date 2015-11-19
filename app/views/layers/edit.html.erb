@@ -1,7 +1,6 @@
 <h2>Edit Mosaic</h2>
 <%= error_messages_for @layer %>
-<em>Note: All Mosaics are public, you can add your private maps to them, they won't be listed<br />
-but they will be seen on the final map image.</em>
+
 <%- if (current_user = @layer.user || admin_authorized?) -%>
   <p>&mdash; <%=  link_to 'Delete this mosaic.',
   delete_layer_path(:id => @layer) %> &mdash; </p>

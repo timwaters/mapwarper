@@ -1,7 +1,8 @@
 class LayersController < ApplicationController
   layout 'layerdetail', :only => [:show,  :edit, :export, :metadata]
   before_filter :authenticate_user! , :except => [:wms, :wms2, :show_kml, :show, :index, :metadata, :maps, :thumb, :geosearch, :comments, :tile, :trace, :id]
-  before_filter :check_administrator_role, :only => [:publish, :toggle_visibility, :merge] 
+  before_filter :check_administrator_role, :only => [:publish, :toggle_visibility, :merge, :new, :create] 
+  before_filter :check_editor_role, :only => [:edit, :update, :delete, :destroy] 
   
   before_filter :find_layer, :only => [:show, :export, :metadata, :toggle_visibility, :update_year, :publish, :remove_map, :merge, :maps, :thumb, :comments, :trace, :id]
   before_filter :check_if_layer_is_editable, :only => [:edit, :update, :remove_map, :update_year, :update, :destroy]
@@ -152,7 +153,7 @@ class LayersController < ApplicationController
     map = params[:map_id]
     if !map.nil?
       @map = Map.find(map)
-      @layers = @map.layers.select(select).where(conditions).order(order_options).paginate(paginate_params)
+      @layers = @map.layers.order(order_options).paginate(paginate_params)
       @html_title = "Mosaic List for Map #{@map.id}"
       @page = "for_map"
     else
@@ -282,11 +283,6 @@ class LayersController < ApplicationController
     @selected_tab = 1
     @current_tab = "edit"
     @html_title = "Editing Mosaic #{@layer.id} on"
-    if (!current_user.own_this_layer?(params[:id]) and current_user.has_role?("editor"))
-      @maps = @layer.user.maps
-    else
-      @maps = current_user.maps  #current_user.maps.warped
-    end
 
     if request.xhr?
       @xhr_flag = "xhr"
@@ -407,7 +403,8 @@ class LayersController < ApplicationController
     @map = Map.find(params[:map_id])
     
     @layer.remove_map(@map.id)
-    render :text =>  "Dummy text - Map removed from this mosaic "
+    flash[:notice] = "Map removed from this mosaic"
+    redirect_to @layer
   end
 
   def publish
