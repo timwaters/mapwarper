@@ -1,7 +1,7 @@
 <%= form_for @import do |f| %>
 
 <div class="help">
-  Add a new series of maps from Wikimedia Commons. Add a Commons Category and this import will import all "Files". It can create a new layer / mosaic. You can specify if the maps should be appended into an already existing mosaic/layer. Maps that already exist with the same pageid will not be overwritten or duplicated.
+  Add a new series of maps from Wikimedia Commons. Add a Commons Category and this import will import all "Files". It can create a new  mosaic if one does not exist, or if a mosaic has already been created the maps can be added to it or not. Maps that already exist with the same pageid will not be overwritten or duplicated.
 </div>
 <br />
 <table>
@@ -11,14 +11,10 @@
   </tr>
   
   <tr>
-  <td>  <%= f.label :save_layer, "Save maps to a new or existing layer." %></td>
+  <td>  <%= f.label :save_layer, "Save maps to a new or existing mosaic." %></td>
   <td><%= f.check_box  :save_layer %></td>
   </tr>
   
-  <tr>
-  <td><%= f.label :append_layer, "Append maps to existing layer if one exists with the same category." %></td>
-  <td><%= f.check_box :append_layer %></td>
-  </tr>
 </table>
 
   <%= f.submit((defined?(page) && page =~ /new/) ? "Create" : "Update" )%>

@@ -74,7 +74,7 @@ class ImportsController < ApplicationController
   def start
     @import.prepare_run
     Spawnling.new do
-      @import.import!({:async => true, :append_layer => true, :save_layer => true})
+      @import.import!({:async => true})
     end
     
     redirect_to @import
@@ -122,7 +122,7 @@ class ImportsController < ApplicationController
   end
 
   def import_params
-    params.require(:import).permit(:category, :append_layer, :save_layer)
+    params.require(:import).permit(:category, :save_layer)
   end
 
 end

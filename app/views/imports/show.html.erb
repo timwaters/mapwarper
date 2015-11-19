@@ -15,17 +15,26 @@
   <b><%= @import.status %>
   </b>
 </p>
+<% if @import.status == :ready %>
+  <p>
+    <% if @import.save_layer %>
+      Maps will be added to a new or existing mosaic
+    <% else %>
+      Maps will not be added to new or any existing mosaic
+    <% end %>
+  </p>
+<% end%>
 <% if @import.status == :finished %>
   <p>
     <b>Maps</b>:
     <%= link_to(pluralize(@import.maps.count, 'Map'), maps_import_path(@import.id)) %>
     <p>
       <p>
-        <b>Layer</b>:
+        <b>Mosaic</b>:
         <% if @import.layer %>
           <%= link_to(@import.layer.name, layer_path(@import.layer)) %>
         <% else %>
-          No layer.
+          Maps not added to a mosaic.
         <% end %>
       </p>
   <% end %>

@@ -4,7 +4,6 @@ class Import < ActiveRecord::Base
   belongs_to :user, :class_name => "User"
   
   validates_presence_of :category
-  validates :category, :uniqueness => true
   validates_presence_of :uploader_user_id
   validate :custom_validate
   
@@ -14,8 +13,6 @@ class Import < ActiveRecord::Base
   
   def default_values
     self.status ||= :ready
-    self.save_layer ||= true
-    self.append_layer ||= true
   end
   
   def prepare_run
@@ -26,12 +23,12 @@ class Import < ActiveRecord::Base
     self.status = :finished
     self.finished_at = Time.now
     self.save
-    save_maps_to_layer(options[:append_layer]) unless self.maps.empty? || options[:save_layer] == false
+    save_maps_to_layer unless self.maps.empty? || self.save_layer == false
     logger.info "Finished import #{Time.now}"
   end
   
   def import!(options={})
-    options = {:async => false, :append_layer => false, :save_layer => false}.merge(options)
+    options = {:async => false}.merge(options)
     
     async = options[:async]
     if valid? && count > 0
@@ -131,14 +128,9 @@ class Import < ActiveRecord::Base
 
   end
 
-  #Append_layer = yes -> if a layer exists with the same name, append the maps to it
-  #Append_layer = no -> if a layer exists with the same name, don't assign additonal maps to it.
-  #Creates a new layer regardless if none already exists.
-  def save_maps_to_layer(append_layer)
+  def save_maps_to_layer
     log_info "Saving maps to layer"
-    if Layer.exists?(name: self.category) && append_layer == false
-      log_error "Layer exists with the same name #{self.category}! Skipping creating new layer."
-    elsif Layer.exists?(name: self.category) && append_layer == true
+    if Layer.exists?(name: self.category) 
       existing_layer = Layer.find_by_name(self.category)
       log_info "Appending maps to  existing layer #{existing_layer.inspect}"
       existing_layer.maps << self.maps
