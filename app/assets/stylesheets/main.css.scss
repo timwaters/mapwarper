@@ -1087,8 +1087,14 @@ font-weight: bold;
 #map_table th a, #layer_table th a {
 	color: #fff;
 }
+#map_table th a:hover, #layer_table th a:hover {
+	color: #191970;
+}
 #map_table th.year-sort, #layer_table th.year-sort {
   min-width: 56px;
+}
+#map_table th.modified-sort, #layer_table th.modified-sort {
+  min-width: 130px;
 }
 
 
