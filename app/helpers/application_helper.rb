@@ -34,6 +34,9 @@ module ApplicationHelper
     #first level
     html << link_to('Search', @link_back) if @link_back
     html << link_to('Maps', maps_path) if @maps || @map
+    if action_name == "trace" && @map 
+      stop_at_controller = nil
+    end
     html << link_to('Map '+@map.id.to_s, map_path(@map)) if @map unless @layer || stop_at_controller
     html << link_to('Map '+@map.id.to_s, map_path(@map)) if @map  && @layers
 
