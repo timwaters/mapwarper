@@ -1,5 +1,5 @@
 <% if @page == "for_map" %>
-  <table>
+  <table id="map_table">
     <%= render :partial => 'maps/map_detail', :object => @map %>
   </table>
   <div id="search-title"><%= @html_title -%>
@@ -31,7 +31,6 @@
 <div id="search-sort">
   Sort:&nbsp;
   <%= sort_header_tag('name', :title => "Title") %> |
-  <%= sort_header_tag('depicts_year', :title => "Year") %> |
   <%= sort_header_tag('updated_at', :title => "Last Updated") %> |
   <%= sort_header_tag('maps_count', :title=> "Number of Maps") %> |
   <%= sort_header_tag('percent', :title => "Percent Complete") %> |
@@ -48,7 +47,6 @@
       <tr>
         <th>Mosaic</th>
         <th class="thWidth">Title</th>
-        <th>Year</th>
         <th>Number of Maps</th>
         <th>Percentage Complete</th>
       </tr>
