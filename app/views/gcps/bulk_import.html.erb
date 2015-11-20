@@ -8,7 +8,7 @@
 <h3>New Bulk Import</h3>
 <div class="help">
   Use this page to import many control points for many maps. Upload a CSV, comma separated file with a header row with the following format:
-  <pre><code>mapid,x,y,lon,lat</code></pre>where mapid equals the map ID for each map you want to add a control point to. <br />
+  <pre><code>mapid,pageid,x,y,lon,lat</code></pre> where <code>mapid</code> equals the warper map ID for each map you want to add a control point to OR if you only have the wiki filepage data, <code>pageid</code> is the wiki pageid of the map. If you provide both mapid and pageid, it will use mapid. <br />
   Points can only be added, not updated. Duplicate control points will not be added if imported again.
 </div>
 

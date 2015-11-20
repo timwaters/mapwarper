@@ -25,8 +25,16 @@ class Gcp < ActiveRecord::Base
     
     Gcp.transaction do
       gcps_array.each do | new_gcp|
-        map = Map.find new_gcp[:mapid]
-        map_id,x,y,lat,lon,name = new_gcp[:mapid], new_gcp[:x].to_f, new_gcp[:y].to_f, new_gcp[:lat].to_f, new_gcp[:lon].to_f, new_gcp[:name]
+        if new_gcp[:mapid]
+          map = Map.find new_gcp[:mapid]
+          mapid = map.id
+        elsif new_gcp[:pageid]
+          map = Map.find_by_page_id!(new_gcp[:pageid].to_s)
+          mapid = map.id
+        else
+          next 
+        end
+        map_id,x,y,lat,lon,name = mapid, new_gcp[:x].to_f, new_gcp[:y].to_f, new_gcp[:lat].to_f, new_gcp[:lon].to_f, new_gcp[:name]
         
         gcp_conditions = {:map_id=>map_id, :x=>x, :y=>y, :lat=>lat, :lon=>lon}
         
@@ -42,7 +50,7 @@ class Gcp < ActiveRecord::Base
   end
 
  #for a specific map, csv will be x,y,lon,lat,name
- #for multiple maps csv will be mapid,x,y,lon,lat,name
+ #for multiple maps csv will be mapid,pageid,x,y,lon,lat,name
   def self.add_many_from_file(file, mapid=nil)
     gcps = []
     data = open(file)
@@ -56,13 +64,19 @@ class Gcp < ActiveRecord::Base
       points.each do | point |
 
         next unless point.size > 0
-        if mapid == nil
-          map_id = point[:mapid]
-        else
-          map_id = mapid
+        
+        map_id = nil
+        
+        if point[:mapid]
+          map = Map.find point[:mapid].to_i
+          map_id = map.id
         end
+        if point[:pageid]
+          map = Map.find_by_page_id!(point[:pageid].to_s)
+          map_id = map.id
+        end
+
         next if map_id == nil 
-        map = Map.find map_id.to_i
         
         name = point[:name]
         gcp_conditions = {:x => point[:x].to_f, :y => point[:y].to_f, :lon => point[:lon].to_f, :lat => point[:lat].to_f, :map_id => map_id}

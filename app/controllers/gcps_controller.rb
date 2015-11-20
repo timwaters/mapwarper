@@ -134,8 +134,9 @@ class GcpsController < ApplicationController
   # ADMIN only
   # Expects a CSV file or a JSON strong
   #POST with mapid
-  #csv header: mapid,x,y,lon,lat,name
-  #json format: {"gcps":[{"mapid":26,"x":1.2,"y":2.2, "lat":11.1, "lon":21.1},..
+  #csv header: mapid,pageid,x,y,lon,lat
+  #it can find maps via pageid if mapid is not provided, 
+  #json format: {"gcps":[{"mapid":26,"x":1.2,"y":2.2, "lat":11.1, "lon":21.1},{"pageid":1234,"x":1.2,"y":2.2, "lat":11.1, "lon":21.1}....
   #  curl -X POST http://localhost:3000/gcps/add_many.json -H "Content-Type: application/json" -d '{"gcps":[{"mapid":26,"x":1.2,"y":2.2},{"mapid":21,"x":1.2,"y":2.2}]}' --user email:pass
   #
   #curl -X POST http://localhost:3000/gcps/add_many.json -F "file=@gcps_many_maps.csv" --user email:pass
