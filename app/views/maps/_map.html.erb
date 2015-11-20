@@ -36,13 +36,13 @@
         | <%= link_to "remove map from this mosaic", remove_layer_map_path(:id => @layer.id, :map_id => map.id), :method => :put %>
       <%end -%>
 
-      <% if admin_authorized? -%>
+      <% if admin_authorized? && @layer -%>
         <% @map = map-%>
         | <%= render :partial  => 'maps/map_type', :object => @map -%>
       <% end -%>
 
       <%if map.warped_or_published?-%> |
-        <%= link_to("Trace", trace_map_url(:id => map, :protocol => 'http')) %> |
+        <%= link_to("Trace", map_path(:id=> map.id,:anchor=>"Trace_tab")) %> |
         <%= link_to("Download KML", map_url(:id => map, :format=>:kml)) -%>
       <% end -%>
     </div>

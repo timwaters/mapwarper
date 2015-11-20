@@ -138,7 +138,9 @@
       {:name=>"export",:divname=>"Export", :label=>"Export", :path=>export_map_path(:id => @map)},
       {:name=>"metadata",:divname=>"Metadata", :label=>"Metadata", :path=>metadata_map_path(:id => @map)},
       {:name=>"activity",:divname=>"Activity_History", :label=>"Activity",:path=> map_activity_path(:id => @map)},
-      {:name=>"comments",:divname=>"Comments", :label=>"Comments", :count=>@map.comments.size.to_s, :path=>comments_map_path(:id => @map)}  ] %>
+      {:name=>"comments",:divname=>"Comments", :label=>"Comments", :count=>@map.comments.size.to_s, :path=>comments_map_path(:id => @map)},
+      {:name=>"trace", :divname=>"Trace", :label=>"Trace", :path => trace_map_path(:id=> @map)}
+      ] %>
     <div id="wooTabs">
       <ul>
         <% @tabs.each do |tab| %>

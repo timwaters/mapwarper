@@ -61,7 +61,6 @@
       <% end -%>
 
       <%if map.warped_or_published? %> |
-        <%= link_to("Trace", trace_map_url(:id => map, :protocol => 'http')) %> |
         <%= link_to("Download KML", map_url(:id => map, :format=>:kml)) %>
       <% end %>
 

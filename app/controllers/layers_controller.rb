@@ -1,6 +1,6 @@
 class LayersController < ApplicationController
   layout 'layerdetail', :only => [:show,  :edit, :export, :metadata]
-  before_filter :authenticate_user! , :except => [:wms, :wms2, :show_kml, :show, :index, :metadata, :maps, :thumb, :geosearch, :comments, :tile, :trace, :id]
+  before_filter :authenticate_user! , :except => [:wms, :wms2, :show_kml, :show, :index, :metadata, :maps, :thumb, :geosearch, :comments, :tile]
   before_filter :check_administrator_role, :only => [:publish, :toggle_visibility, :merge, :new, :create] 
   before_filter :check_editor_role, :only => [:edit, :update, :delete, :destroy] 
   
@@ -214,13 +214,13 @@ class LayersController < ApplicationController
     @selected_tab = 0
     @disabled_tabs =  []
     unless @layer.rectified_maps_count > 0 #i.e. if the layer has no maps, then dont let people  export
-      @disabled_tabs = ["export"]
+      @disabled_tabs = ["export", "trace"]
     end
 
     if  user_signed_in? and (current_user.own_this_layer?(params[:id]) or current_user.has_role?("editor"))
       @maps = @layer.maps.order(:map_type).paginate(:page => params[:page], :per_page => 30)
     else
-      @disabled_tabs += ["edit"]
+      @disabled_tabs += ["edit", "trace"]
       @maps = @layer.maps.are_public.order(:map_type).paginate(:page => params[:page], :per_page => 30)
     end
     @html_title = "Mosaic "+ @layer.id.to_s + " " + @layer.name.to_s
@@ -419,13 +419,13 @@ class LayersController < ApplicationController
 
 
   def trace
-    redirect_to layer_path unless @layer.is_visible? && @layer.rectified_maps_count > 0
+    return redirect_to layer_path unless @layer.is_visible? && @layer.rectified_maps_count > 0
     @overlay = @layer
-    render "maps/trace", :layout => "application"
+    render "maps/trace", :layout => "trace_tab_container"
   end
   
   def id
-    redirect_to layer_path unless @layer.is_visible? && @layer.rectified_maps_count > 0
+    return redirect_to layer_path unless @layer.is_visible? && @layer.rectified_maps_count > 0
     @overlay = @layer
     render "maps/id", :layout => false
   end

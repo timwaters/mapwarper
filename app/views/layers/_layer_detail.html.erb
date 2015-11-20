@@ -53,7 +53,7 @@
           <!-- <%= link_to("Publish", :controller => "layers", :action=> "publish", :id=>layer)%> | -->
       <%end -%>
       <% if layer.is_visible && layer.rectified_maps_count > 0 %>
-        <%= link_to("Trace", trace_layer_url(:id => layer, :protocol =>'http')) %> |
+        
         <%= link_to("Download KML", layer_url(:id => layer, :format=>:kml)) %>
       <% end %>
       <div style="clear:both;"></div>

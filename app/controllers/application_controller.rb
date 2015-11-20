@@ -4,7 +4,14 @@ class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
 
   before_filter :configure_permitted_parameters, if: :devise_controller?
-
+  before_filter :require_http
+  
+  # :sadface: this is due to the embedded OpenHistoricalMap.org iD editor, OHM runs on http protocol
+  # so we cannot embed the iD editor that talks to it if we also use ssl
+  def require_http
+    redirect_to :protocol => "http://" if request.ssl?
+  end   
+    
   def check_super_user_role
     check_role('super user')
   end

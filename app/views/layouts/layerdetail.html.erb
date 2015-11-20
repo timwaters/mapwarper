@@ -127,7 +127,8 @@
       {:name=>"edit",:divname=>"Edit", :label=>"Edit", :path=>edit_layer_path(:id => @layer)},
       {:name=>"export",:divname=>"Export", :label=>"Export", :path=>export_layer_path(:id => @layer)},
       {:name=>"metadata", :divname=>"Metadata", :label=>"Metadata", :path => metadata_layer_path(:id => @layer)},
-      {:name=>"comments",:divname=>"Comments", :label=>"Comments", :count=>@layer.comments.size.to_s, :path=>comments_layer_path(:id => @layer)}
+      {:name=>"comments",:divname=>"Comments", :label=>"Comments", :count=>@layer.comments.size.to_s, :path=>comments_layer_path(:id => @layer)},
+      {:name=>"trace", :divname=>"Trace", :label=>"Trace", :path => trace_layer_path(:id=> @layer)}
       ]  %>
     <div id="wooTabs">
       <ul>

@@ -853,7 +853,7 @@ class Map < ActiveRecord::Base
           new_attrs << map_attr
         end
         
-        puts map_attrs.inspect
+        
         #if it has help warp but no warped, we have to add in warped
         if map_attrs.any? { | s| (s.include?("help warp") or s.include?("help_warp"))} && map_attrs.none? {|s| s.include? "warped"}
           something_changed = true

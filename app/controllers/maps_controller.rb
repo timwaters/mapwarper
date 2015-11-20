@@ -321,11 +321,14 @@ class MapsController < ApplicationController
       @mapstatus = @map.status.to_s
     end
 
+    unless @map.warped_or_published?
+      @disabled_tabs = ["trace"]
+    end
     #
     # Not Logged in users
     #
     if !user_signed_in?
-      @disabled_tabs = ["warp", "edit", "clip", "align", "metadata","comments", "activity"]
+      @disabled_tabs = ["warp", "edit", "clip", "align", "metadata","comments", "activity", "trace"]
       
       flash.now[:notice] = "%s to start editing"
       flash.now[:notice_item] = ["Log in", :new_user_session]
@@ -380,7 +383,7 @@ class MapsController < ApplicationController
 
     #note, trying to view an image that hasnt been requested, will cause it to be requested
     if @map.status.nil? or @map.status == :unloaded
-      @disabled_tabs = ["warp", "edit", "metadata", "comments", "clip", "align", "warped", "preview","activity", "export"]
+      @disabled_tabs = ["warp", "edit", "metadata", "comments", "clip", "align", "warped", "preview","activity", "export","trace"]
       @title = "Viewing unwarped map."
       logger.debug("starting spawn fetch image")
       Spawnling.new do
@@ -501,12 +504,13 @@ class MapsController < ApplicationController
   
   
   def trace
-    redirect_to map_path unless @map.warped_or_published?
+    return redirect_to map_path unless @map.warped_or_published?
     @overlay = @map
+    render :layout => "trace_tab_container"
   end
   
   def id
-    redirect_to map_path unless @map.warped_or_published?
+    return redirect_to map_path unless @map.warped_or_published?
     @overlay = @map
     render "id", :layout => false
   end
