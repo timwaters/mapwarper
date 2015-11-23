@@ -810,8 +810,11 @@ class Map < ActiveRecord::Base
       resp = access_token.get(URI.encode(uri), {'User-Agent' => user_agent})
       
       body = JSON.parse(resp.body)
+      #missing ? {"batchcomplete"=>"", "query"=>{"pages"=>{"27396733"=>{"pageid"=>27396733, "missing"=>""}}}}
 
       pageid = body["query"]["pages"].keys.first
+      return false if body["query"]["pages"][pageid]["missing"]
+      
       revision = body["query"]["pages"][pageid]["revisions"].first 
       wikitext = revision["*"]
 
