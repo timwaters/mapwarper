@@ -13,12 +13,12 @@
     </span>
     <span class="layer_year">
       <span id="depicts-year-span-top">
-        <%if layer.depicts_year%>Depicts : <%= layer.depicts_year %><%end-%></span>
+        <%unless layer.depicts_year.blank? %>Depicts : <%= layer.depicts_year %><%end-%></span>
       <%if admin_authorized? %>&nbsp;<a href="#" id="edit-year-link-top">Add/Edit Year</a><%end-%>
     </span>
     <span class="layer_summary">
       <%- if layer.source_uri -%>
-        Links: <%= link_to 'Source / Biblio Ref',layer.source_uri  %>
+        Links: <%=  link_to(image_tag("commons_logo-25x25.png", :height => '16')+" Wikimedia Commons",  layer.source_uri) %>
       <%- end -%>
     </span>
     <br />
@@ -56,7 +56,7 @@
         
         <%= link_to("Download KML", layer_url(:id => layer, :format=>:kml)) %>
       <% end %>
-      <div style="clear:both;"></div>
+      
       <%= render :partial => 'shared/export_window', :locals => {:layer => @layer} %>
 
     </span>

@@ -42,13 +42,12 @@
       <% end -%>
 
       <%if map.warped_or_published?-%> |
-        <%= link_to("Trace", map_path(:id=> map.id,:anchor=>"Trace_tab")) %> |
-        <%= link_to("Download KML", map_url(:id => map, :format=>:kml)) -%>
+        <%= link_to("Trace", map_path(:id=> map.id,:anchor=>"Trace_tab")) %>
       <% end -%>
     </div>
     <div class="map_links">
       <% if map.source_uri %>
-        Links: <%= link_to 'Source / Biblio Ref', map.source_uri  %>
+        Links: <%=  link_to(image_tag("commons_logo-25x25.png", :height => '16')+" Wikimedia Commons",  map.source_uri) %>
       <% end %>
     </div>
 

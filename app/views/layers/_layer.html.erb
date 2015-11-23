@@ -16,14 +16,13 @@
       <%if layer.depicts_year%>Depicts : <%= layer.depicts_year %> <%end%>
     </span>
     <span class="map_links">
-      <%- if layer.source_uri -%>
-        Links: <%= link_to 'Source / Biblio Ref',layer.source_uri  %>
+      <%- unless layer.source_uri.blank? -%>
+       Links: <%=  link_to(image_tag("commons_logo-25x25.png", :height => '16')+" Wikimedia Commons",  layer.source_uri) %>
       <%- end -%>
     </span>
-    <!--<br />-->
+
     <% if admin_authorized? -%>
-      <span class="layer_visibility">
-        <br />
+      <div class="layer_visibility">
         <span id="vis-text-<%=layer.id%>">
           <% if layer.is_visible -%>
             (Visible)
@@ -41,8 +40,9 @@
       </script>
        
         <%= link_to("Toggle Visibility", toggle_visibility_layer_path(layer), :id => "toggle-visibility", :remote => true)%>
-        <%# link_to_remote("Toggle Visibility", :update => "vis-text-#{layer.id}", :url => { :action => "toggle_visibility", :id => layer})%> |
+      </div>
       <% end  %>
+    <span class="layer_visibility">
       <% if user_signed_in? && (admin_authorized? or current_user.own_this_layer?(layer.id)) -%>
         <%= link_to "Edit Mosaic", layer_path(:id=>layer, :anchor=>"Edit_tab") -%> |
       <% end -%>
@@ -53,7 +53,7 @@
 
       <% if layer.is_visible && layer.rectified_maps_count > 0 %>
         <%= link_to("Trace", layer_path(:id=> layer,:anchor=>"Trace_tab")) %> |
-        <%= link_to("Download KML", layer_url(:id => layer, :format=>:kml), :class => "fontSmall") %>
+        <%= link_to("Download KML", layer_url(:id => layer, :format=>:kml)) %>
       <% end %>
 
     </span>

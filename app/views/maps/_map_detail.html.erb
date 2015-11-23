@@ -44,10 +44,10 @@
     <% end -%>
 
     <span class="map_links">
-
+      
 
       <%- if map.source_uri -%>
-        Links: <%= link_to 'Source / Biblio Ref',map.source_uri  %>
+        Links: <%=  link_to(image_tag("commons_logo-25x25.png", :height => '16')+" Wikimedia Commons",  map.source_uri) %>
       <%- end -%>
       <% if !admin_authorized? && map.published? %>
         | <strong>Published [<a href="#" title="This map has been published by an admin and no further editing is possible.">?</a>]</strong>
@@ -59,17 +59,7 @@
           | <%= link_to("UnPublish",publish_map_path(:id => map, :to => "unpublish"), :confirm => "Really un publish this map? This will mean that the map can be edited now") -%>
         <% end %>
       <% end -%>
-
-      <%if map.warped_or_published? %> |
-        <%= link_to("Download KML", map_url(:id => map, :format=>:kml)) %>
-      <% end %>
-
-      <% if admin_authorized? %>
-        | <%= render :partial  => 'maps/map_type', :object => @map %>
-      <% end %>
-
-      <div style="clear:both;"></div>
-
+          
       <%= render :partial => 'shared/export_window', :locals => {:map => @map} %>
     </span>
   </td>
