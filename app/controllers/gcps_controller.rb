@@ -137,9 +137,9 @@ class GcpsController < ApplicationController
   #csv header: mapid,pageid,x,y,lon,lat
   #it can find maps via pageid if mapid is not provided, 
   #json format: {"gcps":[{"mapid":26,"x":1.2,"y":2.2, "lat":11.1, "lon":21.1},{"pageid":1234,"x":1.2,"y":2.2, "lat":11.1, "lon":21.1}....
-  #  curl -X POST http://localhost:3000/gcps/add_many.json -H "Content-Type: application/json" -d '{"gcps":[{"mapid":26,"x":1.2,"y":2.2},{"mapid":21,"x":1.2,"y":2.2}]}' --user email:pass
+  #  curl -X POST http://localhost:3000/gcps/add_many.json -H "Content-Type: application/json" -d '{"gcps":[{"mapid":26,"x":1.2,"y":2.2},{"mapid":21,"x":1.2,"y":2.2}]}' --user email@example.com:pass
   #
-  #curl -X POST http://localhost:3000/gcps/add_many.json -F "file=@gcps_many_maps.csv" --user email:pass
+  #curl -X POST http://localhost:3000/gcps/add_many.json -F "file=@gcps_many_maps.csv" --user email@example.com:pass
  #
   def add_many
     gcps = nil
@@ -170,7 +170,7 @@ class GcpsController < ApplicationController
   # Adds Many GCPS to A Specific Map
   # Any user
   # Expects a CSV file
-  #curl -X POST http://localhost:3000/gcps/add_many/26.json --user tim@geothings.net:pass -F "file=@gcps2.csv"
+  #curl -X POST http://localhost:3000/gcps/add_many/26.json --user email@example.com:pass -F "file=@gcps2.csv"
   #file csv
   #x,y,lon,lat,name
   #1.1,2.1,3.2,3.2
