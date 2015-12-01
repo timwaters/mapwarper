@@ -9,7 +9,7 @@ class ApplicationController < ActionController::Base
   # :sadface: this is due to the embedded OpenHistoricalMap.org iD editor, OHM runs on http protocol
   # so we cannot embed the iD editor that talks to it if we also use ssl
   def require_http
-    redirect_to :protocol => "http://" if request.ssl?
+    redirect_to :protocol => "http://" if request.ssl? && (controller_name == "maps" || controller_name == "layers")
   end   
     
   def check_super_user_role
