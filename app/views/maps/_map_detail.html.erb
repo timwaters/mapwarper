@@ -12,7 +12,7 @@
 
     <br />
     <span class="map_description">
-      <%=strip_brackets(h(map.description)) -%>
+      <%=snip_word(strip_brackets(h(map.description)),80) -%>
     </span>
     <span class="map_summary">
       <%- if map.owner -%>Uploaded by <%= link_to(map.owner.login, user_path(map.owner)) -%>.<%-end-%>

@@ -62,6 +62,12 @@ module ApplicationHelper
     end
   end
   
+  def snip_word(word, lettercount)
+    if word
+      word[0..lettercount-1] + (word.size > lettercount ? "..." : "")
+    end
+  end
+  
   def error_messages_for(*objects)
     options = objects.extract_options!
     options[:header_message] ||= I18n.t(:"activerecord.errors.header", :default => "Invalid Fields")

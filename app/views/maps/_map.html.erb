@@ -9,7 +9,7 @@
 
     </div>
 
-    <div class="map_description"><span><%=strip_brackets(h(map.description)) -%>
+    <div class="map_description"><span><%=snip_word(strip_brackets(h(map.description)),80) -%>
         <% if map.layers.count > 0 %>
           (In <%=link_to(pluralize(map.layers.count, 'mosaic'), map_layers_path(map.id)) -%>)
         <%end %>
