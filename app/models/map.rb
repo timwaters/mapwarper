@@ -810,8 +810,14 @@ class Map < ActiveRecord::Base
       resp = access_token.get(URI.encode(uri), {'User-Agent' => user_agent})
       
       body = JSON.parse(resp.body)
+      
+      #auth Error
+      if body["error"]
+        logger.error body["error"].inspect
+        return false
+      end
+      
       #missing ? {"batchcomplete"=>"", "query"=>{"pages"=>{"27396733"=>{"pageid"=>27396733, "missing"=>""}}}}
-
       pageid = body["query"]["pages"].keys.first
       return false if body["query"]["pages"][pageid]["missing"]
       
