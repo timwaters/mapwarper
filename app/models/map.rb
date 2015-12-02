@@ -150,9 +150,15 @@ class Map < ActiveRecord::Base
       
       logger.info "We convert to tiff"
 
+      #for those greyscale or lack and white images with one band
       bands  = ""
       if raster_bands_count(self.upload.path) == 1
         bands = "-b 1 -b 1 -b 1"
+      end
+      
+      #transparent pngs may cause issues, so let's remove the alpha band
+      if raster_bands_count(self.upload.path) == 4 && orig_ext == ".png"
+        bands = "-b 1 -b 2 -b 3"
       end
       
       command  = "#{GDAL_PATH}gdal_translate #{self.upload.path} #{outsize} #{bands} -co COMPRESS=DEFLATE -co PHOTOMETRIC=RGB -co PROFILE=BASELINE #{tiffed_file_path}"
