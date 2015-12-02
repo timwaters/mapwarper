@@ -24,7 +24,7 @@
   </td>
 
   <td class="<%= cl %>">
-    <%= link_to typename + ' ' + audit.auditable_id.to_s, activity_details_path(audit.auditable_id) -%>
+    <%= link_to_if controller_name == "map", typename + ' ' + audit.auditable_id.to_s, polymorphic_url(controller_name, :id=>audit.auditable_id) -%>
   </td>
 
   <td class="<%= cl %>">
