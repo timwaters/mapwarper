@@ -72,9 +72,9 @@ class Map < ActiveRecord::Base
       self.upload_url = self.image_url
       logger.debug "image url provided"
       download_remote_image
-      save_dimensions
-      save!
+      save_dimensions(false)
       setup_image
+      update_attribute :status, :available
     end
   end
   
@@ -106,7 +106,7 @@ class Map < ActiveRecord::Base
     end
   end
    
-  def save_dimensions
+  def save_dimensions(available=true)
     if ["image/jpeg", "image/tiff", "image/png", "image/gif", "image/bmp"].include?(upload.content_type.to_s)      
       tempfile = upload.queued_for_write[:original]
       unless tempfile.nil?
@@ -115,7 +115,7 @@ class Map < ActiveRecord::Base
         self.height = geometry.height.to_i
       end
     end
-    self.status = :available
+    self.status = :available if available == true
   end
   
   #this gets the upload, detects what it is, and converts to a tif, if necessary.
