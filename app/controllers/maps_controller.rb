@@ -888,7 +888,16 @@ class MapsController < ApplicationController
       end
 
       @output = @map.warp! transform_option, resample_option, use_mask #,masking_option
-      @map.update_commons_page(current_user) if user_signed_in?
+      
+      if user_signed_in?
+        begin
+          @map.update_commons_page(current_user)
+        rescue => e
+          logger.error "ERROR with update commons page Map:#{@map.id}"
+          logger.error e.inspect
+        end
+      end
+      
       @notice_text = "Map rectified."
     end
   end

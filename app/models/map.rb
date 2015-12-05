@@ -836,41 +836,50 @@ class Map < ActiveRecord::Base
         map_template = map_match[0]
         map_attrs = map_template.split("|")
         new_attrs = []
+        map_template_attrs = []
         
         bbox_array  = bbox.split(",").map{|s| s.to_f.round(7)}
         longitude = "#{bbox_array[0]}/#{bbox_array[2]}"
         latitude = "#{bbox_array[1]}/#{bbox_array[3]}"
         
         something_changed  = false
-        new_warped = false
                 
         map_attrs.each do | map_attr |
-          if map_attr.include? "warped"
-            unless map_attr.split("=")[1].include?("yes")  # don't edit if it's already there
-              something_changed = true
-              map_attr = "warped=yes\n"
-            end    
-          end
-          
-          if map_attr.include? "latitude"
-            if map_attr.split("=")[1].strip != latitude
-              something_changed = true
-              map_attr = "latitude=#{latitude}\n"  
-            end
-          end
-          if map_attr.include? "longitude"
-            if map_attr.split("=")[1].strip != longitude
-              something_changed = true
-              map_attr = "longitude=#{longitude}\n"  
-            end
-          end
 
+          if map_attr.split("=").size == 2 && !map_attr.include?("<!--")
+
+            if map_attr.include? "warped"
+              unless map_attr.split("=")[1].include?("yes")  # don't edit if it's already there
+                something_changed = true
+                map_attr = "warped=yes\n"
+              end    
+            end
+
+            if map_attr.include? "latitude"
+              if map_attr.split("=")[1].strip != latitude
+                something_changed = true
+                map_attr = "latitude=#{latitude}\n"  
+              end
+            end
+            
+            if map_attr.include? "longitude"
+              if map_attr.split("=")[1].strip != longitude
+                something_changed = true
+                map_attr = "longitude=#{longitude}\n"  
+              end
+            end
+            
+            map_template_attrs << map_attr
+            
+          end ## size > 2
+          
           new_attrs << map_attr
+          
         end
         
         
         #if it has help warp but no warped, we have to add in warped
-        if map_attrs.any? { | s| (s.include?("help warp") or s.include?("help_warp"))} && map_attrs.none? {|s| s.include? "warped"}
+        if map_template_attrs.any? { | s| (s.include?("help warp") or s.include?("help_warp"))} && map_template_attrs.none? {|s| s.include? "warped"}
           something_changed = true
           new_attrs.insert(2, "warped=yes\n")
         end
@@ -889,6 +898,8 @@ class Map < ActiveRecord::Base
       
           #Next save the new revison
           uri = "#{site}/w/api.php"
+          
+          logger.info "Update commons page posting to #{uri}"    
           
           post_body =  { "action" => "edit",
                           "pageid"=> self.page_id,
