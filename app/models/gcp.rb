@@ -67,6 +67,11 @@ class Gcp < ActiveRecord::Base
         
         map_id = nil
         
+        if mapid
+          map = Map.find mapid
+          map_id = map.id
+        end
+        
         if point[:mapid]
           map = Map.find point[:mapid].to_i
           map_id = map.id
