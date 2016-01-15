@@ -950,7 +950,7 @@ class Map < ActiveRecord::Base
     yql = Yql::Client.new
     query = Yql::QueryBuilder.new 'geo.placemaker'
 
-    query.conditions = {:documentContent => self.title.to_s + " "+ self.description.to_s, :documentType => "text/plain", :appid => APP_CONFIG['yahoo_app_id'] }
+    query.conditions = {:documentContent => self.title.to_s, :documentType => "text/plain", :appid => APP_CONFIG['yahoo_app_id'] }
     yql.query = query
     yql.format = "json"
     begin
@@ -997,6 +997,9 @@ class Map < ActiveRecord::Base
     rescue SocketError => e
       logger.error "Socket error in find bestguess places" + e.to_s
       placemaker_result = {:status => "fail", :code => "socketError"}
+    rescue Yql::Error => e
+      logger.error "YQL error in find bestguess places" + e.to_s
+      placemaker_result = {:status => "fail", :code => "yqlError"}
     end
     
     placemaker_result
