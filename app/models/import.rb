@@ -39,6 +39,7 @@ class Import < ActiveRecord::Base
         finish_import(options)
       rescue => e
         log_error "Error with import #{e.inspect}"
+        log_error e.backtrace
         
         self.status = :failed
         self.save
@@ -99,30 +100,35 @@ class Import < ActiveRecord::Base
       source_uri = body['query']['pages'][page_id]['imageinfo'][0]['descriptionurl']
       unique_id = File.basename(body['query']['pages'][page_id]['imageinfo'][0]['url'])
 
-      next if Map.exists?(page_id: page_id)
+      if Map.exists?(page_id: page_id)
+        map = Map.find_by_page_id(page_id)
+        map.import_id = self.id
+        map.save
+      else
 
-      map = {
-        title: image_title,
-        unique_id: unique_id,
-        public: true,
-        map_type: 'is_map',
-        description: description,
-        source_uri: source_uri,
-        upload_url: image_url,
-        page_id: page_id,
-        image_url: image_url,
-        status: :unloaded
-      }
+        map = {
+          title: image_title,
+          unique_id: unique_id,
+          public: true,
+          map_type: 'is_map',
+          description: description,
+          source_uri: source_uri,
+          upload_url: image_url,
+          page_id: page_id,
+          image_url: image_url,
+          status: :unloaded
+        }
 
-      map = Map.new(map)
-      
-      map.import_id = self.id
-      map.owner = self.user
-      map.users << self.user
-      
-      map.save
-      
-      log_info "Saved new Map: " + map.inspect
+        map = Map.new(map)
+
+        map.import_id = self.id
+        map.owner = self.user
+        map.users << self.user
+
+        map.save
+
+        log_info "Saved new Map: " + map.inspect
+      end
     end
 
 
@@ -133,7 +139,8 @@ class Import < ActiveRecord::Base
     if Layer.exists?(name: self.category) 
       existing_layer = Layer.find_by_name(self.category)
       log_info "Appending maps to  existing layer #{existing_layer.inspect}"
-      existing_layer.maps << self.maps
+      maps_to_add = self.maps.select{ |map| !existing_layer.maps.include?(map)}
+      existing_layer.maps << maps_to_add
       self.layer = existing_layer
       save
     else
