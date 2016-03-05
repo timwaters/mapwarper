@@ -107,7 +107,7 @@ Creating a new user
     user.password = "your_password"
     user.password_confirmation = "your_password"
     user.save
-    user.send(:activate!)
+    user.confirmed_at = Time.now
 
     role = Role.find_by_name('super user')
     user = User.find_by_login('super')
