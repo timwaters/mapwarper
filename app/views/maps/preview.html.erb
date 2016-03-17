@@ -5,7 +5,7 @@
     A low resolution preview of the map is shown below.  <br />
   </p>
   <% 
-  extname = File.extname self.maps.first.image_url
+  extname = File.extname @map.image_url
   if [".tiff", ".tif"].include? extname.downcase
     preview_url =  @map.image_url.gsub('commons/', 'commons/thumb/') + '/lossless-page1-600px-' + File.basename(@map.image_url).gsub('File:', '') + '.png'
   else
