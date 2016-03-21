@@ -44,7 +44,7 @@
     
     var progressbar;
     jQuery(document).ready(function() {
-      updateInterval = setInterval(updateStatus, 5000);
+      updateInterval = setInterval(updateStatus, 4000);
       progressbar = jQuery( "#prog" ).progressbar({
         value: 10,
         change: function() {
@@ -79,11 +79,11 @@
     }
     
     function updateBar(status) {
-         //console.log(status)
+       
       if (status == 'loading') {
         var prev = progressbar.progressbar( "value" ) || 0;
-        
-        var increment = Math.round(((100 - prev) / 100) * 20);
+       
+        var increment = Math.round(((100 - prev) / 100) * 7);
         var newPercentage = prev + increment;
         
         progressbar.progressbar( "value", newPercentage );
