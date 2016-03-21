@@ -7,12 +7,12 @@
   </td>
   <td class="<%= cl %>">
     <span class="maplist_title">
-      <%=strip_brackets(h(URI.unescape(map.title))) %>
+      <%=strip_brackets(URI.unescape(map.title)) %>
     </span>
 
     <br />
     <span class="map_description">
-      <%=snip_word(strip_brackets(h(map.description)),80) -%>
+      <%=snip_word(strip_brackets(map.description),80) -%>
     </span>
     <span class="map_summary">
       <%- if map.owner -%>Uploaded by <%= link_to(map.owner.login, user_path(map.owner)) -%>.<%-end-%>
