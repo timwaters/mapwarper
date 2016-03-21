@@ -813,9 +813,19 @@ class Map < ActiveRecord::Base
     
     if access_token
       uri = "#{site}/w/api.php?action=query&prop=revisions&rvprop=content&format=json&pageids=#{self.page_id}"
-      resp = access_token.get(URI.encode(uri), {'User-Agent' => user_agent})
       
-      body = JSON.parse(resp.body)
+      begin
+        resp = access_token.get(URI.encode(uri), {'User-Agent' => user_agent})
+        body = JSON.parse(resp.body)
+      rescue JSON::ParserError => e
+        logger.error "JSON::ParserError with OAuth Get from wiki api"
+        logger.error e.inspect
+        return false
+      rescue => e
+        logger.error "Error with OAuth Get from wiki api"
+        logger.error e.inspect
+        return false
+      end
       
       #auth Error
       if body["error"]
