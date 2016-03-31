@@ -72,6 +72,7 @@ Rails.application.routes.draw do
   get '/maps/tile/:id/:z/:x/:y' => "maps#tile", :as => 'tile_map'
   
   get '/layers/wms/:id' => "layers#wms", :as => "wms_layer"
+  get '/layers/wms' => "layers#wms", :as => "wms_layer_base"
   get '/layers/tile/:id/:z/:x/:y' => "layers#tile", :as => 'tile_layer'
   
   resources :layers do

@@ -206,7 +206,7 @@ function joinControls(first, second) {
 function get_map_layer(layerid) {
   var newlayer_url = layer_baseurl + "/" + layerid;
   var map_layer = new OpenLayers.Layer.WMS
-          ("Layer " + layerid,
+          ("Mosaic " + layerid,
                   newlayer_url,
                   {format: 'image/png'},
           {TRANSPARENT: 'true', reproject: 'true'},
