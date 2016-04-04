@@ -26,6 +26,7 @@ class ImportsController < ApplicationController
 
   def new
     @import = Import.new
+    @import.save_layer = true
     @import.uploader_user_id = current_user.id
   end
 
