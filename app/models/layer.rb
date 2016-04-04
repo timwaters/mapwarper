@@ -31,13 +31,8 @@ class Layer < ActiveRecord::Base
     elsif !self.maps.first.public?
       'private.png'
     else
-      if self.maps.first && self.maps.first.image_url
-        extname = File.extname self.maps.first.image_url
-        if [".tiff", ".tif"].include? extname.downcase
-          self.maps.first.image_url.gsub('commons/', 'commons/thumb/') + '/lossless-page1-100px-' + File.basename(self.maps.first.image_url).gsub('File:', '') + '.png'
-        else
-          self.maps.first.image_url.gsub('commons/', 'commons/thumb/') + '/100px-' + File.basename(self.maps.first.image_url).gsub('File:', '')
-        end
+      if self.maps.first && self.maps.first.thumb_url
+        return self.maps.first.thumb_url
       else
         self.maps.first.upload.url(:thumb)
       end

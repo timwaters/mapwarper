@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150930155927) do
+ActiveRecord::Schema.define(version: 20160331141759) do
 
   create_table "audits", force: true do |t|
     t.integer  "auditable_id"
@@ -169,7 +169,7 @@ ActiveRecord::Schema.define(version: 20150930155927) do
     t.boolean  "downloadable",                                                                           default: true
     t.string   "cached_tag_list"
     t.integer  "map_type"
-    t.string   "source_uri"
+    t.text     "source_uri"
     t.spatial  "bbox_geom",              limit: {:srid=>-1, :type=>"polygon"}
     t.integer  "placing_state"
     t.decimal  "rough_lat",                                                    precision: 15, scale: 10
@@ -189,7 +189,8 @@ ActiveRecord::Schema.define(version: 20150930155927) do
     t.datetime "rectified_at"
     t.datetime "gcp_touched_at"
     t.string   "page_id"
-    t.string   "image_url"
+    t.text     "image_url"
+    t.text     "thumb_url"
   end
 
   add_index "maps", ["bbox_geom"], :name => "index_maps_on_bbox_geom", :spatial => true

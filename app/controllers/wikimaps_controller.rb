@@ -9,9 +9,8 @@ class WikimapsController < ApplicationController
 
     if params[:pageid] && !params[:pageid].blank?
       site = APP_CONFIG["omniauth_mediawiki_site"]
-      url = URI.encode(site + '/w/api.php?action=query&prop=imageinfo&iiprop=url&format=json&pageids=' + params[:pageid])
+      url = URI.encode(site + '/w/api.php?action=query&prop=imageinfo&iiprop=url|mime&iiurlwidth=100&format=json&pageids=' + params[:pageid])
       data = URI.parse(url).read
-
       json = ActiveSupport::JSON.decode(data)
       
        if json['query']['pages']["#{params[:pageid]}"]['imageinfo'].nil?
@@ -23,12 +22,18 @@ class WikimapsController < ApplicationController
       @image_title = json['query']['pages']["#{params[:pageid]}"]['title']
       unique_id = File.basename(json['query']['pages']["#{params[:pageid]}"]['imageinfo'][0]['url'])
       page_id = params[:pageid]
-      extname = File.extname(json['query']['pages']["#{params[:pageid]}"]['imageinfo'][0]['url'])
-      if [".tiff", ".tif"].include? extname.downcase
-        @thumbnail_url = image_url.gsub('commons/', 'commons/thumb/') + '/lossless-page1-300px-' + File.basename(image_url).gsub('File:', '') + '.png'
+      
+      mime = json['query']['pages']["#{params[:pageid]}"]['imageinfo'][0]['mime']
+      thumb_url = json['query']['pages']["#{params[:pageid]}"]['imageinfo'][0]['thumburl']
+      
+      @thumbnail_url = thumb_url
+      
+      if mime == "image/tiff"
+        @thumbnail_url = thumb_url.sub(/page1-100px/, "page1-300px")
       else
-        @thumbnail_url = image_url.gsub('commons/', 'commons/thumb/') + '/300px-' +  File.basename(image_url).gsub('File:', '')
+        @thumbnail_url = thumb_url.sub(/\/100px/, "/300px")
       end
+      
       session[:user_return_to] = request.url unless user_signed_in?
 
       if map = Map.find_by_page_id(page_id) || Map.find_by_unique_id(unique_id)
@@ -51,7 +56,8 @@ class WikimapsController < ApplicationController
   def create
     if params[:pageid] && !params[:pageid].blank?
       site = APP_CONFIG["omniauth_mediawiki_site"]
-      url = URI.encode(site + '/w/api.php?action=query&prop=imageinfo&iiprop=url&format=json&pageids=' + params[:pageid])
+
+      url = URI.encode(site + '/w/api.php?action=query&prop=imageinfo&iiprop=url|mime&iiurlwidth=100&format=json&pageids=' + params[:pageid])
       data = URI.parse(url).read
       json = ActiveSupport::JSON.decode(data)
 
@@ -62,6 +68,7 @@ class WikimapsController < ApplicationController
       page_id = params[:pageid]
 
       unique_id = File.basename(json['query']['pages']["#{params[:pageid]}"]['imageinfo'][0]['url'])
+      thumb_url = json['query']['pages']["#{params[:pageid]}"]['imageinfo'][0]['thumburl']
 
     end
 
@@ -80,6 +87,7 @@ class WikimapsController < ApplicationController
       upload_url: image_url,
       page_id: page_id,
       image_url: image_url,
+      thumb_url: thumb_url,
       status: :loading
     }
 

@@ -5,14 +5,11 @@
     A low resolution preview of the map is shown below.  <br />
   </p>
   <% 
-  extname = File.extname @map.image_url
-  if [".tiff", ".tif"].include? extname.downcase
-    preview_url =  @map.image_url.gsub('commons/', 'commons/thumb/') + '/lossless-page1-600px-' + File.basename(@map.image_url).gsub('File:', '') + '.png'
+  mime = @map.upload_content_type
+  if mime == "image/tiff"
+    preview_url = @map.thumb_url.sub(/page1-100px/, "page1-600px")
   else
-    preview_url =  @map.image_url.gsub('commons/', 'commons/thumb/') + '/600px-' + File.basename(@map.image_url).gsub('File:', '')
+    preview_url = @map.thumb_url.sub(/\/100px/, "/600px")
   end
-    
-   
-  
   %>
-  <%= image_tag (preview_url) %>
+  <%= image_tag(preview_url) %>

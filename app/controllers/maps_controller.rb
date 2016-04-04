@@ -528,13 +528,8 @@ class MapsController < ApplicationController
   
   def thumb
     map = Map.find(params[:id])
-    if map.image_url
-      extname = File.extname map.image_url
-      if [".tiff", ".tif"].include? extname.downcase
-        map.image_url.gsub('commons/', 'commons/thumb/') + '/lossless-page1-100px-' + File.basename(map.image_url).gsub('File:', '') + '.png'
-      else
-        thumb = map.image_url.gsub('commons/', 'commons/thumb/') + '/100px-' + File.basename(map.image_url).gsub('File:', '')
-      end
+    if map.thumb_url
+      thumb = map.thumb_url
     else
       thumb = map.upload.url(:thumb)
     end
