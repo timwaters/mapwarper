@@ -797,7 +797,7 @@ class Map < ActiveRecord::Base
     
     access_token = nil
     consumer = OAuth::Consumer.new(APP_CONFIG["omniauth_mediawiki_key"], APP_CONFIG["omniauth_mediawiki_secret"], {:site => site })
-
+    
     summary = "Updating map template attributes by Wikimaps Warper via OAuth"
     
     if current_user.provider == "mediawiki"
@@ -811,135 +811,183 @@ class Map < ActiveRecord::Base
       
     end
     
-    if access_token
-      uri = "#{site}/w/api.php?action=query&prop=revisions&rvprop=content&format=json&pageids=#{self.page_id}"
+    return false unless access_token
+    
+    uri = "#{site}/w/api.php?action=query&prop=revisions&rvprop=content&format=json&pageids=#{self.page_id}"
+    
+    begin
+      resp = access_token.get(URI.encode(uri), {'User-Agent' => user_agent})
+      body = JSON.parse(resp.body)
+    rescue JSON::ParserError => e
+      logger.error "JSON::ParserError with OAuth Get from wiki api"
+      logger.error e.inspect
+      return false
+    rescue => e
+      logger.error "Error with OAuth Get from wiki api"
+      logger.error e.inspect
+      return false
+    end
+    
+    #auth Error
+    if body["error"]
+      logger.error "Response body returned error"
+      logger.error body["error"].inspect
+      return false
+    end
+    
+    #missing ? {"batchcomplete"=>"", "query"=>{"pages"=>{"27396733"=>{"pageid"=>27396733, "missing"=>""}}}}
+    pageid = body["query"]["pages"].keys.first
+    return false if body["query"]["pages"][pageid]["missing"]
+    
+    revision = body["query"]["pages"][pageid]["revisions"].first 
+    wikitext = revision["*"]
+    
+    map_match = /\{{2}\s*(Map|Template:map)(.*)}}/mi.match(wikitext)
+    
+    wikitext_start_index = wikitext.index(/\{{2}\s*(Map|Template:map)(.*)}}/mi)
+    template_end_index  = nil
+    
+    return false unless map_match
+    
+    map_template = map_match[0]
+    template_end_index = find_end_index(map_template)
+    
+    wikitext_stop_index = wikitext_start_index+template_end_index
+    
+    return false unless map_template && template_end_index
+    
+    map_template_string =  wikitext[wikitext_start_index..(wikitext_stop_index)]
+    new_template = update_template(map_template_string, self.bbox)
+    
+    if new_template 
+      wikitext[wikitext_start_index..(wikitext_stop_index+1)] = new_template
+      puts "changing"
+      uri = "#{site}/w/api.php?action=query&meta=tokens&type=csrf&format=json"
+      resp = access_token.get(URI.encode(uri), {'User-Agent' => user_agent})
+      body = JSON.parse(resp.body)
       
-      begin
-        resp = access_token.get(URI.encode(uri), {'User-Agent' => user_agent})
-        body = JSON.parse(resp.body)
-      rescue JSON::ParserError => e
-        logger.error "JSON::ParserError with OAuth Get from wiki api"
-        logger.error e.inspect
-        return false
-      rescue => e
-        logger.error "Error with OAuth Get from wiki api"
-        logger.error e.inspect
-        return false
-      end
+      token = body["query"]["tokens"]["csrftoken"]
       
-      #auth Error
-      if body["error"]
-        logger.error body["error"].inspect
-        return false
-      end
+      #Next save the new revison
+      uri = "#{site}/w/api.php"
       
-      #missing ? {"batchcomplete"=>"", "query"=>{"pages"=>{"27396733"=>{"pageid"=>27396733, "missing"=>""}}}}
-      pageid = body["query"]["pages"].keys.first
-      return false if body["query"]["pages"][pageid]["missing"]
+      logger.info "Update commons page posting to #{uri}"    
       
-      revision = body["query"]["pages"][pageid]["revisions"].first 
-      wikitext = revision["*"]
-
-      map_match = /\{{2}\s*(Map|Template:map)(.*)}}/mi.match(wikitext)
-
-      if map_match
-        map_template = map_match[0]
-        map_attrs = map_template.split("|")
-        new_attrs = []
-        map_template_attrs = []
-        
-        bbox_array  = bbox.split(",").map{|s| s.to_f.round(7)}
-        longitude = "#{bbox_array[0]}/#{bbox_array[2]}"
-        latitude = "#{bbox_array[1]}/#{bbox_array[3]}"
-        
-        something_changed  = false
-                
-        map_attrs.each do | map_attr |
-
-          if map_attr.split("=").size == 2 && !map_attr.include?("<!--")
-
-            if map_attr.include? "warped"
-              unless map_attr.split("=")[1].include?("yes")  # don't edit if it's already there
-                something_changed = true
-                map_attr = "warped=yes\n"
-              end    
-            end
-
-            if map_attr.include? "latitude"
-              if map_attr.split("=")[1].strip != latitude
-                something_changed = true
-                map_attr = "latitude=#{latitude}\n"  
-              end
-            end
-            
-            if map_attr.include? "longitude"
-              if map_attr.split("=")[1].strip != longitude
-                something_changed = true
-                map_attr = "longitude=#{longitude}\n"  
-              end
-            end
-            
-            map_template_attrs << map_attr
-            
-          end ## size > 2
-          
-          new_attrs << map_attr
-          
-        end
-        
-        
-        #if it has help warp but no warped, we have to add in warped
-        if map_template_attrs.any? { | s| (s.include?("help warp") or s.include?("help_warp"))} && map_template_attrs.none? {|s| s.include? "warped"}
-          something_changed = true
-          new_attrs.insert(2, "warped=yes\n")
-        end
-        
-        map_template = new_attrs.join("|")
-
-        wikitext.sub!(/\{{2}\s*(Map|Template:map)(.*)}}/mi, map_template)
-        
-        if something_changed
-          # Next fetch the edit csrf token
-          uri = "#{site}/w/api.php?action=query&meta=tokens&type=csrf&format=json"
-          resp = access_token.get(URI.encode(uri), {'User-Agent' => user_agent})
-          body = JSON.parse(resp.body)
-
-          token = body["query"]["tokens"]["csrftoken"]
+      post_body =  { "action" => "edit",
+        "pageid"=> self.page_id,
+        "text" => wikitext,
+        "summary" => summary,
+        "watchlist" => "nochange",
+        "bot"=> "true",
+        "nocreate" => "true",
+        "contentmodel" => "wikitext",
+        "token" => token,
+        "format" => "json"
+      }
+      resp = access_token.post(URI.encode(uri), post_body, {'User-Agent' => user_agent})
       
-          #Next save the new revison
-          uri = "#{site}/w/api.php"
-          
-          logger.info "Update commons page posting to #{uri}"    
-          
-          post_body =  { "action" => "edit",
-                          "pageid"=> self.page_id,
-                          "text" => wikitext,
-                          "summary" => summary,
-                          "watchlist" => "nochange",
-                          "bot"=> "true",
-                          "nocreate" => "true",
-                          "contentmodel" => "wikitext",
-                          "token" => token,
-                          "format" => "json"
-                        }
-          resp = access_token.post(URI.encode(uri), post_body, {'User-Agent' => user_agent})
-          
-          logger.debug "API response to edit #{resp.body.inspect}"
-        end
-        
-        
-      end
-      
+      logger.debug "API response to edit #{resp.body.inspect}"
+      return resp.body
+    else
+      logger.debug "nothing changed"
+      return nil
     end
   end
-
-  
-  
 
  
   ############
   #PRIVATE
   ############
+
+  def update_template(str, bbox)
+    map_attrs = str.split("|")
+
+    new_attrs = []
+    map_template_attrs = []
+
+    bbox_array  = bbox.split(",").map{|s| s.to_f.round(7)}
+    longitude = "#{bbox_array[0]}/#{bbox_array[2]}"
+    latitude = "#{bbox_array[1]}/#{bbox_array[3]}"
+
+    something_changed  = false
+
+    map_attrs.each do | map_attr |
+
+      if map_attr.split("=").size == 2 && !map_attr.include?("<!--")
+        key, value = map_attr.split("=")
+
+        if key.include? "warped"
+          unless value.include?("yes")  # don't edit if it's already there
+            something_changed = true
+            map_attr = "warped=yes\n"
+          end    
+        end
+
+        if key.include? "latitude"
+          if value.strip != latitude
+            something_changed = true
+            map_attr = "latitude=#{latitude}\n"  
+          end
+        end
+
+        if key.include? "longitude"
+          if value.strip != longitude
+            something_changed = true
+            map_attr = "longitude=#{longitude}\n"  
+          end
+        end
+
+        map_template_attrs << map_attr
+
+      end ## size > 2
+
+      new_attrs << map_attr
+
+    end
+
+    #if it has help warp but no warped, we have to add in warped
+    if map_template_attrs.any? { | s| (s.include?("help warp") or s.include?("help_warp"))} && map_template_attrs.none? {|s| s.include? "warped"}
+      something_changed = true
+      new_attrs.insert(2, "warped=yes\n")
+    end
+
+    map_template = new_attrs.join("|")
+
+    if something_changed
+      return map_template
+    else
+      return nil
+    end
+
+  end
+
+  #
+  # returns the index of the end of the first template in the passed in string 
+  # will return false if no ending characters can be determined
+  #
+  def find_end_index(str)
+
+    open_bracket = ["{", "{"]
+    close_bracket = ["}", "}"]
+    stack = []
+    end_index = nil
+
+    str.each_char.each_cons(2).with_index.each do | pair, index |
+      if pair == open_bracket
+        stack.push pair
+      elsif pair == close_bracket
+        x = stack.pop
+        if stack.empty?
+          end_index = index + 1
+          return end_index
+        end
+      end
+    end
+
+    return stack.empty?
+  end
+
+
   
   def convert_to_png
     logger.info "start convert to png ->  #{warped_png_filename}"
