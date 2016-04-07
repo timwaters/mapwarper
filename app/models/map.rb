@@ -860,7 +860,7 @@ class Map < ActiveRecord::Base
     new_template = update_template(map_template_string, self.bbox)
     
     if new_template 
-      wikitext[wikitext_start_index..(wikitext_stop_index+1)] = new_template
+      wikitext[wikitext_start_index..(wikitext_stop_index)] = new_template
       puts "changing"
       uri = "#{site}/w/api.php?action=query&meta=tokens&type=csrf&format=json"
       resp = access_token.get(URI.encode(uri), {'User-Agent' => user_agent})
