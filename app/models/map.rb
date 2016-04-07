@@ -860,8 +860,8 @@ class Map < ActiveRecord::Base
     new_template = update_template(map_template_string, self.bbox)
     
     if new_template 
-      wikitext[wikitext_start_index..(wikitext_stop_index+1)] = new_template
-      puts "changing"
+      wikitext[wikitext_start_index..(wikitext_stop_index)] = new_template
+      logger.debug "Changing wikitext"
       uri = "#{site}/w/api.php?action=query&meta=tokens&type=csrf&format=json"
       resp = access_token.get(URI.encode(uri), {'User-Agent' => user_agent})
       body = JSON.parse(resp.body)
@@ -898,6 +898,14 @@ class Map < ActiveRecord::Base
   ############
   #PRIVATE
   ############
+  
+  #  warp status/Warp status/warp_status/Warp_status
+  #  Indicates if the map has been georeferenced in the Wikimaps Warper. Allowed values are:
+  #  [blank]: add it in
+  #  skip: The map is not suited for the warper (dont change anything)
+  #  help: An invitation to import the map into the warper (change to warped)
+  #  unwarped: The map is in the warper but not rectified (change to warped)
+  #  warped: The map is in the warper where it has been rectified
 
   def update_template(str, bbox)
     map_attrs = str.split("|")
@@ -910,30 +918,34 @@ class Map < ActiveRecord::Base
     latitude = "#{bbox_array[1]}/#{bbox_array[3]}"
 
     something_changed  = false
-
+    
     map_attrs.each do | map_attr |
 
       if map_attr.split("=").size == 2 && !map_attr.include?("<!--")
         key, value = map_attr.split("=")
-
-        if key.include? "warped"
-          unless value.include?("yes")  # don't edit if it's already there
+        
+        if (key.include? "warp status") || (key.include? "Warp status") || (key.include? "warp_status") || (key.include? "Warp_status")
+          if value.include?("skip")
+            logger.debug "skipping"
+            return nil
+          end
+          if value.include?("unwarped") || value.include?("help") || value.strip.blank? 
             something_changed = true
-            map_attr = "warped=yes\n"
-          end    
+            map_attr = " warp_status=warped\n"
+          end
         end
 
         if key.include? "latitude"
           if value.strip != latitude
             something_changed = true
-            map_attr = "latitude=#{latitude}\n"  
+            map_attr = " latitude=#{latitude}\n"  
           end
         end
 
         if key.include? "longitude"
           if value.strip != longitude
             something_changed = true
-            map_attr = "longitude=#{longitude}\n"  
+            map_attr = " longitude=#{longitude}\n"  
           end
         end
 
@@ -945,10 +957,11 @@ class Map < ActiveRecord::Base
 
     end
 
-    #if it has help warp but no warped, we have to add in warped
-    if map_template_attrs.any? { | s| (s.include?("help warp") or s.include?("help_warp"))} && map_template_attrs.none? {|s| s.include? "warped"}
+    #if there is no warp_status, add it in.
+    if map_template_attrs.none? {|s| (s.include? "warp status") || (s.include? "Warp status") || (s.include? "warp_status") || (s.include? "Warp_status")}
       something_changed = true
-      new_attrs.insert(2, "warped=yes\n")
+      insert_at = new_attrs.size >= 2 ? new_attrs.size - 2 : 2
+      new_attrs.insert(insert_at, " warp_status=warped\n")
     end
 
     map_template = new_attrs.join("|")
