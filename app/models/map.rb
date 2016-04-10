@@ -925,11 +925,8 @@ class Map < ActiveRecord::Base
         key, value = map_attr.split("=")
         
         if (key.include? "warp status") || (key.include? "Warp status") || (key.include? "warp_status") || (key.include? "Warp_status")
-          if value.include?("skip")
-            logger.debug "skipping"
-            return nil
-          end
-          if value.include?("unwarped") || value.include?("help") || value.strip.blank? 
+
+          if value.include?("unwarped") || value.include?("help") || value.include?("skip") || value.strip.blank? 
             something_changed = true
             map_attr = " warp_status=warped\n"
           end
