@@ -28,7 +28,7 @@ GET[http://mapwarper.net/maps?field=title&amp;query=New&amp;sort_key=updated_at&
 field       
 
 | Name       		| Description   							                  | Required |
-| ------------- 	|:-------------:							                        | -----:|
+| ------------- 	|-------------							                        | -----|
 | title      		| title of map 								            | Optional |
 | description		| map description      							            | Optional |
 | nypl_digital_id 	| NYPL digital id, used for thumbnail and link to bibliographic extras	| Optional |
@@ -83,9 +83,9 @@ page     page number
 
 
 ###Geography-Based Map Search
-This search uses a bounding box to return a paginated list of rectified/warped maps that either intersect or fall within a specified geographic area.
+This search uses a bounding box to return a paginated list of rectified/warped maps that either intersect or fall within a specified geographic area. The bounding box is defined by a comma-separated string.
 
-The bounding box is defined by a comma-separated string.
+**Parameter: bbox**
 
 Format: 
 
@@ -95,19 +95,12 @@ Example:
 
     -75.9831134505588,38.552727388127,-73.9526411829395,40.4029389105122
 
-operation -  intersect|within
+**Operation Parameters**  
 
-     intersect, preferred, uses PostGIS ST_Intersects operation to get rectified maps,
-
-     whose extents are intersected with the bbox parameter. Ordered by closeness
-
-     (by area) to the bbox extent.
-
-     within uses a postgis ST_Within operation to get maps by the extent of the
-
-     rectified image, that occur within the bbox parameter. Only returns maps that
-
-     are found entirely within the bbox extent.
+| Name        | Description	|
+| ------------- |-------------|
+| intersect	| Preferred. Uses the PostGIS ST_Intersects operation to retrieve rectified maps whose extents intersect with the bbox parameter. Results are ordered by proximity to the bbox extent. |
+| within	| Uses a PostGIS ST_Within operation to retrieve rectified maps that fall entirely within the extent of the bbox parameter. |
 
 format - json
 
