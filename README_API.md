@@ -25,31 +25,33 @@ GET[http://mapwarper.net/maps?field=title&amp;query=New&amp;sort_key=updated_at&
 
 #### Query Parameters
 
-field       
+#### Query Parameters
 
-| Name       		| Description   							                  | Required |
-| ------------- 	|-------------							                        | -----|
-| title      		| title of map 								            | Optional |
+| Field Name       	| Description   							                  | Required |
+| ------------- 	      |-------------							                  | -----|
+| title      		| title of map; default if no field parameter is specified			| Optional |
 | description		| map description      							            | Optional |
 | nypl_digital_id 	| NYPL digital id, used for thumbnail and link to bibliographic extras	| Optional |
 | catnyp 		      | NYPL digital catalog ID used to link to (library) record              | Optional |
 
-      (if no field parameter is specified, the field defaults to title)
+Query       
 
-query       optional text for search query based on field chosen, case insensitive.
+Enter text for the search query, based on field chosen. The query text is case insensitive.
 
-      simple exact string text search, i.e. a search for "city New York" gives no results, but a search for "city of New York" gives 22
+      This is a simple exact string text search, i.e. a search for "city New York" gives no results, but a search for "city of New York" gives 22.
 
-sort_key      title|updated_at|status
+**Other Parameters**
 
-sort_order     asc|desc
-
-show_warped   1 [1 = only return maps that have already been warped]
-
-format    json
-
-page     page number
-
+| Name            | Value     | Description	|
+| -------------   |---------- | -------------   |
+| sort_key	      | title 	|	            |
+| 		      | updated_at|	            |
+|		      | status	|	            |
+| sort_order	| asc 	|	            |
+|		      | desc	|	            |
+| show_warped	| 1		| 1 = only return maps that have already been warped |
+| format	      | json	|                 |
+| page		| 		| page number of search results	|
 
 #### outputs 
 ==== json  ====
