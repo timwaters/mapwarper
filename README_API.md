@@ -23,12 +23,20 @@ Example call:
 
 GET[http://mapwarper.net/maps?field=title&amp;query=New&amp;sort_key=updated_at&amp;sort_order=desc&amp;show_warped=1&amp;format=json http://mapwarper.net/maps?field=title&query=New&sort_key=updated_at&sort_order=desc&show_warped=1&format=json]
 
-#### query parameters
-field       title|description|nypl_digital_id|catnyp
+#### Query Parameters
 
-      (if no field parameter, field is title, by default)
+field       
 
-query        optional text for search query based on field chosen, case insensitive.
+| Name       		| Description   							                  | Required |
+| ------------- 	|:-------------:							                        | -----:|
+| title      		| title of map 								            | Optional |
+| description		| map description      							            | Optional |
+| nypl_digital_id 	| NYPL digital id, used for thumbnail and link to bibliographic extras	| Optional |
+| catnyp 		      | NYPL digital catalog ID used to link to (library) record              | Optional |
+
+      (if no field parameter is specified, the field defaults to title)
+
+query       optional text for search query based on field chosen, case insensitive.
 
       simple exact string text search, i.e. a search for "city New York" gives no results, but a search for "city of New York" gives 22
 
