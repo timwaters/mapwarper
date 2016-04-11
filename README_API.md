@@ -1,22 +1,29 @@
+#MapWarper API Documentation
 
+Welcome to the documentation for the MapWarper API!
 
-Authentication works via cookie currently: 
+##Authentication
+
+Authentication for the MapWarper API is currently cookie-based.
+
+Curl Examples:
 
 curl -H 'Content-Type: application/json' -H 'Accept: application/json' -X POST http://localhost:3000/u/sign_in.json  -d '{"user" : { "email" : "tim@example.com", "password" : "password"}}' -c cookie
 
 curl -H 'Content-Type: application/json' -H 'Accept: application/json' -X GET http://localhost:3000/maps.json -b cookie
 
-
 curl -H 'Content-Type: application/json' -H 'Accept: application/json' -X POST --data '{"x":1, "y":2, "lat":123, "lon":22}'  http://localhost:3000/gcps/add/14.json -b cookie
 
 
-== list of maps   ==
-=== query / search for maps  ===
-example call:
+##Search for maps
+
+###Basic Search
+
+Example call:
 
 GET[http://mapwarper.net/maps?field=title&amp;query=New&amp;sort_key=updated_at&amp;sort_order=desc&amp;show_warped=1&amp;format=json http://mapwarper.net/maps?field=title&query=New&sort_key=updated_at&sort_order=desc&show_warped=1&format=json]
 
-==== query parameters  ====
+#### query parameters
 field       title|description|nypl_digital_id|catnyp
 
       (if no field parameter, field is title, by default)
@@ -36,7 +43,7 @@ format    json
 page     page number
 
 
-=== outputs  ===
+#### outputs 
 ==== json  ====
 
 {{{
@@ -67,14 +74,18 @@ page     page number
 }}}
 
 
-== Geo / Search Maps  ==
-Returns a paginated list of rectified maps based on a bounding box.
+###Geography-Based Map Search
+This search uses a bounding box to return a paginated list of rectified/warped maps that either intersect or fall within a specified geographic area.
 
-bbox  string - comma separated string, bounding box of the rectified geotiff
+The bounding box is defined by a comma-separated string.
+
+Format: 
 
      y.min (lon min) ,x.min (lat min) ,y.max (lon max), x.max (lat max)
 
-    e.g.-75.9831134505588,38.552727388127,-73.9526411829395,40.4029389105122
+Example: 
+
+    -75.9831134505588,38.552727388127,-73.9526411829395,40.4029389105122
 
 operation -  intersect|within
 
