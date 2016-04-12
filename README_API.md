@@ -34,7 +34,7 @@ GET[http://mapwarper.net/maps?field=title&amp;query=New&amp;sort_key=updated_at&
 
 **Query**       
 
-Enter text for the search query, based on field chosen. The query text is case insensitive.
+Enter text for the search query, based on the field chosen. The query text is case insensitive.
 
       This is a simple exact string text search, i.e. a search for "city New York" gives no results, but a search for "city of New York" gives 22.
 
@@ -49,7 +49,7 @@ Enter text for the search query, based on field chosen. The query text is case i
 |		      | desc	|	            |
 | show_warped	| 1		| 1 = only return maps that have already been warped |
 | format	      | json	|                 |
-| page		| 		| page number of search results	|
+| page		| 		| page number 	|
 
 #### Output 
 
@@ -222,23 +222,25 @@ This request is used to poll a map whilst it is being transfered from the NYPL i
 ###Layers
 ####Query / List Layers
 **Query parameters**
-fields:       
 
-*Name (default) 
-*Description
-*catnyp
+Fields:       
 
-Query        optional text for search query based on field chosen, case insensitive.
+*Name (default).. 
+*Description..
+*catnyp..
 
-      simple exact string text search, i.e. a search for "city New York" gives no results, but a search for "city of New York" gives 22
+Query        
 
-sort_key      name|depicts_year|updated_at|mapscans _count|percent
+Enter text for the search query, based on the field chosen. The query text is case insensitive.
 
-sort_order     asc|desc
+      This is a simple exact string text search, i.e. a search for "city New York" retrieves no results, but a search for "city of New York" retrieves 22.
 
-format    json
-
-page     page number
+| Name            | Options	|
+| -------------   | ----------- |
+| sort_key	| name, depicts_year, updated_at, mapscans _count, or percent |
+| sort_order	| asc or desc	|
+| format	      | json		| 
+| page		| page number 	|
 
 Example:
 
