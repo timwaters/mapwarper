@@ -15,7 +15,7 @@ curl -H 'Content-Type: application/json' -H 'Accept: application/json' -X GET ht
 curl -H 'Content-Type: application/json' -H 'Accept: application/json' -X POST --data '{"x":1, "y":2, "lat":123, "lon":22}'  http://localhost:3000/gcps/add/14.json -b cookie
 
 
-##Search for maps
+##Search for Maps
 
 ###Basic Search
 
@@ -176,7 +176,6 @@ The output will be similar to the following:
 }
 }}}
 
-
 If the map is not found, the following response will be returned in JSON format.
 
 {"items":[],"stat":"not found"}
@@ -184,7 +183,7 @@ If the map is not found, the following response will be returned in JSON format.
 with a HTTP 404 status
 
 
-###Map variables
+###Map Variables
 
 | Name        	| Type		| Value		| Description					|
 | ------------- |-------------	|-----		|-----						|
@@ -221,15 +220,15 @@ This request is used to poll a map whilst it is being transfered from the NYPL i
 
 ###Layers
 ####Query / List Layers
-**Query parameters**
+#####Query parameters
 
-Fields:       
+**Fields:**      
 
 *Name (default).. 
 *Description..
 *catnyp..
 
-Query        
+**Query**        
 
 Enter text for the search query, based on the field chosen. The query text is case insensitive.
 
@@ -246,9 +245,7 @@ Example:
 
 [http://mapwarper.net/layers?field=name&amp;query=New+York&amp;format=json http://mapwarper.net/layers?field=name&query=New+York&format=json]
 
-
-JSON
-
+**Output**
 
 {{{
 {
@@ -277,17 +274,16 @@ JSON
 }
 }}}
 
-
-== A Map's Layers  ==
-use the map_id param:
+####Request a Map's Layers
+To request a map's layers, use the map_id parameter. For example: 
 
 [http://mapwarper.net/layers?map_id=10090&amp;field=name&amp;sort_key=mapscans_count&amp;sort_order=asc&amp;query=New&amp;format=json http://mapwarper.net/layers?map_id=10090&field=name&sort_key=mapscans_count&sort_order=asc&query=New&format=json]
 
-alternatively, the URL can be constructed from the point of view of a map:
+Alternatively, the URL can be constructed from the point of view of a map:
 
 http://mapwarper.net/maps/10090/layers.json
 
-==== Outputs  ====
+**Output**
 
 {{{
 {
