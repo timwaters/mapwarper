@@ -25,8 +25,6 @@ GET[http://mapwarper.net/maps?field=title&amp;query=New&amp;sort_key=updated_at&
 
 #### Query Parameters
 
-#### Query Parameters
-
 | Field Name       	| Description   							                  | Required |
 | ------------- 	      |-------------							                  | -----|
 | title      		| title of map; default if no field parameter is specified			| Optional |
@@ -34,7 +32,7 @@ GET[http://mapwarper.net/maps?field=title&amp;query=New&amp;sort_key=updated_at&
 | nypl_digital_id 	| NYPL digital id, used for thumbnail and link to bibliographic extras	| Optional |
 | catnyp 		      | NYPL digital catalog ID used to link to (library) record              | Optional |
 
-Query       
+**Query**       
 
 Enter text for the search query, based on field chosen. The query text is case insensitive.
 
@@ -53,8 +51,9 @@ Enter text for the search query, based on field chosen. The query text is case i
 | format	      | json	|                 |
 | page		| 		| page number of search results	|
 
-#### outputs 
-==== json  ====
+#### Output 
+
+The output returned will be in JSON. It will be similar to the following.
 
 {{{
 { "stat": "ok",
@@ -83,7 +82,6 @@ Enter text for the search query, based on field chosen. The query text is case i
 }],"total_pages":132,"per_page":10,"total_entries":1314}
 }}}
 
-
 ###Geography-Based Map Search
 This search uses a bounding box to return a paginated list of rectified/warped maps that either intersect or fall within a specified geographic area. The bounding box is defined by a comma-separated string.
 
@@ -104,17 +102,17 @@ Example:
 | intersect	| Preferred. Uses the PostGIS ST_Intersects operation to retrieve rectified maps whose extents intersect with the bbox parameter. Results are ordered by proximity to the bbox extent. |
 | within	| Uses a PostGIS ST_Within operation to retrieve rectified maps that fall entirely within the extent of the bbox parameter. |
 
-format - json
+Format the query in JSON. 
 
-
-
-example call:
+Example call:
 
 [http://mapwarper.net/maps/geosearch?bbox=-74.4295114013431,39.71182637980763,-73.22376188967249,41.07147471270077&amp;format=json&amp;page=1&amp;operation=intersect
 
  http://mapwarper.net/maps/geosearch?bbox=-74.4295114013431,39.71182637980763,-73.22376188967249,41.07147471270077&format=json&page=1&operation=intersect]
 
-=== Outputs  ===
+####Output
+
+The output will look like the code below.
 
 {{{
 {"stat": "ok",
@@ -141,12 +139,19 @@ example call:
 }}}
 
 
-== Get a map  ==
-example call GET[http://mapwarper.net/maps/8461.json http://mapwarper.net/maps/8461.json]
+###Retrieve a Particular Map
+
+You can retrieve a known map with the MapWarper API.
+
+Example call: 
+
+GET[http://mapwarper.net/maps/8461.json http://mapwarper.net/maps/8461.json]
 
 or [http://mapwarper.net/maps/8461?format=json http://mapwarper.net/maps/8461?format=json]
 
-==== outputs:  ====
+**Output:**
+
+The output will be similar to the following:
 
 {{{
 {
@@ -172,77 +177,58 @@ or [http://mapwarper.net/maps/8461?format=json http://mapwarper.net/maps/8461?fo
 }}}
 
 
-If the map is not found, with format=json, the following response will be returned
+If the map is not found, the following response will be returned in JSON format.
 
 {"items":[],"stat":"not found"}
 
 with a HTTP 404 status
 
 
-== Map variables  ==
-title - string
+###Map variables
 
-description - string
-
-width - integer - width of unrectified image
-
-height - integer - height of unrectified image
-
-status - integer [0 : unloaded, 1 : loading, 2 : available, 3 : warping, 4 : warped, 5 : published]
-
-loading is the status set when the master image is being requested from the NYPL repository
-
-available is set when the image has finished being copied, and ready to being warped
-
-warping is the status temporarily set during the warping process
-
-warped status is set after rectification
-
-published is set when the map should no longer be edited. Not currently used.
-
-map_type - integer [0 : index, 1 : is_map, 2 : not_map ]
-
-index to mark a map as actually being an index / overview map
-
-is_map, default map type
-
-not_map, used to mark a map as something that's not a map, like a plate showing sea monsters, for example
-
-bbox - string - comma separated string, bounding box of the rectified geotiff
-
-  y.min (lon min) ,x.min (lat min) ,y.max (lon max), x.max (lat max)
-
-  e.g.-75.9831134505588,38.552727388127,-73.9526411829395,40.4029389105122
-
-updated_at - date when object was last updated
-
-created_at - date when first created
-
-nypl_digital_id - NYPL digital id, used for thumbnail and link to bibliographic extras
-
-catnyp_id - NYPL digital catalalog id used for link to bibliographic
-
-mask_status - status of masking int. [0 : unmasked ,1 : masking ,2 : masked]
+| Name        	| Type		| Value		| Description					|
+| ------------- |-------------	|-----		|-----						|
+| title		| string 	|		|									|
+| description	| string	|		|									|
+| width		| integer	| 		| Width of unrectified image.					|
+| height	| integer 	| 		      | Height of unrectified image.				|
+| status	| integer	| 0 : unloaded	|  									|
+| 		|		| 1 : loading 	| The master image is being requested from the NYPL repository.	|
+| 		| 		| 2 : available	| The image has been copied, and is ready to be warped.	|
+| 		| 		| 3 : warping	| The image is undergoing the warping process.			|
+| 		| 		| 4 : warped	| The image has been rectified.					|
+| 		| 		| 5 : published	| This status is set when the map should no longer be edited. Not currently used.|
+| map_type	| integer 	| 0 : index	      | Indicates a map index or overview map.							|
+| 		| 		| 1 : is_map	| Default map type. 										| 
+| 		| 		| 2 : not_map	| Indicates non-map content, such as a plate depicting sea monsters.		|
+| bbox	| string	| comma-separated string	| Coordinates for the bounding box of the rectified image.. Format: y.min (lon min) ,x.min (lat min) ,y.max (lon max), x.max (lat max).. Example: -75.9831134505588,38.552727388127,-73.9526411829395,40.4029389105122	|
+| updated_at	| date	| 		| Date when the object was last updated.	|
+| nypl_digital_id	| integer | 		| The NYPL digital id, which is used for thumbnails and links to bibliographic extras.		|
+| catnyp_id	| integer	| 		| The NYPL digital catalog id used to link to the library record. 			|
+| mask_status	| integer	| 		| Status of masking int.		|
+| 		| 		| 0 : unmasked		| 				|
+| 		| 		| 1 : masking		| 				|
+| 		| 		| 2 : masked		| 				|
 
 
-== Get Map Status  ==
+###Get Map Status
 GET[http://mapwarper.net/maps/8991/status http://mapwarper.net/maps/8991/status]
 
-returns text,
+This request returns text. If a map has no status (i.e., it has not been transferred yet), this request will return the status "loading".
 
-If a map has no status (i.e. not been transferred yet) this request will return "loading".
-
-This request is used to poll a map whilst the map is being transfered from the NYPL image server to the map server, usually takes a few seconds, could take several. Sometimes, it doesn't succeed.
+This request is used to poll a map whilst it is being transfered from the NYPL image server to the map server. While this usually takes a few seconds, it could take several. Sometimes, the request does not succeed.
 
 
-== Layers   ==
-=== Query / List Layers  ===
-==== query parameters  ====
-field       name|description|catnyp
+###Layers
+####Query / List Layers
+**Query parameters**
+fields:       
 
-      (if no field parameter, field is name by default)
+*Name (default) 
+*Description
+*catnyp
 
-query        optional text for search query based on field chosen, case insensitive.
+Query        optional text for search query based on field chosen, case insensitive.
 
       simple exact string text search, i.e. a search for "city New York" gives no results, but a search for "city of New York" gives 22
 
