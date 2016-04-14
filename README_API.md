@@ -20,6 +20,8 @@ curl -H 'Content-Type: application/json' -H 'Accept: application/json' -X POST -
 
 ###Basic Search
 
+Method: GET						                
+
 Example call:
 ```
 GET[http://mapwarper.net/maps?field=title&amp;query=New&amp;sort_key=updated_at&amp;sort_order=desc&amp;show_warped=1&amp;format=json http://mapwarper.net/maps?field=title&query=New&sort_key=updated_at&sort_order=desc&show_warped=1&format=json]
@@ -53,9 +55,9 @@ Enter text for the search query, based on the field chosen. The query text is ca
 | format	      | json	|                 |
 | page		| 		| page number 	|
 
-#### Output 
+#### Response
 
-The output returned will be in JSON. It will be similar to the following.
+The output returned will be in JSON in the following format.
 ```
 {{{
 { "stat": "ok",
@@ -183,13 +185,10 @@ The output will be similar to the following:
 }}}
 ```
 
-If the map is not found, the following response will be returned in JSON format.
+If the map is not found, the response will be an HTTP 404 status code and the following JSON message.
 ```
 {"items":[],"stat":"not found"}
 ```
-with a HTTP 404 status
-
-
 ###Map Variables
 
 | Name        	| Type		| Value		| Description					|
@@ -284,7 +283,7 @@ Example:
 ```
 
 ####Request a Map's Layers
-To request a map's layers, use the map_id parameter. For example: 
+Use the map_id parameter to request a map's layers. For example: 
 ```
 [http://mapwarper.net/layers?map_id=10090&amp;field=name&amp;sort_key=mapscans_count&amp;sort_order=asc&amp;query=New&amp;format=json http://mapwarper.net/layers?map_id=10090&field=name&sort_key=mapscans_count&sort_order=asc&query=New&format=json]
 ```
@@ -553,7 +552,7 @@ http://mapwarper.net/gcps/add/7449
 
 ''where map_id is the map which wants a new gcp''
 
-example with CURL
+CURL example:
 ```
 curl -X POST -d "x=1.1&y=2.3&format=json" -u name@example.com:password http://mapwarper.net/gcps/add/7449
 ```
@@ -575,7 +574,7 @@ Note, pass in the map id with this, sorry - this may change later!
 
 
 
-==== returns:  ====
+**Response**
 ==== JSON  ====
 ```
 {{{
@@ -655,7 +654,7 @@ curl -X PUT -d "lat=54.33&lon=-1.467&x=3666.335&y=2000.12&format=json" -u user@e
  format  json
 
 
-
+**Response**
 returns, list of GCPS, with error calculations (see above)
 
 
@@ -687,9 +686,10 @@ value      value to change
 
 format     json
 
-returns list of GCPS, with error calculations (see above)
+**Response**
+Returns list of GCPS, with error calculations (see above)
 
-in case of error:
+Error:
 
 ```
 {{{
@@ -739,7 +739,7 @@ http://mapwarper.net/shared/masks/7449.gml.ol?1274110931 (with a timestamp to as
 
 gets a GML file, containing Polygons of the clipping mask
 
-example:
+**Request Example**
 
 ```
 {{{
@@ -754,8 +754,9 @@ POST http://mapwarper.net/maps/{map_id}/save_mask
 ```
 e.g. http://mapwarper.net/maps/7449/save_mask
 
+**Request Example**
 
-with CURL
+CURL Example
 ```
 
 {{{
@@ -773,7 +774,7 @@ format  jsonoutput     a GML string containing for example:
 }}}
 ```
 
-
+**Response**
 Returns:
 
 text string with a message indicating success or failure:
@@ -788,6 +789,7 @@ deletes a maskPOST http://mapwarper.net/maps/{map_id}/delete_mask
 
 params: format=json
 
+**Response**
 returns string indicating success or failure i.e "mask deleted"
 ```
 {"stat":"ok","message":"mask deleted"}
@@ -808,7 +810,8 @@ applies the clipping mask to a map, but does not rectify it
 
 A clipping mask should be saved before calling this.
 
-Response:
+**Response**
+
 ```
 {"stat":"ok","message":"Map cropped"}
 ```
@@ -836,6 +839,7 @@ params:
 
 output - GML string containing polygon(s) to mask over (see save mask)
 
+**Response**
 
 returns - text message indicating success,
 ```
@@ -895,7 +899,7 @@ transform_options  (optional - auto is given as default)
 
 use_mask      true|false applies any saved mask to the map, optional, defaults to false
 
-
+**Response**
 returns: if map is rectified
 ```
 {"stat":"ok","message":"Map rectified."}
