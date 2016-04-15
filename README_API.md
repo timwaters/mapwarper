@@ -82,7 +82,9 @@ The output returned will be in JSON in the following format.
 ###Geography-Based Map Search
 This search uses a bounding box to return a paginated list of rectified/warped maps that either intersect or fall within a specified geographic area. The bounding box is defined by a comma-separated string.
 
-**Parameter: bbox**
+**Parameters**
+
+bbox
 
 **Format **
 ```
@@ -93,10 +95,10 @@ This search uses a bounding box to return a paginated list of rectified/warped m
 ```
     -75.9831134505588,38.552727388127,-73.9526411829395,40.4029389105122
 ```
-**Parameters**  
+**Other Parameters**  
 
 | Name        | Description	| Notes |
-| ------------- |-------------|
+| ------------- |-------------| -------|
 | intersect	| Uses the PostGIS ST_Intersects operation to retrieve rectified maps whose extents intersect with the bbox parameter. | Preferred. Orders results by proximity to the bbox extent. |
 | within	| Uses a PostGIS ST_Within operation to retrieve rectified maps that fall entirely within the extent of the bbox parameter. |      |
 
@@ -108,7 +110,6 @@ Format the query in JSON.
 
  http://mapwarper.net/maps/geosearch?bbox=-74.4295114013431,39.71182637980763,-73.22376188967249,41.07147471270077&format=json&page=1&operation=intersect]
 ```
-
 **Response**
 
 The response will be in the following format.
@@ -177,10 +178,12 @@ The output will be be in the following format:
 }}}
 ```
 
-If the map is not found, the response will be an HTTP 404 status code and the following JSON message.
-```
-{"items":[],"stat":"not found"}
-```
+Error
+
+| Status        | Response |
+| ------------- |----------| 
+| 404	(not found)| ```{"items":[],"stat":"not found"}```    |
+
 ###Map Variables
 
 | Name        	| Type		| Value		| Description					|
@@ -242,7 +245,7 @@ Enter text for the search query, based on the field chosen. The query text is ca
 | format	      | json		| 
 | page		| page number 	|
 
-**Request Example**
+**Request Examples**
 
 [http://mapwarper.net/layers?field=name&amp;query=New+York&amp;format=json http://mapwarper.net/layers?field=name&query=New+York&format=json]
 
