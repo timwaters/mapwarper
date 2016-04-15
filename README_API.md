@@ -22,11 +22,6 @@ curl -H 'Content-Type: application/json' -H 'Accept: application/json' -X POST -
 
 Method: GET						                
 
-Example Call
-```
-GET[http://mapwarper.net/maps?field=title&amp;query=New&amp;sort_key=updated_at&amp;sort_order=desc&amp;show_warped=1&amp;format=json http://mapwarper.net/maps?field=title&query=New&sort_key=updated_at&sort_order=desc&show_warped=1&format=json]
-```
-
 **Parameters**
 
 | Element       	| Description   							                  | Required | Notes |
@@ -36,11 +31,7 @@ GET[http://mapwarper.net/maps?field=title&amp;query=New&amp;sort_key=updated_at&
 | nypl_digital_id 	| NYPL digital id used for thumbnail and link to bibliographic extras	| Optional |
 | catnyp 		      | NYPL digital catalog ID used to link to library record              | Optional |
 
-**Query**       
 
-Enter text for the search query, based on the field chosen. The query text is case insensitive.
-
-      This is a simple exact string text search, i.e. a search for "city New York" gives no results, but a search for "city of New York" gives 22.
 
 **Other Parameters**
 
@@ -55,6 +46,16 @@ Enter text for the search query, based on the field chosen. The query text is ca
 | show_warped	| 		| limits to maps that have already been warped   | Use "1" | 
 | format	      |     	| json                |
 | page		| 		| page number 	|
+
+Enter text for the search query, based on the field chosen. The query text is case insensitive.
+
+      This is a simple exact string text search, i.e. a search for "city New York" gives no results, but a search for "city of New York" gives 22.
+
+Example Call
+```
+GET[http://mapwarper.net/maps?field=title&amp;query=New&amp;sort_key=updated_at&amp;sort_order=desc&amp;show_warped=1&amp;format=json http://mapwarper.net/maps?field=title&query=New&sort_key=updated_at&sort_order=desc&show_warped=1&format=json]
+```
+
 
 **Response**
 
