@@ -84,7 +84,9 @@ This search uses a bounding box to return a paginated list of rectified/warped m
 
 **Parameters**
 
-bbox
+| Name        | Description	| Notes |
+| ------------- |-------------| -------|
+| bbox	| A rectangle outlining the geographic area to limit the search to | Preferred. Orders results by proximity to the bbox extent. |
 
 **Format **
 ```
@@ -95,7 +97,7 @@ bbox
 ```
     -75.9831134505588,38.552727388127,-73.9526411829395,40.4029389105122
 ```
-**Other Parameters**  
+**Other Parameters** 
 
 | Name        | Description	| Notes |
 | ------------- |-------------| -------|
@@ -112,7 +114,7 @@ Format the query in JSON.
 ```
 **Response**
 
-The response will be in the following format.
+The JSON response will be in the following format.
 ```
 {{{
 {"stat": "ok",
@@ -152,7 +154,7 @@ or [http://mapwarper.net/maps/8461?format=json http://mapwarper.net/maps/8461?fo
 
 **Response**
 
-The output will be be in the following format:
+The response will be be in the following format:
 ```
 {{{
 {
@@ -221,7 +223,6 @@ GET[http://mapwarper.net/maps/8991/status]
 This request returns text. If a map has no status (i.e., it has not been transferred yet), this request will return the status "loading".
 
 This request is used to poll a map whilst it is being transfered from the NYPL image server to the map server. While this usually takes a few seconds, it could take several. Sometimes, the request does not succeed.
-
 
 ##Layers
 ###Query/List Layers
@@ -325,7 +326,7 @@ Alternatively, the URL can be constructed from the point of view of a map:
 }}}
 ```
 
-If not found, with format=json, the following response will be returned.
+If not found with format=json, the following response will be returned.
 
 | Status        | Response |
 | ------------- |----------| 
@@ -369,7 +370,7 @@ If not found with format=json, the following response will be returned.
 | ------------- |----------| 
 | 404	(not found)| ```{"items":[],"stat":"not found"}```    |
 
-**Elements**
+**Parameters**
 
 | Element            | Type   |     Description	| Notes |
 | -------------   | ----------- |  | ----------- |
@@ -382,18 +383,21 @@ If not found with format=json, the following response will be returned.
 
 
 ###GET a Layer's Maps
-Returns paginated list of maps for a given layer.
+Returns a paginated list of maps for a given layer.
 
 **Request Example:**
 ```
 [http://mapwarper.net/layers/maps/890?format=json&amp;show_warped=0 http://mapwarper.net/layers/890/maps?format=json&show_warped=]1
 ```
-show_warped  0|1 (default is 1, only returns rectified maps, 0 show all maps)
-
+| Name        | Description | Required  | Notes     |
+| ------------- |---------- | ----------| ----------|
+| layer_id      | IS THIS RIGHT?        |           |
+| format        |           |           | json      |
+| show_warped |  specifies whether to limit search to rectified maps    | optional | default is "1", which limits to rectified maps; "0" returns all maps |
 
 **Response:**
 
-The response will be in the following JSON format.
+The response will be in JSON in the following format.
 
 ```
 {{{
@@ -584,7 +588,9 @@ Note, pass in the map id with this, sorry - this may change later!
  format   json
 
 **Response**
-==== JSON  ====
+
+The JSON response will be in the following format.
+
 ```
 {{{
 {
@@ -618,8 +624,7 @@ Note, pass in the map id with this, sorry - this may change later!
 }}}
 ```
 
-==== Errors  ====
-In case of an error, the output response would be similar to the following.
+An error will return the following message.
 ```
 
 {{{
@@ -637,8 +642,8 @@ In case of an error, the output response would be similar to the following.
 }}}
 ```
 
-
 ###Update entire GCP
+
 Requires authentication.
 
 **Definition**
@@ -647,11 +652,15 @@ Requires authentication.
 PUT http://mapwarper.net/gcps/update/{gcp_id}
 ```
 
+**Parameters**
+
+| Name        | Description | Required  | 
+| ------------- |---------- | ----------| 
+| gcp_id      |  id of the ground control point  |  required |
+
 **Example**
 
 [http://mapwarper.net/gcps/update/14803](http://mapwarper.net/gcps/update/14803)
-
-Where gcp_id is the id of the ground control point.
 
 **Example using CURL and HTTP BASIC**
 ```
@@ -684,10 +693,15 @@ An error will appear in the following format.
 Requires authentication.
 
 **Definition**
-
+```
 PUT http://mapwarper.net/gcps/update_field/{gcp_id}
+```
 
-Where gcp_id is the id of the ground control point.
+**Parameters**
+
+| Name        | Description | Required  | 
+| ------------- |---------- | ----------| 
+| gcp_id      |  id of the ground control point  |  required |
 
 **Example**
 
@@ -720,7 +734,11 @@ Deletes a ground control point. Requires authentication.
 ```
 DELETE http://mapwarper.net/gcps/destroy/{gcp_id}
 ```
-Where gcp_id is the id of the ground control point. 
+**Parameters**
+
+| Name        | Description | Required  | 
+| ------------- |---------- | ----------| 
+| gcp_id      |  id of the ground control point  |  required |
 
 Example: 
 
@@ -827,7 +845,7 @@ Returns a string indicating success or failure, e.g., "mask deleted".
 ```
 {"stat":"ok","message":"mask deleted"}
 ```
-If the map is not found, with format=json, the following response will be returned:
+If the map is not found, with format=json, the following response will be returned.
 
 | Status        | Response |
 | ------------- |----------| 
