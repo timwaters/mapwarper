@@ -178,7 +178,7 @@ The output will be be in the following format:
 }}}
 ```
 
-Error
+If a map is not found, the following HTTP response will be returned.
 
 | Status        | Response |
 | ------------- |----------| 
@@ -325,11 +325,12 @@ Alternatively, the URL can be constructed from the point of view of a map:
 }}}
 ```
 
-If not found, with format=json, the following response will be returned:
+If not found, with format=json, the following response will be returned.
+
+| Status        | Response |
+| ------------- |----------| 
+| 404	(not found)| ```{"items":[],"stat":"not found"}```    |
 ```
-{"items":[],"stat":"not found"}
-```
-with a HTTP 404 status
 
 ###GET Layer:
 Gets a single layer.
@@ -362,10 +363,11 @@ or[http://mapwarper.net/layers/760?format=json http://mapwarper.net/layers/760?f
 }
 }}}
 ```
-If not found with format=json, the following response will be returned, along with a HTTP 404 status:
-```
-{"items":[],"stat":"not found"}
-```
+If not found with format=json, the following response will be returned.
+
+| Status        | Response |
+| ------------- |----------| 
+| 404	(not found)| ```{"items":[],"stat":"not found"}```    |
 
 **Elements**
 
@@ -390,7 +392,8 @@ show_warped  0|1 (default is 1, only returns rectified maps, 0 show all maps)
 
 
 **Response:**
-JSON
+
+The response will be in the following JSON format.
 
 ```
 {{{
@@ -455,7 +458,8 @@ or,[http://mapwarper.net/maps/8561/gcps?format=json http://mapwarper.net/maps/85
 Returns a list of ground control points and their associated calculated errors.
 
 **Response**
-==== JSON  ====
+
+The response will be in JSON in the following format.
 ```
 {{{
 {
@@ -489,11 +493,11 @@ Returns a list of ground control points and their associated calculated errors.
 }}}
 ```
 
-If the map is not found, with format=json, the following response will be returned
+If the map is not found, with format=json, the following response will be returned.
 ```
-{"items":[],"stat":"not found"}
-```
-with a HTTP 404 status
+| Status        | Response |
+| ------------- |----------| 
+| 404	(not found)| ```{"items":[],"stat":"not found"}```    |
 
 
 ==== fields  ====
@@ -523,8 +527,6 @@ error - float, error for that point
 [http://mapwarper.net/gcps/9579?format=json](http://mapwarper.net/gcps/{gcp_id}?format=|json)
 
 **Response:**
-
-JSON
 
 ```
 {{{
@@ -617,7 +619,7 @@ Note, pass in the map id with this, sorry - this may change later!
 ```
 
 ==== Errors  ====
-In case of an error, the output response would be similar as follows:
+In case of an error, the output response would be similar to the following.
 ```
 
 {{{
@@ -669,7 +671,7 @@ curl -X PUT -d "lat=54.33&lon=-1.467&x=3666.335&y=2000.12&format=json" -u user@e
 **Response**
 Returns a list of GCPs with their error calculations (see above).
 
-In case of error:
+An error will appear in the following format.
 
 ```
 {{{
@@ -700,9 +702,9 @@ value      value to change
 format     json
 
 **Response**
-Returns list of GCPS, with error calculations (see above)
+Returns list of GCPS, with error calculations (see above).
 
-Error:
+An error will appear in the following format.
 
 ```
 {{{
@@ -732,7 +734,7 @@ format   json
 
 Returns list of GCPs with their error calculations (see above).
 
-In case of error:
+An error will appear in the following format.
 
 ```
 {{{
@@ -826,10 +828,10 @@ Returns a string indicating success or failure, e.g., "mask deleted".
 {"stat":"ok","message":"mask deleted"}
 ```
 If the map is not found, with format=json, the following response will be returned:
-```
-{"items":[],"stat":"not found"}
-```
-with a HTTP 404 status
+
+| Status        | Response |
+| ------------- |----------| 
+| 404	(not found)| ```{"items":[],"stat":"not found"}```    |
 
 
 ###POST Mask Map
@@ -850,11 +852,9 @@ If no clipping mask can be found,
 {"stat":"fail","message":"Mask file not found"}
 ```
 
-If the map is not found, with format=json, the following response will be returned
-```
-{"items":[],"stat":"not found"}
-```
-with a HTTP 404 status
+| Status        | Response |
+| ------------- |----------| 
+| 404	(not found)| ```{"items":[],"stat":"not found"}```    |
 
 
 ###Save, Mask and Warp Map
@@ -881,11 +881,11 @@ In the case where a map has less than three control points, a message indicating
 ```
 {"stat":"ok","message":"Map masked but it needs more control points to rectify"}
 ```
-If the map is not found, with format=json, the following response will be returned:
-```
-{"items":[],"stat":"not found"}
-```
-with a HTTP 404 status
+If the map is not found, with format=json, the following response will be returned.
+
+| Status        | Response |
+| ------------- |----------| 
+| 404	(not found)| ```{"items":[],"stat":"not found"}```    |
 
 
 ###Warping
@@ -944,9 +944,9 @@ If the map hasnt got enough GCPS saved, the map won't be warped:
 ```
 {"stat":"fail","message":"not enough GCPS to rectify"}
 ```
-If the map is not found, with format=json, the following response will be returned
+If the map is not found, with format=json, the following response will be returned.
 ```
-{"items":[],"stat":"not found"}
-```
-with a HTTP 404 status
+| Status        | Response |
+| ------------- |----------| 
+| 404	(not found)| ```{"items":[],"stat":"not found"}```    |
 
