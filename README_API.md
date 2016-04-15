@@ -6,7 +6,7 @@ Welcome to the documentation for the MapWarper API!
 
 Authentication for the MapWarper API is currently cookie-based.
 
-**Curl Examples:**
+**Curl Examples**
 
 ```
 curl -H 'Content-Type: application/json' -H 'Accept: application/json' -X POST http://localhost:3000/u/sign_in.json  -d '{"user" : { "email" : "tim@example.com", "password" : "password"}}' -c cookie
@@ -22,7 +22,7 @@ curl -H 'Content-Type: application/json' -H 'Accept: application/json' -X POST -
 
 Method: GET						                
 
-Example call:
+Example Call
 ```
 GET[http://mapwarper.net/maps?field=title&amp;query=New&amp;sort_key=updated_at&amp;sort_order=desc&amp;show_warped=1&amp;format=json http://mapwarper.net/maps?field=title&query=New&sort_key=updated_at&sort_order=desc&show_warped=1&format=json]
 ```
@@ -56,7 +56,7 @@ Enter text for the search query, based on the field chosen. The query text is ca
 | format	      |     	| json                |
 | page		| 		| page number 	|
 
-#### Response
+**Response**
 
 The output returned will be in JSON in the following format.
 ```
@@ -93,16 +93,16 @@ This search uses a bounding box to return a paginated list of rectified/warped m
 
 **Parameter: bbox**
 
-Format: 
+**Format **
 ```
      y.min (lon min) ,x.min (lat min) ,y.max (lon max), x.max (lat max)
 ```
 
-Example: 
+**Example**
 ```
     -75.9831134505588,38.552727388127,-73.9526411829395,40.4029389105122
 ```
-**Operation Parameters**  
+**Parameters**  
 
 | Name        | Description	| Notes |
 | ------------- |-------------|
@@ -111,7 +111,7 @@ Example:
 
 Format the query in JSON. 
 
-Request Example:
+**Request Example**
 ```
 [http://mapwarper.net/maps/geosearch?bbox=-74.4295114013431,39.71182637980763,-73.22376188967249,41.07147471270077&amp;format=json&amp;page=1&amp;operation=intersect
 
@@ -151,14 +151,14 @@ The response will be in the following format.
 
 Retrieves a specific map.
 
-**Request Example:** 
+**Request Examples**
 ```
 GET[http://mapwarper.net/maps/8461.json http://mapwarper.net/maps/8461.json]
 
 or [http://mapwarper.net/maps/8461?format=json http://mapwarper.net/maps/8461?format=json]
 ```
 
-**Response Example:**
+**Response**
 
 The output will be be in the following format:
 ```
@@ -217,9 +217,12 @@ If the map is not found, the response will be an HTTP 404 status code and the fo
 | 		| 		| 2 : masked		| 				|
 
 
-###Get Map Status
+###GET Map Status
+
+**Request Example**
+
 ```
-GET[http://mapwarper.net/maps/8991/status http://mapwarper.net/maps/8991/status]
+GET[http://mapwarper.net/maps/8991/status]
 ```
 This request returns text. If a map has no status (i.e., it has not been transferred yet), this request will return the status "loading".
 
@@ -248,7 +251,7 @@ Enter text for the search query, based on the field chosen. The query text is ca
 | format	      | json		| 
 | page		| page number 	|
 
-**Request Example:**
+**Request Example**
 
 [http://mapwarper.net/layers?field=name&amp;query=New+York&amp;format=json http://mapwarper.net/layers?field=name&query=New+York&format=json]
 
@@ -291,7 +294,7 @@ Requests a map's layers.
 ```
 Alternatively, the URL can be constructed from the point of view of a map:
 
-http://mapwarper.net/maps/10090/layers.json
+[http://mapwarper.net/maps/10090/layers.json](http://mapwarper.net/maps/10090/layers.json)
 
 **Response**
 ```
@@ -337,7 +340,7 @@ with a HTTP 404 status
 ###GET Layer:
 Gets a single layer.
 
-**Request Example:**
+**Request Examples**
 ```
 [http://mapwarper.net/layers/760.json http://mapwarper.net/layers/760.js]on
 
@@ -365,11 +368,10 @@ or[http://mapwarper.net/layers/760?format=json http://mapwarper.net/layers/760?f
 }
 }}}
 ```
-If not found, with format=json, the following response will be returned:
+If not found with format=json, the following response will be returned, along with a HTTP 404 status:
 ```
 {"items":[],"stat":"not found"}
 ```
-with a HTTP 404 status
 
 **Elements**
 
@@ -389,9 +391,9 @@ Returns paginated list of maps for a given layer.
 **Request Example:**
 ```
 [http://mapwarper.net/layers/maps/890?format=json&amp;show_warped=0 http://mapwarper.net/layers/890/maps?format=json&show_warped=]1
-
-show_warped  0|1 (default is 1, only returns rectified maps, 0 show all maps)
 ```
+show_warped  0|1 (default is 1, only returns rectified maps, 0 show all maps)
+
 
 **Response:**
 JSON
@@ -431,24 +433,26 @@ JSON
 The following Web map services are available.
 
 ####Map WMS
-http://mapwarper.net/maps/wms/8561
+[http://mapwarper.net/maps/wms/8561](http://mapwarper.net/maps/wms/8561)
 
 ####Layer WMS
-http://mapwarper.net/layers/wms/931
+[http://mapwarper.net/layers/wms/931](http://mapwarper.net/layers/wms/931)
 
 ####Map & Layer KML**
 
 **Map KML**
-http://mapwarper.net/maps/8561.kml
+[http://mapwarper.net/maps/8561.kml](http://mapwarper.net/maps/8561.kml)
 
 **Layer KML**
-http://mapwarper.net/layers/931.kml
+[http://mapwarper.net/layers/931.kml](http://mapwarper.net/layers/931.kml)
 
 ------------------------------
 
 ##Ground Control Points
 
 ###GET a Map's Ground Control Points
+
+**Request Examples**
 ```
 GET[http://mapwarper.net/maps/8561/gcps.json http://mapwarper.net/maps/8561/gcps.json]
 
@@ -518,7 +522,7 @@ error - float, error for that point
 
 ###GET a Single Ground Control Point
 
-**Request Examples:**
+**Request Examples**
 
 [http://mapwarper.net/gcps/{gcp_id}?format=|json](http://mapwarper.net/gcps/{gcp_id}?format=|json)
 
@@ -549,7 +553,11 @@ JSON
 ```
 
 ###Add Ground Control Points
+
 Adds the ground control points on which the warp will be based. Requires authentication.
+
+**Definition**
+
 ```
 POST http://mapwarper.net/gcps/add/{map_id}
 ```
@@ -557,13 +565,13 @@ Example:
 
 [http://mapwarper.net/gcps/add/7449](http://mapwarper.net/gcps/add/7449)
 
-Where map_id is the map to which the new ground control point will be applied
+Where map_id is the map to which the new ground control point will be applied.
 
-**CURL Example:**
+**CURL Example**
 ```
 curl -X POST -d "x=1.1&y=2.3&format=json" -u name@example.com:password http://mapwarper.net/gcps/add/7449
 ```
-**params**
+**Parameters**
 
 Note, pass in the map id with this, sorry - this may change later!
 
@@ -634,16 +642,22 @@ In case of an error, the output response would be similar as follows:
 ```
 
 
-Update entire GCP
+###Update entire GCP
 Requires authentication.
+
+**Definition**
+
 ```
 PUT http://mapwarper.net/gcps/update/{gcp_id}
-
-http://mapwarper.net/gcps/update/14803
 ```
-Where gcp_id is the id of the ground control point
 
-Example using CURL and HTTP BASIC:
+**Example**
+
+[http://mapwarper.net/gcps/update/14803](http://mapwarper.net/gcps/update/14803)
+
+Where gcp_id is the id of the ground control point.
+
+**Example using CURL and HTTP BASIC**
 ```
 curl -X PUT -d "lat=54.33&lon=-1.467&x=3666.335&y=2000.12&format=json" -u user@example.com:password http://mapwarper.net/gcps/update/14803
 ```
@@ -673,13 +687,17 @@ In case of error:
 
 Requires authentication.
 
+**Definition**
+
 PUT http://mapwarper.net/gcps/update_field/{gcp_id}
 
-where gcp_id is the id of the ground control point
+Where gcp_id is the id of the ground control point.
 
-http://mapwarper.net/gcps/update_field/14803
+**Example**
 
-**params**
+[http://mapwarper.net/gcps/update_field/14803]
+
+**Parameters**
 
 attribute    lat|lon|x|y
 
@@ -701,18 +719,24 @@ Error:
 
 ###Delete GCP
 Deletes a ground control point. Requires authentication.
+
+**Definition**
 ```
 DELETE http://mapwarper.net/gcps/destroy/{gcp_id}
 ```
-Where gcp_id is the id of the ground control point. Example: 
+Where gcp_id is the id of the ground control point. 
+
+Example: 
 
 [http://mapwarper.net/gcps/destroy/14805](http://mapwarper.net/gcps/destroy/14805)
 
-**params:**
+**Parameters**
 
 format   json
 
-Returns list of GCPs with their error calculations (see above)
+**Response**
+
+Returns list of GCPs with their error calculations (see above).
 
 In case of error:
 
@@ -729,15 +753,18 @@ Uses GML to mask a portion of the map, so that areas on a map that are not maske
 
 ###Get Mask
 
-Request URLs:
+**Definition**
 ```
 GET http://mapwarper.net/shared/masks/{map_id}.gml.ol
 ```
+
+**Examples**
+
 http://mapwarper.net/shared/masks/7449.gml.ol
 
 http://mapwarper.net/shared/masks/7449.gml.ol?1274110931 (with a timestamp to assist in browser cache busting)
 
-Gets a GML file, containing polygons of the clipping mask.
+Gets a GML file containing polygons of the clipping mask.
 
 **Request Example**
 
@@ -751,18 +778,18 @@ Gets a GML file, containing polygons of the clipping mask.
 
 Requires authentication.
 
-Request URL:
+**Definition**
 ```
 http://mapwarper.net/maps/{map_id}/save_mask
 ```
 
 Example: 
 
-http://mapwarper.net/maps/7449/save_mask
+[http://mapwarper.net/maps/7449/save_mask]9http://mapwarper.net/maps/7449/save_mask)
 
 **Request Example**
 
-CURL Example
+**CURL Example**
 ```
 
 {{{
@@ -770,7 +797,7 @@ curl -X POST -d "format=json" -d 'output=<wfs:FeatureCollection xmlns:wfs="http:
 }}}
 ```
 
-**Params:**
+**Parameters**
 
 format  jsonoutput     a GML string containing for example:
 
@@ -781,7 +808,7 @@ format  jsonoutput     a GML string containing for example:
 ```
 
 **Response**
-Returns a text string with a message indicating success or failure:
+Returns a text string with a message indicating success or failure.
 ```
 {"stat":"ok", "message":"Map clipping mask saved (gml)"}
 ```
@@ -794,7 +821,7 @@ Deletes a mask. Requires authentication.
 http://mapwarper.net/maps/{map_id}/delete_mask
 ```
 
-**params:** 
+**Parameters** 
 
 format=json
 
@@ -836,12 +863,17 @@ If the map is not found, with format=json, the following response will be return
 with a HTTP 404 status
 
 
-Save, Mask and Warp Map
-rolls the calls into one. Saves mask, applies mask to map, and rectifies map using the mask. Requires authentication.
+###Save, Mask and Warp Map
+
+Rolls the calls into one. Saves mask, applies mask to map, and rectifies map using the mask. Requires authentication.
+
+**Definition**
+
 ```
 POST http://mapwarper.net/maps/{map_id}/save_mask_and_warp
 ```
-**params:**
+
+???????????????? PARAMETERS ???????????????
 
 **Response**
 
@@ -863,7 +895,10 @@ with a HTTP 404 status
 
 
 ###Warping
+
 Warps or rectifies a map according to its saved GCPs and the parameters passed in. Requires authentication.
+
+**Definition**
 
 ```
 POST http://mapwarper.net/maps/{map_id}/rectify
@@ -876,7 +911,7 @@ POST http://mapwarper.net/maps/{map_id}/rectify
 ```
 curl -X POST -d "use_mask=false&format=json" -u email@example.com:password  http://mapwarper.net/maps/7449/rectify
 ```
-**params:**
+**Parameters**
 
 resample_options  (optional - nearest neighbour is given as default)
 
