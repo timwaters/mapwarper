@@ -80,13 +80,13 @@ The output returned will be in JSON in the following format.
 ```
 
 ###Geography-Based Map Search
-This search uses a bounding box to return a paginated list of rectified/warped maps that either intersect or fall within a specified geographic area. The bounding box is defined by a comma-separated string.
+This search uses a bounding box to return a paginated list of rectified/warped maps that either intersect or fall within a specified geographic area. 
 
 **Parameters**
 
-| Name        | Description	| Notes |
+| Name        | Description	| Type | Notes |
 | ------------- |-------------| -------|
-| bbox	| A rectangle outlining the geographic area to limit the search to | Preferred. Orders results by proximity to the bbox extent. |
+| bbox	| A rectangle outlining the geographic area to limit the search to | Preferred. Orders results by proximity to the bbox extent. | comma-separated string of latitude and longitude coordinates  |
 
 **Format **
 ```
