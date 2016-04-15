@@ -36,7 +36,7 @@ Method: GET
 **Other Parameters**
 
 | Element         | Sub-element   | Description	| Notes |
-| -------------   |---------- | -------------   |
+| -------------   |---------- | -------------   | -------------   |
 | sort_key	      |      	|                 | The field on which the sort should be based  |
 | 		      | title     | title of the map	            |
 | 		      | updated_at| when the map was last updated	|
@@ -47,15 +47,12 @@ Method: GET
 | format	      |     	| json                |
 | page		| 		| page number 	|
 
-Enter text for the search query, based on the field chosen. The query text is case insensitive.
+Enter optional text for the search query, based on the field chosen. The query text is case insensitive. This is a simple exact string text search. For example, a search for "city New York" returns no results, but a search for "city of New York" returns 22.
 
-      This is a simple exact string text search, i.e. a search for "city New York" gives no results, but a search for "city of New York" gives 22.
-
-Example Call
+**Example Call**
 ```
 GET[http://mapwarper.net/maps?field=title&amp;query=New&amp;sort_key=updated_at&amp;sort_order=desc&amp;show_warped=1&amp;format=json http://mapwarper.net/maps?field=title&query=New&sort_key=updated_at&sort_order=desc&show_warped=1&format=json]
 ```
-
 
 **Response**
 
