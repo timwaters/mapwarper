@@ -26,24 +26,19 @@ Method: GET
 
 | Element       	|             | Description |  Required | Notes |
 | -----          | -----       | -----        | -----    |  -----|
-| title      		| title of map                                        			| Optional | default |
-| description		| map description      							            | Optional |
-| nypl_digital_id 	| NYPL digital id used for thumbnail and link to bibliographic extras	| Optional |
-| catnyp 		      | NYPL digital catalog ID used to link to library record              | Optional |
-
-**Other Parameters**
-
-| Element         |           | Description	    | Notes           |
-| -------------   |---------- | -------------   | -------------   |
-| sort_key	       |      	    |                 | The field on which the sort should be based  |
-| 		              | title     | title of the map	             |                     |
-| 		              | updated_at| when the map was last updated	|                     |
-|		               | status	   | status of the map	            |                     |
-| sort_order	     | asc 	     |ascending order                |                     |
-|		               | desc	     |  descending order             |                     |
-| show_warped	    | 		        | limits to maps that have already been warped   | Use "1" | 
-| format	         |     	     | json                          |                          |
-| page		          | 		        | page number 	                 |                          |
+| title      		|              	| title of map | Optional | default |
+| description		|               | map description| Optional |       |
+| nypl_digital_id 	| 	         | NYPL digital id used for thumbnail and link to bibliographic extras | Optional | |
+| catnyp 		      |             | NYPL digital catalog ID used to link to library record              | Optional | |
+| sort_key	       |      	    |  The field on which the sort should be based  | Optional |   |
+| 		              | title     | title of the map	             | Optional            | |
+| 		              | updated_at| when the map was last updated	| Optional            | |
+|		               | status	   | status of the map	            | Optional            | |
+| sort_order	     | asc 	     | ascending order               | Optional            | |
+|		               | desc	     | descending order              | Optional            | |
+| show_warped	    | 		        | limits to maps that have already been warped   | Optional | Use "1" | 
+| format	         |     	     | json                          | Optional            | |
+| page		          | 		        | page number 	                 | Optional            | |
 
 Enter optional text for the search query, based on the field chosen. The query text is case insensitive. This is a simple exact string text search. For example, a search for "city New York" returns no results, but a search for "city of New York" returns 22.
 
