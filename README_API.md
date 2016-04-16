@@ -28,20 +28,20 @@ Method: GET
 
 | Element       	|             | Description |  Required | Notes |
 | -----          | -----       | -----        | -----    |  -----|
-| title      		|              	| title of map | Optional | default |
-| description		|               | map description| Optional |       |
-| nypl_digital_id 	| 	         | NYPL digital id used for the thumbnail image and link to the library's metadata | Optional | |
-| catnyp 		      |             | NYPL digital catalog ID used to link to library record              | Optional | |
-| sort_key	             	      || field on which the sort should be based  | Optional |   |
-| 		              | title     | title of the map	             | Optional            | |
-| 		              | updated_at| when the map was last updated	| Optional            | |
-|		               | status	   | status of the map	            | Optional            | gives the number of control points for a rectified image, or the status "unrectified" |
-| sort_order	                 ||                              | Optional            | |
-|                 | asc 	     | ascending order               | Optional            | |
-|		               | desc	     | descending order              | Optional            | |
-| show_warped	    | 		        | limits to maps that have already been warped   | Optional | Use "1" | 
-| format	         |     	     | json                          | Optional            | |
-| page		          | 		        | page number 	                 | Optional            | |
+| title      		|              	| title of map | optional | default |
+| description		|               | map description| optional |       |
+| nypl_digital_id 	| 	         | NYPL digital id used for the thumbnail image and link to the library's metadata | optional | |
+| catnyp 		      |             | NYPL digital catalog ID used to link to library record              | optional | |
+| sort_key	             	      || field on which the sort should be based  | optional |   |
+| 		              | title     | title of the map	             | optional            | |
+| 		              | updated_at| when the map was last updated	| optional            | |
+|		               | status	   | status of the map	            | optional            | gives the number of control points for a rectified image, or the status "unrectified" |
+| sort_order	                 ||                              | optional            | |
+|                 | asc 	     | ascending order               | optional            | |
+|		               | desc	     | descending order              | optional            | |
+| show_warped	    | 		        | limits to maps that have already been warped   | optional | Use "1" | 
+| format	         |     	     | json                          | optional            | |
+| page		          | 		        | page number 	                 | optional            | |
 
 Enter optional text for the search query, based on the field chosen. The query text is case insensitive. This is a simple exact string text search. For example, a search for "city New York" returns no results, but a search for "city of New York" returns 22.
 
@@ -472,17 +472,20 @@ Ground control points are the user-selected locations used to rectify the image.
 
 ###GET a Map's Ground Control Points
 
+Returns a list of ground control points and their calculated errors.
+
 **Request Examples**
 ```
 GET[http://mapwarper.net/maps/8561/gcps.json](http://mapwarper.net/maps/8561/gcps.json)
 
 or [http://mapwarper.net/maps/8561/gcps?format=json](http://mapwarper.net/maps/8561/gcps?format=json)
 ```
-Returns a list of ground control points and their calculated errors.
 
 **Response**
 
 The response will be in JSON in the following format.
+
+
 ```
 {{{
 {
@@ -517,33 +520,40 @@ The response will be in JSON in the following format.
 ```
 
 If the map is not found, with format=json, the following response will be returned.
-```
+
 | Status        | Response |
 | ------------- |----------| 
 | 404	(not found)| ```{"items":[],"stat":"not found"}```    |
 
 
-==== fields  ====
-x,y coordinates for unrectifed image
+**Response Elements**
 
-lat, lon coordinates to rectify to
-
-mapscan_id - the map id
-
-error - float, error for that point
+| Name          | Description | Notes |
+| ------------- |----------   | ----  |
+| status        | status of request   | ```{ "stat": "ok" }``` |
+| lon           | longitude of control point to rectify to   |  |
+| updated_at    | date and time of the request ????  |  |
+| x    | the x coordinate on the unrectified image that corresponds to "lon"   |  |
+| y    | the y coordinate on the unrectified image that corresponds to "lon"   |  |
+| mapscan_id           | the map id   |  |
+| id           | ??? control point ID ????   |  |
+| error           | calculated error, or distortion, for that control point - EXPLAIN   |  |
+| lat           | Latitude of control point to rectify to   |  |
 
 '''Ground Control Points'''
 
 '''with the following calls, if the GCP is not found, with format=json, the following response will be returned'''
 
-'''{"items":[],"stat":"not found"} '''
-
-'''with a HTTP 404 status'''
+| Status        | Response |
+| ------------- |----------| 
+| 404	(not found)| ```{"items":[],"stat":"not found"}```    |
 
 
 ###GET a Single Ground Control Point
 
-**Request Examples**
+Returns a specified ground control point.
+
+**Definition**
 
 [http://mapwarper.net/gcps/{gcp_id}?format=|json](http://mapwarper.net/gcps/{gcp_id}?format=|json)
 
@@ -573,38 +583,33 @@ error - float, error for that point
 
 ###Add Ground Control Points
 
-Adds the ground control points on which the warp will be based. Requires authentication.
+Adds the ground control points on which the rectification will be based. Requires authentication.
 
 **Definition**
 
 ```
 POST http://mapwarper.net/gcps/add/{map_id}
 ```
-Example: 
+
+**Parameters**
+
+| Name          | Description | Required  | Notes |
+| ------------- |----------   | ------    | ----  |                                            |
+| map_id       | the map to which the new ground control point will be applied   | required    |  |
+| lat           | Latitude of control point to rectify to   | optional | 0 if not given |
+| lon           | longitude of control point to rectify to   | optional | 0 if not given |
+| x    | the x coordinate on the unrectified image that corresponds to "lon"   | optional | 0 if not given |
+| y    | the y coordinate on the unrectified image that corresponds to "lon"   | optional | 0 if not given | 
+| format          | json      |           |       |
+
+**Request Example**
 
 [http://mapwarper.net/gcps/add/7449](http://mapwarper.net/gcps/add/7449)
-
-Where map_id is the map to which the new ground control point will be applied.
 
 **CURL Example**
 ```
 curl -X POST -d "x=1.1&y=2.3&format=json" -u name@example.com:password http://mapwarper.net/gcps/add/7449
 ```
-**Parameters**
-
-Note, pass in the map id with this, sorry - this may change later!
-
- lat, lon, x, y are optional, if these are not present, the GCP is created with this missing value set as 0
-
- lat   lat of destination map (0 if not given)
-
- lon   lon of destination map (0 if not given)
-
- x    x of image (0 if not given)
-
- y      y of image (0 if not given)
-
- format   json
 
 **Response**
 
@@ -663,7 +668,7 @@ An error will return the following message.
 
 ###Update entire GCP
 
-Requires authentication.
+Returns a list of GCPs with their error calculations. Requires authentication.
 
 **Definition**
 
@@ -673,9 +678,9 @@ PUT http://mapwarper.net/gcps/update/{gcp_id}
 
 **Parameters**
 
-| Name        | Description | Required  | 
-| ------------- |---------- | ----------| 
-| gcp_id      |  id of the ground control point  |  required |
+| Name          | Description | Required  | 
+| ------------- |----------   | ----------| 
+| gcp_id        |  id of the ground control point  |  required |
 
 **Example**
 
@@ -685,20 +690,16 @@ PUT http://mapwarper.net/gcps/update/{gcp_id}
 ```
 curl -X PUT -d "lat=54.33&lon=-1.467&x=3666.335&y=2000.12&format=json" -u user@example.com:password http://mapwarper.net/gcps/update/14803
 ```
- lat    lat of destination map
-
- lon    lon of destination map
-
- x     x of image
-
- y     y of image
-
- format  json
-
+| Name          | Description | Required  | Notes |
+| ------------- |----------   | ------    | ----  |                                            |
+| gcp_id       | ???   | required    |  |
+| lat           | Latitude of control point to rectify to   | optional | 0 if not given |
+| lon           | longitude of control point to rectify to   | optional | 0 if not given |
+| x    | the x coordinate on the unrectified image that corresponds to "lon"   | optional | 0 if not given |
+| y    | the y coordinate on the unrectified image that corresponds to "lon"   | optional | 0 if not given | 
+| format          | json      |           |       |
 
 **Response**
-Returns a list of GCPs with their error calculations (see above).
-
 An error will appear in the following format.
 
 ```
@@ -718,24 +719,21 @@ PUT http://mapwarper.net/gcps/update_field/{gcp_id}
 
 **Parameters**
 
-| Name        | Description | Required  | 
-| ------------- |---------- | ----------| 
-| gcp_id      |  id of the ground control point  |  required |
+| Name          | Description | Required  | Notes |
+| ------------- |----------   | ------    | ----  | 
+| ??? field_id  ???    |  ??? id of the field to update ???  |  required |   |                                        |
+| lat           | Latitude of control point to rectify to   | optional | 0 if not given |
+| lon           | longitude of control point to rectify to   | optional | 0 if not given |
+| x    | the x coordinate on the unrectified image that corresponds to "lon"   | optional | 0 if not given |
+| y    | the y coordinate on the unrectified image that corresponds to "lon"   | optional | 0 if not given |
+| value         | value to change      |           |       |
+| format          | json      |           |       |
 
 **Example**
 
 [http://mapwarper.net/gcps/update_field/14803]
 
-**Parameters**
-
-attribute    lat|lon|x|y
-
-value      value to change
-
-format     json
-
 **Response**
-Returns list of GCPS, with error calculations (see above).
 
 An error will appear in the following format.
 
@@ -744,7 +742,6 @@ An error will appear in the following format.
 {"items":[],"errors":[["lat","is not a number"]],"stat":"fail","message":"Could not update GCP"}
 }}}
 ```
-
 
 ###Delete GCP
 Deletes a ground control point. Requires authentication.
@@ -763,13 +760,7 @@ Example:
 
 [http://mapwarper.net/gcps/destroy/14805](http://mapwarper.net/gcps/destroy/14805)
 
-**Parameters**
-
-format   json
-
 **Response**
-
-Returns list of GCPs with their error calculations (see above).
 
 An error will appear in the following format.
 
@@ -780,11 +771,13 @@ An error will appear in the following format.
 }}}
 ```
 
-##Cropping
+##Masking
 
 Uses GML to mask a portion of the map, so that areas on a map that are not masked become transparent. Requires authentication.
 
 ###Get Mask
+
+Gets a GML file containing polygons of the clipping mask.
 
 **Definition**
 ```
@@ -797,8 +790,6 @@ http://mapwarper.net/shared/masks/7449.gml.ol
 
 http://mapwarper.net/shared/masks/7449.gml.ol?1274110931 (with a timestamp to assist in browser cache busting)
 
-Gets a GML file containing polygons of the clipping mask.
-
 **Request Example**
 
 ```
@@ -809,18 +800,16 @@ Gets a GML file containing polygons of the clipping mask.
 
 ###POST Save Mask
 
-Requires authentication.
+Returns a text string with a message indicating success or failure. Requires authentication.
 
 **Definition**
 ```
 http://mapwarper.net/maps/{map_id}/save_mask
 ```
 
-Example: 
+**Request Example**
 
 [http://mapwarper.net/maps/7449/save_mask]9http://mapwarper.net/maps/7449/save_mask)
-
-**Request Example**
 
 **CURL Example**
 ```
@@ -832,7 +821,11 @@ curl -X POST -d "format=json" -d 'output=<wfs:FeatureCollection xmlns:wfs="http:
 
 **Parameters**
 
-format  jsonoutput     a GML string containing for example:
+| Name          | Value        | Type        | Required  | 
+| ------------- |----------    | ----------  | ----------|
+| format        |  jsonoutput  |  GML string | optional  | 
+
+Example:
 
 ```
 {{{
@@ -841,9 +834,11 @@ format  jsonoutput     a GML string containing for example:
 ```
 
 **Response**
-Returns a text string with a message indicating success or failure.
+
+A successful call will return the following message. 
+
 ```
-{"stat":"ok", "message":"Map clipping mask saved (gml)"}
+{"message":"Map clipping mask saved (gml)"}
 ```
 
 ###POST Delete Mask
@@ -856,23 +851,21 @@ http://mapwarper.net/maps/{map_id}/delete_mask
 
 **Parameters** 
 
-format=json
+| Name          | Description | Required  | 
+| ------------- |----------   | ------    |
+| map_id        |  unique identifier for a map  |  required |
+| format        | json      |           | 
 
 **Response**
 
-Returns a string indicating success or failure, e.g., "mask deleted".
-```
-{"stat":"ok","message":"mask deleted"}
-```
-If the map is not found, with format=json, the following response will be returned.
-
 | Status        | Response |
 | ------------- |----------| 
+| 200	(OK)| ```{"stat":"ok","message":"mask deleted"}```    |
 | 404	(not found)| ```{"items":[],"stat":"not found"}```    |
 
 
 ###POST Mask Map
-applies the clipping mask to a map, but does not rectify it. A clipping mask should be saved before calling this. Requires authentication.
+Applies the clipping mask to a map, but does not rectify it. A clipping mask should be saved before calling this. Requires authentication.
 
 **Definition:**
 
@@ -881,22 +874,14 @@ POST http://mapwarper.net/maps/{map_id}/mask_map
 ```
 **Response**
 
-```
-{"stat":"ok","message":"Map cropped"}
-```
-If no clipping mask can be found,
-```
-{"stat":"fail","message":"Mask file not found"}
-```
-
-| Status        | Response |
+| Status        | Response | Notes |
 | ------------- |----------| 
-| 404	(not found)| ```{"items":[],"stat":"not found"}```    |
+| 200	(OK)| ```{"stat":"ok","message":"Map cropped"}```    | |
+| 404	(not found)| ```{"items":[],"stat":"not found"}```    | no clipping mask found |
 
+###Save, Mask, and Warp Map
 
-###Save, Mask and Warp Map
-
-Rolls the calls into one. Saves mask, applies mask to map, and rectifies map using the mask. Requires authentication.
+Rolls the calls into one. Saves the mask, applies the mask to the map, and rectifies the map using the mask. Requires authentication.
 
 **Definition**
 
@@ -910,20 +895,11 @@ POST http://mapwarper.net/maps/{map_id}/save_mask_and_warp
 
 The output will be a GML string containing polygon(s) to mask over (see save mask).
 
-returns a text message indicating success:
-```
-{"stat":"ok","message":"Map masked and rectified!"}
-```
-In the case where a map has less than three control points, a message indicating that, whilst the mask was saved and applied, the map needs more points to be able to rectify.
-```
-{"stat":"ok","message":"Map masked but it needs more control points to rectify"}
-```
-If the map is not found, with format=json, the following response will be returned.
-
-| Status        | Response |
+| Status        | Response | Notes |
 | ------------- |----------| 
-| 404	(not found)| ```{"items":[],"stat":"not found"}```    |
-
+| 200	(OK)| ```{"stat":"ok","message":"Map masked and rectified!"}```    | |
+| 200	(OK)| ```{"stat":"ok","message":"Map masked but it needs more control points to rectify"}```    | returned when a map has less than three control points |
+| 404	(not found)| ```{"items":[],"stat":"not found"}```    | no clipping mask found |
 
 ###Warping
 
