@@ -28,7 +28,7 @@ Method: GET
 
 | Element       	|             | Description |  Required | Notes |
 | -----          | -----       | -----        | -----    |  -----|
-| title      		|              	| title of map | optional | default |
+| title      		|              	| map title | optional | default |
 | description		|               | map description| optional |       |
 | nypl_digital_id 	| 	         | NYPL digital id used for the thumbnail image and link to the library's metadata | optional | |
 | catnyp 		      |             | NYPL digital catalog ID used to link to library record              | optional | |
@@ -89,14 +89,14 @@ The output returned will be in JSON in the following format.
 | stat		        |               | string 	|		               | status of the request		|    |
 | current_page		|               | integer |		               | 		|    |
 | items		       |               | array of key pairs with information about the map 	|		|									|
-|               | status	       | integer	 | 	              | |
+|               | status	       | integer	 | 	              | image status                  |
 | 		            | 		            |          | 0 : unloaded	  | image has not been loaded					|
 | 		            |		             |          | 1 : loading 	  | the master image is being requested from the NYPL repository	|
 | 		            | 		            |          | 2 : available	 | image has been copied, and is ready to be rectified	|
 | 		            | 		            |          | 3 : warping	   | image is undergoing the rectification process			|
 | 		            | 		            |          | 4 : warped	    | image has been rectified					|
 | 		            | 		            |          | 5 : published	 | this status is set when the map should no longer be edited | not currently used|
-|               | map_type	     | integer 	|          	      | 							|
+|               | map_type	     | integer 	|          	      | indicates whether the image is of a map or another type of content	|
 |               |         	     |         	| 0 : index	      | indicates a map index or overview map							|
 | 		            | 		            |          | 1 : is_map	     | default map type 										| 
 | 		            | 	 	           |          | 2 : not_map	    | Indicates non-map content, such as a plate depicting sea monsters		|
