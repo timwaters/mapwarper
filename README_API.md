@@ -183,20 +183,12 @@ The response will be be in the following format:
 }}}
 ```
 
-If a map is not found, the following HTTP response will be returned.
-
-| Status        | Response |
-| ------------- |----------| 
-| 404	(not found)| ```{"items":[],"stat":"not found"}```    |
-
 ###Response Elements
 
 | Name        	 | Type		       | Value		| Description					| Notes |
 | ------------- |-------------	|-----		 |-----------						| ----- |
-| title		| string 	|		|									|
-| description	| string	|		|									|
-| width		| integer	| 		| width of unrectified image					|
-| height	| integer 	| 		      | height of unrectified image				|
+| stat		        | string 	     |		      | status of the request		|    |
+| items		       | array of key pairs with information about the map 	|		|									|
 | status	| integer	 | 	       | |
 | 		     | 		       | 0 : unloaded	| image has not been loaded					|
 | 		|		| 1 : loading 	| the master image is being requested from the NYPL repository	|
@@ -207,15 +199,25 @@ If a map is not found, the following HTTP response will be returned.
 | map_type	| integer 	| 0 : index	      | indicates a map index or overview map							|
 | 		| 		| 1 : is_map	| default map type 										| 
 | 		| 		| 2 : not_map	| Indicates non-map content, such as a plate depicting sea monsters		|
-| bbox	| string	| comma-separated string	| coordinates for the bounding box (geographic footprint) of the rectified image | Format: y.min (lon min) ,x.min (lat min) ,y.max (lon max), x.max (lat max). Example: -75.9831134505588,38.552727388127,-73.9526411829395,40.4029389105122	|
 | updated_at	| string	| describes when the image was last updated		| e.g., "5 days ago."	|
+| title		| string 	|		|									|
+| id		| integer 	|		|									|
+| description	| string	|		|									|
+| height	| integer 	| 		      | height of unrectified image				|
 | nypl_digital_id	| integer | 		| the NYPL digital id, which is used for thumbnail images and links to library metadata		|
 | catnyp_id	| integer	| 		| The NYPL digital catalog that is used to link to the library record 			|
 | mask_status	| integer	   || Status of masking int.		|
 | 		| 		| 0 : unmasked		| 				|
 | 		| 		| 1 : masking		| 				|
 | 		| 		| 2 : masked		| 				|
+| width		| integer	| 		| width of unrectified image					|
+| created_at	| integer	| 		| width of unrectified image					|
 
+If a map is not found, the following HTTP response will be returned.
+
+| Status        | Response |
+| ------------- |----------| 
+| 404	(not found)| ```{"items":[],"stat":"not found"}```    |
 
 ###GET Map Status
 
