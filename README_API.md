@@ -191,8 +191,8 @@ If a map is not found, the following HTTP response will be returned.
 
 ###Response Elements
 
-| Name        	| Type		| Value		| Description					| Notes |
-| ------------- |-------------	|-----		|-----						|
+| Name        	 | Type		       | Value		| Description					| Notes |
+| ------------- |-------------	|-----		 |-----------						| ----- |
 | title		| string 	|		|									|
 | description	| string	|		|									|
 | width		| integer	| 		| width of unrectified image					|
@@ -896,7 +896,7 @@ POST http://mapwarper.net/maps/{map_id}/save_mask_and_warp
 The output will be a GML string containing polygon(s) to mask over (see save mask).
 
 | Status        | Response | Notes |
-| ------------- |----------| 
+| ------------- |----------| ----- |
 | 200	(OK)| ```{"stat":"ok","message":"Map masked and rectified!"}```    | |
 | 200	(OK)| ```{"stat":"ok","message":"Map masked but it needs more control points to rectify"}```    | returned when a map has less than three control points |
 | 404	(not found)| ```{"items":[],"stat":"not found"}```    | no clipping mask found |
@@ -920,7 +920,9 @@ curl -X POST -d "use_mask=false&format=json" -u email@example.com:password  http
 ```
 **Parameters**
 
-resample_options  (optional - nearest neighbour is given as default)
+
+resample options  (optional - nearest neighbour is given as default)
+
 
            near - Nearest Neighbour - fastest (default)
 
@@ -949,17 +951,9 @@ transform_options  (optional - auto is given as default)
 use_mask      true|false applies any saved mask to the map, optional, defaults to false
 
 **Response**
-returns: if map is rectified
-```
-{"stat":"ok","message":"Map rectified."}
-```
-If the map hasnt got enough GCPS saved, the map won't be warped:
-```
-{"stat":"fail","message":"not enough GCPS to rectify"}
-```
-If the map is not found, with format=json, the following response will be returned.
-```
-| Status        | Response |
-| ------------- |----------| 
-| 404	(not found)| ```{"items":[],"stat":"not found"}```    |
 
+| Status        | Response | Notes |
+| ------------- |----------| ----- |
+| 200	(OK)| ```{"stat":"ok","message":"Map rectified."}```    | Successful response. |
+ |        | ```{"stat":"fail","message":"not enough GCPS to rectify"}```    | map doesn't have enough GCPS saved |
+| 404	(not found)| ```{"items":[],"stat":"not found"}```    | map not found |
