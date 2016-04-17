@@ -6,7 +6,7 @@ Welcome to the documentation for the MapWarper API!
 
 Authentication for the MapWarper API is currently cookie-based.
 
-**Curl Examples**
+**cURL Examples**
 
 ```
 curl -H 'Content-Type: application/json' -H 'Accept: application/json' -X POST http://localhost:3000/u/sign_in.json  -d '{"user" : { "email" : "tim@example.com", "password" : "password"}}' -c cookie
@@ -137,7 +137,7 @@ Returns a paginated list of rectified maps that either intersect or fall within 
 ```
 **Other Parameters** 
 
-| Name        | Description	| Notes |
+| Name          | Description	| Notes |
 | ------------- |-------------| -------|
 | intersect	| Uses the PostGIS ST_Intersects operation to retrieve rectified maps whose extents intersect with the bbox parameter. | Preferred. Orders results by proximity to the bbox extent. |
 | within	| Uses a PostGIS ST_Within operation to retrieve rectified maps that fall entirely within the extent of the bbox parameter. |      |
@@ -262,8 +262,6 @@ This request returns text. If a map has no status (i.e., it has not been transfe
 
 While the request usually takes a few seconds, it could take several. Sometimes, the request does not succeed. 
 
-********* WHAT IS THE ERROR MESSAGE? ****************
-
 **Request Example**
 
 ```
@@ -273,9 +271,9 @@ GET[http://mapwarper.net/maps/8991/status]
 ##Layers
 ###Query/List Layers
 
-**Fields**
+**Parameters**
 
-| Element       	|                  | Description |  Required | Notes |
+| Name      	|                  | Description |  Required | Notes |
 | -----          | -----            | -----        | -----    |  -----|
 | title      		  |              	   | title of map                  | Optional | default |
 | description		  |                  | map description               | Optional |       |
@@ -628,11 +626,11 @@ Returns a specified ground control point.
 
 Adds the ground control points on which the rectification will be based. Requires authentication.
 
-**Definition**
 
-```
-POST http://mapwarper.net/gcps/add/{map_id}
-```
+| Method       | Definition | 
+| ------------- | -------  | 
+| POST          |  http://mapwarper.net/gcps/add/{map_id} |
+
 
 **Parameters**
 
@@ -649,7 +647,7 @@ POST http://mapwarper.net/gcps/add/{map_id}
 
 [http://mapwarper.net/gcps/add/7449](http://mapwarper.net/gcps/add/7449)
 
-**CURL Example**
+**cURL Example**
 
 ```
 curl -X POST -d "x=1.1&y=2.3&format=json" -u name@example.com:password http://mapwarper.net/gcps/add/7449
@@ -730,7 +728,7 @@ PUT http://mapwarper.net/gcps/update/{gcp_id}
 
 [http://mapwarper.net/gcps/update/14803](http://mapwarper.net/gcps/update/14803)
 
-**Example using CURL and HTTP BASIC**
+**Example using cURL and HTTP BASIC**
 
 ```
 curl -X PUT -d "lat=54.33&lon=-1.467&x=3666.335&y=2000.12&format=json" -u user@example.com:password http://mapwarper.net/gcps/update/14803
@@ -757,11 +755,10 @@ An error will appear in the following format.
 
 Requires authentication.
 
-**Definition**
 
-```
-PUT http://mapwarper.net/gcps/update_field/{gcp_id}
-```
+| Method        | Definition | 
+| ------------- | -------  | 
+| PUT           |  http://mapwarper.net/gcps/update_field/{gcp_id} |
 
 **Parameters**
 
@@ -792,11 +789,10 @@ An error will appear in the following format.
 ###Delete GCP
 Deletes a ground control point. Requires authentication.
 
-**Definition**
+| Method        | Definition | 
+| ------------- | -------  | 
+| DELETE        |  http://mapwarper.net/gcps/destroy/{gcp_id} |
 
-```
-DELETE http://mapwarper.net/gcps/destroy/{gcp_id}
-```
 **Parameters**
 
 | Name        | Description | Required  | 
@@ -826,11 +822,9 @@ Uses GML to mask a portion of the map, so that areas on a map that are not maske
 
 Gets a GML file containing polygons of the clipping mask.
 
-**Definition**
-
-```
-GET http://mapwarper.net/shared/masks/{map_id}.gml.ol
-```
+| Method        | Definition | 
+| ------------- | -------  | 
+| GET       |  http://mapwarper.net/shared/masks/{map_id}.gml.ol |
 
 **Examples**
 
@@ -850,17 +844,15 @@ http://mapwarper.net/shared/masks/7449.gml.ol?1274110931 (with a timestamp to as
 
 Returns a text string with a message indicating success or failure. Requires authentication.
 
-**Definition**
-
-```
-http://mapwarper.net/maps/{map_id}/save_mask
-```
+| Method        | Definition | 
+| ------------- | -------  | 
+| POST       |  http://mapwarper.net/maps/{map_id}/save_mask |
 
 **Request Example**
 
 [http://mapwarper.net/maps/7449/save_mask]9http://mapwarper.net/maps/7449/save_mask)
 
-**CURL Example**
+**cURL Example**
 
 ```
 {{{
@@ -893,11 +885,9 @@ A successful call will return the following message.
 ###POST Delete Mask
 Deletes a mask. Requires authentication.
 
-**Definition:** 
-
-```
-http://mapwarper.net/maps/{map_id}/delete_mask
-```
+| Method        | Definition | 
+| ------------- | -------  | 
+| POST       |  http://mapwarper.net/maps/{map_id}/delete_mask |
 
 **Parameters** 
 
@@ -917,11 +907,10 @@ http://mapwarper.net/maps/{map_id}/delete_mask
 ###POST Mask Map
 Applies the clipping mask to a map, but does not rectify it. A clipping mask should be saved before calling this. Requires authentication.
 
-**Definition:**
+| Method        | Definition | 
+| ------------- | -------    | 
+| POST          |  http://mapwarper.net/maps/{map_id}/mask_map |
 
-```
-POST http://mapwarper.net/maps/{map_id}/mask_map
-```
 **Response**
 
 | Status        | Response | Notes |
@@ -933,13 +922,15 @@ POST http://mapwarper.net/maps/{map_id}/mask_map
 
 Rolls the calls into one. Saves the mask, applies the mask to the map, and rectifies the map using the mask. Requires authentication.
 
-**Definition**
+| Method       | Definition | 
+| ------------- | -------  | 
+| POST          |  http://mapwarper.net/maps/{map_id}/save_mask_and_warp |
 
-```
-POST http://mapwarper.net/maps/{map_id}/save_mask_and_warp
-```
+**Parameters**
 
-???????????????? PARAMETERS ???????????????
+| Name        | Description | 
+| ------------- | -------  | 
+| map_id        | unique identifier for a map|
 
 **Response**
 
@@ -947,7 +938,7 @@ The output will be a GML string containing polygon(s) to mask over (see save mas
 
 | Status        | Response | Notes |
 | ------------- | -------  | ----- |
-| 200	(OK)| ```{"stat":"ok","message":"Map masked and rectified!"}```    | |
+| 200	(OK)| ```{"stat":"ok","message":"Map masked and rectified!"}```    | success |
 | 200	(OK)| ```{"stat":"ok","message":"Map masked but it needs more control points to rectify"}```    | returned when a map has less than three control points |
 | 404	(not found)| ```{"items":[],"stat":"not found"}```    | no clipping mask found |
 
@@ -955,11 +946,9 @@ The output will be a GML string containing polygon(s) to mask over (see save mas
 
 Warps or rectifies a map according to its saved GCPs and the parameters passed in. Requires authentication.
 
-**Definition**
-
-```
-POST http://mapwarper.net/maps/{map_id}/rectify
-```
+| Method       | Definition | 
+| ------------- | -------  | 
+| POST          |  http://mapwarper.net/maps/{map_id}/rectify |
 
 **Example:**
 
