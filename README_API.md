@@ -22,7 +22,9 @@ curl -H 'Content-Type: application/json' -H 'Accept: application/json' -X POST -
 
 Returns a list of maps that meet the search criteria. 
 
-Method: GET						                
+| Method        | 
+| ------------- | 
+| GET           |                 
 
 **Parameters**
 
