@@ -292,7 +292,7 @@ GET[http://mapwarper.net/maps/8991/status](http://mapwarper.net/maps/8991/status
 | 		             | title            | title of the map	             | optional            | |
 | 		             | depicts_year     | the year that the map depicts	| optional            | |
 | 		             | updated_at       | when the map was last updated	| optional            | |
-| 		             | mapscans_count   | 	                             | optional            | |
+| 		             | mapscans_count   | how many maps a layer has, as opposed to title pages, plates, and other non-map content | defines a map using the map_type => is_map variable; optional    | |
 |		              | percent	         | 	                             | optional            | |
 | sort_order	                       || the order in which the results should appear    | optional            | |
 |                | asc 	             | ascending order               | optional            | |
@@ -443,14 +443,15 @@ If not found with format=json, the following response will be returned.
 | Element            | Type        |  Description	| Notes       |
 | -------------      | ----------- |  ----------- | ----------- |
 | bbox	| comma-separated string of latitude and longitude coordinates  | bounding box, based on the extents of the tileindex shapefile that makes up the layer with maps |      |
-| mapscans_count	| integer   | how many maps a layer has; where a map is defined using the map_type => is_map variable, excludes title pages, for instance	|     |
-| rectified_mapscans_count	      | integer   | how many maps are rectified in the layer		|     |
-| percent	      | integer   | percentage of rectified maps out of total number of maps		|     | 
+| mapscans_count	    | integer   | how many maps a layer has, as opposed to title pages, plates, and other non-map content	| defines a map using the map_type => is_map variable; optional     |
+| rectified_mapscans_count	      | integer   | how many maps in the layer are rectified	|     |
+| percent	           | integer   | percentage of rectified maps out of the total number of maps		|     | 
 | depicts_year	      | year      | the year the layer depicts		|     |
-| is_visible	      | boolean		| if it's set to false, usually indicates a meta layer, or collection of atlases | these meta-layers will not have WMS |
+| is_visible	        | boolean		 | when set to false, usually indicates a meta layer or collection of atlases | these meta-layers will not have WMSs |
 
 
-###GET a Layer's Maps
+###Get a Layer's Maps
+
 Returns a paginated list of maps for a given layer.
 
 **Request Example:**
@@ -461,8 +462,8 @@ Returns a paginated list of maps for a given layer.
 
 | Name          | Description | Required  | Notes     |
 | ------------- | ----------  | --------  | --------  |
-| layer_id      |             |           |
-| format        |             |           | json      |
+| layer_id      | unique identifier for a layer          |           |       |
+| format        | can be used to specify json            |           |       |
 | show_warped |  specifies whether to limit search to rectified maps    | optional | default is "1", which limits to rectified maps; "0" returns all maps |
 
 **Response:**
