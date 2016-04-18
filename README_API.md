@@ -581,22 +581,21 @@ If the map is not found, with format=json, the following response will be return
 | ------------- | -------- | 
 | 404	(not found) | ```{"items":[],"stat":"not found"}```    |
 
-
 **Response Elements**
 
-| Name          | Description | Notes |
-| ------------- | ---------   | ----  |
-| status        | status of request   | ```{ "stat": "ok" }``` |
-| lon           | longitude of control point to rectify to   |  |
-| updated_at    | date and time of the request ????  |  |
-| x    | the x coordinate on the unrectified image that corresponds to "lon"   |  |
-| y    | the y coordinate on the unrectified image that corresponds to "lon"   |  |
-| mapscan_id           | the map id   |  |
-| id           |    |  |
-| error           | calculated error, or distortion, for that control point   |  |
-| lat           | Latitude of control point to rectify to   |  |
-
-**Ground Control Points**
+| Name          |             | Description | Notes   |
+| ------------- | ---------   | ---------   | ------  |
+| status        |             | status of request   | ```{ "stat": "ok" }``` |
+| items		                     || array of key pairs with information about the control points 	|		|									|
+|               | lon           | longitude of control point                    |  |
+|               | updated_at    | date and time that control points were last updated  |  |
+|               | x             | the x coordinate that corresponds to "lon"   |  |
+|               | y             | the y coordinate that corresponds to "lat"   |  |
+|               | mapscan_id    | the map id                                   |  |
+|               | id            |                                              |  |
+|               | error         | calculated error, or distortion, for that control point   |  |
+|               | lat           | Latitude of control point   |  |
+|               | created_at           |    |  |
 
 With the following calls, if the GCP is not found with format=json, the following response will be returned.
 
@@ -604,14 +603,13 @@ With the following calls, if the GCP is not found with format=json, the followin
 | ------------- | -------- | 
 | 404	(not found) | ```{"items":[],"stat":"not found"}```    |
 
-
 ###Get a Single Ground Control Point
 
 | Method       | Definition | 
 | ------------ | -------    | 
 | GET          |  http://mapwarper.net/gcps/{gcp_id}?format=|json |
 
-Returns a specified ground control point.
+Returns a specified ground control point by ID.
 
 **Example**
 
@@ -639,6 +637,22 @@ Returns a specified ground control point.
 }}}
 ```
 
+**Response Elements**
+
+| Name          |             | Description | Notes   |
+| ------------- | ---------   | ---------   | ------  |
+| status        |             | status of request   | ```{ "stat": "ok" }``` |
+| items		                     || array of key pairs with information about the control points 	|		|									|
+|               | lon           | longitude of control point                    |  |
+|               | updated_at    | date and time that control points were last updated  |  |
+|               | x             | the x coordinate that corresponds to "lon"   |  |
+|               | y             | the y coordinate that corresponds to "lat"   |  |
+|               | mapscan_id    | the map id                                   |  |
+|               | id            |                                              |  |
+|               | error         | calculated error, or distortion, for that control point   |  |
+|               | lat           | Latitude of control point   |  |
+|               | created_at           |    |  |
+
 ###Add Ground Control Points
 
 | Method       | Definition | 
@@ -656,7 +670,7 @@ Adds the ground control points on which the rectification will be based. Require
 | lon           | longitude of control point to rectify to                        | optional | default is 0   |
 | x    | the x coordinate on the unrectified image that corresponds to "lon"      | optional | default is 0   |
 | y    | the y coordinate on the unrectified image that corresponds to "lon"      | optional | default is 0   | 
-| format        | json       |            |       |
+| format        | can be used to specify json       |            |       |
 
 **Request Example**
 
@@ -705,6 +719,22 @@ The response will be in the following format.
 }}}
 ```
 
+**Response Elements**
+
+| Name          |             | Description | Notes   |
+| ------------- | ---------   | ---------   | ------  |
+| status        |             | status of request   | ```{ "stat": "ok" }``` |
+| items		                     || array of key pairs with information about the control points 	|		|									|
+|               | lon           | longitude of control point                    |  |
+|               | updated_at    | date and time that control points were last updated  |  |
+|               | x             | the x coordinate that corresponds to "lon"   |  |
+|               | y             | the y coordinate that corresponds to "lat"   |  |
+|               | mapscan_id    | the map id                                   |  |
+|               | id            |                                            |  |
+|               | error         | calculated error, or distortion, for that control point   |  |
+|               | lat           | Latitude of control point   |  |
+|               | created_at           |    |  |
+
 An error will return the following message.
 
 ```
@@ -735,7 +765,7 @@ Returns a list of GCPs with their error calculations. Requires authentication.
 
 | Name          | Description | Required  | 
 | ------------- | ---------   | --------- | 
-| gcp_id        |  id of the ground control point  |  required |
+| gcp_id        |  unique identifier of the ground control point  |  required |
 
 **Example**
 
@@ -749,12 +779,12 @@ curl -X PUT -d "lat=54.33&lon=-1.467&x=3666.335&y=2000.12&format=json" -u user@e
 
 | Name          | Description | Required  | Notes |
 | ------------- | ---------   | ------    | ----  |                                            |
-| gcp_id        |             | required  |       |
+| gcp_id        | unique identifier of the ground control point            | required  |       |
 | lat           | latitude of control point to rectify to   | optional | 0 if not given |
 | lon           | longitude of control point to rectify to   | optional | 0 if not given |
 | x    | the x coordinate on the unrectified image that corresponds to "lon"   | optional | 0 if not given |
 | y    | the y coordinate on the unrectified image that corresponds to "lon"   | optional | 0 if not given | 
-| format          | json      |           |       |
+| format          | can be used to specify json      |           |       |
 
 **Response**
 An error will appear in the following format.
@@ -768,7 +798,7 @@ An error will appear in the following format.
 ###Update One Field of a GCP
 
 | Method        | Definition | 
-| ------------- | -------  | 
+| ------------- | ---------  | 
 | PUT           |  http://mapwarper.net/gcps/update_field/{gcp_id} |
 
 Requires authentication.
@@ -778,12 +808,12 @@ Requires authentication.
 | Name          | Description | Required  | Notes |
 | ------------- | ---------   | ------    | ----  | 
 | ??? field_id  ???    |  ??? id of the field to update ???  |  required |   |                                        |
-| lat           | latitude of control point to rectify to   | optional | 0 if not given |
-| lon           | longitude of control point to rectify to   | optional | 0 if not given |
+| lat           | latitude of control point to rectify to   | optional | 0 is default |
+| lon           | longitude of control point to rectify to   | optional | 0 is default |
 | x    | the x coordinate on the unrectified image that corresponds to "lon"   | optional | 0 if not given |
 | y    | the y coordinate on the unrectified image that corresponds to "lon"   | optional | 0 if not given |
-| value           | value to change      |           |       |
-| format          | json      |           |       |
+| value           | value to change                  |           |       |
+| format          | can be usd to specify json       |           |       |
 
 **Example**
 
@@ -802,7 +832,7 @@ An error will appear in the following format.
 ###Delete GCP
 
 | Method        | Definition | 
-| ------------- | -------  | 
+| ------------- | ---------  | 
 | DELETE        |  http://mapwarper.net/gcps/destroy/{gcp_id} |
 
 Deletes a ground control point. Requires authentication.
@@ -811,7 +841,7 @@ Deletes a ground control point. Requires authentication.
 
 | Name        | Description | Required  | 
 | ----------- | --------- | ---------   | 
-| gcp_id      |  id of the ground control point  |  required |
+| gcp_id      |  unique identifier for a ground control point  |  required |
 
 Example: 
 
@@ -908,8 +938,8 @@ Deletes a mask. Requires authentication.
 
 | Name          | Description | Required  | 
 | ------------- | ---------   | ------    |
-| map_id        |  unique identifier for a map  |  required |
-| format        | json        |           | 
+| map_id        |  unique identifier for a map        |  required |
+| format        |  can be used to specify json        |           | 
 
 **Response**
 
@@ -919,7 +949,7 @@ Deletes a mask. Requires authentication.
 | 404	(not found) | ```{"items":[],"stat":"not found"}```    |
 
 
-###POST Mask Map
+###Mask Map
 
 | Method        | Definition | 
 | ------------- | -------    | 
@@ -932,7 +962,7 @@ Applies the clipping mask to a map, but does not rectify it. A clipping mask sho
 | Status        | Response | Notes |
 | ------------- | -------  | ----  | 
 | 200	(OK) | ```{"stat":"ok","message":"Map cropped"}```    | |
-| 404	(not found) | ```{"items":[],"stat":"not found"}```    | no clipping mask found |
+| 404	(not found) | ```{"items":[],"stat":"not found"}```   | no clipping mask found |
 
 ###Save, Mask, and Warp Map
 
