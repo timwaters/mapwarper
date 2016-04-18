@@ -127,7 +127,7 @@ Returns a paginated list of rectified maps that either intersect or fall within 
 
 | Name          | Description	| Type   | Notes |
 | ------------- |-------------| -------| ----- |
-| bbox	| a rectangle delineating the geographic area to which the search should be limited | preferred; orders results by proximity to the bbox extent | comma-separated string of latitude and longitude coordinates  |
+| bbox	| a rectangle delineating the geographic area to which the search should be limited | comma-separated string of latitude and longitude coordinates | preferred; orders results by proximity to the bbox extent |   |
 
 **Format**
 ```
@@ -240,18 +240,18 @@ The response will be be in the following format.
 | 		| 		| 1 : is_map	| default map type 										| 
 | 		| 		| 2 : not_map	| indicates non-map content, such as a plate depicting sea monsters		|
 | updated_at	| string	| describes when the image was last updated		| e.g., "5 days ago."	|
-| title		| string 	|		|									|
-| id		| integer 	|		|									|
-| description	| string	|		|									|
+| title		| string 	|		|	title of the map								|
+| id		| integer 	|		|			unique identifier for the map						|
+| description	| string	|		|	description of the map								|
 | height	| integer 	| 		      | height of unrectified image				|
 | nypl_digital_id	| integer | 		| the NYPL digital id, which is used for thumbnail images and links to library metadata		|
 | catnyp_id	| integer	| 		| the NYPL digital catalog that is used to link to the library record 			|
 | mask_status	| integer	   || Status of masking int.		|
-| 		| 		| 0 : unmasked		| 				|
-| 		| 		| 1 : masking		| 				|
-| 		| 		| 2 : masked		| 				|
+| 		| 		| 0 : unmasked		| 	the image has not been masked			|
+| 		| 		| 1 : masking		| 		the image is undergoing the masking process		|
+| 		| 		| 2 : masked		| 	the image has been masked			|
 | width		| integer	    | 		| width of unrectified image					|
-| created_at	| integer	| 		| width of unrectified image					|
+| created_at	| integer	| 		| 					|
 
 If a map is not found, the following HTTP response will be returned.
 
@@ -267,7 +267,7 @@ If a map is not found, the following HTTP response will be returned.
 
 Returns a map's status. This request is used to poll a map while it is being transfered from the NYPL image server to the map server.
 
-This request returns text. If a map has no status (i.e., it has not been transferred yet), this request will return the status "loading."
+This request returns text. If a map has no status (i.e., has not been transferred yet), this request will return the status "loading."
 
 While the request usually takes a few seconds, it could take several. Sometimes, the request does not succeed. 
 
@@ -285,8 +285,8 @@ GET[http://mapwarper.net/maps/8991/status](http://mapwarper.net/maps/8991/status
 
 | Name      	    |                  | Description |  Required | Notes |
 | -----          | -----            | -----        | -----    |  ---- |
-| title      		  |              	   | title of map                  | optional | default |
-| description		  |                  | map description               | optional |       |
+| title      		  |              	   | title of the map                  | optional | default |
+| description		  |                  | description of the map              | optional |       |
 | catnyp 		      |                  | NYPL digital catalog ID used to link to library record  | optional | |
 | sort_key	             	           || field on which the sort should be based                | optional |   |
 | 		             | title            | title of the map	             | optional            | |
@@ -294,10 +294,10 @@ GET[http://mapwarper.net/maps/8991/status](http://mapwarper.net/maps/8991/status
 | 		             | updated_at       | when the map was last updated	| optional            | |
 | 		             | mapscans_count   | 	                             | optional            | |
 |		              | percent	         | 	                             | optional             | gives the number of control points for a rectified image, or the status "unrectified" |
-| sort_order	                       ||                               | optional            | |
+| sort_order	                       || the order in which the results should appear    | optional            | |
 |                | asc 	             | ascending order               | optional            | |
 |		              | desc	             | descending order              | optional            | |
-| format	        |     	             | json                          | optional            | |
+| format	        |     	             | can be used to specifiy json  | optional            | |
 | page		         | 		                | page number 	                 | optional            | |
 
 **Query**        
@@ -341,6 +341,7 @@ Enter text for the search query, based on the field chosen. The query text is ca
 ```
 
 ###Request a Map's Layers
+
 Returns a map's layers. 
 
 **Request Example:** 
@@ -396,6 +397,7 @@ If not found, the following response will be returned.
 | 404	(not found)| ```{"items":[],"stat":"not found"}```    |
 
 ###GET Layer:
+
 Gets a single layer.
 
 **Request Examples**
@@ -432,16 +434,16 @@ or [http://mapwarper.net/layers/760?format=json](http://mapwarper.net/layers/760
 
 If not found with format=json, the following response will be returned.
 
-| Status        | Response   |
-| ------------- | ---------- | 
-| 404	(not found)| ```{"items":[],"stat":"not found"}```    |
+| Status          | Response   |
+| -------------   | ---------- | 
+| 404	(not found) | ```{"items":[],"stat":"not found"}```    |
 
 **Parameters**
 
 | Element            | Type        |  Description	| Notes       |
 | -------------      | ----------- |  ----------- | ----------- |
-| bbox	| string of geographic coordinates  | bounding box, based on the extents of the tileindex shapefile that makes up the layer with maps |      |
-| mapscans_count	| integer   | How many maps a layer has. Where a map is defined using the map_type => is_map variable, excludes title pages, for instance.	|     |
+| bbox	| comma-separated string of latitude and longitude coordinates  | bounding box, based on the extents of the tileindex shapefile that makes up the layer with maps |      |
+| mapscans_count	| integer   | how many maps a layer has; where a map is defined using the map_type => is_map variable, excludes title pages, for instance	|     |
 | rectified_mapscans_count	      | integer   | how many maps are rectified in the layer		|     |
 | percent	      | integer   | percentage of rectified maps out of total number of maps		|     | 
 | depicts_year	      | year      | the year the layer depicts		|     |
@@ -951,9 +953,9 @@ The output will be a GML string containing polygon(s) to mask over (see save mas
 
 | Status        | Response | Notes |
 | ------------- | -------  | ----- |
-| 200	(OK)| ```{"stat":"ok","message":"Map masked and rectified!"}```    | success |
-| 200	(OK)| ```{"stat":"ok","message":"Map masked but it needs more control points to rectify"}```    | returned when a map has less than three control points |
-| 404	(not found)| ```{"items":[],"stat":"not found"}```    | no clipping mask found |
+| 200	(OK) | ```{"stat":"ok","message":"Map masked and rectified!"}```    | success |
+| 200	(OK )| ```{"stat":"ok","message":"Map masked but it needs more control points to rectify"}```    | returned when a map has less than three control points |
+| 404	(not found) | ```{"items":[],"stat":"not found"}```    | no clipping mask found |
 
 ###Warping
 
@@ -1003,8 +1005,8 @@ use_mask      true|false applies any saved mask to the map, optional, defaults t
 
 **Response**
 
-| Status        | Response | Notes |
-| ------------- | -------  | ----- |
-| 200	(OK)      | ```{"stat":"ok","message":"Map rectified."}```    | success  |
-|               | ```{"stat":"fail","message":"not enough GCPS to rectify"}```    | map doesn't have enough GCPS saved |
-| 404	(not found)| ```{"items":[],"stat":"not found"}```    | map not found |
+| Status          | Response | Notes |
+| -------------   | -------  | ----- |
+| 200	(OK)        | ```{"stat":"ok","message":"Map rectified."}```    | success  |
+|                 | ```{"stat":"fail","message":"not enough GCPS to rectify"}```    | map doesn't have enough GCPS saved |
+| 404	(not found) | ```{"items":[],"stat":"not found"}```    | map not found |
