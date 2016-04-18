@@ -28,7 +28,7 @@ Returns a list of maps that meet the search criteria.
 
 **Parameters**
 
-| Element       	|             | Description |  Required | Notes |
+| Name      	    |             | Description |  Required | Notes |
 | -----          | -----       | -----        | -----    |  -----|
 | title      		|              	| map title | optional | default |
 | description		|               | map description| optional |       |
@@ -502,9 +502,11 @@ The following Web map services are available.
 ####Map & Layer KML**
 
 **Map KML**
+
 [http://mapwarper.net/maps/8561.kml](http://mapwarper.net/maps/8561.kml)
 
 **Layer KML**
+
 [http://mapwarper.net/layers/931.kml](http://mapwarper.net/layers/931.kml)
 
 ------------------------------
