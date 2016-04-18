@@ -94,22 +94,22 @@ The response will be in JSON in the following format.
 |               | status	       | integer	 | 	              | status of the image    |
 | 		            | 		            |          | 0 : unloaded	  | image has not been loaded					|
 | 		            |		             |          | 1 : loading 	  | the master image is being requested from the NYPL repository	|
-| 		            | 		            |          | 2 : available	 | image has been copied, and is ready to be rectified	|
+| 		            | 		            |          | 2 : available	 | image has been copied and is ready to be rectified	|
 | 		            | 		            |          | 3 : warping	   | image is undergoing the rectification process			|
 | 		            | 		            |          | 4 : warped	    | image has been rectified					|
-| 		            | 		            |          | 5 : published	 | this status is set when the map should no longer be edited | not currently used|
+| 		            | 		            |          | 5 : published	 | this status is set when the map should no longer be edited | not currently used |
 |               | map_type	     | integer 	|          	      | indicates whether the image is of a map or another type of content	|
 |               |         	     |         	| 0 : index	      | indicates a map index or overview map							|
 | 		            | 		            |          | 1 : is_map	     | default map type 										| 
-| 		            | 	 	           |          | 2 : not_map	    | Indicates non-map content, such as a plate depicting sea monsters		|
+| 		            | 	 	           |          | 2 : not_map	    | indicates non-map content, such as a plate depicting sea monsters		|
 |               | updated_at	   | string	  | describes when the image was last updated		| e.g., "5 days ago."	|
-|               | title		       | string 	 |		|									|
-|               | id		          | integer 	|		|									|
-|               | description	  | string	  |		|									|
-|               | height	       | integer 	| 	| height of unrectified image				|
+|               | title		       | string 	 |		|		title of the image							|
+|               | id		          | integer 	|		|		unique identifier for the image						|
+|               | description	  | string	  |		|		description of the image							|
+|               | height	       | integer 	| 	|  height of unrectified image				|
 |               | nypl_digital_id	| integer | 		| the NYPL digital id, which is used for thumbnail images and links to library metadata		|
 |               | catnyp_id	    | integer	 | 		  | the NYPL digital catalog that is used to link to the library record 			|
-|               | mask_status	  | integer	 || Status of masking int.		|
+|               | mask_status	  | integer	 || status of masking int.		|
 | 		            | 		            |          | 0 : unmasked		| 				|
 | 		            | 		            |          | 1 : masking		 | 				|
 | 		            | 		            |          | 2 : masked		  | 				|
