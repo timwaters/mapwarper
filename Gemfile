@@ -59,6 +59,7 @@ gem 'geoplanet'
 gem 'yql', '0.0.2'
 
 gem 'rails-api'
+gem 'active_model_serializers'
 
 group :development do
    gem 'spring'
@@ -66,4 +67,8 @@ group :development do
    gem 'capistrano-rails',    :require => false
    gem 'capistrano-bundler',  :require => false
    gem 'rvm1-capistrano3',    :require => false
+end
+
+group :test do
+  gem 'factory_girl_rails'
 end
