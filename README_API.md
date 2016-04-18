@@ -20,11 +20,11 @@ curl -H 'Content-Type: application/json' -H 'Accept: application/json' -X POST -
 
 ###Basic Search
 
-Returns a list of maps that meet the search criteria. 
-
 | Method        | 
 | ------------- | 
-| GET           |                 
+| GET           |  
+
+Returns a list of maps that meet the search criteria. 
 
 **Parameters**
 
@@ -120,6 +120,7 @@ Unless otherwise noted, all API responses will be in JSON. The response for a ba
 | total_entries	|               | integer 	|	               	|	total number of results					|    |
 
 ###Geography-Based Map Search
+
 Returns a paginated list of rectified maps that either intersect or fall within a specified geographic area, based on a bounding box. 
 
 **Parameters**
@@ -187,9 +188,9 @@ Returns a map by ID.
 
 **Request Examples**
 ```
-GET[http://mapwarper.net/maps/8461.json](http://mapwarper.net/maps/8461.json)
+GET[http://mapwarper.net/maps/8461.json]
 
-or [http://mapwarper.net/maps/8461?format=json](http://mapwarper.net/maps/8461?format=json)
+or [http://mapwarper.net/maps/8461?format=json]
 ```
 
 **Response**
@@ -256,17 +257,17 @@ If a map is not found, the following HTTP response will be returned.
 | ------------- |----------| 
 | 404	(not found)| ```{"items":[],"stat":"not found"}```    |
 
-###GET Map Status
+###Get Map Status
+
+| Method       | Definition | 
+| ------------ | -------    | 
+| GET          |  http://mapwarper.net/maps/{map_id}/status |
 
 Returns a map's status. This request is used to poll a map while it is being transfered from the NYPL image server to the map server.
 
 This request returns text. If a map has no status (i.e., it has not been transferred yet), this request will return the status "loading."
 
 While the request usually takes a few seconds, it could take several. Sometimes, the request does not succeed. 
-
-| Method       | Definition | 
-| ------------- | -------  | 
-| GET          |  http://mapwarper.net/maps/{map_id}/status |
 
 **Request Example**
 
@@ -599,13 +600,13 @@ With the following calls, if the GCP is not found with format=json, the followin
 | 404	(not found) | ```{"items":[],"stat":"not found"}```    |
 
 
-###GET a Single Ground Control Point
-
-Returns a specified ground control point.
+###Get a Single Ground Control Point
 
 | Method       | Definition | 
-| ------------- | -------   | 
+| ------------ | -------    | 
 | GET          |  http://mapwarper.net/gcps/{gcp_id}?format=|json |
+
+Returns a specified ground control point.
 
 **Example**
 
@@ -635,13 +636,11 @@ Returns a specified ground control point.
 
 ###Add Ground Control Points
 
-Adds the ground control points on which the rectification will be based. Requires authentication.
-
-
 | Method       | Definition | 
 | ------------ | -------    | 
-| POST          |  http://mapwarper.net/gcps/add/{map_id} |
+| POST         |  http://mapwarper.net/gcps/add/{map_id} |
 
+Adds the ground control points on which the rectification will be based. Requires authentication.
 
 **Parameters**
 
@@ -721,11 +720,11 @@ An error will return the following message.
 
 ###Update entire GCP
 
-Returns a list of GCPs with their error calculations. Requires authentication.
-
 | Method       | Definition | 
 | ------------ | -------    | 
 | PUT          |  http://mapwarper.net/gcps/update/{gcp_id} |
+
+Returns a list of GCPs with their error calculations. Requires authentication.
 
 **Parameters**
 
@@ -763,12 +762,11 @@ An error will appear in the following format.
 
 ###Update One Field of a GCP
 
-Requires authentication.
-
-
 | Method        | Definition | 
 | ------------- | -------  | 
 | PUT           |  http://mapwarper.net/gcps/update_field/{gcp_id} |
+
+Requires authentication.
 
 **Parameters**
 
@@ -798,11 +796,11 @@ An error will appear in the following format.
 
 ###Delete GCP
 
-Deletes a ground control point. Requires authentication.
-
 | Method        | Definition | 
 | ------------- | -------  | 
 | DELETE        |  http://mapwarper.net/gcps/destroy/{gcp_id} |
+
+Deletes a ground control point. Requires authentication.
 
 **Parameters**
 
@@ -831,11 +829,11 @@ Uses GML to mask a portion of the map, so that areas on a map that are not maske
 
 ###Get Mask
 
-Gets a GML file containing polygons of the clipping mask.
-
 | Method        | Definition | 
 | ------------- | -------    | 
 | GET           |  http://mapwarper.net/shared/masks/{map_id}.gml.ol |
+
+Gets a GML file containing polygons of the clipping mask.
 
 **Examples**
 
@@ -853,11 +851,11 @@ http://mapwarper.net/shared/masks/7449.gml.ol?1274110931 (with a timestamp to as
 
 ###POST Save Mask
 
-Returns a text string with a message indicating success or failure. Requires authentication.
-
 | Method        | Definition | 
 | ------------- | -------    | 
 | POST          |  http://mapwarper.net/maps/{map_id}/save_mask |
+
+Returns a text string with a message indicating success or failure. Requires authentication.
 
 **Request Example**
 
@@ -894,11 +892,12 @@ A successful call will return the following message.
 ```
 
 ###POST Delete Mask
-Deletes a mask. Requires authentication.
 
 | Method        | Definition | 
 | ------------- | -------    | 
 | POST          |  http://mapwarper.net/maps/{map_id}/delete_mask |
+
+Deletes a mask. Requires authentication.
 
 **Parameters** 
 
@@ -916,11 +915,12 @@ Deletes a mask. Requires authentication.
 
 
 ###POST Mask Map
-Applies the clipping mask to a map, but does not rectify it. A clipping mask should be saved before calling this. Requires authentication.
 
 | Method        | Definition | 
 | ------------- | -------    | 
 | POST          |  http://mapwarper.net/maps/{map_id}/mask_map |
+
+Applies the clipping mask to a map, but does not rectify it. A clipping mask should be saved before calling this. Requires authentication.
 
 **Response**
 
@@ -931,11 +931,11 @@ Applies the clipping mask to a map, but does not rectify it. A clipping mask sho
 
 ###Save, Mask, and Warp Map
 
-Rolls the calls into one. Saves the mask, applies the mask to the map, and rectifies the map using the mask. Requires authentication.
-
 | Method       | Definition | 
 | ------------ | -------    | 
 | POST         |  http://mapwarper.net/maps/{map_id}/save_mask_and_warp |
+
+Rolls the calls into one. Saves the mask, applies the mask to the map, and rectifies the map using the mask. Requires authentication.
 
 **Parameters**
 
@@ -955,11 +955,11 @@ The output will be a GML string containing polygon(s) to mask over (see save mas
 
 ###Warping
 
-Warps or rectifies a map according to its saved GCPs and the parameters passed in. Requires authentication.
-
 | Method       | Definition | 
 | ------------ | -------    | 
 | POST         |  http://mapwarper.net/maps/{map_id}/rectify |
+
+Warps or rectifies a map according to its saved GCPs and the parameters passed in. Requires authentication.
 
 **Example:**
 
