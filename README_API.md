@@ -38,7 +38,7 @@ Returns a list of maps that meet the search criteria.
 | 		              | title     | title of the map	             | optional            | |
 | 		              | updated_at| when the map was last updated	| optional            | |
 |		               | status	   | status of the map	            | optional            | gives the number of control points for a rectified image, or the status "unrectified" |
-| sort_order	                 ||                              | optional            | |
+| sort_order	                 ||  the order in which the items returned should appear | optional            | |
 |                 | asc 	     | ascending order               | optional            | |
 |		               | desc	     | descending order              | optional            | |
 | show_warped	    | 		        | limits to maps that have already been warped   | optional | Use "1" | 
@@ -54,7 +54,7 @@ GET[http://mapwarper.net/maps?field=title&amp;query=New&amp;sort_key=updated_at&
 
 **Response**
 
-The output returned will be in JSON in the following format.
+Unless otherwise noted, all API responses will be in JSON. The response for a basic map search will be in the following format.
 ```
 {{{
 { "stat": "ok",
@@ -139,7 +139,7 @@ Returns a paginated list of rectified maps that either intersect or fall within 
 ```
 **Other Parameters** 
 
-| Name          | Description	| Notes |
+| Name          | Description	| Notes  |
 | ------------- |-------------| -------|
 | intersect	| Uses the PostGIS ST_Intersects operation to retrieve rectified maps whose extents intersect with the bbox parameter. | Preferred. Orders results by proximity to the bbox extent. |
 | within	| Uses a PostGIS ST_Within operation to retrieve rectified maps that fall entirely within the extent of the bbox parameter. |      |
@@ -154,7 +154,7 @@ Format the query in JSON.
 ```
 **Response**
 
-The JSON response will be in the following format.
+The response will be in the following format.
 ```
 {{{
 {"stat": "ok",
@@ -194,7 +194,7 @@ or [http://mapwarper.net/maps/8461?format=json](http://mapwarper.net/maps/8461?f
 
 **Response**
 
-The response will be be in the following format:
+The response will be be in the following format.
 ```
 {{{
 {
@@ -264,19 +264,24 @@ This request returns text. If a map has no status (i.e., it has not been transfe
 
 While the request usually takes a few seconds, it could take several. Sometimes, the request does not succeed. 
 
+| Method       | Definition | 
+| ------------- | -------  | 
+| GET          |  http://mapwarper.net/maps/{map_id}/status |
+
 **Request Example**
 
 ```
-GET[http://mapwarper.net/maps/8991/status]
+GET[http://mapwarper.net/maps/8991/status](http://mapwarper.net/maps/8991/status)
 ```
 
 ##Layers
+
 ###Query/List Layers
 
 **Parameters**
 
-| Name      	|                  | Description |  Required | Notes |
-| -----          | -----            | -----        | -----    |  -----|
+| Name      	    |                  | Description |  Required | Notes |
+| -----          | -----            | -----        | -----    |  ---- |
 | title      		  |              	   | title of map                  | Optional | default |
 | description		  |                  | map description               | Optional |       |
 | catnyp 		      |                  | NYPL digital catalog ID used to link to library record  | Optional | |
@@ -451,13 +456,13 @@ Returns a paginated list of maps for a given layer.
 
 | Name          | Description | Required  | Notes     |
 | ------------- | ----------  | --------  | --------  |
-| layer_id      | IS THIS RIGHT?        |           |
-| format        |           |           | json      |
+| layer_id      |             |           |
+| format        |             |           | json      |
 | show_warped |  specifies whether to limit search to rectified maps    | optional | default is "1", which limits to rectified maps; "0" returns all maps |
 
 **Response:**
 
-The response will be in JSON in the following format.
+The response will be in the following format.
 
 ```
 {{{
@@ -529,7 +534,7 @@ or [http://mapwarper.net/maps/8561/gcps?format=json](http://mapwarper.net/maps/8
 
 **Response**
 
-The response will be in JSON in the following format.
+The response will be in the following format.
 
 ```
 {{{
@@ -598,9 +603,11 @@ With the following calls, if the GCP is not found with format=json, the followin
 
 Returns a specified ground control point.
 
-**Definition**
+| Method       | Definition | 
+| ------------- | -------   | 
+| GET          |  http://mapwarper.net/gcps/{gcp_id}?format=|json |
 
-[http://mapwarper.net/gcps/{gcp_id}?format=|json](http://mapwarper.net/gcps/{gcp_id}?format=|json)
+**Example**
 
 [http://mapwarper.net/gcps/9579?format=json](http://mapwarper.net/gcps/{gcp_id}?format=|json)
 
@@ -632,7 +639,7 @@ Adds the ground control points on which the rectification will be based. Require
 
 
 | Method       | Definition | 
-| ------------- | -------  | 
+| ------------ | -------    | 
 | POST          |  http://mapwarper.net/gcps/add/{map_id} |
 
 
@@ -659,7 +666,7 @@ curl -X POST -d "x=1.1&y=2.3&format=json" -u name@example.com:password http://ma
 
 **Response**
 
-The JSON response will be in the following format.
+The response will be in the following format.
 
 ```
 {{{
@@ -716,11 +723,9 @@ An error will return the following message.
 
 Returns a list of GCPs with their error calculations. Requires authentication.
 
-**Definition**
-
-```
-PUT http://mapwarper.net/gcps/update/{gcp_id}
-```
+| Method       | Definition | 
+| ------------ | -------    | 
+| PUT          |  http://mapwarper.net/gcps/update/{gcp_id} |
 
 **Parameters**
 
@@ -737,9 +742,10 @@ PUT http://mapwarper.net/gcps/update/{gcp_id}
 ```
 curl -X PUT -d "lat=54.33&lon=-1.467&x=3666.335&y=2000.12&format=json" -u user@example.com:password http://mapwarper.net/gcps/update/14803
 ```
+
 | Name          | Description | Required  | Notes |
 | ------------- | ---------   | ------    | ----  |                                            |
-| gcp_id        | ???         | required  |       |
+| gcp_id        |             | required  |       |
 | lat           | Latitude of control point to rectify to   | optional | 0 if not given |
 | lon           | longitude of control point to rectify to   | optional | 0 if not given |
 | x    | the x coordinate on the unrectified image that corresponds to "lon"   | optional | 0 if not given |
@@ -791,6 +797,7 @@ An error will appear in the following format.
 ```
 
 ###Delete GCP
+
 Deletes a ground control point. Requires authentication.
 
 | Method        | Definition | 
@@ -827,8 +834,8 @@ Uses GML to mask a portion of the map, so that areas on a map that are not maske
 Gets a GML file containing polygons of the clipping mask.
 
 | Method        | Definition | 
-| ------------- | -------  | 
-| GET       |  http://mapwarper.net/shared/masks/{map_id}.gml.ol |
+| ------------- | -------    | 
+| GET           |  http://mapwarper.net/shared/masks/{map_id}.gml.ol |
 
 **Examples**
 
@@ -836,7 +843,7 @@ http://mapwarper.net/shared/masks/7449.gml.ol
 
 http://mapwarper.net/shared/masks/7449.gml.ol?1274110931 (with a timestamp to assist in browser cache busting)
 
-**Request Example**
+**Response Example**
 
 ```
 {{{
@@ -849,8 +856,8 @@ http://mapwarper.net/shared/masks/7449.gml.ol?1274110931 (with a timestamp to as
 Returns a text string with a message indicating success or failure. Requires authentication.
 
 | Method        | Definition | 
-| ------------- | -------  | 
-| POST       |  http://mapwarper.net/maps/{map_id}/save_mask |
+| ------------- | -------    | 
+| POST          |  http://mapwarper.net/maps/{map_id}/save_mask |
 
 **Request Example**
 
@@ -890,8 +897,8 @@ A successful call will return the following message.
 Deletes a mask. Requires authentication.
 
 | Method        | Definition | 
-| ------------- | -------  | 
-| POST       |  http://mapwarper.net/maps/{map_id}/delete_mask |
+| ------------- | -------    | 
+| POST          |  http://mapwarper.net/maps/{map_id}/delete_mask |
 
 **Parameters** 
 
@@ -927,14 +934,14 @@ Applies the clipping mask to a map, but does not rectify it. A clipping mask sho
 Rolls the calls into one. Saves the mask, applies the mask to the map, and rectifies the map using the mask. Requires authentication.
 
 | Method       | Definition | 
-| ------------- | -------  | 
-| POST          |  http://mapwarper.net/maps/{map_id}/save_mask_and_warp |
+| ------------ | -------    | 
+| POST         |  http://mapwarper.net/maps/{map_id}/save_mask_and_warp |
 
 **Parameters**
 
 | Name        | Description | 
-| ------------- | -------  | 
-| map_id        | unique identifier for a map|
+| ----------- | -------     | 
+| map_id      | unique identifier for a map |
 
 **Response**
 
@@ -951,8 +958,8 @@ The output will be a GML string containing polygon(s) to mask over (see save mas
 Warps or rectifies a map according to its saved GCPs and the parameters passed in. Requires authentication.
 
 | Method       | Definition | 
-| ------------- | -------  | 
-| POST          |  http://mapwarper.net/maps/{map_id}/rectify |
+| ------------ | -------    | 
+| POST         |  http://mapwarper.net/maps/{map_id}/rectify |
 
 **Example:**
 
@@ -996,6 +1003,6 @@ use_mask      true|false applies any saved mask to the map, optional, defaults t
 
 | Status        | Response | Notes |
 | ------------- | -------  | ----- |
-| 200	(OK)| ```{"stat":"ok","message":"Map rectified."}```    | Successful response. |
-|         | ```{"stat":"fail","message":"not enough GCPS to rectify"}```    | map doesn't have enough GCPS saved |
+| 200	(OK)      | ```{"stat":"ok","message":"Map rectified."}```    | Successful response. |
+|               | ```{"stat":"fail","message":"not enough GCPS to rectify"}```    | map doesn't have enough GCPS saved |
 | 404	(not found)| ```{"items":[],"stat":"not found"}```    | map not found |
