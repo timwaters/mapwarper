@@ -91,7 +91,7 @@ The response will be in JSON in the following format.
 | stat		        |               | string 	|		               | status of the request		|    |
 | current_page		|               | integer |		               | 		|    |
 | items		       |               | array of key pairs with information about the map 	|		|									|
-|               | status	       | integer	 | 	              | image status                  |
+|               | status	       | integer	 | 	              | status of the image    |
 | 		            | 		            |          | 0 : unloaded	  | image has not been loaded					|
 | 		            |		             |          | 1 : loading 	  | the master image is being requested from the NYPL repository	|
 | 		            | 		            |          | 2 : available	 | image has been copied, and is ready to be rectified	|
