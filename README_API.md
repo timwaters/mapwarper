@@ -107,12 +107,12 @@ The response will be in JSON in the following format.
 |               | id		          | integer 	|		|		unique identifier for the image						|
 |               | description	  | string	  |		|		description of the image							|
 |               | height	       | integer 	| 	|  height of unrectified image				|
-|               | nypl_digital_id	| integer | 		| the NYPL digital id, which is used for thumbnail images and links to library metadata		|
-|               | catnyp_id	    | integer	 | 		  | the NYPL digital catalog that is used to link to the library record 			|
+|               | nypl_digital_id	| integer |	|  the NYPL digital id, which is used for thumbnail images and links to library metadata		|
+|               | catnyp_id	    | integer	 || the NYPL digital catalog that is used to link to the library record 			|
 |               | mask_status	  | integer	 || status of masking int.		|
-| 		            | 		            |          | 0 : unmasked		| 				|
-| 		            | 		            |          | 1 : masking		 | 				|
-| 		            | 		            |          | 2 : masked		  | 				|
+| 		            | 		            |          | 0 : unmasked		| the image has not been masked				|
+| 		            | 		            |          | 1 : masking		 | the image is undergoing the masking process				|
+| 		            | 		            |          | 2 : masked		  | the image has been masked				|
 |               | width		       | integer	 | 	  	| width of unrectified image					|
 |               | created_at	   | integer	 | 		   | 					|
 | total_pages		 |               | integer 	|		               | total number of pages in the result set		|    |
