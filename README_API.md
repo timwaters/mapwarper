@@ -125,9 +125,9 @@ Returns a paginated list of rectified maps that either intersect or fall within 
 
 **Parameters**
 
-| Name          | Description	| Type   | Notes |
-| ------------- |-------------| -------| ----- |
-| bbox	| a rectangle delineating the geographic area to which the search should be limited | comma-separated string of latitude and longitude coordinates | preferred; orders results by proximity to the bbox extent |   |
+| Name          | Description	| Type   | 
+| ------------- |-------------| -------| 
+| bbox	| a rectangle delineating the geographic area to which the search should be limited | comma-separated string of latitude and longitude coordinates | 
 
 **Format**
 ```
