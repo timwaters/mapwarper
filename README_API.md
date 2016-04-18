@@ -28,10 +28,10 @@ Returns a list of maps that meet search criteria.
 
 **Parameters**
 
-| Name      	    |             | Description |  Required | Notes |
-| -----          | -----       | -----        | -----    |  -----|
-| title      		|              	| map title | optional | default |
-| description		|               | map description| optional |       |
+| Name      	    |             | Description  |  Required | Notes |
+| -----          | -----       | -----        | -----    |  ----- |
+| title      		|              	| title of the map   | optional | default |
+| description		|               | description of the map | optional |       |
 | nypl_digital_id 	| 	         | NYPL digital id used for the thumbnail image and link to the library's metadata | optional | |
 | catnyp 		      |             | NYPL digital catalog ID used to link to library record              | optional | |
 | sort_key	             	      || field on which the sort should be based  | optional |   |
@@ -42,7 +42,7 @@ Returns a list of maps that meet search criteria.
 |                 | asc 	     | ascending order               | optional            | |
 |		               | desc	     | descending order              | optional            | |
 | show_warped	    | 		        | limits to maps that have already been warped   | optional | Use "1" | 
-| format	         |     	     | json                          | optional            | |
+| format	         |     	     | can be used to specify "json"                  | optional            | |
 | page		          | 		        | page number 	                 | optional            | |
 
 Enter optional text for the search query, based on the field chosen. The query text is case insensitive. This is a simple exact string text search. For example, a search for "city New York" returns no results, but a search for "city of New York" returns 22.
