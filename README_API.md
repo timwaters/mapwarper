@@ -229,7 +229,7 @@ The response will be be in the following format.
 | ------------- |-------------	|-----		 |-----------						| ----- |
 | stat		        | string 	     |		      | status of the request		|    |
 | items		       | array of key pairs with information about the map 	|		|									|
-| status	| integer	 | 	       | |
+| status	| integer	 | 	       | status of the image |
 | 	 | 	 | 0 : unloaded	| image has not been loaded					|
 | 		|		 | 1 : loading 	| the master image is being requested from the NYPL repository	|
 | 		| 		| 2 : available	| image has been copied, and is ready to be rectified	|
