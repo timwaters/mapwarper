@@ -42,7 +42,7 @@ Returns a list of maps that meet search criteria.
 |                 | asc 	     | ascending order               | optional            | |
 |		               | desc	     | descending order              | optional            | |
 | show_warped	    | 		        | limits to maps that have already been warped   | optional | Use "1" | 
-| format	         |     	     | can be used to specify "json"                  | optional            | |
+| format	         |     	     | can be used to specify json   | optional            | |
 | page		          | 		        | page number 	                 | optional            | |
 
 Enter optional text for the search query, based on the field chosen. The query text is case insensitive. This is a simple exact string text search. For example, a search for "city New York" returns no results, but a search for "city of New York" returns 22.
