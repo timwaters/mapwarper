@@ -127,7 +127,7 @@ Returns a paginated list of rectified maps that either intersect or fall within 
 
 | Name          | Description	| Type   | Notes |
 | ------------- |-------------| -------| ----- |
-| bbox	| a rectangle outlining the geographic area to limit the search to | preferred; orders results by proximity to the bbox extent | comma-separated string of latitude and longitude coordinates  |
+| bbox	| a rectangle delineating the geographic area to which the search should be limited | preferred; orders results by proximity to the bbox extent | comma-separated string of latitude and longitude coordinates  |
 
 **Format**
 ```
@@ -135,9 +135,11 @@ Returns a paginated list of rectified maps that either intersect or fall within 
 ```
 
 **Example**
+
 ```
     -75.9831134505588,38.552727388127,-73.9526411829395,40.4029389105122
 ```
+
 **Other Parameters** 
 
 | Name          | Description	| Notes  |
