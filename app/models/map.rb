@@ -902,7 +902,7 @@ class Map < ActiveRecord::Base
   #  warp status/Warp status/warp_status/Warp_status
   #  Indicates if the map has been georeferenced in the Wikimaps Warper. Allowed values are:
   #  [blank]: add it in
-  #  skip: The map is not suited for the warper (dont change anything)
+  #  skip: The map is not suited for the warper, but its being warped (change to warped)
   #  help: An invitation to import the map into the warper (change to warped)
   #  unwarped: The map is in the warper but not rectified (change to warped)
   #  warped: The map is in the warper where it has been rectified
@@ -925,7 +925,6 @@ class Map < ActiveRecord::Base
         key, value = map_attr.split("=")
         
         if (key.include? "warp status") || (key.include? "Warp status") || (key.include? "warp_status") || (key.include? "Warp_status")
-
           if value.include?("unwarped") || value.include?("help") || value.include?("skip") || value.strip.blank? 
             something_changed = true
             map_attr = " warp_status=warped\n"
