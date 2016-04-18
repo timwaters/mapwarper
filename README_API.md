@@ -340,7 +340,7 @@ Enter text for the search query, based on the field chosen. The query text is ca
 }}}
 ```
 
-###Request a Map's Layers
+###Get a Map's Layers
 
 Returns a map's layers. 
 
@@ -396,9 +396,9 @@ If not found, the following response will be returned.
 | ------------- | -------- | 
 | 404	(not found)| ```{"items":[],"stat":"not found"}```    |
 
-###GET Layer:
+###Get Layer:
 
-Gets a single layer.
+Returns a single layer.
 
 **Request Examples**
 
@@ -510,7 +510,7 @@ The following Web map services are available.
 ####Layer WMS
 [http://mapwarper.net/layers/wms/931](http://mapwarper.net/layers/wms/931)
 
-####Map & Layer KML**
+####Map & Layer KML
 
 **Map KML**
 
