@@ -54,7 +54,7 @@ GET[http://mapwarper.net/maps?field=title&amp;query=New&amp;sort_key=updated_at&
 
 **Response**
 
-Unless otherwise noted, all API responses will be in JSON. The response for a basic map search will be in the following format.
+The response will be in JSON in the following format.
 ```
 {{{
 { "stat": "ok",
