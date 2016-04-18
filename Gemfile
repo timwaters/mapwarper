@@ -58,6 +58,8 @@ gem 'georuby'
 gem 'geoplanet'
 gem 'yql', '0.0.2'
 
+gem 'rails-api'
+
 group :development do
    gem 'spring'
    gem 'thin'
