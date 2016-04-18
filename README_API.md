@@ -184,7 +184,7 @@ The response will be in the following format.
 }}}
 ```
 
-###Retrieve a Map
+###Get a Map
 
 Returns a map by ID.
 
@@ -230,8 +230,8 @@ The response will be be in the following format.
 | stat		        | string 	     |		      | status of the request		|    |
 | items		       | array of key pairs with information about the map 	|		|									|
 | status	| integer	 | 	       | |
-| 		     | 		       | 0 : unloaded	| image has not been loaded					|
-| 		|		| 1 : loading 	| the master image is being requested from the NYPL repository	|
+| 	 | 	 | 0 : unloaded	| image has not been loaded					|
+| 		|		 | 1 : loading 	| the master image is being requested from the NYPL repository	|
 | 		| 		| 2 : available	| image has been copied, and is ready to be rectified	|
 | 		| 		| 3 : warping	| image is undergoing the rectification process			|
 | 		| 		| 4 : warped	| image has been rectified					|
@@ -293,7 +293,7 @@ GET[http://mapwarper.net/maps/8991/status](http://mapwarper.net/maps/8991/status
 | 		             | depicts_year     | the year that the map depicts	| optional            | |
 | 		             | updated_at       | when the map was last updated	| optional            | |
 | 		             | mapscans_count   | 	                             | optional            | |
-|		              | percent	         | 	                             | optional             | gives the number of control points for a rectified image, or the status "unrectified" |
+|		              | percent	         | 	                             | optional            | |
 | sort_order	                       || the order in which the results should appear    | optional            | |
 |                | asc 	             | ascending order               | optional            | |
 |		              | desc	             | descending order              | optional            | |
