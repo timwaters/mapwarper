@@ -524,11 +524,11 @@ The following Web map services are available.
 
 ##Ground Control Points
 
-Ground control points are the user-selected locations used to rectify the image.
+Ground control points are the user-selected locations used to rectify an image.
 
-###GET a Map's Ground Control Points
+###Get a Map's Ground Control Points
 
-Returns a list of ground control points and their calculated errors.
+Returns a list of the ground control points used to rectify a map, as well as their calculated errors.
 
 **Request Examples**
 
@@ -540,7 +540,7 @@ or [http://mapwarper.net/maps/8561/gcps?format=json](http://mapwarper.net/maps/8
 
 **Response**
 
-The response will be in the following format.
+The response will be a list of ground control points in the following format.
 
 ```
 {{{
