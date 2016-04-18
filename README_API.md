@@ -108,7 +108,7 @@ The response will be in JSON in the following format.
 |               | description	  | string	  |		|									|
 |               | height	       | integer 	| 	| height of unrectified image				|
 |               | nypl_digital_id	| integer | 		| the NYPL digital id, which is used for thumbnail images and links to library metadata		|
-|               | catnyp_id	    | integer	 | 		  | The NYPL digital catalog that is used to link to the library record 			|
+|               | catnyp_id	    | integer	 | 		  | the NYPL digital catalog that is used to link to the library record 			|
 |               | mask_status	  | integer	 || Status of masking int.		|
 | 		            | 		            |          | 0 : unmasked		| 				|
 | 		            | 		            |          | 1 : masking		 | 				|
@@ -127,7 +127,7 @@ Returns a paginated list of rectified maps that either intersect or fall within 
 
 | Name          | Description	| Type   | Notes |
 | ------------- |-------------| -------| ----- |
-| bbox	| A rectangle outlining the geographic area to limit the search to | Preferred. Orders results by proximity to the bbox extent. | comma-separated string of latitude and longitude coordinates  |
+| bbox	| a rectangle outlining the geographic area to limit the search to | preferred; orders results by proximity to the bbox extent | comma-separated string of latitude and longitude coordinates  |
 
 **Format**
 ```
@@ -142,8 +142,8 @@ Returns a paginated list of rectified maps that either intersect or fall within 
 
 | Name          | Description	| Notes  |
 | ------------- |-------------| -------|
-| intersect	| Uses the PostGIS ST_Intersects operation to retrieve rectified maps whose extents intersect with the bbox parameter. | Preferred. Orders results by proximity to the bbox extent. |
-| within	| Uses a PostGIS ST_Within operation to retrieve rectified maps that fall entirely within the extent of the bbox parameter. |      |
+| intersect	| uses the PostGIS ST_Intersects operation to retrieve rectified maps whose extents intersect with the bbox parameter | preferred; orders results by proximity to the bbox extent |
+| within	| uses a PostGIS ST_Within operation to retrieve rectified maps that fall entirely within the extent of the bbox parameter |      |
 
 Format the query in JSON. 
 
@@ -236,19 +236,19 @@ The response will be be in the following format.
 | 		| 		| 5 : published	| this status is set when the map should no longer be edited | not currently used|
 | map_type	| integer 	| 0 : index	      | indicates a map index or overview map							|
 | 		| 		| 1 : is_map	| default map type 										| 
-| 		| 		| 2 : not_map	| Indicates non-map content, such as a plate depicting sea monsters		|
+| 		| 		| 2 : not_map	| indicates non-map content, such as a plate depicting sea monsters		|
 | updated_at	| string	| describes when the image was last updated		| e.g., "5 days ago."	|
 | title		| string 	|		|									|
 | id		| integer 	|		|									|
 | description	| string	|		|									|
 | height	| integer 	| 		      | height of unrectified image				|
 | nypl_digital_id	| integer | 		| the NYPL digital id, which is used for thumbnail images and links to library metadata		|
-| catnyp_id	| integer	| 		| The NYPL digital catalog that is used to link to the library record 			|
+| catnyp_id	| integer	| 		| the NYPL digital catalog that is used to link to the library record 			|
 | mask_status	| integer	   || Status of masking int.		|
 | 		| 		| 0 : unmasked		| 				|
 | 		| 		| 1 : masking		| 				|
 | 		| 		| 2 : masked		| 				|
-| width		| integer	| 		| width of unrectified image					|
+| width		| integer	    | 		| width of unrectified image					|
 | created_at	| integer	| 		| width of unrectified image					|
 
 If a map is not found, the following HTTP response will be returned.
@@ -283,20 +283,20 @@ GET[http://mapwarper.net/maps/8991/status](http://mapwarper.net/maps/8991/status
 
 | Name      	    |                  | Description |  Required | Notes |
 | -----          | -----            | -----        | -----    |  ---- |
-| title      		  |              	   | title of map                  | Optional | default |
-| description		  |                  | map description               | Optional |       |
-| catnyp 		      |                  | NYPL digital catalog ID used to link to library record  | Optional | |
-| sort_key	             	           || field on which the sort should be based                | Optional |   |
-| 		             | title            | title of the map	             | Optional            | |
-| 		             | depicts_year     | the year that the map depicts	| Optional            | |
-| 		             | updated_at       | when the map was last updated	| Optional            | |
-| 		             | mapscans_count   | 	                             | Optional            | |
-|		              | percent	         | 	                             | Optional             | gives the number of control points for a rectified image, or the status "unrectified" |
-| sort_order	                       ||                               | Optional            | |
-|                | asc 	             | ascending order               | Optional            | |
-|		              | desc	             | descending order              | Optional            | |
-| format	        |     	             | json                          | Optional            | |
-| page		         | 		                | page number 	                 | Optional            | |
+| title      		  |              	   | title of map                  | optional | default |
+| description		  |                  | map description               | optional |       |
+| catnyp 		      |                  | NYPL digital catalog ID used to link to library record  | optional | |
+| sort_key	             	           || field on which the sort should be based                | optional |   |
+| 		             | title            | title of the map	             | optional            | |
+| 		             | depicts_year     | the year that the map depicts	| optional            | |
+| 		             | updated_at       | when the map was last updated	| optional            | |
+| 		             | mapscans_count   | 	                             | optional            | |
+|		              | percent	         | 	                             | optional             | gives the number of control points for a rectified image, or the status "unrectified" |
+| sort_order	                       ||                               | optional            | |
+|                | asc 	             | ascending order               | optional            | |
+|		              | desc	             | descending order              | optional            | |
+| format	        |     	             | json                          | optional            | |
+| page		         | 		                | page number 	                 | optional            | |
 
 **Query**        
 
@@ -438,12 +438,12 @@ If not found with format=json, the following response will be returned.
 
 | Element            | Type        |  Description	| Notes       |
 | -------------      | ----------- |  ----------- | ----------- |
-| bbox	| string of geographic coordinates  | bounding box, based on the extents of the tileindex shapefile that makes up the layer with maps. |      |
+| bbox	| string of geographic coordinates  | bounding box, based on the extents of the tileindex shapefile that makes up the layer with maps |      |
 | mapscans_count	| integer   | How many maps a layer has. Where a map is defined using the map_type => is_map variable, excludes title pages, for instance.	|     |
-| rectified_mapscans_count	      | integer   | How many maps are rectified in the layer		|     |
+| rectified_mapscans_count	      | integer   | how many maps are rectified in the layer		|     |
 | percent	      | integer   | percentage of rectified maps out of total number of maps		|     | 
 | depicts_year	      | year      | the year the layer depicts		|     |
-| is_visible	      | boolean		| if it's set to false, usually indicates a meta layer, or collection of atlases. | These meta-layers will not have WMS. |
+| is_visible	      | boolean		| if it's set to false, usually indicates a meta layer, or collection of atlases | these meta-layers will not have WMS |
 
 
 ###GET a Layer's Maps
@@ -587,8 +587,8 @@ If the map is not found, with format=json, the following response will be return
 | x    | the x coordinate on the unrectified image that corresponds to "lon"   |  |
 | y    | the y coordinate on the unrectified image that corresponds to "lon"   |  |
 | mapscan_id           | the map id   |  |
-| id           | ??? control point ID ????   |  |
-| error           | calculated error, or distortion, for that control point - EXPLAIN   |  |
+| id           |    |  |
+| error           | calculated error, or distortion, for that control point   |  |
 | lat           | Latitude of control point to rectify to   |  |
 
 **Ground Control Points**
@@ -646,11 +646,11 @@ Adds the ground control points on which the rectification will be based. Require
 
 | Name          | Description | Required  | Notes |
 | ------------- | ---------   | ------    | ----  |                                            
-| map_id        | the map to which the new ground control point will be applied   | required    |               |
-| lat           | Latitude of control point to rectify to                         | optional | 0 if not given   |
-| lon           | longitude of control point to rectify to                        | optional | 0 if not given   |
-| x    | the x coordinate on the unrectified image that corresponds to "lon"      | optional | 0 if not given   |
-| y    | the y coordinate on the unrectified image that corresponds to "lon"      | optional | 0 if not given   | 
+| map_id        | the map to which the new ground control point will be applied   | required    |             |
+| lat           | latitude of control point to rectify to                         | optional | default is 0   |
+| lon           | longitude of control point to rectify to                        | optional | default is 0   |
+| x    | the x coordinate on the unrectified image that corresponds to "lon"      | optional | default is 0   |
+| y    | the y coordinate on the unrectified image that corresponds to "lon"      | optional | default is 0   | 
 | format        | json       |            |       |
 
 **Request Example**
@@ -745,7 +745,7 @@ curl -X PUT -d "lat=54.33&lon=-1.467&x=3666.335&y=2000.12&format=json" -u user@e
 | Name          | Description | Required  | Notes |
 | ------------- | ---------   | ------    | ----  |                                            |
 | gcp_id        |             | required  |       |
-| lat           | Latitude of control point to rectify to   | optional | 0 if not given |
+| lat           | latitude of control point to rectify to   | optional | 0 if not given |
 | lon           | longitude of control point to rectify to   | optional | 0 if not given |
 | x    | the x coordinate on the unrectified image that corresponds to "lon"   | optional | 0 if not given |
 | y    | the y coordinate on the unrectified image that corresponds to "lon"   | optional | 0 if not given | 
@@ -773,7 +773,7 @@ Requires authentication.
 | Name          | Description | Required  | Notes |
 | ------------- | ---------   | ------    | ----  | 
 | ??? field_id  ???    |  ??? id of the field to update ???  |  required |   |                                        |
-| lat           | Latitude of control point to rectify to   | optional | 0 if not given |
+| lat           | latitude of control point to rectify to   | optional | 0 if not given |
 | lon           | longitude of control point to rectify to   | optional | 0 if not given |
 | x    | the x coordinate on the unrectified image that corresponds to "lon"   | optional | 0 if not given |
 | y    | the y coordinate on the unrectified image that corresponds to "lon"   | optional | 0 if not given |
@@ -973,7 +973,7 @@ curl -X POST -d "use_mask=false&format=json" -u email@example.com:password  http
 
 **Parameters**
 
-resample options  (optional - nearest neighbour is given as default)
+resample options  (optional - nearest neighbor is given as default)
 
 
            near - Nearest Neighbour - fastest (default)
@@ -1003,6 +1003,6 @@ use_mask      true|false applies any saved mask to the map, optional, defaults t
 
 | Status        | Response | Notes |
 | ------------- | -------  | ----- |
-| 200	(OK)      | ```{"stat":"ok","message":"Map rectified."}```    | Successful response. |
+| 200	(OK)      | ```{"stat":"ok","message":"Map rectified."}```    | success  |
 |               | ```{"stat":"fail","message":"not enough GCPS to rectify"}```    | map doesn't have enough GCPS saved |
 | 404	(not found)| ```{"items":[],"stat":"not found"}```    | map not found |
