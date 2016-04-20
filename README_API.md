@@ -28,29 +28,29 @@ Returns a list of maps that meet search criteria.
 
 **Parameters**
 
-| Name      	    |             | Description  |  Required | Notes |
-| -----          | -----       | -----        | -----    |  ----- |
-| title      		|              	| title of the map   | optional | default |
-| description		|               | description of the map | optional |       |
-| nypl_digital_id 	| 	         | NYPL digital id used for the thumbnail image and link to the library's metadata | optional | |
-| catnyp 		      |             | NYPL digital catalog ID used to link to library record              | optional | |
-| sort_key	             	      || field on which the sort should be based  | optional |   |
-| 		              | title     | title of the map	             | optional            | |
-| 		              | updated_at| when the map was last updated	| optional            | |
-|		               | status	   | status of the map	            | optional            | gives the number of control points for a rectified image, or the status "unrectified" |
-| sort_order	                 ||  the order in which the items returned should appear | optional            | |
-|                 | asc 	     | ascending order               | optional            | |
-|		               | desc	     | descending order              | optional            | |
-| show_warped	    | 		        | limits to maps that have already been warped   | optional | Use "1" | 
-| format	         |     	     | can be used to specify json   | optional            | |
-| page		          | 		        | page number 	                 | optional            | |
+| Name      	    |             | Type  | Description  |  Required | Notes  |
+| -----          | -----       | ----- | ---------        |  -----    | ------ |
+| title      		  |              	|string  | the title of the map   | optional | default |
+| description		  |               | string | the escription of the map | optional |       |
+| nypl_digital_id 	| 	         | integer  | the NYPL digital id used for the thumbnail image and link to the library's metadata | optional | |
+| catnyp 		      |             | integer  | the NYPL digital catalog ID used to link to the library record              | optional | |
+| sort_key	             	      ||         | the field on which the sort should be based  | optional |   |
+| 		              | title     | string    | the title of the map	             | optional            | |
+| 		              | updated_at|           | when the map was last updated	| optional            | |
+|		               | status	   | integer   | the status of the map	            | optional            | gives the number of control points for a warped image, or the status "unrectified" |
+| sort_order	                 ||  string  | the order in which the items returned should appear | optional            | |
+|                 | asc 	     | string    | ascending order               | optional            | |
+|		               | desc	     | string    | descending order              | optional            | |
+| show_warped	    | 		        | integer   | limits to maps that have already been warped   | optional | Use "1" | 
+| format	         |     	     | string    | 
+can be used to request “json” output, rather than HTML or XML   | optional            | default is HTML |
+| page		          | 		        | integer   | the page number; use to get the next or previous page  | optional            | |
 
 Enter optional text for the search query, based on the field chosen. The query text is case insensitive. This is a simple exact string text search. For example, a search for "city New York" returns no results, but a search for "city of New York" returns 22.
 
 **Example Call**
-```
-GET[http://mapwarper.net/maps?field=title&amp;query=New&amp;sort_key=updated_at&amp;sort_order=desc&amp;show_warped=1&amp;format=json http://mapwarper.net/maps?field=title&query=New&sort_key=updated_at&sort_order=desc&show_warped=1&format=json]
-```
+
+[http://mapwarper.net/maps?field=title&query=New&sort_key=updated_at&sort_order=desc&show_warped=1&format=json](http://mapwarper.net/maps?field=title&query=New&sort_key=updated_at&sort_order=desc&show_warped=1&format=json)
 
 **Response**
 
@@ -88,46 +88,46 @@ The response will be in JSON in the following format.
 
 | Name        	 |               | Type	   | Value		         | Description					| Notes |
 | ------------- |-------------	 | -----		 |-----------						| --------------  | ----  |
-| stat		        |               | string 	|		               | status of the request		|    |
-| current_page		|               | integer |		               | 		|    |
-| items		       |               | array of key pairs with information about the map 	|		|									|
-|               | status	       | integer	 | 	              | status of the image    |
-| 		            | 		            |          | 0 : unloaded	  | image has not been loaded					|
-| 		            |		             |          | 1 : loading 	  | the master image is being requested from the NYPL repository	|
-| 		            | 		            |          | 2 : available	 | image has been copied and is ready to be rectified	|
-| 		            | 		            |          | 3 : warping	   | image is undergoing the rectification process			|
-| 		            | 		            |          | 4 : warped	    | image has been rectified					|
+| stat		        |               | string 	|		               | the status of the request		|    |
+| current_page		|               | integer |		               | indicates on which page of the search results the map appears		|    |
+| items		       |               | an array of key pairs with information about the map 	|		|									| |
+|               | status	       | integer	 | 	              | the status of the map     |  | 
+| 		            | 		            |          | 0 : unloaded	  | the map has not been loaded					       | |
+| 		            |		             |          | 1 : loading 	  | the master image is being requested from the NYPL repository	 |    |
+| 		            | 		            |          | 2 : available	 | the map has been copied and is ready to be warped	|  |
+| 		            | 		            |          | 3 : warping	   | the map is undergoing the warping process			|  |
+| 		            | 		            |          | 4 : warped	    | the map has been warped					|  |
 | 		            | 		            |          | 5 : published	 | this status is set when the map should no longer be edited | not currently used |
-|               | map_type	     | integer 	|          	      | indicates whether the image is of a map or another type of content	|
-|               |         	     |         	| 0 : index	      | indicates a map index or overview map							|
-| 		            | 		            |          | 1 : is_map	     | default map type 										| 
-| 		            | 	 	           |          | 2 : not_map	    | indicates non-map content, such as a plate depicting sea monsters		|
-|               | updated_at	   | string	  | describes when the image was last updated		| e.g., "5 days ago."	|
-|               | title		       | string 	 |		|		title of the image							|
-|               | id		          | integer 	|		|		unique identifier for the image						|
-|               | description	  | string	  |		|		description of the image							|
-|               | height	       | integer 	| 	|  height of unrectified image				|
-|               | nypl_digital_id	| integer |	|  the NYPL digital id, which is used for thumbnail images and links to library metadata		|
-|               | catnyp_id	    | integer	 || the NYPL digital catalog that is used to link to the library record 			|
-|               | mask_status	  | integer	 || status of masking int.		|
-| 		            | 		            |          | 0 : unmasked		| the image has not been masked				|
-| 		            | 		            |          | 1 : masking		 | the image is undergoing the masking process				|
-| 		            | 		            |          | 2 : masked		  | the image has been masked				|
-|               | width		       | integer	 | 	  	| width of unrectified image					|
-|               | created_at	   | integer	 | 		   | 					|
-| total_pages		 |               | integer 	|		               | total number of pages in the result set		|    |
-| per_page		    |               | integer  |		               | number of results per page		|    |
-| total_entries	|               | integer 	|	               	|	total number of results					|    |
+|               | map_type	     | integer 	|          	      | indicates whether the image is of a map or another type of content	| |
+|               |         	     |         	| 0 : index	      | indicates a map index or overview map							| |
+| 		            | 		            |          | 1 : is_map	     |  										| default |
+| 		            | 	 	           |          | 2 : not_map	    | indicates non-map content, such as a plate depicting sea monsters		| |
+|               | updated_at	   | string	  | describes when the map was last updated		| e.g., "5 days ago."	|
+|               | title		       | string 	 |		|		the title of the map							| |
+|               | id		          | integer 	|		|		the unique identifier for the map						| |
+|               | description	  | string	  |		|		the description of the map							| |
+|               | height	       | integer 	| 	|  the height of an unwarped map				| |
+|               | nypl_digital_id	| integer |	|  the NYPL digital ID, which is used for thumbnail images and links to thelibrary metadata		| |
+|               | catnyp_id	    | integer	 || the NYPL digital catalog that is used to link to the library record 			| |
+|               | mask_status	  | integer	 || the status of the mask		| |
+| 		            | 		            |          | 0 : unmasked		| the map has not been masked				| |
+| 		            | 		            |          | 1 : masking		 | the map is undergoing the masking process				| |
+| 		            | 		            |          | 2 : masked		  | the map has been masked				| |
+|               | width		       | integer	 | 	  	| the width of the unwarped map					| |
+|               | created_at	   | integer	 | 		   | the date and time when the map was added to the system					| |
+| total_pages		 |               | integer 	|		               | the total number of pages in the result set		|    |
+| per_page		    |               | integer  |		               | the number of results per page		|    |
+| total_entries	|               | integer 	|	               	|	thetotal number of results					|    |
 
 ###Geography-Based Map Search
 
-Returns a paginated list of rectified maps that either intersect or fall within a specified geographic area, based on a bounding box. 
+Returns a paginated list of warped maps that either intersect or fall within a specified geographic area, which is specified by a bounding box.
 
 **Parameters**
 
-| Name          | Description	| Type   | 
+| Name          | Type	| Description   | 
 | ------------- |-------------| -------| 
-| bbox	| a rectangle delineating the geographic area to which the search should be limited | comma-separated string of latitude and longitude coordinates | 
+| bbox	         | a comma-separated string of latitude and longitude coordinates | a rectangle delineating the geographic area to which the search should be limited |
 
 **Format**
 ```
@@ -144,17 +144,15 @@ Returns a paginated list of rectified maps that either intersect or fall within 
 
 | Name          | Description	| Notes  |
 | ------------- |-------------| -------|
-| intersect	| uses the PostGIS ST_Intersects operation to retrieve rectified maps whose extents intersect with the bbox parameter | preferred; orders results by proximity to the bbox extent |
-| within	| uses a PostGIS ST_Within operation to retrieve rectified maps that fall entirely within the extent of the bbox parameter |      |
+| intersect	| uses the PostGIS ST_Intersects operation to retrieve warped maps whose extents intersect with the bbox parameter | preferred; orders results by proximity to the bbox extent |
+| within	| uses a PostGIS ST_Within operation to retrieve warped maps that fall entirely within the extent of the bbox parameter |      |
 
 Format the query in JSON. 
 
 **Request Examples**
-```
-[http://mapwarper.net/maps/geosearch?bbox=-74.4295114013431,39.71182637980763,-73.22376188967249,41.07147471270077&amp;format=json&amp;page=1&amp;operation=intersect
 
- http://mapwarper.net/maps/geosearch?bbox=-74.4295114013431,39.71182637980763,-73.22376188967249,41.07147471270077&format=json&page=1&operation=intersect]
-```
+[http://mapwarper.net/maps/geosearch?bbox=-74.4295114013431,39.71182637980763,-73.22376188967249,41.07147471270077&format=json&page=1&operation=intersect](http://mapwarper.net/maps/geosearch?bbox=-74.4295114013431,39.71182637980763,-73.22376188967249,41.07147471270077&format=json&page=1&operation=intersect)
+
 **Response**
 
 The response will be in the following format.
@@ -184,16 +182,41 @@ The response will be in the following format.
 }}}
 ```
 
+**Response Elements**
+
+| Name        	 |               | Type	   | Value		         | Description					| Notes |
+| ------------- |-------------	 | -----		 |-----------						| --------------  | ----  |
+| stat		        |               | string 	|		               | the status of the request		|    |
+| current_page		|               | integer |		               | indicates on which page of the search results the map appears		|    |
+| items		       |               | an array of key pairs with information about the map 	|		|									| |
+|               | updated_at	   | string	  | describes when the map was last updated		| e.g., "5 days ago."	|
+|               | title		       | string 	 |		|		the title of the map							| |
+|               | id		          | integer 	|		|		the unique identifier for the map						| |
+|               | description	  | string	  |		|		the description of the map							| |
+|               | height	       | integer 	| 	|  the height of an unwarped map				| |
+|               | nypl_digital_id	| integer |	|  the NYPL digital ID, which is used for thumbnail images and links to thelibrary metadata		| |
+|               | width		       | integer	 | 	  	| the width of the unwarped map					| |
+|               | bbox		        | a comma-separated string of latitude and longitude coordinates	 | 	  	| a rectangle delineating the map's geographic footprint					| |
+|               | updated_at	   | string	  | describes when the map was last updated		| e.g., "5 days ago."	|
+| total_pages		 |               | integer 	|		               | the total number of pages in the result set		|    |
+| per_page		    |               | integer  |		               | the number of results per page		|    |
+| total_entries	|               | integer 	|	               	|	thetotal number of results					|    |
+
 ###Get a Map
+
+| Method        | Definition    |
+| ------------- | ------------- |
+| GET           | http://mapwarper.net/maps/8461.json or     | 
+|               | http://mapwarper.net/maps/8461?format=json |
 
 Returns a map by ID.
 
-**Request Examples**
-```
-GET[http://mapwarper.net/maps/8461.json]
+**Parameters**
 
-or [http://mapwarper.net/maps/8461?format=json]
-```
+| Name        	 | Type		       | Description					| Required    | Notes |
+| ------------- |-------------	| --------------- |-----------		| ----- |
+| id  		        | integer 	    | the unique identifier for a map    | required		|    |
+| format  		    | string 	     | can be used to request json output, rather than HTML or XML    | optional		| default is HTML   |
 
 **Response**
 
@@ -225,33 +248,33 @@ The response will be be in the following format.
 
 ###Response Elements
 
-| Name        	 | Type		       | Value		| Description					| Notes |
-| ------------- |-------------	|-----		 |-----------						| ----- |
-| stat		        | string 	     |		      | status of the request		|    |
-| items		       | array of key pairs with information about the map 	|		|									|
-| status	| integer	 | 	       | status of the image |
-| 	 | 	 | 0 : unloaded	| image has not been loaded					|
-| 		|		 | 1 : loading 	| the master image is being requested from the NYPL repository	|
-| 		| 		| 2 : available	| image has been copied, and is ready to be rectified	|
-| 		| 		| 3 : warping	| image is undergoing the rectification process			|
-| 		| 		| 4 : warped	| image has been rectified					|
-| 		| 		| 5 : published	| this status is set when the map should no longer be edited | not currently used|
-| map_type	| integer 	| 0 : index	      | indicates a map index or overview map							|
-| 		| 		| 1 : is_map	| default map type 										| 
-| 		| 		| 2 : not_map	| indicates non-map content, such as a plate depicting sea monsters		|
-| updated_at	| string	| describes when the image was last updated		| e.g., "5 days ago."	|
-| title		| string 	|		|	title of the map								|
-| id		| integer 	|		|			unique identifier for the map						|
-| description	| string	|		|	description of the map								|
-| height	| integer 	| 		      | height of unrectified image				|
-| nypl_digital_id	| integer | 		| the NYPL digital id, which is used for thumbnail images and links to library metadata		|
-| catnyp_id	| integer	| 		| the NYPL digital catalog that is used to link to the library record 			|
-| mask_status	| integer	   || Status of masking int.		|
-| 		| 		| 0 : unmasked		| 	the image has not been masked			|
-| 		| 		| 1 : masking		| 		the image is undergoing the masking process		|
-| 		| 		| 2 : masked		| 	the image has been masked			|
-| width		| integer	    | 		| width of unrectified image					|
-| created_at	| integer	| 		| 					|
+| Name        	 | Type		       | Value		| Description					                  | Notes |
+| ------------- |-------------	|-----		 | -----------------------------					| ----- |
+| stat		        | string 	     |		      | the status of the request		       |       |
+| items		       | an array of key pairs with information about the map 	||		|       |
+| status	       | integer	     | 	      | the status of the map             |       |
+| 	             | 	            | 0 : unloaded	| the map has not been loaded					    |
+| 		            |		            | 1 : loading 	| the master image is being requested from the NYPL repository	| |
+| 		            | 		           | 2 : available	| the map has been copied, and is ready to be warped	|   |
+| 		            | 		           | 3 : warping	| the map is undergoing the warping process			|  |
+| 		            | 		           | 4 : warped	| the map has been warped					  |       |
+| 		            | 		           | 5 : published	| this status is set when the map should no longer be edited | not currently used |
+| map_type	     | integer 	    | 0 : index	 | indicates a map index or overview map		| |
+| 		| 		                       | 1 : is_map	| 										                     |  default |
+| 		| 		                       | 2 : not_map	| indicates non-map content, such as a plate depicting sea monsters		|  |
+| updated_at	   | string	      | describes when the image was last updated		 | e.g., "5 days ago."	|
+| title		       | string 	     |		|	title of the map								                 |                     |
+| id		          | integer 	    |		|	a unique identifier for the map						    |                     |
+| description	  | string	      |		|	the description of the map								       |                     |
+| height	       | integer 	    | 	| the height of the unrectified map				    |                     |
+| nypl_digital_id	| integer    | 	| the NYPL digital id, which is used for thumbnail images and links to the library metadata		|  |
+| catnyp_id	    | integer	     | 	| the NYPL digital catalog that is used to link to the library record 			|  |
+| mask_status	  | integer	     |  | the status of the mask	                                  |   |
+| 		            | 		           | 0 : unmasked		| 	the map has not been masked			             |   |
+| 		            | 		           | 1 : masking		 | 	the map is undergoing the masking process		|   |
+| 		            | 		           | 2 : masked		  | 	the map has been masked			                 |   |
+| width		| integer	            | 		| the width of the unwarped map					                      |   |
+| created_at	| integer	        | 		| the date and time when the map was added to the system		|   |
 
 If a map is not found, the following HTTP response will be returned.
 
@@ -273,32 +296,32 @@ While the request usually takes a few seconds, it could take several. Sometimes,
 
 **Request Example**
 
-```
-GET[http://mapwarper.net/maps/8991/status](http://mapwarper.net/maps/8991/status)
-```
+[http://mapwarper.net/maps/8991/status](http://mapwarper.net/maps/8991/status)
 
 ##Layers
+
+A layer is a mosaic in which the component maps are stitched together and shown as one seamless map. Layers are often comprised of contiguous maps from the facing pages of a scanned book. For examples of layers, see the [Plan of the town of Paramaribo, capital of Surinam](http://maps.nypl.org/warper/layers/1450) or the map of New York City and Vicinity at [http://maps.nypl.org/warper/layers/1404](http://maps.nypl.org/warper/layers/1404).
 
 ###Query/List Layers
 
 **Parameters**
 
-| Name      	    |                  | Description |  Required | Notes |
-| -----          | -----            | -----        | -----    |  ---- |
-| title      		  |              	   | title of the map                  | optional | default |
-| description		  |                  | description of the map              | optional |       |
-| catnyp 		      |                  | NYPL digital catalog ID used to link to library record  | optional | |
-| sort_key	             	           || field on which the sort should be based                | optional |   |
-| 		             | title            | title of the map	             | optional            | |
-| 		             | depicts_year     | the year that the map depicts	| optional            | |
-| 		             | updated_at       | when the map was last updated	| optional            | |
-| 		             | mapscans_count   | how many maps a layer has, as opposed to title pages, plates, and other non-map content | defines a map using the map_type => is_map variable; optional    | |
-|		              | percent	         | 	                             | optional            | |
-| sort_order	                       || the order in which the results should appear    | optional            | |
-|                | asc 	             | ascending order               | optional            | |
-|		              | desc	             | descending order              | optional            | |
-| format	        |     	             | can be used to specifiy json  | optional            | |
-| page		         | 		                | page number 	                 | optional            | |
+| Name      	    |                  | Type     | Description |  Required | Notes |
+| -----          | ---------------  | -------- | ----------- |  -------- | ----- |
+| title      		  |              	   | string   | title of the map  | optional | default |
+| description		  |                  | string   | description of the map              | optional |       |
+| catnyp 		      |                  | integer  | NYPL digital catalog ID used to link to library record  | optional | |
+| sort_key	             	           ||         | field on which the sort should be based                | optional |   |
+| 		             | title            | string   | the title of the map	             | optional            | |
+| 		             | depicts_year     |          | the year that the map depicts	| optional            | |
+| 		             | updated_at       |          | when the map was last updated	| optional            | |
+| 		             | mapscans_count   | integer  | how many maps a layer has, as opposed to title pages, plates, and other non-map content | a map is a resource that has “map_type” set to “is_map”; optional    | |
+|		              | percent	         | integer  | the percentage of the total number of component maps that have been warped          | optional            | |
+| sort_order	                       || string  | the order in which the results should appear    | optional            | |
+|                | asc 	             | string  | ascending order               | optional            | |
+|		              | desc	             | string  | descending order              | optional            | |
+| format	        |     	             | string  | can be used to request json output, rather than HTML or XML  | optional            | default is HTML |
+| page		         | 		                | integer | page number of search results	| optional            | |
 
 **Query**        
 
@@ -342,13 +365,23 @@ Enter text for the search query, based on the field chosen. The query text is ca
 
 ###Get a Map's Layers
 
-Returns a map's layers. 
+Returns a list of layers that include a given map.
+
+**Parameters**
+
+| Name      	    |             | Type  | Description  |  Required | Notes  |
+| -------------  | ----------- | ----- | ------------ |  -------- | ------ |
+| map_id     		  |             |integer    | the unique identifier for a map   | required | |
+| name           |             | string    | the title of the map | optional  | default |
+| sort_key	             	      ||          | the field on which the sort should be based  | optional | |
+| 		              | title      | string    | the title of the map	             | optional        | |
+| 		              | updated_at |           | when the map was last updated	| optional            | |
+| sort_order	                  ||  string  | the order in which the items returned should appear | optional   | |
+| format	         |     	      | string    | can be used to request “json” output, rather than HTML or XML   | optional | default is HTML |
 
 **Request Example:** 
 
-```
-[http://mapwarper.net/layers?map_id=10090&amp;field=name&amp;sort_key=mapscans_count&amp;sort_order=asc&amp;query=New&amp;format=json http://mapwarper.net/layers?map_id=10090&field=name&sort_key=mapscans_count&sort_order=asc&query=New&format=json]
-```
+[http://mapwarper.net/layers?map_id=10090&field=name&sort_key=mapscans_count&sort_order=asc&query=New&format=json](http://mapwarper.net/layers?map_id=10090&field=name&sort_key=mapscans_count&sort_order=asc&query=New&format=json)
 
 Alternatively, the URL can be constructed from the point of view of a map:
 
@@ -402,11 +435,9 @@ Returns a single layer.
 
 **Request Examples**
 
-```
 [http://mapwarper.net/layers/760.json](http://mapwarper.net/layers/760.json)
 
 or [http://mapwarper.net/layers/760?format=json](http://mapwarper.net/layers/760?format=json)
-```
 
 **Response:**
 
@@ -442,29 +473,28 @@ If not found with format=json, the following response will be returned.
 
 | Element            | Type        |  Description	| Notes       |
 | -------------      | ----------- |  ----------- | ----------- |
-| bbox	| comma-separated string of latitude and longitude coordinates  | bounding box, based on the extents of the tileindex shapefile that makes up the layer with maps |      |
+| bbox	| comma-separated string of latitude and longitude coordinates  | a bounding box, based on the extents of the tileindex shapefile that makes up the layer with maps |      |
 | mapscans_count	    | integer   | how many maps a layer has, as opposed to title pages, plates, and other non-map content	| defines a map using the map_type => is_map variable; optional     |
-| rectified_mapscans_count	      | integer   | how many maps in the layer are rectified	|     |
-| percent	           | integer   | percentage of rectified maps out of the total number of maps		|     | 
+| rectified_mapscans_count	      | integer   | how many maps in the layer are warped	|     |
+| percent	           | integer   | the percentage of warped maps out of the total number of maps		|     | 
 | depicts_year	      | year      | the year the layer depicts		|     |
 | is_visible	        | boolean		 | when set to false, usually indicates a meta layer or collection of atlases | these meta-layers will not have WMSs |
 
-
 ###Get a Layer's Maps
 
-Returns a paginated list of maps for a given layer.
+Returns a paginated list of the maps that comprise a given layer.
 
-**Request Example:**
+**Request Examples**
+ 
+[http://mapwarper.net/layers/maps/890?format=json&amp;show_warped=0](http://mapwarper.net/layers/maps/890?format=json&amp;show_warped=0) or
 
-```
-[http://mapwarper.net/layers/maps/890?format=json&amp;show_warped=0 http://mapwarper.net/layers/890/maps?format=json&show_warped=]1
-```
+[http://mapwarper.net/layers/890/maps?format=json&show_warped=1](http://mapwarper.net/layers/890/maps?format=json&show_warped=1)
 
 | Name          | Description | Required  | Notes     |
 | ------------- | ----------  | --------  | --------  |
-| layer_id      | unique identifier for a layer          |           |       |
-| format        | can be used to specify json            |           |       |
-| show_warped |  specifies whether to limit search to rectified maps    | optional | default is "1", which limits to rectified maps; "0" returns all maps |
+| layer_id      | the unique identifier for a layer   |  required         |       |
+| format        | can be used to request json output, rather than HTML or XML     |    optional       |  default is HTML     |
+| show_warped |  specifies whether to limit search to warped maps    | optional | default is "1", which limits to warped maps; "0" returns all maps |
 
 **Response:**
 
@@ -500,9 +530,9 @@ The response will be in the following format.
 }}}
 ```
 
-###Map & Layer WMS
+###Map & Layer Web Map Services
 
-The following Web map services are available.
+The following Web map services (WMS) are available.
 
 ####Map WMS
 [http://mapwarper.net/maps/wms/8561](http://mapwarper.net/maps/wms/8561)
@@ -524,19 +554,22 @@ The following Web map services are available.
 
 ##Ground Control Points
 
-Ground control points are the user-selected locations used to rectify an image.
+Ground control points are the user-selected locations used to warp an image.
 
 ###Get a Map's Ground Control Points
 
-Returns a list of the ground control points used to rectify a map, as well as their calculated errors.
+| Method        | Definition    |
+| ------------- | ------------- |
+| GET           |     | 
+|               |     |
+
+Returns a list of the ground control points used to warp a map, as well as their calculated errors.
 
 **Request Examples**
 
-```
-GET[http://mapwarper.net/maps/8561/gcps.json](http://mapwarper.net/maps/8561/gcps.json)
+[http://mapwarper.net/maps/8561/gcps.json](http://mapwarper.net/maps/8561/gcps.json)
 
 or [http://mapwarper.net/maps/8561/gcps?format=json](http://mapwarper.net/maps/8561/gcps?format=json)
-```
 
 **Response**
 
@@ -585,17 +618,17 @@ If the map is not found, with format=json, the following response will be return
 
 | Name          |             | Description | Notes   |
 | ------------- | ---------   | ---------   | ------  |
-| status        |             | status of request   | ```{ "stat": "ok" }``` |
-| items		                     || array of key pairs with information about the control points 	|		|									|
-|               | lon           | longitude of control point                    |  |
-|               | updated_at    | date and time that control points were last updated  |  |
+| status        |             | the status of the request   | ```{ "stat": "ok" }``` |
+| items		                     || an array of key pairs with information about the control points 	|		|									|
+|               | lon           | the longitude of the control point                    |  |
+|               | updated_at    | the date and time that the control points were last updated  |  |
 |               | x             | the x coordinate that corresponds to "lon"   |  |
 |               | y             | the y coordinate that corresponds to "lat"   |  |
-|               | mapscan_id    | the map id                                   |  |
-|               | id            |                                              |  |
-|               | error         | calculated error, or distortion, for that control point   |  |
-|               | lat           | Latitude of control point   |  |
-|               | created_at           |    |  |
+|               | mapscan_id    | the unique identifier for the map            |  |
+|               | id            | the ground control point’s ID                |  |
+|               | error         | the calculated error, or distortion, for that control point   |  |
+|               | lat           | the latitude of the control point   |  |
+|               | created_at    | the date and time when the control point was created   |  |
 
 With the following calls, if the GCP is not found with format=json, the following response will be returned.
 
