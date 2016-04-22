@@ -7,5 +7,11 @@ class ActiveSupport::TestCase
   # Setup all fixtures in test/fixtures/*.yml for all tests in alphabetical order.
   fixtures :all
 
-  # Add more helper methods to be used by all tests here...
+
+  Object.send(:remove_const, :SRC_MAPS_DIR)
+  Object.const_set("SRC_MAPS_DIR", File.join(Rails.root, "/test/fixtures/data/"))
+  Object.send(:remove_const, :DST_MAPS_DIR)
+  Object.const_set("DST_MAPS_DIR", File.join(Rails.root, "/test/fixtures/data/"))
+
+  Paperclip::Attachment.default_options[:path] = "#{Rails.root}/test/test_files/:class/:id_partition/:style.:extension"
 end
