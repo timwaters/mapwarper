@@ -3,8 +3,8 @@ module Api
     class MapsController < ApiController
 
       def index
-        maps = Map.all.limit(2)
-        render :json => maps
+        @maps = Map.all.limit(2)
+        render :json => @maps
       end
   
     end
