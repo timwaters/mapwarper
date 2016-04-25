@@ -243,8 +243,8 @@ The response will be in the following format.
 
 | Method        | Definition    |
 | ------------- | ------------- |
-| GET           | http://mapwarper.net/maps/8461.json or     | 
-|               | http://mapwarper.net/maps/8461?format=json |
+| GET           | http://mapwarper.net/maps/{:id}.json or     | 
+|               | http://mapwarper.net/maps/{:id}?format=json |
 
 Returns a map by ID.
 
@@ -323,7 +323,7 @@ If a map is not found, the following HTTP response will be returned.
 
 | Method       | Definition | 
 | ------------ | -------    | 
-| GET          |  http://mapwarper.net/maps/{map_id}/status |
+| GET          |  http://mapwarper.net/maps/{:map_id}/status |
 
 Returns a map's status. This request is used to poll a map while it is being transfered from the NYPL image server to the map server.
 
@@ -340,6 +340,10 @@ While the request usually takes a few seconds, it could take several. Sometimes,
 A layer is a mosaic in which the component maps are stitched together and shown as one seamless map. Layers are often comprised of contiguous maps from the facing pages of a scanned book. For examples of layers, see the [Plan of the town of Paramaribo, capital of Surinam](http://maps.nypl.org/warper/layers/1450) or the map of New York City and Vicinity at [http://maps.nypl.org/warper/layers/1404](http://maps.nypl.org/warper/layers/1404).
 
 ###Query or List Layers
+
+| Method       | Definition | 
+| ------------ | -------    | 
+| GET          |  http://mapwarper.net/layers?field= |
 
 **Parameters**
 
@@ -401,6 +405,10 @@ Enter text for the search query, based on the field chosen. The query text is ca
 ```
 
 ###Get a Map's Layers
+
+| Method       | Definition | 
+| ------------ | -------    | 
+| GET          |  http://mapwarper.net/layers?map_id={:map_id} |
 
 Returns a list of layers that include a given map.
 
@@ -468,7 +476,19 @@ If not found, the following response will be returned.
 
 ###Get Layer:
 
+| Method       | Definition | 
+| ------------ | -------    | 
+| GET          |  http://mapwarper.net/layers/{:layer_id}.json or |
+| GET          |  http://mapwarper.net/layers/{:layer_id}?format=json |
+
 Returns a single layer.
+
+**Parameters**
+
+| Name          | Description | Required  | Notes     |
+| ------------- | ----------  | --------  | --------  |
+| layer_id      | the unique identifier for a layer   |  required         |       |
+| format        | can be used to request json output, rather than HTML or XML     |    optional       |  default is HTML     |
 
 **Request Examples**
 
@@ -519,11 +539,16 @@ If not found with format=json, the following response will be returned.
 
 ###Get a Layer's Maps
 
+| Method       | Definition | 
+| ------------ | -------    | 
+| GET          |  http://mapwarper.net/layers/maps/{:layer_id} or |
+| GET          |  http://mapwarper.net/layers/{:layer_id}/maps |
+
 Returns a paginated list of the maps that comprise a given layer.
 
 **Request Examples**
  
-[http://mapwarper.net/layers/maps/890?format=json&amp;show_warped=0](http://mapwarper.net/layers/maps/890?format=json&amp;show_warped=0) or
+[http://mapwarper.net/layers/maps/890?format=json&show_warped=0](http://mapwarper.net/layers/maps/890?format=json&show_warped=0) or
 
 [http://mapwarper.net/layers/890/maps?format=json&show_warped=1](http://mapwarper.net/layers/890/maps?format=json&show_warped=1)
 
@@ -531,9 +556,9 @@ Returns a paginated list of the maps that comprise a given layer.
 | ------------- | ----------  | --------  | --------  |
 | layer_id      | the unique identifier for a layer   |  required         |       |
 | format        | can be used to request json output, rather than HTML or XML     |    optional       |  default is HTML     |
-| show_warped |  specifies whether to limit search to warped maps    | optional | default is "1", which limits to warped maps; "0" returns all maps |
+| show_warped   |  specifies whether to limit search to warped maps    | optional | default is "1", which limits to warped maps; "0" returns all maps |
 
-**Response:**
+**Response**
 
 The response will be in the following format.
 
@@ -597,8 +622,8 @@ Ground control points are the user-selected locations used to warp an image.
 
 | Method        | Definition    |
 | ------------- | ------------- |
-| GET           |     | 
-|               |     |
+| GET           |  http://mapwarper.net/maps/{:mapscan_id}/gcps.json or       | 
+|               |  http://mapwarper.net/maps/{:mapscan_id}/gcps?format=json   |
 
 Returns a list of the ground control points used to warp a map, as well as their calculated errors.
 
@@ -677,7 +702,7 @@ With the following calls, if the GCP is not found with format=json, the followin
 
 | Method       | Definition | 
 | ------------ | -------    | 
-| GET          |  http://mapwarper.net/gcps/{gcp_id}?format=|json |
+| GET          |  http://mapwarper.net/gcps/{gcp_id}?format=json |
 
 Returns a specified ground control point by ID.
 
