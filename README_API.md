@@ -665,7 +665,7 @@ The response will be in the following format.
 | stat	              |               | string       | HTTP response  | "stat": "ok" indicates success   |
 | items              |               | an array of key pairs | an array of key pairs with information about the layer |  |
 | status	            |               | integer      | the status of the map             |       |
-| 	                  | 0 : unloaded	 | integer      | the map has not been loaded					  |       |
+| 	                  | 0 : unloaded	 |              | the map has not been loaded					  |       |
 | 		                 |	1 : loading 	 |              | the master image is being requested from the NYPL repository	| |
 | 		                 | 2 : available	|              | the map has been copied, and is ready to be warped	|   |
 | 		                 | 3 : warping	  |              | the map is undergoing the warping process			|  |
