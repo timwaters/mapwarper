@@ -4,6 +4,7 @@ Welcome to the documentation for the MapWarper API!
 
 ##Table of Contents
 
+[Authentication](authentication)  
 [Search for Maps](#search-for-maps)  
 [Basic Search](#basic-search)  
 [Geography-Based Map Search](geography-based-map-search)  
