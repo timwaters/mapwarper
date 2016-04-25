@@ -327,13 +327,31 @@ If a map is not found, the following HTTP response will be returned.
 
 Returns a map's status. This request is used to poll a map while it is being transfered from the NYPL image server to the map server.
 
-This request returns text. If a map has no status (i.e., has not been transferred yet), this request will return the status "loading."
+**Parameters**
 
-While the request usually takes a few seconds, it could take several. Sometimes, the request does not succeed. 
+| Name      	    |             | Type  | Description  |  Required | Notes  |
+| -------------  | ----------- | ----- | ------------ |  -------- | ------ |
+| map_id     		  |             |integer    | the unique identifier for a map   | required | |
 
 **Request Example**
 
 [http://mapwarper.net/maps/8991/status](http://mapwarper.net/maps/8991/status)
+
+**Response**
+
+This request returns text. If a map has no status (i.e., has not been transferred yet), this request will return the status "loading." While the request usually takes a few seconds, it could take several. Sometimes, the request does not succeed. 
+
+**Response Elements**
+
+| Name        	 | Type		       | Value		| Description					                  | Notes |
+| ------------- |-------------	|-----		 | -----------------------------					| ----- |
+| status	       | integer	     | 	      | the status of the map             |       |
+| 	             | 	            | 0 : unloaded	| the map has not been loaded					    |
+| 		            |		            | 1 : loading 	| the master image is being requested from the NYPL repository	| |
+| 		            | 		           | 2 : available	| the map has been copied, and is ready to be warped	|   |
+| 		            | 		           | 3 : warping	| the map is undergoing the warping process			|  |
+| 		            | 		           | 4 : warped	| the map has been warped					  |       |
+| 		            | 		           | 5 : published	| this status is set when the map should no longer be edited | not currently used |
 
 ##Layers
 
@@ -404,10 +422,30 @@ Enter text for the search query, based on the field chosen. The query text is ca
 }}}
 ```
 
+**Response Elements**
+
+| Element            | Type        |  Description	| Notes       |
+| -------------      | ----------- |  ----------- | ----------- |
+| current_page	      | integer     | the search results page on which the layer appears  |      |
+| items              | an array of key pairs | an array of key pairs with information about the layer |  |
+| name               | string      | the title of the map |  |
+| is_visible	        | boolean		 | when set to false, usually indicates a meta layer or collection of atlases | these meta-layers will not have WMSs   |
+| updated_at         |           | when the map was last updated |  |
+| mapscans_count	    | integer   | how many maps a layer has, as opposed to title pages, plates, and other non-map content	| defines a map using the map_type => is_map variable; optional     |
+| id                 | integer   | the unique identifier for a layer |  |
+| rectified_mapscans_count	      | integer   | how many maps in the layer are warped	|     |
+| catnyp             | integer   | he NYPL digital catalog ID used to link to the library record |  |
+| depicts_year	      | year      | the year the layer depicts		|     |
+| bbox	              | a comma-separated string of latitude and longitude coordinates   | a rectangle delineating the geographic footprint of the layer 		|     | 
+| name               | string  |    |   |
+| total_pages		      | integer 	|		               | the total number of pages in the result set		|    |
+| per_page		         | integer  |		               | the number of results per page		|    |
+| total_entries	     | integer 	|	               	|	thetotal number of results					|    |
+
 ###Get a Map's Layers
 
 | Method       | Definition | 
-| ------------ | -------    | 
+| ------------ | ---------  | 
 | GET          |  http://mapwarper.net/layers?map_id={:map_id} |
 
 Returns a list of layers that include a given map.
@@ -468,11 +506,31 @@ Alternatively, the URL can be constructed from the point of view of a map:
 }}}
 ```
 
+**Response Elements**
+
+| Element            | Type        |  Description	| Notes       |
+| -------------      | ----------- |  ----------- | ----------- |
+| stat	            | string      | HTTP response  | "stat": "ok" indicates success   |
+| items              | an array of key pairs | an array of key pairs with information about the layer |  |
+| name               | string      | the title of the map |  |
+| is_visible	        | boolean		 | when set to false, usually indicates a meta layer or collection of atlases | these meta-layers will not have WMSs   |
+| updated_at         |           | when the map was last updated |  |
+| mapscans_count	    | integer   | how many maps a layer has, as opposed to title pages, plates, and other non-map content	| defines a map using the map_type => is_map variable; optional     |
+| id                 | integer   | the unique identifier for a layer |  |
+| rectified_mapscans_count	      | integer   | how many maps in the layer are warped	|     |
+| catnyp             | integer   | he NYPL digital catalog ID used to link to the library record |  |
+| depicts_year	      | year      | the year the layer depicts		|     |
+| bbox	              | a comma-separated string of latitude and longitude coordinates   | a rectangle delineating the geographic footprint of the layer 		|     | 
+| created_at		       | date and time 	|		indicates when the layer was created in the system		|    |
+
+
 If not found, the following response will be returned.
 
 | Status        | Response |
 | ------------- | -------- | 
 | 404	(not found)| ```{"items":[],"stat":"not found"}```    |
+
+
 
 ###Get Layer:
 
@@ -520,22 +578,28 @@ or [http://mapwarper.net/layers/760?format=json](http://mapwarper.net/layers/760
 }}}
 ```
 
+**Response Elements**
+
+| Element            | Type        |  Description	| Notes       |
+| -------------      | ----------- |  ----------- | ----------- |
+| stat	            | string      | HTTP response  | "stat": "ok" indicates success   |
+| items              | an array of key pairs | an array of key pairs with information about the layer |  |
+| name               | string      | the title of the map |  |
+| is_visible	        | boolean		 | when set to false, usually indicates a meta layer or collection of atlases | these meta-layers will not have WMSs   |
+| updated_at         |           | when the map was last updated |  |
+| mapscans_count	    | integer   | how many maps a layer has, as opposed to title pages, plates, and other non-map content	| defines a map using the map_type => is_map variable; optional     |
+| id                 | integer   | the unique identifier for a layer |  |
+| rectified_mapscans_count	      | integer   | how many maps in the layer are warped	|     |
+| catnyp             | integer   | he NYPL digital catalog ID used to link to the library record |  |
+| depicts_year	      | year      | the year the layer depicts		|     |
+| bbox	              | a comma-separated string of latitude and longitude coordinates   | a rectangle delineating the geographic footprint of the layer 		|     | 
+| created_at		       | date and time 	|		indicates when the layer was created in the system		|    |
+
 If not found with format=json, the following response will be returned.
 
 | Status          | Response   |
 | -------------   | ---------- | 
 | 404	(not found) | ```{"items":[],"stat":"not found"}```    |
-
-**Parameters**
-
-| Element            | Type        |  Description	| Notes       |
-| -------------      | ----------- |  ----------- | ----------- |
-| bbox	| comma-separated string of latitude and longitude coordinates  | a bounding box, based on the extents of the tileindex shapefile that makes up the layer with maps |      |
-| mapscans_count	    | integer   | how many maps a layer has, as opposed to title pages, plates, and other non-map content	| defines a map using the map_type => is_map variable; optional     |
-| rectified_mapscans_count	      | integer   | how many maps in the layer are warped	|     |
-| percent	           | integer   | the percentage of warped maps out of the total number of maps		|     | 
-| depicts_year	      | year      | the year the layer depicts		|     |
-| is_visible	        | boolean		 | when set to false, usually indicates a meta layer or collection of atlases | these meta-layers will not have WMSs |
 
 ###Get a Layer's Maps
 
@@ -546,17 +610,19 @@ If not found with format=json, the following response will be returned.
 
 Returns a paginated list of the maps that comprise a given layer.
 
-**Request Examples**
- 
-[http://mapwarper.net/layers/maps/890?format=json&show_warped=0](http://mapwarper.net/layers/maps/890?format=json&show_warped=0) or
-
-[http://mapwarper.net/layers/890/maps?format=json&show_warped=1](http://mapwarper.net/layers/890/maps?format=json&show_warped=1)
+**Parameters**
 
 | Name          | Description | Required  | Notes     |
 | ------------- | ----------  | --------  | --------  |
 | layer_id      | the unique identifier for a layer   |  required         |       |
 | format        | can be used to request json output, rather than HTML or XML     |    optional       |  default is HTML     |
 | show_warped   |  specifies whether to limit search to warped maps    | optional | default is "1", which limits to warped maps; "0" returns all maps |
+
+**Request Examples**
+ 
+[http://mapwarper.net/layers/maps/890?format=json&show_warped=0](http://mapwarper.net/layers/maps/890?format=json&show_warped=0) or
+
+[http://mapwarper.net/layers/890/maps?format=json&show_warped=1](http://mapwarper.net/layers/890/maps?format=json&show_warped=1)
 
 **Response**
 
@@ -591,6 +657,40 @@ The response will be in the following format.
 }
 }}}
 ```
+
+**Response Elements**
+
+| Name                               | Type         |  Description	| Notes       |
+| -------------      | -----------   |  ----------- | -----------  | ---------   |
+| stat	              |               | string       | HTTP response  | "stat": "ok" indicates success   |
+| items              |               | an array of key pairs | an array of key pairs with information about the layer |  |
+| status	            |               | integer      | the status of the map             |       |
+| 	                  | 0 : unloaded	 | integer      | the map has not been loaded					  |       |
+| 		                 |	1 : loading 	 |              | the master image is being requested from the NYPL repository	| |
+| 		                 | 2 : available	|              | the map has been copied, and is ready to be warped	|   |
+| 		                 | 3 : warping	  |              | the map is undergoing the warping process			|  |
+| 		                 | 4 : warped	   |              | the map has been warped					  |       |
+| 		                 | 5 : published	|              | this status is set when the map should no longer be edited | not currently used | map_type	          |               | integer 	    | indicates whether the image is of a map or another type of content	| |
+|                    | 0 : index	    |              | indicates a map index or overview map							| |
+| 		                 | 1 : is_map	   |        						| used for map content          |  |
+| 		                 | 2 : not_map	  |              | indicates non-map content, such as a plate depicting sea monsters		| |
+| updated_at         |               | date and time | when the map was last updated |  |
+| title              |               | string        | the title of the map |  |
+| id                 |               | integer       | the unique identifier for a map |  |
+| description        |               | string        | the description of the map      |  |
+| height             |               | integer       | the height of an unwarped map |
+| nypl_digital_id    |               | integer       | the NYPL digital id used for the thumbnail image and link to the library's metadata | |
+| catnyp             |               | integer       | he NYPL digital catalog ID used to link to the library record |  |
+| mask_status	       |               | integer	      | the status of the mask		| |
+| 		                 | 0 : unmasked		| the map has not been masked				| |
+| 		                 | 1 : masking		 | the map is undergoing the masking process				| |
+| 		                 | 2 : masked		  | the map has been masked				| |
+| bbox	              |               | a comma-separated string of latitude and longitude coordinates   | a rectangle delineating the geographic footprint of the map 		|     | 
+| width              |               | integer       | the width of an unwarped map | |
+| created_at		       | date and time 	|		indicates when the layer was created in the system		|    |
+| total_pages		 |               | integer 	|		               | the total number of pages in the result set		|    |
+| per_page		    |               | integer  |		               | the number of results per page		|    |
+| total_entries	|               | integer 	|	               	|	thetotal number of results					|    |
 
 ###Map and Layer Web Map Services
 
