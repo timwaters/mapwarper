@@ -14,7 +14,7 @@ Welcome to the documentation for the MapWarper API!
 [Query or List Layers](#query-or-list-layers)  
 [Get a Map's Layers](#get-a-maps-layers)  
 [Get Layer](#get-layer)  
-[Get a Layer's Maps](#get-a-layer's-maps)  
+[Get a Layer's Maps](#get-a-layers-maps)  
 [Map & Layer Web Map Services](#map-&-layer-web-map-services)  
 [Ground Control Points](#ground-control-points)  
 [Get a Map's Ground Control Points](#get-a-map's-ground-control-points)  
