@@ -176,13 +176,13 @@ Returns a paginated list of warped maps that either intersect or fall within a s
 
 **Other Parameters** 
 
-| Name          | Type   |  Value       | Description	| Required  | Notes  |
-| ------------- | -----  | ------------ | ---------   | -------   | -----  |
-| operation     | string |              |             | optional  | default is intersect |
-|               | string | intersect    | uses the PostGIS ST_Intersects operation to retrieve warped maps whose extents intersect with the bbox parameter  | optional | preferred; orders results by proximity to the bbox extent; default |
-|               | string | within	       | uses a PostGIS ST_Within operation to retrieve warped maps that fall entirely within the extent of the bbox parameter  | optional      |  |
-| format	       | string | can be used to request “json” output, rather than HTML or XML   | optional | default is HTML |
-| page		        | integer   | the page number; use to get the next or previous page  | optional            | |
+| Name          | Value     | Type         |  Description	| Required  | Notes  |
+| ------------- | -----     | ------------ | ---------    | -------   | -----  |
+| operation     |           | string       | specifies how to apply the bounding box  | optional  | default is intersect |
+|               | intersect | string       |uses the PostGIS ST_Intersects operation to retrieve warped maps whose extents intersect with the bbox parameter  | optional | preferred; orders results by proximity to the bbox extent; default |
+|               | within    | string	      | uses a PostGIS ST_Within operation to retrieve warped maps that fall entirely within the extent of the bbox parameter  | optional      |  |
+| format	       |           | string       | can be used to request “json” output, rather than HTML or XML   | optional | default is HTML |
+| page		        |           | integer   | the page number; use to get the next or previous page  | optional            | |
 
 Format the query in JSON. 
 
