@@ -17,7 +17,7 @@ Welcome to the documentation for the MapWarper API!
 [Get a Layer's Maps](#get-a-layers-maps)  
 [Map and Layer Web Map Services](#map-and-layer-web-map-services)  
 [Ground Control Points](#ground-control-points)  
-[Get a Map's Ground Control Points](#get-a-map's-ground-control-points)  
+[Get a Map's Ground Control Points](#get-a-maps-ground-control-points)  
 [Get a Single Ground Control Point](#get-a-single-ground-control-point)  
 [Add Ground Control Points](#add-ground-control-points)  
 [Update All Fields of a GCP](#update-all-fields-of-a-gcp)  
@@ -28,7 +28,7 @@ Welcome to the documentation for the MapWarper API!
 [Save Mask](#save-mask)  
 [Delete Mask](#delete-mask)  
 [Mask Map](#mask-map)  
-[Save, Mask, and Warp Map](#save,-mask,-and-warp-map)  
+[Save, Mask, and Warp Map](#save-mask-and-warp-map)  
 [Warping](#warping)  
 
 ##Authentication
