@@ -2,7 +2,33 @@
 
 Welcome to the documentation for the MapWarper API!
 
+##Table of Contents
+
 [Search for Maps](#search-for-maps)
+[Basic Search](#basic-search)
+[Geography-Based Map Search](geography-based-map-search)
+[Get at Map](get-a-map]
+[Get Map Status](get-map-status)
+[Layers](layers)
+[Query/List Layers](query/list-layers)
+[Get a Map's Layers](get-a-map's-layers)
+[Get Layer](get-layer)
+[Get a Layer's Maps](get-a-layer's-maps)
+[Map & Layer Web Map Services](map-&-layer-web-map-services)
+[Ground Control Points](ground-control-points]
+[Get a Map's Ground Control Points](get-a-map's-ground-control-points)
+[Get a Single Ground Control Point](get-a-single-ground-control-point)
+[Add Ground Control Points](add-ground-control-points)
+[Update All Fields of a GCP](update-all-fields-of-a-gcp)
+[Update One Field of a GCP](update-one-field-of-a-gcp)
+[Delete a GCP](delete-a-gcp)
+[Masking](masking)
+[Get Mask](get-mask)
+[Save Mask](save-mask)
+[Delete Mask](delete-mask)
+[Mask Map](mask-map)
+[Save, Mask, and Warp Map](save,-mask,-and-warp-map]
+[Warping](warping)
 
 ##Authentication
 
@@ -86,7 +112,7 @@ The response will be in JSON in the following format.
 }}}
 ```
 
-###Response Elements
+**Response Elements**
 
 | Name        	 |               | Type	   | Value		         | Description					| Notes |
 | ------------- |-------------	 | -----		 |-----------						| --------------  | ----  |
@@ -248,7 +274,7 @@ The response will be be in the following format.
 }}}
 ```
 
-###Response Elements
+**Response Elements**
 
 | Name        	 | Type		       | Value		| Description					                  | Notes |
 | ------------- |-------------	|-----		 | -----------------------------					| ----- |
@@ -381,7 +407,7 @@ Returns a list of layers that include a given map.
 | sort_order	                  ||  string  | the order in which the items returned should appear | optional   | |
 | format	         |     	      | string    | can be used to request “json” output, rather than HTML or XML   | optional | default is HTML |
 
-**Request Example:** 
+**Request Example** 
 
 [http://mapwarper.net/layers?map_id=10090&field=name&sort_key=mapscans_count&sort_order=asc&query=New&format=json](http://mapwarper.net/layers?map_id=10090&field=name&sort_key=mapscans_count&sort_order=asc&query=New&format=json)
 
@@ -864,7 +890,7 @@ An error will appear in the following format.
 }}}
 ```
 
-###Delete GCP
+###Delete a GCP
 
 | Method        | Definition | 
 | ------------- | ---------  | 
@@ -1035,7 +1061,7 @@ Warps or rectifies a map according to its saved GCPs and the parameters passed i
 
 [http://mapwarper.net/maps/7449/rectify](http://mapwarper.net/maps/7449/rectify)
 
-**Curl Example:**
+**Curl Example**
 
 ```
 curl -X POST -d "use_mask=false&format=json" -u email@example.com:password  http://mapwarper.net/maps/7449/rectify
