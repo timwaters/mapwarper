@@ -660,7 +660,7 @@ The response will be in the following format.
 
 **Response Elements**
 
-| Name                               | Type         |  Description	| Notes       |
+| Name               |               | Type         |  Description	| Notes       |
 | -------------      | -----------   |  ----------- | -----------  | ---------   |
 | stat	              |               | string       | HTTP response  | "stat": "ok" indicates success   |
 | items              |               | an array of key pairs | an array of key pairs with information about the layer |  |
