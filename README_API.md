@@ -683,15 +683,15 @@ The response will be in the following format.
 | nypl_digital_id    |               | integer       | the NYPL digital id used for the thumbnail image and link to the library's metadata | |
 | catnyp             |               | integer       | he NYPL digital catalog ID used to link to the library record |  |
 | mask_status	       |               | integer	      | the status of the mask		| |
-| 		                 | 0 : unmasked		| the map has not been masked				| |
-| 		                 | 1 : masking		 | the map is undergoing the masking process				| |
-| 		                 | 2 : masked		  | the map has been masked				| |
+| 		                 | 0 : unmasked		|               | the map has not been masked				| |
+| 		                 | 1 : masking		 |               | the map is undergoing the masking process				| |
+| 		                 | 2 : masked		  |               | the map has been masked				| |
 | bbox	              |               | a comma-separated string of latitude and longitude coordinates   | a rectangle delineating the geographic footprint of the map 		|     | 
 | width              |               | integer       | the width of an unwarped map | |
-| created_at		       | date and time 	|		indicates when the layer was created in the system		|    |
-| total_pages		 |               | integer 	|		               | the total number of pages in the result set		|    |
-| per_page		    |               | integer  |		               | the number of results per page		|    |
-| total_entries	|               | integer 	|	               	|	thetotal number of results					|    |
+| created_at		       |               | date and time	|	indicates when the layer was created in the system		|    |
+| total_pages		      |               | integer 	|		               | the total number of pages in the result set		|    |
+| per_page		         |               | integer  |		               | the number of results per page		|    |
+| total_entries	     |               | integer 	|	               	|	thetotal number of results					|    |
 
 ###Map and Layer Web Map Services
 
