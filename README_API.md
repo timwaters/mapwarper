@@ -11,7 +11,7 @@ Welcome to the documentation for the MapWarper API!
 [Get a Map](#get-a-map)  
 [Get Map Status](#get-map-status)   
 [Layers](#layers)  
-[Query/List Layers](#query/list-layers)  
+[Query / List Layers](#query-/-list-layers)  
 [Get a Map's Layers](#get-a-map's-layers)  
 [Get Layer](#get-layer)  
 [Get a Layer's Maps](#get-a-layer's-maps)  
@@ -331,7 +331,7 @@ While the request usually takes a few seconds, it could take several. Sometimes,
 
 A layer is a mosaic in which the component maps are stitched together and shown as one seamless map. Layers are often comprised of contiguous maps from the facing pages of a scanned book. For examples of layers, see the [Plan of the town of Paramaribo, capital of Surinam](http://maps.nypl.org/warper/layers/1450) or the map of New York City and Vicinity at [http://maps.nypl.org/warper/layers/1404](http://maps.nypl.org/warper/layers/1404).
 
-###Query/List Layers
+###Query / List Layers
 
 **Parameters**
 
