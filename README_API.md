@@ -12,7 +12,7 @@ Welcome to the documentation for the MapWarper API!
 [Get Map Status](#get-map-status)   
 [Layers](#layers)  
 [Query or List Layers](#query-or-list-layers)  
-[Get a Map's Layers](#get-a-map's-layers)  
+[Get a Map's Layers](#get-a-maps-layers)  
 [Get Layer](#get-layer)  
 [Get a Layer's Maps](#get-a-layer's-maps)  
 [Map & Layer Web Map Services](#map-&-layer-web-map-services)  
