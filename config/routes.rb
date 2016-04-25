@@ -141,6 +141,7 @@ Rails.application.routes.draw do
   namespace :api do
     namespace :v1 do
       constraints format: :json do
+        resource :map, :only => ["show"]
         resources :maps, :only => ["index"]
       end
     end

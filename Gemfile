@@ -59,7 +59,9 @@ gem 'geoplanet'
 gem 'yql', '0.0.2'
 
 gem 'rails-api'
-gem 'active_model_serializers'
+#gem 'active_model_serializers' rubygem is v0.9.0
+#use 10.0 from github until release as it has json-api support
+gem 'active_model_serializers', github: 'rails-api/active_model_serializers', tag: 'v0.10.0.rc5'
 
 group :development do
    gem 'spring'

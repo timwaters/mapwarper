@@ -25,12 +25,12 @@ FactoryGirl.define do
       map.height = 70 # set during save_dims
     }
     
-  #to create gcps at same time   
-  #     after(:create) do |m|
-  #       FactoryGirl.create(:gcp_1, :map => m)
-  #       FactoryGirl.create(:gcp_2, :map => m)
-  #       FactoryGirl.create(:gcp_3, :map => m)
-  #     end
+    #to create gcps at same time   
+    #     after(:create) do |m|
+    #       FactoryGirl.create(:gcp_1, :map => m)
+    #       FactoryGirl.create(:gcp_2, :map => m)
+    #       FactoryGirl.create(:gcp_3, :map => m)
+    #     end
 
   end
   

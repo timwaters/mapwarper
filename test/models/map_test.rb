@@ -42,15 +42,15 @@ class MapTest < ActiveSupport::TestCase
       File.delete(map.temp_filename)
     end
     if File.exists?(map.warped_filename)
-     # puts "Deleted Map warped #{map.warped_filename}"
+      # puts "Deleted Map warped #{map.warped_filename}"
       File.delete(map.warped_filename)
     end
     if File.exists?(map.warped_png_filename)
-    #  puts "deleted warped png #{map.warped_png_filename}"
+      #  puts "deleted warped png #{map.warped_png_filename}"
       File.delete(map.warped_png_filename)
     end
     if File.exists?(map.warped_png_filename+".aux.xml")
-     # puts "deleted warped png #{map.warped_png_filename+".aux.xml"}"
+      # puts "deleted warped png #{map.warped_png_filename+".aux.xml"}"
       File.delete(map.warped_png_filename+".aux.xml")
     end
   end

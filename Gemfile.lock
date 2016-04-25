@@ -1,4 +1,14 @@
 GIT
+  remote: git://github.com/rails-api/active_model_serializers.git
+  revision: 2da361f163578d783993db405f5cc6679e27d3cc
+  tag: v0.10.0.rc5
+  specs:
+    active_model_serializers (0.10.0.rc5)
+      actionpack (>= 4.0)
+      activemodel (>= 4.0)
+      railties (>= 4.0)
+
+GIT
   remote: git://github.com/timwaters/audited.git
   revision: 5d945c1b3fa5bf99a2a9df512d1a58a90c67e5cd
   branch: rails4
@@ -25,8 +35,6 @@ GEM
       activesupport (= 4.1.13)
       builder (~> 3.1)
       erubis (~> 2.7.0)
-    active_model_serializers (0.9.5)
-      activemodel (>= 3.2)
     activemodel (4.1.13)
       activesupport (= 4.1.13)
       builder (~> 3.1)
@@ -240,7 +248,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  active_model_serializers
+  active_model_serializers!
   activerecord-postgis-adapter
   acts-as-taggable-on (~> 3.3.0)
   acts_as_commentable
