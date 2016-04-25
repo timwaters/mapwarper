@@ -688,10 +688,10 @@ The response will be in the following format.
 | 		                 | 2 : masked		  |               | the map has been masked				| |
 | bbox	              |               | a comma-separated string of latitude and longitude coordinates   | a rectangle delineating the geographic footprint of the map 		|     | 
 | width              |               | integer       | the width of an unwarped map | |
-| created_at		       |               | date and time	|	indicates when the layer was created in the system		|    |
-| total_pages		      |               | integer 	|		               | the total number of pages in the result set		|    |
-| per_page		         |               | integer  |		               | the number of results per page		|    |
-| total_entries	     |               | integer 	|	               	|	thetotal number of results					|    |
+| created_at		       |               | date and time	|	when the layer was created in the system		|    |
+| total_pages		      |               | integer 	     |	the total number of pages in the result set		|    |
+| per_page		         |               | integer       |	the number of results per page		|    |
+| total_entries	     |               | integer 	     |	the total number of results					|    |
 
 ###Map and Layer Web Map Services
 
