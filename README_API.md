@@ -670,7 +670,8 @@ The response will be in the following format.
 | 		                 | 2 : available	|              | the map has been copied, and is ready to be warped	|   |
 | 		                 | 3 : warping	  |              | the map is undergoing the warping process			|  |
 | 		                 | 4 : warped	   |              | the map has been warped					  |       |
-| 		                 | 5 : published	|              | this status is set when the map should no longer be edited | not currently used | map_type	          |               | integer 	    | indicates whether the image is of a map or another type of content	| |
+| 		                 | 5 : published	|              | this status is set when the map should no longer be edited | not currently used | 
+| map_type	          |               | integer 	    | indicates whether the image is of a map or another type of content	| |
 |                    | 0 : index	    |              | indicates a map index or overview map							| |
 | 		                 | 1 : is_map	   |        						| used for map content          |  |
 | 		                 | 2 : not_map	  |              | indicates non-map content, such as a plate depicting sea monsters		| |
