@@ -10,8 +10,8 @@ Welcome to the documentation for the MapWarper API!
 
 [Geography-Based Map Search](geography-based-map-search)  
 
-[Get a Map](get-a-map)
-[Get Map Status](get-map-status)
+[Get a Map](get-a-map)  
+[Get Map Status](get-map-status)  
 [Layers](layers)
 [Query/List Layers](query/list-layers)
 [Get a Map's Layers](get-a-map's-layers)
