@@ -49,9 +49,9 @@ curl -H 'Content-Type: application/json' -H 'Accept: application/json' -X POST -
 
 ###Basic Search
 
-| Method        | 
-| ------------- | 
-| GET           |  
+| Method        | Definition |
+| ------------- | ---------  |
+| GET           | http://mapwarper.net/maps?field= | 
 
 Returns a list of maps that meet search criteria. 
 
@@ -150,13 +150,18 @@ The response will be in JSON in the following format.
 
 ###Geography-Based Map Search
 
+
+| Method        | Definition |
+| ------------- | ---------  |
+| GET           | http://mapwarper.net/maps/geosearch?bbox=y.min,x.min,y.max,x.max | 
+
 Returns a paginated list of warped maps that either intersect or fall within a specified geographic area, which is specified by a bounding box.
 
 **Parameters**
 
-| Name          | Type	| Description   | 
-| ------------- |-------------| -------| 
-| bbox	         | a comma-separated string of latitude and longitude coordinates | a rectangle delineating the geographic area to which the search should be limited |
+| Name          | Type	       | Description   | Required |
+| ------------- |-------------| ------------  | -------  |
+| bbox	         | a comma-separated string of latitude and longitude coordinates | a rectangle delineating the geographic area to which the search should be limited | required |
 
 **Format**
 ```
@@ -171,14 +176,17 @@ Returns a paginated list of warped maps that either intersect or fall within a s
 
 **Other Parameters** 
 
-| Name          | Description	| Notes  |
-| ------------- |-------------| -------|
-| intersect	| uses the PostGIS ST_Intersects operation to retrieve warped maps whose extents intersect with the bbox parameter | preferred; orders results by proximity to the bbox extent |
-| within	| uses a PostGIS ST_Within operation to retrieve warped maps that fall entirely within the extent of the bbox parameter |      |
+| Name          | Type   |  Value       | Description	| Required  | Notes  |
+| ------------- | -----  | ------------ | ---------   | -------   | -----  |
+| operation     | string |              |             | optional  | default is intersect |
+|               | string | intersect    | uses the PostGIS ST_Intersects operation to retrieve warped maps whose extents intersect with the bbox parameter  | optional | preferred; orders results by proximity to the bbox extent; default |
+|               | string | within	       | uses a PostGIS ST_Within operation to retrieve warped maps that fall entirely within the extent of the bbox parameter  | optional      |  |
+| format	       | string | can be used to request “json” output, rather than HTML or XML   | optional | default is HTML |
+| page		        | integer   | the page number; use to get the next or previous page  | optional            | |
 
 Format the query in JSON. 
 
-**Request Examples**
+**Request Example**
 
 [http://mapwarper.net/maps/geosearch?bbox=-74.4295114013431,39.71182637980763,-73.22376188967249,41.07147471270077&format=json&page=1&operation=intersect](http://mapwarper.net/maps/geosearch?bbox=-74.4295114013431,39.71182637980763,-73.22376188967249,41.07147471270077&format=json&page=1&operation=intersect)
 
