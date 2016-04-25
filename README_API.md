@@ -60,7 +60,7 @@ Returns a list of maps that meet search criteria.
 | Name      	    |             | Type  | Description  |  Required | Notes  |
 | -----          | -----       | ----- | ---------        |  -----    | ------ |
 | title      		  |              	|string  | the title of the map   | optional | default |
-| description		  |               | string | the escription of the map | optional |       |
+| description		  |               | string | the description of the map | optional |       |
 | nypl_digital_id 	| 	         | integer  | the NYPL digital id used for the thumbnail image and link to the library's metadata | optional | |
 | catnyp 		      |             | integer  | the NYPL digital catalog ID used to link to the library record              | optional | |
 | sort_key	             	      ||         | the field on which the sort should be based  | optional |   |
