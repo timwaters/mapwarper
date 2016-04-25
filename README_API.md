@@ -15,7 +15,7 @@ Welcome to the documentation for the MapWarper API!
 [Get a Map's Layers](#get-a-maps-layers)  
 [Get Layer](#get-layer)  
 [Get a Layer's Maps](#get-a-layers-maps)  
-[Map & Layer Web Map Services](#map-&-layer-web-map-services)  
+[Map and Layer Web Map Services](#map-and-layer-web-map-services)  
 [Ground Control Points](#ground-control-points)  
 [Get a Map's Ground Control Points](#get-a-map's-ground-control-points)  
 [Get a Single Ground Control Point](#get-a-single-ground-control-point)  
@@ -559,7 +559,7 @@ The response will be in the following format.
 }}}
 ```
 
-###Map & Layer Web Map Services
+###Map and Layer Web Map Services
 
 The following Web map services (WMS) are available.
 
