@@ -18,7 +18,7 @@ curl -H 'Content-Type: application/json' -H 'Accept: application/json' -X GET ht
 curl -H 'Content-Type: application/json' -H 'Accept: application/json' -X POST --data '{"x":1, "y":2, "lat":123, "lon":22}'  http://localhost:3000/gcps/add/14.json -b cookie
 ```
 
-##[search-for-maps]
+##[search-for-maps|Search for Maps]
 
 ###Basic Search
 
