@@ -5,9 +5,11 @@ Welcome to the documentation for the MapWarper API!
 ##Table of Contents
 
 [Search for Maps](#search-for-maps)
+
 [Basic Search](#basic-search)
+
 [Geography-Based Map Search](geography-based-map-search)
-[Get at Map](get-a-map]
+
 [Get Map Status](get-map-status)
 [Layers](layers)
 [Query/List Layers](query/list-layers)
