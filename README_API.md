@@ -176,7 +176,7 @@ Returns a paginated list of warped maps that either intersect or fall within a s
 
 **Other Parameters** 
 
-| Name          | Value     | Type         |  Description	| Required  | Notes  |
+| Name          |           | Type         |  Description	| Required  | Notes  |
 | ------------- | -----     | ------------ | ---------    | -------   | -----  |
 | operation     |           | string       | specifies how to apply the bounding box  | optional  | default is intersect |
 |               | intersect | string       |uses the PostGIS ST_Intersects operation to retrieve warped maps whose extents intersect with the bbox parameter  | optional | preferred; orders results by proximity to the bbox extent; default |
