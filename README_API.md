@@ -737,9 +737,9 @@ Returns a list of the ground control points used to warp a map, as well as their
 
 **Request Examples**
 
-[http://mapwarper.net/maps/8561/gcps.json](http://mapwarper.net/maps/8561/gcps.json)
+[http://mapwarper.net/maps/8561/gcps.json](http://mapwarper.net/maps/8561/gcps.json) or
 
-or [http://mapwarper.net/maps/8561/gcps?format=json](http://mapwarper.net/maps/8561/gcps?format=json)
+[http://mapwarper.net/maps/8561/gcps?format=json](http://mapwarper.net/maps/8561/gcps?format=json)
 
 **Response**
 
