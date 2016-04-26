@@ -1226,36 +1226,39 @@ curl -X POST -d "use_mask=false&format=json" -u email@example.com:password  http
 
 **Parameters**
 
-resample options  (optional - nearest neighbor is given as default)
+| Name      	    | Type  | Description  |  Required | Notes  |
+| -----          | ----- | ----- | ---------        |  -----    | ------ |
+| map_id      		 | integer  | the unique identifier for a map   | required |  |
+| use_mask		     | boolean | applies any saved mask to the map | optional | default is false      |
+| format 		      | string  | can be used to request json output, rather than HTML or XML  | optional | |
 
+**Other Parameters**
 
-           near - Nearest Neighbour - fastest (default)
+The following options specify the algorithm or method that should be used to warp a map.
 
-           bilinear - Binlinear interpolation
+Resample Options
 
-           cubic  - Cubic (good, slower)
+| Name      	    | Type    | Description  |  Required | Notes  |
+| -----          | -----   | ------------ | --------- |  ----- | 
+| near      		   | string  | nearest neighbor       | optional | fastest processing; default |
+| bilinear		     | string  | bilinear interpolation | optional |                         |
+| cubic 		       | string  | cubic                  | optional | good option, but slower | 
+| cubicspline	   | string  | cubic spline           | optional | slowest; best quality   | 
 
-           cubicspline - Cubic Spline slowest, best quality
+Transform Options
 
-
-transform_options  (optional - auto is given as default)
-
-           auto (default)
-
-           p1 - 1st Order Polynomial - min 3 points
-
-           p2 - 2nd order polynomial - min 6 points
-
-           p3 - 3rd order polynomial - min 10 points
-
-           tps - Thin Plate Spline - (many points, evenly spread)
-
-use_mask      true|false applies any saved mask to the map, optional, defaults to false
+| Name      	    | Type    | Description  |  Required | Notes  |
+| -----          | -----   | ------------ | --------- |  ----- | 
+| auto     		    | string  |              | optional  | default |
+| p1		           | string  | 1st order polynomial | optional |  requires a minimum of 3 GCPs   |
+| p2 		          | string  | 2nd order polynomial | optional |  requires a minimum of 6 GCPs   | 
+| p3	            | string  | 3rd order polynomial | optional |  requires a minimum of 10 GCPs   | 
+| tps	           | string  | thin plate spline    | optional |  requires many evenly-distributed points |
 
 **Response**
 
 | Status          | Response | Notes |
 | -------------   | -------  | ----- |
 | 200	(OK)        | ```{"stat":"ok","message":"Map rectified."}```    | success  |
-|                 | ```{"stat":"fail","message":"not enough GCPS to rectify"}```    | map doesn't have enough GCPS saved |
+|                 | ```{"stat":"fail","message":"not enough GCPS to rectify"}``` | map doesn't have enough GCPS saved |
 | 404	(not found) | ```{"items":[],"stat":"not found"}```    | map not found |
