@@ -117,7 +117,7 @@ The response will be in JSON in the following format.
 
 | Name        	 |               | Type	   | Value		         | Description					| Notes |
 | ------------- |-------------	 | -----		 |-----------						| --------------  | ----  |
-| stat		        |               | string 	|		               | the status of the request		|    |
+| stat		        |               | string 	|		               | the HTTP response for the status of the request		|    |
 | current_page		|               | integer |		               | indicates on which page of the search results the map appears		|    |
 | items		       |               | an array of key pairs with information about the map 	|		|									| |
 |               | status	       | integer	 | 	              | the status of the map     |  | 
@@ -223,7 +223,7 @@ The response will be in the following format.
 
 | Name        	 |               | Type	   | Value		         | Description					| Notes |
 | ------------- |-------------	 | -----		 |-----------						| --------------  | ----  |
-| stat		        |               | string 	|		               | the status of the request		|    |
+| stat		        |               | string 	|		               | the HTTP response for the status of the request		|    |
 | current_page		|               | integer |		               | indicates on which page of the search results the map appears		|    |
 | items		       |               | an array of key pairs with information about the map 	|		|									| |
 |               | updated_at	   | string	  | describes when the map was last updated		| e.g., "5 days ago."	|
@@ -287,7 +287,7 @@ The response will be be in the following format.
 
 | Name        	 | Type		       | Value		| Description					                  | Notes |
 | ------------- |-------------	|-----		 | -----------------------------					| ----- |
-| stat		        | string 	     |		      | the status of the request		       |       |
+| stat		        | string 	     |		      | the HTTP response for the status of the request		       |       |
 | items		       | an array of key pairs with information about the map 	||		|       |
 | status	       | integer	     | 	      | the status of the map             |       |
 | 	             | 	            | 0 : unloaded	| the map has not been loaded					    |
@@ -660,16 +660,16 @@ The response will be in the following format.
 
 **Response Elements**
 
-| Name               |               | Type         |  Description	| Notes       |
-| -------------      | -----------   |  ----------- | -----------  | ---------   |
-| stat	              |               | string       | HTTP response  | "stat": "ok" indicates success   |
-| items              |               | an array of key pairs | an array of key pairs with information about the layer |  |
-| status	            |               | integer      | the status of the map             |       |
-| 	                  | 0 : unloaded	 |              | the map has not been loaded					  |       |
+| Name               |               | Type         |  Description	| Notes     |
+| -------------      | -----------   |  ----------- | -----------  | --------- |
+| stat	              |               | string       | the HTTP response for the status of the request  | |
+| items              |               | an array of key pairs | an array of key pairs with information about the layer | |
+| status	            |               | integer      | the status of the map             | |
+| 	                  | 0 : unloaded	 |              | the map has not been loaded					  | |
 | 		                 |	1 : loading 	 |              | the master image is being requested from the NYPL repository	| |
-| 		                 | 2 : available	|              | the map has been copied, and is ready to be warped	|   |
-| 		                 | 3 : warping	  |              | the map is undergoing the warping process			|  |
-| 		                 | 4 : warped	   |              | the map has been warped					  |       |
+| 		                 | 2 : available	|              | the map has been copied, and is ready to be warped	| |
+| 		                 | 3 : warping	  |              | the map is undergoing the warping process			| |
+| 		                 | 4 : warped	   |              | the map has been warped					  | |
 | 		                 | 5 : published	|              | this status is set when the map should no longer be edited | not currently used | 
 | map_type	          |               | integer 	    | indicates whether the image is of a map or another type of content	| |
 |                    | 0 : index	    |              | indicates a map index or overview map							| |
@@ -782,7 +782,7 @@ The response will be a list of ground control points in the following format.
 
 | Name          |             | Description | Notes   |
 | ------------- | ---------   | ---------   | ------  |
-| status        |             | the status of the request   | ```{ "stat": "ok" }``` |
+| stat        |               | the HTTP response for the status of the request   |  |
 | items		                     || an array of key pairs with information about the control points 	|		|									|
 |               | lon           | the longitude of the control point                    |  |
 |               | updated_at    | the date and time that the control points were last updated  |  |
@@ -836,19 +836,19 @@ Returns a specified ground control point by ID.
 
 **Response Elements**
 
-| Name          |             | Description | Notes   |
-| ------------- | ---------   | ---------   | ------  |
-| status        |             | the status of the request   | ```{ "stat": "ok" }``` |
-| items		                     || an array of key pairs with information about the control points 	|		|									|
-|               | lon           | the longitude of the control point                    |  |
-|               | updated_at    | the date and time that the control points were last updated  |  |
-|               | x             | the x coordinate that corresponds to "lon"   |  |
-|               | y             | the y coordinate that corresponds to "lat"   |  |
-|               | mapscan_id    | the unique identifier for the map            |  |
-|               | id            | the unique identifier for the GCP            |  |
-|               | error         | the calculated error, or distortion, for that control point   |  |
-|               | lat           | the latitude of the control point   |  |
-|               | created_at    | the date and time when the control point was created    |  |
+| Name          |             | Description | 
+| ------------- | ---------   | ---------   | 
+| stat        |              | the status of the request   | 
+| items		                     || an array of key pairs with information about the control points 	|	
+|               | lon           | the longitude of the control point                    |
+|               | updated_at    | the date and time that the control points were last updated  | 
+|               | x             | the x coordinate that corresponds to "lon"   | 
+|               | y             | the y coordinate that corresponds to "lat"   |
+|               | mapscan_id    | the unique identifier for the map            |
+|               | id            | the unique identifier for the GCP            |
+|               | error         | the calculated error, or distortion, for that control point   |
+|               | lat           | the latitude of the control point   |
+|               | created_at    | the date and time when the control point was created    |
 
 If the GCP is not found with format=json, the following response will be returned.
 
@@ -926,17 +926,17 @@ The response will be in the following format.
 
 | Name          |             | Description | Notes   |
 | ------------- | ---------   | ---------   | ------  |
-| status        |             | the status of the request   | e.g., ```{ "stat": "ok" }``` |
-| items		                     || an array of key pairs with information about the control points 	|		|									|
-|               | lon           | the longitude of the control point                    |  |
-|               | updated_at    | the date and time that the control points were last updated  |  |
-|               | x             | the x coordinate that corresponds to "lon"   |  |
-|               | y             | the y coordinate that corresponds to "lat"   |  |
-|               | mapscan_id    | the unique identifier for the map            |  |
-|               | id            | the unique identifier for the GCP            |  |
-|               | error         | the calculated error, or distortion, for that control point   |  |
-|               | lat           | the latitude of the control point   |  |
-|               | created_at    | the date and time when the control point was created   |  |
+| stat        |             | the HTTP response for the status of the request   | 
+| items		                     || an array of key pairs with information about the control points 	|	
+|               | lon           | the longitude of the control point                    | 
+|               | updated_at    | the date and time that the control points were last updated  |
+|               | x             | the x coordinate that corresponds to "lon"   | 
+|               | y             | the y coordinate that corresponds to "lat"   |
+|               | mapscan_id    | the unique identifier for the map            | 
+|               | id            | the unique identifier for the GCP            | 
+|               | error         | the calculated error, or distortion, for that control point   |
+|               | lat           | the latitude of the control point   | 
+|               | created_at    | the date and time when the control point was created   | 
 
 An error will return the following message.
 
