@@ -1085,9 +1085,9 @@ Uses GML to mask a portion of the map. This essentially crops the map. Masking i
 
 | Method        | Definition | 
 | ------------- | -------    | 
-| GET           |  http://mapwarper.net/shared/masks/{map_id}.gml.ol |
+| GET           |  http://mapwarper.net/shared/masks/{:map_id}.gml.ol |
 
-Gets a GML file containing polygons of the clipping mask.
+Gets a GML string containing coordinates for the polygon(s) to mask over.
 
 **Examples**
 
@@ -1107,9 +1107,16 @@ http://mapwarper.net/shared/masks/7449.gml.ol?1274110931 (with a timestamp to as
 
 | Method        | Definition | 
 | ------------- | -------    | 
-| POST          |  http://mapwarper.net/maps/{map_id}/save_mask |
+| POST          |  http://mapwarper.net/maps/{:map_id}/save_mask |
 
 Saves a mask. Returns a text string with a message indicating success or failure. Requires authentication.
+
+**Parameters**
+
+| Name          | Value        | Type        | Description  | Required  | 
+| ------------- | ---------    | ----------  | ---------    | --------  | 
+| map_id        |              |  integer    | a unique indentifer for a map | required  | 
+| format        |  json        |  string     | outputs a GML string of coordinates for the polygon(s) to be masked | optional  | 
 
 **Request Example**
 
@@ -1123,20 +1130,6 @@ curl -X POST -d "format=json" -d 'output=<wfs:FeatureCollection xmlns:wfs="http:
 }}}
 ```
 
-**Parameters**
-
-| Name          | Value        | Type        | Required  | 
-| ------------- | ---------    | ----------  | --------- |
-| format        |  jsonoutput  |  GML string | optional  | 
-
-Example:
-
-```
-{{{
-<wfs:FeatureCollection xmlns:wfs="http://www.opengis.net/wfs"><gml:featureMember xmlns:gml="http://www.opengis.net/gml"><feature:features xmlns:feature="http://mapserver.gis.umn.edu/mapserver" fid="OpenLayers.Feature.Vector_207"><feature:geometry><gml:Polygon><gml:outerBoundaryIs><gml:LinearRing><gml:coordinates decimal="." cs="," ts=" ">1490.0376070686068,5380.396178794179 3342.4880893970894,5380.214910602912 3582.659,5126.446 3555.463,4813.692 3637.051,4487.34 4276.157,3753.048 4575.313,3113.942 4546.465124740124,1412.519663201663 2417.4615530145525,1317.354124740125 1431.415054054054,1294.9324823284824 1447.7525384615387,2187.807392931393 1434.5375363825372,5034.563750519751 1490.0376070686068,5380.396178794179</gml:coordinates></gml:LinearRing></gml:outerBoundaryIs></gml:Polygon></feature:geometry></feature:features></gml:featureMember></wfs:FeatureCollection>
-}}}
-```
-
 **Response**
 
 A successful call will return the following message. 
@@ -1145,11 +1138,17 @@ A successful call will return the following message.
 {"message":"Map clipping mask saved (gml)"}
 ```
 
+Using format=json will return a GML string of coordinates for the polygon(s) to be masked, such as the following.
+
+```
+{{{ feature:geometrygml:Polygongml:outerBoundaryIsgml:LinearRing1490.0376070686068,5380.396178794179 3342.4880893970894,5380.214910602912 3582.659,5126.446 3555.463,4813.692 3637.051,4487.34 4276.157,3753.048 4575.313,3113.942 4546.465124740124,1412.519663201663 2417.4615530145525,1317.354124740125 1431.415054054054,1294.9324823284824 1447.7525384615387,2187.807392931393 1434.5375363825372,5034.563750519751 1490.0376070686068,5380.396178794179/gml:coordinates/gml:LinearRing/gml:outerBoundaryIs/gml:Polygon/feature:geometry/feature:features/gml:featureMember/wfs:FeatureCollection }}}
+```
+
 ###Delete Mask
 
 | Method        | Definition | 
 | ------------- | -------    | 
-| POST          |  http://mapwarper.net/maps/{map_id}/delete_mask |
+| POST          |  http://mapwarper.net/maps/{:map_id}/delete_mask |
 
 Deletes a mask. Requires authentication.
 
@@ -1172,7 +1171,7 @@ Deletes a mask. Requires authentication.
 
 | Method        | Definition | 
 | ------------- | -------    | 
-| POST          |  http://mapwarper.net/maps/{map_id}/mask_map |
+| POST          |  http://mapwarper.net/maps/{:map_id}/mask_map |
 
 Applies the clipping mask to a map, but does not warp it. A clipping mask should be saved before calling this. Requires authentication.
 
@@ -1186,8 +1185,8 @@ Applies the clipping mask to a map, but does not warp it. A clipping mask should
 ###Save, Mask, and Warp Map
 
 | Method       | Definition | 
-| ------------ | -------    | 
-| POST         |  http://mapwarper.net/maps/{map_id}/save_mask_and_warp |
+| ------------ | --------   | 
+| POST         |  http://mapwarper.net/maps/{:map_id}/save_mask_and_warp |
 
 Rolls the calls into one. Saves the mask, applies the mask to the map, and warps the map using the mask. Requires authentication.
 
@@ -1199,7 +1198,7 @@ Rolls the calls into one. Saves the mask, applies the mask to the map, and warps
 
 **Response**
 
-The output will be a GML string containing polygon(s) to mask over (see Save Mask).
+The output will be a GML string containing polygon(s) to mask over.
 
 | Status        | Response | Notes |
 | ------------- | -------  | ----- |
@@ -1211,7 +1210,7 @@ The output will be a GML string containing polygon(s) to mask over (see Save Mas
 
 | Method       | Definition | 
 | ------------ | -------    | 
-| POST         |  http://mapwarper.net/maps/{map_id}/rectify |
+| POST         |  http://mapwarper.net/maps/{:map_id}/rectify |
 
 Warps or rectifies a map according to its saved GCPs and the parameters passed in. Requires authentication.
 
