@@ -804,7 +804,7 @@ If the map is not found, with format=json, the following response will be return
 
 | Method       | Definition | 
 | ------------ | -------    | 
-| GET          |  http://mapwarper.net/gcps/{gcp_id}?format=json |
+| GET          |  http://mapwarper.net/gcps/{:gcp_id}?format=json |
 
 Returns a specified ground control point by ID.
 
@@ -812,7 +812,7 @@ Returns a specified ground control point by ID.
 
 [http://mapwarper.net/gcps/9579?format=json](http://mapwarper.net/gcps/{gcp_id}?format=|json)
 
-**Response:**
+**Response**
 
 ```
 {{{
