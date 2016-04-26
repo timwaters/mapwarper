@@ -339,7 +339,7 @@ Returns a map's status. This request is used to poll a map while it is being tra
 
 **Response**
 
-This request returns text. If a map has no status (i.e., has not been transferred yet), this request will return the status "loading." While the request usually takes a few seconds, it could take several. Sometimes, the request does not succeed. 
+This request returns text. If a map has no status (i.e., has not been transferred yet), this request will return the status "loading." While the request usually takes a few seconds, it could take several. 
 
 **Response Elements**
 
@@ -532,7 +532,7 @@ If not found, the following response will be returned.
 
 
 
-###Get Layer:
+###Get Layer
 
 | Method       | Definition | 
 | ------------ | -------    | 
@@ -554,7 +554,7 @@ Returns a single layer.
 
 or [http://mapwarper.net/layers/760?format=json](http://mapwarper.net/layers/760?format=json)
 
-**Response:**
+**Response**
 
 ```
 {{{
@@ -606,7 +606,7 @@ If not found with format=json, the following response will be returned.
 | Method       | Definition | 
 | ------------ | -------    | 
 | GET          |  http://mapwarper.net/layers/maps/{:layer_id} or |
-| GET          |  http://mapwarper.net/layers/{:layer_id}/maps |
+|              |  http://mapwarper.net/layers/{:layer_id}/maps |
 
 Returns a paginated list of the maps that comprise a given layer.
 
@@ -727,6 +727,13 @@ Ground control points are the user-selected locations used to warp an image.
 |               |  http://mapwarper.net/maps/{:mapscan_id}/gcps?format=json   |
 
 Returns a list of the ground control points used to warp a map, as well as their calculated errors.
+
+**Parameters**
+
+| Name          | Description | Required  | Notes     |
+| ------------- | ----------  | --------  | --------  |
+| mapscan_id      | the unique identifier for a map   |  required         |       |
+| format        | can be used to request json output, rather than HTML or XML     |    optional       |  default is HTML     |
 
 **Request Examples**
 
