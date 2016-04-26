@@ -778,12 +778,6 @@ The response will be a list of ground control points in the following format.
 }}}
 ```
 
-If the map is not found, with format=json, the following response will be returned.
-
-| Status        | Response |
-| ------------- | -------- | 
-| 404	(not found) | ```{"items":[],"stat":"not found"}```    |
-
 **Response Elements**
 
 | Name          |             | Description | Notes   |
@@ -800,7 +794,7 @@ If the map is not found, with format=json, the following response will be return
 |               | lat           | the latitude of the control point   |  |
 |               | created_at    | the date and time when the control point was created   |  |
 
-With the following calls, if the GCP is not found with format=json, the following response will be returned.
+If the map is not found, with format=json, the following response will be returned.
 
 | Status        | Response |
 | ------------- | -------- | 
@@ -855,6 +849,12 @@ Returns a specified ground control point by ID.
 |               | error         | the calculated error, or distortion, for that control point   |  |
 |               | lat           | the latitude of the control point   |  |
 |               | created_at    | the date and time when the control point was created    |  |
+
+If the GCP is not found with format=json, the following response will be returned.
+
+| Status        | Response |
+| ------------- | -------- | 
+| 404	(not found) | ```{"items":[],"stat":"not found"}```    |
 
 ###Add Ground Control Points
 
@@ -1032,6 +1032,12 @@ An error will appear in the following format.
 }}}
 ```
 
+If the GCP is not found with format=json, the following response will be returned.
+
+| Status        | Response |
+| ------------- | -------- | 
+| 404	(not found) | ```{"items":[],"stat":"not found"}```    |
+
 ###Delete a GCP
 
 | Method        | Definition | 
@@ -1060,6 +1066,12 @@ An error will appear in the following format.
 
 }}}
 ```
+
+If the GCP is not found with format=json, the following response will be returned.
+
+| Status        | Response |
+| ------------- | -------- | 
+| 404	(not found) | ```{"items":[],"stat":"not found"}```    |
 
 ##Masking
 
