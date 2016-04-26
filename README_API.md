@@ -808,6 +808,13 @@ If the map is not found, with format=json, the following response will be return
 
 Returns a specified ground control point by ID.
 
+**Parameters**
+
+| Name          | Description | Required  | Notes     |
+| ------------- | ----------  | --------  | --------  |
+| gcp_id        | the unique identifier for a ground control point   |  required         |       |
+| format        | can be used to request json output, rather than HTML or XML     |    optional       |  default is HTML     |
+
 **Example**
 
 [http://mapwarper.net/gcps/9579?format=json](http://mapwarper.net/gcps/{gcp_id}?format=|json)
@@ -838,7 +845,7 @@ Returns a specified ground control point by ID.
 
 | Name          |             | Description | 
 | ------------- | ---------   | ---------   | 
-| stat        |              | the status of the request   | 
+| stat          |             | the status of the request   | 
 | items		                     || an array of key pairs with information about the control points 	|	
 |               | lon           | the longitude of the control point                    |
 |               | updated_at    | the date and time that the control points were last updated  | 
@@ -926,7 +933,7 @@ The response will be in the following format.
 
 | Name          |             | Description | Notes   |
 | ------------- | ---------   | ---------   | ------  |
-| stat        |             | the HTTP response for the status of the request   | 
+| stat          |             | the HTTP response for the status of the request   | 
 | items		                     || an array of key pairs with information about the control points 	|	
 |               | lon           | the longitude of the control point                    | 
 |               | updated_at    | the date and time that the control points were last updated  |
@@ -960,15 +967,20 @@ An error will return the following message.
 
 | Method       | Definition | 
 | ------------ | -------    | 
-| PUT          |  http://mapwarper.net/gcps/update/{gcp_id} |
+| PUT          |  http://mapwarper.net/gcps/update/{:gcp_id} |
 
 Updates all of the fields for a given GCP.
 
 **Parameters**
 
-| Name          | Description | Required  | 
-| ------------- | ---------   | --------- | 
-| gcp_id        |  unique identifier of the ground control point  |  required |
+| Name          | Description | Required  | Notes |
+| ------------- | ---------   | ------    | ----  |  
+| gcp_id        | the unique identifier of a ground control point             | required  |       |
+| lat           | the latitude of the control point to warp to    | optional  | default is 0 |
+| lon           | the longitude of the control point to warp to   | optional  | default is 0 |
+| x             | the x coordinate on the unwarped image that corresponds to "lon"    | optional | default is 0 |
+| y             | the y coordinate on the unwarped image that corresponds to "lon"    | optional | default is 0 | 
+| format        | can be used to request json output, rather than HTML or XML         | optional | default is HTML |
 
 **Example**
 
@@ -979,15 +991,6 @@ Updates all of the fields for a given GCP.
 ```
 curl -X PUT -d "lat=54.33&lon=-1.467&x=3666.335&y=2000.12&format=json" -u user@example.com:password http://mapwarper.net/gcps/update/14803
 ```
-
-| Name          | Description | Required  | Notes |
-| ------------- | ---------   | ------    | ----  |                                            |
-| gcp_id        | the unique identifier of the ground control point            | required  |       |
-| lat           | the latitude of the control point to warp to   | optional  | default is 0 |
-| lon           | the longitude of the control point to warp to   | optional | default is 0 |
-| x    | the x coordinate on the unwarped image that corresponds to "lon"    | optional | default is 0 |
-| y    | the y coordinate on the unwarped image that corresponds to "lon"    | optional | default is 0 | 
-| format        | can be used to request json output, rather than HTML or XML  |  optional         | default is HTML    |
 
 **Response**
 An error will appear in the following format.
@@ -1002,7 +1005,7 @@ An error will appear in the following format.
 
 | Method        | Definition | 
 | ------------- | ---------  | 
-| PUT           |  http://mapwarper.net/gcps/update_field/{gcp_id} |
+| PUT           |  http://mapwarper.net/gcps/update_field/{:gcp_id} |
 
 Updates a single field for a GCP. Requires authentication.
 
@@ -1010,7 +1013,8 @@ Updates a single field for a GCP. Requires authentication.
 
 | Name          | Description | Required  | Notes |
 | ------------- | ---------   | ------    | ----  | 
-| ??? field_id  ???    |    |  required |   |                                        |
+| gcp_id        | the unique identifier of a ground control point | required |  |
+| ??? field_id  ???  |        |  required |       |      
 | lat           | the latitude of the control point to warp to   | optional  | default is 0 |
 | lon           | the longitude of the control point to warp to   | optional | default is 0 |
 | x    | the x coordinate on the unwarped image that corresponds to "lon"    | optional | default is 0 |
@@ -1042,14 +1046,14 @@ If the GCP is not found with format=json, the following response will be returne
 
 | Method        | Definition | 
 | ------------- | ---------  | 
-| DELETE        |  http://mapwarper.net/gcps/destroy/{gcp_id} |
+| DELETE        |  http://mapwarper.net/gcps/destroy/{:gcp_id} |
 
 Deletes a ground control point. Requires authentication.
 
 **Parameters**
 
 | Name        | Description | Required  | 
-| ----------- | --------- | ---------   | 
+| ----------- | ---------   | ---------   | 
 | gcp_id      |  the unique identifier for a ground control point  |  required |
 
 Example: 
