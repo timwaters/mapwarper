@@ -51,7 +51,7 @@ curl -H 'Content-Type: application/json' -H 'Accept: application/json' -X POST -
 
 | Method        | Definition |
 | ------------- | ---------  |
-| GET           | http://mapwarper.net/maps?field= | 
+| GET           | http://mapwarper.net/maps?field=key1 | 
 
 Returns a list of maps that meet search criteria. 
 
