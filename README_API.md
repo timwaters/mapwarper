@@ -182,7 +182,7 @@ Returns a paginated list of warped maps that either intersect or fall within a s
 |               | intersect | string       |uses the PostGIS ST_Intersects operation to retrieve warped maps whose extents intersect with the bbox parameter  | optional | preferred; orders results by proximity to the bbox extent; default |
 |               | within    | string	      | uses a PostGIS ST_Within operation to retrieve warped maps that fall entirely within the extent of the bbox parameter  | optional      |  |
 | format	       |           | string       | can be used to request “json” output, rather than HTML or XML   | optional | default is HTML |
-| page		        |           | integer   | the page number; use to get the next or previous page  | optional            | |
+| page		        |           | integer      | the page number; use to get the next or previous page  | optional            | |
 
 Format the query in JSON. 
 
@@ -226,7 +226,7 @@ The response will be in the following format.
 | stat		        |               | string 	|		               | the HTTP response for the status of the request		|    |
 | current_page		|               | integer |		               | indicates on which page of the search results the map appears		|    |
 | items		       |               | an array of key pairs with information about the map 	|		|									| |
-|               | updated_at	   | date, time, & timezone	  | when the map was last updated		| 	|
+|               | updated_at	   | date, time, & timezone	  | 		| when the map was last updated	|
 |               | title		       | string 	 |		|		the title of the map							| |
 |               | id		          | integer 	|		|		the unique identifier for the map						| |
 |               | description	  | string	  |		|		the description of the map							| |
