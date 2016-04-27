@@ -234,7 +234,7 @@ The response will be in the following format.
 |               | nypl_digital_id	| integer |	|  the NYPL digital ID, which is used for thumbnail images and links to thelibrary metadata		| |
 |               | width		       | integer	 | 	  	| the width of the unwarped map					| |
 |               | bbox		        | a comma-separated string of latitude and longitude coordinates	 | 	  	| a rectangle delineating the map's geographic footprint					| |
-|               | updated_at	   | date, time, & timezone	  |  when the map was last updated		| 	|
+|               | updated_at	   | date, time, & timezone	  |  		| when the map was last updated	|
 | total_pages		 |               | integer 	|		               | the total number of pages in the result set		|    |
 | per_page		    |               | integer  |		               | the number of results per page		|    |
 | total_entries	|               | integer 	|	               	|	thetotal number of results					|    |
