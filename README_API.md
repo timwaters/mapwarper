@@ -732,7 +732,7 @@ Returns a list of the ground control points used to warp a map, as well as their
 
 | Name          | Description | Required  | Notes     |
 | ------------- | ----------  | --------  | --------  |
-| mapscan_id      | the unique identifier for a map   |  required         |       |
+| map_id        | the unique identifier for a map   |  required         |       |
 | format        | can be used to request json output, rather than HTML or XML     |    optional       |  default is HTML     |
 
 **Request Examples**
@@ -1236,24 +1236,19 @@ curl -X POST -d "use_mask=false&format=json" -u email@example.com:password  http
 
 The following options specify the algorithm or method that should be used to warp a map.
 
-Resample Options
-
-| Name      	    | Type    | Description  |  Required | Notes  |
-| -----          | -----   | ------------ | --------- |  ----- | 
-| near      		   | string  | nearest neighbor       | optional | fastest processing; default |
-| bilinear		     | string  | bilinear interpolation | optional |                         |
-| cubic 		       | string  | cubic                  | optional | good option, but slower | 
-| cubicspline	   | string  | cubic spline           | optional | slowest; best quality   | 
-
-Transform Options
-
-| Name      	    | Type    | Description  |  Required | Notes  |
-| -----          | -----   | ------------ | --------- |  ----- | 
-| auto     		    | string  |              | optional  | default |
-| p1		           | string  | 1st order polynomial | optional |  requires a minimum of 3 GCPs   |
-| p2 		          | string  | 2nd order polynomial | optional |  requires a minimum of 6 GCPs   | 
-| p3	            | string  | 3rd order polynomial | optional |  requires a minimum of 10 GCPs   | 
-| tps	           | string  | thin plate spline    | optional |  requires many evenly-distributed points |
+| Name      	       |                | Type    | Description            |  Required | Notes  |
+| -----             | -------------  | ------- | ---------              |  -------  | -----  |
+| resample_options  |                | string  |                        | optional  |        |         
+|                   | near      		   |         | nearest neighbor       | optional  | fastest processing; default |
+|                   | bilinear		     |         | bilinear interpolation | optional  |                         |
+|                   | cubic 		       |         | cubic                  | optional  | good option, but slower | 
+|                   | cubicspline	   |         | cubic spline           | optional  | slowest; best quality   | 
+| transform_options |                | string  |                        | optional  |        |
+|                   | auto     		    | string  |                        | optional  | default |
+|                   | p1		           | string  | 1st order polynomial   | optional |  requires a minimum of 3 GCPs   |
+|                   | p2 		          | string  | 2nd order polynomial   | optional |  requires a minimum of 6 GCPs   | 
+|                   | p3	            | string  | 3rd order polynomial   | optional |  requires a minimum of 10 GCPs   | 
+|                   | tps	           | string  | thin plate spline      | optional |  requires many evenly-distributed points |
 
 **Response**
 
