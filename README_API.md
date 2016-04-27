@@ -785,7 +785,7 @@ The response will be a list of ground control points in the following format.
 | stat        |               | the HTTP response for the status of the request   |  |
 | items		                     || an array of key pairs with information about the control points 	|		|									|
 |               | lon           | the longitude of the control point                    |  |
-|               | updated_at    | the date and time that the control points were last updated  |  |
+|               | updated_at    | the date and time when the control points were last updated  |  |
 |               | x             | the x coordinate that corresponds to "lon"   |  |
 |               | y             | the y coordinate that corresponds to "lat"   |  |
 |               | mapscan_id    | the unique identifier for the map            |  |
@@ -848,7 +848,7 @@ Returns a specified ground control point by ID.
 | stat          |             | the status of the request   | 
 | items		                     || an array of key pairs with information about the control points 	|	
 |               | lon           | the longitude of the control point                    |
-|               | updated_at    | the date and time that the control points were last updated  | 
+|               | updated_at    | the date and time when the control points were last updated  | 
 |               | x             | the x coordinate that corresponds to "lon"   | 
 |               | y             | the y coordinate that corresponds to "lat"   |
 |               | mapscan_id    | the unique identifier for the map            |
@@ -936,7 +936,7 @@ The response will be in the following format.
 | stat          |             | the HTTP response for the status of the request   | 
 | items		                     || an array of key pairs with information about the control points 	|	
 |               | lon           | the longitude of the control point                    | 
-|               | updated_at    | the date and time that the control points were last updated  |
+|               | updated_at    | the date and time when the control points were last updated  |
 |               | x             | the x coordinate that corresponds to "lon"   | 
 |               | y             | the y coordinate that corresponds to "lat"   |
 |               | mapscan_id    | the unique identifier for the map            | 
