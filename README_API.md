@@ -361,7 +361,7 @@ A layer is a mosaic in which the component maps are stitched together and shown 
 
 | Method       | Definition | 
 | ------------ | -------    | 
-| GET          |  http://mapwarper.net/layers?field= |
+| GET          |  http://mapwarper.net/layers?field=key1 |
 
 **Parameters**
 
@@ -430,7 +430,7 @@ Enter text for the search query, based on the field chosen. The query text is ca
 | items              | an array of key pairs | an array of key pairs with information about the layer |  |
 | name               | string      | the title of the map |  |
 | is_visible	        | boolean		 | when set to false, usually indicates a meta layer or collection of atlases | these meta-layers will not have WMSs   |
-| updated_at         | date, time, & timezone |  | when the map was last updated |
+| updated_at         | date, time, & timezone | when the map was last updated |  |
 | mapscans_count	    | integer   | how many maps a layer has, as opposed to title pages, plates, and other non-map content	| defines a map using the map_type => is_map variable; optional     |
 | id                 | integer   | the unique identifier for a layer |  |
 | rectified_mapscans_count	      | integer   | how many maps in the layer are warped	|     |
