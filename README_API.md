@@ -1,6 +1,6 @@
 #MapWarper API Documentation
 
-Welcome to the documentation for the MapWarper API! MapWarper is a free application that assigns the proper geographic coordinates to scanned maps in PDF and image formats. Users can upload images, then assign ground control points to match them up with a base map. Once MapWarper warps or stretches the image, it can be aligned and displayed with other maps, and used for digital geographic analysis. You can access all of the functionality through the API. 
+Welcome to the documentation for the MapWarper API! MapWarper is a free application that assigns the proper geographic coordinates to scanned maps in PDF and image formats. Users can upload images, then assign ground control points to match them up with a base map. Once MapWarper warps or stretches the image to match the extent of the base map, it can be aligned and displayed with other maps, and used for digital geographic analysis. You can access all of the functionality through the API. 
 
 ##Table of Contents
 
