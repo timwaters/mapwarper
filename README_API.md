@@ -875,12 +875,12 @@ Adds the ground control points on which a warp will be based. Requires authentic
 
 | Name          | Description | Required  | Notes |
 | ------------- | ---------   | ------    | ----  |                                            
-| map_id        | the map to which the new ground control point will be applied   | required    |             |
+| map_id        | the map to which the new ground control point will be applied        | required |                |
 | lat           | the latitude of the control point to warp to                         | optional | default is 0   |
 | lon           | the longitude of the control point to warp to                        | optional | default is 0   |
 | x             | the x coordinate on the unwarped image that corresponds to "lon"     | optional | default is 0   |
 | y             | the y coordinate on the unwarped image that corresponds to "lon"     | optional | default is 0   | 
-| format        | can be used to request json output, rather than HTML or XML          | optional | default is HTML  |
+| format        | can be used to request json output, rather than HTML or XML          | optional | default is HTML |
 
 **Request Example**
 
