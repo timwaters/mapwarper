@@ -71,8 +71,7 @@ Returns a list of maps that meet search criteria.
 |                 | asc 	     | string    | ascending order               | optional            | |
 |		               | desc	     | string    | descending order              | optional            | |
 | show_warped	    | 		        | integer   | limits to maps that have already been warped   | optional | Use "1" | 
-| format	         |     	     | string    | 
-can be used to request “json” output, rather than HTML or XML   | optional            | default is HTML |
+| format	         |     	     | string    | can be used to request “json” output, rather than HTML or XML   | optional            | default is HTML |
 | page		          | 		        | integer   | the page number; use to get the next or previous page  | optional            | |
 
 Enter optional text for the search query, based on the field chosen. The query text is case insensitive. This is a simple exact string text search. For example, a search for "city New York" returns no results, but a search for "city of New York" returns 22.
