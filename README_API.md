@@ -65,7 +65,7 @@ Returns a list of maps that meet search criteria.
 | catnyp 		      |             | integer  | the NYPL digital catalog ID used to link to the library record              | optional | |
 | sort_key	             	      ||         | the field on which the sort should be based  | optional |   |
 | 		              | title     | string    | the title of the map	             | optional            | |
-| 		              | updated_at | date, time, & timezone | when the map was last updated	| optional            | |
+| 		              | updated_at | date, time, & time zone | when the map was last updated	| optional            | |
 |		               | status	   | integer   | the status of the map	            | optional            | gives the number of control points for a warped image, or the status "unrectified" |
 | sort_order	                 ||  string  | the order in which the items returned should appear | optional            | |
 |                 | asc 	     | string    | ascending order               | optional            | |
@@ -131,7 +131,7 @@ The response will be in JSON in the following format.
 |               |         	     |         	| 0 : index	      | indicates a map index or overview map							| |
 | 		            | 		            |          | 1 : is_map	     |  										| default |
 | 		            | 	 	           |          | 2 : not_map	    | indicates non-map content, such as a plate depicting sea monsters		| |
-|               | updated_at	   | date, time, & timezone  | 		| when the map was last updated	|
+|               | updated_at	   | date, time, & time zone  | 		| when the map was last updated	|
 |               | title		       | string 	 |		|		the title of the map							| |
 |               | id		          | integer 	|		|		the unique identifier for the map						| |
 |               | description	  | string	  |		|		the description of the map							| |
@@ -143,7 +143,7 @@ The response will be in JSON in the following format.
 | 		            | 		            |          | 1 : masking		 | the map is undergoing the masking process				| |
 | 		            | 		            |          | 2 : masked		  | the map has been masked				| |
 |               | width		       | integer	 | 	  	| the width of the unwarped map					| |
-|               | created_at	   | date, time, & timezone	 | 		   | the date and time when the map was added to the system					| |
+|               | created_at	   | date, time, & time zone	 | 		   | the date and time when the map was added to the system					| |
 | total_pages		 |               | integer 	|		               | the total number of pages in the result set		|    |
 | per_page		    |               | integer  |		               | the number of results per page		|    |
 | total_entries	|               | integer 	|	               	|	thetotal number of results					|    |
@@ -226,7 +226,7 @@ The response will be in the following format.
 | stat		        |               | string 	|		               | the HTTP response for the status of the request		|    |
 | current_page		|               | integer |		               | indicates on which page of the search results the map appears		|    |
 | items		       |               | an array of key pairs with information about the map 	|		|									| |
-|               | updated_at	   | date, time, & timezone	  | 		| when the map was last updated	|
+|               | updated_at	   | date, time, & time zone	  | 		| when the map was last updated	|
 |               | title		       | string 	 |		|		the title of the map							| |
 |               | id		          | integer 	|		|		the unique identifier for the map						| |
 |               | description	  | string	  |		|		the description of the map							| |
@@ -234,7 +234,7 @@ The response will be in the following format.
 |               | nypl_digital_id	| integer |	|  the NYPL digital ID, which is used for thumbnail images and links to thelibrary metadata		| |
 |               | width		       | integer	 | 	  	| the width of the unwarped map					| |
 |               | bbox		        | a comma-separated string of latitude and longitude coordinates	 | 	  	| a rectangle delineating the map's geographic footprint					| |
-|               | updated_at	   | date, time, & timezone	  |  		| when the map was last updated	| |
+|               | updated_at	   | date, time, & time zone	  |  		| when the map was last updated	| |
 | total_pages		 |               | integer 	|		               | the total number of pages in the result set		|    |
 | per_page		    |               | integer  |		               | the number of results per page		|    |
 | total_entries	|               | integer 	|	               	|	thetotal number of results					|    |
@@ -299,7 +299,7 @@ The response will be be in the following format.
 | map_type	     | integer 	    | 0 : index	 | indicates a map index or overview map		| |
 | 		| 		                       | 1 : is_map	| 										                     |  default |
 | 		| 		                       | 2 : not_map	| indicates non-map content, such as a plate depicting sea monsters		|  |
-| updated_at	   | date, time, & timezone	      | 		 | when the image was last updated	|
+| updated_at	   | date, time, & time zone	      | 		 | when the image was last updated	|
 | title		       | string 	     |		|	title of the map								                 |                     |
 | id		          | integer 	    |		|	a unique identifier for the map						    |                     |
 | description	  | string	      |		|	the description of the map								       |                     |
@@ -311,7 +311,7 @@ The response will be be in the following format.
 | 		            | 		           | 1 : masking		 | 	the map is undergoing the masking process		|   |
 | 		            | 		           | 2 : masked		  | 	the map has been masked			                 |   |
 | width		| integer	            | 		| the width of the unwarped map					                      |   |
-| created_at	| date, time, & timezone	        | 		| the date and time when the map was added to the system		|   |
+| created_at	| date, time, & time zone	        | 		| the date and time when the map was added to the system		|   |
 
 If a map is not found, the following HTTP response will be returned.
 
@@ -373,7 +373,7 @@ A layer is a mosaic in which the component maps are stitched together and shown 
 | sort_key	             	           ||         | field on which the sort should be based                | optional |   |
 | 		             | title            | string   | the title of the map	             | optional            | |
 | 		             | depicts_year     |          | the year that the map depicts	| optional            | |
-| 		             | updated_at       | date, time, & timezone   | when the map was last updated	| optional            | |
+| 		             | updated_at       | date, time, & time zone   | when the map was last updated	| optional            | |
 | 		             | mapscans_count   | integer  | how many maps a layer has, as opposed to title pages, plates, and other non-map content | a map is a resource that has “map_type” set to “is_map”; optional    | |
 |		              | percent	         | integer  | the percentage of the total number of component maps that have been warped          | optional            | |
 | sort_order	                       || string  | the order in which the results should appear    | optional            | |
@@ -430,7 +430,7 @@ Enter text for the search query, based on the field chosen. The query text is ca
 | items              | an array of key pairs | an array of key pairs with information about the layer |  |
 | name               | string      | the title of the map |  |
 | is_visible	        | boolean		 | when set to false, usually indicates a meta layer or collection of atlases | these meta-layers will not have WMSs   |
-| updated_at         | date, time, & timezone | when the map was last updated |  |
+| updated_at         | date, time, & time zone | when the map was last updated |  |
 | mapscans_count	    | integer   | how many maps a layer has, as opposed to title pages, plates, and other non-map content	| defines a map using the map_type => is_map variable; optional     |
 | id                 | integer   | the unique identifier for a layer |  |
 | rectified_mapscans_count	      | integer   | how many maps in the layer are warped	|     |
@@ -458,7 +458,7 @@ Returns a list of layers that include a given map.
 | name           |             | string    | the title of the map | optional  | default |
 | sort_key	             	      ||          | the field on which the sort should be based  | optional | |
 | 		              | title      | string    | the title of the map	             | optional        | |
-| 		              | updated_at |           | when the map was last updated	| optional            | |
+| 		              | updated_at | date, time, & time zone   | when the map was last updated	| optional            | |
 | sort_order	                  ||  string  | the order in which the items returned should appear | optional   | |
 | format	         |     	      | string    | can be used to request “json” output, rather than HTML or XML   | optional | default is HTML |
 
@@ -514,14 +514,14 @@ Alternatively, the URL can be constructed from the point of view of a map:
 | items              | an array of key pairs | an array of key pairs with information about the layer |  |
 | name               | string      | the title of the map |  |
 | is_visible	        | boolean		 | when set to false, usually indicates a meta layer or collection of atlases | these meta-layers will not have WMSs   |
-| updated_at         | date, time, & timezone   | when the map was last updated |  |
+| updated_at         | date, time, & time zone   | when the map was last updated |  |
 | mapscans_count	    | integer   | how many maps a layer has, as opposed to title pages, plates, and other non-map content	| defines a map using the map_type => is_map variable; optional     |
 | id                 | integer   | the unique identifier for a layer |  |
 | rectified_mapscans_count	      | integer   | how many maps in the layer are warped	|     |
 | catnyp             | integer   | he NYPL digital catalog ID used to link to the library record |  |
 | depicts_year	      | year      | the year the layer depicts		|     |
 | bbox	              | a comma-separated string of latitude and longitude coordinates   | a rectangle delineating the geographic footprint of the layer 		|     | 
-| created_at		       | date and time 	|		indicates when the layer was created in the system		|    |
+| created_at		       | date, time, & time zone 	|		when the layer was created in the system		|    |
 
 
 If not found, the following response will be returned.
@@ -586,14 +586,14 @@ or [http://mapwarper.net/layers/760?format=json](http://mapwarper.net/layers/760
 | items              | an array of key pairs | an array of key pairs with information about the layer |  |
 | name               | string      | the title of the map |  |
 | is_visible	        | boolean		 | when set to false, usually indicates a meta layer or collection of atlases | these meta-layers will not have WMSs   |
-| updated_at         | date, time, & timezone  | when the map was last updated |  |
+| updated_at         | date, time, & time zone  | when the map was last updated |  |
 | mapscans_count	    | integer   | how many maps a layer has, as opposed to title pages, plates, and other non-map content	| defines a map using the map_type => is_map variable; optional     |
 | id                 | integer   | the unique identifier for a layer |  |
 | rectified_mapscans_count	      | integer   | how many maps in the layer are warped	|     |
 | catnyp             | integer   | he NYPL digital catalog ID used to link to the library record |  |
 | depicts_year	      | year      | the year the layer depicts		|     |
 | bbox	              | a comma-separated string of latitude and longitude coordinates   | a rectangle delineating the geographic footprint of the layer 		|     | 
-| created_at		       | date and time 	|		indicates when the layer was created in the system		|    |
+| created_at		       | date, time, & time zone 	|		when the layer was created in the system		|    |
 
 If not found with format=json, the following response will be returned.
 
@@ -675,7 +675,7 @@ The response will be in the following format.
 |                    | 0 : index	    |              | indicates a map index or overview map							| |
 | 		                 | 1 : is_map	   |        						| used for map content          |  |
 | 		                 | 2 : not_map	  |              | indicates non-map content, such as a plate depicting sea monsters		| |
-| updated_at         |               | date, time, & timezone | when the map was last updated |  |
+| updated_at         |               | date, time, & time zone | when the map was last updated |  |
 | title              |               | string        | the title of the map |  |
 | id                 |               | integer       | the unique identifier for a map |  |
 | description        |               | string        | the description of the map      |  |
@@ -688,7 +688,7 @@ The response will be in the following format.
 | 		                 | 2 : masked		  |               | the map has been masked				| |
 | bbox	              |               | a comma-separated string of latitude and longitude coordinates   | a rectangle delineating the geographic footprint of the map 		|     | 
 | width              |               | integer       | the width of an unwarped map | |
-| created_at		       |               | date and time	|	when the layer was created in the system		|    |
+| created_at		       |               | date, time, & time zone	|	when the layer was created in the system		|    |
 | total_pages		      |               | integer 	     |	the total number of pages in the result set		|    |
 | per_page		         |               | integer       |	the number of results per page		|    |
 | total_entries	     |               | integer 	     |	the total number of results					|    |
