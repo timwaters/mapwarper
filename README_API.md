@@ -234,7 +234,7 @@ The response will be in the following format.
 |               | nypl_digital_id	| integer |	|  the NYPL digital ID, which is used for thumbnail images and links to thelibrary metadata		| |
 |               | width		       | integer	 | 	  	| the width of the unwarped map					| |
 |               | bbox		        | a comma-separated string of latitude and longitude coordinates	 | 	  	| a rectangle delineating the map's geographic footprint					| |
-|               | updated_at	   | date, time, & timezone	  |  		| when the map was last updated	|
+|               | updated_at	   | date, time, & timezone	  |  		| when the map was last updated	| |
 | total_pages		 |               | integer 	|		               | the total number of pages in the result set		|    |
 | per_page		    |               | integer  |		               | the number of results per page		|    |
 | total_entries	|               | integer 	|	               	|	thetotal number of results					|    |
@@ -299,7 +299,7 @@ The response will be be in the following format.
 | map_type	     | integer 	    | 0 : index	 | indicates a map index or overview map		| |
 | 		| 		                       | 1 : is_map	| 										                     |  default |
 | 		| 		                       | 2 : not_map	| indicates non-map content, such as a plate depicting sea monsters		|  |
-| updated_at	   | date, time, & timezone	      | when the image was last updated		 | 	|
+| updated_at	   | date, time, & timezone	      | 		 | when the image was last updated	|
 | title		       | string 	     |		|	title of the map								                 |                     |
 | id		          | integer 	    |		|	a unique identifier for the map						    |                     |
 | description	  | string	      |		|	the description of the map								       |                     |
