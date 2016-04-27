@@ -131,7 +131,7 @@ The response will be in JSON in the following format.
 |               |         	     |         	| 0 : index	      | indicates a map index or overview map							| |
 | 		            | 		            |          | 1 : is_map	     |  										| default |
 | 		            | 	 	           |          | 2 : not_map	    | indicates non-map content, such as a plate depicting sea monsters		| |
-|               | updated_at	   | date, time, & timezone  | when the map was last updated		| 	|
+|               | updated_at	   | date, time, & timezone  | 		| when the map was last updated	|
 |               | title		       | string 	 |		|		the title of the map							| |
 |               | id		          | integer 	|		|		the unique identifier for the map						| |
 |               | description	  | string	  |		|		the description of the map							| |
