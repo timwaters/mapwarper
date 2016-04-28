@@ -220,23 +220,23 @@ The response will be in the following format.
 
 **Response Elements**
 
-| Name        	 |               | Type	   | Value		         | Description					| Notes |
-| ------------- |-------------	 | -----		 |-----------						| --------------  | ----  |
-| stat		        |               | string 	|		               | the HTTP response for the status of the request		|    |
-| current_page		|               | integer |		               | indicates on which page of the search results the map appears		|    |
+| Name        	 |               | Type	   | Description					| Notes |
+| ------------- |-------------	 | -----		 | --------------  | ----  |
+| stat		        |               | string 	|	the HTTP response for the status of the request		|    |
+| current_page		|               | integer |	indicates on which page of the search results the map appears		|    |
 | items		       |               | an array of key pairs with information about the map 	|		|									| |
-|               | updated_at	   | date, time, & time zone	  | 		| when the map was last updated	|
-|               | title		       | string 	 |		|		the title of the map							| |
-|               | id		          | integer 	|		|		the unique identifier for the map						| |
-|               | description	  | string	  |		|		the description of the map							| |
-|               | height	       | integer 	| 	|  the height of an unwarped map				| |
-|               | nypl_digital_id	| integer |	|  the NYPL digital ID, which is used for thumbnail images and links to thelibrary metadata		| |
-|               | width		       | integer	 | 	  	| the width of the unwarped map					| |
-|               | bbox		        | a comma-separated string of latitude and longitude coordinates	 | 	  	| a rectangle delineating the map's geographic footprint					| |
-|               | updated_at	   | date, time, & time zone	  |  		| when the map was last updated	| |
-| total_pages		 |               | integer 	|		               | the total number of pages in the result set		|    |
-| per_page		    |               | integer  |		               | the number of results per page		|    |
-| total_entries	|               | integer 	|	               	|	thetotal number of results					|    |
+|               | updated_at	   | date, time, & time zone	  | when the map was last updated	|
+|               | title		       | string 	 | the title of the map							| |
+|               | id		          | integer 	|	the unique identifier for the map						| |
+|               | description	  | string	  |	the description of the map							| |
+|               | height	       | integer 	| the height of an unwarped map				| |
+|               | nypl_digital_id	| integer |	the NYPL digital ID, which is used for thumbnail images and links to the library metadata		| |
+|               | width		       | integer	 | the width of the unwarped map					| |
+|               | bbox		        | a comma-separated string of latitude and longitude coordinates	 | a rectangle delineating the map's geographic footprint					| |
+|               | updated_at	   | date, time, & time zone	  | when the map was last updated	| |
+| total_pages		 |               | integer 	| the total number of pages in the result set		|    |
+| per_page		    |               | integer  |	the number of results per page		|    |
+| total_entries	|               | integer 	|	the total number of results					|    |
 
 ###Get a Map
 
