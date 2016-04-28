@@ -611,11 +611,12 @@ Returns a paginated list of the maps that comprise a given layer.
 
 **Parameters**
 
-| Name          | Description | Required  | Notes     |
-| ------------- | ----------  | --------  | --------  |
-| layer_id      | the unique identifier for a layer   |  required         |       |
-| format        | can be used to request json output, rather than HTML or XML     |    optional       |  default is HTML     |
-| show_warped   |  specifies whether to limit search to warped maps    | optional | default is "1", which limits to warped maps; "0" returns all maps |
+| Name          |             | Description | Required  | Notes     |
+| ------------- | ----------  | --------    | --------  | -------   |
+| layer_id      |             | the unique identifier for a layer   |  required  |                      |
+| format        |             | specifies output format      |    optional       |  default is HTML     |
+|               | json        | requests output in json format, rather than HTML or XML | optional | |
+| show_warped   |             | specifies whether to limit search to warped maps        | optional | default is "1", which limits to warped maps; "0" returns all maps |
 
 **Request Examples**
  
@@ -729,10 +730,11 @@ Returns a list of the ground control points used to warp a map, as well as their
 
 **Parameters**
 
-| Name          | Description | Required  | Notes     |
-| ------------- | ----------  | --------  | --------  |
-| map_id        | the unique identifier for a map   |  required         |       |
-| format        | can be used to request json output, rather than HTML or XML     |    optional       |  default is HTML     |
+| Name          |             | Description | Required  | Notes     |
+| ------------- | ----------  | ----------  | --------  | --------  |
+| map_id        |             | the unique identifier for a map   |  required         |       |
+| format        |             | specifies output format      |    optional       |  default is HTML     |
+|               | json        | requests output in json format, rather than HTML or XML | optional | |
 
 **Request Examples**
 
@@ -809,10 +811,11 @@ Returns a specified ground control point by ID.
 
 **Parameters**
 
-| Name          | Description | Required  | Notes     |
-| ------------- | ----------  | --------  | --------  |
-| gcp_id        | the unique identifier for a ground control point   |  required         |       |
-| format        | can be used to request json output, rather than HTML or XML     |    optional       |  default is HTML     |
+| Name          |             | Description | Required  | Notes     |
+| ------------- | ----------  | ----------  | --------  | --------  |
+| gcp_id        |             | the unique identifier for a ground control point   |  required  |       |
+| format        |             | specifies output format      |    optional       |  default is HTML     |
+|               | json        | requests output in json format, rather than HTML or XML | optional |    |
 
 **Example**
 
@@ -872,14 +875,15 @@ Adds the ground control points on which a warp will be based. Requires authentic
 
 **Parameters**
 
-| Name          | Description | Required  | Notes |
-| ------------- | ---------   | ------    | ----  |                                            
-| map_id        | the map to which the new ground control point will be applied        | required |                |
-| lat           | the latitude of the control point to warp to                         | optional | default is 0   |
-| lon           | the longitude of the control point to warp to                        | optional | default is 0   |
-| x             | the x coordinate on the unwarped image that corresponds to "lon"     | optional | default is 0   |
-| y             | the y coordinate on the unwarped image that corresponds to "lon"     | optional | default is 0   | 
-| format        | can be used to request json output, rather than HTML or XML          | optional | default is HTML |
+| Name          |             | Description | Required  | Notes |
+| ------------- | ---------   | --------    | --------  | ----  |                                           
+| map_id        |             | the map to which the new ground control point will be applied        | required |                |
+| lat           |             | the latitude of the control point to warp to                         | optional | default is 0   |
+| lon           |             | the longitude of the control point to warp to                        | optional | default is 0   |
+| x             |             | the x coordinate on the unwarped image that corresponds to "lon"     | optional | default is 0   |
+| y             |             | the y coordinate on the unwarped image that corresponds to "lon"     | optional | default is 0   | 
+| format        |             | specifies output format                                              | optional |  default is HTML |
+|               | json        | requests output in json format, rather than HTML or XML              | optional |                |
 
 **Request Example**
 
@@ -972,14 +976,15 @@ Updates all of the fields for a given GCP.
 
 **Parameters**
 
-| Name          | Description | Required  | Notes |
-| ------------- | ---------   | ------    | ----  |  
-| gcp_id        | the unique identifier of a ground control point             | required  |       |
-| lat           | the latitude of the control point to warp to    | optional  | default is 0 |
-| lon           | the longitude of the control point to warp to   | optional  | default is 0 |
-| x             | the x coordinate on the unwarped image that corresponds to "lon"    | optional | default is 0 |
-| y             | the y coordinate on the unwarped image that corresponds to "lon"    | optional | default is 0 | 
-| format        | can be used to request json output, rather than HTML or XML         | optional | default is HTML |
+| Name          |             | Description | Required  | Notes |
+| ------------- | ---------   | ----------  | --------- | ----- | 
+| gcp_id        |             | the unique identifier of a ground control point             | required  |       |
+| lat           |             | the latitude of the control point to warp to    | optional  | default is 0 |
+| lon           |             | the longitude of the control point to warp to   | optional  | default is 0 |
+| x             |             | the x coordinate on the unwarped image that corresponds to "lon"    | optional | default is 0 |
+| y             |             | the y coordinate on the unwarped image that corresponds to "lon"    | optional | default is 0 | 
+| format        |             | specifies output format      |    optional       |  default is HTML     |
+|               | json        | requests output in json format, rather than HTML or XML | optional | |
 
 **Example**
 
@@ -1010,16 +1015,17 @@ Updates a single field for a GCP. Requires authentication.
 
 **Parameters**
 
-| Name          | Description | Required  | Notes |
-| ------------- | ---------   | ------    | ----  | 
-| gcp_id        | the unique identifier of a ground control point | required |  |
-| ??? field_id  ???  |        |  required |       |      
-| lat           | the latitude of the control point to warp to   | optional  | default is 0 |
-| lon           | the longitude of the control point to warp to   | optional | default is 0 |
-| x    | the x coordinate on the unwarped image that corresponds to "lon"    | optional | default is 0 |
-| y    | the y coordinate on the unwarped image that corresponds to "lon"    | optional | default is 0 | 
-| value         | value to change                  |           |       |
-| format        | can be used to request json output, rather than HTML or XML  |  optional         | default is HTML    |
+| Name          |             | Description | Required  | Notes |
+| ------------- | ---------   | --------    | --------  | ----- |
+| gcp_id        |             | the unique identifier of a ground control point | required |  |
+| ??? field_id  ???  |        |             | required |        |      
+| lat           |             | the latitude of the control point to warp to   | optional  | default is 0 |
+| lon           |             | the longitude of the control point to warp to   | optional | default is 0 |
+| x             |             | the x coordinate on the unwarped image that corresponds to "lon"    | optional | default is 0 |
+| y             |             | the y coordinate on the unwarped image that corresponds to "lon"    | optional | default is 0 | 
+| value         |             | the value to change                                                 | required |              |
+| format        |             | specifies output format                                             | optional |  default is HTML |
+|               | json        | requests output in json format, rather than HTML or XML             | optional |              |
 
 **Example**
 
@@ -1112,10 +1118,11 @@ Saves a mask. Returns a text string with a message indicating success or failure
 
 **Parameters**
 
-| Name          | Value        | Type        | Description  | Required  | 
-| ------------- | ---------    | ----------  | ---------    | --------  | 
-| map_id        |              |  integer    | a unique indentifer for a map | required  | 
-| format        |  json        |  string     | outputs a GML string of coordinates for the polygon(s) to be masked | optional  | 
+| Name          |              | Type        | Description  | Required  | Notes |
+| ------------- | ---------    | ----------  | ---------    | --------  | ----- |
+| map_id        |              |  integer    | a unique indentifer for a map | required  | |
+| format        |              |  string     | specifies output format | optional | default is HTML |
+|               | json         |             | outputs a GML string of coordinates for the polygon(s) to be masked | optional  | 
 
 **Request Example**
 
@@ -1153,10 +1160,11 @@ Deletes a mask. Requires authentication.
 
 **Parameters** 
 
-| Name          | Description | Required  | 
-| ------------- | ---------   | ------    |
-| map_id        |  the unique identifier for a map                                    |  required         |
-| format        |  can be used to request json output, rather than HTML or XML        |  optional         | 
+| Name          |             | Description | Required  | 
+| ------------- | ---------   | ---------   | --------- |
+| map_id        |             | the unique identifier for a map   |  required  |
+| format        |             | specifies output format  | optional |  
+|               | json        | requests output in json format, rather than HTML or XML  | optional |
 
 **Response**
 
@@ -1225,11 +1233,12 @@ curl -X POST -d "use_mask=false&format=json" -u email@example.com:password  http
 
 **Parameters**
 
-| Name      	    | Type  | Description  |  Required | Notes  |
-| -----          | ----- | ----- | ---------        |  -----    | ------ |
-| map_id      		 | integer  | the unique identifier for a map   | required |  |
-| use_mask		     | boolean | applies any saved mask to the map | optional | default is false      |
-| format 		      | string  | can be used to request json output, rather than HTML or XML  | optional | |
+| Name      	    |       | Type  | Description  |  Required | Notes  |
+| -----          | ----- | ----- | ---------    |  -----    | ------ |
+| map_id      		 |       | integer  | the unique identifier for a map   | required |  |
+| use_mask		     |       | boolean  | applies any saved mask to the map | optional | default is false     |
+| format         |       | string   | specifies output format           | optional |  default is HTML     |
+|                | json  | requests output in json format, rather than HTML or XML | optional | |
 
 **Other Parameters**
 
