@@ -1141,7 +1141,7 @@ curl -X POST -d "format=json" -d 'output=<wfs:FeatureCollection xmlns:wfs="http:
 A successful call will return the following message. 
 
 ```
-{"message":"Map clipping mask saved (gml)"}
+{"stat":"ok", "message":"Map clipping mask saved (gml)"}
 ```
 
 Using format=json will return a GML string of coordinates for the polygon(s) to be masked, such as the following.
