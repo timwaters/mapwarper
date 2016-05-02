@@ -424,20 +424,20 @@ Enter text for the search query, based on the field chosen. The query text is ca
 
 **Response Elements**
 
-| Element            | Type        |  Description	| Notes       |
-| -------------      | ----------- |  ----------- | ----------- |
+| Name               |             | Type         |  Description	| Notes       |
+| -------------      | ----------- |  ----------- | -----------  | ----------- |
 | current_page	      | integer     | the search results page on which the layer appears  |      |
 | items              | an array of key pairs | an array of key pairs with information about the layer |  |
-| name               | string      | the title of the map |  |
-| is_visible	        | boolean		 | when set to false, usually indicates a meta layer or collection of atlases | these meta-layers will not have WMSs   |
-| updated_at         | date, time, & time zone | when the map was last updated |  |
-| mapscans_count	    | integer   | how many maps a layer has, as opposed to title pages, plates, and other non-map content	| defines a map using the map_type => is_map variable; optional     |
-| id                 | integer   | the unique identifier for a layer |  |
-| rectified_mapscans_count	      | integer   | how many maps in the layer are warped	|     |
-| catnyp             | integer   | he NYPL digital catalog ID used to link to the library record |  |
-| depicts_year	      | year      | the year the layer depicts		|     |
-| bbox	              | a comma-separated string of latitude and longitude coordinates   | a rectangle delineating the geographic footprint of the layer 		|     | 
-| name               | string  |    |   |
+|                    | name               | string      | the title of the map |  |
+|                    | is_visible	        | boolean		 | when set to false, usually indicates a meta layer or collection of atlases | these meta-layers will not have WMSs   |
+|                    | updated_at         | date, time, & time zone | when the map was last updated |  |
+|                    | mapscans_count	    | integer   | how many maps a layer has, as opposed to title pages, plates, and other non-map content	| defines a map using the map_type => is_map variable; optional     |
+|                    | id                 | integer   | the unique identifier for a layer |  |
+|                    | rectified_mapscans_count	      | integer   | how many maps in the layer are warped	|     |
+|                    | catnyp             | integer   | he NYPL digital catalog ID used to link to the library record |  |
+|                    | depicts_year	      | year      | the year the layer depicts		|     |
+|                    | bbox	              | a comma-separated string of latitude and longitude coordinates   | a rectangle delineating the geographic footprint of the layer 		|     | 
+|                    | name               | string  |    |   |
 | total_pages		      | integer 	|		               | the total number of pages in the result set		|    |
 | per_page		         | integer  |		               | the number of results per page		|    |
 | total_entries	     | integer 	|	               	|	thetotal number of results					|    |
