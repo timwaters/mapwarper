@@ -295,7 +295,8 @@ The response will be be in the following format.
 | 		            | 		           |              | 3 : warping	| the map is undergoing the warping process			|  |
 | 		            | 		           |              | 4 : warped	| the map has been warped					  |       |
 | 		            | 		           |              | 5 : published	| this status is set when the map should no longer be edited | not currently used |
-|               | map_type	    | integer 	    | 0 : index	 | indicates a map index or overview map		| |
+|               | map_type	    | integer 	    |            | indicates whether the image is a map or some other type of content | |
+|               |              |              | 0 : index	 | indicates a map index or overview map		| |
 | 		            | 		           |              | 1 : is_map	| indicates a map	                       |  default |
 | 		            | 		           |              | 2 : not_map	| indicates non-map content, such as a plate depicting sea monsters		|  |
 |               | updated_at    | date, time, & time zone	      | 		 | when the image was last updated	|
