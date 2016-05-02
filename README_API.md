@@ -552,9 +552,9 @@ Returns a single layer.
 
 **Request Examples**
 
-[http://mapwarper.net/layers/760.json](http://mapwarper.net/layers/760.json)
+[http://mapwarper.net/layers/760.json](http://mapwarper.net/layers/760.json) or
 
-or [http://mapwarper.net/layers/760?format=json](http://mapwarper.net/layers/760?format=json)
+[http://mapwarper.net/layers/760?format=json](http://mapwarper.net/layers/760?format=json)
 
 **Response**
 
