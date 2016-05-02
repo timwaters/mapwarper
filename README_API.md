@@ -1241,7 +1241,7 @@ curl -X POST -d "use_mask=false&format=json" -u email@example.com:password  http
 | map_id      		 |       | integer  | the unique identifier for a map   | required |  |
 | use_mask		     |       | boolean  | applies any saved mask to the map | optional | default is false     |
 | format         |       | string   | specifies output format           | optional |  default is HTML     |
-|                | json  | requests output in json format, rather than HTML or XML | optional | |
+|                | json  |          | requests output in json format, rather than HTML or XML | optional | |
 
 **Other Parameters**
 
@@ -1255,11 +1255,11 @@ The following options specify the algorithm or method that should be used to war
 |                   | cubic 		       |         | cubic                  | optional  | good option, but slower | 
 |                   | cubicspline	   |         | cubic spline           | optional  | slowest; best quality   | 
 | transform_options |                | string  |                        | optional  |        |
-|                   | auto     		    | string  |                        | optional  | default |
-|                   | p1		           | string  | 1st order polynomial   | optional |  requires a minimum of 3 GCPs   |
-|                   | p2 		          | string  | 2nd order polynomial   | optional |  requires a minimum of 6 GCPs   | 
-|                   | p3	            | string  | 3rd order polynomial   | optional |  requires a minimum of 10 GCPs   | 
-|                   | tps	           | string  | thin plate spline      | optional |  requires many evenly-distributed points |
+|                   | auto     		    |         |                        | optional  | default |
+|                   | p1		           |         | 1st order polynomial   | optional |  requires a minimum of 3 GCPs   |
+|                   | p2 		          |         | 2nd order polynomial   | optional |  requires a minimum of 6 GCPs   | 
+|                   | p3	            |         | 3rd order polynomial   | optional |  requires a minimum of 10 GCPs   | 
+|                   | tps	           |         | thin plate spline      | optional |  requires many evenly-distributed points |
 
 **Response**
 
