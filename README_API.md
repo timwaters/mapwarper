@@ -793,7 +793,7 @@ The response will be a list of ground control points in the following format.
 |               | x             |             | the x coordinate that corresponds to "lon"   |
 |               | y             |             | the y coordinate that corresponds to "lat"   |
 |               | mapscan_id    | integer     | the unique identifier for the map            |
-|               | id            | integer     | the ground control point’s ID                |
+|               | id            | integer     | the unique identifier for a ground control point               |
 |               | error         |             | the calculated error, or distortion, for that control point   | 
 |               | lat           |             | the latitude of the control point   |
 |               | created_at    | date, time, & time zone | the date and time when the control point was created   |
@@ -814,11 +814,11 @@ Returns a specified ground control point by ID.
 
 **Parameters**
 
-| Name          |             | Description | Required  | Notes     |
-| ------------- | ----------  | ----------  | --------  | --------  |
-| gcp_id        |             | the unique identifier for a ground control point   |  required  |       |
-| format        |             | specifies output format      |    optional       |  default is HTML     |
-|               | json        | requests output in json format, rather than HTML or XML | optional |    |
+| Name          |             | Type        | Description | Required  | Notes     |
+| ------------- | ----------  | ----------  | ----------  | --------  | --------- |
+| gcp_id        |             | integer     | the unique identifier for a ground control point   |  required  |       |
+| format        |             | string      | specifies output format      |    optional       |  default is HTML     |
+|               | json        |             | requests output in json format, rather than HTML or XML | optional |    |
 
 **Example**
 
@@ -857,7 +857,7 @@ Returns a specified ground control point by ID.
 |               | x             |             | the x coordinate that corresponds to "lon"   |
 |               | y             |             | the y coordinate that corresponds to "lat"   |
 |               | mapscan_id    | integer     | the unique identifier for the map            |
-|               | id            | integer     | the ground control point’s ID                |
+|               | id            | integer     | the unique identifier for a ground control point                |
 |               | error         |             | the calculated error, or distortion, for that control point   | 
 |               | lat           |             | the latitude of the control point   |
 |               | created_at    | date, time, & time zone | the date and time when the control point was created   |
@@ -878,15 +878,15 @@ Adds the ground control points on which a warp will be based. Requires authentic
 
 **Parameters**
 
-| Name          |             | Description | Required  | Notes |
-| ------------- | ---------   | --------    | --------  | ----  |                                           
-| map_id        |             | the map to which the new ground control point will be applied        | required |                |
-| lat           |             | the latitude of the control point to warp to                         | optional | default is 0   |
-| lon           |             | the longitude of the control point to warp to                        | optional | default is 0   |
-| x             |             | the x coordinate on the unwarped image that corresponds to "lon"     | optional | default is 0   |
-| y             |             | the y coordinate on the unwarped image that corresponds to "lon"     | optional | default is 0   | 
-| format        |             | specifies output format                                              | optional | default is HTML |
-|               | json        | requests output in json format, rather than HTML or XML              | optional |                |
+| Name          |             | Type        | Description | Required  | Notes |
+| ------------- | ---------   | ----------- | ----------  | --------  | ----- |                                           
+| map_id        |             | integer     | the map to which the new ground control point will be applied        | required |                |
+| lat           |             |             | the latitude of the control point to warp to                         | optional | default is 0   |
+| lon           |             |             | the longitude of the control point to warp to                        | optional | default is 0   |
+| x             |             |             | the x coordinate on the unwarped image that corresponds to "lon"     | optional | default is 0   |
+| y             |             |             | the y coordinate on the unwarped image that corresponds to "lon"     | optional | default is 0   | 
+| format        |             |             | specifies output format                                              | optional | default is HTML |
+|               | json        |             | requests output in json format, rather than HTML or XML              | optional |                |
 
 **Request Example**
 
@@ -946,7 +946,7 @@ The response will be in the following format.
 |               | x             |             | the x coordinate that corresponds to "lon"   |
 |               | y             |             | the y coordinate that corresponds to "lat"   |
 |               | mapscan_id    | integer     | the unique identifier for the map            |
-|               | id            | integer     | the ground control point’s ID                |
+|               | id            | integer     | the unique identifier for a ground control point                |
 |               | error         |             | the calculated error, or distortion, for that control point   | 
 |               | lat           |             | the latitude of the control point   |
 |               | created_at    | date, time, & time zone | the date and time when the control point was created   |
@@ -979,15 +979,15 @@ Updates all of the fields for a given GCP.
 
 **Parameters**
 
-| Name          |             | Description | Required  | Notes |
-| ------------- | ---------   | ----------  | --------- | ----- | 
-| gcp_id        |             | the unique identifier of a ground control point             | required  |       |
-| lat           |             | the latitude of the control point to warp to    | optional  | default is 0 |
-| lon           |             | the longitude of the control point to warp to   | optional  | default is 0 |
-| x             |             | the x coordinate on the unwarped image that corresponds to "lon"    | optional | default is 0 |
-| y             |             | the y coordinate on the unwarped image that corresponds to "lon"    | optional | default is 0 | 
-| format        |             | specifies output format      |    optional       |  default is HTML     |
-|               | json        | requests output in json format, rather than HTML or XML | optional | |
+| Name          |             | Type        | Description | Required  | Notes |
+| ------------- | ----------  | ----------  | ----------- | --------- | ----- |
+| gcp_id        |             | integer     | the unique identifier for a ground control point  | required  |       |
+| lat           |             |             | the latitude of the control point to warp to    | optional  | default is 0 |
+| lon           |             |             | the longitude of the control point to warp to   | optional  | default is 0 |
+| x             |             |             | the x coordinate on the unwarped image that corresponds to "lon"    | optional | default is 0 |
+| y             |             |             | the y coordinate on the unwarped image that corresponds to "lon"    | optional | default is 0 | 
+| format        |             | string      | specifies output format      |    optional       |  default is HTML     |
+|               | json        |             | requests output in json format, rather than HTML or XML | optional | |
 
 **Example**
 
@@ -1018,17 +1018,17 @@ Updates a single field for a GCP. Requires authentication.
 
 **Parameters**
 
-| Name          |             | Description | Required  | Notes |
-| ------------- | ---------   | --------    | --------  | ----- |
-| gcp_id        |             | the unique identifier of a ground control point | required |  |
-| ??? field_id  ???  |        |             | required |        |      
-| lat           |             | the latitude of the control point to warp to   | optional  | default is 0 |
-| lon           |             | the longitude of the control point to warp to   | optional | default is 0 |
-| x             |             | the x coordinate on the unwarped image that corresponds to "lon"    | optional | default is 0 |
-| y             |             | the y coordinate on the unwarped image that corresponds to "lon"    | optional | default is 0 | 
-| value         |             | the value to change                                                 | required |              |
-| format        |             | specifies output format                                             | optional |  default is HTML |
-|               | json        | requests output in json format, rather than HTML or XML             | optional |              |
+| Name          |             | Type        | Description | Required  | Notes |
+| ------------- | ----------  | --------    | ----------  | --------- | ----- |
+| gcp_id        |             | integer     | the unique identifier for a ground control point | required |  |
+| ??? field_id  ???  |        |             |             | required |        |      
+| lat           |             |             | the latitude of the control point to warp to   | optional  | default is 0 |
+| lon           |             |             | the longitude of the control point to warp to   | optional | default is 0 |
+| x             |             |             | the x coordinate on the unwarped image that corresponds to "lon"    | optional | default is 0 |
+| y             |             |             | the y coordinate on the unwarped image that corresponds to "lon"    | optional | default is 0 | 
+| value         |             |             | the value to change  | required |              |
+| format        |             | string      | specifies output format         | optional     |  default is HTML |
+|               | json        |             | requests output in json format, rather than HTML or XML   | optional |              |
 
 **Example**
 
@@ -1060,9 +1060,9 @@ Deletes a ground control point. Requires authentication.
 
 **Parameters**
 
-| Name        | Description | Required  | 
-| ----------- | ---------   | ---------   | 
-| gcp_id      |  the unique identifier for a ground control point  |  required |
+| Name        | Type        | Description | Required  | 
+| ----------- | ---------   | ---------   | --------- |
+| gcp_id      |  integer    | the unique identifier for a ground control point  |  required |
 
 Example: 
 
@@ -1081,8 +1081,8 @@ An error will appear in the following format.
 
 If the GCP is not found with format=json, the following response will be returned.
 
-| Status        | Response |
-| ------------- | -------- | 
+| Status          | Response |
+| -------------   | -------- | 
 | 404	(not found) | ```{"items":[],"stat":"not found"}```    |
 
 ##Masking
@@ -1092,7 +1092,7 @@ Uses GML to mask a portion of the map. This essentially crops the map. Masking i
 ###Get Mask
 
 | Method        | Definition | 
-| ------------- | -------    | 
+| ------------- | ---------  | 
 | GET           |  http://mapwarper.net/shared/masks/{:map_id}.gml.ol |
 
 Gets a GML string containing coordinates for the polygon(s) to mask over.
@@ -1163,11 +1163,11 @@ Deletes a mask. Requires authentication.
 
 **Parameters** 
 
-| Name          |             | Description | Required  | 
-| ------------- | ---------   | ---------   | --------- |
-| map_id        |             | the unique identifier for a map   |  required  |
-| format        |             | specifies output format  | optional |  
-|               | json        | requests output in json format, rather than HTML or XML  | optional |
+| Name          |             | Type        | Description | Required  | 
+| ------------- | ---------   | ---------   | ----------- | --------  |
+| map_id        |             | integer     | the unique identifier for a map   |  required  |
+| format        |             | string      | specifies output format  | optional |  
+|               | json        |             | requests output in json format, rather than HTML or XML  | optional |
 
 **Response**
 
@@ -1202,9 +1202,9 @@ Rolls the calls into one. Saves the mask, applies the mask to the map, and warps
 
 **Parameters**
 
-| Name        | Description | 
-| ----------- | -------     | 
-| map_id      | the unique identifier for a map |
+| Name        | Type        | Description | 
+| ----------- | ----------- | ----------  |
+| map_id      | integer     | the unique identifier for a map |
 
 **Response**
 
