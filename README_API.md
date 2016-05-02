@@ -329,9 +329,9 @@ Returns a map's status. This request is used to poll a map while it is being tra
 
 **Parameters**
 
-| Name      	    |             | Type  | Description  |  Required | Notes  |
-| -------------  | ----------- | ----- | ------------ |  -------- | ------ |
-| map_id     		  |             |integer    | the unique identifier for a map   | required | |
+| Name      	    |  Type      | Description  |  Required | 
+| -------------  | ---------- | ------------ |  -------- | 
+| map_id     		  | integer    | the unique identifier for a map   | required |
 
 **Request Example**
 
