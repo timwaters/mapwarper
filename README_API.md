@@ -68,8 +68,8 @@ Returns a list of maps that meet search criteria.
 | 		              | updated_at | date, time, & time zone | when the map was last updated	| optional            | |
 |		               | status	   | integer   | the status of the map	            | optional            | gives the number of control points for a warped image, or the status "unrectified" |
 | sort_order	                 ||  string  | the order in which the items returned should appear | optional            | |
-|                 | asc 	     |   string  | ascending order               | optional            | |
-|		               | desc	     |   string  | descending order              | optional            | |
+|                 | asc 	     |           | ascending order               | optional            | |
+|		               | desc	     |           | descending order              | optional            | |
 | show_warped	    | 		        | integer   | limits to maps that have already been warped   | optional | Use "1" | 
 | format	         |     	     | string    | can be used to request “json” output, rather than HTML or XML   | optional            | default is HTML |
 | page		          | 		        | integer   | the page number; use to get the next or previous page  | optional            | |
@@ -377,8 +377,8 @@ A layer is a mosaic in which the component maps are stitched together and shown 
 | 		             | mapscans_count   | integer  | how many maps a layer has, as opposed to title pages, plates, and other non-map content | a map is a resource that has “map_type” set to “is_map”; optional    | |
 |		              | percent	         | integer  | the percentage of the total number of component maps that have been warped          | optional            | |
 | sort_order	                       || string  | the order in which the results should appear    | optional            | |
-|                | asc 	             | string  | ascending order               | optional            | |
-|		              | desc	             | string  | descending order              | optional            | |
+|                | asc 	             |         | ascending order               | optional            | |
+|		              | desc	             |         | descending order              | optional            | |
 | format	        |     	             | string  | can be used to request json output, rather than HTML or XML  | optional            | default is HTML |
 | page		         | 		                | integer | page number of search results	| optional            | |
 
@@ -460,8 +460,8 @@ Returns a list of layers that include a given map.
 | 		              | title      | string    | the title of the map	             | optional        | |
 | 		              | updated_at | date, time, & time zone   | when the map was last updated	| optional            | |
 | sort_order	                  ||  string  | the order in which the items returned should appear | optional   | |
-|                 | asc 	      | string    | ascending order               | optional            | |
-|		               | desc	      | string    | descending order              | optional            | |
+|                 | asc 	      |           | ascending order               | optional            | |
+|		               | desc	      |           | descending order              | optional            | |
 | format	         |     	      | string    | can be used to request “json” output, rather than HTML or XML   | optional | default is HTML |
 
 **Request Example** 
