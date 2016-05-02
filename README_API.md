@@ -243,7 +243,7 @@ The response will be in the following format.
 | Method        | Definition    |
 | ------------- | ------------- |
 | GET           | http://mapwarper.net/maps/{:id}.json or     | 
-| GET           | http://mapwarper.net/maps/{:id}?format=json |
+|               | http://mapwarper.net/maps/{:id}?format=json |
 
 Returns a map by ID.
 
@@ -539,7 +539,7 @@ If not found, the following response will be returned.
 | Method       | Definition | 
 | ------------ | -------    | 
 | GET          |  http://mapwarper.net/layers/{:layer_id}.json or |
-| GET          |  http://mapwarper.net/layers/{:layer_id}?format=json |
+|              |  http://mapwarper.net/layers/{:layer_id}?format=json |
 
 Returns a single layer.
 
@@ -608,7 +608,7 @@ If not found with format=json, the following response will be returned.
 | Method       | Definition | 
 | ------------ | -------    | 
 | GET          |  http://mapwarper.net/layers/maps/{:layer_id} or |
-| GET          |  http://mapwarper.net/layers/{:layer_id}/maps |
+|              |  http://mapwarper.net/layers/{:layer_id}/maps |
 
 Returns a paginated list of the maps that comprise a given layer.
 
@@ -663,35 +663,35 @@ The response will be in the following format.
 
 **Response Elements**
 
-| Name               |               | Type         |  Description	| Notes     |
-| -------------      | -----------   |  ----------- | -----------  | --------- |
-| stat	              |               | string       | the HTTP response for the status of the request  | |
-| items              |               | an array of key pairs | an array of key pairs with information about the layer | |
-| status	            |               | integer      | the status of the map             | |
-| 	                  | 0 : unloaded	 |              | the map has not been loaded					  | |
-| 		                 |	1 : loading 	 |              | the master image is being requested from the NYPL repository	| |
-| 		                 | 2 : available	|              | the map has been copied, and is ready to be warped	| |
-| 		                 | 3 : warping	  |              | the map is undergoing the warping process			| |
-| 		                 | 4 : warped	   |              | the map has been warped					  | |
-| 		                 | 5 : published	|              | this status is set when the map should no longer be edited | not currently used | 
-| map_type	          |               | integer 	    | indicates whether the image is of a map or another type of content	| |
-|                    | 0 : index	    |              | indicates a map index or overview map							| |
-| 		                 | 1 : is_map	   |        						| used for map content          |  |
-| 		                 | 2 : not_map	  |              | indicates non-map content, such as a plate depicting sea monsters		| |
-| updated_at         |               | date, time, & time zone | when the map was last updated |  |
-| title              |               | string        | the title of the map |  |
-| id                 |               | integer       | the unique identifier for a map |  |
-| description        |               | string        | the description of the map      |  |
-| height             |               | integer       | the height of an unwarped map |
-| nypl_digital_id    |               | integer       | the NYPL digital id used for the thumbnail image and link to the library's metadata | |
-| catnyp             |               | integer       | he NYPL digital catalog ID used to link to the library record |  |
-| mask_status	       |               | integer	      | the status of the mask		| |
-| 		                 | 0 : unmasked		|               | the map has not been masked				| |
-| 		                 | 1 : masking		 |               | the map is undergoing the masking process				| |
-| 		                 | 2 : masked		  |               | the map has been masked				| |
-| bbox	              |               | a comma-separated string of latitude and longitude coordinates   | a rectangle delineating the geographic footprint of the map 		|     | 
-| width              |               | integer       | the width of an unwarped map | |
-| created_at		       |               | date, time, & time zone	|	when the layer was created in the system		|    |
+| Name               |               | Type         |  Value       | Description	| Notes     |
+| -------------      | -----------   |  ----------- | -----------  | ----------- | --------  |
+| stat	              |               | string       |              | the HTTP response for the status of the request  | |
+| items              |               | an array of key pairs |     | an array of key pairs with information about the layer | |
+|                    | status	       |   integer    |              | the status of the map             | |
+| 	                  |               |              | 0 : unloaded	| the map has not been loaded					  | |
+| 		                 |	              |              | 1 : loading 	| the master image is being requested from the NYPL repository	| |
+| 		                 |             	 |              | 2 : available | the map has been copied, and is ready to be warped	| |
+| 		                 |               |              | 3 : warping	  | the map is undergoing the warping process			| |
+| 		                 |               |              | 4 : warped	   | the map has been warped					  | |
+| 		                 |               |              | 5 : published	| this status is set when the map should no longer be edited | not currently used | 
+|                    | map_type	     | integer 	    |               | indicates whether the image is of a map or another type of content	| |
+|                    |               |              | 0 : index	    | indicates a map index or overview map							| |
+| 		                 |         						|              | 1 : is_map	   | used for map content          |  |
+| 		                 |               |              | 2 : not_map	  | indicates non-map content, such as a plate depicting sea monsters		| |
+|                    | updated_at    | date, time, & time zone |    | when the map was last updated |  |
+|                    | title         |  string       |              | the title of the map |  |
+|                    | id            | integer       |              | the unique identifier for a map |  |
+|                    | description   | string        |              | the description of the map      |  |
+|                    | height        | integer       |              | the height of an unwarped map |
+|                    | nypl_digital_id  | integer    |              | the NYPL digital id used for the thumbnail image and link to the library's metadata | |
+|                    | catnyp        | integer       |              | the NYPL digital catalog ID used to link to the library record | |
+|                    | mask_status   | integer	      |               | the status of the mask		| |
+| 		                 |               |               | 0 : unmasked		|  the map has not been masked				| |
+| 		                 |               |               | 1 : masking		 |  the map is undergoing the masking process				| |
+| 		                 |               |               | 2 : masked		  |  the map has been masked				| |
+|                    | bbox	         | a comma-separated string of latitude and longitude coordinates   | a rectangle delineating the geographic footprint of the map 		|     | 
+|                    | width         | integer       |               | the width of an unwarped map | |
+|                    | created_at		  | date, time, & time zone	|	    | when the layer was created in the system		|    |
 | total_pages		      |               | integer 	     |	the total number of pages in the result set		|    |
 | per_page		         |               | integer       |	the number of results per page		|    |
 | total_entries	     |               | integer 	     |	the total number of results					|    |
