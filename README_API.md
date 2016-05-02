@@ -1032,7 +1032,7 @@ Updates a single field for a GCP. Requires authentication.
 
 **Example**
 
-[http://mapwarper.net/gcps/update_field/14803]
+[http://mapwarper.net/gcps/update_field/14803](http://mapwarper.net/gcps/update_field/14803)
 
 **Response**
 
