@@ -858,7 +858,6 @@ Returns a specified ground control point by ID.
 |               | y             |             | the y coordinate that corresponds to "lat"   |
 |               | mapscan_id    | integer     | the unique identifier for the map            |
 |               | id            | integer     | the unique identifier for a ground control point                |
-|               | error         |             | the calculated error, or distortion, for that control point   | 
 |               | lat           |             | the latitude of the control point   |
 |               | created_at    | date, time, & time zone | the date and time when the control point was created   |
 
@@ -1000,6 +999,7 @@ curl -X PUT -d "lat=54.33&lon=-1.467&x=3666.335&y=2000.12&format=json" -u user@e
 ```
 
 **Response**
+
 An error will appear in the following format.
 
 ```
