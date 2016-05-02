@@ -848,19 +848,19 @@ Returns a specified ground control point by ID.
 
 **Response Elements**
 
-| Name          |             | Description | 
-| ------------- | ---------   | ---------   | 
-| stat          |             | the status of the request   | 
-| items		                     || an array of key pairs with information about the control points 	|	
-|               | lon           | the longitude of the control point                    |
-|               | updated_at    | the date and time when the control points were last updated  | 
-|               | x             | the x coordinate that corresponds to "lon"   | 
-|               | y             | the y coordinate that corresponds to "lat"   |
-|               | mapscan_id    | the unique identifier for the map            |
-|               | id            | the unique identifier for the GCP            |
-|               | error         | the calculated error, or distortion, for that control point   |
-|               | lat           | the latitude of the control point   |
-|               | created_at    | the date and time when the control point was created    |
+| Name          |               | Type        | Description | 
+| ------------- | -----------   | ----------- | ----------  | 
+| stat          |               | string      | the HTTP response for the status of the request   | 
+| items		       |               | an array of key pairs | an array of key pairs with information about the control points 	|			
+|               | lon           |             | the longitude of the control point           |
+|               | updated_at    | date, time, & time zone | the date and time when the control points were last updated  |
+|               | x             |             | the x coordinate that corresponds to "lon"   |
+|               | y             |             | the y coordinate that corresponds to "lat"   |
+|               | mapscan_id    | integer     | the unique identifier for the map            |
+|               | id            | integer     | the ground control point’s ID                |
+|               | error         |             | the calculated error, or distortion, for that control point   | 
+|               | lat           |             | the latitude of the control point   |
+|               | created_at    | date, time, & time zone | the date and time when the control point was created   |
 
 If the GCP is not found with format=json, the following response will be returned.
 
@@ -885,7 +885,7 @@ Adds the ground control points on which a warp will be based. Requires authentic
 | lon           |             | the longitude of the control point to warp to                        | optional | default is 0   |
 | x             |             | the x coordinate on the unwarped image that corresponds to "lon"     | optional | default is 0   |
 | y             |             | the y coordinate on the unwarped image that corresponds to "lon"     | optional | default is 0   | 
-| format        |             | specifies output format                                              | optional |  default is HTML |
+| format        |             | specifies output format                                              | optional | default is HTML |
 |               | json        | requests output in json format, rather than HTML or XML              | optional |                |
 
 **Request Example**
@@ -937,19 +937,19 @@ The response will be in the following format.
 
 **Response Elements**
 
-| Name          |             | Description | Notes   |
-| ------------- | ---------   | ---------   | ------  |
-| stat          |             | the HTTP response for the status of the request   | 
-| items		                     || an array of key pairs with information about the control points 	|	
-|               | lon           | the longitude of the control point                    | 
-|               | updated_at    | the date and time when the control points were last updated  |
-|               | x             | the x coordinate that corresponds to "lon"   | 
-|               | y             | the y coordinate that corresponds to "lat"   |
-|               | mapscan_id    | the unique identifier for the map            | 
-|               | id            | the unique identifier for the GCP            | 
-|               | error         | the calculated error, or distortion, for that control point   |
-|               | lat           | the latitude of the control point   | 
-|               | created_at    | the date and time when the control point was created   | 
+| Name          |               | Type        | Description | 
+| ------------- | -----------   | ----------- | ----------  | 
+| stat          |               | string      | the HTTP response for the status of the request   | 
+| items		       |               | an array of key pairs | an array of key pairs with information about the control points 	|			
+|               | lon           |             | the longitude of the control point           |
+|               | updated_at    | date, time, & time zone | the date and time when the control points were last updated  |
+|               | x             |             | the x coordinate that corresponds to "lon"   |
+|               | y             |             | the y coordinate that corresponds to "lat"   |
+|               | mapscan_id    | integer     | the unique identifier for the map            |
+|               | id            | integer     | the ground control point’s ID                |
+|               | error         |             | the calculated error, or distortion, for that control point   | 
+|               | lat           |             | the latitude of the control point   |
+|               | created_at    | date, time, & time zone | the date and time when the control point was created   |
 
 An error will return the following message.
 
