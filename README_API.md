@@ -784,19 +784,19 @@ The response will be a list of ground control points in the following format.
 
 **Response Elements**
 
-| Name          |               | Type        | Description | Notes   |
-| ------------- | -----------   | ----------- | ----------  | ------- |
-| stat          |               | string      | the HTTP response for the status of the request   |  |
-| items		       |               | an array of key pairs | an array of key pairs with information about the control points 	|		|						
-|               | lon           |             | the longitude of the control point           |  |
-|               | updated_at    | date, time, & time zone | the date and time when the control points were last updated  |  |
-|               | x             |             | the x coordinate that corresponds to "lon"   |  |
-|               | y             |             | the y coordinate that corresponds to "lat"   |  |
-|               | mapscan_id    | integer     | the unique identifier for the map            |  |
-|               | id            | integer     | the ground control point’s ID                |  |
-|               | error         |             | the calculated error, or distortion, for that control point   |  |
-|               | lat           |             | the latitude of the control point   |  |
-|               | created_at    | date, time, & time zone | the date and time when the control point was created   |  |
+| Name          |               | Type        | Description | 
+| ------------- | -----------   | ----------- | ----------  | 
+| stat          |               | string      | the HTTP response for the status of the request   | 
+| items		       |               | an array of key pairs | an array of key pairs with information about the control points 	|			
+|               | lon           |             | the longitude of the control point           |
+|               | updated_at    | date, time, & time zone | the date and time when the control points were last updated  |
+|               | x             |             | the x coordinate that corresponds to "lon"   |
+|               | y             |             | the y coordinate that corresponds to "lat"   |
+|               | mapscan_id    | integer     | the unique identifier for the map            |
+|               | id            | integer     | the ground control point’s ID                |
+|               | error         |             | the calculated error, or distortion, for that control point   | 
+|               | lat           |             | the latitude of the control point   |
+|               | created_at    | date, time, & time zone | the date and time when the control point was created   |
 
 If the map is not found, with format=json, the following response will be returned.
 
@@ -807,7 +807,7 @@ If the map is not found, with format=json, the following response will be return
 ###Get a Single Ground Control Point
 
 | Method       | Definition | 
-| ------------ | -------    | 
+| ------------ | ---------- | 
 | GET          |  http://mapwarper.net/gcps/{:gcp_id}?format=json |
 
 Returns a specified ground control point by ID.
