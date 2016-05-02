@@ -426,8 +426,8 @@ Enter text for the search query, based on the field chosen. The query text is ca
 
 | Name               |             | Type         |  Description	| Notes       |
 | -------------      | ----------- |  ----------- | -----------  | ----------- |
-| current_page	      | integer     | the search results page on which the layer appears  |      |
-| items              | an array of key pairs | an array of key pairs with information about the layer |  |
+| current_page	      |             | integer      | the search results page on which the layer appears  |      |
+| items              |             | an array of key pairs | an array of key pairs with information about the layer |  |
 |                    | name               | string      | the title of the map |  |
 |                    | is_visible	        | boolean		 | when set to false, usually indicates a meta layer or collection of atlases | these meta-layers will not have WMSs   |
 |                    | updated_at         | date, time, & time zone | when the map was last updated |  |
