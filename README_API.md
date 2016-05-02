@@ -608,7 +608,7 @@ If not found with format=json, the following response will be returned.
 | Method       | Definition | 
 | ------------ | -------    | 
 | GET          |  http://mapwarper.net/layers/maps/{:layer_id} or |
-|              |  http://mapwarper.net/layers/{:layer_id}/maps |
+| GET          |  http://mapwarper.net/layers/{:layer_id}/maps |
 
 Returns a paginated list of the maps that comprise a given layer.
 
