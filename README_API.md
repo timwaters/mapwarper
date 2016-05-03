@@ -70,12 +70,12 @@ Returns a list of maps that meet search criteria.
 | sort_order	                 ||  string  | the order in which the results should appear | optional            | |
 |                 | asc 	     |           | ascending order               | optional            | |
 |		               | desc	     |           | descending order              | optional            | |
-| show_warped	    | 		        | integer   | limits to maps that have already been warped   | optional | Use "1" | 
+| show_warped	    | 		        | integer   | limits to maps that have already been warped   | optional | default is "1", which limits to warped maps; "0" returns all maps | 
 | format	         |     	     | string    | specifies output format       | optional            | default is HTML |
 |                 | json      |           | use to specify JSON output, rather than HTML or XML |
 | page		          | 		        | integer   | the page number; use to get the next or previous page | optional            | |
 
-Enter optional text for the search query, based on the field chosen. The query text is case insensitive. This is a simple exact string text search. For example, a search for "city New York" returns no results, but a search for "city of New York" returns 22.
+Enter optional text for the query, based on the search field chosen. The query text is case insensitive. This is a simple exact string text search. For example, a search for "city New York" returns no results, but a search for "city of New York" returns 22.
 
 **Example**
 
@@ -119,7 +119,7 @@ The response will be in JSON in the following format.
 | ------------- |-------------	 | -----		 |-----------						| --------------  | ----  |
 | stat		        |               | string 	|		               | the HTTP response for the status of the request		|    |
 | current_page		|               | integer |		               | the search results page on which the map appears		|    |
-| items		       |               | an array of key pairs with information about the map 	|		|									| |
+| items		       |               | array  	|		               |	an array of key pairs with information about the map							| |
 |               | status	       | integer	 | 	              | the status of the map     |  | 
 | 		            | 		            |          | 0 : unloaded	  | the map has not been loaded					       | |
 | 		            |		             |          | 1 : loading 	  | the master image is being requested from the NYPL repository	 |    |
@@ -129,15 +129,15 @@ The response will be in JSON in the following format.
 | 		            | 		            |          | 5 : published	 | this status is set when the map should no longer be edited | not currently used |
 |               | map_type	     | integer 	|          	      | indicates whether the image is of a map or another type of content	| |
 |               |         	     |         	| 0 : index	      | indicates a map index or overview map							| |
-| 		            | 		            |          | 1 : is_map	     |  										| default |
+| 		            | 		            |          | 1 : is_map	     | indicates a map 										| default |
 | 		            | 	 	           |          | 2 : not_map	    | indicates non-map content, such as a plate depicting sea monsters		| |
 |               | updated_at	   | date, time, & time zone  | 		| when the map was last updated	|
 |               | title		       | string 	 |		|		the title of the map							| |
 |               | id		          | integer 	|		|		the unique identifier for the map						| |
 |               | description	  | string	  |		|		the description of the map							| |
 |               | height	       | integer 	| 	|  the height of an unwarped map				| |
-|               | nypl_digital_id	| integer |	|  the NYPL digital ID, which is used for thumbnail images and links to thelibrary metadata		| |
-|               | catnyp_id	    | integer	 || the NYPL digital catalog that is used to link to the library record 			| |
+|               | nypl_digital_id	| integer |	|  the NYPL digital ID used for thumbnail images and links to the library metadata		| |
+|               | catnyp_id	    | integer	 || the NYPL digital catalog ID used to link to the library record 			| |
 |               | mask_status	  | integer	 || the status of the mask		| |
 | 		            | 		            |          | 0 : unmasked		| the map has not been masked				| |
 | 		            | 		            |          | 1 : masking		 | the map is undergoing the masking process				| |
@@ -157,7 +157,7 @@ The response will be in JSON in the following format.
 | ------------- | ---------  |
 | GET           | http://mapwarper.net/maps/geosearch?bbox=y.min,x.min,y.max,x.max | 
 
-Returns a paginated list of warped maps that either intersect or fall within a specified geographic area, which is specified by a bounding box.
+Returns a paginated list of warped maps that either intersect or fall within a particular geographic area, which is specified by a bounding box.
 
 **Parameters**
 
@@ -228,7 +228,7 @@ The response will be in the following format.
 | ------------- |-------------	 | -----		 | --------------  | 
 | stat		        |               | string 	|	the HTTP response for the status of the request		| 
 | current_page		|               | integer |	the search results page on which the map appears		|
-| items		       |               | an array of key pairs with information about the map 	|		|	
+| items		       |               | array   |	an array of key pairs with information about the map	|	
 |               | updated_at	   | date, time, & time zone	  | when the map was last updated	|
 |               | title		       | string 	 | the title of the map							|
 |               | id		          | integer 	|	the unique identifier for the map						| 
@@ -290,7 +290,7 @@ The response will be be in the following format.
 | Name        	 |              | Type		       | Value		     | Description					 | Notes |
 | ------------- |-------------	|-----------		 | -----------	| ---------------- | ----- |
 | stat		        |              | string 	     |	            | the HTTP response for the status of the request	|       |
-| items		       |              | an array of key pairs with information about the map 	||		|       |
+| items		       |              | array        |             |	an array of key pairs with information about the map	    |       |
 |               | status	      | integer	     | 	           | the status of the map    |       |
 | 	             | 	            |              | 0 : unloaded	| the map has not been loaded					    |
 | 		            |		            |              | 1 : loading 	| the master image is being requested from the NYPL repository	| |
@@ -303,12 +303,12 @@ The response will be be in the following format.
 | 		            | 		           |              | 1 : is_map	| indicates a map	                       |  default |
 | 		            | 		           |              | 2 : not_map	| indicates non-map content, such as a plate depicting sea monsters		|  |
 |               | updated_at    | date, time, & time zone	      | 		 | when the image was last updated	|
-|               | title		       | string 	     |		            |	title of the map			     |         |
-|               | id		          | integer 	    |		            |	a unique identifier for the map						    |                     |
+|               | title		       | string 	     |		            |	the title of the map			     |         |
+|               | id		          | integer 	    |		            |	the unique identifier for the map						    |                     |
 |               | description	  | string	      |		            |	the description of the map								       |                     |
-|               | height	       | integer 	    | 	            | the height of the unrectified map				    |                     |
-|               | nypl_digital_id	| integer    | 	            | the NYPL digital id, which is used for thumbnail images and links to the library metadata		|  |
-|               | catnyp_id	    | integer	     | 	            | the NYPL digital catalog that is used to link to the library record 			|  |
+|               | height	       | integer 	    | 	            | the height of the unwarped map				    |                     |
+|               | nypl_digital_id	| integer    | 	            | the NYPL digital ID used for thumbnail images and links to the library metadata		|  |
+|               | catnyp_id	    | integer	     | 	            | the NYPL digital catalog ID used to link to the library record 		|  |
 |               | mask_status	  | integer	     |              | the status of the mask	      |   |
 | 		            | 		            |              | 0 : unmasked		| 	the map has not been masked			             |   |
 | 		            | 		            |              | 1 : masking		 | 	the map is undergoing the masking process		|   |
@@ -370,14 +370,14 @@ A layer is a mosaic in which the component maps are stitched together and shown 
 
 | Name      	    |                  | Type     | Description |  Required | Notes |
 | -----          | ---------------  | -------- | ----------- |  -------- | ----- |
-| title      		  |              	   | string   | title of the map  | optional | default |
-| description		  |                  | string   | description of the map              | optional |       |
-| catnyp 		      |                  | integer  | NYPL digital catalog ID used to link to library record  | optional | |
+| title      		  |              	   | string   | the title of the map  | optional | default |
+| description		  |                  | string   | the description of the map              | optional |       |
+| catnyp 		      |                  | integer  | the NYPL digital catalog ID used to link to the library record  | optional | |
 | sort_key	             	           ||         | the field that should be used to sort the results   | optional |   |
-| 		             | title            | string   | the title of the map	             | optional            | |
+| 		             | title            | string   | the title of the map	         | optional            | |
 | 		             | depicts_year     |          | the year that the map depicts	| optional            | |
 | 		             | updated_at       | date, time, & time zone   | when the map was last updated	| optional            | |
-| 		             | mapscans_count   | integer  | how many maps a layer has, as opposed to title pages, plates, and other non-map content | a map is a resource that has “map_type” set to “is_map”; optional    | |
+| 		             | mapscans_count   | integer  | how many maps a layer has, as opposed to title pages, plates, and other non-map content | optional |  a map is a resource that has “map_type” set to “is_map”   | |
 |		              | percent	         | integer  | the percentage of the total number of component maps that have been warped          | optional            | |
 | sort_order	                       || string  | the order in which the results should appear    | optional   | |
 |                | asc 	             |         | ascending order               | optional            | |
@@ -388,7 +388,7 @@ A layer is a mosaic in which the component maps are stitched together and shown 
 
 **Query**        
 
-Enter text for the search query, based on the field chosen. The query text is case insensitive.
+Enter text for the query, based on the search field chosen. The query text is case insensitive.
 
       This is a simple exact string text search, i.e. a search for "city New York" retrieves no results, but a search for "city of New York" retrieves 22.
 
@@ -431,14 +431,14 @@ Enter text for the search query, based on the field chosen. The query text is ca
 | Name               |             | Type         |  Description	| Notes       |
 | -------------      | ----------- |  ----------- | -----------  | ----------- |
 | current_page	      |             | integer      | the search results page on which the layer appears  |      |
-| items              |             | an array of key pairs | an array of key pairs with information about the layer |  |
+| items              |             | array        | an array of key pairs with information about the layer |  |
 |                    | name               | string      | the title of the map |  |
 |                    | is_visible	        | boolean		 | when set to false, usually indicates a meta layer or collection of atlases | these meta-layers will not have WMSs   |
 |                    | updated_at         | date, time, & time zone | when the map was last updated |  |
 |                    | mapscans_count	    | integer   | how many maps a layer has, as opposed to title pages, plates, and other non-map content	| defines a map using the map_type => is_map variable; optional     |
 |                    | id                 | integer   | the unique identifier for a layer |  |
 |                    | rectified_mapscans_count	      | integer   | how many maps in the layer are warped	|     |
-|                    | catnyp             | integer   | he NYPL digital catalog ID used to link to the library record |  |
+|                    | catnyp             | integer   | the NYPL digital catalog ID used to link to the library record |  |
 |                    | depicts_year	      | year      | the year the layer depicts		|     |
 |                    | bbox	              | a comma-separated string of latitude and longitude coordinates   | a rectangle delineating the geographic footprint of the layer 		|     | 
 |                    | created_at         | date, time, & time zone | when the layer was created | |
@@ -516,15 +516,15 @@ Alternatively, the URL can be constructed from the point of view of a map:
 
 **Response Elements**
 
-| Element            |             |  Type        |  Description	| Notes       |
+| Name               |             |  Type        |  Description	| Notes       |
 | ----------------   | ----------- |  ----------- | -----------  | ---------   | 
-| stat	              |             | string       | the HTTP response for the status of the request | "stat": "ok" indicates success   |
-| items              |             | an array of key pairs | an array of key pairs with information about the layer |  |
-|                    | name        | string      | the title of the map |  |
-|                    | is_visible	 | boolean		 | when set to false, usually indicates a meta layer or collection of atlases | these meta-layers will not have WMSs   |
+| stat	              |             | string       | the HTTP response for the status of the request |    |
+| items              |             | array        | an array of key pairs with information about the layer |  |
+|                    | name        | string       | the title of the map |  |
+|                    | is_visible	 | boolean		    | when set to false, usually indicates a meta layer or collection of atlases | these meta-layers will not have WMSs   |
 |                    | updated_at  | date, time, & time zone   | when the map was last updated |  |
 |                    | mapscans_count	    | integer   | how many maps a layer has, as opposed to title pages, plates, and other non-map content	| defines a map using the map_type => is_map variable; optional     |
-|                    | id                 | integer   | the unique identifier for a layer |  |
+|                    | id                 | integer   | the unique identifier for the layer |  |
 |                    | rectified_mapscans_count	      | integer   | how many maps in the layer are warped	|     |
 |                    | catnyp             | integer   | the NYPL digital catalog ID used to link to the library record |  |
 |                    | depicts_year	      | year      | the year the layer depicts		|     |
@@ -553,9 +553,9 @@ Returns a single layer.
 
 | Name          |             | Type      | Description | Required  | Notes     |
 | ------------- | ----------  | --------  | ----------  | --------- | --------- |
-| layer_id      |             | integer   | the unique identifier for a layer   |  required |                |
-| format        |             | string    | specifies output format             | optional | default is HTML |
-|               | json        |           | use to specify JSON output, rather than HTML or XML | optional | |
+| layer_id      |             | integer   | the unique identifier for the layer   |  required   |                 |
+| format        |             | string    | specifies output format               | optional    | default is HTML |
+|               | json        |           | use to specify JSON output, rather than HTML or XML | optional |      |
 
 **Request Examples**
 
@@ -591,20 +591,20 @@ Returns a single layer.
 
 | Element            |             | Type        |  Description	| Notes      |
 | -------------      | ----------- |  ---------- | ----------- | ----------  |
-| stat	              |             | string      | the HTTP response for the status of the request  | "stat": "ok" indicates success   |
-| items              |             | an array of key pairs | an array of key pairs with information about the layer |  |
+| stat	              |            | string      | the HTTP response for the status of the request  | "stat": "ok" indicates success|
+| items              |             | array       | an array of key pairs with information about the layer |  |
 |                    | name        | string      | the title of the map |  |
-|                    | is_visible  | boolean		 | when set to false, usually indicates a meta layer or collection of atlases | these meta-layers will not have WMSs   |
+|                    | is_visible  | boolean		   | when set to false, usually indicates a meta layer or collection of atlases | these meta-layers will not have WMSs   |
 |                    | updated_at         | date, time, & time zone  | when the map was last updated |  |
 |                    | mapscans_count	    | integer   | how many maps a layer has, as opposed to title pages, plates, and other non-map content	| defines a map using the map_type => is_map variable; optional     |
-|                    | id                 | integer   | the unique identifier for a layer |  |
+|                    | id                 | integer   | the unique identifier for the layer |  |
 |                    | rectified_mapscans_count	      | integer   | how many maps in the layer are warped	|     |
-|                    | catnyp             | integer   | he NYPL digital catalog ID used to link to the library record |  |
+|                    | catnyp             | integer   | the NYPL digital catalog ID used to link to the library record |  |
 |                    | depicts_year	      | year      | the year the layer depicts		|     |
 |                    | bbox	              | a comma-separated string of latitude and longitude coordinates   | a rectangle delineating the geographic footprint of the layer 		|     | 
 |                    | created_at		       | date, time, & time zone 	|		when the layer was created in the system		|    |
 
-If not found with format=json, the following response will be returned.
+If not found, the following response will be returned (when using format=json).
 
 | Status          | Response   |
 | -------------   | ---------- | 
@@ -623,7 +623,7 @@ Returns a paginated list of the maps that comprise a given layer.
 
 | Name          |             | Description | Required  | Notes     |
 | ------------- | ----------  | --------    | --------  | -------   |
-| layer_id      |             | the unique identifier for a layer   |  required  |                      |
+| layer_id      |             | the unique identifier for the layer   |  required  |                    |
 | format        |             | specifies output format      |    optional       |  default is HTML     |
 |               | json        | requests output in JSON format, rather than HTML or XML | optional | |
 | show_warped   |             | specifies whether to limit search to warped maps        | optional | default is "1", which limits to warped maps; "0" returns all maps |
@@ -674,7 +674,7 @@ The response will be in the following format.
 | -------------      | -----------   |  ----------- | -----------  | ----------- | --------  |
 | stat	              |               | string       |              | the HTTP response for the status of the request  | |
 | current_page       |               | integer      |              | the search results page on which the map appears | |
-| items              |               | an array of key pairs |     | an array of key pairs with information about the layer | |
+| items              |               | array        |              | an array of key pairs with information about the map | |
 |                    | status	       |   integer    |              | the status of the map             | |
 | 	                  |               |              | 0 : unloaded	| the map has not been loaded					  | |
 | 		                 |	              |              | 1 : loading 	| the master image is being requested from the NYPL repository	| |
@@ -688,21 +688,21 @@ The response will be in the following format.
 | 		                 |               |              | 2 : not_map	  | indicates non-map content, such as a plate depicting sea monsters		| |
 |                    | updated_at    | date, time, & time zone |    | when the map was last updated |  |
 |                    | title         |  string       |              | the title of the map |  |
-|                    | id            | integer       |              | the unique identifier for a map |  |
+|                    | id            | integer       |              | the unique identifier for the map |  |
 |                    | description   | string        |              | the description of the map      |  |
 |                    | height        | integer       |              | the height of an unwarped map |
-|                    | nypl_digital_id  | integer    |              | the NYPL digital id used for the thumbnail image and link to the library's metadata | |
+|                    | nypl_digital_id  | integer    |              | the NYPL digital Id used for the thumbnail image and link to the library's metadata | |
 |                    | catnyp        | integer       |              | the NYPL digital catalog ID used to link to the library record | |
 |                    | mask_status   | integer	      |               | the status of the mask		| |
 | 		                 |               |               | 0 : unmasked		|  the map has not been masked				| |
 | 		                 |               |               | 1 : masking		 |  the map is undergoing the masking process				| |
 | 		                 |               |               | 2 : masked		  |  the map has been masked				| |
-|                    | bbox	         | a comma-separated string of latitude and longitude coordinates   | a rectangle delineating the geographic footprint of the map 		|     | 
+|                    | bbox	         | a comma-separated string of latitude and longitude coordinates   |  | a rectangle delineating the geographic footprint of the map 		|     | 
 |                    | width         | integer       |               | the width of an unwarped map | |
-|                    | created_at		  | date, time, & time zone	|	    | when the layer was created in the system		|    |
-| total_pages		      |               | integer 	     |	the total number of pages in the result set		|    |
-| per_page		         |               | integer       |	the number of results per page		|    |
-| total_entries	     |               | integer 	     |	the total number of results					|    |
+|                    | created_at		  | date, time, & time zone	|	    | when the layer was created		|    |
+| total_pages		      |               | integer 	     |	              | the total number of pages in the result set		|    |
+| per_page		         |               | integer       |	              | the number of results per page		|    |
+| total_entries	     |               | integer 	     |	              | the total number of results					|    |
 
 ###Map and Layer Web Map Services
 
@@ -743,7 +743,7 @@ Returns a list of the ground control points used to warp a map, as well as their
 
 | Name          |             | Type        | Description | Required  | Notes     |
 | ------------- | ----------  | ----------  | ----------  | --------  | --------- |
-| map_id        |             | integer     | the unique identifier for a map   |  required         |       |
+| map_id        |             | integer     | the unique identifier for the map   |  required         |       |
 | format        |             | string      | specifies output format      |    optional       |  default is HTML     |
 |               | json        |             | requests output in JSON format, rather than HTML or XML | optional | |
 
@@ -795,15 +795,15 @@ The response will be a list of ground control points in the following format.
 | Name          |               | Type        | Description | 
 | ------------- | -----------   | ----------- | ----------  | 
 | stat          |               | string      | the HTTP response for the status of the request   | 
-| items		       |               | an array of key pairs | an array of key pairs with information about the control points 	|			
-|               | lon           |             | the longitude of the control point           |
+| items		       |               | array       | an array of key pairs with information about the control points 	|			
+|               | lon           | big decimal | the longitude of the control point           |
 |               | updated_at    | date, time, & time zone | the date and time when the control points were last updated  |
-|               | x             |             | the x coordinate that corresponds to "lon"   |
-|               | y             |             | the y coordinate that corresponds to "lat"   |
+|               | x             | float       | the x coordinate that corresponds to "lon"   |
+|               | y             | flat        | the y coordinate that corresponds to "lat"   |
 |               | mapscan_id    | integer     | the unique identifier for the map            |
 |               | id            | integer     | the unique identifier for a ground control point               |
-|               | error         |             | the calculated error, or distortion, for that control point   | 
-|               | lat           |             | the latitude of the control point   |
+|               | error         | float       | the calculated root mean square error, or distortion, for a control point   | 
+|               | lat           | big decimal | the latitude of the control point   |
 |               | created_at    | date, time, & time zone | the date and time when the control point was created   |
 
 If the map is not found, with format=json, the following response will be returned.
@@ -859,14 +859,14 @@ Returns a specified ground control point by ID.
 | Name          |               | Type        | Description | 
 | ------------- | -----------   | ----------- | ----------  | 
 | stat          |               | string      | the HTTP response for the status of the request   | 
-| items		       |               | an array of key pairs | an array of key pairs with information about the control points 	|			
-|               | lon           |             | the longitude of the control point           |
+| items		       |               | array       | an array of key pairs with information about the control points 	|			
+|               | lon           | big decimal | the longitude of the control point           |
 |               | updated_at    | date, time, & time zone | the date and time when the control points were last updated  |
-|               | x             |             | the x coordinate that corresponds to "lon"   |
-|               | y             |             | the y coordinate that corresponds to "lat"   |
+|               | x             | float       | the x coordinate that corresponds to "lon"   |
+|               | y             | float       | the y coordinate that corresponds to "lat"   |
 |               | mapscan_id    | integer     | the unique identifier for the map            |
 |               | id            | integer     | the unique identifier for a ground control point                |
-|               | lat           |             | the latitude of the control point   |
+|               | lat           | big decimal | the latitude of the control point   |
 |               | created_at    | date, time, & time zone | the date and time when the control point was created   |
 
 If the GCP is not found with format=json, the following response will be returned.
@@ -888,10 +888,10 @@ Adds the ground control points on which a warp will be based. Requires authentic
 | Name          |             | Type        | Description | Required  | Notes |
 | ------------- | ---------   | ----------- | ----------  | --------  | ----- |                                           
 | map_id        |             | integer     | the map to which the new ground control point will be applied        | required |                |
-| lat           |             |             | the latitude of the control point to warp to                         | optional | default is 0   |
-| lon           |             |             | the longitude of the control point to warp to                        | optional | default is 0   |
-| x             |             |             | the x coordinate on the unwarped image that corresponds to "lon"     | optional | default is 0   |
-| y             |             |             | the y coordinate on the unwarped image that corresponds to "lon"     | optional | default is 0   | 
+| lat           |             | big decimal | the latitude of the control point to warp to                         | optional | default is 0   |
+| lon           |             | big decimal | the longitude of the control point to warp to                        | optional | default is 0   |
+| x             |             | float       | the x coordinate on the unwarped image that corresponds to "lon"     | optional | default is 0   |
+| y             |             | float       | the y coordinate on the unwarped image that corresponds to "lat"     | optional | default is 0   | 
 | format        |             |  string     | specifies output format                                              | optional | default is HTML |
 |               | json        |             | requests output in JSON format, rather than HTML or XML              | optional |                |
 
@@ -947,15 +947,15 @@ The response will be in the following format.
 | Name          |               | Type        | Description | 
 | ------------- | -----------   | ----------- | ----------  | 
 | stat          |               | string      | the HTTP response for the status of the request   | 
-| items		       |               | an array of key pairs | an array of key pairs with information about the control points 	|			
-|               | lon           |             | the longitude of the control point           |
+| items		       |               | array       | an array of key pairs with information about the control points 	|			
+|               | lon           | big decimal | the longitude of the control point           |
 |               | updated_at    | date, time, & time zone | the date and time when the control points were last updated  |
-|               | x             |             | the x coordinate that corresponds to "lon"   |
-|               | y             |             | the y coordinate that corresponds to "lat"   |
+|               | x             | float       | the x coordinate that corresponds to "lon"   |
+|               | y             | float       | the y coordinate that corresponds to "lat"   |
 |               | mapscan_id    | integer     | the unique identifier for the map            |
 |               | id            | integer     | the unique identifier for a ground control point                |
-|               | error         |             | the calculated error, or distortion, for that control point   | 
-|               | lat           |             | the latitude of the control point   |
+|               | error         | float       | the calculated root mean square error, or distortion, for that control point   | 
+|               | lat           | big decimal | the latitude of the control point   |
 |               | created_at    | date, time, & time zone | the date and time when the control point was created   |
 
 An error will return the following message.
@@ -988,11 +988,11 @@ Updates all of the fields for a given GCP.
 
 | Name          |             | Type        | Description | Required  | Notes |
 | ------------- | ----------  | ----------  | ----------- | --------- | ----- |
-| gcp_id        |             | integer     | the unique identifier for a ground control point  | required  |       |
-| lat           |             |             | the latitude of the control point to warp to    | optional  | default is 0 |
-| lon           |             |             | the longitude of the control point to warp to   | optional  | default is 0 |
-| x             |             |             | the x coordinate on the unwarped image that corresponds to "lon"    | optional | default is 0 |
-| y             |             |             | the y coordinate on the unwarped image that corresponds to "lon"    | optional | default is 0 | 
+| gcp_id        |             | integer     | the unique identifier for the ground control point  | required  |       |
+| lat           |             | big decimal | the latitude of the control point to warp to    | optional  | default is 0 |
+| lon           |             | big decimal | the longitude of the control point to warp to   | optional  | default is 0 |
+| x             |             | float       | the x coordinate on the unwarped image that corresponds to "lon"    | optional | default is 0 |
+| y             |             | float       | the y coordinate on the unwarped image that corresponds to "lat"    | optional | default is 0 | 
 | format        |             | string      | specifies output format      |    optional       |  default is HTML     |
 |               | json        |             | requests output in JSON format, rather than HTML or XML | optional | |
 
@@ -1028,12 +1028,12 @@ Updates a single field for a GCP. Requires authentication.
 
 | Name          |             | Type        | Description | Required  | Notes |
 | ------------- | ----------  | --------    | ----------  | --------- | ----- |
-| gcp_id        |             | integer     | the unique identifier for a ground control point | required |  |
+| gcp_id        |             | integer     | the unique identifier for the ground control point | required |  |
 | ??? field_id  ???  |        |             |             | required |        |      
 | lat           |             |             | the latitude of the control point to warp to   | optional  | default is 0 |
 | lon           |             |             | the longitude of the control point to warp to   | optional | default is 0 |
 | x             |             |             | the x coordinate on the unwarped image that corresponds to "lon"    | optional | default is 0 |
-| y             |             |             | the y coordinate on the unwarped image that corresponds to "lon"    | optional | default is 0 | 
+| y             |             |             | the y coordinate on the unwarped image that corresponds to "lat"    | optional | default is 0 | 
 | value         |             |             | the value to change  | required |              |
 | format        |             | string      | specifies output format         | optional     |  default is HTML |
 |               | json        |             | requests output in JSON format, rather than HTML or XML   | optional |              |
@@ -1087,7 +1087,7 @@ An error will appear in the following format.
 }}}
 ```
 
-If the GCP is not found with format=json, the following response will be returned.
+If the GCP is not found, the following response will be returned (when using format=json).
 
 | Status          | Response |
 | -------------   | -------- | 
@@ -1131,13 +1131,13 @@ Saves a mask. Returns a text string with a message indicating success or failure
 
 | Name          |              | Type        | Description  | Required  | Notes |
 | ------------- | ---------    | ----------  | ---------    | --------  | ----- |
-| map_id        |              |  integer    | a unique indentifer for a map | required  | |
+| map_id        |              |  integer    | a unique indentifer for the map | required  | |
 | format        |              |  string     | specifies output format | optional | default is HTML |
 |               | json         |             | outputs a GML string of coordinates for the polygon(s) to be masked | optional  | 
 
 **Request Example**
 
-[http://mapwarper.net/maps/7449/save_mask]9http://mapwarper.net/maps/7449/save_mask)
+[http://mapwarper.net/maps/7449/save_mask](http://mapwarper.net/maps/7449/save_mask)
 
 **cURL Example**
 
@@ -1173,7 +1173,7 @@ Deletes a mask. Requires authentication.
 
 | Name          |             | Type        | Description | Required  | 
 | ------------- | ---------   | ---------   | ----------- | --------  |
-| map_id        |             | integer     | the unique identifier for a map   |  required  |
+| map_id        |             | integer     | the unique identifier for the map   |  required  |
 | format        |             | string      | specifies output format  | optional |  
 |               | json        |             | requests output in JSON format, rather than HTML or XML  | optional |
 
@@ -1210,9 +1210,9 @@ Rolls the calls into one. Saves the mask, applies the mask to the map, and warps
 
 **Parameters**
 
-| Name        | Type        | Description | 
-| ----------- | ----------- | ----------  |
-| map_id      | integer     | the unique identifier for a map |
+| Name        | Type        | Description | Required  |
+| ----------- | ----------- | ----------  | --------- |
+| map_id      | integer     | the unique identifier for a map | required |
 
 **Response**
 
@@ -1246,7 +1246,7 @@ curl -X POST -d "use_mask=false&format=json" -u email@example.com:password  http
 
 | Name      	    |       | Type  | Description  |  Required | Notes  |
 | -----          | ----- | ----- | ---------    |  -----    | ------ |
-| map_id      		 |       | integer  | the unique identifier for a map   | required |  |
+| map_id      		 |       | integer  | the unique identifier for the map   | required |  |
 | use_mask		     |       | boolean  | applies any saved mask to the map | optional | default is false     |
 | format         |       | string   | specifies output format           | optional |  default is HTML     |
 |                | json  |          | requests output in JSON format, rather than HTML or XML | optional | |
