@@ -141,8 +141,10 @@ The response will be in JSON in the following format.
 | 		            | 		            |          | 0 : unmasked		| the map has not been masked				| |
 | 		            | 		            |          | 1 : masking		 | the map is undergoing the masking process				| |
 | 		            | 		            |          | 2 : masked		  | the map has been masked				| |
+| bbox	         |               | a comma-separated string of latitude and longitude coordinates |    | a rectangle delineating the geographic area to which the search should be limited | |
 |               | width		       | integer	 | 	  	| the width of the unwarped map					| |
 |               | created_at	   | date, time, & time zone	 | 		   | the date and time when the map was added to the system					| |
+|               | status        |          |                 |                                 | |
 | total_pages		 |               | integer 	|		               | the total number of pages in the result set		|    |
 | per_page		    |               | integer  |		               | the number of results per page		|    |
 | total_entries	|               | integer 	|	               	|	thetotal number of results					|    |
