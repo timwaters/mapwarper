@@ -1,6 +1,6 @@
 #MapWarper API Documentation
 
-Welcome to the documentation for the MapWarper API! MapWarper is a free application that assigns the proper geographic coordinates to scanned maps in PDF and image formats. Users can upload images, then assign ground control points to match them up with a base map. Once MapWarper warps or stretches the image to match the extent of the base map, it can be aligned and displayed with other maps, and used for digital geographic analysis. You can access all of the functionality through the API. 
+Welcome to the documentation for the MapWarper API! MapWarper is a free application that assigns the proper geographic coordinates to scanned maps in PDF and image formats. Users can upload images, then assign ground control points to match them up with a base map. Once MapWarper warps or stretches the image to match the corresponding extent of the base map, it can be aligned and displayed with other maps, and used for digital geographic analysis. You can access all of the functionality through the API. 
 
 ##Table of Contents
 
@@ -63,7 +63,7 @@ Returns a list of maps that meet search criteria.
 | description		  |               | string | the description of the map | optional |       |
 | nypl_digital_id 	| 	         | integer  | the NYPL digital id used for the thumbnail image and link to the library's metadata | optional | |
 | catnyp 		      |             | integer  | the NYPL digital catalog ID used to link to the library record              | optional | |
-| sort_key	             	      ||         | the field on which the sort should be based  | optional |   |
+| sort_key	             	      ||         | indicates how the results should be sorted  | optional |   |
 | 		              | title     | string    | the title of the map	             | optional            | |
 | 		              | updated_at | date, time, & time zone | when the map was last updated	| optional            | |
 |		               | status	   | integer   | the status of the map	            | optional            | gives the number of control points for a warped image, or the status "unrectified" |
@@ -370,7 +370,7 @@ A layer is a mosaic in which the component maps are stitched together and shown 
 | title      		  |              	   | string   | title of the map  | optional | default |
 | description		  |                  | string   | description of the map              | optional |       |
 | catnyp 		      |                  | integer  | NYPL digital catalog ID used to link to library record  | optional | |
-| sort_key	             	           ||         | field on which the sort should be based                | optional |   |
+| sort_key	             	           ||         | indicates how the results should be sorted    | optional |   |
 | 		             | title            | string   | the title of the map	             | optional            | |
 | 		             | depicts_year     |          | the year that the map depicts	| optional            | |
 | 		             | updated_at       | date, time, & time zone   | when the map was last updated	| optional            | |
@@ -457,7 +457,7 @@ Returns a list of layers that include a given map.
 | -------------  | ----------- | ----- | ------------ |  -------- | ------ |
 | map_id     		  |             |integer    | the unique identifier for a map   | required | |
 | name           |             | string    | the title of the map | optional  | default |
-| sort_key	             	      ||          | the field on which the sort should be based  | optional | |
+| sort_key	             	      ||          | indicates how the results should be sorted  | optional | |
 | 		              | title      | string    | the title of the map	             | optional        | |
 | 		              | updated_at | date, time, & time zone   | when the map was last updated	| optional            | |
 | sort_order	                  ||  string  | the order in which the items returned should appear | optional   | |
