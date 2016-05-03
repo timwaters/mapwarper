@@ -437,6 +437,7 @@ Enter text for the search query, based on the field chosen. The query text is ca
 |                    | catnyp             | integer   | he NYPL digital catalog ID used to link to the library record |  |
 |                    | depicts_year	      | year      | the year the layer depicts		|     |
 |                    | bbox	              | a comma-separated string of latitude and longitude coordinates   | a rectangle delineating the geographic footprint of the layer 		|     | 
+|                    | created_at         | date, time, & time zone | when the layer was created | |
 |                    | name               | string  |    |   |
 | total_pages		      | integer 	|		               | the total number of pages in the result set		|    |
 | per_page		         | integer  |		               | the number of results per page		|    |
