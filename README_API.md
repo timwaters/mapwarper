@@ -513,7 +513,7 @@ Alternatively, the URL can be constructed from the point of view of a map:
 
 | Element            |             |  Type        |  Description	| Notes       |
 | ----------------   | ----------- |  ----------- | -----------  | ---------   | 
-| stat	              |             | string       | HTTP response  | "stat": "ok" indicates success   |
+| stat	              |             | string       | the HTTP response for the status of the request | "stat": "ok" indicates success   |
 | items              |             | an array of key pairs | an array of key pairs with information about the layer |  |
 |                    | name        | string      | the title of the map |  |
 |                    | is_visible	 | boolean		 | when set to false, usually indicates a meta layer or collection of atlases | these meta-layers will not have WMSs   |
@@ -585,7 +585,7 @@ Returns a single layer.
 
 | Element            |             | Type        |  Description	| Notes      |
 | -------------      | ----------- |  ---------- | ----------- | ----------  |
-| stat	              |             | string      | HTTP response  | "stat": "ok" indicates success   |
+| stat	              |             | string      | the HTTP response for the status of the request  | "stat": "ok" indicates success   |
 | items              |             | an array of key pairs | an array of key pairs with information about the layer |  |
 |                    | name        | string      | the title of the map |  |
 |                    | is_visible  | boolean		 | when set to false, usually indicates a meta layer or collection of atlases | these meta-layers will not have WMSs   |
