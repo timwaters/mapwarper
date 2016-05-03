@@ -72,7 +72,7 @@ Returns a list of maps that meet search criteria.
 |		               | desc	     |           | descending order              | optional            | |
 | show_warped	    | 		        | integer   | limits to maps that have already been warped   | optional | Use "1" | 
 | format	         |     	     | string    | can be used to request “json” output, rather than HTML or XML   | optional            | default is HTML |
-| page		          | 		        | integer   | the page number; use to get the next or previous page  | optional            | |
+| page		          | 		        | integer   | the page number; use to get the next or previous page | optional            | |
 
 Enter optional text for the search query, based on the field chosen. The query text is case insensitive. This is a simple exact string text search. For example, a search for "city New York" returns no results, but a search for "city of New York" returns 22.
 
@@ -117,7 +117,7 @@ The response will be in JSON in the following format.
 | Name        	 |               | Type	   | Value		         | Description					| Notes |
 | ------------- |-------------	 | -----		 |-----------						| --------------  | ----  |
 | stat		        |               | string 	|		               | the HTTP response for the status of the request		|    |
-| current_page		|               | integer |		               | indicates on which page of the search results the map appears		|    |
+| current_page		|               | integer |		               | the search results page on which the map appears		|    |
 | items		       |               | an array of key pairs with information about the map 	|		|									| |
 |               | status	       | integer	 | 	              | the status of the map     |  | 
 | 		            | 		            |          | 0 : unloaded	  | the map has not been loaded					       | |
@@ -147,7 +147,7 @@ The response will be in JSON in the following format.
 |               | status        |          |                 |                                 | |
 | total_pages		 |               | integer 	|		               | the total number of pages in the result set		|    |
 | per_page		    |               | integer  |		               | the number of results per page		|    |
-| total_entries	|               | integer 	|	               	|	thetotal number of results					|    |
+| total_entries	|               | integer 	|	               	|	the total number of results					|    |
 
 ###Geography-Based Map Search
 
@@ -183,7 +183,7 @@ Returns a paginated list of warped maps that either intersect or fall within a s
 |               | intersect | string       |uses the PostGIS ST_Intersects operation to retrieve warped maps whose extents intersect with the bbox parameter  | optional | preferred; orders results by proximity to the bbox extent; default |
 |               | within    | string	      | uses a PostGIS ST_Within operation to retrieve warped maps that fall entirely within the extent of the bbox parameter  | optional      |  |
 | format	       |           | string       | can be used to request “json” output, rather than HTML or XML   | optional | default is HTML |
-| page		        |           | integer      | the page number; use to get the next or previous page  | optional            | |
+| page		        |           | integer      | the page number; use to get the next or previous page | optional            | |
 
 Format the query in JSON. 
 
@@ -225,7 +225,7 @@ The response will be in the following format.
 | Name        	 |               | Type	   | Description					| 
 | ------------- |-------------	 | -----		 | --------------  | 
 | stat		        |               | string 	|	the HTTP response for the status of the request		| 
-| current_page		|               | integer |	indicates on which page of the search results the map appears		|
+| current_page		|               | integer |	the search results page on which the map appears		|
 | items		       |               | an array of key pairs with information about the map 	|		|	
 |               | updated_at	   | date, time, & time zone	  | when the map was last updated	|
 |               | title		       | string 	 | the title of the map							|
@@ -376,11 +376,11 @@ A layer is a mosaic in which the component maps are stitched together and shown 
 | 		             | updated_at       | date, time, & time zone   | when the map was last updated	| optional            | |
 | 		             | mapscans_count   | integer  | how many maps a layer has, as opposed to title pages, plates, and other non-map content | a map is a resource that has “map_type” set to “is_map”; optional    | |
 |		              | percent	         | integer  | the percentage of the total number of component maps that have been warped          | optional            | |
-| sort_order	                       || string  | the order in which the results should appear    | optional            | |
+| sort_order	                       || string  | the order in which the results should appear    | optional   | |
 |                | asc 	             |         | ascending order               | optional            | |
 |		              | desc	             |         | descending order              | optional            | |
 | format	        |     	             | string  | can be used to request json output, rather than HTML or XML  | optional            | default is HTML |
-| page		         | 		                | integer | page number of search results	| optional            | |
+| page		         | 		                | integer | the search results page on which the layer appears	| optional            | |
 
 **Query**        
 
@@ -667,7 +667,7 @@ The response will be in the following format.
 | Name               |               | Type         |  Value       | Description	| Notes     |
 | -------------      | -----------   |  ----------- | -----------  | ----------- | --------  |
 | stat	              |               | string       |              | the HTTP response for the status of the request  | |
-| current_page       |               | integer      |              | indicates on which page of the search results the map appears | |
+| current_page       |               | integer      |              | the search results page on which the map appears | |
 | items              |               | an array of key pairs |     | an array of key pairs with information about the layer | |
 |                    | status	       |   integer    |              | the status of the map             | |
 | 	                  |               |              | 0 : unloaded	| the map has not been loaded					  | |
