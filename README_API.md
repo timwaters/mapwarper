@@ -667,6 +667,7 @@ The response will be in the following format.
 | Name               |               | Type         |  Value       | Description	| Notes     |
 | -------------      | -----------   |  ----------- | -----------  | ----------- | --------  |
 | stat	              |               | string       |              | the HTTP response for the status of the request  | |
+| current_page       |               | integer      |              | indicates on which page of the search results the map appears | |
 | items              |               | an array of key pairs |     | an array of key pairs with information about the layer | |
 |                    | status	       |   integer    |              | the status of the map             | |
 | 	                  |               |              | 0 : unloaded	| the map has not been loaded					  | |
