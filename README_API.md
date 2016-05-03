@@ -886,7 +886,7 @@ Adds the ground control points on which a warp will be based. Requires authentic
 | lon           |             |             | the longitude of the control point to warp to                        | optional | default is 0   |
 | x             |             |             | the x coordinate on the unwarped image that corresponds to "lon"     | optional | default is 0   |
 | y             |             |             | the y coordinate on the unwarped image that corresponds to "lon"     | optional | default is 0   | 
-| format        |             |             | specifies output format                                              | optional | default is HTML |
+| format        |             |  string     | specifies output format                                              | optional | default is HTML |
 |               | json        |             | requests output in json format, rather than HTML or XML              | optional |                |
 
 **Request Example**
