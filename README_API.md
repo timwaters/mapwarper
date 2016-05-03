@@ -231,9 +231,7 @@ The response will be in the following format.
 |               | title		       | string 	 | the title of the map							|
 |               | id		          | integer 	|	the unique identifier for the map						| 
 |               | description	  | string	  |	the description of the map							|
-|               | height	       | integer 	| the height of an unwarped map				|
 |               | nypl_digital_id	| integer |	the NYPL digital ID, which is used for thumbnail images and links to the library metadata		|
-|               | width		       | integer	 | the width of the unwarped map					| 
 |               | bbox		        | a comma-separated string of latitude and longitude coordinates	 | a rectangle delineating the map's geographic footprint					|
 |               | updated_at	   | date, time, & time zone	  | when the map was last updated	| 
 | total_pages		 |               | integer 	| the total number of pages in the result set		|  
