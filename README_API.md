@@ -439,9 +439,9 @@ Enter text for the search query, based on the field chosen. The query text is ca
 |                    | bbox	              | a comma-separated string of latitude and longitude coordinates   | a rectangle delineating the geographic footprint of the layer 		|     | 
 |                    | created_at         | date, time, & time zone | when the layer was created | |
 |                    | name               | string  |    |   |
-| total_pages		      |                    | integer 	|		               | the total number of pages in the result set		|    |
-| per_page		         |                    | integer  |		               | the number of results per page		|    |
-| total_entries	     |                    | integer 	|	               	|	the total number of results					|    |
+| total_pages		      |                    | integer 	| the total number of pages in the result set		|    |
+| per_page		         |                    | integer  |	the number of results per page		|    |
+| total_entries	     |                    | integer 	|	the total number of results					|    |
 
 ###Get a Map's Layers
 
