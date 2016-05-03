@@ -9,7 +9,7 @@ Welcome to the documentation for the MapWarper API! MapWarper is a free applicat
 [Basic Search](#basic-search)  
 [Geography-Based Map Search](#geography-based-map-search)  
 [Get a Map](#get-a-map)  
-[Get Map Status](#get-map-status)   
+[Get a Map's Status](#get-a-maps-status)   
 [Layers](#layers)  
 [Query or List Layers](#query-or-list-layers)  
 [Get a Map's Layers](#get-a-maps-layers)  
@@ -71,7 +71,8 @@ Returns a list of maps that meet search criteria.
 |                 | asc 	     |           | ascending order               | optional            | |
 |		               | desc	     |           | descending order              | optional            | |
 | show_warped	    | 		        | integer   | limits to maps that have already been warped   | optional | Use "1" | 
-| format	         |     	     | string    | can be used to request “json” output, rather than HTML or XML   | optional            | default is HTML |
+| format	         |     	     | string    | specifies output format       | optional            | default is HTML |
+|                 | json      |           | use to specify JSON output, rather than HTML or XML |
 | page		          | 		        | integer   | the page number; use to get the next or previous page | optional            | |
 
 Enter optional text for the search query, based on the field chosen. The query text is case insensitive. This is a simple exact string text search. For example, a search for "city New York" returns no results, but a search for "city of New York" returns 22.
@@ -182,7 +183,8 @@ Returns a paginated list of warped maps that either intersect or fall within a s
 | operation     |           | string       | specifies how to apply the bounding box  | optional  | default is intersect |
 |               | intersect | string       |uses the PostGIS ST_Intersects operation to retrieve warped maps whose extents intersect with the bbox parameter  | optional | preferred; orders results by proximity to the bbox extent; default |
 |               | within    | string	      | uses a PostGIS ST_Within operation to retrieve warped maps that fall entirely within the extent of the bbox parameter  | optional      |  |
-| format	       |           | string       | can be used to request “json” output, rather than HTML or XML   | optional | default is HTML |
+| format	       |           | string       | specifies output format   | optional | default is HTML |
+|               | json      |              | use to specify JSON output, rather than HTML or XML | optional | |
 | page		        |           | integer      | the page number; use to get the next or previous page | optional            | |
 
 Format the query in JSON. 
@@ -249,10 +251,11 @@ Returns a map by ID.
 
 **Parameters**
 
-| Name        	 | Type		       | Description					| Required    | Notes |
-| ------------- |-------------	| --------------- |-----------		| ----- |
-| id  		        | integer 	    | the unique identifier for a map    | required		|    |
-| format  		    | string 	     | can be used to request json output, rather than HTML or XML    | optional		| default is HTML   |
+| Name        	 |              | Type		          | Description					| Required    | Notes |
+| ------------- |-------------	| --------------- |---------------		| ----------- | ----- |
+| id  		        |              | integer 	       | the unique identifier for a map    | required		|    |
+| format  		    |              | string 	        | specifies output format    | optional		| default is HTML   |
+|               | json         |                 | use to specify JSON output, rather than HTML or XML | optional | |
 
 **Response**
 
@@ -319,7 +322,7 @@ If a map is not found, the following HTTP response will be returned.
 | ------------- |----------| 
 | 404	(not found)| ```{"items":[],"stat":"not found"}```    |
 
-###Get Map Status
+###Get a Map's Status
 
 | Method       | Definition | 
 | ------------ | -------    | 
@@ -379,7 +382,8 @@ A layer is a mosaic in which the component maps are stitched together and shown 
 | sort_order	                       || string  | the order in which the results should appear    | optional   | |
 |                | asc 	             |         | ascending order               | optional            | |
 |		              | desc	             |         | descending order              | optional            | |
-| format	        |     	             | string  | can be used to request json output, rather than HTML or XML  | optional            | default is HTML |
+| format	        |     	             | string  | specifies output format       | optional            | default is HTML |
+|                | json              |         | use to specify JSON output, rather than HTML or XML | optional | |       
 | page		         | 		                | integer | the search results page on which the layer appears	| optional            | |
 
 **Query**        
@@ -463,7 +467,8 @@ Returns a list of layers that include a given map.
 | sort_order	                  ||  string  | the order in which the results should appear | optional   | |
 |                 | asc 	      |           | ascending order               | optional            | |
 |		               | desc	      |           | descending order              | optional            | |
-| format	         |     	      | string    | can be used to request “json” output, rather than HTML or XML   | optional | default is HTML |
+| format	         |     	      | string    | specifies output format       | optional | default is HTML |
+|                 | json       |           | use to specify JSON output, rather than HTML or XML | optional | |
 
 **Request Example** 
 
@@ -546,10 +551,11 @@ Returns a single layer.
 
 **Parameters**
 
-| Name          | Description | Required  | Notes     |
-| ------------- | ----------  | --------  | --------  |
-| layer_id      | the unique identifier for a layer   |  required         |       |
-| format        | can be used to request json output, rather than HTML or XML     |    optional       |  default is HTML     |
+| Name          |             | Type      | Description | Required  | Notes     |
+| ------------- | ----------  | --------  | ----------  | --------- | --------- |
+| layer_id      |             | integer   | the unique identifier for a layer   |  required |                |
+| format        |             | string    | specifies output format             | optional | default is HTML |
+|               | json        |           | use to specify JSON output, rather than HTML or XML | optional | |
 
 **Request Examples**
 
@@ -619,7 +625,7 @@ Returns a paginated list of the maps that comprise a given layer.
 | ------------- | ----------  | --------    | --------  | -------   |
 | layer_id      |             | the unique identifier for a layer   |  required  |                      |
 | format        |             | specifies output format      |    optional       |  default is HTML     |
-|               | json        | requests output in json format, rather than HTML or XML | optional | |
+|               | json        | requests output in JSON format, rather than HTML or XML | optional | |
 | show_warped   |             | specifies whether to limit search to warped maps        | optional | default is "1", which limits to warped maps; "0" returns all maps |
 
 **Request Examples**
@@ -739,7 +745,7 @@ Returns a list of the ground control points used to warp a map, as well as their
 | ------------- | ----------  | ----------  | ----------  | --------  | --------- |
 | map_id        |             | integer     | the unique identifier for a map   |  required         |       |
 | format        |             | string      | specifies output format      |    optional       |  default is HTML     |
-|               | json        |             | requests output in json format, rather than HTML or XML | optional | |
+|               | json        |             | requests output in JSON format, rather than HTML or XML | optional | |
 
 **Request Examples**
 
@@ -820,7 +826,7 @@ Returns a specified ground control point by ID.
 | ------------- | ----------  | ----------  | ----------  | --------  | --------- |
 | gcp_id        |             | integer     | the unique identifier for a ground control point   |  required  |       |
 | format        |             | string      | specifies output format      |    optional       |  default is HTML     |
-|               | json        |             | requests output in json format, rather than HTML or XML | optional |    |
+|               | json        |             | requests output in JSON format, rather than HTML or XML | optional |    |
 
 **Example**
 
@@ -887,7 +893,7 @@ Adds the ground control points on which a warp will be based. Requires authentic
 | x             |             |             | the x coordinate on the unwarped image that corresponds to "lon"     | optional | default is 0   |
 | y             |             |             | the y coordinate on the unwarped image that corresponds to "lon"     | optional | default is 0   | 
 | format        |             |  string     | specifies output format                                              | optional | default is HTML |
-|               | json        |             | requests output in json format, rather than HTML or XML              | optional |                |
+|               | json        |             | requests output in JSON format, rather than HTML or XML              | optional |                |
 
 **Request Example**
 
@@ -988,7 +994,7 @@ Updates all of the fields for a given GCP.
 | x             |             |             | the x coordinate on the unwarped image that corresponds to "lon"    | optional | default is 0 |
 | y             |             |             | the y coordinate on the unwarped image that corresponds to "lon"    | optional | default is 0 | 
 | format        |             | string      | specifies output format      |    optional       |  default is HTML     |
-|               | json        |             | requests output in json format, rather than HTML or XML | optional | |
+|               | json        |             | requests output in JSON format, rather than HTML or XML | optional | |
 
 **Example**
 
@@ -1030,7 +1036,7 @@ Updates a single field for a GCP. Requires authentication.
 | y             |             |             | the y coordinate on the unwarped image that corresponds to "lon"    | optional | default is 0 | 
 | value         |             |             | the value to change  | required |              |
 | format        |             | string      | specifies output format         | optional     |  default is HTML |
-|               | json        |             | requests output in json format, rather than HTML or XML   | optional |              |
+|               | json        |             | requests output in JSON format, rather than HTML or XML   | optional |              |
 
 **Example**
 
@@ -1169,7 +1175,7 @@ Deletes a mask. Requires authentication.
 | ------------- | ---------   | ---------   | ----------- | --------  |
 | map_id        |             | integer     | the unique identifier for a map   |  required  |
 | format        |             | string      | specifies output format  | optional |  
-|               | json        |             | requests output in json format, rather than HTML or XML  | optional |
+|               | json        |             | requests output in JSON format, rather than HTML or XML  | optional |
 
 **Response**
 
@@ -1243,7 +1249,7 @@ curl -X POST -d "use_mask=false&format=json" -u email@example.com:password  http
 | map_id      		 |       | integer  | the unique identifier for a map   | required |  |
 | use_mask		     |       | boolean  | applies any saved mask to the map | optional | default is false     |
 | format         |       | string   | specifies output format           | optional |  default is HTML     |
-|                | json  |          | requests output in json format, rather than HTML or XML | optional | |
+|                | json  |          | requests output in JSON format, rather than HTML or XML | optional | |
 
 **Other Parameters**
 
