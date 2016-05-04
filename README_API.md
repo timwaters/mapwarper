@@ -1014,8 +1014,8 @@ Updates a single field for a GCP. Requires authentication.
 | attribute     |             | string      | indicates the field to update | optional | |
 |               | lat         |             | the latitude of the control point to warp to   | optional |  |
 |               | lon         |             | the longitude of the control point to warp to  | optional |  |
-|               | x           |             | the x coordinate on the unwarped image that corresponds to "lon"    | optional | default is 0 |
-|               | y           |             | the y coordinate on the unwarped image that corresponds to "lat"    | optional | default is 0 | 
+|               | x           |             | the x coordinate on the unwarped image that corresponds to "lon"    | optional |  |
+|               | y           |             | the y coordinate on the unwarped image that corresponds to "lat"    | optional |  | 
 | value         |             | integer     | the new value for "lat," "lon," "x," or "y"  | required |  default is 0  |
 | format        |             | string      | specifies output format         | optional     |  default is HTML |
 |               | json        |             | requests output in JSON format, rather than HTML or XML   | optional |              |
