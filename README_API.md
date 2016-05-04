@@ -62,7 +62,6 @@ Returns a list of maps that meet search criteria.
 | title      		  |              	|string  | the title of the map   | optional | default |
 | description		  |               | string | the description of the map | optional |       |
 | nypl_digital_id 	| 	         | integer  | the NYPL digital id used for the thumbnail image and link to the library's metadata | optional | |
-| catnyp 		      |             | integer  | the NYPL digital catalog ID used to link to the library record              | optional | |
 | sort_key	             	      ||         | the field that should be used to sort the results  | optional |   |
 | 		              | title     | string    | the title of the map	             | optional            | |
 | 		              | updated_at | date, time, & time zone | when the map was last updated	| optional            | |
@@ -98,7 +97,6 @@ The response will be in JSON in the following format.
      "description": "from A new edition, much enlarged, of the second part of the North American pilot, for New England, New York, Pennsylvania, New Jersey, Maryland, Virginia, North and South Carolina, Georgia, Florida, and the Havanna : including general charts of the British Ch",
      "height": 4744,
      "nypl_digital_id": "1030125",
-     "catnyp": "b7166511",
      "mask_status": null,
      "bbox": "-75.9831134505588,38.552727388127,-73.9526411829395,40.4029389105122",
      "width": 5875,
@@ -137,7 +135,6 @@ The response will be in JSON in the following format.
 |               | description	  | string	  |		|		the description of the map							| |
 |               | height	       | integer 	| 	|  the height of an unwarped map				| |
 |               | nypl_digital_id	| integer |	|  the NYPL digital ID used for thumbnail images and links to the library metadata		| |
-|               | catnyp_id	    | integer	 || the NYPL digital catalog ID used to link to the library record 			| |
 |               | mask_status	  | integer	 || the status of the mask		| |
 | 		            | 		            |          | 0 : unmasked		| the map has not been masked				| |
 | 		            | 		            |          | 1 : masking		 | the map is undergoing the masking process				| |
@@ -272,7 +269,6 @@ The response will be be in the following format.
      "description": "from Atlas of the Brooklyn borough of the City of New York : originally Kings Co.; complete in three volumes ... based upon official maps and plans ... / by and under the supervision of Hugo Ullitz, C.E.",
      "height": 4920,
      "nypl_digital_id": "1517475",
-     "catnyp": null,
      "mask_status": null,
      "bbox": "-73.9656432253048,40.7255401662787,-73.9405456042296,40.7411978079278",
      "width": 6299,
@@ -306,7 +302,6 @@ The response will be be in the following format.
 |               | description	  | string	      |		            |	the description of the map								       |                     |
 |               | height	       | integer 	    | 	            | the height of the unwarped map				    |                     |
 |               | nypl_digital_id	| integer    | 	            | the NYPL digital ID used for thumbnail images and links to the library metadata		|  |
-|               | catnyp_id	    | integer	     | 	            | the NYPL digital catalog ID used to link to the library record 		|  |
 |               | mask_status	  | integer	     |              | the status of the mask	      |   |
 | 		            | 		            |              | 0 : unmasked		| 	the map has not been masked			             |   |
 | 		            | 		            |              | 1 : masking		 | 	the map is undergoing the masking process		|   |
@@ -370,7 +365,6 @@ A layer is a mosaic in which the component maps are stitched together and shown 
 | -----          | ---------------  | -------- | ----------- |  -------- | ----- |
 | title      		  |              	   | string   | the title of the map  | optional | default |
 | description		  |                  | string   | the description of the map              | optional |       |
-| catnyp 		      |                  | integer  | the NYPL digital catalog ID used to link to the library record  | optional | |
 | sort_key	             	           ||         | the field that should be used to sort the results   | optional |   |
 | 		             | title            | string   | the title of the map	         | optional            | |
 | 		             | depicts_year     |          | the year that the map depicts	| optional            | |
@@ -407,7 +401,6 @@ Enter text for the query, based on the search field chosen. The query text is ca
      "mapscans_count": 50,
      "id": 873,
      "rectified_mapscans_count": 9,
-     "catnyp": "b5639903",
      "depicts_year": "1868",
      "bbox": "-73.949323,40.831269,-73.673187,41.300783",
      "created_at": "2009/03/23 21:21:19 -0400"
@@ -436,7 +429,6 @@ Enter text for the query, based on the search field chosen. The query text is ca
 |                    | mapscans_count	    | integer   | how many maps a layer has, as opposed to title pages, plates, and other non-map content	| defines a map using the map_type => is_map variable; optional     |
 |                    | id                 | integer   | the unique identifier for a layer |  |
 |                    | rectified_mapscans_count	      | integer   | how many maps in the layer are warped	|     |
-|                    | catnyp             | integer   | the NYPL digital catalog ID used to link to the library record |  |
 |                    | depicts_year	      | year      | the year the layer depicts		|     |
 |                    | bbox	              | a comma-separated string of latitude and longitude coordinates   | a rectangle delineating the geographic footprint of the layer 		|     | 
 |                    | created_at         | date, time, & time zone | when the layer was created | |
@@ -489,7 +481,6 @@ Alternatively, the URL can be constructed from the point of view of a map:
      "mapscans_count": 30,
      "id": 931,
      "rectified_mapscans_count": 20,
-     "catnyp": "b5589358",
      "depicts_year": "1866",
      "bbox": "-74.433033,42.247915,-73.478985,43.136618",
      "created_at": "2009/03/23 21:21:19 -0400"
@@ -501,7 +492,6 @@ Alternatively, the URL can be constructed from the point of view of a map:
      "mapscans_count": 2501,
      "id": 919,
      "rectified_mapscans_count": 96,
-     "catnyp": null,
      "depicts_year": null,
      "bbox": "-83.179076,39.640270,-69.331971,45.723733",
      "created_at": "2009/03/23 21:21:19 -0400"
@@ -523,7 +513,6 @@ Alternatively, the URL can be constructed from the point of view of a map:
 |                    | mapscans_count	    | integer   | how many maps a layer has, as opposed to title pages, plates, and other non-map content	| defines a map using the map_type => is_map variable; optional     |
 |                    | id                 | integer   | the unique identifier for the layer |  |
 |                    | rectified_mapscans_count	      | integer   | how many maps in the layer are warped	|     |
-|                    | catnyp             | integer   | the NYPL digital catalog ID used to link to the library record |  |
 |                    | depicts_year	      | year      | the year the layer depicts		|     |
 |                    | bbox	              | a comma-separated string of latitude and longitude coordinates   | a rectangle delineating the geographic footprint of the layer 		|     | 
 |                    | created_at		       | date, time, & time zone 	|		when the layer was created in the system		|    |
@@ -574,7 +563,6 @@ Returns a single layer.
      "mapscans_count": 115,
      "id": 760,
      "rectified_mapscans_count": 1,
-     "catnyp": "b6082770",
      "depicts_year": "1671",
      "bbox": "-65.077269,32.107121,-64.553078,32.521725",
      "created_at": "2009/03/23 21:21:19 -0400"
@@ -596,7 +584,6 @@ Returns a single layer.
 |                    | mapscans_count	    | integer   | how many maps a layer has, as opposed to title pages, plates, and other non-map content	| defines a map using the map_type => is_map variable; optional     |
 |                    | id                 | integer   | the unique identifier for the layer |  |
 |                    | rectified_mapscans_count	      | integer   | how many maps in the layer are warped	|     |
-|                    | catnyp             | integer   | the NYPL digital catalog ID used to link to the library record |  |
 |                    | depicts_year	      | year      | the year the layer depicts		|     |
 |                    | bbox	              | a comma-separated string of latitude and longitude coordinates   | a rectangle delineating the geographic footprint of the layer 		|     | 
 |                    | created_at		       | date, time, & time zone 	|		when the layer was created in the system		|    |
@@ -650,7 +637,6 @@ The response will be in the following format.
      "description": "from The generall historie of Virginia, New-England, and the Summer isles : with the names of the adventurers, planters, and governours from their first beginning ano: 1584. to this present 1626. With the proceedings of those severall colonies and the accidents that befell them in all their journyes and discoveries. Also the maps and descriptions of all those countryes, their commodities, people, government, customes, and religion yet knowne. Divided into sixe bookes. / By Captaine Iohn Smith sometymes governour in those countryes \u0026 admirall of New England.",
      "height": null,
      "nypl_digital_id": "433895",
-     "catnyp": null,
      "mask_status": null,
      "bbox": null,
      "width": null,
@@ -689,7 +675,6 @@ The response will be in the following format.
 |                    | description   | string        |              | the description of the map      |  |
 |                    | height        | integer       |              | the height of an unwarped map |
 |                    | nypl_digital_id  | integer    |              | the NYPL digital Id used for the thumbnail image and link to the library's metadata | |
-|                    | catnyp        | integer       |              | the NYPL digital catalog ID used to link to the library record | |
 |                    | mask_status   | integer	      |               | the status of the mask		| |
 | 		                 |               |               | 0 : unmasked		|  the map has not been masked				| |
 | 		                 |               |               | 1 : masking		 |  the map is undergoing the masking process				| |
