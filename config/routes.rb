@@ -140,9 +140,18 @@ Rails.application.routes.draw do
   
   namespace :api do
     namespace :v1 do
-      constraints format: :json do
-        resource :map, :only => ["show"]
-        resources :maps, :only => ["index"]
+      constraints format: [:json, :geojson] do
+      resources :maps do
+        member do
+          get 'show'
+          get 'gcps'
+        end
+        collection do
+          get 'index'
+        end
+      end
+        #resource :map, :only => ["show", "gcps"]
+        #resources :maps, :only => ["index"]
       end
     end
   end

@@ -1,6 +1,7 @@
 require 'test_helper'
 
 class MapTest < ActiveSupport::TestCase
+
   setup do
     @map = FactoryGirl.create(:available_map)
     
@@ -21,7 +22,6 @@ class MapTest < ActiveSupport::TestCase
     gcps_count = @map.gcps.count
     assert_equal 3, gcps_count
   end
-  #test warp
   
   test "can warp successfully" do
     assert_equal :available, @map.status
@@ -32,6 +32,21 @@ class MapTest < ActiveSupport::TestCase
     @map.warp!(transform_option, resample_option, use_mask)
     assert_equal :warped, @map.status
     assert File.exists?(@map.warped_filename)
+  end
+
+  test "new from wiki" do
+    # 51038 =   http://commons.wikimedia.beta.wmflabs.org/wiki/File:Lawrence-h-slaughter-collection-of-english-maps-england.jpeg
+  raw_response_file = File.new(File.join(Rails.root, "/test/fixtures/data/new_from_wiki.txt")) 
+    stub_request(:get, "http://commons.wikimedia.beta.wmflabs.org/w/api.php?action=query&format=json&iiprop=url%7Cmime&iiurlwidth=100&pageids=51038&prop=imageinfo").
+      with(:headers => {'Accept'=>'*/*', 'User-Agent'=>'Ruby'}).
+        to_return(raw_response_file)
+    
+    map = Map.new_from_wiki("51038")
+    assert map.valid?
+    assert_equal "File:Lawrence-h-slaughter-collection-of-english-maps-england.jpeg", map.title
+    assert_equal "http://upload.beta.wmflabs.org/wikipedia/commons/thumb/2/29/Lawrence-h-slaughter-collection-of-english-maps-england.jpeg/100px-Lawrence-h-slaughter-collection-of-english-maps-england.jpeg", map.thumb_url
+    assert_equal "http://upload.beta.wmflabs.org/wikipedia/commons/2/29/Lawrence-h-slaughter-collection-of-english-maps-england.jpeg", map.image_url
+    assert_equal :loading, map.status
   end
   
   private 
