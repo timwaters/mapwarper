@@ -145,7 +145,6 @@ The response will be in JSON in the following format.
 | bbox	         |               | a comma-separated string of latitude and longitude coordinates |    | a rectangle delineating the geographic area to which the search should be limited | |
 |               | width		       | integer	 | 	  	| the width of the unwarped map					| |
 |               | created_at	   | date, time, & time zone	 | 		   | the date and time when the map was added to the system					| |
-|               | status        |          |                 |                                 | |
 | total_pages		 |               | integer 	|		               | the total number of pages in the result set		|    |
 | per_page		    |               | integer  |		               | the number of results per page		|    |
 | total_entries	|               | integer 	|	               	|	the total number of results					|    |
@@ -235,7 +234,6 @@ The response will be in the following format.
 |               | description	  | string	  |	the description of the map							|
 |               | nypl_digital_id	| integer |	the NYPL digital ID, which is used for thumbnail images and links to the library metadata		|
 |               | bbox		        | a comma-separated string of latitude and longitude coordinates	 | a rectangle delineating the map's geographic footprint					|
-|               | updated_at	   | date, time, & time zone	  | when the map was last updated	| 
 | total_pages		 |               | integer 	| the total number of pages in the result set		|  
 | per_page		    |               | integer  |	the number of results per page		| 
 | total_entries	|               | integer 	|	the total number of results					| 
@@ -442,7 +440,6 @@ Enter text for the query, based on the search field chosen. The query text is ca
 |                    | depicts_year	      | year      | the year the layer depicts		|     |
 |                    | bbox	              | a comma-separated string of latitude and longitude coordinates   | a rectangle delineating the geographic footprint of the layer 		|     | 
 |                    | created_at         | date, time, & time zone | when the layer was created | |
-|                    | name               | string  |    |   |
 | total_pages		      |                    | integer 	| the total number of pages in the result set		|    |
 | per_page		         |                    | integer  |	the number of results per page		|    |
 | total_entries	     |                    | integer 	|	the total number of results					|    |
@@ -1029,18 +1026,25 @@ Updates a single field for a GCP. Requires authentication.
 | Name          |             | Type        | Description | Required  | Notes |
 | ------------- | ----------  | --------    | ----------  | --------- | ----- |
 | gcp_id        |             | integer     | the unique identifier for the ground control point | required |  |
-| ??? field_id  ???  |        |             |             | required |        |      
-| lat           |             |             | the latitude of the control point to warp to   | optional  | default is 0 |
-| lon           |             |             | the longitude of the control point to warp to   | optional | default is 0 |
-| x             |             |             | the x coordinate on the unwarped image that corresponds to "lon"    | optional | default is 0 |
-| y             |             |             | the y coordinate on the unwarped image that corresponds to "lat"    | optional | default is 0 | 
-| value         |             |             | the value to change  | required |              |
+| attribute     |             | string      | indicates the field to update | optional | |
+|               | lat         |             | the latitude of the control point to warp to   | optional |  |
+|               | lon         |             | the longitude of the control point to warp to  | optional |  |
+|               | x           |             | the x coordinate on the unwarped image that corresponds to "lon"    | optional | default is 0 |
+|               | y           |             | the y coordinate on the unwarped image that corresponds to "lat"    | optional | default is 0 | 
+| value         |             | integer     | the new value for "lat," "lon," "x," or "y"  | required |  default is 0  |
 | format        |             | string      | specifies output format         | optional     |  default is HTML |
 |               | json        |             | requests output in JSON format, rather than HTML or XML   | optional |              |
 
 **Example**
 
 [http://mapwarper.net/gcps/update_field/14803](http://mapwarper.net/gcps/update_field/14803)
+
+**cURL Example**
+
+```
+curl -X PUT -d "value=54.33&attribute=lat&format=json" -u user@example.com:password
+ http://mapwarper.net/gcps/update_field/14803
+ ```
 
 **Response**
 
