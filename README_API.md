@@ -72,7 +72,7 @@ Returns a list of maps that meet search criteria.
 | show_warped	    | 		        | integer   | limits to maps that have already been warped   | optional | default is "1," which limits to warped maps; "0" returns all maps | 
 | format	         |     	     | string    | specifies output format       | optional            | default is HTML |
 |                 | json      |           | use to specify JSON output, rather than HTML or XML |
-| page		          | 		        | integer   | the page number; use to get the next or previous page | optional            | |
+| page		          | 		        | integer   | the page number; use to get the next or previous page of search results | optional            | |
 
 Enter optional text for the query, based on the search field chosen. The query text is case insensitive. This is a simple exact string text search. For example, a search for "city New York" returns no results, but a search for "city of New York" returns 22.
 
@@ -181,7 +181,7 @@ Returns a paginated list of warped maps that either intersect or fall within a p
 |               | within    | string	      | uses a PostGIS ST_Within operation to retrieve warped maps that fall entirely within the extent of the bbox parameter  | optional      |  |
 | format	       |           | string       | specifies output format   | optional | default is HTML |
 |               | json      |              | use to specify JSON output, rather than HTML or XML | optional | |
-| page		        |           | integer      | the page number; use to get the next or previous page | optional            | |
+| page		        |           | integer      | the page number; use to get the next or previous page of search results | optional            | |
 
 Format the query in JSON. 
 
