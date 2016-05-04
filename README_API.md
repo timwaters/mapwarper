@@ -69,7 +69,7 @@ Returns a list of maps that meet search criteria.
 | sort_order	                 ||  string  | the order in which the results should appear | optional            | |
 |                 | asc 	     |           | ascending order               | optional            | |
 |		               | desc	     |           | descending order              | optional            | |
-| show_warped	    | 		        | integer   | limits to maps that have already been warped   | optional | default is "1", which limits to warped maps; "0" returns all maps | 
+| show_warped	    | 		        | integer   | limits to maps that have already been warped   | optional | default is "1," which limits to warped maps; "0" returns all maps | 
 | format	         |     	     | string    | specifies output format       | optional            | default is HTML |
 |                 | json      |           | use to specify JSON output, rather than HTML or XML |
 | page		          | 		        | integer   | the page number; use to get the next or previous page | optional            | |
@@ -610,7 +610,7 @@ Returns a paginated list of the maps that comprise a given layer.
 | layer_id      |             | the unique identifier for the layer   |  required  |                    |
 | format        |             | specifies output format      |    optional       |  default is HTML     |
 |               | json        | requests output in JSON format, rather than HTML or XML | optional | |
-| show_warped   |             | specifies whether to limit search to warped maps        | optional | default is "1", which limits to warped maps; "0" returns all maps |
+| show_warped   |             | specifies whether to limit search to warped maps        | optional | default is "1," which limits to warped maps; "0" returns all maps |
 
 **Request Examples**
  
