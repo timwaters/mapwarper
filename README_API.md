@@ -309,7 +309,7 @@ The response will be be in the following format.
 |               | width		       | integer	     | 		            | the width of the unwarped map					          |   |
 |               | created_at	   | date, time, & time zone	| 		 | the date and time when the map was added to the system		|   |
 
-If the map is not found, the request will return the following response (when using format=json).
+If the map is not found, the request will return the following response (when using "format=json").
 
 | Status        | Response |
 | ------------- |----------| 
@@ -518,7 +518,7 @@ Alternatively, the URL can be constructed from the point of view of a map:
 |                    | created_at		       | date, time, & time zone 	|		when the layer was created in the system		|    |
 
 
-If not found, the request will return the following response (when using format=json).
+If not found, the request will return the following response (when using "format=json").
 
 | Status        | Response |
 | ------------- | -------- | 
@@ -588,7 +588,7 @@ Returns a single layer.
 |                    | bbox	              | a comma-separated string of latitude and longitude coordinates   | a rectangle delineating the geographic footprint of the layer 		|     | 
 |                    | created_at		       | date, time, & time zone 	|		when the layer was created in the system		|    |
 
-If not found, the request will return the following response (when using format=json).
+If not found, the request will return the following response (when using "format=jso"n).
 
 | Status          | Response   |
 | -------------   | ---------- | 
@@ -788,7 +788,7 @@ The response will be a list of ground control points in the following format.
 |               | lat           | big decimal | the latitude of the ground control point   |
 |               | created_at    | date, time, & time zone | the date and time when the ground control point was created   |
 
-If the map is not found, the request will return the following response (when using format=json).
+If the map is not found, the request will return the following response (when using "format=json").
 
 | Status          | Response |
 | --------------- | -------- | 
@@ -851,7 +851,7 @@ Returns a specified ground control point by ID.
 |               | lat           | big decimal | the latitude of the ground control point   |
 |               | created_at    | date, time, & time zone | the date and time when the ground control point was created   |
 
-If the GCP is not found, the request will return the following response (when using format=json).
+If the GCP is not found, the request will return the following response (when using "format=json").
 
 | Status        | Response |
 | ------------- | -------- | 
@@ -1041,7 +1041,7 @@ An error will appear in the following format.
 }}}
 ```
 
-If the GCP is not found, the request will return the following response (when using format=json).
+If the GCP is not found, the request will return the following response (when using "format=json").
 
 | Status        | Response |
 | ------------- | -------- | 
@@ -1076,7 +1076,7 @@ An error will appear in the following format.
 }}}
 ```
 
-If the GCP is not found, the request will return the following response (when using format=json).
+If the GCP is not found, the request will return the following response (when using "format=json").
 
 | Status          | Response |
 | -------------   | -------- | 
@@ -1096,7 +1096,7 @@ Gets a GML string containing coordinates for the polygon(s) to mask over.
 
 **Examples**
 
-http://mapwarper.net/shared/masks/7449.gml.ol
+http://mapwarper.net/shared/masks/7449.gml.ol or
 
 http://mapwarper.net/shared/masks/7449.gml.ol?1274110931 (with a timestamp to assist in browser cache busting)
 
@@ -1120,7 +1120,7 @@ Saves a mask. Returns a text string with a message indicating success or failure
 
 | Name          |              | Type        | Description  | Required  | Notes |
 | ------------- | ---------    | ----------  | ---------    | --------  | ----- |
-| map_id        |              |  integer    | a unique indentifer for the map | required  | |
+| map_id        |              |  integer    | the unique indentifer for the map | required  | |
 | format        |              |  string     | specifies output format | optional | default is HTML |
 |               | json         |             | outputs a GML string of coordinates for the polygon(s) to be masked | optional  | 
 
@@ -1168,10 +1168,10 @@ Deletes a mask. Requires authentication.
 
 **Response**
 
-| Status        | Response |
-| ------------- | -------- | 
-| 200	(OK)| ```{"stat":"ok","message":"mask deleted"}```    |
-| 404	(not found) | ```{"items":[],"stat":"not found"}```    |
+| Status        | Response | Notes |
+| ------------- | -------- | ----- |
+| 200	(OK)| ```{"stat":"ok","message":"mask deleted"}```    | success |
+| 404	(not found) | ```{"items":[],"stat":"not found"}```   | mask not found |
 
 
 ###Mask Map
@@ -1186,8 +1186,8 @@ Applies the clipping mask to a map, but does not warp it. A clipping mask should
 
 | Status        | Response | Notes |
 | ------------- | -------  | ----  | 
-| 200	(OK) | ```{"stat":"ok","message":"Map cropped"}```    | success                |
-| 404	(not found) | ```{"items":[],"stat":"not found"}```   | no clipping mask found |
+| 200	(OK) | ```{"stat":"ok","message":"Map cropped"}```    | success                 |
+| 404	(not found) | ```{"items":[],"stat":"not found"}```   | clipping mask not found |
 
 ###Save, Mask, and Warp Map
 
@@ -1201,16 +1201,16 @@ Rolls the calls into one. Saves the mask, applies the mask to the map, and warps
 
 | Name        | Type        | Description | Required  |
 | ----------- | ----------- | ----------  | --------- |
-| map_id      | integer     | the unique identifier for a map | required |
+| map_id      | integer     | the unique identifier for the map | required |
 
 **Response**
 
-The output will be a GML string containing polygon(s) to mask over.
+The output will be a GML string containing the coordinates of the polygon(s) to mask over.
 
 | Status        | Response | Notes |
 | ------------- | -------  | ----- |
 | 200	(OK) | ```{"stat":"ok","message":"Map masked and rectified!"}```    | success |
-| 200	(OK )| ```{"stat":"ok","message":"Map masked but it needs more control points to rectify"}```    | returned when a map has less than three control points |
+| 200	(OK )| ```{"stat":"ok","message":"Map masked but it needs more control points to rectify"}```    | returned when a map has less than three GCPs |
 | 404	(not found) | ```{"items":[],"stat":"not found"}```    | no clipping mask found |
 
 ###Warping
@@ -1256,12 +1256,12 @@ The following options specify the algorithm or method that should be used to war
 |                   | p1		           |         | 1st order polynomial   | optional |  requires a minimum of 3 GCPs   |
 |                   | p2 		          |         | 2nd order polynomial   | optional |  requires a minimum of 6 GCPs   | 
 |                   | p3	            |         | 3rd order polynomial   | optional |  requires a minimum of 10 GCPs   | 
-|                   | tps	           |         | thin plate spline      | optional |  requires many evenly-distributed points |
+|                   | tps	           |         | thin plate spline      | optional |  requires many evenly-distributed GCPs |
 
 **Response**
 
 | Status          | Response | Notes |
 | -------------   | -------  | ----- |
 | 200	(OK)        | ```{"stat":"ok","message":"Map rectified."}```    | success  |
-|                 | ```{"stat":"fail","message":"not enough GCPS to rectify"}``` | map doesn't have enough GCPS saved |
+|                 | ```{"stat":"fail","message":"not enough GCPS to rectify"}``` | map doesn't have enough GCPs saved |
 | 404	(not found) | ```{"items":[],"stat":"not found"}```    | map not found |
