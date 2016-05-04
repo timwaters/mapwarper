@@ -1,10 +1,10 @@
 class Api::V1::MapsController < Api::V1::ApiController
   #before_filter :authenticate_user!
   #before_filter :check_administrator_role
-  #rescue_from ActionController::ParameterMissing, with: :missing_param_error
-  #def missing_param_error
-  #  puts "missing param error"
-  #end
+  rescue_from ActionController::ParameterMissing, with: :missing_param_error
+  def missing_param_error(exception)
+    render :json => { :error => exception.message },:status => :unprocessable_entity
+  end
   
   def show
     @map = Map.find(params[:id])
@@ -60,17 +60,44 @@ class Api::V1::MapsController < Api::V1::ApiController
     render :json  => @map.gcps
   end
 
+  #params: page, per_page, query, field, sort_key, sort_order, field, show_warped, bbox, operation
   def index
-    #ActiveSupport.escape_html_entities_in_json = false
-    paginate_params = {
-      :page => 1,
-      :per_page => 1
+
+    #sort / order 
+    sort_order = "desc"
+    sort_order = "asc" if index_params[:sort_order] == "asc"
+    sort_key = %w(title status created_at updated_at).detect{|f| f == (index_params[:sort_key])}
+    sort_key = sort_key || "updated_at"
+    order_options = "#{sort_key} #{sort_order}"
+  
+    #pagination
+    paginate_options = {
+      :page => index_params[:page],
+      :per_page => index_params[:per_page] || 50
     }
-    #& will be unicode encoded...oddly
-    #puts paginate_params.to_query.to_json
-    @maps = Map.all.paginate(paginate_params)
+
+    #query
+    query = index_params[:query]
+    
+    field = %w(tags title description status publisher authors).detect{|f| f == (index_params[:field])}
+    field = field || "title"
+    if query && query.strip.length > 0 && field
+        query_options = ["#{field}  ~* ?", '(:punct:|^|)'+query+'([^A-z]|$)']
+      else
+        query_options = nil
+      end
+
+    #show_warped
+    warped_options = nil
+    if index_params[:show_warped] == "1"
+      warped_options = { :status => [Map.status(:warped), Map.status(:published)], :map_type => Map.map_type(:is_map)  }
+    end
+    #bbox
+   
+    @maps = Map.all.where(warped_options).where(query_options).paginate(paginate_options).order(order_options)
      
-    render :json => @maps,:root => "foo", 
+    #ActiveSupport.escape_html_entities_in_json = false
+    render :json => @maps, 
       :meta => {"total-entries" => @maps.total_entries,
       "total-pages"   => @maps.total_pages}
   end
@@ -81,6 +108,10 @@ class Api::V1::MapsController < Api::V1::ApiController
     #puts params.inspect
     #ActiveModelSerializers::Deserialization.jsonapi_parse(params)
     params.require(:map).permit(:title, :description, :page_id)
+  end
+
+  def index_params
+    params.permit(:page, :per_page, :query, :field, :sort_key, :sort_order, :field, :show_warped, :bbox, :operation, :format)
   end
   
 

@@ -106,16 +106,73 @@ class MapsControllerTest < ActionController::TestCase
   
   end
 
-  class CollectionMapTest < MapsControllerTest
-
-    test "should get maps" do
-      get :index, :foo=>"bar", :format => :json
-      #puts response.body#.inspect
-      assert_response :success
-      assert_not_nil assigns(:maps)
+  class CollectionMapTest < MapsControllerTest  
+    setup do
+      @index_maps = FactoryGirl.create_list(:index_map, 5)
     end
 
-    # test "search for maps" do skip end 
+    test "get list of maps" do
+      get :index, :foo=>"bar", :format => :json
+      assert_response :success
+      assert_not_nil assigns(:maps)
+      body = JSON.parse(response.body)
+      assert_equal 7, body["data"].length
+    end
+    
+    test "search maps" do
+      get :index, :query=>"title", :format => :json
+      assert_response :success
+      assert_not_nil assigns(:maps)
+      body = JSON.parse(response.body)
+      assert_equal 2, body["data"].length
+      assert_equal "title", body["data"][0]["attributes"]["title"]
+    end
+
+    test "sort maps" do
+      get :index, :sort_order => "asc", :sort_key => "title", :format => :json
+      assert_response :success
+      assert_not_nil assigns(:maps)
+      body = JSON.parse(response.body)
+      assert_equal 7, body["data"].length
+      assert_equal @index_maps.first.title, body["data"][0]["attributes"]["title"]
+      assert_equal "title", body["data"][6]["attributes"]["title"]
+
+      get :index, :sort_order => "desc", :sort_key => "title", :format => :json
+      assert_response :success
+      body = JSON.parse(response.body)
+      assert_equal 7, body["data"].length
+      assert_equal @index_maps.first.title, body["data"][6]["attributes"]["title"]
+      assert_equal "title", body["data"][0]["attributes"]["title"]
+    end
+    
+    test "sort and query maps" do
+      get :index, :query => "map", :sort_order => "asc", :sort_key => "title", :format => :json
+      assert_response :success
+      assert_not_nil assigns(:maps)
+      body = JSON.parse(response.body)
+      assert_equal 5, body["data"].length
+      assert_equal @index_maps.first.title, body["data"][0]["attributes"]["title"]
+      assert_equal @index_maps.last.title, body["data"][4]["attributes"]["title"]
+    end
+
+   test "just get warped" do
+      get :index, :show_warped => "1", :format => :json
+      assert_response :success
+      assert_not_nil assigns(:maps)
+      body = JSON.parse(response.body)
+      assert_equal 1, body["data"].length
+      assert_equal "title", body["data"][0]["attributes"]["title"]
+      assert_equal "warped", body["data"][0]["attributes"]["status"]
+   end  
+
+   test "geosearch" do
+#[(MINX, MINY), (MAXX, MINY), (MAXX, MAXY), (MINX, MAXY), (MINX, MINY)]
+   #intersects: POLYGON((26.779899697812 58.421402710855, 26.779213052304 58.328018921793, 26.849250894101 58.329392212808, 26.849937539609 58.422089356363, 26.779899697812 58.421402710855))
+
+   #within:POLYGON((26.633644204648 58.428269165933, 26.63295755914 58.302613038003, 26.859550576718 58.301239746988, 26.85886393121 58.428955811441, 26.633644204648 58.428269165933))
+      get :index, :bbox => 
+   end
+    
     # test "search for maps by bbox" do  skip   end
     # test "get maps layers" do  skip   end
   

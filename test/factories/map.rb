@@ -8,6 +8,16 @@ FactoryGirl.define do
   factory :unstubbed_map, :parent => :basic_map do
     upload { File.new(Rails.root.join('test', 'fixtures', 'data', '100x70map.png')) }
   end
+
+  factory :index_map, :parent => :basic_map do
+    sequence :title do |n|
+      "map #{n}"
+    end
+    sequence :description do | n|
+      "description #{n}"
+    end
+  
+  end
   
   #stub initial conversion (loading up via paperclip, conversion to tiff)
   factory :inited_map, :parent => :basic_map do
