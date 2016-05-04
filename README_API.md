@@ -143,8 +143,8 @@ The response will be in JSON in the following format.
 |               | width		       | integer	 | 	  	| the width of the unwarped map					| |
 |               | created_at	   | date, time, & time zone	 | 		   | the date and time when the map was added to the system					| |
 | total_pages		 |               | integer 	|		               | the total number of pages in the result set		|    |
-| per_page		    |               | integer  |		               | the number of results per page		|    |
-| total_entries	|               | integer 	|	               	|	the total number of results					|    |
+| per_page		    |               | integer  |		               | the number of search results per page		|    |
+| total_entries	|               | integer 	|	               	|	the total number of search results					|    |
 
 ###Geography-Based Map Search
 
@@ -163,7 +163,7 @@ Returns a paginated list of warped maps that either intersect or fall within a p
 
 **Format**
 ```
-     y.min (lon min) ,x.min (lat min) ,y.max (lon max), x.max (lat max)
+     y.min(lon min),x.min(lat min),y.max(lon max), x.max(lat max)
 ```
 
 **Example**
@@ -183,7 +183,7 @@ Returns a paginated list of warped maps that either intersect or fall within a p
 |               | json      |              | use to specify JSON output, rather than HTML or XML | optional | |
 | page		        |           | integer      | the page number; use to get the next or previous page of search results | optional            | |
 
-Format the query in JSON. 
+Format the request in JSON. 
 
 **Request Example**
 
@@ -232,8 +232,8 @@ The response will be in the following format.
 |               | nypl_digital_id	| integer |	the NYPL digital ID, which is used for thumbnail images and links to the library metadata		|
 |               | bbox		        | a comma-separated string of latitude and longitude coordinates	 | a rectangle delineating the map's geographic footprint					|
 | total_pages		 |               | integer 	| the total number of pages in the result set		|  
-| per_page		    |               | integer  |	the number of results per page		| 
-| total_entries	|               | integer 	|	the total number of results					| 
+| per_page		    |               | integer  |	the number of search results per page		| 
+| total_entries	|               | integer 	|	the total number of search results					| 
 
 ###Get a Map
 
@@ -246,11 +246,11 @@ Returns a map by ID.
 
 **Parameters**
 
-| Name        	 |              | Type		          | Description					| Required    | Notes |
-| ------------- |-------------	| --------------- |---------------		| ----------- | ----- |
-| id  		        |              | integer 	       | the unique identifier for a map    | required		|    |
-| format  		    |              | string 	        | specifies output format    | optional		| default is HTML   |
-|               | json         |                 | use to specify JSON output, rather than HTML or XML | optional | |
+| Name        	 |              | Type		          | Description					                   | Required    | Notes |
+| ------------- |-------------	| --------------- |----------------------------------		| ----------- | ----- |
+| id  		        |              | integer 	       | the unique identifier for a map    | required		  |       |
+| format  		    |              | string 	        | specifies output format            | optional		  | default is HTML   |
+|               | json         |                 | use to specify JSON output, rather than HTML or XML | optional |  |
 
 **Response**
 
@@ -433,8 +433,8 @@ Enter text for the query, based on the search field chosen. The query text is ca
 |                    | bbox	              | a comma-separated string of latitude and longitude coordinates   | a rectangle delineating the geographic footprint of the layer 		|     | 
 |                    | created_at         | date, time, & time zone | when the layer was created | |
 | total_pages		      |                    | integer 	| the total number of pages in the result set		|    |
-| per_page		         |                    | integer  |	the number of results per page		|    |
-| total_entries	     |                    | integer 	|	the total number of results					|    |
+| per_page		         |                    | integer  |	the number of search results per page		|    |
+| total_entries	     |                    | integer 	|	the total number of search results					|    |
 
 ###Get a Map's Layers
 
@@ -683,8 +683,8 @@ The response will be in the following format.
 |                    | width         | integer       |               | the width of an unwarped map | |
 |                    | created_at		  | date, time, & time zone	|	    | when the layer was created		|    |
 | total_pages		      |               | integer 	     |	              | the total number of pages in the result set		|    |
-| per_page		         |               | integer       |	              | the number of results per page		|    |
-| total_entries	     |               | integer 	     |	              | the total number of results					|    |
+| per_page		         |               | integer       |	              | the number of search results per page		|    |
+| total_entries	     |               | integer 	     |	              | the total number of search results					|    |
 
 ###Map and Layer Web Map Services
 
