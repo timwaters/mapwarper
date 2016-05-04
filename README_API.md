@@ -61,7 +61,7 @@ Returns a list of maps that meet search criteria.
 | -----          | -----       | ----- | ---------        |  -----    | ------ |
 | title      		  |              	|string  | the title of the map   | optional | default |
 | description		  |               | string | the description of the map | optional |       |
-| nypl_digital_id 	| 	         | integer  | the NYPL digital id used for the thumbnail image and link to the library's metadata | optional | |
+| nypl_digital_id 	| 	         | integer  | the NYPL digital ID used for the thumbnail image and link to the library's metadata | optional | |
 | sort_key	             	      ||         | the field that should be used to sort the results  | optional |   |
 | 		              | title     | string    | the title of the map	             | optional            | |
 | 		              | updated_at | date, time, & time zone | when the map was last updated	| optional            | |
@@ -292,7 +292,7 @@ The response will be be in the following format.
 | 		            | 		           |              | 3 : warping	| the map is undergoing the warping process			|  |
 | 		            | 		           |              | 4 : warped	| the map has been warped					  |       |
 | 		            | 		           |              | 5 : published	| this status is set when the map should no longer be edited | not currently used |
-|               | map_type	    | integer 	    |            | indicates whether the image is a map or some other type of content | |
+|               | map_type	    | integer 	    |            | indicates whether the image is a map or another type of content | |
 |               |              |              | 0 : index	 | indicates a map index or overview map		| |
 | 		            | 		           |              | 1 : is_map	| indicates a map	                       |  default |
 | 		            | 		           |              | 2 : not_map	| indicates non-map content, such as a plate depicting sea monsters		|  |
@@ -307,9 +307,9 @@ The response will be be in the following format.
 | 		            | 		            |              | 1 : masking		 | 	the map is undergoing the masking process		|   |
 | 		            | 		            |              | 2 : masked		  | 	the map has been masked			                 |   |
 |               | width		       | integer	     | 		            | the width of the unwarped map					          |   |
-|               | created_at	   | date, time, & time zone	| 		| the date and time when the map was added to the system		|   |
+|               | created_at	   | date, time, & time zone	| 		 | the date and time when the map was added to the system		|   |
 
-If a map is not found, the following HTTP response will be returned.
+If the map is not found, the request will return the following response (when using format=json).
 
 | Status        | Response |
 | ------------- |----------| 
@@ -327,7 +327,7 @@ Returns a map's status. This request is used to poll a map while it is being tra
 
 | Name      	    |  Type      | Description  |  Required | 
 | -------------  | ---------- | ------------ |  -------- | 
-| map_id     		  | integer    | the unique identifier for a map   | required |
+| map_id     		  | integer    | the unique identifier for the map   | required |
 
 **Request Example**
 
@@ -351,7 +351,7 @@ This request returns text. If a map has no status (i.e., has not been transferre
 
 ##Layers
 
-A layer is a mosaic in which the component maps are stitched together and shown as one seamless map. Layers are often comprised of contiguous maps from the facing pages of a scanned book. For examples of layers, see the [Plan of the town of Paramaribo, capital of Surinam](http://maps.nypl.org/warper/layers/1450) or the map of New York City and Vicinity at [http://maps.nypl.org/warper/layers/1404](http://maps.nypl.org/warper/layers/1404).
+A layer is a mosaic in which the component maps are stitched together and displayed as one seamless map. Layers are often comprised of contiguous maps from the facing pages of a scanned book. For examples of layers, see the [Plan of the town of Paramaribo, capital of Surinam](http://maps.nypl.org/warper/layers/1450) or the map of New York City and Vicinity at [http://maps.nypl.org/warper/layers/1404](http://maps.nypl.org/warper/layers/1404).
 
 ###Query or List Layers
 
@@ -363,13 +363,13 @@ A layer is a mosaic in which the component maps are stitched together and shown 
 
 | Name      	    |                  | Type     | Description |  Required | Notes |
 | -----          | ---------------  | -------- | ----------- |  -------- | ----- |
-| title      		  |              	   | string   | the title of the map  | optional | default |
-| description		  |                  | string   | the description of the map              | optional |       |
+| title      		  |              	   | string   | the title of the layer  | optional | default |
+| description		  |                  | string   | the description of the layer  | optional |       |
 | sort_key	             	           ||         | the field that should be used to sort the results   | optional |   |
-| 		             | title            | string   | the title of the map	         | optional            | |
-| 		             | depicts_year     |          | the year that the map depicts	| optional            | |
-| 		             | updated_at       | date, time, & time zone   | when the map was last updated	| optional            | |
-| 		             | mapscans_count   | integer  | how many maps a layer has, as opposed to title pages, plates, and other non-map content | optional |  a map is a resource that has “map_type” set to “is_map”   | |
+| 		             | title            | string   | the title of the layer	         | optional            | |
+| 		             | depicts_year     |          | the year that the layer depicts	| optional            | |
+| 		             | updated_at       | date, time, & time zone   | when the layer was last updated	| optional            | |
+| 		             | mapscans_count   | integer  | how many maps a layer has, as opposed to title pages, plates, and other non-map content | optional |  a map is a resource that has the “map_type” attribute set to “is_map”   | |
 |		              | percent	         | integer  | the percentage of the total number of component maps that have been warped          | optional            | |
 | sort_order	                       || string  | the order in which the results should appear    | optional   | |
 |                | asc 	             |         | ascending order               | optional            | |
@@ -382,7 +382,7 @@ A layer is a mosaic in which the component maps are stitched together and shown 
 
 Enter text for the query, based on the search field chosen. The query text is case insensitive.
 
-      This is a simple exact string text search, i.e. a search for "city New York" retrieves no results, but a search for "city of New York" retrieves 22.
+      This is a simple exact string text search. For example, a search for "city New York" retrieves no results, while a search for "city of New York" retrieves 22.
 
 **Request Example**
 
@@ -423,11 +423,11 @@ Enter text for the query, based on the search field chosen. The query text is ca
 | -------------      | ----------- |  ----------- | -----------  | ----------- |
 | current_page	      |             | integer      | the search results page on which the layer appears  |      |
 | items              |             | array        | an array of key pairs with information about the layer |  |
-|                    | name               | string      | the title of the map |  |
-|                    | is_visible	        | boolean		 | when set to false, usually indicates a meta layer or collection of atlases | these meta-layers will not have WMSs   |
-|                    | updated_at         | date, time, & time zone | when the map was last updated |  |
+|                    | name        | string       | the title of the layer |  |
+|                    | is_visible	 | boolean		 | when set to false, usually indicates a meta-layer or collection of atlases | these meta-layers will not have Web map services (WMS)   |
+|                    | updated_at         | date, time, & time zone | when the layer was last updated |  |
 |                    | mapscans_count	    | integer   | how many maps a layer has, as opposed to title pages, plates, and other non-map content	| defines a map using the map_type => is_map variable; optional     |
-|                    | id                 | integer   | the unique identifier for a layer |  |
+|                    | id                 | integer   | the unique identifier for the layer |  |
 |                    | rectified_mapscans_count	      | integer   | how many maps in the layer are warped	|     |
 |                    | depicts_year	      | year      | the year the layer depicts		|     |
 |                    | bbox	              | a comma-separated string of latitude and longitude coordinates   | a rectangle delineating the geographic footprint of the layer 		|     | 
@@ -451,7 +451,7 @@ Returns a list of layers that include a given map.
 | map_id     		  |             |integer    | the unique identifier for a map   | required | |
 | name           |             | string    | the title of the map | optional  | default |
 | sort_key	             	      ||          | the field that should be used to sort the results  | optional | |
-| 		              | title      | string    | the title of the map	             | optional        | |
+| 		              | title      | string    | the title of the map | optional        | |
 | 		              | updated_at | date, time, & time zone   | when the map was last updated	| optional            | |
 | sort_order	                  ||  string  | the order in which the results should appear | optional   | |
 |                 | asc 	      |           | ascending order               | optional            | |
@@ -508,7 +508,7 @@ Alternatively, the URL can be constructed from the point of view of a map:
 | stat	              |             | string       | the HTTP response for the status of the request |    |
 | items              |             | array        | an array of key pairs with information about the layer |  |
 |                    | name        | string       | the title of the map |  |
-|                    | is_visible	 | boolean		    | when set to false, usually indicates a meta layer or collection of atlases | these meta-layers will not have WMSs   |
+|                    | is_visible	 | boolean		    | when set to false, usually indicates a meta-layer or collection of atlases | these meta-layers will not have WMS  |
 |                    | updated_at  | date, time, & time zone   | when the map was last updated |  |
 |                    | mapscans_count	    | integer   | how many maps a layer has, as opposed to title pages, plates, and other non-map content	| defines a map using the map_type => is_map variable; optional     |
 |                    | id                 | integer   | the unique identifier for the layer |  |
@@ -518,7 +518,7 @@ Alternatively, the URL can be constructed from the point of view of a map:
 |                    | created_at		       | date, time, & time zone 	|		when the layer was created in the system		|    |
 
 
-If not found, the following response will be returned.
+If not found, the request will return the following response (when using format=json).
 
 | Status        | Response |
 | ------------- | -------- | 
@@ -540,7 +540,7 @@ Returns a single layer.
 | Name          |             | Type      | Description | Required  | Notes     |
 | ------------- | ----------  | --------  | ----------  | --------- | --------- |
 | layer_id      |             | integer   | the unique identifier for the layer   |  required   |                 |
-| format        |             | string    | specifies output format               | optional    | default is HTML |
+| format        |             | string    | specifies output format               |  optional   | default is HTML |
 |               | json        |           | use to specify JSON output, rather than HTML or XML | optional |      |
 
 **Request Examples**
@@ -576,11 +576,11 @@ Returns a single layer.
 
 | Element            |             | Type        |  Description	| Notes      |
 | -------------      | ----------- |  ---------- | ----------- | ----------  |
-| stat	              |            | string      | the HTTP response for the status of the request  | "stat": "ok" indicates success|
+| stat	              |             | string      | the HTTP response for the status of the request  | |
 | items              |             | array       | an array of key pairs with information about the layer |  |
-|                    | name        | string      | the title of the map |  |
-|                    | is_visible  | boolean		   | when set to false, usually indicates a meta layer or collection of atlases | these meta-layers will not have WMSs   |
-|                    | updated_at         | date, time, & time zone  | when the map was last updated |  |
+|                    | name        | string      | the title of the layer |  |
+|                    | is_visible  | boolean		   | when set to false, usually indicates a meta-layer or collection of atlases | these meta-layers will not have WMSs   |
+|                    | updated_at         | date, time, & time zone  | when the layer was last updated |  |
 |                    | mapscans_count	    | integer   | how many maps a layer has, as opposed to title pages, plates, and other non-map content	| defines a map using the map_type => is_map variable; optional     |
 |                    | id                 | integer   | the unique identifier for the layer |  |
 |                    | rectified_mapscans_count	      | integer   | how many maps in the layer are warped	|     |
@@ -588,7 +588,7 @@ Returns a single layer.
 |                    | bbox	              | a comma-separated string of latitude and longitude coordinates   | a rectangle delineating the geographic footprint of the layer 		|     | 
 |                    | created_at		       | date, time, & time zone 	|		when the layer was created in the system		|    |
 
-If not found, the following response will be returned (when using format=json).
+If not found, the request will return the following response (when using format=json).
 
 | Status          | Response   |
 | -------------   | ---------- | 
@@ -667,14 +667,14 @@ The response will be in the following format.
 | 		                 |               |              | 5 : published	| this status is set when the map should no longer be edited | not currently used | 
 |                    | map_type	     | integer 	    |               | indicates whether the image is of a map or another type of content	| |
 |                    |               |              | 0 : index	    | indicates a map index or overview map							| |
-| 		                 |         						|              | 1 : is_map	   | used for map content          |  |
+| 		                 |         						|              | 1 : is_map	   | indicates a map          |  |
 | 		                 |               |              | 2 : not_map	  | indicates non-map content, such as a plate depicting sea monsters		| |
 |                    | updated_at    | date, time, & time zone |    | when the map was last updated |  |
 |                    | title         |  string       |              | the title of the map |  |
 |                    | id            | integer       |              | the unique identifier for the map |  |
 |                    | description   | string        |              | the description of the map      |  |
 |                    | height        | integer       |              | the height of an unwarped map |
-|                    | nypl_digital_id  | integer    |              | the NYPL digital Id used for the thumbnail image and link to the library's metadata | |
+|                    | nypl_digital_id  | integer    |              | the NYPL digital ID used for the thumbnail image and link to the library's metadata | |
 |                    | mask_status   | integer	      |               | the status of the mask		| |
 | 		                 |               |               | 0 : unmasked		|  the map has not been masked				| |
 | 		                 |               |               | 1 : masking		 |  the map is undergoing the masking process				| |
@@ -688,7 +688,7 @@ The response will be in the following format.
 
 ###Map and Layer Web Map Services
 
-The following Web map services (WMS) are available.
+The following Web map services are available.
 
 ####Map WMS
 [http://mapwarper.net/maps/wms/8561](http://mapwarper.net/maps/wms/8561)
@@ -777,18 +777,18 @@ The response will be a list of ground control points in the following format.
 | Name          |               | Type        | Description | 
 | ------------- | -----------   | ----------- | ----------  | 
 | stat          |               | string      | the HTTP response for the status of the request   | 
-| items		       |               | array       | an array of key pairs with information about the control points 	|			
-|               | lon           | big decimal | the longitude of the control point           |
-|               | updated_at    | date, time, & time zone | the date and time when the control points were last updated  |
-|               | x             | float       | the x coordinate that corresponds to "lon"   |
-|               | y             | flat        | the y coordinate that corresponds to "lat"   |
+| items		       |               | array       | an array of key pairs with information about the ground control points 	|			
+|               | lon           | big decimal | the longitude of the ground control point           |
+|               | updated_at    | date, time, & time zone | the date and time when the ground control point was last updated  |
+|               | x             | float       | the x coordinate on the image that corresponds to "lon"   |
+|               | y             | float       | the y coordinate on the image that corresponds to "lat"   |
 |               | mapscan_id    | integer     | the unique identifier for the map            |
-|               | id            | integer     | the unique identifier for a ground control point               |
-|               | error         | float       | the calculated root mean square error, or distortion, for a control point   | 
-|               | lat           | big decimal | the latitude of the control point   |
-|               | created_at    | date, time, & time zone | the date and time when the control point was created   |
+|               | id            | integer     | the unique identifier for the ground control point   |
+|               | error         | float       | the calculated root mean square error, or distortion, for the ground control point   | 
+|               | lat           | big decimal | the latitude of the ground control point   |
+|               | created_at    | date, time, & time zone | the date and time when the ground control point was created   |
 
-If the map is not found, with format=json, the following response will be returned.
+If the map is not found, the request will return the following response (when using format=json).
 
 | Status          | Response |
 | --------------- | -------- | 
@@ -806,7 +806,7 @@ Returns a specified ground control point by ID.
 
 | Name          |             | Type        | Description | Required  | Notes     |
 | ------------- | ----------  | ----------  | ----------  | --------  | --------- |
-| gcp_id        |             | integer     | the unique identifier for a ground control point   |  required  |       |
+| gcp_id        |             | integer     | the unique identifier for the ground control point   |  required  |       |
 | format        |             | string      | specifies output format      |    optional       |  default is HTML     |
 |               | json        |             | requests output in JSON format, rather than HTML or XML | optional |    |
 
@@ -841,17 +841,17 @@ Returns a specified ground control point by ID.
 | Name          |               | Type        | Description | 
 | ------------- | -----------   | ----------- | ----------  | 
 | stat          |               | string      | the HTTP response for the status of the request   | 
-| items		       |               | array       | an array of key pairs with information about the control points 	|			
-|               | lon           | big decimal | the longitude of the control point           |
-|               | updated_at    | date, time, & time zone | the date and time when the control points were last updated  |
-|               | x             | float       | the x coordinate that corresponds to "lon"   |
-|               | y             | float       | the y coordinate that corresponds to "lat"   |
+| items		       |               | array       | an array of key pairs with information about the ground control points 	|			
+|               | lon           | big decimal | the longitude of the ground control point           |
+|               | updated_at    | date, time, & time zone | the date and time when the ground control points were last updated  |
+|               | x             | float       | the x coordinate on the image that corresponds to "lon"   |
+|               | y             | float       | the y coordinate on the image that corresponds to "lat"   |
 |               | mapscan_id    | integer     | the unique identifier for the map            |
-|               | id            | integer     | the unique identifier for a ground control point                |
-|               | lat           | big decimal | the latitude of the control point   |
-|               | created_at    | date, time, & time zone | the date and time when the control point was created   |
+|               | id            | integer     | the unique identifier for the ground control point                |
+|               | lat           | big decimal | the latitude of the ground control point   |
+|               | created_at    | date, time, & time zone | the date and time when the ground control point was created   |
 
-If the GCP is not found with format=json, the following response will be returned.
+If the GCP is not found, the request will return the following response (when using format=json).
 
 | Status        | Response |
 | ------------- | -------- | 
@@ -861,7 +861,7 @@ If the GCP is not found with format=json, the following response will be returne
 
 | Method       | Definition | 
 | ------------ | -------    | 
-| POST         |  http://mapwarper.net/gcps/add/{map_id} |
+| POST         |  http://mapwarper.net/gcps/add/{:map_id} |
 
 Adds the ground control points on which a warp will be based. Requires authentication.
 
@@ -870,8 +870,8 @@ Adds the ground control points on which a warp will be based. Requires authentic
 | Name          |             | Type        | Description | Required  | Notes |
 | ------------- | ---------   | ----------- | ----------  | --------  | ----- |                                           
 | map_id        |             | integer     | the map to which the new ground control point will be applied        | required |                |
-| lat           |             | big decimal | the latitude of the control point to warp to                         | optional | default is 0   |
-| lon           |             | big decimal | the longitude of the control point to warp to                        | optional | default is 0   |
+| lat           |             | big decimal | the latitude of the ground control point to warp to                         | optional | default is 0   |
+| lon           |             | big decimal | the longitude of the ground control point to warp to                        | optional | default is 0   |
 | x             |             | float       | the x coordinate on the unwarped image that corresponds to "lon"     | optional | default is 0   |
 | y             |             | float       | the y coordinate on the unwarped image that corresponds to "lat"     | optional | default is 0   | 
 | format        |             |  string     | specifies output format                                              | optional | default is HTML |
@@ -929,16 +929,16 @@ The response will be in the following format.
 | Name          |               | Type        | Description | 
 | ------------- | -----------   | ----------- | ----------  | 
 | stat          |               | string      | the HTTP response for the status of the request   | 
-| items		       |               | array       | an array of key pairs with information about the control points 	|			
-|               | lon           | big decimal | the longitude of the control point           |
-|               | updated_at    | date, time, & time zone | the date and time when the control points were last updated  |
-|               | x             | float       | the x coordinate that corresponds to "lon"   |
-|               | y             | float       | the y coordinate that corresponds to "lat"   |
+| items		       |               | array       | an array of key pairs with information about the ground control points 	|			
+|               | lon           | big decimal | the longitude of the ground control point           |
+|               | updated_at    | date, time, & time zone | the date and time when the ground control point was last updated  |
+|               | x             | float       | the x coordinate on the image that corresponds to "lon"   |
+|               | y             | float       | the y coordinate on the image that corresponds to "lat"   |
 |               | mapscan_id    | integer     | the unique identifier for the map            |
-|               | id            | integer     | the unique identifier for a ground control point                |
-|               | error         | float       | the calculated root mean square error, or distortion, for that control point   | 
-|               | lat           | big decimal | the latitude of the control point   |
-|               | created_at    | date, time, & time zone | the date and time when the control point was created   |
+|               | id            | integer     | the unique identifier for the ground control point                |
+|               | error         | float       | the calculated root mean square error, or distortion, for the ground control point  |
+|               | lat           | big decimal | the latitude of the ground control point   |
+|               | created_at    | date, time, & time zone | the date and time when the ground control point was created   |
 
 An error will return the following message.
 
@@ -971,8 +971,8 @@ Updates all of the fields for a given GCP.
 | Name          |             | Type        | Description | Required  | Notes |
 | ------------- | ----------  | ----------  | ----------- | --------- | ----- |
 | gcp_id        |             | integer     | the unique identifier for the ground control point  | required  |       |
-| lat           |             | big decimal | the latitude of the control point to warp to    | optional  | default is 0 |
-| lon           |             | big decimal | the longitude of the control point to warp to   | optional  | default is 0 |
+| lat           |             | big decimal | the latitude of the ground control point to warp to    | optional  | default is 0 |
+| lon           |             | big decimal | the longitude of the ground control point to warp to   | optional  | default is 0 |
 | x             |             | float       | the x coordinate on the unwarped image that corresponds to "lon"    | optional | default is 0 |
 | y             |             | float       | the y coordinate on the unwarped image that corresponds to "lat"    | optional | default is 0 | 
 | format        |             | string      | specifies output format      |    optional       |  default is HTML     |
@@ -1012,8 +1012,8 @@ Updates a single field for a GCP. Requires authentication.
 | ------------- | ----------  | --------    | ----------  | --------- | ----- |
 | gcp_id        |             | integer     | the unique identifier for the ground control point | required |  |
 | attribute     |             | string      | indicates the field to update | optional | |
-|               | lat         |             | the latitude of the control point to warp to   | optional |  |
-|               | lon         |             | the longitude of the control point to warp to  | optional |  |
+|               | lat         |             | the latitude of the ground control point to warp to   | optional |  |
+|               | lon         |             | the longitude of the ground control point to warp to  | optional |  |
 |               | x           |             | the x coordinate on the unwarped image that corresponds to "lon"    | optional |  |
 |               | y           |             | the y coordinate on the unwarped image that corresponds to "lat"    | optional |  | 
 | value         |             | integer     | the new value for "lat," "lon," "x," or "y"  | required |  default is 0  |
@@ -1041,7 +1041,7 @@ An error will appear in the following format.
 }}}
 ```
 
-If the GCP is not found with format=json, the following response will be returned.
+If the GCP is not found, the request will return the following response (when using format=json).
 
 | Status        | Response |
 | ------------- | -------- | 
@@ -1059,7 +1059,7 @@ Deletes a ground control point. Requires authentication.
 
 | Name        | Type        | Description | Required  | 
 | ----------- | ---------   | ---------   | --------- |
-| gcp_id      |  integer    | the unique identifier for a ground control point  |  required |
+| gcp_id      |  integer    | the unique identifier for the ground control point  |  required |
 
 Example: 
 
@@ -1076,7 +1076,7 @@ An error will appear in the following format.
 }}}
 ```
 
-If the GCP is not found, the following response will be returned (when using format=json).
+If the GCP is not found, the request will return the following response (when using format=json).
 
 | Status          | Response |
 | -------------   | -------- | 
@@ -1144,7 +1144,7 @@ A successful call will return the following message.
 {"stat":"ok", "message":"Map clipping mask saved (gml)"}
 ```
 
-Using format=json will return a GML string of coordinates for the polygon(s) to be masked, such as the following.
+Using "format=json" will return a GML string of coordinates for the polygon(s) to be masked, such as the following.
 
 ```
 {{{ feature:geometrygml:Polygongml:outerBoundaryIsgml:LinearRing1490.0376070686068,5380.396178794179 3342.4880893970894,5380.214910602912 3582.659,5126.446 3555.463,4813.692 3637.051,4487.34 4276.157,3753.048 4575.313,3113.942 4546.465124740124,1412.519663201663 2417.4615530145525,1317.354124740125 1431.415054054054,1294.9324823284824 1447.7525384615387,2187.807392931393 1434.5375363825372,5034.563750519751 1490.0376070686068,5380.396178794179/gml:coordinates/gml:LinearRing/gml:outerBoundaryIs/gml:Polygon/feature:geometry/feature:features/gml:featureMember/wfs:FeatureCollection }}}
