@@ -1,13 +1,14 @@
 class Api::V1::MapsController < Api::V1::ApiController
   #before_filter :authenticate_user!
   #before_filter :check_administrator_role
+  before_filter :find_map, :only => [:show, :update, :destroy, :gcps, :rectify ]
+  
   rescue_from ActionController::ParameterMissing, with: :missing_param_error
   def missing_param_error(exception)
     render :json => { :error => exception.message },:status => :unprocessable_entity
   end
   
   def show
-    @map = Map.find(params[:id])
     #puts current_user.inspect
     render :json  => @map, :meta => {:foo => :bar}
   end
@@ -40,7 +41,6 @@ class Api::V1::MapsController < Api::V1::ApiController
   end
 
   def update
-    @map = Map.find(params[:id])
     if @map.update_attributes(map_params)
       render :json => @map
     else
@@ -49,15 +49,74 @@ class Api::V1::MapsController < Api::V1::ApiController
   end
 
   def destroy
-    @map = Map.find(params[:id])
     if @map.destroy
       render :json => @map
     end
   end
 
   def gcps
-    @map = Map.find(params[:id])
     render :json  => @map.gcps
+  end
+  
+  #patch warp
+  def rectify
+    resample_param = params[:resample_options]
+    transform_param = params[:transform_options]
+    masking_option = params[:mask]
+    resample_option = ""
+    transform_option = ""
+    case transform_param
+    when "auto"
+      transform_option = ""
+    when "p1"
+      transform_option = " -order 1 "
+    when "p2"
+      transform_option = " -order 2 "
+    when "p3"
+      transform_option = " -order 3 "
+    when "tps"
+      transform_option = " -tps "
+    else
+      transform_option = ""
+    end
+
+    case resample_param
+    when "near"
+      resample_option = " -rn "
+    when "bilinear"
+      resample_option = " -rb "
+    when "cubic"
+      resample_option = " -rc "
+    when "cubicspline"
+      resample_option = " -rcs "
+    when "lanczos" #its very very slow
+      resample_option = " -rn "
+    else
+      resample_option = " -rn"
+    end
+    
+    use_mask = params[:use_mask]
+    if @map.gcps.hard.size.nil? || @map.gcps.hard.size < 3
+      render :json => { :error => "Map needs at least 3 control points to rectify" },:status => :unprocessable_entity
+      return false
+    end
+    if @map.status == :warping
+      render :json => { :error => "Map currently being rectified. Try again later." },:status => :unprocessable_entity
+      return false
+    end
+     
+    @map.warp! transform_option, resample_option, use_mask
+    
+    if user_signed_in?
+      begin
+        @map.update_commons_page(current_user)
+      rescue => e
+        logger.error "ERROR with update commons page Map:#{@map.id}"
+        logger.error e.inspect
+      end
+    end
+    
+    render :json => @map
   end
 
   #params: page, per_page, query, field, sort_key, sort_order, field, show_warped, bbox, operation
@@ -149,6 +208,10 @@ class Api::V1::MapsController < Api::V1::ApiController
 
   def index_params
     params.permit(:page, :per_page, :query, :field, :sort_key, :sort_order, :field, :show_warped, :bbox, :operation, :format)
+  end
+  
+  def find_map
+    @map = Map.find(params[:id])
   end
   
 

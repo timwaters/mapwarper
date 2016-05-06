@@ -145,6 +145,7 @@ Rails.application.routes.draw do
         member do
           get 'show'
           get 'gcps'
+          patch 'rectify'
         end
         collection do
           get 'index'

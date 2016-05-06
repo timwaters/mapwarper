@@ -13,7 +13,19 @@ class MapsControllerTest < ActionController::TestCase
   
   class SingleMapTest < MapsControllerTest
     
-    test "should get a map" do
+    def cleanup_images(map)
+      if File.exists?(map.temp_filename)
+        File.delete(map.temp_filename)
+      end
+      if File.exists?(map.warped_filename)
+        File.delete(map.warped_filename)
+      end
+      if File.exists?(map.warped_png_filename)
+        File.delete(map.warped_png_filename)
+      end
+    end
+    
+    test "get a map" do
       get :show, :id => @map.id, :format => :json
       # puts response.body.inspect
       assert_response :success
@@ -83,12 +95,10 @@ class MapsControllerTest < ActionController::TestCase
       assert_equal "http://upload.beta.wmflabs.org/wikipedia/commons/thumb/2/29/Lawrence-h-slaughter-collection-of-english-maps-england.jpeg/100px-Lawrence-h-slaughter-collection-of-english-maps-england.jpeg", attribs["thumb-url"]
       assert_equal "http://upload.beta.wmflabs.org/wikipedia/commons/2/29/Lawrence-h-slaughter-collection-of-english-maps-england.jpeg", attribs["image-url"]
       assert_equal "available",attribs["status"]
-    
     end
-
-
+    
+    
     test "update map" do
-
       params = {:id => @map.id, :format => :json, 'map' => {'title' => 'foojson'}}
       patch 'update', params
       assert_response :success
@@ -103,7 +113,41 @@ class MapsControllerTest < ActionController::TestCase
       end
       assert_response :success
     end
-    # test "add new map" do   skip  end
+    
+    test "rectify no gcps" do
+      patch :rectify, :id => @warped_map.id, :format => :json, :warp => 1
+      assert_response :unprocessable_entity
+      body = JSON.parse(response.body)
+      assert body["error"].include?("3 control points")
+    end
+    
+    test "rectify" do
+      assert_equal :available, @map.status
+      gcp_1 = FactoryGirl.create(:gcp_1, :map => @map)
+      FactoryGirl.create(:gcp_2, :map => @map)
+      FactoryGirl.create(:gcp_3, :map => @map)
+      patch :rectify, :id => @map.id, :format => :json, :warp => 1
+      assert_response :ok
+      body = JSON.parse(response.body)
+      assert_equal "warped", body["data"]["attributes"]["status"] 
+      
+      #cleanup from test
+      cleanup_images(@map)
+    end
+    
+    #get mask
+    
+    #save mask
+    
+    #delete mask
+    
+    #mask and warp
+    
+    #publish
+    
+    #unpublish
+    
+    #get layers
   
   end
 
@@ -156,7 +200,7 @@ class MapsControllerTest < ActionController::TestCase
       assert_equal @index_maps.last.title, body["data"][4]["attributes"]["title"]
     end
 
-    test "just get warped" do
+    test "get warped" do
       get :index, :show_warped => "1", :format => :json
       assert_response :success
       assert_not_nil assigns(:maps)
@@ -222,9 +266,7 @@ class MapsControllerTest < ActionController::TestCase
       
     end
     
-    
-    # test "search for maps by bbox" do  skip   end
-    # test "get maps layers" do  skip   end
+
   
   end
   
