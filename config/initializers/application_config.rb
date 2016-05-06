@@ -20,6 +20,6 @@ GDAL_PATH = APP_CONFIG['gdal_path'] || ""
 #MAX_ATTACHMENT_SIZE = APP_CONFIG['max_attachment_size']
 #GDAL_MEMORY_LIMIT = APP_CONFIG['gdal_memory_limit']
 
-
+Rails.application.routes.default_url_options[:host] = APP_CONFIG['host']
 ActionMailer::Base.default_url_options[:host] = APP_CONFIG['host']
 Devise.mailer_sender = APP_CONFIG['email']
