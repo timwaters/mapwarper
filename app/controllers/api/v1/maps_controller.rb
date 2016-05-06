@@ -82,19 +82,56 @@ class Api::V1::MapsController < Api::V1::ApiController
     field = %w(tags title description status publisher authors).detect{|f| f == (index_params[:field])}
     field = field || "title"
     if query && query.strip.length > 0 && field
-        query_options = ["#{field}  ~* ?", '(:punct:|^|)'+query+'([^A-z]|$)']
-      else
-        query_options = nil
-      end
+      query_options = ["#{field}  ~* ?", '(:punct:|^|)'+query+'([^A-z]|$)']
+    else
+      query_options = nil
+    end
 
     #show_warped
     warped_options = nil
     if index_params[:show_warped] == "1"
       warped_options = { :status => [Map.status(:warped), Map.status(:published)], :map_type => Map.map_type(:is_map)  }
     end
+    
     #bbox
+    bbox_conditions = nil
+    sort_geo = nil
+    
+    #extents = [-74.1710,40.5883,-73.4809,40.8485] #NYC
+    if params[:bbox] && params[:bbox].split(',').size == 4
+      extents  = nil
+      begin
+        extents = params[:bbox].split(',').collect {|i| Float(i)}
+      rescue ArgumentError
+        logger.debug "arg error with bbox, setting extent to defaults"
+        #TODO send back error message here instead of defaults
+      end
+      if extents 
+        bbox_poly_ary = [
+          [ extents[0], extents[1] ],
+          [ extents[2], extents[1] ],
+          [ extents[2], extents[3] ],
+          [ extents[0], extents[3] ],
+          [ extents[0], extents[1] ]
+        ]
+        bbox_polygon = GeoRuby::SimpleFeatures::Polygon.from_coordinates([bbox_poly_ary], -1).as_ewkt
+        if params[:operation] == "within"
+          bbox_conditions = ["ST_Within(bbox_geom, ST_GeomFromText('#{bbox_polygon}'))"]
+        else
+          bbox_conditions = ["ST_Intersects(bbox_geom, ST_GeomFromText('#{bbox_polygon}'))"]
+        end
+        
+        if params[:operation] == "intersect"
+          sort_geo = "ABS(ST_Area(bbox_geom) - ST_Area(ST_GeomFromText('#{bbox_polygon}'))) ASC"
+        else
+          sort_geo ="ST_Area(bbox_geom) DESC"
+        end
+      end
+      
+    end
+    
    
-    @maps = Map.all.where(warped_options).where(query_options).paginate(paginate_options).order(order_options)
+    @maps = Map.all.where(warped_options).where(query_options).where(bbox_conditions).paginate(paginate_options).order(order_options).order(sort_geo)
      
     #ActiveSupport.escape_html_entities_in_json = false
     render :json => @maps, 

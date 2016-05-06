@@ -97,6 +97,7 @@ class MapsControllerTest < ActionController::TestCase
     end
    
     test "delete map" do   
+      Map.any_instance.stubs(:delete_images).returns(true)
       assert_difference('Map.count', -1) do
         delete 'destroy',:id => @map.id
       end
@@ -155,7 +156,7 @@ class MapsControllerTest < ActionController::TestCase
       assert_equal @index_maps.last.title, body["data"][4]["attributes"]["title"]
     end
 
-   test "just get warped" do
+    test "just get warped" do
       get :index, :show_warped => "1", :format => :json
       assert_response :success
       assert_not_nil assigns(:maps)
@@ -163,15 +164,64 @@ class MapsControllerTest < ActionController::TestCase
       assert_equal 1, body["data"].length
       assert_equal "title", body["data"][0]["attributes"]["title"]
       assert_equal "warped", body["data"][0]["attributes"]["status"]
-   end  
-
-   test "geosearch" do
-#[(MINX, MINY), (MAXX, MINY), (MAXX, MAXY), (MINX, MAXY), (MINX, MINY)]
-   #intersects: POLYGON((26.779899697812 58.421402710855, 26.779213052304 58.328018921793, 26.849250894101 58.329392212808, 26.849937539609 58.422089356363, 26.779899697812 58.421402710855))
-
-   #within:POLYGON((26.633644204648 58.428269165933, 26.63295755914 58.302613038003, 26.859550576718 58.301239746988, 26.85886393121 58.428955811441, 26.633644204648 58.428269165933))
-      get :index, :bbox => 
-   end
+    end   
+    
+    test "geosearch" do
+      #intersects: POLYGON((26.779899697812 58.421402710855, 26.779213052304 58.328018921793, 26.849250894101 58.329392212808, 26.849937539609 58.422089356363, 26.779899697812 58.421402710855))
+      #bbox = 26.849937539609, 58.328018921793, 26.779899697812, 58.421402710855
+      
+      #within: POLYGON((26.633644204648 58.428269165933, 26.63295755914 58.302613038003, 26.859550576718 58.301239746988, 26.85886393121 58.428955811441, 26.633644204648 58.428269165933))
+      #bbox = 26.633644204648, 58.302613038003, 26.859550576718, 58.428269165933
+      #this bbox intersects our map intersects (but does not encompass it)
+      get :index, :bbox => "26.849937539609, 58.328018921793, 26.779899697812, 58.421402710855", :operation => "intersect", :format => :json
+      assert_response :success
+      assert_not_nil assigns(:maps)
+      body = JSON.parse(response.body)
+      assert_equal "title", body["data"][0]["attributes"]["title"]
+      assert_equal "warped", body["data"][0]["attributes"]["status"]
+      
+      #within, so expect 0
+      get :index, :bbox => "26.849937539609, 58.328018921793, 26.779899697812, 58.421402710855", :operation => "within", :format => :json
+      assert_response :success
+      assert_empty assigns(:maps)
+      body = JSON.parse(response.body)
+      assert_equal [], body["data"]
+      
+      # now with the bbox that encompasses it all
+      
+      get :index, :bbox => "26.633644204648, 58.302613038003, 26.859550576718, 58.428269165933", :operation => "intersect", :format => :json
+      assert_response :success
+      assert_not_nil assigns(:maps)
+      body = JSON.parse(response.body)
+      assert_equal "title", body["data"][0]["attributes"]["title"]
+      assert_equal "warped", body["data"][0]["attributes"]["status"]
+      
+      #within, so expect 0
+      get :index, :bbox => "26.633644204648, 58.302613038003, 26.859550576718, 58.428269165933", :operation => "within", :format => :json
+      assert_response :success
+      assert_not_nil assigns(:maps)
+      body = JSON.parse(response.body)
+      assert_equal "title", body["data"][0]["attributes"]["title"]
+      assert_equal "warped", body["data"][0]["attributes"]["status"]
+      
+    end
+    
+    test "geosearch with query" do
+      get :index, :bbox => "26.849937539609, 58.328018921793, 26.779899697812, 58.421402710855", :query =>"title",:operation => "intersect", :format => :json
+      assert_response :success
+      assert_not_nil assigns(:maps)
+      body = JSON.parse(response.body)
+      assert_equal "title", body["data"][0]["attributes"]["title"]
+      assert_equal "warped", body["data"][0]["attributes"]["status"]
+      
+      get :index, :bbox => "26.849937539609, 58.328018921793, 26.779899697812, 58.421402710855", :query =>"map",:operation => "intersect", :format => :json
+      assert_response :success
+      assert_empty assigns(:maps)
+      body = JSON.parse(response.body)
+      assert_equal [], body["data"]
+      
+    end
+    
     
     # test "search for maps by bbox" do  skip   end
     # test "get maps layers" do  skip   end
