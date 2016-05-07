@@ -168,10 +168,16 @@ class Layer < ActiveRecord::Base
     end
     extent
   end
-
-
-
-
+  
+  
+  def percentage
+    if self.has_attribute?(:percent)
+      self.percent
+    else
+      nil
+    end
+  end
+  
   ##################
   #PRIVATE
   ##################

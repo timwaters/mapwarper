@@ -259,6 +259,15 @@ class MapsControllerTest < ActionController::TestCase
       @index_maps = FactoryGirl.create_list(:index_map, 5)
     end
 
+    test "layers maps" do
+      layer = FactoryGirl.create(:layer_with_maps)
+      get :index, :layer_id => layer.id, :format => :json
+      assert_response :success
+      assert_not_nil assigns(:maps)
+      body = JSON.parse(response.body)
+      assert_equal 1, body["data"].length
+    end
+    
     test "get list of maps" do
       get :index, :foo=>"bar", :format => :json
       assert_response :success

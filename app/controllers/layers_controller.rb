@@ -129,9 +129,10 @@ class LayersController < ApplicationController
     else
       conditions = nil
     end
+    select_conditions = nil
     if params[:sort_key] == "percent"
       select = "*, round(rectified_maps_count::float / maps_count::float * 100) as percent"
-      conditions.nil? ? conditions = ["maps_count > 0"] : conditions.add_condition('maps_count > 0')
+      select_conditions = "maps_count > 0"
     else
       select = "*"
     end
@@ -161,7 +162,7 @@ class LayersController < ApplicationController
       @html_title = "Mosaic List for Map #{@map.id}"
       @page = "for_map"
     else
-      @layers = Layer.select(select).where(conditions).order(sort_clause + sort_nulls).paginate(paginate_params)
+      @layers = Layer.select(select).where(select_conditions).where(conditions).order(sort_clause + sort_nulls).paginate(paginate_params)
       @html_title = "Browse Mosaic List"
     end
    

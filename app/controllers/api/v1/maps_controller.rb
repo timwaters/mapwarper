@@ -191,12 +191,25 @@ class Api::V1::MapsController < Api::V1::ApiController
   #params: page, per_page, query, field, sort_key, sort_order, field, show_warped, bbox, operation
   def index
 
+    #if being called from layer#maps 
+    layer_conditions = nil
+    if index_params[:layer_id]
+      layer = Layer.find(index_params[:layer_id])
+      layer_conditions = {id: layer.maps.map(&:id)}
+    end
+    
     #sort / order 
     sort_order = "desc"
     sort_order = "asc" if index_params[:sort_order] == "asc"
     sort_key = %w(title status created_at updated_at).detect{|f| f == (index_params[:sort_key])}
     sort_key = sort_key || "updated_at"
-    order_options = "#{sort_key} #{sort_order}"
+    if sort_order == "desc"
+      sort_nulls = " NULLS LAST"
+    else
+      sort_nulls = " NULLS FIRST"
+    end
+    
+    order_options = "#{sort_key} #{sort_order} #{sort_nulls}"
   
     #pagination
     paginate_options = {
@@ -259,7 +272,7 @@ class Api::V1::MapsController < Api::V1::ApiController
     end
     
    
-    @maps = Map.all.where(warped_options).where(query_options).where(bbox_conditions).paginate(paginate_options).order(order_options).order(sort_geo)
+    @maps = Map.all.where(layer_conditions).where(warped_options).where(query_options).where(bbox_conditions).paginate(paginate_options).order(order_options).order(sort_geo)
      
     #ActiveSupport.escape_html_entities_in_json = false
     render :json => @maps, 
@@ -276,7 +289,7 @@ class Api::V1::MapsController < Api::V1::ApiController
   end
 
   def index_params
-    params.permit(:page, :per_page, :query, :field, :sort_key, :sort_order, :field, :show_warped, :bbox, :operation, :format)
+    params.permit(:page, :per_page, :query, :field, :sort_key, :sort_order, :field, :show_warped, :bbox, :operation, :format, :layer_id)
   end
   
   def find_map

@@ -142,25 +142,31 @@ Rails.application.routes.draw do
   namespace :api do
     namespace :v1 do
       constraints format: [:json, :geojson] do
-      resources :maps do
-        member do
-          get    'show'
-          get    'gcps'
-          patch  'rectify'
-          post   'mask'
-          delete 'mask'   => 'maps#delete_mask'
-          patch  'crop'   
-          patch  'mask_crop_rectify'
-          patch  'publish'
-          patch  'unpublish'
-          get    'status'
+        resources :maps, :except => [:new] do
+          member do
+            get    'gcps'
+            patch  'rectify'
+            post   'mask'
+            delete 'mask'   => 'maps#delete_mask'
+            patch  'crop'   
+            patch  'mask_crop_rectify'
+            patch  'publish'
+            patch  'unpublish'
+            get    'status'
+          end
+          resources :layers, :only => [:index]
+          # collection do
+          # end
         end
-        collection do
-          get 'index'
+        
+        resources :layers, :except => [:new] do
+          member do
+          end
+          collection do
+          end
+          resources :maps, :only => [:index]
         end
-      end
-        #resource :map, :only => ["show", "gcps"]
-        #resources :maps, :only => ["index"]
+        
       end
     end
   end
