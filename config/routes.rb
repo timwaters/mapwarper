@@ -147,6 +147,12 @@ Rails.application.routes.draw do
           get 'show'
           get 'gcps'
           patch 'rectify'
+          post   'mask'
+          delete 'mask'   => 'maps#delete_mask'
+          patch  'crop'   
+          patch  'mask_crop_rectify'
+          patch  'publish'
+          patch  'unpublish'
         end
         collection do
           get 'index'

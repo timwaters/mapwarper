@@ -1,7 +1,7 @@
 class Api::V1::MapsController < Api::V1::ApiController
   #before_filter :authenticate_user!
   #before_filter :check_administrator_role
-  before_filter :find_map, :only => [:show, :update, :destroy, :gcps, :rectify ]
+  before_filter :find_map, :only => [:show, :update, :destroy, :gcps, :rectify, :mask, :delete_mask, :crop, :mask_crop_rectify, :publish, :unpublish ]
   
   rescue_from ActionController::ParameterMissing, with: :missing_param_error
   def missing_param_error(exception)
@@ -119,6 +119,71 @@ class Api::V1::MapsController < Api::V1::ApiController
     render :json => @map
   end
 
+  #post saves the mask
+  def mask
+    if @map.save_mask(params[:output])
+      render :json => @map
+    else
+      render :json => { :error => "Error with saving mask" },:status => :unprocessable_entity
+    end
+  end
+  
+  def delete_mask
+    if @map.delete_mask
+      render :json => @map
+    else
+      render :json => { :error => "Error with deleting mask" },:status => :unprocessable_entity
+    end
+  end
+  
+  def crop
+    unless  File.exists?(@map.masking_file_gml)
+      render :json => {:error => "Mask file not found"},:status => :unprocessable_entity
+      return false
+    end
+    if @map.mask!
+      render :json => @map
+    else
+      render :json => { :error => "Error with cropping map" },:status => :unprocessable_entity
+    end
+  end
+    
+  #1. save mask
+  #2. mask map
+  #3. forward on to rectify
+  def mask_crop_rectify
+    if @map.save_mask(params[:output]) && @map.mask!
+      params[:use_mask] = "true"
+      rectify
+    else
+      render :json => { :error => "Error with saving and masking map" },:status => :unprocessable_entity
+    end
+  end
+  
+  def publish
+    unless @map.status == :warped
+      render :json => {:error => "Map is not warped so cannot be published" },:status => :unprocessable_entity
+      return false
+    end
+    if @map.publish
+      render :json => @map
+    else
+      render :json => {:error => "Error with publishing map" },:status => :unprocessable_entity
+    end
+  end
+  
+  def unpublish
+    unless @map.status == :published
+      render :json => {:error => "Map is not published so cannot be unpublished" },:status => :unprocessable_entity
+      return false
+    end
+    if @map.unpublish
+      render :json => @map
+    else
+      render :json => {:error => "Error with unpublishing map" },:status => :unprocessable_entity
+    end
+  end
+  
   #params: page, per_page, query, field, sort_key, sort_order, field, show_warped, bbox, operation
   def index
 
