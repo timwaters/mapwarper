@@ -242,6 +242,12 @@ class MapsControllerTest < ActionController::TestCase
       body = JSON.parse(response.body)
       assert_equal "warped", body["data"]["attributes"]["status"] 
     end
+    
+    test "get_status" do
+      get "status", :id =>@map.id, :format => :json
+      assert_response :ok   
+      assert_equal @map.status.to_s, response.body
+    end
 
     
     #get layers

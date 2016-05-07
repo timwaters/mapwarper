@@ -144,15 +144,16 @@ Rails.application.routes.draw do
       constraints format: [:json, :geojson] do
       resources :maps do
         member do
-          get 'show'
-          get 'gcps'
-          patch 'rectify'
+          get    'show'
+          get    'gcps'
+          patch  'rectify'
           post   'mask'
           delete 'mask'   => 'maps#delete_mask'
           patch  'crop'   
           patch  'mask_crop_rectify'
           patch  'publish'
           patch  'unpublish'
+          get    'status'
         end
         collection do
           get 'index'

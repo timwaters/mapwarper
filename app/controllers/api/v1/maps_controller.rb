@@ -1,7 +1,7 @@
 class Api::V1::MapsController < Api::V1::ApiController
   #before_filter :authenticate_user!
   #before_filter :check_administrator_role
-  before_filter :find_map, :only => [:show, :update, :destroy, :gcps, :rectify, :mask, :delete_mask, :crop, :mask_crop_rectify, :publish, :unpublish ]
+  before_filter :find_map, :only => [:show, :update, :destroy, :gcps, :rectify, :mask, :delete_mask, :crop, :mask_crop_rectify, :publish, :unpublish, :status ]
   
   rescue_from ActionController::ParameterMissing, with: :missing_param_error
   def missing_param_error(exception)
@@ -182,6 +182,10 @@ class Api::V1::MapsController < Api::V1::ApiController
     else
       render :json => {:error => "Error with unpublishing map" },:status => :unprocessable_entity
     end
+  end
+  
+  def status
+    render :text => @map.status
   end
   
   #params: page, per_page, query, field, sort_key, sort_order, field, show_warped, bbox, operation
