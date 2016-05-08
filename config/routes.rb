@@ -161,6 +161,9 @@ Rails.application.routes.draw do
         
         resources :layers, :except => [:new] do
           member do
+            patch 'toggle_visibility'
+            patch 'remove_map'
+            patch 'merge'
           end
           collection do
           end

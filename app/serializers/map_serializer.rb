@@ -1,6 +1,10 @@
 class MapSerializer < ActiveModel::Serializer
   attributes :id, :title, :description, :width, :height, :status,:mask_status, :created_at, :updated_at, :bbox, :map_type, :source_uri, :unique_id, :page_id, :date_depicted, :image_url, :thumb_url
   
+  link :gcps_csv do
+    gcps_map_url(:id =>object.id, :format=>:csv)
+  end
+  
   link :mask do
     masking_map_url(:id => object.id)
   end
