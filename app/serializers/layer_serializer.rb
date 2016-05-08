@@ -1,5 +1,5 @@
 class LayerSerializer < ActiveModel::Serializer
-  attributes :id, :name, :description, :created_at, :updated_at, :bbox, :maps_count, :rectified_maps_count, :is_visible, :source_uri, :percentage
+  attributes :id, :name, :description, :created_at, :updated_at, :bbox, :maps_count, :rectified_maps_count, :is_visible, :source_uri, :rectified_percent
   
 
   link :kml do

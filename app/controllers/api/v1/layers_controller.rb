@@ -71,7 +71,48 @@ class Api::V1::LayersController < Api::V1::ApiController
       query_conditions =   ["#{field}  ~* ?", '(:punct:|^|)'+query+'([^A-z]|$)']
     end
     
-    @layers = Layer.select(select).where(select_conditions).where(map_conditions).where(query_conditions).order(order_options).paginate(paginate_options)
+    #bbox geo
+        #bbox
+    bbox_conditions = nil
+    sort_geo = nil
+    
+    #extents = [-74.1710,40.5883,-73.4809,40.8485] #NYC
+    if params[:bbox] && params[:bbox].split(',').size == 4
+      extents  = nil
+      begin
+        extents = params[:bbox].split(',').collect {|i| Float(i)}
+      rescue ArgumentError
+        logger.debug "arg error with bbox, setting extent to defaults"
+        #TODO send back error message here instead of defaults
+      end
+      if extents 
+        bbox_poly_ary = [
+          [ extents[0], extents[1] ],
+          [ extents[2], extents[1] ],
+          [ extents[2], extents[3] ],
+          [ extents[0], extents[3] ],
+          [ extents[0], extents[1] ]
+        ]
+        bbox_polygon = GeoRuby::SimpleFeatures::Polygon.from_coordinates([bbox_poly_ary], -1).as_ewkt
+        if params[:operation] == "within"
+          bbox_conditions = ["ST_Within(bbox_geom, ST_GeomFromText('#{bbox_polygon}'))"]
+        else
+          bbox_conditions = ["ST_Intersects(bbox_geom, ST_GeomFromText('#{bbox_polygon}'))"]
+        end
+        
+        if params[:operation] == "intersect"
+          sort_geo = "ABS(ST_Area(bbox_geom) - ST_Area(ST_GeomFromText('#{bbox_polygon}'))) ASC"
+        else
+          sort_geo ="ST_Area(bbox_geom) DESC"
+        end
+      end
+      
+    end
+    
+    
+    
+    
+    @layers = Layer.select(select).where(select_conditions).where(map_conditions).where(bbox_conditions).where(query_conditions).order(order_options).order(sort_geo).paginate(paginate_options)
     
     render :json => @layers, :meta => {
       "total-entries" => @layers.total_entries,

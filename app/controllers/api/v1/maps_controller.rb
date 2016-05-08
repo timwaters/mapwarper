@@ -272,7 +272,7 @@ class Api::V1::MapsController < Api::V1::ApiController
     end
     
    
-    @maps = Map.all.where(layer_conditions).where(warped_options).where(query_options).where(bbox_conditions).paginate(paginate_options).order(order_options).order(sort_geo)
+    @maps = Map.all.where(layer_conditions).where(warped_options).where(query_options).where(bbox_conditions).order(order_options).order(sort_geo).paginate(paginate_options)
      
     #ActiveSupport.escape_html_entities_in_json = false
     render :json => @maps, 
