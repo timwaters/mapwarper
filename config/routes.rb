@@ -170,6 +170,13 @@ Rails.application.routes.draw do
           resources :maps, :only => [:index]
         end
         
+        resources :gcps, :except => [:new] do
+          collection do
+            post 'add_many'
+          end
+          
+        end
+        
       end
     end
   end

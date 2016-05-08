@@ -55,7 +55,7 @@ class Api::V1::MapsController < Api::V1::ApiController
   end
 
   def gcps
-    render :json  => @map.gcps
+    render :json  => @map.gcps_with_error, :meta => {"map-error"=>@map.error}
   end
   
   #patch warp
@@ -289,7 +289,7 @@ class Api::V1::MapsController < Api::V1::ApiController
   end
 
   def index_params
-    params.permit(:page, :per_page, :query, :field, :sort_key, :sort_order, :field, :show_warped, :bbox, :operation, :format, :layer_id)
+    params.permit(:page, :per_page, :query, :field, :sort_key, :sort_order, :field, :show_warped, :bbox, :operation, :format, :layer_id, :id)
   end
   
   def find_map
