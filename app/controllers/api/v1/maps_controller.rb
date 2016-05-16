@@ -10,7 +10,7 @@ class Api::V1::MapsController < Api::V1::ApiController
   
   def show
     #puts current_user.inspect
-    render :json  => @map, include: ['layers', 'owner']
+    render :json  => @map, :include => ['layers', 'owner']
   end
 
   def create
@@ -276,6 +276,7 @@ class Api::V1::MapsController < Api::V1::ApiController
      
     #ActiveSupport.escape_html_entities_in_json = false
     render :json => @maps, 
+      :include => ['layers', 'owner'],
       :meta => {"total-entries" => @maps.total_entries,
       "total-pages"   => @maps.total_pages}
   end

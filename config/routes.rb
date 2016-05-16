@@ -155,8 +155,6 @@ Rails.application.routes.draw do
             get    'status'
           end
           resources :layers, :only => [:index]
-          # collection do
-          # end
         end
         
         resources :layers, :except => [:new] do
@@ -178,6 +176,7 @@ Rails.application.routes.draw do
         end
         
       end
+      resources :users, :only => [:show, :index]
     end
   end
   
