@@ -10,7 +10,7 @@ class Api::V1::MapsController < Api::V1::ApiController
   
   def show
     #puts current_user.inspect
-    render :json  => @map, :meta => {:foo => :bar}
+    render :json  => @map, include: ['layers', 'owner']
   end
 
   def create

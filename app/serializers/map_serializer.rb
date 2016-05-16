@@ -1,39 +1,26 @@
 class MapSerializer < ActiveModel::Serializer
-  attributes :id, :title, :description, :width, :height, :status,:mask_status, :created_at, :updated_at, :bbox, :map_type, :source_uri, :unique_id, :page_id, :date_depicted, :image_url, :thumb_url
+  has_many :layers
+  belongs_to :owner, :class_name => "User",  :key => :added_by
+  attributes  :id, :title, :description, :width, :height, :status,:mask_status, :created_at, :updated_at, :bbox, :map_type, :source_uri, :unique_id, :page_id, :date_depicted, :image_url, :thumb_url
   
-  link :gcps_csv do
-    gcps_map_url(:id =>object.id, :format=>:csv)
+  link(:self) {     api_v1_map_url(object) }
+  
+  link(:gcps_csv) { gcps_map_url(:id =>object, :format=>:csv) }
+  link(:mask) {     masking_map_url(:id => object)}
+  link(:geotiff) {  export_map_url(:id => object, :format => :tif) }
+  link(:png) {      export_map_url(:id => object, :format => :png)}
+  link(:aux_xml){   export_map_url(:id => object, :format => :aux_xml) }
+  link(:kml) {      map_url(:id => object, :format => :kml)}
+  link(:tiles){     "http://warper.wmflabs.org/maps/tile/#{object.id}/{z}/{x}/{y}.png" }
+  link(:wms) {      wms_map_url(:id=>object.id, :request => "GetCapabilities", :service => "WMS", :version => "1.1.1")}
+  
+  class LayerSerializer < ActiveModel::Serializer
+    attributes  :name, :description
+    link(:self) { api_v1_layer_url(object) }
   end
   
-  link :mask do
-    masking_map_url(:id => object.id)
+  class UserSerializer < ActiveModel::Serializer
+    attributes :login
   end
-  
-  link :geotiff do
-    export_map_url(:id => object.id, :format => :tif) 
-  end
-  
-  link :png do
-    export_map_url(:id => object.id, :format => :png)
-  end
-  
-  link :aux_xml do
-    export_map_url(:id => object.id, :format => :aux_xml)
-  end
-  
-  link :kml do
-    map_url(:id => object.id, :format => :kml)
-  end
-  
-  link :tiles do
-    "http://warper.wmflabs.org/maps/tile/#{object.id}/{z}/{x}/{y}.png"
-  end
-  
-  link :wms do
-    wms_map_url(:id=>object.id, :request => "GetCapabilities", :service => "WMS", :version => "1.1.1")
-  end
-  
  
 end
-
-
