@@ -176,7 +176,18 @@ Rails.application.routes.draw do
         end
         
       end
-      resources :users, :only => [:show, :index]
+      constraints format: [:json] do
+        resources :users, :only => [:show, :index]
+        
+        #stats and activity
+        get 'stats' =>              'activity#stats'
+        
+        get 'activity' =>           'activity#index'
+        get 'activity/maps' =>      'activity#map_index'
+        get 'activity/users/:id' => 'activity#for_user'
+        get 'activity/maps/:id' =>  'activity#for_map'
+        get 'activity/:id' =>       'activity#show'
+      end
     end
   end
   
