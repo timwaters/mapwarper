@@ -31,7 +31,7 @@ class Import < ActiveRecord::Base
     options = {:async => false}.merge(options)
     
     async = options[:async]
-    if valid? && count > 0
+    if valid? && file_count > 0
       prepare_run unless async
       log_info "Stared import #{Time.now}"
       begin
@@ -160,7 +160,7 @@ class Import < ActiveRecord::Base
   # Calls the wikimedia Commons and returns the File Count within the category
   # category in format "Category:1681 maps"
   #
-  def self.count(category)
+  def self.file_count(category)
     category = URI.encode(category)
     site = APP_CONFIG["omniauth_mediawiki_site"]
     url = "#{site}/w/api.php?action=query&prop=categoryinfo&format=json&titles=#{category}"
@@ -179,8 +179,8 @@ class Import < ActiveRecord::Base
     file_count
   end
   
-  def count
-    Import.count(self.category)
+  def file_count
+    Import.file_count(self.category)
   end
 
   protected

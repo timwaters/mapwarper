@@ -5,12 +5,12 @@ class MapSerializer < ActiveModel::Serializer
   
   link(:self) {     api_v1_map_url(object) }
   
-  link(:gcps_csv) { gcps_map_url(:id =>object, :format=>:csv) }
-  link(:mask) {     masking_map_url(:id => object)}
-  link(:geotiff) {  export_map_url(:id => object, :format => :tif) }
-  link(:png) {      export_map_url(:id => object, :format => :png)}
-  link(:aux_xml){   export_map_url(:id => object, :format => :aux_xml) }
-  link(:kml) {      map_url(:id => object, :format => :kml)}
+  link(:gcps_csv) { gcps_map_url(:id =>object.id, :format=>:csv) }
+  link(:mask) {     masking_map_url(:id => object.id)}
+  link(:geotiff) {  export_map_url(:id => object.id, :format => :tif) }
+  link(:png) {      export_map_url(:id => object.id, :format => :png)}
+  link(:aux_xml){   export_map_url(:id => object.id, :format => :aux_xml) }
+  link(:kml) {      map_url(:id => object.id, :format => :kml)}
   link(:tiles){     "http://warper.wmflabs.org/maps/tile/#{object.id}/{z}/{x}/{y}.png" }
   link(:wms) {      wms_map_url(:id=>object.id, :request => "GetCapabilities", :service => "WMS", :version => "1.1.1")}
   

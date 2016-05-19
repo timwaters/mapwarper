@@ -4,6 +4,10 @@ class Api::V1::ApiController < ActionController::API
   def check_administrator_role
     check_role("administrator")
   end
+  
+  def check_editor_role
+    check_role("editor")
+  end
 
   def check_role(role)
     unless user_signed_in? && @current_user.has_role?(role)

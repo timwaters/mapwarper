@@ -162,9 +162,6 @@ def index
       
   end
     
-    
-    
-    
   @layers = Layer.select(select).where(select_conditions).where(map_conditions).where(bbox_conditions).where(query_conditions).order(order_options).order(sort_geo).paginate(paginate_options)
     
   render :json => @layers, :meta => {

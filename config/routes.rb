@@ -141,7 +141,7 @@ Rails.application.routes.draw do
   
   namespace :api do
     namespace :v1 do
-      constraints format: [:json, :geojson] do
+      constraints defaults: {format: "json"} do
         resources :maps, :except => [:new] do
           member do
             get    'gcps'
@@ -168,20 +168,26 @@ Rails.application.routes.draw do
           resources :maps, :only => [:index]
         end
         
+      end
+      constraints format: [:json] do
+        
         resources :gcps, :except => [:new] do
           collection do
             post 'add_many'
           end
-          
         end
         
-      end
-      constraints format: [:json] do
         resources :users, :only => [:show, :index]
+        
+        resources :imports, :except => [:new] do
+          member do
+            patch 'start'
+            get   'maps'
+          end
+        end
         
         #stats and activity
         get 'stats' =>              'activity#stats'
-        
         get 'activity' =>           'activity#index'
         get 'activity/maps' =>      'activity#map_index'
         get 'activity/users/:id' => 'activity#for_user'

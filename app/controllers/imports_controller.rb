@@ -49,7 +49,7 @@ class ImportsController < ApplicationController
   def show
     @count = nil
     if @import.status == :ready
-      @count = @import.count
+      @count = @import.file_count
     end
   end
 

@@ -9,6 +9,10 @@ class Api::V1::MapsController < Api::V1::ApiController
   end
   
   def show
+    #if request.format == "geojson"
+      #render :json => "geojson"
+      #return
+    #end
     #puts current_user.inspect
     render :json  => @map, :include => ['layers', 'owner']
   end

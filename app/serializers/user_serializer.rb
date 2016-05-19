@@ -6,7 +6,7 @@ class UserSerializer < ActiveModel::Serializer
     current_user.has_role?("administrator")
   end
   
-  link(:self) { api_v1_users_url(object) }
+  link(:self) { api_v1_user_url(object) }
   
   class RoleSerializer < ActiveModel::Serializer
     attributes :id, :name
