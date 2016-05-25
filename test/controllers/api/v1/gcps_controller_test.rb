@@ -9,6 +9,10 @@ class GcpsControllerTest < ActionController::TestCase
     @gcp =    FactoryGirl.create(:gcp_1, :map => @map)
     @gcp_2  = FactoryGirl.create(:gcp_2, :map => @map)
     @gcp_3  = FactoryGirl.create(:gcp_3, :map => @map)
+      
+    @user = FactoryGirl.create(:user)
+    request.env["devise.mapping"] = Devise.mappings[:user] 
+    sign_in @user 
   end
   
   test "show"do
@@ -65,6 +69,8 @@ class GcpsControllerTest < ActionController::TestCase
   end
   
   test "add_many" do
+    sign_out @user
+    editor_user_sign_in
     post 'add_many', :gcps => [{"mapid" => @map.id,"x" => 1.2,"y"=>2.2, "lat"=>11.1, "lon"=>21.1},{"pageid"=>@map.page_id,"x"=>22,"y"=>33, "lat"=>55.1, "lon"=>55.1}]
     assert_response :ok
     body = JSON.parse(response.body)

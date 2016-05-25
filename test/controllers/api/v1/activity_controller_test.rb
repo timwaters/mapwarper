@@ -1,11 +1,13 @@
 require 'test_helper'
 
+#note auditing is disabled for tests, so we just test basics
 class ActivityControllerTest < ActionController::TestCase
   include Devise::TestHelpers
   tests  Api::V1::ActivityController
-  
-  #notes auditing is disabled for tests
-  
+  setup do
+    admin_sign_in
+  end
+
   test "stats" do
     get "stats"
     assert_response :success

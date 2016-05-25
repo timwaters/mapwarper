@@ -1,14 +1,7 @@
 class Api::V1::ActivityController < Api::V1::ApiController
-  #before_filter :authenticate_user!
-  #before_filter :check_administrator_role
-  
-  #        get 'stats' =>              'activity#stats'
-  #        get 'activity' =>           'activity#index'
-  #        get 'activity/maps' =>      'activity#map_index'
-  #        get 'activity/users/:id' => 'activity#for_user'
-  #        get 'activity/maps/:id' =>  'activity#for_map'
-  #        get 'activity/:id' =>       'activity#show'
-  
+  before_filter :authenticate_user!
+  before_filter :check_administrator_role, :only => [:stats]
+    
   def stats
     sort_order = "desc"
     sort_order = "asc" if params[:sort_order] == "asc"

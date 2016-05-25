@@ -115,6 +115,10 @@ class LayersControllerTest < ActionController::TestCase
   end
   
   class MemberTest < LayersControllerTest
+    
+    setup do 
+      admin_sign_in
+    end
   
     test "get layer" do
       get 'show', :id => @layer.id, :format => :json

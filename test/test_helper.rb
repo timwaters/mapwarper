@@ -20,4 +20,22 @@ class ActiveSupport::TestCase
   Object.const_set("TILEINDEX_DIR", File.join(Rails.root, "/test/fixtures/data/"))
 
   Paperclip::Attachment.default_options[:path] = "#{Rails.root}/test/test_files/:class/:id_partition/:style.:extension"
+  
+  def admin_sign_in
+    admin_user = FactoryGirl.create(:admin)
+    request.env["devise.mapping"] = Devise.mappings[:admin]
+    sign_in admin_user
+  end
+  
+  def normal_user_sign_in
+    user = FactoryGirl.create(:user)
+    request.env["devise.mapping"] = Devise.mappings[:user]
+    sign_in user
+  end
+  
+   def editor_user_sign_in
+    user = FactoryGirl.create(:editor)
+    request.env["devise.mapping"] = Devise.mappings[:editor]
+    sign_in user
+  end
 end

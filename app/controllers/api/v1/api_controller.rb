@@ -18,7 +18,7 @@ class Api::V1::ApiController < ActionController::API
   def permission_denied
     self.status  = :unauthorized
     self.content_type  = "application/json"
-    self.response_body = { errors: ["Unauthorized Request"] }.to_json
+    self.response_body = { error: ["Unauthorized Request"] }.to_json
   end
 
 end

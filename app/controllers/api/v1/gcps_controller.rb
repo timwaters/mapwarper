@@ -1,7 +1,7 @@
 class Api::V1::GcpsController < Api::V1::ApiController
-  #before_filter :authenticate_user!
-  #before_filter :check_administrator_role
-  before_filter :find_gcp, :only => [:show, :update, :destroy]
+  before_filter :authenticate_user!, :except =>[:show, :index]
+  before_filter :check_editor_role,  :only =>  [:add_many] 
+  before_filter :find_gcp,           :only =>  [:show, :update, :destroy]
   
   rescue_from ActionController::ParameterMissing, with: :missing_param_error
   def missing_param_error(exception)
@@ -74,7 +74,7 @@ class Api::V1::GcpsController < Api::V1::ApiController
   end
     
   # Adds Many GCPS to Multiple Maps
-  # ADMIN only
+  # Editor only
   # Expects a CSV file or a JSON strong
   #POST with mapid
   #csv header: mapid,pageid,x,y,lon,lat

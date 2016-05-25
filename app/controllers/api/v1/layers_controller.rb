@@ -1,7 +1,7 @@
 class Api::V1::LayersController < Api::V1::ApiController
-  #before_filter :authenticate_user!
-  #before_filter :check_administrator_role
-  before_filter :find_layer, :only => [:show, :update, :destroy, :toggle_visibility, :remove_map, :merge]
+  before_filter :authenticate_user!,       :except => [:show, :index]
+  before_filter :check_administrator_role, :except => [:show, :index]
+  before_filter :find_layer,               :only =>   [:show, :update, :destroy, :toggle_visibility, :remove_map, :merge]
   
   rescue_from ActionController::ParameterMissing, with: :missing_param_error
   def missing_param_error(exception)

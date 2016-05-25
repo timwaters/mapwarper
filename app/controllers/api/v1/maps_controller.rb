@@ -1,6 +1,8 @@
 class Api::V1::MapsController < Api::V1::ApiController
-  #before_filter :authenticate_user!
-  #before_filter :check_administrator_role
+  before_filter :authenticate_user!,       :except=>[:show, :index, :status, :gcps] 
+  before_filter :check_administrator_role, :only => [:publish, :unpublish]
+  before_filter :check_editor_role,        :only => [:update, :destroy]
+  
   before_filter :find_map, :only => [:show, :update, :destroy, :gcps, :rectify, :mask, :delete_mask, :crop, :mask_crop_rectify, :publish, :unpublish, :status ]
   
   rescue_from ActionController::ParameterMissing, with: :missing_param_error
@@ -13,7 +15,6 @@ class Api::V1::MapsController < Api::V1::ApiController
       #render :json => "geojson"
       #return
     #end
-    #puts current_user.inspect
     render :json  => @map, :include => ['layers', 'owner']
   end
 
@@ -23,7 +24,7 @@ class Api::V1::MapsController < Api::V1::ApiController
       if map_params["page_id"] =~ /\A\d+\Z/
         @map = Map.new_from_wiki(map_params["page_id"])
       else
-        render :json => {:errors => {:title => "page_id parameter is not a number"}}, :status => :unprocessable_entity
+        render :json => {:error => {:title => "page_id parameter is not a number"}}, :status => :unprocessable_entity
         return
       end
     
