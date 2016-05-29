@@ -9,10 +9,10 @@ class Api::V1::MapsController < Api::V1::ApiController
 
   
   def show
-    #if request.format == "geojson"
-      #render :json => "geojson"
-      #return
-    #end
+    if request.format == "geojson"
+      render :json  => @map, :serializer => MapGeoSerializer, :adapter => :attributes
+     return
+   end
     render :json  => @map, :include => ['layers', 'owner']
   end
 
@@ -276,9 +276,13 @@ class Api::V1::MapsController < Api::V1::ApiController
       
     end
     
-   
+    
     @maps = Map.all.where(layer_conditions).where(warped_options).where(query_options).where(bbox_conditions).order(order_options).order(sort_geo).paginate(paginate_options)
-     
+    
+    if request.format == "geojson"
+      render :json  => @maps, :each_serializer => MapGeoSerializer, :adapter => :attributes
+      return
+    end
     #ActiveSupport.escape_html_entities_in_json = false
     render :json => @maps, 
       :include => ['layers', 'owner'],

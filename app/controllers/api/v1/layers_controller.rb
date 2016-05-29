@@ -7,6 +7,11 @@ class Api::V1::LayersController < Api::V1::ApiController
   rescue_from ActionController::ParameterMissing, with: :missing_param_error
   
   def show
+    if request.format == "geojson"
+      render :json  => @layer, :serializer => LayerGeoSerializer, :adapter => :attributes
+      return
+    end
+    
     render :json => @layer
   end
   
@@ -161,7 +166,12 @@ def index
   end
     
   @layers = Layer.select(select).where(select_conditions).where(map_conditions).where(bbox_conditions).where(query_conditions).order(order_options).order(sort_geo).paginate(paginate_options)
-    
+ 
+  if request.format == "geojson"
+    render :json  => @layers, :each_serializer => LayerGeoSerializer, :adapter => :attributes
+    return
+  end  
+  
   render :json => @layers, :meta => {
     "total-entries" => @layers.total_entries,
     "total-pages"   => @layers.total_pages}
