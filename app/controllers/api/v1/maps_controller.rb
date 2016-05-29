@@ -1,14 +1,12 @@
 class Api::V1::MapsController < Api::V1::ApiController
-  before_filter :authenticate_user!,       :except=>[:show, :index, :status, :gcps] 
+ # before_filter :authenticate_user!,       :except=>[:show, :index, :status, :gcps] 
   before_filter :check_administrator_role, :only => [:publish, :unpublish]
   before_filter :check_editor_role,        :only => [:update, :destroy]
-  
   before_filter :find_map, :only => [:show, :update, :destroy, :gcps, :rectify, :mask, :delete_mask, :crop, :mask_crop_rectify, :publish, :unpublish, :status ]
   
+  rescue_from ActiveRecord::RecordNotFound, :with => :not_found
   rescue_from ActionController::ParameterMissing, with: :missing_param_error
-  def missing_param_error(exception)
-    render :json => { :error => exception.message },:status => :unprocessable_entity
-  end
+
   
   def show
     #if request.format == "geojson"
@@ -24,7 +22,9 @@ class Api::V1::MapsController < Api::V1::ApiController
       if map_params["page_id"] =~ /\A\d+\Z/
         @map = Map.new_from_wiki(map_params["page_id"])
       else
-        render :json => {:error => {:title => "page_id parameter is not a number"}}, :status => :unprocessable_entity
+        @map = Map.new
+        @map.errors.add(:page_id, 'is not a number')
+        render :json => @map, :status => :unprocessable_entity, :serializer => ActiveModel::Serializer::ErrorSerializer 
         return
       end
     
@@ -40,7 +40,7 @@ class Api::V1::MapsController < Api::V1::ApiController
     if @map.save
       render :json => @map, :status => :created
     else
-      render :json => @map.errors, :status => :unprocessable_entity  
+      render :json => @map, :status => :unprocessable_entity, :serializer => ActiveModel::Serializer::ErrorSerializer 
     end
 
   end
@@ -49,7 +49,7 @@ class Api::V1::MapsController < Api::V1::ApiController
     if @map.update_attributes(map_params)
       render :json => @map
     else
-      render :json => @map.errors, :status => :unprocessable_entity
+      render :json => @map, :status => :unprocessable_entity, :serializer => ActiveModel::Serializer::ErrorSerializer 
     end
   end
 
@@ -102,11 +102,11 @@ class Api::V1::MapsController < Api::V1::ApiController
     
     use_mask = params[:use_mask]
     if @map.gcps.hard.size.nil? || @map.gcps.hard.size < 3
-      render :json => { :error => "Map needs at least 3 control points to rectify" },:status => :unprocessable_entity
+      render :json => { :errors => [{:title => "Not enough gcps", :detail => "Map needs at least 3 control points to rectify"}] },:status => :unprocessable_entity
       return false
     end
     if @map.status == :warping
-      render :json => { :error => "Map currently being rectified. Try again later." },:status => :unprocessable_entity
+      render :json => { :errors => [{:title => "Map busy", :detail => "Map currently being rectified. Try again later."}] },:status => :unprocessable_entity
       return false
     end
      
@@ -129,7 +129,7 @@ class Api::V1::MapsController < Api::V1::ApiController
     if @map.save_mask(params[:output])
       render :json => @map
     else
-      render :json => { :error => "Error with saving mask" },:status => :unprocessable_entity
+      render :json => { :errors => [{:title => "Mask error", :detail => "Error with saving mask"}] },:status => :unprocessable_entity
     end
   end
   
@@ -137,19 +137,19 @@ class Api::V1::MapsController < Api::V1::ApiController
     if @map.delete_mask
       render :json => @map
     else
-      render :json => { :error => "Error with deleting mask" },:status => :unprocessable_entity
+      render :json => {:errors =>  [{:title => "Mask error", :detail => "Error with deleting mask"}] },:status => :unprocessable_entity
     end
   end
   
   def crop
     unless  File.exists?(@map.masking_file_gml)
-      render :json => {:error => "Mask file not found"},:status => :unprocessable_entity
+      render :json => {:errors => [{:title => "Mask error", :detail => "Mask file not found"}]},:status => :unprocessable_entity
       return false
     end
     if @map.mask!
       render :json => @map
     else
-      render :json => { :error => "Error with cropping map" },:status => :unprocessable_entity
+      render :json => { :errors => [{:title => "Mask error", :detail => "Error with cropping map"}] },:status => :unprocessable_entity
     end
   end
     
@@ -161,31 +161,31 @@ class Api::V1::MapsController < Api::V1::ApiController
       params[:use_mask] = "true"
       rectify
     else
-      render :json => { :error => "Error with saving and masking map" },:status => :unprocessable_entity
+      render :json => { :errors => [{:title => "Saving and masking error", :detail => "Error with saving and masking map"}] },:status => :unprocessable_entity
     end
   end
   
   def publish
     unless @map.status == :warped
-      render :json => {:error => "Map is not warped so cannot be published" },:status => :unprocessable_entity
+      render :json => {:errors => [{:title =>"Map not warped", :detail => "Map is not warped so cannot be published"}]},:status => :unprocessable_entity
       return false
     end
     if @map.publish
       render :json => @map
     else
-      render :json => {:error => "Error with publishing map" },:status => :unprocessable_entity
+      render :json => {:errors => [{:title => "Publish error", :detail => "Error with publishing map" }]},:status => :unprocessable_entity
     end
   end
   
   def unpublish
     unless @map.status == :published
-      render :json => {:error => "Map is not published so cannot be unpublished" },:status => :unprocessable_entity
+      render :json => {:errors => [{:title => "Publish error", :detail => "Map is not published so cannot be unpublished"}] },:status => :unprocessable_entity
       return false
     end
     if @map.unpublish
       render :json => @map
     else
-      render :json => {:error => "Error with unpublishing map" },:status => :unprocessable_entity
+      render :json => {:errors => [{:title => "Publish error", :detail => "Error with unpublishing map"}] },:status => :unprocessable_entity
     end
   end
   

@@ -87,7 +87,7 @@ class MapsControllerTest < ActionController::TestCase
         params = {:id => @map.id, :format => :json, 'map' => {'title' => 'foojson'}}
         patch 'update', params
         body = JSON.parse(response.body)
-        assert body["error"][0].include?("Unauthorized")
+        assert body["errors"][0]["title"].include?("Unauthorized")
       end
 
       test "create map" do
@@ -130,7 +130,7 @@ class MapsControllerTest < ActionController::TestCase
         patch :rectify, :id => @warped_map.id, :format => :json, :warp => 1
         assert_response :unprocessable_entity
         body = JSON.parse(response.body)
-        assert body["error"].include?("3 control points")
+        assert body["errors"][0]["detail"].include?("3 control points")
       end
     
       test "rectify" do

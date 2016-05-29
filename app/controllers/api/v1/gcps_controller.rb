@@ -3,11 +3,9 @@ class Api::V1::GcpsController < Api::V1::ApiController
   before_filter :check_editor_role,  :only =>  [:add_many] 
   before_filter :find_gcp,           :only =>  [:show, :update, :destroy]
   
+  rescue_from ActiveRecord::RecordNotFound, :with => :not_found
   rescue_from ActionController::ParameterMissing, with: :missing_param_error
-  def missing_param_error(exception)
-    render :json => { :error => exception.message },:status => :unprocessable_entity
-  end
-
+ 
   def show
     render :json => @gcp
   end
@@ -17,7 +15,7 @@ class Api::V1::GcpsController < Api::V1::ApiController
     if @gcp.save
       render :json => @gcp, :status => :created
     else
-      render :json => @gcp.errors, :status => :unprocessable_entity
+      render :json => @gcp, :status => :unprocessable_entity, :serializer => ActiveModel::Serializer::ErrorSerializer 
     end
   end
   
@@ -26,7 +24,7 @@ class Api::V1::GcpsController < Api::V1::ApiController
     if @gcp.update_attributes(gcp_params)
       render :json => @gcp
     else
-      render :json => @gcp.errors, :status => :unprocessable_entity
+      render :json => @gcp, :status => :unprocessable_entity, :serializer => ActiveModel::Serializer::ErrorSerializer 
     end
   end
     
@@ -34,7 +32,7 @@ class Api::V1::GcpsController < Api::V1::ApiController
     if @gcp.destroy
       render :json => @gcp
     else
-      render :json => @gcp.errors, :status => :unprocessable_entity
+      render :json => @gcp, :status => :unprocessable_entity,  :serializer => ActiveModel::Serializer::ErrorSerializer 
     end
   end
   

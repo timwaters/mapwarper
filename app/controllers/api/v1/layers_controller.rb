@@ -3,11 +3,9 @@ class Api::V1::LayersController < Api::V1::ApiController
   before_filter :check_administrator_role, :except => [:show, :index]
   before_filter :find_layer,               :only =>   [:show, :update, :destroy, :toggle_visibility, :remove_map, :merge]
   
+  rescue_from ActiveRecord::RecordNotFound, :with => :not_found
   rescue_from ActionController::ParameterMissing, with: :missing_param_error
-  def missing_param_error(exception)
-    render :json => { :error => exception.message },:status => :unprocessable_entity
-  end
-
+  
   def show
     render :json => @layer
   end
@@ -26,7 +24,7 @@ class Api::V1::LayersController < Api::V1::ApiController
       @layer.update_counts
       render :json => @layer, :status => :created
     else
-      render :json => @layer.errors, :status => :unprocessable_entity 
+      render :json => @layer, :status => :unprocessable_entity, :serializer => ActiveModel::Serializer::ErrorSerializer 
     end
   end
 
@@ -34,7 +32,7 @@ class Api::V1::LayersController < Api::V1::ApiController
     if @layer.update_attributes(layer_params)
       render :json => @layer
     else
-      render :json => @layer.errors, :status => :unprocessable_entity
+      render :json => @layer, :status => :unprocessable_entity, :serializer => ActiveModel::Serializer::ErrorSerializer 
     end
   end
     
@@ -42,7 +40,7 @@ class Api::V1::LayersController < Api::V1::ApiController
     if @layer.destroy
       render :json => @layer
     else
-      render :json => @layer.errors, :status => :unprocessable_entity
+      render :json => { :errors => [{:title => "Layer error", :detail => "Error deleting layer"}] },:status => :unprocessable_entity
     end
   end
   
@@ -61,7 +59,7 @@ class Api::V1::LayersController < Api::V1::ApiController
     if @layer.remove_map(map.id)
       render :json => @layer
     else
-      render :json => { :error => "Error removing map." }, :status => :unprocessable_entity
+      render :json => { :errors => [{:title => "Layer error", :detail => "Error removing map."}] }, :status => :unprocessable_entity
     end
   end
 
@@ -72,7 +70,7 @@ class Api::V1::LayersController < Api::V1::ApiController
     if @layer.merge(dest_layer.id)
       render :json => dest_layer
     else
-      render :json => { :error => "Error merging layers" }, :status => :unprocessable_entity
+      render :json => { :errors => [{:title => "Layer error", :detail => "Error merging layers"}] }, :status => :unprocessable_entity
     end
   end
   

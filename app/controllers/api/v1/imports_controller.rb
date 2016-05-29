@@ -2,8 +2,10 @@ class Api::V1::ImportsController < Api::V1::ApiController
   before_filter :authenticate_user!
   before_filter :check_editor_role
   before_filter :find_import, :only => [:show, :update, :destroy, :start, :maps]
-
   
+  rescue_from ActiveRecord::RecordNotFound, :with => :not_found
+  rescue_from ActionController::ParameterMissing, with: :missing_param_error
+
   def show
     render :json => @import
   end
@@ -15,7 +17,7 @@ class Api::V1::ImportsController < Api::V1::ApiController
     if @import.save
       render :json => @import, :status => :created
     else
-      render :json => @import.errors, :status => :unprocessable_entity  
+      render :json => @import, :status => :unprocessable_entity,  :serializer => ActiveModel::Serializer::ErrorSerializer 
     end
   end
 
@@ -23,7 +25,7 @@ class Api::V1::ImportsController < Api::V1::ApiController
     if @import.update_attributes(import_params)
       render :json => @import
     else
-      render :json => @import.errors, :status => :unprocessable_entity
+      render :json => @import, :status => :unprocessable_entity, :serializer => ActiveModel::Serializer::ErrorSerializer 
     end
   end
 
@@ -31,7 +33,7 @@ class Api::V1::ImportsController < Api::V1::ApiController
     if @import.destroy
       render :json => @import
     else
-      render :json => { :error => "Error deleting import" },:status => :unprocessable_entity
+      render :json => { :errors => [{:title => "Import error", :detail => "Error deleting import"}] },:status => :unprocessable_entity
     end
   end
 

@@ -84,7 +84,7 @@ class ImportsControllerTest < ActionController::TestCase
     assert_response :ok
     body = JSON.parse(response.body)
     assert_equal 2, body["data"].size
-    puts body.inspect
+    
     assert_equal "maps", body["data"][0]["type"]
     assert_equal map.title, body["data"][0]["attributes"]["title"]
   end
