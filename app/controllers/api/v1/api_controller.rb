@@ -29,5 +29,17 @@ class Api::V1::ApiController < ActionController::API
   def missing_param_error(exception)
     render :json => { :errors => [{:title => "Missing param", :detail => exception.message}]},:status => :unprocessable_entity
   end
+  
+  def validate_jsonapi_type
+    type = controller_name.classify.downcase.pluralize
+    unless params[:data] && params[:data][:type]
+      render :json => { :errors => [{:title => "Missing param", :detail =>"params data or type is missing"}]},:status => :unprocessable_entity
+      return
+    end
+    if params[:data][:type] != type
+      render :json => { :errors => [{:title => "Invalid param", :detail => "params type should be '#{type}'"}]}, :status => :unprocessable_entity
+      return
+    end
+  end
 
 end

@@ -20,7 +20,8 @@ class ImportsControllerTest < ActionController::TestCase
   test "create" do
   
     assert_difference('Import.count', 1) do
-      get :create, :import => {:category => "Category:Maps_Of_Tartu", :save_layer => true}
+      
+      get :create, 'data' => {'type' => "imports", "attributes"=>{:category => "Category:Maps_Of_Tartu", :save_layer => true}}
     end
     assert_response :created
     body = JSON.parse(response.body)
@@ -36,7 +37,7 @@ class ImportsControllerTest < ActionController::TestCase
       with(:headers => {'Accept'=>'*/*', 'User-Agent'=>'Ruby'}).
       to_return(get_foo_category_response_file)
 
-    patch :update, :id => @import.id, :import => {:category => "Category:foo"}
+    patch :update, :id => @import.id, 'data' => {'type' => "imports", "attributes"=>{:category => "Category:foo", :save_layer => true}}
     assert_response :ok
 
     body = JSON.parse(response.body)

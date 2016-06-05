@@ -25,15 +25,15 @@ class GcpsControllerTest < ActionController::TestCase
   
   test "create with no map id" do
     assert_difference('Gcp.count', 0) do
-      post 'create', :gcp => {:x=>1}
+      post 'create', 'data' => {'type' => "gcps", "attributes"=>{"x"=>1}}
     end
     assert_response :unprocessable_entity
-    assert response.body.include?("map_id")
+    assert response.body.include?("map-id")
   end
   
   test "create" do
     assert_difference('Gcp.count', 1) do
-      post 'create', :gcp => {:x=>1, :y =>2, :lat => 33.3, :lon => 44.4, :map_id => @map.id}
+      post 'create', 'data' => {'type' => "gcps","attributes"=>{:x=>1, :y =>2, :lat => 33.3, :lon => 44.4, :map_id => @map.id}}
     end
     assert_response :created
     
@@ -43,7 +43,7 @@ class GcpsControllerTest < ActionController::TestCase
   end
   
   test "update" do
-    patch "update", :id => @gcp.id, :gcp => {:x=>99}
+    patch "update", :id => @gcp.id, 'data' => {'type' => "gcps", "attributes"=>{"x"=>99}}
     assert_response :ok
     
     body = JSON.parse(response.body)

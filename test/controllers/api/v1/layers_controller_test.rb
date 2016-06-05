@@ -132,7 +132,7 @@ class LayersControllerTest < ActionController::TestCase
     #create
     test "create" do
       assert_difference('Layer.count', 1) do
-        post 'create', :layer => {:name => "new layer", :description => "bar"}
+       post 'create', 'data' => {'type' => "layers", "attributes"=>{:name => "new layer", :description => "bar"}} 
       end
       assert_response :created
       
@@ -145,7 +145,8 @@ class LayersControllerTest < ActionController::TestCase
     test "create with maps" do
       warped_map = FactoryGirl.create(:warped_map)
       assert_difference('Layer.count', 1) do
-        post 'create', :layer => {:name => "new layer", :description => "bar"}, :map_ids => [warped_map.id]
+        post 'create', 'data' => {'type' => "layers", "attributes"=>{:name => "new layer", :description => "bar"}, :map_ids => [warped_map.id]} 
+      # puts response.body
       end
       assert_response :created
       
@@ -159,7 +160,7 @@ class LayersControllerTest < ActionController::TestCase
     end
     
     test "update" do
-      patch 'update', :id => @layer.id, :layer => {:name => "updated layer"}
+      patch 'update', :id => @layer.id, 'data' => {'type' => "layers", "attributes"=>{:name => "updated layer"}}
       assert_response :ok
       body = JSON.parse(response.body)
       assert_equal "updated layer", body["data"]["attributes"]["name"]
@@ -167,7 +168,7 @@ class LayersControllerTest < ActionController::TestCase
     
     test "update with maps" do
       warped_map = FactoryGirl.create(:warped_map)
-      patch 'update', :id => @layer.id, :layer => {:name => "updated layer"}, :map_ids => [warped_map.id]
+      patch 'update', :id => @layer.id,  'data' => {'type' => "layers", "attributes"=>{:name => "updated layer"}, :map_ids => [warped_map.id]}
       assert_response :ok
       body = JSON.parse(response.body)
       assert_equal "updated layer", body["data"]["attributes"]["name"]

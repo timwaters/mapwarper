@@ -2,6 +2,8 @@ class Api::V1::GcpsController < Api::V1::ApiController
   before_filter :authenticate_user!, :except =>[:show, :index]
   before_filter :check_editor_role,  :only =>  [:add_many] 
   before_filter :find_gcp,           :only =>  [:show, :update, :destroy]
+ 
+  before_filter :validate_jsonapi_type,:only => [:create, :update]
   
   rescue_from ActiveRecord::RecordNotFound, :with => :not_found
   rescue_from ActionController::ParameterMissing, with: :missing_param_error
@@ -96,7 +98,7 @@ class Api::V1::GcpsController < Api::V1::ApiController
   private
   
   def gcp_params
-    params.require(:gcp).permit(:x, :y, :lat, :lon, :map_id)
+    params.require(:data).require(:attributes).permit(:x, :y, :lat, :lon, :map_id)
   end
   
 

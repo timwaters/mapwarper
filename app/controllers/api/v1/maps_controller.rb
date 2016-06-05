@@ -4,6 +4,8 @@ class Api::V1::MapsController < Api::V1::ApiController
   before_filter :check_editor_role,        :only => [:update, :destroy]
   before_filter :find_map, :only => [:show, :update, :destroy, :gcps, :rectify, :mask, :delete_mask, :crop, :mask_crop_rectify, :publish, :unpublish, :status ]
   
+  before_filter :validate_jsonapi_type,:only => [:create, :update]
+  
   rescue_from ActiveRecord::RecordNotFound, :with => :not_found
   rescue_from ActionController::ParameterMissing, with: :missing_param_error
 
@@ -17,10 +19,10 @@ class Api::V1::MapsController < Api::V1::ApiController
   end
 
   def create
-    if !map_params["page_id"].blank?
+    if !map_params[:page_id].blank?
     
-      if map_params["page_id"] =~ /\A\d+\Z/
-        @map = Map.new_from_wiki(map_params["page_id"])
+      if map_params[:page_id] =~ /\A\d+\Z/
+        @map = Map.new_from_wiki(map_params[:page_id])
       else
         @map = Map.new
         @map.errors.add(:page_id, 'is not a number')
@@ -292,10 +294,7 @@ class Api::V1::MapsController < Api::V1::ApiController
 
   private
   def map_params
-    #TODO serialize from jsonapi 
-    #puts params.inspect
-    #ActiveModelSerializers::Deserialization.jsonapi_parse(params)
-    params.require(:map).permit(:title, :description, :page_id)
+    params.require(:data).require(:attributes).permit(:title, :description, :page_id)
   end
 
   def index_params
@@ -305,7 +304,6 @@ class Api::V1::MapsController < Api::V1::ApiController
   def find_map
     @map = Map.find(params[:id])
   end
-  
 
 
 end

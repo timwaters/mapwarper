@@ -3,6 +3,8 @@ class Api::V1::ImportsController < Api::V1::ApiController
   before_filter :check_editor_role
   before_filter :find_import, :only => [:show, :update, :destroy, :start, :maps]
   
+  before_filter :validate_jsonapi_type,:only => [:create, :update]
+   
   rescue_from ActiveRecord::RecordNotFound, :with => :not_found
   rescue_from ActionController::ParameterMissing, with: :missing_param_error
 
@@ -83,7 +85,7 @@ class Api::V1::ImportsController < Api::V1::ApiController
   end
   
   def import_params
-    params.require(:import).permit(:category, :save_layer)
+    params.require(:data).require(:attributes).permit(:category, :save_layer)
   end
 
   def find_import

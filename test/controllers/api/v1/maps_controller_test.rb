@@ -84,16 +84,17 @@ class MapsControllerTest < ActionController::TestCase
       end
       
       test "update map when not pemitted" do
-        params = {:id => @map.id, :format => :json, 'map' => {'title' => 'foojson'}}
+        params = {:id => @map.id, :format => :json, 'data' => {'type' => "maps", "attributes"=>{"title"=>"foojson"}} }
         patch 'update', params
         body = JSON.parse(response.body)
         assert body["errors"][0]["title"].include?("Unauthorized")
       end
 
       test "create map" do
-    
+
         assert_difference('Map.count', 1) do
-          post 'create', :format => :json, 'map' => {'title' => "new map"}
+          post 'create', :format => :json, 'data' => {'type' => "maps", "attributes"=>{"desc"=>"poo", "title"=>"new map"}}
+          #puts response.body.inspect
         end
         assert_response :created
         body = JSON.parse(response.body)
@@ -113,7 +114,7 @@ class MapsControllerTest < ActionController::TestCase
           to_return(get_image_response_file)
     
         assert_difference('Map.count', 1) do
-          post 'create',  :format => :json, 'map' => {'title' => "new map", "page_id"=> "51038"}
+          post 'create',  :format => :json, 'data' => {'type' => "maps", "attributes"=>{"title"=>"new map", "page_id"=> "51038"}}
         end
         assert_response :created
         body = JSON.parse(response.body)
@@ -228,7 +229,7 @@ class MapsControllerTest < ActionController::TestCase
         editor_user_sign_in
       end
       test "update map" do
-        params = {:id => @map.id, :format => :json, 'map' => {'title' => 'foojson'}}
+        params = {:id => @map.id, :format => :json, 'data' => {'type' => "maps", "attributes"=>{"title"=>"foojson"}} }
         patch 'update', params
         assert_response :success
         body = JSON.parse(response.body)

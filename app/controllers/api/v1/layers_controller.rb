@@ -3,6 +3,8 @@ class Api::V1::LayersController < Api::V1::ApiController
   before_filter :check_administrator_role, :except => [:show, :index]
   before_filter :find_layer,               :only =>   [:show, :update, :destroy, :toggle_visibility, :remove_map, :merge]
   
+  before_filter :validate_jsonapi_type,:only => [:create, :update]
+  
   rescue_from ActiveRecord::RecordNotFound, :with => :not_found
   rescue_from ActionController::ParameterMissing, with: :missing_param_error
   
@@ -19,8 +21,8 @@ class Api::V1::LayersController < Api::V1::ApiController
     @layer = Layer.new(layer_params)
     @layer.user = current_user
 
-    if params[:map_ids]
-      selected_maps = Map.find(params[:map_ids])
+    if params[:data][:map_ids]
+      selected_maps = Map.find(params[:data][:map_ids])
       selected_maps.each {|map| @layer.maps << map}
     end
 
@@ -185,7 +187,7 @@ end
 private
   
 def layer_params
-  params.require(:layer).permit(:name, :description, :source_uri, :depicts_year)
+  params.require(:data).require(:attributes).permit(:name, :description, :source_uri, :depicts_year)
 end
 
 def index_params
