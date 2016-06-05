@@ -169,7 +169,7 @@ Rails.application.routes.draw do
         end
         
       end
-      constraints format: [:json] do
+      constraints  defaults: {format: "json"} do
         
         resources :gcps, :except => [:new] do
           collection do
@@ -193,6 +193,9 @@ Rails.application.routes.draw do
         get 'activity/users/:id' => 'activity#for_user'
         get 'activity/maps/:id' =>  'activity#for_map'
         get 'activity/:id' =>       'activity#show'
+        
+        #token / auth etc
+        get 'auth/validate_token' =>'sessions#validate_token'
       end
     end
   end

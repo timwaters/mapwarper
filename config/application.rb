@@ -21,5 +21,9 @@ module Rails4Mapwarper
     # config.i18n.default_locale = :de
     config.filter_parameters += [:password, :password_confirmation]
     config.api_only = false
+    config.middleware.use Rack::MethodOverride
+    config.middleware.use ActionDispatch::Cookies
+    config.middleware.use ActionDispatch::Session::CookieStore
+    config.middleware.use ActionDispatch::Flash
   end
 end

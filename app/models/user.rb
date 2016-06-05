@@ -4,6 +4,9 @@ class User < ActiveRecord::Base
   devise :database_authenticatable, :registerable,
     :recoverable, :rememberable, :trackable, :validatable, :encryptable, 
     :omniauthable, :omniauth_providers => [ :osm, :mediawiki, :github]
+  
+  acts_as_token_authenticatable
+
   has_many :permissions
   has_many :roles, :through => :permissions
   

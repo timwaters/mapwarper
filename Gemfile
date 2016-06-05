@@ -36,6 +36,7 @@ gem 'sdoc', '~> 0.4.0',          group: :doc
 gem 'devise'
 gem 'devise-encryptable'
 
+gem 'omniauth-oauth2'#, "~> 1.2.0" #prev 1.2.0
 gem 'omniauth-twitter'
 gem 'omniauth-osm'
 gem 'omniauth-github'
@@ -62,6 +63,9 @@ gem 'rails-api'
 #gem 'active_model_serializers' rubygem is v0.9.0
 #use 10.0 from github until release as it has json-api support
 gem 'active_model_serializers', github: 'rails-api/active_model_serializers', tag: 'v0.10.0.rc5'
+
+gem 'simple_token_authentication', '~> 1.0'
+gem 'rack-cors', :require => 'rack/cors'
 
 group :development do
    gem 'spring'
