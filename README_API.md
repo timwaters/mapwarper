@@ -1,13 +1,14 @@
-#MapWarper API Documentation
+#Wikmaps Warper API Documentation
 
-Welcome to the documentation for the MapWarper API! MapWarper is a free application that assigns the proper geographic coordinates to scanned maps in PDF and image formats. Users can upload images, then assign ground control points to match them up with a base map. Once MapWarper warps or stretches the image to match the corresponding extent of the base map, it can be aligned and displayed with other maps, and used for digital geographic analysis. You can access all of the functionality through the API. 
+> ** Note: This has Wikimaps specific implementation details, for interacting with Wikimedia Commons as an image repository, and so will differ with the standard mapwarper.net API. 
+
+Welcome to the documentation for the Wikimaps Warper API! MapWarper is a free application that assigns the proper geographic coordinates to scanned maps in image formats. Users can upload images, then assign ground control points to match them up with a base map. Once MapWarper warps or stretches the image to match the corresponding extent of the base map, it can be aligned and displayed with other maps, and used for digital geographic analysis. You can access all of the functionality through the API. 
 
 ##Table of Contents
 
+[Format](#format)
 [Authentication](#authentication)  
-[Search for Maps](#search-for-maps)  
-[Basic Search](#basic-search)  
-[Geography-Based Map Search](#geography-based-map-search)  
+[Search for Maps](#search-for-maps)   
 [Get a Map](#get-a-map)  
 [Get a Map's Status](#get-a-maps-status)   
 [Layers](#layers)  
@@ -31,307 +32,461 @@ Welcome to the documentation for the MapWarper API! MapWarper is a free applicat
 [Save, Mask, and Warp Map](#save-mask-and-warp-map)  
 [Warping](#warping)  
 
+##Format
+
+Where possible most output formats are in json-api format. Some creation and updating requests also require the json to be in this format. 
+
+### JSON format
+
+For more infomation about the JSON API format, please consult [http://jsonapi.org/](http://jsonapi.org/). 
+Things to watch out for (compared to the previous warper API) the JSON API has `data` as a root array, and the data for each feature are in an `attributes` array. The format also allows the system to include `relationships` (for example, including the layers with each map) and also shows `links` to various resources and contains pagination `meta` information.
+
+The GeoJSON is different in structure and also in that it encodes the geometry of features in GeoJSON format. It does not include relations or links or pagination information. For more information about the GeoJSON format see the GeoJSON site. [http://geojson.org/](http://geojson.org/)
+
 ##Authentication
 
-Authentication for the MapWarper API is currently cookie-based.
+Some calls do not require authentication. Some do, and some require the user to have the correct authorization.
 
-**cURL Examples**
+Authentication for the MapWarper API is via an authentication token passed in a header. This can be obtained via Oauth via the postMessage browser API, or via email and login.
+
+Alternatively the API can work via cookie also.
+
+**Curl Examples for Email and password authentication and authentication token**
+
+TODO - Implement & Document
+
+**Curl Examples for Email and password authentication and cookies**
+```
+curl -X POST http://localhost:3000/u/sign_in.json -H "Content-Type: application/json" -d '{"user":{"email":"tim@example.com","password":"password"}}' -c cookie
+```
+if successful, returns logged in user as jsonapi with roles relationships (see User and Roles section)
+```
+{"data":{"id":"2","type":"users","attributes":{"login":"tim","created-at":"2010-08-26T15:37:34.619Z","enabled":true,"provider":null,"email":"tim@example.com"},"relationships":{"roles":{"data":[{"id":"1","type":"roles"},{"id":"2","type":"roles"},{"id":"3","type":"roles"},{"id":"4","type":"roles"}]}},"links":{"self":"http://localhost:3000/api/v1/users/2"}}}
+```
+if unauthorized returns a 401 status with
+```
+{"error":"Invalid email or password."}
+```
+Example using the cookie:
+```
+curl -H 'Content-Type: application/json' -H 'Accept: application/json' -X GET http://localhost:3000/api/v1/users/2.json -b cookie
 
 ```
-curl -H 'Content-Type: application/json' -H 'Accept: application/json' -X POST http://localhost:3000/u/sign_in.json  -d '{"user" : { "email" : "tim@example.com", "password" : "password"}}' -c cookie
 
-curl -H 'Content-Type: application/json' -H 'Accept: application/json' -X GET http://localhost:3000/maps.json -b cookie
-
-curl -H 'Content-Type: application/json' -H 'Accept: application/json' -X POST --data '{"x":1, "y":2, "lat":123, "lon":22}'  http://localhost:3000/gcps/add/14.json -b cookie
-```
 
 ##Search for Maps
 
-###Basic Search
 
 | Method        | Definition |
 | ------------- | ---------  |
-| GET           | http://mapwarper.net/maps?field=key1 | 
+| GET           | http://mapwarper.net/api/v1/maps.json?query=london | 
 
-Returns a list of maps that meet search criteria. 
+Returns a list of maps that meet search criteria (where the title or description contains "london")
 
 **Parameters**
 
-| Name      	    |             | Type  | Description  |  Required | Notes  |
-| -----          | -----       | ----- | ---------        |  -----    | ------ |
-| title      		  |              	|string  | the title of the map   | optional | default |
-| description		  |               | string | the description of the map | optional |       |
-| nypl_digital_id 	| 	         | integer  | the NYPL digital ID used for the thumbnail image and link to the library's metadata | optional | |
-| sort_key	             	      ||         | the field that should be used to sort the results  | optional |   |
-| 		              | title     | string    | the title of the map	             | optional            | |
-| 		              | updated_at | date, time, & time zone | when the map was last updated	| optional            | |
-|		               | status	   | integer   | the status of the map	            | optional            | gives the number of control points for a warped image, or the status "unrectified" |
-| sort_order	                 ||  string  | the order in which the results should appear | optional            | |
+| Name      	    |   values   | Type  | Description  |  Required | Notes  |
+| -----           | -----       | ----- | ---------    |  -----    | ------ |
+| query           |             |string | search query | optional  |        |
+| field           |             |string | specified field to be searched     | optional  | default is title  |
+|       		      | title      	|string  | the title of the map   | optional | default |
+|       		      | description | string | the description of the map | optional |       |
+|       		      | publisher   | string | the publisher | optional |       |
+|       		      | author      | string | the author of the map | optional |       |
+|       		      | status      | string | the status  | optional |       |
+| sort_key	      |            |         | the field that should be used to sort the results  | optional | defaul is updated_at  |
+| 		            | title      | string    | the title of the map	             | optional            | |
+| 		            | updated_at | string   | when the map was last updated	| optional            |  default |
+| 		            | created_at | string   | when the map was last created	| optional            | |
+|		              | status	   | string   | the status of the map	            | optional            | ordered by integer (see below) |
+| sort_order	    |            |  string  | the order in which the results should appear | optional            | default is desc|
 |                 | asc 	     |           | ascending order               | optional            | |
-|		               | desc	     |           | descending order              | optional            | |
-| show_warped	    | 		        | integer   | limits to maps that have already been warped   | optional | default is "1," which limits to warped maps; "0" returns all maps | 
-| format	         |     	     | string    | specifies output format       | optional            | default is HTML |
-|                 | json      |           | use to specify JSON output, rather than HTML or XML |
-| page		          | 		        | integer   | the page number; use to get the next or previous page of search results | optional            | |
-
-Enter optional text for the query, based on the search field chosen. The query text is case insensitive. This is a simple exact string text search. For example, a search for "city New York" returns no results, but a search for "city of New York" returns 22.
-
-**Example**
-
-[http://mapwarper.net/maps?field=title&query=New&sort_key=updated_at&sort_order=desc&show_warped=1&format=json](http://mapwarper.net/maps?field=title&query=New&sort_key=updated_at&sort_order=desc&show_warped=1&format=json)
-
-**Response**
-
-The response will be in JSON in the following format.
-```
-{{{
-{ "stat": "ok",
- "current_page": 1,
-"items": [
-   {
-     "status": "warped",
-     "map_type": "is_map",
-     "updated_at": "2010/03/25 10:52:42 -0400",
-    "title": "A chart of Delaware Bay and River : containing a full and exact description of the shores, creeks, harbours, soundings, shoals, sands, and bearings of the most considerable land marks \u0026c. \u0026c. / faithfully coppied [sic] from that published at Philadelphia",
-     "id": 6985,
-     "description": "from A new edition, much enlarged, of the second part of the North American pilot, for New England, New York, Pennsylvania, New Jersey, Maryland, Virginia, North and South Carolina, Georgia, Florida, and the Havanna : including general charts of the British Ch",
-     "height": 4744,
-     "nypl_digital_id": "1030125",
-     "mask_status": null,
-     "bbox": "-75.9831134505588,38.552727388127,-73.9526411829395,40.4029389105122",
-     "width": 5875,
-     "created_at": "2008/06/28 18:19:34 -0400"
-   },
-
-   {
-     "status":
-...
-
-}],"total_pages":132,"per_page":10,"total_entries":1314}
-}}}
-```
-
-**Response Elements**
-
-| Name        	 |               | Type	   | Value		         | Description					| Notes |
-| ------------- |-------------	 | -----		 |-----------						| --------------  | ----  |
-| stat		        |               | string 	|		               | the HTTP response for the status of the request		|    |
-| current_page		|               | integer |		               | the search results page on which the map appears		|    |
-| items		       |               | array  	|		               |	an array of key pairs with information about the map							| |
-|               | status	       | integer	 | 	              | the status of the map     |  | 
-| 		            | 		            |          | 0 : unloaded	  | the map has not been loaded					       | |
-| 		            |		             |          | 1 : loading 	  | the master image is being requested from the NYPL repository	 |    |
-| 		            | 		            |          | 2 : available	 | the map has been copied and is ready to be warped	|  |
-| 		            | 		            |          | 3 : warping	   | the map is undergoing the warping process			|  |
-| 		            | 		            |          | 4 : warped	    | the map has been warped					|  |
-| 		            | 		            |          | 5 : published	 | this status is set when the map should no longer be edited | not currently used |
-|               | map_type	     | integer 	|          	      | indicates whether the image is of a map or another type of content	| |
-|               |         	     |         	| 0 : index	      | indicates a map index or overview map							| |
-| 		            | 		            |          | 1 : is_map	     | indicates a map 										| default |
-| 		            | 	 	           |          | 2 : not_map	    | indicates non-map content, such as a plate depicting sea monsters		| |
-|               | updated_at	   | date, time, & time zone  | 		| when the map was last updated	|
-|               | title		       | string 	 |		|		the title of the map							| |
-|               | id		          | integer 	|		|		the unique identifier for the map						| |
-|               | description	  | string	  |		|		the description of the map							| |
-|               | height	       | integer 	| 	|  the height of an unwarped map				| |
-|               | nypl_digital_id	| integer |	|  the NYPL digital ID used for thumbnail images and links to the library metadata		| |
-|               | mask_status	  | integer	 || the status of the mask		| |
-| 		            | 		            |          | 0 : unmasked		| the map has not been masked				| |
-| 		            | 		            |          | 1 : masking		 | the map is undergoing the masking process				| |
-| 		            | 		            |          | 2 : masked		  | the map has been masked				| |
-| bbox	         |               | a comma-separated string of latitude and longitude coordinates |    | a rectangle delineating the geographic area to which the search should be limited | |
-|               | width		       | integer	 | 	  	| the width of the unwarped map					| |
-|               | created_at	   | date, time, & time zone	 | 		   | the date and time when the map was added to the system					| |
-| total_pages		 |               | integer 	|		               | the total number of pages in the result set		|    |
-| per_page		    |               | integer  |		               | the number of search results per page		|    |
-| total_entries	|               | integer 	|	               	|	the total number of search results					|    |
-
-###Geography-Based Map Search
-
-
-| Method        | Definition |
-| ------------- | ---------  |
-| GET           | http://mapwarper.net/maps/geosearch?bbox=y.min,x.min,y.max,x.max | 
-
-Returns a paginated list of warped maps that either intersect or fall within a particular geographic area, which is specified by a bounding box.
-
-**Parameters**
-
-| Name          | Type	       | Description   | Required |
-| ------------- |-------------| ------------  | -------  |
-| bbox	         | a comma-separated string of latitude and longitude coordinates | a rectangle delineating the geographic area to which the search should be limited | required |
-
-**Format**
-```
-     y.min(lon min),x.min(lat min),y.max(lon max), x.max(lat max)
-```
-
-**Example**
-
-```
-    -75.9831134505588,38.552727388127,-73.9526411829395,40.4029389105122
-```
-
-**Other Parameters** 
-
-| Name          |           | Type         |  Description	| Required  | Notes  |
-| ------------- | -----     | ------------ | ---------    | -------   | -----  |
+|		              | desc	     |           | descending order              | optional            | default |
+| show_warped	    | 		       | integer   | limits to maps that have already been warped   | optional |    | 
+|           	    | 1         | integer   | limits to maps that have already been warped   | optional  |    | 
+|           	    | 0         | integer   | gets all maps, warped and unwarped             | optional  |  default | 
+| format	        |     	     | string    | specifies output format       | optional      | can also be passed in as extension, eg. maps.json  |
+|                 | json       | string    | JSON format for maps   | optional            | default | 
+|                 | geojson    | string    | GeoJSON format for maps | optional           |       |
+| page		        | 		        | integer   | the page number; use to get the next or previous page of search results | optional | |
+| per_page        |             | integer   | number of results per page | optional |default is 50 |
+| bbox	         | a comma-separated string of latitude and longitude coordinates | a rectangle delineating the geographic area to which the search should be limited | optional |
 | operation     |           | string       | specifies how to apply the bounding box  | optional  | default is intersect |
 |               | intersect | string       |uses the PostGIS ST_Intersects operation to retrieve warped maps whose extents intersect with the bbox parameter  | optional | preferred; orders results by proximity to the bbox extent; default |
 |               | within    | string	      | uses a PostGIS ST_Within operation to retrieve warped maps that fall entirely within the extent of the bbox parameter  | optional      |  |
-| format	       |           | string       | specifies output format   | optional | default is HTML |
-|               | json      |              | use to specify JSON output, rather than HTML or XML | optional | |
-| page		        |           | integer      | the page number; use to get the next or previous page of search results | optional            | |
+ 
 
-Format the request in JSON. 
+Notes: Enter optional text for the query, based on the search field chosen. The query text is case insensitive. This is a simple exact string text search. For example, a search for "city New York" returns no results, but a search for "city of New York" returns 22. bbox format is y.min(lon min),x.min(lat min),y.max(lon max), x.max(lat max)
 
-**Request Example**
 
-[http://mapwarper.net/maps/geosearch?bbox=-74.4295114013431,39.71182637980763,-73.22376188967249,41.07147471270077&format=json&page=1&operation=intersect](http://mapwarper.net/maps/geosearch?bbox=-74.4295114013431,39.71182637980763,-73.22376188967249,41.07147471270077&format=json&page=1&operation=intersect)
+**Example json format**
+```
+curl -H 'Content-Type: application/json' -H 'Accept: application/json' -X GET 'http://localhost:3000/api/v1/maps?field=title&query=Tartu&sort_key=updated_at&sort_order=desc&show_warped=1'
+```
+[http://mapwarper.net/api/v1/maps?field=title&query=Tartu&sort_key=updated_at&sort_order=desc&show_warped=1](http://mapwarper.net/maps?api/v1/maps?field=title&query=Tartu&sort_key=updated_at&sort_order=desc&show_warped=1)
+
+Example searching within a bounding box
+```
+http://mapwarper.net/api/v1/maps?field=title&query=Tartu&sort_key=updated_at&sort_order=desc&show_warped=1](http://mapwarper.net/maps?api/v1/maps?field=title&query=Tartu&sort_key=updated_at&sort_order=desc&bbox=-75.9831134505588,38.552727388127,-73.9526411829395,40.4029389105122
+```
 
 **Response**
 
-The response will be in the following format.
+JSON API Format
 ```
-{{{
-{"stat": "ok",
- "current_page": 1,
- "items": [
-   {
-     "updated_at": "2010/03/25 10:52:25 -0400",
-     "title": "Map of the counties of Orange and Rockland / by David H. Burr ; engd. by Rawdon, Clark \u0026amp; Co., Albany, \u0026amp; Rawdon, Wright \u0026amp; Co., N. York.",
-     "id": 12851,
-     "description": "from An atlas of the state of New York : containing a map of the state and of the several counties / by David H. Burr.",
-     "nypl_digital_id": "433847",
-     "bbox": "-75.126810998457,40.7450450274136,-73.460790365527,41.843831161244"
-   },
-   {
-     "updated_at": "2010/03/25 10:52:26 -0400",
-......
+{
+	"data": [{
+		"id": "260",
+		"type": "maps",
+		"attributes": {
+			"title": "File:Tartu turismiskeem.png",
+			"description": "From: http://commons.wikimedia.beta.wmflabs.org/wiki/File:Tartu_turismiskeem.png ",
+			"width": 800,
+			"height": 595,
+			"status": "warped",
+			"mask-status": "unmasked",
+			"created-at": "2016-02-07T17:52:19.479Z",
+			"updated-at": "2016-04-10T17:00:36.586Z",
+			"bbox": "26.66587052714201,58.33686848133336,26.806590271771057,58.407077366797424",
+			"map-type": "is_map",
+			"source-uri": "http://commons.wikimedia.beta.wmflabs.org/wiki/File:Tartu_turismiskeem.png",
+			"unique-id": "Tartu_turismiskeem.png",
+			"page-id": "52021",
+			"date-depicted": "",
+			"image-url": "http://upload.beta.wmflabs.org/wikipedia/commons/4/44/Tartu_turismiskeem.png",
+			"thumb-url": "http://upload.beta.wmflabs.org/wikipedia/commons/thumb/4/44/Tartu_turismiskeem.png/100px-Tartu_turismiskeem.png"
+		},
+		"relationships": {
+			"layers": {
+				"data": [{
+					"id": "43",
+					"type": "layers"
+				}, {
+					"id": "44",
+					"type": "layers"
+				}]
+			},
+			"added-by": {
+				"data": {
+					"id": "2",
+					"type": "users"
+				}
+			}
+		},
+		"links": {
+			"self": "http://localhost:3000/api/v1/maps/260",
+			"gcps-csv": "http://localhost:3000/maps/260/gcps.csv",
+			"mask": "http://localhost:3000/mapimages/260.gml.ol",
+			"geotiff": "http://localhost:3000/maps/260/export.tif",
+			"png": "http://localhost:3000/maps/260/export.png",
+			"aux-xml": "http://localhost:3000/maps/260/export.aux_xml",
+			"kml": "http://localhost:3000/maps/260.kml",
+			"tiles": "http://warper.wmflabs.org/maps/tile/260/{z}/{x}/{y}.png",
+			"wms": "http://localhost:3000/maps/wms/260?request=GetCapabilities\u0026service=WMS\u0026version=1.1.1"
+		}
+	}],
+	"included": [{
+		"id": "43",
+		"type": "layers",
+		"attributes": {
+			"name": "Category:Maps Of Tartu",
+			"description": null
+		},
+		"links": {
+			"self": "http://localhost:3000/api/v1/layers/43"
+		}
+	}, {
+		"id": "44",
+		"type": "layers",
+		"attributes": {
+			"name": "Category:Tartu Maps",
+			"description": null
+		},
+		"links": {
+			"self": "http://localhost:3000/api/v1/layers/44"
+		}
+	}],
+	"links": {
+      "self":"http://wikimaps.mapwarper.net/api/v1/maps?format=json\u0026page%5Bnumber%5D=1\u0026page%5Bsize%5D=2\u0026per_page=2",
+      "next":"http://wikimaps.mapwarper.net/api/v1/maps?format=json\u0026page%5Bnumber%5D=2\u0026page%5Bsize%5D=2\u0026per_page=2",
+      "last":"http://wikimaps.mapwarper.net/api/v1/maps?format=json\u0026page%5Bnumber%5D=3\u0026page%5Bsize%5D=2\u0026per_page=2"
+  },
+	"meta": {
+		"total-entries": 5,
+		"total-pages": 2
+	}
+}
+```
 
-}
- ],
- "total_pages": 61,
- "per_page": 20,
- "total_entries": 1206
-}
-}}}
-```
 
 **Response Elements**
 
-| Name        	 |               | Type	   | Description					| 
-| ------------- |-------------	 | -----		 | --------------  | 
-| stat		        |               | string 	|	the HTTP response for the status of the request		| 
-| current_page		|               | integer |	the search results page on which the map appears		|
-| items		       |               | array   |	an array of key pairs with information about the map	|	
-|               | updated_at	   | date, time, & time zone	  | when the map was last updated	|
-|               | title		       | string 	 | the title of the map							|
-|               | id		          | integer 	|	the unique identifier for the map						| 
-|               | description	  | string	  |	the description of the map							|
-|               | nypl_digital_id	| integer |	the NYPL digital ID, which is used for thumbnail images and links to the library metadata		|
-|               | bbox		        | a comma-separated string of latitude and longitude coordinates	 | a rectangle delineating the map's geographic footprint					|
-| total_pages		 |               | integer 	| the total number of pages in the result set		|  
-| per_page		    |               | integer  |	the number of search results per page		| 
-| total_entries	|               | integer 	|	the total number of search results					| 
+*** Data ***
+
+An array of maps, each having an attributes object and, id and type and links
+
+| Name          |    Value	   | Description					| Notes |
+| ------------- |		-----------	| --------------  | ----  |
+| id            |               | The id for the map  |       |
+| type          |    maps       | the type of resource |      |
+| links         |               | links to the resource, and export links|   | 
+| attributes    |               | Attributes of the map | see separate table for more detail |
+| relationships | layers, added-by | the layers that the map belongs to and the user that uploaded it | (see included)|
+| included      |               | Details about the layers  || 
+
+*** Map Links ***
+
+| Value | Description |
+| ------| -------     |
+| gcps-csv| CSV for the control points |
+| mask |  the GML clipping mask |
+| geotiff | The export GeoTiff url |
+| png |The export PNG url |
+| aux-xml | The export PNG XML url |
+| kml | The export KML url |
+| tiles | The Tiles template |
+| wms | The WMS getCapabilities endpoint |  
+
+
+*** Links ***
+
+The top level links holds pagination links
+
+```
+"links": {
+    "self":"http://wikimaps.mapwarper.net/api/v1/maps?format=json\u0026page%5Bnumber%5D=1\u0026page%5Bsize%5D=2\u0026per_page=2",
+    "next":"http://wikimaps.mapwarper.net/api/v1/maps?format=json\u0026page%5Bnumber%5D=2\u0026page%5Bsize%5D=2\u0026per_page=2",
+    "last":"http://wikimaps.mapwarper.net/api/v1/maps?format=json\u0026page%5Bnumber%5D=3\u0026page%5Bsize%5D=2\u0026per_page=2"
+},
+```
+
+| Value | Description |
+| ------| -------     |
+| self | the link to the current page |
+| next |  the next page in the sequence |
+| last |  the last page in the sequence of pages |
+
+*** Meta ***
+
+Useful in pagination. Will show the total number of results, for example if the request is limited to returning 25 maps:
+
+```
+"meta": {
+  "total-entries": 50,
+  "total-pages": 2
+}
+```
+indicates that 50 results have been found over 2 pages.
+
+| Value | Description |
+| ------| -------     |
+| total-entries | the total number of maps found for this request |
+| total-pages |  the total number of pages found |
+
+ 
+*** Attributes ***
+
+| Name        	 | Type	   | Value		    | Description					| Notes |
+| -------------  | -----	|-----------		| --------------  | ----  |
+| status	       |  string  |                   |  the status of the map  |   |
+| 		           |          | unloaded	  | the map has not been loaded					       | |
+| 		           |          |  loading 	  | the master image is being requested from the NYPL repository	 |    |
+| 		           |          |  available	| the map has been copied and is ready to be warped	|  |
+| 		           |          |  warping	  | the map is undergoing the warping process			|  |
+| 		           |          |  warped	    | the map has been warped					|  |
+| 		           |          |  published	| this status is set when the map should no longer be edited |  |
+| map-type	     | string 	|             | indicates whether the image is of a map or another type of content	| |
+|         	     |         	| index	      | indicates a map index or overview map							| |
+| 		           |          | is_map	    | indicates a map 										| default |
+| 	 	           |          | not_map	    | indicates non-map content, such as a plate depicting sea monsters		| |
+| updated-at	   | datetime  | 	        	| when the map was last updated	| |
+| created-at	   | datetime  | 	        	| when the map was first created	| |
+| title		       | string 	 |       		  |	the title of the map							| |
+| description	   | string	  |	        	  |		the description of the map							| |
+| height	        | integer 	|          	|  the height of an unwarped map				| |
+| width	          | integer 	|        	  |  the width of an unwarped map				| |
+| mask-status	    | string	 |            | the status of the mask		| |
+| 		            |          |  unmasked	| the map has not been masked				| |
+| 		            |          |  masking		| the map is undergoing the masking process				| |
+| 		            |          |  masked		| the map has been masked				| |
+| bbox	          | comma-separated string of lat & lon coords |    | a rectangle delineating the geographic area to which the search should be limited | |
+| source-uri	 | string 	|              	|  the URI to the source map page			| e.g. the wiki page |
+| unique-id	    | string 	|             	|  the image filename taken from the source image |  |
+| page-id	      | integer |             	|  The Wiki PAGEID for the source				| |
+| date-depicted	| string 	|             	|  string representation of the date that the map depicts	| |
+| image-url	    | string 	|              	|  URL to the original full size image| |
+| thumb-url	    | string 	|             	| URL to the thumbnail 	| 100px dimension |
+
+
+
+**Example geojson format**
+
+```
+curl -H 'Content-Type: application/json' -H 'Accept: application/json' -X GET 'http://localhost:3000/api/v1/maps?field=title&query=Tartu&sort_key=updated_at&sort_order=desc&show_warped=1&format=geojson'
+```
+[http://mapwarper.net/api/v1/maps.geojson?field=title&query=Tartu&sort_key=updated_at&sort_order=desc&show_warped=1](http://mapwarper.net/maps?api/v1/maps.geojson?field=title&query=Tartu&sort_key=updated_at&sort_order=desc&show_warped=1)
+
+*** Response ***
+
+```
+[{
+	"id": 260,
+	"type": "Feature",
+	"properties": {
+		"title": "File:Tartu turismiskeem.png",
+		"description": "From: http://commons.wikimedia.beta.wmflabs.org/wiki/File:Tartu_turismiskeem.png ",
+		"width": 800,
+		"height": 595,
+		"status": "warped",
+		"created_at": "2016-02-07T17:52:19.479Z",
+		"bbox": "26.66587052714201,58.33686848133336,26.806590271771057,58.407077366797424",
+		"thumb_url": "http://upload.beta.wmflabs.org/wikipedia/commons/thumb/4/44/Tartu_turismiskeem.png/100px-Tartu_turismiskeem.png",
+		"page_id": "52021"
+	},
+	"geometry": {
+		"type": "Polygon",
+		"coordinates": "[[[26.66587052714201, 58.33686848133336], [26.806590271771057, 58.33686848133336], [26.806590271771057, 58.407077366797424], [26.66587052714201, 58.407077366797424], [26.66587052714201, 58.33686848133336]]]"
+	}
+}]
+```
+
 
 ###Get a Map
 
 | Method        | Definition    |
 | ------------- | ------------- |
-| GET           | http://mapwarper.net/maps/{:id}.json or     | 
-|               | http://mapwarper.net/maps/{:id}?format=json |
+| GET           | http://mapwarper.net/api/v1/maps/{:id}.{:format} or     | 
+|               | http://mapwarper.net/api/v1/maps/{:id}?format={:format} |
 
 Returns a map by ID.
 
 **Parameters**
 
-| Name        	 |              | Type		          | Description					                   | Required    | Notes |
-| ------------- |-------------	| --------------- |----------------------------------		| ----------- | ----- |
-| id  		        |              | integer 	       | the unique identifier for a map    | required		  |       |
-| format  		    |              | string 	        | specifies output format            | optional		  | default is HTML   |
-|               | json         |                 | use to specify JSON output, rather than HTML or XML | optional |  |
+| Name          |              | Type         | Description					                | Required    | Notes |
+| ------------- |------------- | ------------ |----------------------------------		| ----------- | ----- |
+| id  		      |              | integer 	     | the unique identifier for a map    | required		  |       |
+| format  		  |              | string 	     | specifies output format            | optional		  | default JSON  |
+|               | json / geojson|             | use to specify JSON output formar   | optional |  |
 
 **Response**
 
+JSON-API
 The response will be be in the following format.
 ```
-{{{
 {
- "stat": "ok",
- "items": [
-   {
-     "status": "warped",
-     "map_type": "is_map",
-     "updated_at": "2010/03/25 11:12:41 -0400",
-     "title": "Double Page Plate No. 34: [Bounded by (New Town Creek) Commercial Street, Ash Street, Oakland Street, Paidge Avenue, Sutton Street, Meserole Avenue, Diamond Street, Calyer Street, Manhattan Avenue, Greenpoint Avenue, West Street and Bay Street.]",
-     "id": 8461,
-     "description": "from Atlas of the Brooklyn borough of the City of New York : originally Kings Co.; complete in three volumes ... based upon official maps and plans ... / by and under the supervision of Hugo Ullitz, C.E.",
-     "height": 4920,
-     "nypl_digital_id": "1517475",
-     "mask_status": null,
-     "bbox": "-73.9656432253048,40.7255401662787,-73.9405456042296,40.7411978079278",
-     "width": 6299,
-     "created_at": "2008/06/28 18:19:34 -0400"
-   }
- ]
+	"data": {
+		"id": "2",
+		"type": "maps",
+		"attributes": {
+			"title": "File:Lawrence-h-slaughter-collection-of-english-maps-england.jpeg",
+			"description": "From: http://commons.wikimedia.beta.wmflabs.org/wiki/File:Lawrence-h-slaughter-collection-of-english-maps-england.jpeg",
+			"width": 595,
+			"height": 760,
+			"status": "warped",
+			"mask-status": "unmasked",
+			"created-at": "2015-10-20T17:17:58.300Z",
+			"updated-at": "2016-06-08T10:55:13.660Z",
+			"bbox": "-7.706061311682345,49.02738371829112,3.420945210059412,56.46163780182066",
+			"map-type": "is_map",
+			"source-uri": "http://commons.wikimedia.beta.wmflabs.org/wiki/File:Lawrence-h-slaughter-collection-of-english-maps-england.jpeg",
+			"unique-id": "Lawrence-h-slaughter-collection-of-english-maps-england.jpeg",
+			"page-id": "51038",
+			"date-depicted": "",
+			"image-url": "http://upload.beta.wmflabs.org/wikipedia/commons/2/29/Lawrence-h-slaughter-collection-of-english-maps-england.jpeg",
+			"thumb-url": "http://upload.beta.wmflabs.org/wikipedia/commons/thumb/2/29/Lawrence-h-slaughter-collection-of-english-maps-england.jpeg/100px-Lawrence-h-slaughter-collection-of-english-maps-england.jpeg"
+		},
+		"relationships": {
+			"layers": {
+				"data": [{
+					"id": "1",
+					"type": "layers"
+				}]
+			},
+			"added-by": {
+				"data": {
+					"id": "5",
+					"type": "users"
+				}
+			}
+		},
+		"links": {
+			"self": "http://wikimaps.mapwarper.net/api/v1/maps/2",
+			"gcps-csv": "http://wikimaps.mapwarper.net/maps/2/gcps.csv",
+			"mask": "http://wikimaps.mapwarper.net/mapimages/2.gml.ol",
+			"geotiff": "http://wikimaps.mapwarper.net/maps/2/export.tif",
+			"png": "http://wikimaps.mapwarper.net/maps/2/export.png",
+			"aux-xml": "http://wikimaps.mapwarper.net/maps/2/export.aux_xml",
+			"kml": "http://wikimaps.mapwarper.net/maps/2.kml",
+			"tiles": "http://warper.wmflabs.org/maps/tile/2/{z}/{x}/{y}.png",
+			"wms": "http://wikimaps.mapwarper.net/maps/wms/2?request=GetCapabilities\u0026service=WMS\u0026version=1.1.1"
+		}
+	},
+	"included": [{
+		"id": "1",
+		"type": "layers",
+		"attributes": {
+			"name": "Category:1681 maps",
+			"description": null
+		},
+		"links": {
+			"self": "http://wikimaps.mapwarper.net/api/v1/layers/1"
+		}
+	}]
 }
-}}}
+```
+
+GeoJSON Format
+```
+{
+	"id": 2,
+	"type": "Feature",
+	"properties": {
+		"title": "File:Lawrence-h-slaughter-collection-of-english-maps-england.jpeg",
+		"description": "From: http://commons.wikimedia.beta.wmflabs.org/wiki/File:Lawrence-h-slaughter-collection-of-english-maps-england.jpeg",
+		"width": 595,
+		"height": 760,
+		"status": "warped",
+		"created_at": "2015-10-20T17:17:58.300Z",
+		"bbox": "-7.706061311682345,49.02738371829112,3.420945210059412,56.46163780182066",
+		"thumb_url": "http://upload.beta.wmflabs.org/wikipedia/commons/thumb/2/29/Lawrence-h-slaughter-collection-of-english-maps-england.jpeg/100px-Lawrence-h-slaughter-collection-of-english-maps-england.jpeg",
+		"page_id": "51038"
+	},
+	"geometry": {
+		"type": "Polygon",
+		"coordinates": "[[[-7.706061311682345, 49.02738371829112], [3.420945210059412, 49.02738371829112], [3.420945210059412, 56.46163780182066], [-7.706061311682345, 56.46163780182066], [-7.706061311682345, 49.02738371829112]]]"
+	}
+}
 ```
 
 **Response Elements**
 
-| Name        	 |              | Type		       | Value		     | Description					 | Notes |
-| ------------- |-------------	|-----------		 | -----------	| ---------------- | ----- |
-| stat		        |              | string 	     |	            | the HTTP response for the status of the request	|       |
-| items		       |              | array        |             |	an array of key pairs with information about the map	    |       |
-|               | status	      | integer	     | 	           | the status of the map    |       |
-| 	             | 	            |              | 0 : unloaded	| the map has not been loaded					    |
-| 		            |		            |              | 1 : loading 	| the master image is being requested from the NYPL repository	| |
-| 		            | 		           |              | 2 : available	| the map has been copied, and is ready to be warped	|   |
-| 		            | 		           |              | 3 : warping	| the map is undergoing the warping process			|  |
-| 		            | 		           |              | 4 : warped	| the map has been warped					  |       |
-| 		            | 		           |              | 5 : published	| this status is set when the map should no longer be edited | not currently used |
-|               | map_type	    | integer 	    |            | indicates whether the image is a map or another type of content | |
-|               |              |              | 0 : index	 | indicates a map index or overview map		| |
-| 		            | 		           |              | 1 : is_map	| indicates a map	                       |  default |
-| 		            | 		           |              | 2 : not_map	| indicates non-map content, such as a plate depicting sea monsters		|  |
-|               | updated_at    | date, time, & time zone	      | 		 | when the image was last updated	|
-|               | title		       | string 	     |		            |	the title of the map			     |         |
-|               | id		          | integer 	    |		            |	the unique identifier for the map						    |                     |
-|               | description	  | string	      |		            |	the description of the map								       |                     |
-|               | height	       | integer 	    | 	            | the height of the unwarped map				    |                     |
-|               | nypl_digital_id	| integer    | 	            | the NYPL digital ID used for thumbnail images and links to the library metadata		|  |
-|               | mask_status	  | integer	     |              | the status of the mask	      |   |
-| 		            | 		            |              | 0 : unmasked		| 	the map has not been masked			             |   |
-| 		            | 		            |              | 1 : masking		 | 	the map is undergoing the masking process		|   |
-| 		            | 		            |              | 2 : masked		  | 	the map has been masked			                 |   |
-|               | width		       | integer	     | 		            | the width of the unwarped map					          |   |
-|               | created_at	   | date, time, & time zone	| 		 | the date and time when the map was added to the system		|   |
+See Maps section for description of fields etc
 
-If the map is not found, the request will return the following response (when using "format=json").
+** Not Found Error **
+
+If the map is not found, the request will return the following response.
 
 | Status        | Response |
 | ------------- |----------| 
-| 404	(not found)| ```{"items":[],"stat":"not found"}```    |
+| 404	(not found)| ```{"errors":[{"title":"Not found","detail":"Couldn't find Map with 'id'=2222"}]}```    |
 
 ###Get a Map's Status
 
 | Method       | Definition | 
 | ------------ | -------    | 
-| GET          |  http://mapwarper.net/maps/{:map_id}/status |
+| GET          |  http://mapwarper.net/api/v1/maps/{:id}/status |
 
-Returns a map's status. This request is used to poll a map while it is being transfered from the NYPL image server to the map server.
+Returns a map's status. This request is used to poll a maps status while it is being transfered from the wiki image server to the map server.
 
 **Parameters**
 
 | Name      	    |  Type      | Description  |  Required | 
 | -------------  | ---------- | ------------ |  -------- | 
-| map_id     		  | integer    | the unique identifier for the map   | required |
+|   id     		  | integer    | the unique identifier for the map   | required |
 
 **Request Example**
 
-[http://mapwarper.net/maps/8991/status](http://mapwarper.net/maps/8991/status)
+[http://mapwarper.net/api/v1/maps/8991/status](http://mapwarper.net/maps/api/v1/8991/status)
 
 **Response**
 
@@ -339,15 +494,15 @@ This request returns text. If a map has no status (i.e., has not been transferre
 
 **Response Elements**
 
-| Name        	 | Type		       | Value		| Description					                  | Notes |
-| ------------- |-------------	|-----		 | -----------------------------					| ----- |
-| status	       | integer	     | 	      | the status of the map             |       |
-| 	             | 	            | 0 : unloaded	| the map has not been loaded					    |
-| 		            |		            | 1 : loading 	| the master image is being requested from the NYPL repository	| |
-| 		            | 		           | 2 : available	| the map has been copied, and is ready to be warped	|   |
-| 		            | 		           | 3 : warping	| the map is undergoing the warping process			|  |
-| 		            | 		           | 4 : warped	| the map has been warped					  |       |
-| 		            | 		           | 5 : published	| this status is set when the map should no longer be edited | not currently used |
+| Name        	 | Type		   | Value		| Description					                  | Notes |
+| ------------- |------------|-----		 | -----------------------------					| ----- |
+| status	       | string	   | 	      | the status of the map             |       |
+| 	             | 	         | unloaded	| the map has not been loaded					    |
+| 		            |		       | loading 	| the master image is being requested from the NYPL repository	| |
+| 		            | 		     | available| the map has been copied, and is ready to be warped	|   |
+| 		            | 		     |  warping	| the map is undergoing the warping process			|  |
+| 		            | 		     |  warped	| the map has been warped					  |       |
+| 		            | 		     |  published	| this status is set when the map should no longer be edited | |
 
 ##Layers
 
