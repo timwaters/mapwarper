@@ -6,6 +6,7 @@ Welcome to the documentation for the Wikimaps Warper API! MapWarper is a free ap
 
 ##Table of Contents
 
+[API Endpoint](#api-endpoint)    
 [Format](#format)  
 [Authentication](#authentication)  
 [Search for Maps](#search-for-maps)   
@@ -31,6 +32,10 @@ Welcome to the documentation for the Wikimaps Warper API! MapWarper is a free ap
 [Mask Map](#mask-map)  
 [Save, Mask, and Warp Map](#save-mask-and-warp-map)  
 [Warping](#warping)  
+
+##Api-Endpoint
+
+```warper.wmflabs.org/api/v1```
 
 ##Format
 
@@ -107,7 +112,7 @@ Returns a list of maps that meet search criteria (where the title or description
 |           	    | 0         | integer   | gets all maps, warped and unwarped             | optional  |  default | 
 | format	        |     	     | string    | specifies output format       | optional      | can also be passed in as extension, eg. maps.json  |
 |                 | json       | string    | JSON format for maps   | optional            | default | 
-|                 | geojson    | string    | GeoJSON format for maps | optional           |       |
+|                 | geojson    | string    | GeoJSON format for maps | optional           |   simple array, not featurecollection     |
 | page		        | 		        | integer   | the page number; use to get the next or previous page of search results | optional | |
 | per_page        |             | integer   | number of results per page | optional |default is 50 |
 | bbox	         | a comma-separated string of latitude and longitude coordinates | a rectangle delineating the geographic area to which the search should be limited | optional |
@@ -207,9 +212,9 @@ JSON API Format
 		}
 	}],
 	"links": {
-      "self":"http://wikimaps.mapwarper.net/api/v1/maps?format=json\u0026page%5Bnumber%5D=1\u0026page%5Bsize%5D=2\u0026per_page=2",
-      "next":"http://wikimaps.mapwarper.net/api/v1/maps?format=json\u0026page%5Bnumber%5D=2\u0026page%5Bsize%5D=2\u0026per_page=2",
-      "last":"http://wikimaps.mapwarper.net/api/v1/maps?format=json\u0026page%5Bnumber%5D=3\u0026page%5Bsize%5D=2\u0026per_page=2"
+      "self":"http://warper.wmflabs.org/api/v1/maps?format=json\u0026page%5Bnumber%5D=1\u0026page%5Bsize%5D=2\u0026per_page=2",
+      "next":"http://warper.wmflabs.org/api/v1/maps?format=json\u0026page%5Bnumber%5D=2\u0026page%5Bsize%5D=2\u0026per_page=2",
+      "last":"http://warper.wmflabs.org/api/v1/maps?format=json\u0026page%5Bnumber%5D=3\u0026page%5Bsize%5D=2\u0026per_page=2"
   },
 	"meta": {
 		"total-entries": 5,
@@ -234,30 +239,15 @@ An array of maps, each having an attributes object and, id and type and links
 | relationships | layers, added-by | the layers that the map belongs to and the user that uploaded it | (see included) |  
 | included      |               | Details about the layers  |   |   
 
-
-***Map Links***
-
-| Value | Description |
-| ------| -------     |
-| gcps-csv| CSV for the control points |
-| mask |  the GML clipping mask |
-| geotiff | The export GeoTiff url |
-| png |The export PNG url |
-| aux-xml | The export PNG XML url |
-| kml | The export KML url |
-| tiles | The Tiles template |
-| wms | The WMS getCapabilities endpoint |  
-
-
 ***Links***
 
 The top level links holds pagination links
 
 ```
 "links": {
-    "self":"http://wikimaps.mapwarper.net/api/v1/maps?format=json\u0026page%5Bnumber%5D=1\u0026page%5Bsize%5D=2\u0026per_page=2",
-    "next":"http://wikimaps.mapwarper.net/api/v1/maps?format=json\u0026page%5Bnumber%5D=2\u0026page%5Bsize%5D=2\u0026per_page=2",
-    "last":"http://wikimaps.mapwarper.net/api/v1/maps?format=json\u0026page%5Bnumber%5D=3\u0026page%5Bsize%5D=2\u0026per_page=2"
+    "self":"http://warper.wmflabs.org/api/v1/maps?format=json\u0026page%5Bnumber%5D=1\u0026page%5Bsize%5D=2\u0026per_page=2",
+    "next":"http://warper.wmflabs.org/api/v1/maps?format=json\u0026page%5Bnumber%5D=2\u0026page%5Bsize%5D=2\u0026per_page=2",
+    "last":"http://warper.wmflabs.org/api/v1/maps?format=json\u0026page%5Bnumber%5D=3\u0026page%5Bsize%5D=2\u0026per_page=2"
 },
 ```
 
@@ -283,6 +273,19 @@ indicates that 50 results have been found over 2 pages.
 | ------| -------     |
 | total-entries | the total number of maps found for this request |
 | total-pages |  the total number of pages found |
+
+***Map Links***
+
+| Value | Description |
+| ------| -------     |
+| gcps-csv| CSV for the control points |
+| mask |  the GML clipping mask |
+| geotiff | The export GeoTiff url |
+| png |The export PNG url |
+| aux-xml | The export PNG XML url |
+| kml | The export KML url |
+| tiles | The Tiles template |
+| wms | The WMS getCapabilities endpoint |  
 
  
 ***Attributes***
@@ -413,15 +416,15 @@ The response will be be in the following format.
 			}
 		},
 		"links": {
-			"self": "http://wikimaps.mapwarper.net/api/v1/maps/2",
-			"gcps-csv": "http://wikimaps.mapwarper.net/maps/2/gcps.csv",
-			"mask": "http://wikimaps.mapwarper.net/mapimages/2.gml.ol",
-			"geotiff": "http://wikimaps.mapwarper.net/maps/2/export.tif",
-			"png": "http://wikimaps.mapwarper.net/maps/2/export.png",
-			"aux-xml": "http://wikimaps.mapwarper.net/maps/2/export.aux_xml",
-			"kml": "http://wikimaps.mapwarper.net/maps/2.kml",
+			"self": "http://warper.wmflabs.org/api/v1/maps/2",
+			"gcps-csv": "http://warper.wmflabs.org/maps/2/gcps.csv",
+			"mask": "http://warper.wmflabs.org/mapimages/2.gml.ol",
+			"geotiff": "http://warper.wmflabs.org/maps/2/export.tif",
+			"png": "http://warper.wmflabs.org/maps/2/export.png",
+			"aux-xml": "http://warper.wmflabs.org/maps/2/export.aux_xml",
+			"kml": "http://warper.wmflabs.org/maps/2.kml",
 			"tiles": "http://warper.wmflabs.org/maps/tile/2/{z}/{x}/{y}.png",
-			"wms": "http://wikimaps.mapwarper.net/maps/wms/2?request=GetCapabilities\u0026service=WMS\u0026version=1.1.1"
+			"wms": "http://warper.wmflabs.org/maps/wms/2?request=GetCapabilities\u0026service=WMS\u0026version=1.1.1"
 		}
 	},
 	"included": [{
@@ -432,7 +435,7 @@ The response will be be in the following format.
 			"description": null
 		},
 		"links": {
-			"self": "http://wikimaps.mapwarper.net/api/v1/layers/1"
+			"self": "http://warper.wmflabs.org/api/v1/layers/1"
 		}
 	}]
 }
@@ -568,6 +571,9 @@ This request returns text. If a map has no status (i.e., has not been transferre
 | 		            | 		     |  warped	| the map has been warped					  |       |
 | 		            | 		     |  published	| this status is set when the map should no longer be edited | |
 
+
+------------------------------
+
 ##Layers
 
 A layer is a mosaic in which the component maps are stitched together and displayed as one seamless map. Layers are often comprised of contiguous maps from the facing pages of a scanned book. For examples of layers, see the [Plan of the town of Paramaribo, capital of Surinam](http://maps.nypl.org/warper/layers/1450) or the map of New York City and Vicinity at [http://maps.nypl.org/warper/layers/1404](http://maps.nypl.org/warper/layers/1404).
@@ -576,181 +582,172 @@ A layer is a mosaic in which the component maps are stitched together and displa
 
 | Method       | Definition | 
 | ------------ | -------    | 
-| GET          |  http://mapwarper.net/layers?field=key1 |
+| GET          |  http://warper.wmflabs.org/api/v1/layers |
 
 **Parameters**
 
-| Name      	    |                  | Type     | Description |  Required | Notes |
-| -----          | ---------------  | -------- | ----------- |  -------- | ----- |
-| title      		  |              	   | string   | the title of the layer  | optional | default |
-| description		  |                  | string   | the description of the layer  | optional |       |
-| sort_key	             	           ||         | the field that should be used to sort the results   | optional |   |
-| 		             | title            | string   | the title of the layer	         | optional            | |
-| 		             | depicts_year     |          | the year that the layer depicts	| optional            | |
-| 		             | updated_at       | date, time, & time zone   | when the layer was last updated	| optional            | |
-| 		             | mapscans_count   | integer  | how many maps a layer has, as opposed to title pages, plates, and other non-map content | optional |  a map is a resource that has the “map_type” attribute set to “is_map”   | |
-|		              | percent	         | integer  | the percentage of the total number of component maps that have been warped          | optional            | |
-| sort_order	                       || string  | the order in which the results should appear    | optional   | |
-|                | asc 	             |         | ascending order               | optional            | |
-|		              | desc	             |         | descending order              | optional            | |
-| format	        |     	             | string  | specifies output format       | optional            | default is HTML |
-|                | json              |         | use to specify JSON output, rather than HTML or XML | optional | |       
-| page		         | 		                | integer | the search results page on which the layer appears	| optional            | |
+| Name      	    |   values   | Type  | Description  |  Required | Notes  |
+| -----           | -----       | ----- | ---------    |  -----    | ------ |
+| query           |             |string | search query | optional  |        |
+| field           |             |string | specified field to be searched     | optional  | default is title  |
+|       		      | name      	|string  | the title of the layer   | optional | default |
+|       		      | description | string | the description of the layer | optional |       |   |
+| sort_key	      |            |         | the field that should be used to sort the results  | optional | defaul is updated_at  |
+| 		            | name      | string    | the name of the layer	             | optional            | |
+| 		            | updated_at | string   | when the layer was last updated	| optional            |  default |
+| 		            | created_at | string   | when the layer was last created	| optional            | |
+|		              | percent	   | string   | the percent of maps which are rectified in the layer | optional            | ordered by integer (see below) |
+| sort_order	    |            |  string  | the order in which the results should appear | optional            | default is desc|
+|                 | asc 	     |           | ascending order               | optional            | |
+|		              | desc	     |           | descending order              | optional            | default | 
+| format	        |     	     | string    | specifies output format       | optional      | can also be passed in as extension, eg. maps.json  |
+|                 | json       | string    | JSON format for layer   | optional            | default | 
+|                 | geojson    | string    | GeoJSON format for layer | optional           |  simple array, not featurecollection   |
+| page		        | 		        | integer   | the page number; use to get the next or previous page of search results | optional | |
+| per_page        |             | integer   | number of results per page | optional |default is 50 |
+| bbox	         | a comma-separated string of latitude and longitude coordinates | a rectangle delineating the geographic area to which the search should be limited | optional |
+| operation     |           | string       | specifies how to apply the bounding box  | optional  | default is intersect |
+|               | intersect | string       |uses the PostGIS ST_Intersects operation to retrieve warped maps whose extents intersect with the bbox parameter  | optional | preferred; orders results by proximity to the bbox extent; default |
+|               | within    | string	      | uses a PostGIS ST_Within operation to retrieve warped maps that fall entirely within the extent of the bbox parameter  | optional      |  |
+ 
 
-**Query**        
+Notes: Enter optional text for the query, based on the search field chosen. The query text is case insensitive. This is a simple exact string text search. For example, a search for "city New York" returns no results, but a search for "city of New York" returns 22. bbox format is y.min(lon min),x.min(lat min),y.max(lon max), x.max(lat max)
 
-Enter text for the query, based on the search field chosen. The query text is case insensitive.
-
-      This is a simple exact string text search. For example, a search for "city New York" retrieves no results, while a search for "city of New York" retrieves 22.
 
 **Request Example**
 
-[http://mapwarper.net/layers?field=name&amp;query=New+York&amp;format=json](http://mapwarper.net/layers?field=name&query=New+York&format=json)
+[http://warper.wmflabs.org/api/v1/layers?query=tartu](http://warper.wmflabs.org/api/v1/layers?query=tartu)
 
 **Response**
 ```
-{{{
 {
- "current_page": 1,
- "items": [
-   {
-     "name": "Atlas of New York and vicinity : from actual surveys / by and under the direction of F. W. Beers, assisted by A. B. Prindle \u0026 others",
-     "is_visible": true,
-     "updated_at": "2010/02/25 11:09:33 -0500",
-     "mapscans_count": 50,
-     "id": 873,
-     "rectified_mapscans_count": 9,
-     "depicts_year": "1868",
-     "bbox": "-73.949323,40.831269,-73.673187,41.300783",
-     "created_at": "2009/03/23 21:21:19 -0400"
-   },
-   {
-     "name":
-............
-}
- ],
- "total_pages": 6,
- "per_page": 20,
- "total_entries": 105
-}
-}}}
+	"data": [
+		{
+			"id": "3",
+			"type": "layers",
+			"attributes": {
+				"name": "Category:Tartu Maps",
+				"description": null,
+				"created-at": "2016-02-09T13:34:15.355Z",
+				"updated-at": "2016-04-04T16:20:52.442Z",
+				"bbox": "26.111586,58.232919,27.358788,58.486400",
+				"maps-count": 1,
+				"rectified-maps-count": 1,
+				"is-visible": true,
+				"source-uri": "https://commons.wikimedia.org/wiki/Category:Tartu Maps",
+				"rectified-percent": 100
+			},
+			"relationships": {
+				"maps": {
+					"data": [
+						{
+							"id": "6",
+							"type": "maps"
+						}
+					]
+				}
+			},
+			"links": {
+				"self": "http://warper.wmflabs.org/api/v1/layers/3",
+				"kml": "http://warper.wmflabs.org/layers/3.kml",
+				"tiles": "http://warper.wmflabs.org/layers/tile/#/{z}/{x}/{y}.png",
+				"wms": "http://warper.wmflabs.org/layers/wms/3?request=GetCapabilities&service=WMS&version=1.1.1"
+			}
+		}],
+"links": {
+		"self": "http://warper.wmflabs.org/api/v1/layers?page%5Bnumber%5D=1&page%5Bsize%5D=1&per_page=1&query=tartu",
+		"next": "http://warper.wmflabs.org/api/v1/layers?page%5Bnumber%5D=2&page%5Bsize%5D=1&per_page=1&query=tartu",
+		"last": "http://warper.wmflabs.org/api/v1/layers?page%5Bnumber%5D=2&page%5Bsize%5D=1&per_page=1&query=tartu"
+	},
+	"meta": {
+		"total-entries": 2,
+		"total-pages": 2
+	}
 ```
 
 **Response Elements**
 
-| Name               |             | Type         |  Description	| Notes       |
-| -------------      | ----------- |  ----------- | -----------  | ----------- |
-| current_page	      |             | integer      | the search results page on which the layer appears  |      |
-| items              |             | array        | an array of key pairs with information about the layer |  |
-|                    | name        | string       | the title of the layer |  |
-|                    | is_visible	 | boolean		 | when set to false, usually indicates a meta-layer or collection of atlases | these meta-layers will not have Web map services (WMS)   |
-|                    | updated_at         | date, time, & time zone | when the layer was last updated |  |
-|                    | mapscans_count	    | integer   | how many maps a layer has, as opposed to title pages, plates, and other non-map content	| defines a map using the map_type => is_map variable; optional     |
-|                    | id                 | integer   | the unique identifier for the layer |  |
-|                    | rectified_mapscans_count	      | integer   | how many maps in the layer are warped	|     |
-|                    | depicts_year	      | year      | the year the layer depicts		|     |
-|                    | bbox	              | a comma-separated string of latitude and longitude coordinates   | a rectangle delineating the geographic footprint of the layer 		|     | 
-|                    | created_at         | date, time, & time zone | when the layer was created | |
-| total_pages		      |                    | integer 	| the total number of pages in the result set		|    |
-| per_page		         |                    | integer  |	the number of search results per page		|    |
-| total_entries	     |                    | integer 	|	the total number of search results					|    |
 
-###Get a Map's Layers
+***Data***
 
-| Method       | Definition | 
-| ------------ | ---------  | 
-| GET          |  http://mapwarper.net/layers?map_id={:map_id} |
+An array of matching layers, each having an attributes object and, id and type and links
 
-Returns a list of layers that include a given map.
+| Name          |    Value	   | Description                    	| Notes |  
+| ------| -------     |------| -------     |
+| id            |               | The id for the layer             |       |  
+| type          |    layers       | the type of resource            |      |  
+| links         |               | links to the resource, and export links |   |   
+| attributes    |               | Attributes of the layer | see separate table for more detail   |  
+| relationships | maps  | the maps that the layer has  | (see getting a layers maps) |   
 
-**Parameters**
 
-| Name      	    |             | Type  | Description  |  Required | Notes  |
-| -------------  | ----------- | ----- | ------------ |  -------- | ------ |
-| map_id     		  |             |integer    | the unique identifier for a map   | required | |
-| name           |             | string    | the title of the map | optional  | default |
-| sort_key	             	      ||          | the field that should be used to sort the results  | optional | |
-| 		              | title      | string    | the title of the map | optional        | |
-| 		              | updated_at | date, time, & time zone   | when the map was last updated	| optional            | |
-| sort_order	                  ||  string  | the order in which the results should appear | optional   | |
-|                 | asc 	      |           | ascending order               | optional            | |
-|		               | desc	      |           | descending order              | optional            | |
-| format	         |     	      | string    | specifies output format       | optional | default is HTML |
-|                 | json       |           | use to specify JSON output, rather than HTML or XML | optional | |
+***Links***
 
-**Request Example** 
-
-[http://mapwarper.net/layers?map_id=10090&field=name&sort_key=mapscans_count&sort_order=asc&query=New&format=json](http://mapwarper.net/layers?map_id=10090&field=name&sort_key=mapscans_count&sort_order=asc&query=New&format=json)
-
-Alternatively, the URL can be constructed from the point of view of a map:
-
-[http://mapwarper.net/maps/10090/layers.json](http://mapwarper.net/maps/10090/layers.json)
-
-**Response**
+The top level links holds pagination links. Shown if there are more results than are contained in the response.
 
 ```
-{{{
-{
- "stat": "ok",
-"items": [
-   {
-     "name": "New topographical atlas of the counties of Albany and Schenectady, New York : from actual surveys / by S.N. \u0026 D.G. Beers and assistants.",
-     "is_visible": true,
-     "updated_at": "2009/10/12 19:47:13 -0400",
-     "mapscans_count": 30,
-     "id": 931,
-     "rectified_mapscans_count": 20,
-     "depicts_year": "1866",
-     "bbox": "-74.433033,42.247915,-73.478985,43.136618",
-     "created_at": "2009/03/23 21:21:19 -0400"
-   },
-   {
-     "name": "New York",
-     "is_visible": false,
-     "updated_at": "2010/02/21 13:39:43 -0500",
-     "mapscans_count": 2501,
-     "id": 919,
-     "rectified_mapscans_count": 96,
-     "depicts_year": null,
-     "bbox": "-83.179076,39.640270,-69.331971,45.723733",
-     "created_at": "2009/03/23 21:21:19 -0400"
-   }
- ]
+"links": {
+    "self":"http://warper.wmflabs.org/api/v1/layers?format=json\u0026page%5Bnumber%5D=1\u0026page%5Bsize%5D=2\u0026per_page=2",
+    "next":"http://warper.wmflabs.org/api/v1/layers?format=json\u0026page%5Bnumber%5D=2\u0026page%5Bsize%5D=2\u0026per_page=2",
+    "last":"http://warper.wmflabs.org/api/v1/layers?format=json\u0026page%5Bnumber%5D=3\u0026page%5Bsize%5D=2\u0026per_page=2"
+},
+```
+
+| Value | Description |
+| ------| -------     |
+| self | the link to the current page |
+| next |  the next page in the sequence |
+| last |  the last page in the sequence of pages |
+
+***Meta***
+
+Useful in pagination. Will show the total number of results, for example if the request is limited to returning 25 maps, Shown if there are more results than are contained in the response.
+
+```
+"meta": {
+  "total-entries": 50,
+  "total-pages": 2
 }
-}}}
 ```
+indicates that 50 results have been found over 2 pages.
 
-**Response Elements**
-
-| Name               |             |  Type        |  Description	| Notes       |
-| ----------------   | ----------- |  ----------- | -----------  | ---------   | 
-| stat	              |             | string       | the HTTP response for the status of the request |    |
-| items              |             | array        | an array of key pairs with information about the layer |  |
-|                    | name        | string       | the title of the map |  |
-|                    | is_visible	 | boolean		    | when set to false, usually indicates a meta-layer or collection of atlases | these meta-layers will not have WMS  |
-|                    | updated_at  | date, time, & time zone   | when the map was last updated |  |
-|                    | mapscans_count	    | integer   | how many maps a layer has, as opposed to title pages, plates, and other non-map content	| defines a map using the map_type => is_map variable; optional     |
-|                    | id                 | integer   | the unique identifier for the layer |  |
-|                    | rectified_mapscans_count	      | integer   | how many maps in the layer are warped	|     |
-|                    | depicts_year	      | year      | the year the layer depicts		|     |
-|                    | bbox	              | a comma-separated string of latitude and longitude coordinates   | a rectangle delineating the geographic footprint of the layer 		|     | 
-|                    | created_at		       | date, time, & time zone 	|		when the layer was created in the system		|    |
+| Value | Description |
+| ------| -------     |
+| total-entries | the total number of layers found for this request |
+| total-pages |  the total number of pages found |
 
 
-If not found, the request will return the following response (when using "format=json").
+***Layer Links***
 
-| Status        | Response |
-| ------------- | -------- | 
-| 404	(not found)| ```{"items":[],"stat":"not found"}```    |
+| Value | Description |
+| ------| -------     |
+| self  | the API link to the resourece |
+| kml | The export KML url |
+| tiles | The Tiles template |
+| wms | The WMS getCapabilities endpoint |  
 
+***Attributes***
+
+| Name               | Type        | Description           	| Notes |  
+| ------| -------     |------| -------     |
+| name               | string      | the title of the layer |  |
+| description        | string      |  description of layer  |  |
+| is_visible          | boolean/string		   | if false, usually indicates a meta-layer or collection of atlases | these meta-layers will not have WMSs   |
+| maps-count        | integer   | how many maps a layer has, as opposed to title pages, plates, and other non-map content	| defines a map using the map_type => is_map variable    |
+| rectified-maps-count    | integer   | how many maps in the layer are warped	|    |
+| rectified-percent  | integer | the percentage of maps that are warped    |  |
+| bbox	              | a comma-separated string of latitude and longitude coordinates   | a rectangle delineating the geographic footprint of the layer 		|     | 
+| source-uri         | string | the URI to the source layer page  | e.g. the Wiki Category that the layer/mosaic represents |
+| created_at		      | date, time, & time zone 	|		when the layer was created in the system		|    |
+| updated_at         | date, time, & time zone  | when the layer was last updated |  |
 
 
 ###Get Layer
 
 | Method       | Definition | 
 | ------------ | -------    | 
-| GET          |  http://mapwarper.net/layers/{:layer_id}.json or |
-|              |  http://mapwarper.net/layers/{:layer_id}?format=json |
+| GET          |  http://warper.wmflabs.org/api/v1/layers/{:id} or |
+|              |  http://warper.wmflabs.org/api/v1/layers/{:id}.json |
 
 Returns a single layer.
 
@@ -758,174 +755,239 @@ Returns a single layer.
 
 | Name          |             | Type      | Description | Required  | Notes     |
 | ------------- | ----------  | --------  | ----------  | --------- | --------- |
-| layer_id      |             | integer   | the unique identifier for the layer   |  required   |                 |
-| format        |             | string    | specifies output format               |  optional   | default is HTML |
-|               | json        |           | use to specify JSON output, rather than HTML or XML | optional |      |
+| id      |             | integer        | the unique identifier for the layer   |  required   |                 |
+| format        |             | string    | specifies output format               |  optional   | default is json |
+|               | json or geosjon    |           |           | optional |      |
 
 **Request Examples**
 
-[http://mapwarper.net/layers/760.json](http://mapwarper.net/layers/760.json) or
+[http://warper.wmflabs.org/api/v1/layers/2](http://warper.wmflabs.org/api/v1/layers/2) 
 
-[http://mapwarper.net/layers/760?format=json](http://mapwarper.net/layers/760?format=json)
 
 **Response**
 
 ```
-{{{
 {
- "stat": "ok",
- "items": [
-   {
-     "name": "America: being the latest, and most accurate description of the Nevv vvorld; containing the original of the inhabitants, and the remarkable voyages thither. The conquest of the vast empires of Mexico and Peru, and other large provinces and territories, wi",
-     "is_visible": true,
-     "updated_at": "2009/10/12 19:37:38 -0400",
-     "mapscans_count": 115,
-     "id": 760,
-     "rectified_mapscans_count": 1,
-     "depicts_year": "1671",
-     "bbox": "-65.077269,32.107121,-64.553078,32.521725",
-     "created_at": "2009/03/23 21:21:19 -0400"
-   }
- ]
+	"data": {
+		"id": "2",
+		"type": "layers",
+		"attributes": {
+			"name": "Category:Maps Of Tartu",
+			"description": null,
+			"created-at": "2015-11-12T10:56:25.461Z",
+			"updated-at": "2016-04-04T16:20:52.354Z",
+			"bbox": "26.111586,58.232919,27.358788,58.486400",
+			"maps-count": 2,
+			"rectified-maps-count": 1,
+			"is-visible": true,
+			"source-uri": "https://commons.wikimedia.org/wiki/Category:Maps Of Tartu",
+			"rectified-percent": 50
+		},
+		"relationships": {
+			"maps": {
+				"data": [{
+					"id": "5",
+					"type": "maps"
+				}, {
+					"id": "6",
+					"type": "maps"
+				}]
+			}
+		},
+		"links": {
+			"self": "http://warper.wmflabs.org/api/v1/layers/2",
+			"kml": "http://warper.wmflabs.org/layers/2.kml",
+			"tiles": "http://warper.wmflabs.org/layers/tile/#/{z}/{x}/{y}.png",
+			"wms": "http://warper.wmflabs.org/layers/wms/2?request=GetCapabilities&service=WMS&version=1.1.1"
+		}
+	}
 }
-}}}
 ```
-
 **Response Elements**
 
-| Element            |             | Type        |  Description	| Notes      |
-| -------------      | ----------- |  ---------- | ----------- | ----------  |
-| stat	              |             | string      | the HTTP response for the status of the request  | |
-| items              |             | array       | an array of key pairs with information about the layer |  |
-|                    | name        | string      | the title of the layer |  |
-|                    | is_visible  | boolean		   | when set to false, usually indicates a meta-layer or collection of atlases | these meta-layers will not have WMSs   |
-|                    | updated_at         | date, time, & time zone  | when the layer was last updated |  |
-|                    | mapscans_count	    | integer   | how many maps a layer has, as opposed to title pages, plates, and other non-map content	| defines a map using the map_type => is_map variable; optional     |
-|                    | id                 | integer   | the unique identifier for the layer |  |
-|                    | rectified_mapscans_count	      | integer   | how many maps in the layer are warped	|     |
-|                    | depicts_year	      | year      | the year the layer depicts		|     |
-|                    | bbox	              | a comma-separated string of latitude and longitude coordinates   | a rectangle delineating the geographic footprint of the layer 		|     | 
-|                    | created_at		       | date, time, & time zone 	|		when the layer was created in the system		|    |
+***Data***
 
-If not found, the request will return the following response (when using "format=jso"n).
 
-| Status          | Response   |
-| -------------   | ---------- | 
-| 404	(not found) | ```{"items":[],"stat":"not found"}```    |
+| Name          |    Value	   | Description                    	| Notes |  
+| ------| -------     |------| -------     |
+| id            |               | The id for the layer             |       |  
+| type          |    layers       | the type of resource            |      |  
+| links         |               | links to the resource, and export links |  see Links  |   
+| attributes    |               | Attributes of the layer | see separate table for more detail   |  
+| relationships | layers, added-by | the maps that are in the layer |  |   
+
+
+***Links***
+
+| Value | Description |
+| ------| -------     |
+| self  | the API link to the resourece |
+| kml | The export KML url |
+| tiles | The Tiles template |
+| wms | The WMS getCapabilities endpoint |  
+
+***Attributes***
+
+| Name               | Type        | Description           	| Notes |  
+| ------| -------     |------| -------     |
+| name               | string      | the title of the layer |  |
+| description        | string      |  description of layer  |  |
+| is_visible          | boolean/string		   | if false, usually indicates a meta-layer or collection of atlases | these meta-layers will not have WMSs   |
+| maps-count        | integer   | how many maps a layer has, as opposed to title pages, plates, and other non-map content	| defines a map using the map_type => is_map variable    |
+| rectified-maps-count    | integer   | how many maps in the layer are warped	|    |
+| rectified-percent  | integer | the percentage of maps that are warped    |  |
+| bbox	              | a comma-separated string of latitude and longitude coordinates   | a rectangle delineating the geographic footprint of the layer 		|     | 
+| source-uri         | string | the URI to the source layer page  | e.g. the Wiki Category that the layer/mosaic represents |
+| created_at		      | date, time, & time zone 	|		when the layer was created in the system		|    |
+| updated_at         | date, time, & time zone  | when the layer was last updated |  |
+
+
+
+**Not Found Error**
+
+If the layer is not found, the request will return the following response.
+
+| Status        | Response |
+| ------------- |----------| 
+| 404	(not found)| ```{"errors":[{"title":"Not found","detail":"Couldn't find Layer with 'id'=1234"}]}```    |
+
+
+
+
+###GeoJSON format
+[http://warper.wmflabs.org/api/v1/layers/2.geojson](http://warper.wmflabs.org/api/v1/layers/2.geojson) 
+
+```
+{
+	"id": 2,
+	"type": "Feature",
+	"properties": {
+		"name": "Category:Maps Of Tartu",
+		"description": null,
+		"created_at": "2015-11-12T10:56:25.461Z",
+		"bbox": "26.111586,58.232919,27.358788,58.486400",
+		"maps_count": 2,
+		"rectified_maps_count": 1,
+		"rectified_percent": 50.0,
+		"source_uri": "https://commons.wikimedia.org/wiki/Category:Maps Of Tartu"
+	},
+	"geometry": {
+		"type": "Polygon",
+		"coordinates": "[[[26.111586, 58.232919], [27.358788, 58.232919], [27.358788, 58.4864], [26.111586, 58.4864], [26.111586, 58.232919]]]"
+	}
+}
+```
+
+###Get a Map's Layers
+
+| Method       | Definition | 
+| ------------ | ---------  | 
+| GET          |  http://warper.wmflabs.org/api/v1/maps/{:map_id}/layers or |
+|              |  http://warper.wmflabs.org/api/v1/layers?map_id={:map_id} |
+
+Queries and returns a list of layers that a given map belongs to.
+
+**Parameters**
+
+| Name      	    |             | Type  | Description  |  Required | Notes  |
+| -------------  | ----------- | ----- | ------------ |  -------- | ------ |
+| map_id         |             |  integer | the unique identifier for a map  | required |   |     
+| query           |             |string | search query | optional  |        |
+| field           |             |string | specified field to be searched     | optional  | default is title  |
+|       		      | name      	|string  | the title of the layer   | optional | default |
+|       		      | description | string | the description of the layer | optional |       |   |
+| sort_key	      |            |         | the field that should be used to sort the results  | optional | defaul is updated_at  |
+| 		            | name      | string    | the name of the layer	             | optional            | |
+| 		            | updated_at | string   | when the layer was last updated	| optional            |  default |
+| 		            | created_at | string   | when the layer was last created	| optional            | |
+|		              | percent	   | string   | the percent of maps which are rectified in the layer | optional            | ordered by integer (see below) |
+| sort_order	    |            |  string  | the order in which the results should appear | optional            | default is desc|
+|                 | asc 	     |           | ascending order               | optional            | |
+|		              | desc	     |           | descending order              | optional            | default | 
+| format	        |     	     | string    | specifies output format       | optional      | can also be passed in as extension, eg. maps.json  |
+|                 | json       | string    | JSON format for layer   | optional            | default | 
+|                 | geojson    | string    | GeoJSON format for layer | optional           |  simple array, not featurecollection   |
+| page		        | 		        | integer   | the page number; use to get the next or previous page of search results | optional | |
+| per_page        |             | integer   | number of results per page | optional |default is 50 |
+| bbox	         | a comma-separated string of latitude and longitude coordinates | a rectangle delineating the geographic area to which the search should be limited | optional |
+| operation     |           | string       | specifies how to apply the bounding box  | optional  | default is intersect |
+|               | intersect | string       |uses the PostGIS ST_Intersects operation to retrieve warped maps whose extents intersect with the bbox parameter  | optional | preferred; orders results by proximity to the bbox extent; default |
+|               | within    | string	      | uses a PostGIS ST_Within operation to retrieve warped maps that fall entirely within the extent of the bbox parameter  | optional      |  |
+
+**Request Example** 
+
+[http://warper.wmflabs.org/api/v1/maps/3/layers?query=tartu&sort_key=percent](http://warper.wmflabs.org/api/v1/maps/3/layers?query=tartu&sort_key=percent)
+
+Alternatively, the URL can be constructed by passing in the map_id as a paramter:
+
+[http://warper.wmflabs.org/api/v1/layers?query=tartu&sort_key=percent&map_id=3](http://warper.wmflabs.org/api/v1/layers?query=tartu&sort_key=percent&map_id=3)
+
+**Response**
+
+Same response format as for listing and querying layers.
+See [Query or List Layers](#query-or-list-layers) 
 
 ###Get a Layer's Maps
 
 | Method       | Definition | 
 | ------------ | -------    | 
-| GET          |  http://mapwarper.net/layers/maps/{:layer_id} or |
-|              |  http://mapwarper.net/layers/{:layer_id}/maps |
+| GET          |  http://warper.wmflabs.org/api/v1/layers/{:layer_id}/maps  or |
+|              |  http://warper.wmflabs.org/api/v1/layers?layer_id={:layer_id} |
 
 Returns a paginated list of the maps that comprise a given layer.
 
 **Parameters**
 
-| Name          |             | Description | Required  | Notes     |
-| ------------- | ----------  | --------    | --------  | -------   |
-| layer_id      |             | the unique identifier for the layer   |  required  |                    |
-| format        |             | specifies output format      |    optional       |  default is HTML     |
-|               | json        | requests output in JSON format, rather than HTML or XML | optional | |
-| show_warped   |             | specifies whether to limit search to warped maps        | optional | default is "1," which limits to warped maps; "0" returns all maps |
+| Name      	    |   values   | Type  | Description  |  Required | Notes  |
+| -----           | -----       | ----- | ---------    |  -----    | ------ |
+| layer_id       |             | integer | the unique identifier for the layer   |  required  | 
+| query           |             |string | search query | optional  |        |
+| field           |             |string | specified field to be searched     | optional  | default is title  |
+|       		      | title      	|string  | the title of the map   | optional | default |
+|       		      | description | string | the description of the map | optional |       |
+|       		      | publisher   | string | the publisher | optional |       |
+|       		      | author      | string | the author of the map | optional |       |
+|       		      | status      | string | the status  | optional |       |
+| sort_key	      |            |         | the field that should be used to sort the results  | optional | defaul is updated_at  |
+| 		            | title      | string    | the title of the map	             | optional            | |
+| 		            | updated_at | string   | when the map was last updated	| optional            |  default |
+| 		            | created_at | string   | when the map was last created	| optional            | |
+|		              | status	   | string   | the status of the map	            | optional            | ordered by integer (see below) |
+| sort_order	    |            |  string  | the order in which the results should appear | optional            | default is desc|
+|                 | asc 	     |           | ascending order               | optional            | |
+|		              | desc	     |           | descending order              | optional            | default |
+| show_warped	    | 		       | integer   | limits to maps that have already been warped   | optional |    | 
+|           	    | 1         | integer   | limits to maps that have already been warped   | optional  |    | 
+|           	    | 0         | integer   | gets all maps, warped and unwarped             | optional  |  default | 
+| format	        |     	     | string    | specifies output format       | optional      | can also be passed in as extension, eg. maps.json  |
+|                 | json       | string    | JSON format for maps   | optional            | default | 
+|                 | geojson    | string    | GeoJSON format for maps | optional           |   simple array, not featurecollection     |
+| page		        | 		        | integer   | the page number; use to get the next or previous page of search results | optional | |
+| per_page        |             | integer   | number of results per page | optional |default is 50 |
+| bbox	         | a comma-separated string of latitude and longitude coordinates | a rectangle delineating the geographic area to which the search should be limited | optional |
+| operation     |           | string       | specifies how to apply the bounding box  | optional  | default is intersect |
+|               | intersect | string       |uses the PostGIS ST_Intersects operation to retrieve warped maps whose extents intersect with the bbox parameter  | optional | preferred; orders results by proximity to the bbox extent; default |
+|               | within    | string	      | uses a PostGIS ST_Within operation to retrieve warped maps that fall entirely within the extent of the bbox parameter  | optional      |  |
 
 **Request Examples**
  
-[http://mapwarper.net/layers/maps/890?format=json&show_warped=0](http://mapwarper.net/layers/maps/890?format=json&show_warped=0) or
+[http://warper.wmflabs.org/api/v1/layers/3/maps](http://warper.wmflabs.org/api/v1/layers/3/maps) or
 
-[http://mapwarper.net/layers/890/maps?format=json&show_warped=1](http://mapwarper.net/layers/890/maps?format=json&show_warped=1)
+[http://warper.wmflabs.org/api/v1/layers?layer_id=3](http://warper.wmflabs.org/api/v1/layers?layer_id=3)
 
 **Response**
 
-The response will be in the following format.
+Same response as for listing and querying layers.
 
-```
-{{{
-{
- "stat": "ok",
- "current_page": 1,
- "items": [
-   {
-     "status": null,
-     "map_type": "not_map",
-     "updated_at": "2009/07/03 13:26:45 -0400",
-     "title": "The generall historie of Virginia, New-England, and the Summer isles: with the names of the adventurers, planters, and governours from their first beginning ano: 1584. to this present 1626. With the proceedings of those severall colonies and the accident",
-     "id": 12893,
-     "description": "from The generall historie of Virginia, New-England, and the Summer isles : with the names of the adventurers, planters, and governours from their first beginning ano: 1584. to this present 1626. With the proceedings of those severall colonies and the accidents that befell them in all their journyes and discoveries. Also the maps and descriptions of all those countryes, their commodities, people, government, customes, and religion yet knowne. Divided into sixe bookes. / By Captaine Iohn Smith sometymes governour in those countryes \u0026 admirall of New England.",
-     "height": null,
-     "nypl_digital_id": "433895",
-     "mask_status": null,
-     "bbox": null,
-     "width": null,
-     "created_at": "2008/06/28 18:19:34 -0400"
-   }
- ],
+See [Search for Maps](#search-for-maps) 
 
- "total_pages": 1,
- "per_page": 50,
- "total_entries": 1
-}
-}}}
-```
-
-**Response Elements**
-
-| Name               |               | Type         |  Value       | Description	| Notes     |
-| -------------      | -----------   |  ----------- | -----------  | ----------- | --------  |
-| stat	              |               | string       |              | the HTTP response for the status of the request  | |
-| current_page       |               | integer      |              | the search results page on which the map appears | |
-| items              |               | array        |              | an array of key pairs with information about the map | |
-|                    | status	       |   integer    |              | the status of the map             | |
-| 	                  |               |              | 0 : unloaded	| the map has not been loaded					  | |
-| 		                 |	              |              | 1 : loading 	| the master image is being requested from the NYPL repository	| |
-| 		                 |             	 |              | 2 : available | the map has been copied, and is ready to be warped	| |
-| 		                 |               |              | 3 : warping	  | the map is undergoing the warping process			| |
-| 		                 |               |              | 4 : warped	   | the map has been warped					  | |
-| 		                 |               |              | 5 : published	| this status is set when the map should no longer be edited | not currently used | 
-|                    | map_type	     | integer 	    |               | indicates whether the image is of a map or another type of content	| |
-|                    |               |              | 0 : index	    | indicates a map index or overview map							| |
-| 		                 |         						|              | 1 : is_map	   | indicates a map          |  |
-| 		                 |               |              | 2 : not_map	  | indicates non-map content, such as a plate depicting sea monsters		| |
-|                    | updated_at    | date, time, & time zone |    | when the map was last updated |  |
-|                    | title         |  string       |              | the title of the map |  |
-|                    | id            | integer       |              | the unique identifier for the map |  |
-|                    | description   | string        |              | the description of the map      |  |
-|                    | height        | integer       |              | the height of an unwarped map |
-|                    | nypl_digital_id  | integer    |              | the NYPL digital ID used for the thumbnail image and link to the library's metadata | |
-|                    | mask_status   | integer	      |               | the status of the mask		| |
-| 		                 |               |               | 0 : unmasked		|  the map has not been masked				| |
-| 		                 |               |               | 1 : masking		 |  the map is undergoing the masking process				| |
-| 		                 |               |               | 2 : masked		  |  the map has been masked				| |
-|                    | bbox	         | a comma-separated string of latitude and longitude coordinates   |  | a rectangle delineating the geographic footprint of the map 		|     | 
-|                    | width         | integer       |               | the width of an unwarped map | |
-|                    | created_at		  | date, time, & time zone	|	    | when the layer was created		|    |
-| total_pages		      |               | integer 	     |	              | the total number of pages in the result set		|    |
-| per_page		         |               | integer       |	              | the number of search results per page		|    |
-| total_entries	     |               | integer 	     |	              | the total number of search results					|    |
 
 ###Map and Layer Web Map Services
 
-The following Web map services are available.
-
-####Map WMS
-[http://mapwarper.net/maps/wms/8561](http://mapwarper.net/maps/wms/8561)
-
-####Layer WMS
-[http://mapwarper.net/layers/wms/931](http://mapwarper.net/layers/wms/931)
-
-####Map & Layer KML
-
-**Map KML**
-
-[http://mapwarper.net/maps/8561.kml](http://mapwarper.net/maps/8561.kml)
-
-**Layer KML**
-
-[http://mapwarper.net/layers/931.kml](http://mapwarper.net/layers/931.kml)
+The WMS and Tile services are available and are now shown in the standard JSON responses
 
 ------------------------------
+
 
 ##Ground Control Points
 
