@@ -18,12 +18,12 @@ Welcome to the documentation for the Wikimaps Warper API! MapWarper is a free ap
 [Get Layer](#get-layer)  
 [Get a Layer's Maps](#get-a-layers-maps)  
 [Map and Layer Web Map Services](#map-and-layer-web-map-services)  
-[Ground Control Points](#ground-control-points)  
+[Ground Control Points](#ground-control-points) 
+[List and Sort Control Points](#list-and-sort-control-points)
 [Get a Map's Ground Control Points](#get-a-maps-ground-control-points)  
 [Get a Single Ground Control Point](#get-a-single-ground-control-point)  
 [Add Ground Control Points](#add-ground-control-points)  
-[Update All Fields of a GCP](#update-all-fields-of-a-gcp)  
-[Update One Field of a GCP](#update-one-field-of-a-gcp)  
+[Update a GCP](#update-a-gcp)  
 [Delete a GCP](#delete-a-gcp)  
 [Masking](#masking)  
 [Get Mask](#get-mask)  
@@ -81,12 +81,12 @@ curl -H 'Content-Type: application/json' -H 'Accept: application/json' -X GET ht
 
 ##Search for Maps
 
-
 | Method        | Definition |
 | ------------- | ---------  |
 | GET           | http://mapwarper.net/api/v1/maps.json?query=london | 
 
 Returns a list of maps that meet search criteria (where the title or description contains "london")
+No authentication required.
 
 **Parameters**
 
@@ -99,10 +99,10 @@ Returns a list of maps that meet search criteria (where the title or description
 |       		      | publisher   | string | the publisher | optional |       |
 |       		      | author      | string | the author of the map | optional |       |
 |       		      | status      | string | the status  | optional |       |
-| sort_key	      |            |         | the field that should be used to sort the results  | optional | defaul is updated_at  |
+| sort_key	      |            |         | the field that should be used to sort the results  | optional | default is updated_at  |
 | 		            | title      | string    | the title of the map	             | optional            | |
 | 		            | updated_at | string   | when the map was last updated	| optional            |  default |
-| 		            | created_at | string   | when the map was last created	| optional            | |
+| 		            | created_at | string   | when the map was created	| optional            | |
 |		              | status	   | string   | the status of the map	            | optional            | ordered by integer (see below) |
 | sort_order	    |            |  string  | the order in which the results should appear | optional            | default is desc|
 |                 | asc 	     |           | ascending order               | optional            | |
@@ -363,6 +363,7 @@ curl -H 'Content-Type: application/json' -H 'Accept: application/json' -X GET 'h
 |               | http://mapwarper.net/api/v1/maps/{:id}?format={:format} |
 
 Returns a map by ID.
+No authentication required.
 
 **Parameters**
 
@@ -577,6 +578,7 @@ This request returns text. If a map has no status (i.e., has not been transferre
 ##Layers
 
 A layer is a mosaic in which the component maps are stitched together and displayed as one seamless map. Layers are often comprised of contiguous maps from the facing pages of a scanned book. For examples of layers, see the [Plan of the town of Paramaribo, capital of Surinam](http://maps.nypl.org/warper/layers/1450) or the map of New York City and Vicinity at [http://maps.nypl.org/warper/layers/1404](http://maps.nypl.org/warper/layers/1404).
+No authentication required.
 
 ###Query or List Layers
 
@@ -592,10 +594,10 @@ A layer is a mosaic in which the component maps are stitched together and displa
 | field           |             |string | specified field to be searched     | optional  | default is title  |
 |       		      | name      	|string  | the title of the layer   | optional | default |
 |       		      | description | string | the description of the layer | optional |       |   |
-| sort_key	      |            |         | the field that should be used to sort the results  | optional | defaul is updated_at  |
+| sort_key	      |            |         | the field that should be used to sort the results  | optional | default is updated_at  |
 | 		            | name      | string    | the name of the layer	             | optional            | |
 | 		            | updated_at | string   | when the layer was last updated	| optional            |  default |
-| 		            | created_at | string   | when the layer was last created	| optional            | |
+| 		            | created_at | string   | when the layer was created	| optional            | |
 |		              | percent	   | string   | the percent of maps which are rectified in the layer | optional            | ordered by integer (see below) |
 | sort_order	    |            |  string  | the order in which the results should appear | optional            | default is desc|
 |                 | asc 	     |           | ascending order               | optional            | |
@@ -896,10 +898,10 @@ Queries and returns a list of layers that a given map belongs to.
 | field           |             |string | specified field to be searched     | optional  | default is title  |
 |       		      | name      	|string  | the title of the layer   | optional | default |
 |       		      | description | string | the description of the layer | optional |       |   |
-| sort_key	      |            |         | the field that should be used to sort the results  | optional | defaul is updated_at  |
+| sort_key	      |            |         | the field that should be used to sort the results  | optional | default is updated_at  |
 | 		            | name      | string    | the name of the layer	             | optional            | |
 | 		            | updated_at | string   | when the layer was last updated	| optional            |  default |
-| 		            | created_at | string   | when the layer was last created	| optional            | |
+| 		            | created_at | string   | when the layer was created	| optional            | |
 |		              | percent	   | string   | the percent of maps which are rectified in the layer | optional            | ordered by integer (see below) |
 | sort_order	    |            |  string  | the order in which the results should appear | optional            | default is desc|
 |                 | asc 	     |           | ascending order               | optional            | |
@@ -948,10 +950,10 @@ Returns a paginated list of the maps that comprise a given layer.
 |       		      | publisher   | string | the publisher | optional |       |
 |       		      | author      | string | the author of the map | optional |       |
 |       		      | status      | string | the status  | optional |       |
-| sort_key	      |            |         | the field that should be used to sort the results  | optional | defaul is updated_at  |
+| sort_key	      |            |         | the field that should be used to sort the results  | optional | default is updated_at  |
 | 		            | title      | string    | the title of the map	             | optional            | |
 | 		            | updated_at | string   | when the map was last updated	| optional            |  default |
-| 		            | created_at | string   | when the map was last created	| optional            | |
+| 		            | created_at | string   | when the map was created	| optional            | |
 |		              | status	   | string   | the status of the map	            | optional            | ordered by integer (see below) |
 | sort_order	    |            |  string  | the order in which the results should appear | optional            | default is desc|
 |                 | asc 	     |           | ascending order               | optional            | |
@@ -993,87 +995,254 @@ The WMS and Tile services are available and are now shown in the standard JSON r
 
 Ground control points are the user-selected locations used to warp an image.
 
-###Get a Map's Ground Control Points
+###List and Sort Control Points
 
 | Method        | Definition    |
 | ------------- | ------------- |
-| GET           |  http://mapwarper.net/maps/{:mapscan_id}/gcps.json or       | 
-|               |  http://mapwarper.net/maps/{:mapscan_id}/gcps?format=json   |
+| GET           |  api/v1/gcps  |
+
+Gets and sorts all control points.
+No authentication required.
+
+**Parameters**
+
+| Name      	    |   values   | Type  | Description  |  Required | Notes  |
+| ------------- | ------------- | ------------- | ------------- |------------- | ------------- |
+| sort_key	      |            |         | the field that should be used to sort the results  | optional | default is updated_at  |
+| 		            | map_id     | string    | the id of the map the GCP belongs to	             | optional            | |
+| 		            | lat      | string    | the latitude of the ground control point             | optional            | |
+| 		            | lon      | string    | the longitude of the ground control point 	             | optional            | |
+| 		            | x        | string    |  the x coordinate on the image that corresponds to "lon"	             | optional            | |
+| 		            | y        | string    | the y coordinate on the image that corresponds to "lat"	             | optional            | |
+| 		            | updated_at | string   | when the GCP was last updated	| optional            |  default |
+| 		            | created_at | string   | when the GCP was first created	| optional            | |
+| sort_order	    |            |  string  | the order in which the results should appear | optional            | default is desc|
+|                 | asc 	     |           | ascending order               | optional            | |
+|		              | desc	     |           | descending order              | optional            | default |
+| page		        | 		        | integer   | the page number; use to get the next or previous page of search results | optional | |
+| per_page        |             | integer   | number of results per page | optional |default is 50 |
+| map_id          |            | integer  | restricts results to the map given | optional | |
+
+**Request Examples**
+ 
+[http://warper.wmflabs.org/api/v1/gcps?per_page=2&sort_key=updated_at](http://warper.wmflabs.org/api/v1/gcps?per_page=2&sort_key=updated_at) 
+
+
+**Response**
+
+```
+{
+	"data": [
+		{
+			"id": "2",
+			"type": "gcps",
+			"attributes": {
+				"map-id": 2,
+				"x": 151.833333333328,
+				"y": 392.666666666666,
+				"lat": "52.7603488553",
+				"lon": "-4.6579885155",
+				"created-at": "2015-10-23T12:38:29.023Z",
+				"updated-at": "2016-06-08T10:54:44.094Z",
+				"error": null
+			}
+		},
+		{
+			"id": "3",
+			"type": "gcps",
+			"attributes": {
+				"map-id": 2,
+				"x": 72.2142857142853,
+				"y": 712.952380952381,
+				"lat": "49.8494421783",
+				"lon": "-5.2512502342",
+				"created-at": "2015-10-23T12:38:36.048Z",
+				"updated-at": "2016-06-08T10:54:34.903Z",
+				"error": null
+			}
+		}
+	],
+	"links": {
+		"self": "http://warper.wmflabs.org/api/v1/gcps?page%5Bnumber%5D=1&page%5Bsize%5D=2&per_page=2&sort_key=updated_at",
+		"next": "http://warper.wmflabs.org/api/v1/gcps?page%5Bnumber%5D=2&page%5Bsize%5D=2&per_page=2&sort_key=updated_at",
+		"last": "http://warper.wmflabs.org/api/v1/gcps?page%5Bnumber%5D=7&page%5Bsize%5D=2&per_page=2&sort_key=updated_at"
+	},
+	"meta": {
+		"total-entries": 13,
+		"total-pages": 7
+	}
+}
+```
+**Response Elements**
+
+
+***Data***
+
+An array of control points, each having an attributes object and, id and type and links
+
+| Name          |    Value	   | Description                    	| Notes |  
+| ------| -------     |------| -------     |
+| id            |               | The id for the gcp             |       |  
+| type          |    gcps       | the type of resource            |      |  
+| links         |               | links to the resource, and export links |   |   
+| attributes    |               | Attributes of the gcps | see separate table for more detail   |  
+
+
+***Links***
+
+The top level links holds pagination links. Shown if there are more results than are contained in the response.
+
+```
+"links": {
+		"self": "http://warper.wmflabs.org/api/v1/gcps?page%5Bnumber%5D=1&page%5Bsize%5D=2&per_page=2&sort_key=updated_at",
+		"next": "http://warper.wmflabs.org/api/v1/gcps?page%5Bnumber%5D=2&page%5Bsize%5D=2&per_page=2&sort_key=updated_at",
+		"last": "http://warper.wmflabs.org/api/v1/gcps?page%5Bnumber%5D=7&page%5Bsize%5D=2&per_page=2&sort_key=updated_at"
+},
+```
+
+| Value | Description |
+| ------| -------     |
+| self | the link to the current page |
+| next |  the next page in the sequence |
+| last |  the last page in the sequence of pages |
+
+***Meta***
+
+Useful in pagination. Will show the total number of results, for example if the request is limited to returning 25 maps, Shown if there are more results than are contained in the response.
+
+```
+"meta": {
+  "total-entries": 50,
+  "total-pages": 2
+}
+```
+indicates that 50 results have been found over 2 pages.
+
+| Value | Description |
+| ------| -------     |
+| total-entries | the total number of layers found for this request |
+| total-pages |  the total number of pages found |
+
+
+***Attributes***
+
+| Name               | Type        | Description           	| Notes |  
+| ------| -------     |------| -------     |
+| map-id         | id      | the unique identifier for the map the point belongs to   |  see below for other way to get gcps for a map |
+| lat           | big decimal | the latitude of the ground control point   | |
+| lon           | big decimal | the longitude of the ground control point           | |
+| x             | float       | the x coordinate on the image that corresponds to "lon"   | |
+| y             | float       | the y coordinate on the image that corresponds to "lat"   | |
+| error         | float       | the calculated root mean square error, or distortion, for the ground control point   | null unless called via `/api/v1/maps/{:map_id}/gcps` see below |
+| created-at    | date, time, & time zone | the date and time when the ground control point was created   | |
+| updated-at    | date, time, & time zone | the date and time when the ground control point was last updated   | |
+
+
+###Get a Map's Ground Control Points
+
+There are two different ways to get the control points of a map:
+
+| Method        | Definition    |
+| ------------- | ------------- |
+| GET           |  api/v1/maps/{:map_id}/gcps    or  | 
+|               |  api/v1/gcps?map_id={:map_id}  (see above) |
 
 Returns a list of the ground control points used to warp a map, as well as their calculated errors.
+No authentication required. 
+
+Note: api/v1/maps/:id/gcps includes the calculated error but with no sorting or pagination, whereas api/v1/gcps?map_id={:map_id} whilst has sorting and pagination but with no calculated error.
 
 **Parameters**
 
 | Name          |             | Type        | Description | Required  | Notes     |
 | ------------- | ----------  | ----------  | ----------  | --------  | --------- |
 | map_id        |             | integer     | the unique identifier for the map   |  required         |       |
-| format        |             | string      | specifies output format      |    optional       |  default is HTML     |
-|               | json        |             | requests output in JSON format, rather than HTML or XML | optional | |
+
 
 **Request Examples**
 
-[http://mapwarper.net/maps/8561/gcps.json](http://mapwarper.net/maps/8561/gcps.json) or
-
-[http://mapwarper.net/maps/8561/gcps?format=json](http://mapwarper.net/maps/8561/gcps?format=json)
+[http://warper.wmflabs.org/api/v1/maps/2/gcps](http://warper.wmflabs.org/api/v1/maps/2/gcps) 
 
 **Response**
 
 The response will be a list of ground control points in the following format.
 
 ```
-{{{
 {
- "stat": "ok",
- "items": [
-   {
-     "lon": -73.960261342,
-     "updated_at": "2008/08/08 07:38:27 -0400",
-     "x": 5635.0,
-     "y": 889.0,
-     "mapscan_id": 8561,
-     "id": 3489,
-     "error": 2.12607673635957,
-     "lat": 40.6903369015,
-     "created_at": "2008/07/11 14:49:59 -0400"
-   },
-   {
-     "lon": -73.934082982,
-     "updated_at": "2008/08/08 07:38:27 -0400",
-     "x": 4719.0,
-     "y": 4014.0,
-     "mapscan_id": 8561,
-     "id": 3490,
-     "error": 6.01964128034223,
-     "lat": 40.6933793515,
-     "created_at": "2008/07/11 14:49:59 -0400"
-   },
-....
- ]
+	"data": [
+		{
+			"id": "1",
+			"type": "gcps",
+			"attributes": {
+				"map-id": 2,
+				"x": 479.35714285714,
+				"y": 380,
+				"lat": "52.959343811",
+				"lon": "0.593476328",
+				"created-at": "2015-10-23T12:38:24.222Z",
+				"updated-at": "2015-10-23T12:38:24.222Z",
+				"error": 13.781432496303088
+			}
+		},
+		...snip...
+		{
+			"id": "19",
+			"type": "gcps",
+			"attributes": {
+				"map-id": 2,
+				"x": 110.21428571429,
+				"y": 119.42857142857,
+				"lat": "54.9945666448",
+				"lon": "-5.1378768477",
+				"created-at": "2016-06-08T10:54:28.391Z",
+				"updated-at": "2016-06-08T10:54:28.391Z",
+				"error": 15.401820748382049
+			}
+		}
+	],
+	"meta": {
+		"map-error": 17.280250155403902
+	}
 }
-}}}
 ```
-
 **Response Elements**
 
-| Name          |               | Type        | Description | 
-| ------------- | -----------   | ----------- | ----------  | 
-| stat          |               | string      | the HTTP response for the status of the request   | 
-| items		       |               | array       | an array of key pairs with information about the ground control points 	|			
-|               | lon           | big decimal | the longitude of the ground control point           |
-|               | updated_at    | date, time, & time zone | the date and time when the ground control point was last updated  |
-|               | x             | float       | the x coordinate on the image that corresponds to "lon"   |
-|               | y             | float       | the y coordinate on the image that corresponds to "lat"   |
-|               | mapscan_id    | integer     | the unique identifier for the map            |
-|               | id            | integer     | the unique identifier for the ground control point   |
-|               | error         | float       | the calculated root mean square error, or distortion, for the ground control point   | 
-|               | lat           | big decimal | the latitude of the ground control point   |
-|               | created_at    | date, time, & time zone | the date and time when the ground control point was created   |
 
-If the map is not found, the request will return the following response (when using "format=json").
+***Data***
 
-| Status          | Response |
-| --------------- | -------- | 
-| 404	(not found) | ```{"items":[],"stat":"not found"}```    |
+An array of control points, each having an attributes object and, id and type and links
+
+| Name          |    Value	   | Description                    	| Notes |  
+| ------| -------     |------| -------     |
+| id            |               | The id for the gcp             |       |  
+| type          |    gcps       | the type of resource            |      |   
+| attributes    |               | Attributes of the gcps | see separate table for more detail   |  
+
+***Meta***
+
+Contains details about the combined error for the control points for the entire map
+
+```
+	"meta": {
+		"map-error": 17.280250155403902
+	}
+```
+
+***Attributes***
+
+
+| Name               | Type        | Description           	| Notes |  
+| ------| -------     |------| -------     |
+| map-id         | id      | the unique identifier for the map the point belongs to   |   |
+| lat           | big decimal | the latitude of the ground control point   | |
+| lon           | big decimal | the longitude of the ground control point           | |
+| x             | float       | the x coordinate on the image that corresponds to "lon"   | |
+| y             | float       | the y coordinate on the image that corresponds to "lat"   | |
+| error         | float       | the calculated root mean square error, or distortion, for the ground control point   |  |
+| created-at    | date, time, & time zone | the date and time when the ground control point was created   | |
+| updated-at    | date, time, & time zone | the date and time when the ground control point was last updated   | |
+
+
 
 ###Get a Single Ground Control Point
 
@@ -1239,7 +1408,7 @@ An error will return the following message.
 }}}
 ```
 
-###Update All Fields of a GCP
+###Update a GCP
 
 | Method       | Definition | 
 | ------------ | -------    | 
