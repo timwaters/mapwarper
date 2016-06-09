@@ -6,7 +6,7 @@ Welcome to the documentation for the Wikimaps Warper API! MapWarper is a free ap
 
 ##Table of Contents
 
-[Format](#format)
+[Format](#format)  
 [Authentication](#authentication)  
 [Search for Maps](#search-for-maps)   
 [Get a Map](#get-a-map)  
@@ -126,9 +126,9 @@ curl -H 'Content-Type: application/json' -H 'Accept: application/json' -X GET 'h
 [http://mapwarper.net/api/v1/maps?field=title&query=Tartu&sort_key=updated_at&sort_order=desc&show_warped=1](http://mapwarper.net/maps?api/v1/maps?field=title&query=Tartu&sort_key=updated_at&sort_order=desc&show_warped=1)
 
 Example searching within a bounding box
-```
-http://mapwarper.net/api/v1/maps?field=title&query=Tartu&sort_key=updated_at&sort_order=desc&show_warped=1](http://mapwarper.net/maps?api/v1/maps?field=title&query=Tartu&sort_key=updated_at&sort_order=desc&bbox=-75.9831134505588,38.552727388127,-73.9526411829395,40.4029389105122
-```
+
+[http://mapwarper.net/api/v1/maps?field=title&query=Tartu&sort_key=updated_at&sort_order=desc&show_warped=1](http://mapwarper.net/maps?api/v1/maps?field=title&query=Tartu&sort_key=updated_at&sort_order=desc&bbox=-75.9831134505588,38.552727388127,-73.9526411829395,40.4029389105122)
+
 
 **Response**
 
@@ -221,20 +221,21 @@ JSON API Format
 
 **Response Elements**
 
-*** Data ***
+***Data***
 
 An array of maps, each having an attributes object and, id and type and links
 
-| Name          |    Value	   | Description					| Notes |
-| ------------- |		-----------	| --------------  | ----  |
-| id            |               | The id for the map  |       |
-| type          |    maps       | the type of resource |      |
-| links         |               | links to the resource, and export links|   | 
-| attributes    |               | Attributes of the map | see separate table for more detail |
-| relationships | layers, added-by | the layers that the map belongs to and the user that uploaded it | (see included)|
-| included      |               | Details about the layers  || 
+| Name          |    Value	   | Description                    	| Notes |  
+| ------| -------     |------| -------     |
+| id            |               | The id for the map             |       |  
+| type          |    maps       | the type of resource            |      |  
+| links         |               | links to the resource, and export links |   |   
+| attributes    |               | Attributes of the map | see separate table for more detail   |  
+| relationships | layers, added-by | the layers that the map belongs to and the user that uploaded it | (see included) |  
+| included      |               | Details about the layers  |   |   
 
-*** Map Links ***
+
+***Map Links***
 
 | Value | Description |
 | ------| -------     |
@@ -248,7 +249,7 @@ An array of maps, each having an attributes object and, id and type and links
 | wms | The WMS getCapabilities endpoint |  
 
 
-*** Links ***
+***Links***
 
 The top level links holds pagination links
 
@@ -266,7 +267,7 @@ The top level links holds pagination links
 | next |  the next page in the sequence |
 | last |  the last page in the sequence of pages |
 
-*** Meta ***
+***Meta***
 
 Useful in pagination. Will show the total number of results, for example if the request is limited to returning 25 maps:
 
@@ -284,32 +285,32 @@ indicates that 50 results have been found over 2 pages.
 | total-pages |  the total number of pages found |
 
  
-*** Attributes ***
+***Attributes***
 
-| Name        	 | Type	   | Value		    | Description					| Notes |
-| -------------  | -----	|-----------		| --------------  | ----  |
-| status	       |  string  |                   |  the status of the map  |   |
+| Name        	 | Type	   | Value		    | Description                       	| Notes |  
+| ------| -------     |------| -------     |  -------     | 
+| status	       |  string  |             |  the status of the map                |   |
 | 		           |          | unloaded	  | the map has not been loaded					       | |
 | 		           |          |  loading 	  | the master image is being requested from the NYPL repository	 |    |
 | 		           |          |  available	| the map has been copied and is ready to be warped	|  |
 | 		           |          |  warping	  | the map is undergoing the warping process			|  |
-| 		           |          |  warped	    | the map has been warped					|  |
+| 		           |          |  warped	    | the map has been warped                 |  |
 | 		           |          |  published	| this status is set when the map should no longer be edited |  |
 | map-type	     | string 	|             | indicates whether the image is of a map or another type of content	| |
 |         	     |         	| index	      | indicates a map index or overview map							| |
-| 		           |          | is_map	    | indicates a map 										| default |
+| 		           |          | is_map	    | indicates a map                       | default |
 | 	 	           |          | not_map	    | indicates non-map content, such as a plate depicting sea monsters		| |
-| updated-at	   | datetime  | 	        	| when the map was last updated	| |
-| created-at	   | datetime  | 	        	| when the map was first created	| |
-| title		       | string 	 |       		  |	the title of the map							| |
+| updated-at	   | datetime  | 	        	| when the map was last updated         | |
+| created-at	   | datetime  | 	        	| when the map was first created          | |
+| title		       | string 	 |       		  |	the title of the map                    | |
 | description	   | string	  |	        	  |		the description of the map							| |
 | height	        | integer 	|          	|  the height of an unwarped map				| |
 | width	          | integer 	|        	  |  the width of an unwarped map				| |
-| mask-status	    | string	 |            | the status of the mask		| |
-| 		            |          |  unmasked	| the map has not been masked				| |
+| mask-status	    | string	 |            | the status of the mask              | |
+| 		            |          |  unmasked	| the map has not been masked       	| |
 | 		            |          |  masking		| the map is undergoing the masking process				| |
-| 		            |          |  masked		| the map has been masked				| |
-| bbox	          | comma-separated string of lat & lon coords |    | a rectangle delineating the geographic area to which the search should be limited | |
+| 		            |          |  masked		| the map has been masked           	| |
+| bbox	          | comma-separated string of lat & lon coords |  a rectangle delineating the geographic area to which the search should be limited | |
 | source-uri	 | string 	|              	|  the URI to the source map page			| e.g. the wiki page |
 | unique-id	    | string 	|             	|  the image filename taken from the source image |  |
 | page-id	      | integer |             	|  The Wiki PAGEID for the source				| |
@@ -326,7 +327,7 @@ curl -H 'Content-Type: application/json' -H 'Accept: application/json' -X GET 'h
 ```
 [http://mapwarper.net/api/v1/maps.geojson?field=title&query=Tartu&sort_key=updated_at&sort_order=desc&show_warped=1](http://mapwarper.net/maps?api/v1/maps.geojson?field=title&query=Tartu&sort_key=updated_at&sort_order=desc&show_warped=1)
 
-*** Response ***
+***Response***
 
 ```
 [{
@@ -362,11 +363,13 @@ Returns a map by ID.
 
 **Parameters**
 
-| Name          |              | Type         | Description					                | Required    | Notes |
-| ------------- |------------- | ------------ |----------------------------------		| ----------- | ----- |
+ 
+| Name          |              | Type         | Description					                | Required    | Notes |   
+| ------        | -------     | ------        | -------                             |  -------     |  -------  |
 | id  		      |              | integer 	     | the unique identifier for a map    | required		  |       |
 | format  		  |              | string 	     | specifies output format            | optional		  | default JSON  |
-|               | json / geojson|             | use to specify JSON output formar   | optional |  |
+|               | json / geojson |             | use to specify JSON output formart  | optional |  |
+
 
 **Response**
 
@@ -460,9 +463,70 @@ GeoJSON Format
 
 **Response Elements**
 
-See Maps section for description of fields etc
+***Data***
 
-** Not Found Error **
+
+| Name          |    Value	   | Description                    	| Notes |  
+| ------| -------     |------| -------     |
+| id            |               | The id for the map             |       |  
+| type          |    maps       | the type of resource            |      |  
+| links         |               | links to the resource, and export links |   |   
+| attributes    |               | Attributes of the map | see separate table for more detail   |  
+| relationships | layers, added-by | the layers that the map belongs to and the user that uploaded it | (see included) |  
+| included      |               | Details about the layers  |   |   
+
+
+***Map Links***
+
+| Value | Description |
+| ------| -------     |
+| gcps-csv| CSV for the control points |
+| mask |  the GML clipping mask |
+| geotiff | The export GeoTiff url |
+| png |The export PNG url |
+| aux-xml | The export PNG XML url |
+| kml | The export KML url |
+| tiles | The Tiles template |
+| wms | The WMS getCapabilities endpoint |  
+
+***Attributes***
+
+| Name        	 | Type	   | Value		    | Description                       	| Notes |  
+| ------| -------     |------| -------     |  -------     | 
+| status	       |  string  |             |  the status of the map                |   |
+| 		           |          | unloaded	  | the map has not been loaded					       | |
+| 		           |          |  loading 	  | the master image is being requested from the NYPL repository	 |    |
+| 		           |          |  available	| the map has been copied and is ready to be warped	|  |
+| 		           |          |  warping	  | the map is undergoing the warping process			|  |
+| 		           |          |  warped	    | the map has been warped                 |  |
+| 		           |          |  published	| this status is set when the map should no longer be edited |  |
+| map-type	     | string 	|             | indicates whether the image is of a map or another type of content	| |
+|         	     |         	| index	      | indicates a map index or overview map							| |
+| 		           |          | is_map	    | indicates a map                       | default |
+| 	 	           |          | not_map	    | indicates non-map content, such as a plate depicting sea monsters		| |
+| updated-at	   | datetime  | 	        	| when the map was last updated         | |
+| created-at	   | datetime  | 	        	| when the map was first created          | |
+| title		       | string 	 |       		  |	the title of the map                    | |
+| description	   | string	  |	        	  |		the description of the map							| |
+| height	        | integer 	|          	|  the height of an unwarped map				| |
+| width	          | integer 	|        	  |  the width of an unwarped map				| |
+| mask-status	    | string	 |            | the status of the mask              | |
+| 		            |          |  unmasked	| the map has not been masked       	| |
+| 		            |          |  masking		| the map is undergoing the masking process				| |
+| 		            |          |  masked		| the map has been masked           	| |
+| bbox	          | comma-separated string of lat & lon coords |  a rectangle delineating the geographic area to which the search should be limited | |
+| source-uri	 | string 	|              	|  the URI to the source map page			| e.g. the wiki page |
+| unique-id	    | string 	|             	|  the image filename taken from the source image |  |
+| page-id	      | integer |             	|  The Wiki PAGEID for the source				| |
+| date-depicted	| string 	|             	|  string representation of the date that the map depicts	| |
+| image-url	    | string 	|              	|  URL to the original full size image| |
+| thumb-url	    | string 	|             	| URL to the thumbnail 	| 100px dimension |
+
+
+
+
+
+**Not Found Error**
 
 If the map is not found, the request will return the following response.
 
@@ -495,7 +559,7 @@ This request returns text. If a map has no status (i.e., has not been transferre
 **Response Elements**
 
 | Name        	 | Type		   | Value		| Description					                  | Notes |
-| ------------- |------------|-----		 | -----------------------------					| ----- |
+| ------        | -------     | ------   | -------                             |  -------     | 
 | status	       | string	   | 	      | the status of the map             |       |
 | 	             | 	         | unloaded	| the map has not been loaded					    |
 | 		            |		       | loading 	| the master image is being requested from the NYPL repository	| |
