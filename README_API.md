@@ -1248,262 +1248,220 @@ Contains details about the combined error for the control points for the entire 
 
 | Method       | Definition | 
 | ------------ | ---------- | 
-| GET          |  http://mapwarper.net/gcps/{:gcp_id}?format=json |
+| GET          |  api/v1/gcps/{:gcp_id} |
 
 Returns a specified ground control point by ID.
+No authentication required.
 
 **Parameters**
 
 | Name          |             | Type        | Description | Required  | Notes     |
 | ------------- | ----------  | ----------  | ----------  | --------  | --------- |
 | gcp_id        |             | integer     | the unique identifier for the ground control point   |  required  |       |
-| format        |             | string      | specifies output format      |    optional       |  default is HTML     |
-|               | json        |             | requests output in JSON format, rather than HTML or XML | optional |    |
+
 
 **Example**
 
-[http://mapwarper.net/gcps/9579?format=json](http://mapwarper.net/gcps/{gcp_id}?format=|json)
+[http://wikimaps.mapwarper.net/api/v1/gcps/2](http://wikimaps.mapwarper.net/api/v1/gcps/2)
 
 **Response**
 
 ```
-{{{
 {
- "stat": "ok",
- "items": [
-   {
-     "lon": -5.6943786435,
-     "updated_at": "2010/05/25 12:07:29 -0400",
-     "x": 1544.54636904762,
-     "y": 4892.97321428,
-     "mapscan_id": 7449,
-     "id": 9579,
-     "lat": 50.1082502287,
-     "created_at": "2009/03/06 14:23:44 -0500"
-   }
- ]
+	"data": {
+		"id": "2",
+		"type": "gcps",
+		"attributes": {
+			"map-id": 2,
+			"x": 151.833333333328,
+			"y": 392.666666666666,
+			"lat": "52.7603488553",
+			"lon": "-4.6579885155",
+			"created-at": "2015-10-23T12:38:29.023Z",
+			"updated-at": "2016-06-08T10:54:44.094Z",
+			"error": null
+		}
+	}
 }
-}}}
 ```
 
 **Response Elements**
 
-| Name          |               | Type        | Description | 
-| ------------- | -----------   | ----------- | ----------  | 
-| stat          |               | string      | the HTTP response for the status of the request   | 
-| items		       |               | array       | an array of key pairs with information about the ground control points 	|			
-|               | lon           | big decimal | the longitude of the ground control point           |
-|               | updated_at    | date, time, & time zone | the date and time when the ground control points were last updated  |
-|               | x             | float       | the x coordinate on the image that corresponds to "lon"   |
-|               | y             | float       | the y coordinate on the image that corresponds to "lat"   |
-|               | mapscan_id    | integer     | the unique identifier for the map            |
-|               | id            | integer     | the unique identifier for the ground control point                |
-|               | lat           | big decimal | the latitude of the ground control point   |
-|               | created_at    | date, time, & time zone | the date and time when the ground control point was created   |
+***Data***
 
-If the GCP is not found, the request will return the following response (when using "format=json").
+| Name          |    Value	   | Description                    	| Notes |  
+| ------| -------     |------| -------     |
+| id            |               | The id for the gcp             |       |  
+| type          |    gcps       | the type of resource            |      |   
+| attributes    |               | Attributes of the gcps | see separate table for more detail   |  
+
+***Attributes***
+
+
+| Name               | Type        | Description           	| Notes |  
+| ------| -------     |------| -------     |
+| map-id         | id      | the unique identifier for the map the point belongs to   |   |
+| lat           | big decimal | the latitude of the ground control point   | |
+| lon           | big decimal | the longitude of the ground control point           | |
+| x             | float       | the x coordinate on the image that corresponds to "lon"   | |
+| y             | float       | the y coordinate on the image that corresponds to "lat"   | |
+| error         | float       | the calculated root mean square error, or distortion, for the ground control point   |  |
+| created-at    | date, time, & time zone | the date and time when the ground control point was created   | |
+| updated-at    | date, time, & time zone | the date and time when the ground control point was last updated   | |
+
+
+
+If the GCP is not found, the request will return the following response:
 
 | Status        | Response |
 | ------------- | -------- | 
-| 404	(not found) | ```{"items":[],"stat":"not found"}```    |
+| 404	(not found) | ```{"errors":[{"title":"Not found","detail":"Couldn't find Gcp with 'id'=2222"}]}```    |
 
-###Add Ground Control Points
+###Add Ground Control Point
 
 | Method       | Definition | 
 | ------------ | -------    | 
-| POST         |  http://mapwarper.net/gcps/add/{:map_id} |
+| POST         |  api/v1/gcps |
 
-Adds the ground control points on which a warp will be based. Requires authentication.
+Adds the ground control points on which a warp will be based, passing in JSON-API for the GCP.
+Requires authentication.
 
 **Parameters**
 
-| Name          |             | Type        | Description | Required  | Notes |
-| ------------- | ---------   | ----------- | ----------  | --------  | ----- |                                           
-| map_id        |             | integer     | the map to which the new ground control point will be applied        | required |                |
-| lat           |             | big decimal | the latitude of the ground control point to warp to                         | optional | default is 0   |
-| lon           |             | big decimal | the longitude of the ground control point to warp to                        | optional | default is 0   |
-| x             |             | float       | the x coordinate on the unwarped image that corresponds to "lon"     | optional | default is 0   |
-| y             |             | float       | the y coordinate on the unwarped image that corresponds to "lat"     | optional | default is 0   | 
-| format        |             |  string     | specifies output format                                              | optional | default is HTML |
-|               | json        |             | requests output in JSON format, rather than HTML or XML              | optional |                |
+The body of the request should be in JSON-API format with the following attributes:
 
-**Request Example**
+| Name               | Type        | Description           	| Notes |  
+| ------| -------     |------| -------     |
+| lat           | big decimal | the latitude of the ground control point   |required |
+| lon           | big decimal | the longitude of the ground control point           | required|
+| x             | float       | the x coordinate on the image that corresponds to "lon"   | required|
+| y             | float       | the y coordinate on the image that corresponds to "lat"   | required|
 
-[http://mapwarper.net/gcps/add/7449](http://mapwarper.net/gcps/add/7449)
+
+Example:
+
+```
+{
+	"data": {
+		"type": "gcps",
+		"attributes": {
+			"map-id": 2,
+			"x": 2,
+			"y":3,
+			"lat": "52.56",
+			"lon": "-4.65"
+		}
+	}
+}
+```
 
 **cURL Example**
 
 ```
-curl -X POST -d "x=1.1&y=2.3&format=json" -u name@example.com:password http://mapwarper.net/gcps/add/7449
+curl -H "Content-Type: application/json" -X POST -d '{"data":{"type":"gcps","attributes":{"x":1,"y":2,"lat":33.3,"lon":44.4,"map_id":2}}}' http://warper.wmflabs.org/api/v1/gcps -b cookie
 ```
 
 **Response**
 
-The response will be in the following format.
+If successful, the response should return the created point:
 
 ```
-{{{
 {
- "stat": "ok",
- "items": [
-   {
-     "lon": -73.960261342,
-     "updated_at": "2008/08/08 07:38:27 -0400",
-     "x": 5635.0,
-     "y": 889.0,
-     "mapscan_id": 8561,
-     "id": 3489,
-     "error": 2.12607673635957,
-     "lat": 40.6903369015,
-     "created_at": "2008/07/11 14:49:59 -0400"
-   },
-   {
-     "lon": -73.934082982,
-     "updated_at": "2008/08/08 07:38:27 -0400",
-     "x": 4719.0,
-     "y": 4014.0,
-     "mapscan_id": 8561,
-     "id": 3490,
-     "error": 6.01964128034223,
-     "lat": 40.6933793515,
-     "created_at": "2008/07/11 14:49:59 -0400"
-   },
-...
- ]
+	"data": {
+		"id": "21",
+		"type": "gcps",
+		"attributes": {
+			"map-id": 2,
+			"x": 1.0,
+			"y": 2.0,
+			"lat": "33.3",
+			"lon": "44.4",
+			"created-at": "2016-06-10T13:50:34.193Z",
+			"updated-at": "2016-06-10T13:50:34.193Z",
+			"error": null
+		}
+	}
 }
-}}}
 ```
 
-**Response Elements**
-
-| Name          |               | Type        | Description | 
-| ------------- | -----------   | ----------- | ----------  | 
-| stat          |               | string      | the HTTP response for the status of the request   | 
-| items		       |               | array       | an array of key pairs with information about the ground control points 	|			
-|               | lon           | big decimal | the longitude of the ground control point           |
-|               | updated_at    | date, time, & time zone | the date and time when the ground control point was last updated  |
-|               | x             | float       | the x coordinate on the image that corresponds to "lon"   |
-|               | y             | float       | the y coordinate on the image that corresponds to "lat"   |
-|               | mapscan_id    | integer     | the unique identifier for the map            |
-|               | id            | integer     | the unique identifier for the ground control point                |
-|               | error         | float       | the calculated root mean square error, or distortion, for the ground control point  |
-|               | lat           | big decimal | the latitude of the ground control point   |
-|               | created_at    | date, time, & time zone | the date and time when the ground control point was created   |
-
-An error will return the following message.
+An error will return something similar to the following message.
 
 ```
-{{{
 {
- "errors": [
-  [
-     "x",
-     "is not a number"
-   ]
- ],
- "stat": "fail",
-"items": [],
- "message": "Could not add GCP"
+	"errors": [{
+		"source": {
+			"pointer": "/data/attributes/x"
+		},
+		"detail": "is not a number"
+	}, {
+		"source": {
+			"pointer": "/data/attributes/x"
+		},
+		"detail": "can't be blank"
+	}]
 }
-}}}
 ```
 
 ###Update a GCP
 
 | Method       | Definition | 
 | ------------ | -------    | 
-| PUT          |  http://mapwarper.net/gcps/update/{:gcp_id} |
+| PATCH          |  api/v1/gcps/{:gcp_id} |
 
-Updates all of the fields for a given GCP.
+Updates a given GCP.
+Requires authentication.
 
-**Parameters**
+**Attributes**
 
 | Name          |             | Type        | Description | Required  | Notes |
 | ------------- | ----------  | ----------  | ----------- | --------- | ----- |
-| gcp_id        |             | integer     | the unique identifier for the ground control point  | required  |       |
-| lat           |             | big decimal | the latitude of the ground control point to warp to    | optional  | default is 0 |
-| lon           |             | big decimal | the longitude of the ground control point to warp to   | optional  | default is 0 |
-| x             |             | float       | the x coordinate on the unwarped image that corresponds to "lon"    | optional | default is 0 |
-| y             |             | float       | the y coordinate on the unwarped image that corresponds to "lat"    | optional | default is 0 | 
-| format        |             | string      | specifies output format      |    optional       |  default is HTML     |
-|               | json        |             | requests output in JSON format, rather than HTML or XML | optional | |
+| map_id        |             | integer     | the unique identifier of the map the point belongs to | optional |   |
+| lat           |             | big decimal | the latitude of the ground control point to warp to    | optional  |  |
+| lon           |             | big decimal | the longitude of the ground control point to warp to   | optional  |  |
+| x             |             | float       | the x coordinate on the unwarped image that corresponds to "lon"    | optional | |
+| y             |             | float       | the y coordinate on the unwarped image that corresponds to "lat"    | optional |  | 
 
-**Example**
 
-[http://mapwarper.net/gcps/update/14803](http://mapwarper.net/gcps/update/14803)
+**Example using cURL and cookie authentication**
 
-**Example using cURL and HTTP BASIC**
+In this example, we are changing the value of x and y.
 
 ```
-curl -X PUT -d "lat=54.33&lon=-1.467&x=3666.335&y=2000.12&format=json" -u user@example.com:password http://mapwarper.net/gcps/update/14803
+curl -H "Content-Type: application/json" -X PUT -d '{"data":{"type":"gcps","attributes":{"x":22,"y":55,"map_id":2}}}' http://wikimaps.mapwarper.net/api/v1/gcps/21 -b cookie
 ```
 
 **Response**
 
-An error will appear in the following format.
+If successful the response will be the updated control point.
 
+Example:
 ```
-{{{
-{"items":[],"errors":[["lat","is not a number"]],"stat":"fail","message":"Could not update GCP"}
-}}}
+{
+	"data": {
+		"id": "21",
+		"type": "gcps",
+		"attributes": {
+			"map-id": 2,
+			"x": 22.0,
+			"y": 55.0,
+			"lat": "33.3",
+			"lon": "44.4",
+			"created-at": "2016-06-10T13:50:34.193Z",
+			"updated-at": "2016-06-10T14:59:56.596Z",
+			"error": null
+		}
+	}
+}
 ```
-
-###Update One Field of a GCP
-
-| Method        | Definition | 
-| ------------- | ---------  | 
-| PUT           |  http://mapwarper.net/gcps/update_field/{:gcp_id} |
-
-Updates a single field for a GCP. Requires authentication.
-
-**Parameters**
-
-| Name          |             | Type        | Description | Required  | Notes |
-| ------------- | ----------  | --------    | ----------  | --------- | ----- |
-| gcp_id        |             | integer     | the unique identifier for the ground control point | required |  |
-| attribute     |             | string      | indicates the field to update | optional | |
-|               | lat         |             | the latitude of the ground control point to warp to   | optional |  |
-|               | lon         |             | the longitude of the ground control point to warp to  | optional |  |
-|               | x           |             | the x coordinate on the unwarped image that corresponds to "lon"    | optional |  |
-|               | y           |             | the y coordinate on the unwarped image that corresponds to "lat"    | optional |  | 
-| value         |             | integer     | the new value for "lat," "lon," "x," or "y"  | required |  default is 0  |
-| format        |             | string      | specifies output format         | optional     |  default is HTML |
-|               | json        |             | requests output in JSON format, rather than HTML or XML   | optional |              |
-
-**Example**
-
-[http://mapwarper.net/gcps/update_field/14803](http://mapwarper.net/gcps/update_field/14803)
-
-**cURL Example**
-
-```
-curl -X PUT -d "value=54.33&attribute=lat&format=json" -u user@example.com:password
- http://mapwarper.net/gcps/update_field/14803
- ```
-
-**Response**
-
-An error will appear in the following format.
-
-```
-{{{
-{"items":[],"errors":[["lat","is not a number"]],"stat":"fail","message":"Could not update GCP"}
-}}}
-```
-
-If the GCP is not found, the request will return the following response (when using "format=json").
-
-| Status        | Response |
-| ------------- | -------- | 
-| 404	(not found) | ```{"items":[],"stat":"not found"}```    |
 
 ###Delete a GCP
 
 | Method        | Definition | 
 | ------------- | ---------  | 
-| DELETE        |  http://mapwarper.net/gcps/destroy/{:gcp_id} |
+| DELETE        |  api/v1/gcp/{:gcp_id} |
 
-Deletes a ground control point. Requires authentication.
+Deletes a ground control point. 
+Requires authentication.
 
 **Parameters**
 
@@ -1513,42 +1471,46 @@ Deletes a ground control point. Requires authentication.
 
 Example: 
 
-[http://mapwarper.net/gcps/destroy/14805](http://mapwarper.net/gcps/destroy/14805)
+**curl example**
+
+```
+curl -H "Content-Type: application/json" -X DELETE http://wikimaps.mapwarper.net/api/v1/gcps/21 -b cookie
+```
 
 **Response**
 
-An error will appear in the following format.
+If deleted, it will return with the deleted point.
 
-```
-{{{
-{"items":[],"errors":[["field","message about field"]],"stat":"fail","message":"Could not delete GCP"}
+If the GCP is not found, the request will return the following response:
 
-}}}
-```
+| Status        | Response |
+| ------------- | -------- | 
+| 404	(not found) | ```{"errors":[{"title":"Not found","detail":"Couldn't find Gcp with 'id'=2222"}]}```    |
 
-If the GCP is not found, the request will return the following response (when using "format=json").
 
-| Status          | Response |
-| -------------   | -------- | 
-| 404	(not found) | ```{"items":[],"stat":"not found"}```    |
 
 ##Masking
 
-Uses GML to mask a portion of the map. This essentially crops the map. Masking is used to delete the borders around the map images to make a seamless layer of contiguous maps. Requires authentication.
+Uses GML to mask a portion of the map. This essentially crops the map. Masking is used to delete the borders around the map images to make a seamless layer of contiguous maps. 
 
 ###Get Mask
 
 | Method        | Definition | 
 | ------------- | ---------  | 
-| GET           |  http://mapwarper.net/shared/masks/{:map_id}.gml.ol |
+| GET           |  http://warper.wmflabs.org/mapimages/{:map_id}.gml.ol |
 
 Gets a GML string containing coordinates for the polygon(s) to mask over.
+No authentication required. 
+
+NOTE: The correct way to find the path to the mask is to get the Map object and look in it's links
+
+```
+"mask": "http://warper.wmflabs.org/mapimages/260.gml.ol",
+```
 
 **Examples**
 
-http://mapwarper.net/shared/masks/7449.gml.ol or
-
-http://mapwarper.net/shared/masks/7449.gml.ol?1274110931 (with a timestamp to assist in browser cache busting)
+http://mapwarper.net/shared/masks/7449.gml.ol 
 
 **Response Example**
 
@@ -1562,118 +1524,124 @@ http://mapwarper.net/shared/masks/7449.gml.ol?1274110931 (with a timestamp to as
 
 | Method        | Definition | 
 | ------------- | -------    | 
-| POST          |  http://mapwarper.net/maps/{:map_id}/save_mask |
+| POST          | api/v1/maps/:id/mask  |
 
-Saves a mask. Returns a text string with a message indicating success or failure. Requires authentication.
+Saves a mask. Returns map json.
+Requires authentication.
 
 **Parameters**
 
 | Name          |              | Type        | Description  | Required  | Notes |
 | ------------- | ---------    | ----------  | ---------    | --------  | ----- |
 | map_id        |              |  integer    | the unique indentifer for the map | required  | |
-| format        |              |  string     | specifies output format | optional | default is HTML |
-|               | json         |             | outputs a GML string of coordinates for the polygon(s) to be masked | optional  | 
-
-**Request Example**
-
-[http://mapwarper.net/maps/7449/save_mask](http://mapwarper.net/maps/7449/save_mask)
+| output        |              |  gml        | the GML      | required  |        |
 
 **cURL Example**
 
 ```
 {{{
-curl -X POST -d "format=json" -d 'output=<wfs:FeatureCollection xmlns:wfs="http://www.opengis.net/wfs"><gml:featureMember xmlns:gml="http://www.opengis.net/gml"><feature:features xmlns:feature="http://mapserver.gis.umn.edu/mapserver" fid="OpenLayers.Feature.Vector_207"><feature:geometry><gml:Polygon><gml:outerBoundaryIs><gml:LinearRing><gml:coordinates decimal="." cs="," ts=" ">1490.0376070686068,5380.396178794179 3342.4880893970894,5380.214910602912 3582.659,5126.446 3555.463,4813.692 3637.051,4487.34 4276.157,3753.048 4575.313,3113.942 4546.465124740124,1412.519663201663 2417.4615530145525,1317.354124740125 1431.415054054054,1294.9324823284824 1447.7525384615387,2187.807392931393 1434.5375363825372,5034.563750519751 1490.0376070686068,5380.396178794179</gml:coordinates></gml:LinearRing></gml:outerBoundaryIs></gml:Polygon></feature:geometry></feature:features></gml:featureMember></wfs:FeatureCollection>' -u user@example.com:pass  http://mapwarper.net/maps/7449/save_mask
+curl -X POST -d "format=json" -d 'output=<wfs:FeatureCollection xmlns:wfs="http://www.opengis.net/wfs"><gml:featureMember xmlns:gml="http://www.opengis.net/gml"><feature:features xmlns:feature="http://mapserver.gis.umn.edu/mapserver" fid="OpenLayers.Feature.Vector_207"><feature:geometry><gml:Polygon><gml:outerBoundaryIs><gml:LinearRing><gml:coordinates decimal="." cs="," ts=" ">1490.0376070686068,5380.396178794179 3342.4880893970894,5380.214910602912 3582.659,5126.446 3555.463,4813.692 3637.051,4487.34 4276.157,3753.048 4575.313,3113.942 4546.465124740124,1412.519663201663 2417.4615530145525,1317.354124740125 1431.415054054054,1294.9324823284824 1447.7525384615387,2187.807392931393 1434.5375363825372,5034.563750519751 1490.0376070686068,5380.396178794179</gml:coordinates></gml:LinearRing></gml:outerBoundaryIs></gml:Polygon></feature:geometry></feature:features></gml:featureMember></wfs:FeatureCollection>' http://wikimaps.mapwarper.net/api/v1/maps/2/mask -b cookie
 }}}
 ```
 
 **Response**
 
-A successful call will return the following message. 
+A successful call will return the applicable map in json-api format.
 
-```
-{"stat":"ok", "message":"Map clipping mask saved (gml)"}
-```
 
-Using "format=json" will return a GML string of coordinates for the polygon(s) to be masked, such as the following.
 
-```
-{{{ feature:geometrygml:Polygongml:outerBoundaryIsgml:LinearRing1490.0376070686068,5380.396178794179 3342.4880893970894,5380.214910602912 3582.659,5126.446 3555.463,4813.692 3637.051,4487.34 4276.157,3753.048 4575.313,3113.942 4546.465124740124,1412.519663201663 2417.4615530145525,1317.354124740125 1431.415054054054,1294.9324823284824 1447.7525384615387,2187.807392931393 1434.5375363825372,5034.563750519751 1490.0376070686068,5380.396178794179/gml:coordinates/gml:LinearRing/gml:outerBoundaryIs/gml:Polygon/feature:geometry/feature:features/gml:featureMember/wfs:FeatureCollection }}}
-```
 
 ###Delete Mask
 
 | Method        | Definition | 
 | ------------- | -------    | 
-| POST          |  http://mapwarper.net/maps/{:map_id}/delete_mask |
+| DELETE          |  api/v1/maps/{:map_id}/mask |
 
-Deletes a mask. Requires authentication.
+Deletes a mask.
+Requires authentication.
 
 **Parameters** 
 
 | Name          |             | Type        | Description | Required  | 
 | ------------- | ---------   | ---------   | ----------- | --------  |
 | map_id        |             | integer     | the unique identifier for the map   |  required  |
-| format        |             | string      | specifies output format  | optional |  
-|               | json        |             | requests output in JSON format, rather than HTML or XML  | optional |
+
 
 **Response**
 
-| Status        | Response | Notes |
-| ------------- | -------- | ----- |
-| 200	(OK)| ```{"stat":"ok","message":"mask deleted"}```    | success |
-| 404	(not found) | ```{"items":[],"stat":"not found"}```   | mask not found |
+If sucessfully deleted the response will be the affected map in json api format
 
 
-###Mask Map
+###Crop / Mask Map
 
 | Method        | Definition | 
 | ------------- | -------    | 
-| POST          |  http://mapwarper.net/maps/{:map_id}/mask_map |
+| PATCH          |  api/v1/maps/{:map_id}/crop |
 
 Applies the clipping mask to a map, but does not warp it. A clipping mask should be saved before calling this. Requires authentication.
 
+**Example**
+
+```
+curl -H "Content-Type: application/json" -X PATCH http://wikimaps.mapwarper.net/api/v1/maps/2/crop -b cookie
+```
+
 **Response**
 
-| Status        | Response | Notes |
-| ------------- | -------  | ----  | 
-| 200	(OK) | ```{"stat":"ok","message":"Map cropped"}```    | success                 |
-| 404	(not found) | ```{"items":[],"stat":"not found"}```   | clipping mask not found |
+If successul, returns the target map in json
+
+**Errors**
+
+If there is no mask saved, the following error will be returned (Error Status 422)
+
+```
+{
+	"errors": [{
+		"title": "Mask error",
+		"detail": "Mask file not found"
+	}]
+}
+```
+
 
 ###Save, Mask, and Warp Map
 
 | Method       | Definition | 
 | ------------ | --------   | 
-| POST         |  http://mapwarper.net/maps/{:map_id}/save_mask_and_warp |
+| PATCH         |  /api/v1/maps/:map_id/mask_crop_rectify |
 
-Rolls the calls into one. Saves the mask, applies the mask to the map, and warps the map using the mask. Requires authentication.
+Rolls the calls into one. Saves the mask, applies the mask to the map, and warps the map using the mask. 
+Requires authentication.
 
 **Parameters**
 
 | Name        | Type        | Description | Required  |
 | ----------- | ----------- | ----------  | --------- |
 | map_id      | integer     | the unique identifier for the map | required |
+| output        |              |  gml        | the GML      | required  |        |
+
+
+**Example**
+
+```
+{{{
+curl -X POST -d "format=json" -d 'output=<wfs:FeatureCollection xmlns:wfs="http://www.opengis.net/wfs"><gml:featureMember xmlns:gml="http://www.opengis.net/gml"><feature:features xmlns:feature="http://mapserver.gis.umn.edu/mapserver" fid="OpenLayers.Feature.Vector_207"><feature:geometry><gml:Polygon><gml:outerBoundaryIs><gml:LinearRing><gml:coordinates decimal="." cs="," ts=" ">1490.0376070686068,5380.396178794179 3342.4880893970894,5380.214910602912 3582.659,5126.446 3555.463,4813.692 3637.051,4487.34 4276.157,3753.048 4575.313,3113.942 4546.465124740124,1412.519663201663 2417.4615530145525,1317.354124740125 1431.415054054054,1294.9324823284824 1447.7525384615387,2187.807392931393 1434.5375363825372,5034.563750519751 1490.0376070686068,5380.396178794179</gml:coordinates></gml:LinearRing></gml:outerBoundaryIs></gml:Polygon></feature:geometry></feature:features></gml:featureMember></wfs:FeatureCollection>' http://wikimaps.mapwarper.net/api/v1/maps/2/mask_crop_rectify -b cookie
+}}}
+```
 
 **Response**
 
-The output will be a GML string containing the coordinates of the polygon(s) to mask over.
+As rectify call.
 
-| Status        | Response | Notes |
-| ------------- | -------  | ----- |
-| 200	(OK) | ```{"stat":"ok","message":"Map masked and rectified!"}```    | success |
-| 200	(OK )| ```{"stat":"ok","message":"Map masked but it needs more control points to rectify"}```    | returned when a map has less than three GCPs |
-| 404	(not found) | ```{"items":[],"stat":"not found"}```    | no clipping mask found |
 
 ###Warping
 
 | Method       | Definition | 
 | ------------ | -------    | 
-| POST         |  http://mapwarper.net/maps/{:map_id}/rectify |
+| PATCH         |  api/v1/maps/{:map_id}/rectify |
 
-Warps or rectifies a map according to its saved GCPs and the parameters passed in. Requires authentication.
-
-**Example:**
-
-[http://mapwarper.net/maps/7449/rectify](http://mapwarper.net/maps/7449/rectify)
+Warps or rectifies a map according to its saved GCPs and the parameters passed in. 
+Requires authentication.
 
 **Curl Example**
 
