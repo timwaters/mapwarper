@@ -33,6 +33,38 @@ Welcome to the documentation for the Wikimaps Warper API! MapWarper is a free ap
 [Save, Mask, and Warp Map](#save-mask-and-warp-map)  
 [Warping](#warping)  
 
+Create Map
+Update Map
+Destroy Map
+Publish Map
+Unpublish Map
+
+Add Many GCPs
+
+Create Layer
+Update Layer
+Destroy Layer
+Toggle Layer Visibility
+Remove Map From Layer
+Merge Layers
+
+Show User
+List Users
+
+Show Import
+List Import Maps
+List Imports
+Create Import
+Update Import
+Destroy Import
+
+List Activity
+List All Maps Activity
+List Map Activity
+List User Activity
+User Statistics
+
+
 ##Api-Endpoint
 
 ```warper.wmflabs.org/api/v1```
@@ -45,6 +77,7 @@ Where possible most output formats are in json-api format. Some creation and upd
 
 For more infomation about the JSON API format, please consult [http://jsonapi.org/](http://jsonapi.org/). 
 Things to watch out for (compared to the previous warper API) the JSON API has `data` as a root array, and the data for each feature are in an `attributes` array. The format also allows the system to include `relationships` (for example, including the layers with each map) and also shows `links` to various resources and contains pagination `meta` information.
+
 
 The GeoJSON is different in structure and also in that it encodes the geometry of features in GeoJSON format. It does not include relations or links or pagination information. For more information about the GeoJSON format see the GeoJSON site. [http://geojson.org/](http://geojson.org/)
 
@@ -1702,6 +1735,267 @@ Map currently being rectified
 	"errors": [{
 		"title": "Map busy",
 		"detail": "Map currently being rectified. Try again later."
+	}]
+}
+```
+
+--------
+
+##Create Map
+
+| Method       | Definition | 
+| ------------ | -------    | 
+| POST         |  api/v1/maps |
+
+Creates a new map.
+Requires authentication.
+
+**Parameters**
+
+The body of the request should be in JSON-API format with the following attribute. 
+
+| Name               | Type        | Description           	| Notes |  
+| ------| -------     |------| -------     |
+| page_id         | integer | the Wiki PAGEID of the map   | required (note the underscore, not dash when posting) |
+| title         | string | the title of the map   | required, but will be overwritten from wiki page |
+
+The PAGEID is the unique number given to all mediawiki pages. 
+
+Example:
+
+```
+{
+	"data": {
+		"type": "maps",
+		"attributes": {
+			"page_id":1234,
+      "title": "initial title"
+		}
+	}
+}
+```
+
+**cURL Example**
+
+```
+curl -H "Content-Type: application/json" -X POST -d '{"data":{"type":"maps","attributes": {"title":"initial",  page_id":1234}}}' http://warper.wmflabs.org/api/v1/maps -b cookie
+```
+
+**Response**
+
+If successful, the response should return the created map in json format
+
+***Errors***
+
+Status 422 and message for example if the page_id is not a number:
+
+```
+{
+	"errors": [{
+		"source": {
+			"pointer": "/data/attributes/page-id"
+		},
+		"detail": "is not a number"
+	}]
+}
+```
+
+##Update Map
+
+
+| Method       | Definition | 
+| ------------ | -------    | 
+| PATCH         |  api/v1/maps/{:id} |
+ 
+Updates a  map. Allows an editor to change title and description.
+Requires authentication.
+Editor role only authorized. 
+
+**Parameters**
+
+
+| Name      	    |  Type      | Description  |  Required | 
+| -------------  | ---------- | ------------ |  -------- | 
+|   id     		  | integer    | the unique identifier for the map   | required |
+
+
+The body of the request should be in JSON-API format with the following attributes 
+
+| Name               | Type        | Description           	| Notes |  
+| ------| -------     |------| -------     |
+| title |        | string | the title of the map   | optional |
+| description |         | string | the description of the map   | optional|
+
+
+Example:
+
+```
+{
+	"data": {
+		"type": "maps",
+		"attributes": {
+      "title": "New Improved title",
+      "description": "A better reading description"
+		}
+	}
+}
+```
+
+**cURL Example**
+
+```
+curl -H "Content-Type: application/json" -X PATCH -d '{"data":{"type":"maps","attributes": {"title":"A New Improved Title"}}}' http://warper.wmflabs.org/api/v1/maps/3 -b cookie
+```
+
+**Response**
+
+If successful, the response should return the created map in json format
+
+***Errors***
+
+Status 422 and message with errors.
+
+
+##Destroy Map
+
+| Method       | Definition | 
+| ------------ | -------    | 
+| DELETE         |  api/v1/maps/{:id} |
+ 
+Deletes a map. Allows an editor to delete a specific map.
+Requires authentication.
+Editor role only authorized. 
+
+**Parameters**
+
+
+| Name      	    |  Type      | Description  |  Required | 
+| -------------  | ---------- | ------------ |  -------- | 
+|   id     		  | integer    | the unique identifier for the map   | required |
+
+
+
+
+**cURL Example**
+
+```
+curl -H "Content-Type: application/json" -X DELETE http://warper.wmflabs.org/api/v1/maps/3 -b cookie
+```
+
+**Response**
+
+If successful, the response should return the created map in json format
+
+***Errors***
+
+Status 422 and message with errors.
+
+##Publish Map
+
+Publishes a map. This stops the map from being edited further. Maps should be warped before publishing.
+Authentication required.
+Administrator role authorized only.
+
+
+| Method       | Definition | 
+| ------------ | -------    | 
+| PATCH         |  api/v1/maps/{:id}/publish |
+ 
+
+**Parameters**
+
+
+| Name      	    |  Type      | Description  |  Required | 
+| -------------  | ---------- | ------------ |  -------- | 
+|   id     		  | integer    | the unique identifier for the map   | required |
+
+
+**cURL Example**
+
+```
+curl -H "Content-Type: application/json" -X PATCH  http://warper.wmflabs.org/api/v1/maps/3/publish -b cookie
+```
+
+**Response**
+
+If successful, the response should return the created map in json format
+
+***Errors***
+
+Status 422 and message with errors.
+
+If map is not warped:
+```
+{
+	"errors": [{
+		"title": "Map not warped",
+		"detail": "Map is not warped so cannot be published"
+	}]
+}
+```
+
+Other error
+
+```
+{
+	"errors": [{
+		"title": "Publish error",
+		"detail": "Error with publishing map"
+	}]
+}
+```
+
+##Unpublish Map
+
+Unpublishes a map. This allows the map to be edited. Maps should be published before unpublishing.
+Authentication required.
+Administrator role authorized only.
+
+
+| Method       | Definition | 
+| ------------ | -------    | 
+| PATCH         |  api/v1/maps/{:id}/unpublish |
+ 
+
+**Parameters**
+
+
+| Name      	    |  Type      | Description  |  Required | 
+| -------------  | ---------- | ------------ |  -------- | 
+|   id     		  | integer    | the unique identifier for the map   | required |
+
+
+**cURL Example**
+
+```
+curl -H "Content-Type: application/json" -X PATCH  http://warper.wmflabs.org/api/v1/maps/3/unpublish -b cookie
+```
+
+**Response**
+
+If successful, the response should return the created map in json format
+
+***Errors***
+
+Status 422 and message with errors.
+
+If map is not published:
+```
+{
+	"errors": [{
+		"title": "Publish error",
+		"detail": "Map is not published so cannot be unpublished"
+	}]
+}
+```
+
+Other error
+
+```
+{
+	"errors": [{
+		"title": "Publish error",
+		"detail": "Error with unpublishing map"
 	}]
 }
 ```
