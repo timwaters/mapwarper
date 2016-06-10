@@ -1646,7 +1646,7 @@ Requires authentication.
 **Curl Example**
 
 ```
-curl -X POST -d "use_mask=false&format=json" -u email@example.com:password  http://mapwarper.net/maps/7449/rectify
+curl -X PATCH -d "use_mask=false&format=json" -u email@example.com:password  http://mapwarper.net/api/v1/maps/7449/rectify
 ```
 
 **Parameters**
@@ -1678,8 +1678,30 @@ The following options specify the algorithm or method that should be used to war
 
 **Response**
 
-| Status          | Response | Notes |
-| -------------   | -------  | ----- |
-| 200	(OK)        | ```{"stat":"ok","message":"Map rectified."}```    | success  |
-|                 | ```{"stat":"fail","message":"not enough GCPS to rectify"}``` | map doesn't have enough GCPs saved |
-| 404	(not found) | ```{"items":[],"stat":"not found"}```    | map not found |
+If successful the response will the target map in json format
+
+If there is an error, a 422 status code is sent along with json
+
+**Errors**
+
+Two common error messages are:
+
+Not enough Ground Control Points
+```
+{
+	"errors": [{
+		"title": "Not enough gcps",
+		"detail": "Map needs at least 3 control points to rectify."
+	}]
+}
+```
+
+Map currently being rectified
+```
+{
+	"errors": [{
+		"title": "Map busy",
+		"detail": "Map currently being rectified. Try again later."
+	}]
+}
+```
