@@ -37,6 +37,13 @@ class Api::V1::LayersController < Api::V1::ApiController
 
   def update
     if @layer.update_attributes(layer_params)
+      if params[:data][:map_ids]
+        selected_maps = Map.find(params[:data][:map_ids])
+        selected_maps.each {|map| @layer.maps << map}
+        @layer.update_layer
+        @layer.update_counts
+      end
+
       render :json => @layer
     else
       render :json => @layer, :status => :unprocessable_entity, :serializer => ActiveModel::Serializer::ErrorSerializer 

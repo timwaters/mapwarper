@@ -168,11 +168,15 @@ class LayersControllerTest < ActionController::TestCase
     
     test "update with maps" do
       warped_map = FactoryGirl.create(:warped_map)
+      before_count = @layer.maps.count
+    
       patch 'update', :id => @layer.id,  'data' => {'type' => "layers", "attributes"=>{:name => "updated layer"}, :map_ids => [warped_map.id]}
+      after_count = @layer.reload.maps.count
+      
       assert_response :ok
       body = JSON.parse(response.body)
       assert_equal "updated layer", body["data"]["attributes"]["name"]
-      assert_equal 1, @layer.maps.count
+      assert_equal 1, after_count - before_count 
       assert_equal warped_map.title, @layer.maps.first.title
     end
     
