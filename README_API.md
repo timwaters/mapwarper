@@ -33,15 +33,15 @@ Welcome to the documentation for the Wikimaps Warper API! MapWarper is a free ap
 [Save, Mask, and Warp Map](#save-mask-and-warp-map)  
 [Warping](#warping)  
 
-Create Map
-Update Map
-Destroy Map
-Publish Map
-Unpublish Map
+[Create Map](#create-map)
+[Update Map](#update-map)
+[Destroy Map](#destroy-map)
+[Publish Map](#publish-map)
+[Unpublish Map](#unpublish-map)
 
-Add Many GCPs
+[Add Many GCPs](#add-many-gcps)
 
-Create Layer
+[Create Layer](#create-layer)
 Update Layer
 Destroy Layer
 Toggle Layer Visibility
@@ -1999,3 +1999,351 @@ Other error
 	}]
 }
 ```
+
+##Add Many GCPs
+
+Adds many Ground Control Point at once to one or more maps
+Authentication required.
+Editor role authorized only.
+
+
+| Method       | Definition | 
+| ------------ | -------    | 
+| POST         |  /api/v1/gcps/add_many  |
+ 
+
+**Parameters**
+
+
+| Name      	    |  Type      | Description  |  Required | 
+| -------------   | ---------- | ------------ |  -------- | 
+|   gcps     		  | array      | an array of control points   | required |
+
+Each gcp should have either a ```mapid``` or a ```pageid``` attribute to be able to add the control point to the correct map.
+Points cannot be added twice. 
+
+```
+{
+	"gcps": [{
+		"mapid": 123,
+		"x": 2,
+		"y": 3,
+		"lat": "52.56",
+		"lon": "-4.65"
+	}, {
+		"pageid": 123,
+		"x": 12,
+		"y": 23,
+		"lat": "32.56",
+		"lon": "-2.65"
+	}]
+}
+```
+
+**cURL Example**
+
+```
+curl -H "Content-Type: application/json" -X POST -d '{"gcps":[{"mapid":123,"x":2,"y":3,"lat":"52.56","lon":"-4.65"},{"pageid":123,"x":12,"y":23,"lat":"32.56","lon":"-2.65"}]}' http://warper.wmflabs.org/api/v1/gcps/add_many -b cookie
+```
+
+**Response**
+
+If successful, the response should return the newly added gcps
+
+```
+{
+  "data": [
+    {
+      "id": "228",
+      "type": "gcps",
+      "attributes": {
+        "map-id": 123,
+        "x": 2.0,
+        "y": 3.0,
+        "lat": "52.56",
+        "lon": "-4.65",
+        "created-at": "2016-06-11T16:29:32.948Z",
+        "updated-at": "2016-06-11T16:29:32.948Z",
+        "error": null
+      }
+    },
+    {
+      "id": "228",
+      "type": "gcps",
+      "attributes": {
+        "map-id": 542,
+        "x": 2.0,
+        "y": 3.0,
+        "lat": "52.56",
+        "lon": "-4.65",
+        "created-at": "2016-06-11T16:29:32.948Z",
+        "updated-at": "2016-06-11T16:29:32.948Z",
+        "error": null
+      }
+    }
+  ]
+}
+```
+
+***Errors***
+
+If a map cannot be found
+
+```
+{"errors":[{"title":"Not found","detail":"Couldn't find Map with 'id'=123"}]}
+```
+
+
+
+##Create Layer
+
+Creates a new layer and adding several existing maps to it at the same time.
+Authentication required.
+Administrator authorized only.
+
+
+| Method       | Definition | 
+| ------------ | -------    | 
+| POST         |  /api/v1/layers |
+ 
+
+**Parameters**
+
+The body of the request should be in JSON-API format. ```data``` may also have ```map_ids``  - an array of existing map ids to add to the layer.
+
+| Name       |             | Type   | Description                          | Notes    |
+|------------|-------------|--------|--------------------------------------|----------|
+| data       |             |        |                                      |          |
+|            | type        | string | "layers"                             | required |
+|            | map_ids     | array  | array of integers of the maps to add | optional |
+| attributes |             |        |                                      |          |
+|            | name        | string | the name of the layer                | required |
+|            | description | string | the description of the layer         | optional |
+
+
+Example:
+
+```
+{
+	"data": {
+		"type": "layers",
+		"attributes": {
+			"name": "a new layer",
+			"description": "new description"
+		},
+    "map_ids":[123,553,224]
+	}
+}
+```
+
+**cURL Example**
+
+```
+curl -H "Content-Type: application/json" -X POST -d '{"data":{"type":"layers","attributes":{"name":"a new layer","description":"new description"},"map_ids":[123,553,224]}}' http://warper.wmflabs.org/api/v1/layers -b cookie
+```
+
+**Response**
+
+If successful, the response should return the new layer in json api format
+
+
+##Update Layer
+
+Updates a new layer and adding several existing maps to it at the same time. This could be used to add many maps at the same time to a layer.
+Authentication required.
+Administrator authorized only.
+
+
+| Method       | Definition | 
+| ------------ | -------    | 
+| PATCH         |  /api/v1/layers/{:id} |
+ 
+
+**Parameters**
+
+| Name |   | Type    | Description                         | Required | Notes |   |
+|------|---|---------|-------------------------------------|----------|-------|---|
+| id   |   | integer | the unique identifier for the layer | required |       |   |
+
+The body of the request should be in JSON-API format. ```data``` may also have ```map_ids``  - an array of existing map ids to add to the layer.
+
+| Name       |             | Type   | Description                          | Notes    |
+|------------|-------------|--------|--------------------------------------|----------|
+| data       |             |        |                                      |          |
+|            | type        | string | "layers"                             | required |
+|            | map_ids     | array  | array of integers of the maps to add | optional |
+| attributes |             |        |                                      |          |
+|            | name        | string | the name of the layer                | optional |
+|            | description | string | the description of the layer         | optional |
+
+
+Example:
+
+```
+{
+	"data": {
+		"type": "layers",
+		"attributes": {
+			"name": "a different name"
+		},
+    "map_ids":[4423,22]
+	}
+}
+```
+
+**cURL Example**
+
+```
+curl -H "Content-Type: application/json" -X PATCH -d '{"data":{"type":"layers","attributes":{"name":"a different name"},"map_ids":[4423,22]}}' http://warper.wmflabs.org/api/v1/layers -b cookie
+```
+
+**Response**
+
+If successful, the response should return the updated layer in json api format
+
+##Destroy Layer
+
+Destroys a layer.
+Authentication required.
+Administrator authorized only.
+
+| Method       | Definition          | 
+|--------------|---------------------|
+| DELETE       | /api/v1/layers{:id} |
+
+**Parameters**
+
+| Name |   | Type    | Description                         | Required | Notes |   |
+|------|---|---------|-------------------------------------|----------|-------|---|
+| id   |   | integer | the unique identifier for the layer | required |       |   |
+
+
+**cURL Example**
+
+```
+curl -H "Content-Type: application/json" -X DELETE -d http://warper.wmflabs.org/api/v1/layers/12 -b cookie
+```
+
+**Response**
+
+If successful, the response should return the deleted layer in json api format
+
+
+##Toggle Layer Visibility
+
+Toggles the visibility of a layer. This turns off the layer from being mosaiced together, and having WMS and Tile export options.
+It is useful for layers which represent meta groups of maps, or layers of layers. 
+Authentication required.
+Administrator authorized only.
+
+
+| Method       | Definition | 
+| ------------ | -------    | 
+| PATCH         |  /api/v1/layers/{:id}/toggle_visibility |
+ 
+
+**Parameters**
+
+| Name |   | Type    | Description                         | Required | Notes |   |
+|------|---|---------|-------------------------------------|----------|-------|---|
+| id   |   | integer | the unique identifier for the layer | required |       |   |
+
+
+
+**cURL Example**
+
+```
+curl -H "Content-Type: application/json" -X PATCH  http://warper.wmflabs.org/api/v1/layers/2/toggle_visibility -b cookie
+```
+
+**Response**
+
+If successful, the response should return the layer in json api format (with the visibility attribute).
+
+
+##Remove Map From Layer
+
+Removes a single map from a layer.
+Authentication required.
+Administrator authorized only.
+
+
+| Method       | Definition | 
+| ------------ | -------    | 
+| PATCH         |  /api/v1/layers/{:id}/remove_map |
+ 
+
+**Parameters**
+
+It takes a single parameter, map_id containing the id of the map to be removed.
+
+| Name |   | Type    | Description                         | Required | Notes |   |
+|------|---|---------|-------------------------------------|----------|-------|---|
+| id   |   | integer | the unique identifier for the layer | required |       |   |
+| map_id     |             |  integer |   unique id of the map to be removed        |     required     |
+
+
+
+**cURL Example**
+
+```
+curl -H "Content-Type: application/json" -X PATCH -d '{"map_id":123}' http://warper.wmflabs.org/api/v1/layers/2/remove_map -b cookie
+```
+
+**Response**
+
+If successful, the response should return the updated layer in json api format
+
+If error, the following will be returned (with 422 status)
+
+```
+{
+	"errors": [{
+		"title": "Layer error",
+		"detail": "Error removing map."
+	}]
+}
+```
+
+
+##Merge Layers
+
+Merges the maps of two layers together. The destination layer gets the maps from the original layer. The original layer is not deleted.
+Authentication required.
+Administrator authorized only.
+
+
+| Method       | Definition | 
+| ------------ | -------    | 
+| PATCH         |  /api/v1/layers/{:id}/remove_map |
+ 
+
+**Parameters**
+
+| Name    |   | Type    | Description                         | Required | Notes | 
+|---------|---|---------|-------------------------------------|----------|-------|
+| id      |   | integer | the unique identifier for the layer to be merged | required |       |  
+| dest_id |   | integer | the unique identifier for the destination layer | required |       | 
+
+
+**cURL Example**
+
+```
+curl -H "Content-Type: application/json" -X PATCH -d '{"dest_id":3}' http://warper.wmflabs.org/api/v1/layers/2/merge -b cookie
+```
+
+**Response**
+
+If successful, the response should return the destination layer in json format
+
+If error, the following will be returned (with 422 status)
+
+```
+{
+	"errors": [{
+		"title": "Layer error",
+		"detail": "Error merging layers"
+	}]
+}
+```
+
