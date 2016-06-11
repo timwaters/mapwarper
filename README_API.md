@@ -42,11 +42,11 @@ Welcome to the documentation for the Wikimaps Warper API! MapWarper is a free ap
 [Add Many GCPs](#add-many-gcps)
 
 [Create Layer](#create-layer)
-Update Layer
-Destroy Layer
-Toggle Layer Visibility
-Remove Map From Layer
-Merge Layers
+[Update Layer](#update-layer)
+[Destroy Layer](#update-layer)
+[Toggle Layer Visibility](#toggle-layer-visibility)
+[Remove Map From Layer](#remove-map-from-layer)
+[Merge Layers](#merge-layers)
 
 Show User
 List Users
@@ -110,6 +110,12 @@ Example using the cookie:
 curl -H 'Content-Type: application/json' -H 'Accept: application/json' -X GET http://localhost:3000/api/v1/users/2.json -b cookie
 
 ```
+
+Unauthorized calls may return
+
+| Status        | Response |
+| ------------- | -------- | 
+| 402	(unauthorized) | ```{"errors":[{"title":"Unauthorized","detail":"Unauthorized Request"}]}```    |
 
 
 ##Search for Maps
@@ -924,30 +930,30 @@ Queries and returns a list of layers that a given map belongs to.
 
 **Parameters**
 
-| Name      	    |             | Type  | Description  |  Required | Notes  |
-| -------------  | ----------- | ----- | ------------ |  -------- | ------ |
-| map_id         |             |  integer | the unique identifier for a map  | required |   |     
-| query           |             |string | search query | optional  |        |
-| field           |             |string | specified field to be searched     | optional  | default is title  |
-|       		      | name      	|string  | the title of the layer   | optional | default |
-|       		      | description | string | the description of the layer | optional |       |   |
-| sort_key	      |            |         | the field that should be used to sort the results  | optional | default is updated_at  |
-| 		            | name      | string    | the name of the layer	             | optional            | |
-| 		            | updated_at | string   | when the layer was last updated	| optional            |  default |
-| 		            | created_at | string   | when the layer was created	| optional            | |
-|		              | percent	   | string   | the percent of maps which are rectified in the layer | optional            | ordered by integer (see below) |
-| sort_order	    |            |  string  | the order in which the results should appear | optional            | default is desc|
-|                 | asc 	     |           | ascending order               | optional            | |
-|		              | desc	     |           | descending order              | optional            | default | 
-| format	        |     	     | string    | specifies output format       | optional      | can also be passed in as extension, eg. maps.json  |
-|                 | json       | string    | JSON format for layer   | optional            | default | 
-|                 | geojson    | string    | GeoJSON format for layer | optional           |  simple array, not featurecollection   |
-| page		        | 		        | integer   | the page number; use to get the next or previous page of search results | optional | |
-| per_page        |             | integer   | number of results per page | optional |default is 50 |
-| bbox	         | a comma-separated string of latitude and longitude coordinates | a rectangle delineating the geographic area to which the search should be limited | optional |
-| operation     |           | string       | specifies how to apply the bounding box  | optional  | default is intersect |
-|               | intersect | string       |uses the PostGIS ST_Intersects operation to retrieve warped maps whose extents intersect with the bbox parameter  | optional | preferred; orders results by proximity to the bbox extent; default |
-|               | within    | string	      | uses a PostGIS ST_Within operation to retrieve warped maps that fall entirely within the extent of the bbox parameter  | optional      |  |
+| Name       |             | Type    | Description                                                             | Required | Notes                                             |
+|------------|-------------|---------|-------------------------------------------------------------------------|----------|---------------------------------------------------|
+| map_id     |             | integer | the unique identifier for a map                                         | required |                                                   |
+| query      |             | string  | search query                                                            | optional |                                                   |
+| field      |             | string  | specified field to be searched                                          | optional | default is title                                  |
+|            | name        | string  | the title of the layer                                                  | optional | default                                           |
+|            | description | string  | the description of the layer                                            | optional |                                                   |
+| sort_key   |             |         | the field that should be used to sort the results                       | optional | default is updated_at                             |
+|            | name        | string  | the name of the layer                                                   | optional |                                                   |
+|            | updated_at  | string  | when the layer was last updated                                         | optional | default                                           |
+|            | created_at  | string  | when the layer was created                                              | optional |                                                   |
+|            | percent     | string  | the percent of maps which are rectified in the layer                    | optional | ordered by integer (see below)                    |
+| sort_order |             | string  | the order in which the results should appear                            | optional | default is desc                                   |
+|            | asc         |         | ascending order                                                         | optional |                                                   |
+|            | desc        |         | descending order                                                        | optional | default                                           |
+| format     |             | string  | specifies output format                                                 | optional | can also be passed in as extension, eg. maps.json |
+|            | json        | string  | JSON format for layer                                                   | optional | default                                           |
+|            | geojson     | string  | GeoJSON format for layer                                                | optional | simple array, not featurecollection               |
+| page       |             | integer | the page number; use to get the next or previous page of search results | optional |                                                   |
+| per_page   |             | integer | number of results per page                                              | optional | default is 50                                     |
+| bbox	     | a comma-separated string of latitude and longitude coordinates | a rectangle delineating the geographic area to which the search should be limited | optional |
+| operation  |             | string  | specifies how to apply the bounding box  | optional  | default is intersect |
+|            | intersect   | string  |uses the PostGIS ST_Intersects operation to retrieve warped maps whose extents intersect with the bbox parameter  | optional | preferred; orders results by proximity to the bbox extent; default |
+|            | within      | string	 | uses a PostGIS ST_Within operation to retrieve warped maps that fall entirely within the extent of the bbox parameter  | optional      |  |
 
 **Request Example** 
 
@@ -2347,3 +2353,269 @@ If error, the following will be returned (with 422 status)
 }
 ```
 
+##Get a User
+
+
+| Method       | Definition | 
+| ------------ | ---------- | 
+| GET          |  api/v1/users/{:id} |
+
+Returns a specified user by ID.
+Authentication required. 
+Administrator authorized users will also see attributes for email and the roles the specified user has.
+
+**Parameters**
+| Name |   | Type    | Description                        | Required | Notes |
+|------|---|---------|------------------------------------|----------|-------|
+| id   |   | integer | the unique identifier for the user | required |       |
+
+
+**Example**
+
+[http://wikimaps.mapwarper.net/api/v1/users/3](http://wikimaps.mapwarper.net/api/v1/users/3)
+
+**Response**
+
+```
+{
+	"data": {
+		"id": "23",
+		"type": "users",
+		"attributes": {
+			"login": "example",
+			"created-at": "2013-08-26T15:37:34.619Z",
+			"enabled": true,
+			"provider": null
+		},
+		"links": {
+			"self": "http://localhost:3000/api/v1/users/23"
+		}
+	}
+}
+```
+
+```
+{
+	"data": {
+		"id": "23",
+		"type": "users",
+		"attributes": {
+			"login": "example",
+			"created-at": "2013-08-26T15:37:34.619Z",
+			"enabled": true,
+			"provider": null,
+			"email": "example@example.com"
+		},
+		"relationships": {
+			"roles": {
+				"data": [
+					{
+						"id": "2",
+						"type": "roles"
+					},
+					{
+						"id": "4",
+						"type": "roles"
+					}
+				]
+			}
+		},
+		"links": {
+			"self": "http://localhost:3000/api/v1/users/2"
+		}
+	},
+	"included": [
+		{
+			"id": "2",
+			"type": "roles",
+			"attributes": {
+				"name": "editor"
+			}
+		},
+		{
+			"id": "4",
+			"type": "roles",
+			"attributes": {
+				"name": "developer"
+			}
+		}
+	]
+}
+```
+
+**Response Elements**
+
+***Data***
+
+| Name          | Value | Description                    | Notes                                         |
+|---------------|-------|--------------------------------|-----------------------------------------------|
+| id            |       | The id for the user            |                                               | 
+| type          | users | the type of resource           |                                               | 
+| attributes    |       | Attributes of the user         | see table for more detail                     | 
+| relationships |       | Showing the roles the user has | only admins can view the roles of other users | 
+| included      |       | Giving more detail about role  | only admins can view the include roles        |
+
+***Attributes***
+
+| Name     | Type    | Description                                        | Notes                                              |
+|----------|---------|----------------------------------------------------|----------------------------------------------------|
+| login    | string  | the name of the user                               |                                                    |
+| enabled  | boolean | whether the user is enabled or not                 |                                                    |
+| provider | string  | if the user is from github, mediawiki, twitter etc |                                                    |
+| email    | string  | email                                              | Only admin users can view the email of other users |  
+
+
+If the user is not found, the request will return the following response:
+
+| Status        | Response |
+| ------------- | -------- | 
+| 404	(not found) | ```{"errors":[{"title":"Not found","detail":"Couldn't find User with 'id'=2222"}]}```    |
+
+
+#List Users
+
+| Method       | Definition | 
+| ------------ | -------    | 
+| GET          |  http://warper.wmflabs.org/api/v1/users |
+
+**Parameters**
+| Name       | values     | Type    | Description                                                             | Required | Notes                 |
+|------------|------------|---------|-------------------------------------------------------------------------|----------|-----------------------|
+| query      |            | string  | search query                                                            | optional |                       |
+| field      |            | string  | specified field to be searched                                          | required | required              |
+|            | login      | string  | the name of the user                                                    | optional |                       |
+|            | email      | string  | the email of the user                                                   | optional |                       |
+|            | provider   | string  | provider (github, mediawiki etc)                                        | optional |                       |
+| sort_key   |            |         | the field that should be used to sort the results                       | optional | default is updated_at |
+|            | login      | string  | the name of the user                                                    | optional |                       |
+|            | email      | string  | the email of the user                                                   | optional |                       |
+|            | enabled    | string  | if the user is enabled                                                  | optional |                       |
+|            | provider   | string  | provider (github, mediawiki etc)                                        | optional |                       |
+|            | updated_at | string  | when the user was last updated                                          | optional | default               |
+|            | created_at | string  | when the user was created                                               | optional |                       |
+| sort_order |            | string  | the order in which the results should appear                            | optional | default is desc       |
+|            | asc        |         | ascending order                                                         | optional |                       |
+|            | desc       |         | descending order                                                        | optional | default               |
+| page       |            | integer | the page number; use to get the next or previous page of search results | optional |                       |
+| per_page   |            | integer | number of results per page                                              | optional | default is 50         |
+
+ 
+
+Notes: Enter optional text for the query, based on the search field chosen. The query text is case insensitive. This is a simple exact string text search.
+
+
+**Request Example**
+
+[http://warper.wmflabs.org/api/v1/users?query=tim&field=login](http://warper.wmflabs.org/api/v1/users?query=tim&field=login)
+
+**Response**
+```
+{
+	"data": [
+		{
+			"id": "23",
+			"type": "users",
+			"attributes": {
+				"login": "tim",
+				"created-at": "2010-08-26T15:37:34.619Z",
+				"enabled": true,
+				"provider": null,
+				"email": "example@example.com"
+			},
+			"relationships": {
+				"roles": {
+					"data": [
+						{
+							"id": "2",
+							"type": "roles"
+						},
+						{
+							"id": "4",
+							"type": "roles"
+						}
+					]
+				}
+			},
+			"links": {
+				"self": "http://localhost:3000/api/v1/users/23"
+			}
+		},
+		{
+			"id": "11",
+			"type": "users",
+			"attributes": {
+				"login": "TimExample",
+				"created-at": "2015-04-22T18:45:04.988Z",
+				"enabled": true,
+				"provider": "github",
+				"email": "example@example-github.com"
+			},
+			"relationships": {
+				"roles": {
+					"data": []
+				}
+			},
+			"links": {
+				"self": "http://localhost:3000/api/v1/users/113"
+			}
+		}
+	],
+	"included": [
+		{
+			"id": "2",
+			"type": "roles",
+			"attributes": {
+				"name": "editor"
+			}
+		},
+		{
+			"id": "4",
+			"type": "roles",
+			"attributes": {
+				"name": "developer"
+			}
+		}
+	],
+	"links": {}
+}
+```
+
+| Value | Description |
+| ------| -------     |
+| self | the link to the current page |
+| next |  the next page in the sequence |
+| last |  the last page in the sequence of pages |
+
+***Meta***
+
+Useful in pagination. Will show the total number of results, for example if the request is limited to returning 25 maps, Shown if there are more results than are contained in the response.
+
+```
+"meta": {
+  "total-entries": 50,
+  "total-pages": 2
+}
+```
+indicates that 50 results have been found over 2 pages.
+
+| Value | Description |
+| ------| -------     |
+| total-entries | the total number of users found for this request |
+| total-pages |  the total number of pages found |
+
+
+***Layer Links***
+
+| Value | Description |
+| ------| -------     |
+| self  | the API link to the resourece |
+
+
+***Attributes***
+
+| Name     | Type    | Description                                        | Notes                                              |
+|----------|---------|----------------------------------------------------|----------------------------------------------------|
+| login    | string  | the name of the user                               |                                                    |
+| enabled  | boolean | whether the user is enabled or not                 |                                                    |
+| provider | string  | if the user is from github, mediawiki, twitter etc |                                                    |
+| email    | string  | email                                              | Only admin users can view the email of other users |  
