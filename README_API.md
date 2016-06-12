@@ -48,9 +48,10 @@ Welcome to the documentation for the Wikimaps Warper API! MapWarper is a free ap
 [Remove Map From Layer](#remove-map-from-layer)
 [Merge Layers](#merge-layers)
 
-Show User
-List Users
+[Get User](#get-user)
+[List Users](#list-users)
 
+[Imports](#imports)
 Show Import
 List Import Maps
 List Imports
@@ -1672,8 +1673,9 @@ curl -X POST -d "format=json" -d 'output=<wfs:FeatureCollection xmlns:wfs="http:
 
 As rectify call.
 
+--------
 
-###Warping
+##Warping
 
 | Method       | Definition | 
 | ------------ | -------    | 
@@ -2472,7 +2474,7 @@ If the user is not found, the request will return the following response:
 | 404	(not found) | ```{"errors":[{"title":"Not found","detail":"Couldn't find User with 'id'=2222"}]}```    |
 
 
-#List Users
+##List Users
 
 | Method       | Definition | 
 | ------------ | -------    | 
@@ -2619,3 +2621,426 @@ indicates that 50 results have been found over 2 pages.
 | enabled  | boolean | whether the user is enabled or not                 |                                                    |
 | provider | string  | if the user is from github, mediawiki, twitter etc |                                                    |
 | email    | string  | email                                              | Only admin users can view the email of other users |  
+
+
+-------------
+
+
+##Imports
+
+Imports of maps can be added from a wiki Category and optionally to a mosaic/layer. First the import is created, then run.
+Afterwards the maps of the import can be viewed. Deleted imports do not delete either the maps or the layer.
+The Wiki Category should just contain images of maps, and these maps should have the {{Map}} template in each file page. E.g. https://commons.wikimedia.org/wiki/Category:Old_maps_of_Helsinki
+
+All require authentication and are restricted to users with the editor role.
+
+###Show Import
+
+| Method       | Definition | 
+| ------------ | ---------- | 
+| GET          |  api/v1/imports/{:id} |
+
+Returns a specified import by ID.
+Authentication required. 
+Editor authorized users only.
+
+**Parameters**
+| Name |   | Type    | Description                        | Required | Notes |
+|------|---|---------|------------------------------------|----------|-------|
+| id   |   | integer | the unique identifier for the import | required |       |
+
+
+**Example**
+
+[http://wikimaps.mapwarper.net/api/v1/imports/3](http://wikimaps.mapwarper.net/api/v1/imports/3)
+
+**Response**
+
+Example of a finished Import
+
+```
+{
+	"data": {
+		"id": "87",
+		"type": "imports",
+		"attributes": {
+			"category": "Category:Old maps of Merikarvia",
+			"status": "finished",
+			"save-layer": true,
+			"created-at": "2015-09-29T16:34:55.057Z",
+			"finished-at": "2015-09-29T16:35:02.718Z",
+			"updated-at": "2015-09-29T16:35:02.824Z"
+		},
+		"relationships": {
+			"maps": {
+				"data": [
+					{
+						"id": "235",
+						"type": "maps"
+					},
+					{
+						"id": "234",
+						"type": "maps"
+					}
+				]
+			},
+			"user": {
+				"data": {
+					"id": "2",
+					"type": "users"
+				}
+			}
+		},
+		"links": {
+			"self": "http://localhost:3000/api/v1/imports/87"
+		}
+	}
+}
+```
+
+Example of a ready Import
+
+```
+{
+	"data": {
+		"id": "121",
+		"type": "imports",
+		"attributes": {
+			"category": "Category:Maps Of Tartu",
+			"status": "ready",
+			"save-layer": true,
+			"created-at": "2016-06-12T13:54:42.170Z",
+			"finished-at": null,
+			"updated-at": "2016-06-12T13:54:42.170Z",
+			"file-count": 2
+		},
+		"relationships": {
+			"maps": {
+				"data": []
+			},
+			"user": {
+				"data": {
+					"id": "2",
+					"type": "users"
+				}
+			}
+		},
+		"links": {
+			"self": "http://localhost:3000/api/v1/imports/121"
+		}
+	}
+}
+```
+
+**Response Elements**
+
+***Data***
+
+| Name          | Value | Description                          | Notes                               |
+|---------------|-------|--------------------------------------|-------------------------------------|
+| id            |       | The id for the user                  |                                     |
+| type          | users | the type of resource                 |                                     |
+| attributes    |       | Attributes of the user               | see table for more detail           |
+| relationships |       | Showing the maps the import imported, and user that created it | maps are populated if the status is finished |
+| link          |       | self link to api resource            |                                     | 
+
+***Attributes***
+
+| Name        | Type     | Description                                         | Notes                                            |
+|-------------|----------|-----------------------------------------------------|--------------------------------------------------|
+| category    | string   | The Wiki Category for the Import                    |                                                  |
+| status      | string   | status of the import                                | one of: "ready", "running", "finished", "failed" |
+| save-layer  | boolean  | if maps are added to a new or existing layer/mosaic |                                                  |
+| finished-at | datetime | when the import was finished                        |                                                  |
+| updated-at  | datetime | when the import was last updated                    |                                                  |
+| created-at  | datetime | when the import for first created                   |                                                  |
+| file-count  | integer  | the number of files due to be imported              |  only shown if status is "ready"                 |
+
+
+If the import is not found, the request will return the following response:
+
+| Status        | Response |
+| ------------- | -------- | 
+| 404	(not found) | ```{"errors":[{"title":"Not found","detail":"Couldn't find Import with 'id'=2222"}]}```    |
+
+
+
+###List Imports
+
+| Method       | Definition | 
+| ------------ | -------    | 
+| GET          |  api/v1/imports |
+
+**Parameters**
+
+| Name       | values      | Type    | Description                                                             | Required | Notes                 |
+|------------|-------------|---------|-------------------------------------------------------------------------|----------|-----------------------|
+| sort_key   |             |         | the field that should be used to sort the results                       | optional | default is updated_at |
+|            | id          | string  | the id of the import                                                    | optional |                       |
+|            | category    | string  | the category of the import                                              | optional |                       |
+|            | user_id     | string  | the user_id of the user who creared the import                          | optional |                       |
+|            | status      | string  | the status of the import                                                | optional |                       |
+|            | finished_at | string  | when the import was finished                                            | optional |                       |
+|            | created_at  | string  | when the user was created                                               | optional | default               |
+| sort_order |             | string  | the order in which the results should appear                            | optional | default is desc       |
+|            | asc         |         | ascending order                                                         | optional |                       |
+|            | desc        |         | descending order                                                        | optional | default               |
+| page       |             | integer | the page number; use to get the next or previous page of search results | optional |                       |
+| per_page   |             | integer | number of results per page                                              | optional | default is 50         |
+
+
+
+
+**Request Example**
+
+[http://warper.wmflabs.org/api/v1/imports?sort_key=status&per_page=10](http://warper.wmflabs.org/api/v1/imports?sort_key=status&per_page=10)
+
+**Response Example**
+
+```
+{
+	"data": [
+		{
+			"id": "118",
+			"type": "imports",
+			"attributes": {
+				"category": "Category:Tartu Maps",
+				"status": "finished",
+				"save-layer": true,
+				"created-at": "2016-02-09T13:26:52.323Z",
+				"finished-at": "2016-02-09T13:27:04.085Z",
+				"updated-at": "2016-02-09T13:27:04.169Z"
+			},
+			"relationships": {
+				"maps": {
+					"data": [
+						{
+							"id": "260",
+							"type": "maps"
+						}
+					]
+				},
+				"user": {
+					"data": {
+						"id": "2",
+						"type": "users"
+					}
+				}
+			},
+			"links": {
+				"self": "http://localhost:3000/api/v1/imports/118"
+			}
+...snip...
+	],
+	"links": {
+		"self": "http://localhost:3000/api/v1/imports?page%5Bnumber%5D=1&page%5Bsize%5D=2&per_page=2",
+		"next": "http://localhost:3000/api/v1/imports?page%5Bnumber%5D=2&page%5Bsize%5D=2&per_page=2",
+		"last": "http://localhost:3000/api/v1/imports?page%5Bnumber%5D=12&page%5Bsize%5D=2&per_page=2"
+	}
+}
+```
+
+| Value | Description |
+| ------| -------     |
+| self | the link to the current page |
+| next |  the next page in the sequence |
+| last |  the last page in the sequence of pages |
+
+
+###List Import Maps
+
+| Method       | Definition | 
+| ------------ | -------    | 
+| GET          |  api/v1/imports/{:id}/maps |
+
+Lists the maps that were imported. Only returns maps if the Import has "finished" status.
+
+**Parameters**
+
+| Name |   | Type    | Description                          | Required | Notes |   |
+|------|---|---------|------------------------------------- |----------|-------|---|
+| id   |   | integer | the unique identifier for the import | required |       |   |
+
+
+| Name       | values      | Type    | Description                                                             | Required | Notes                 |
+|------------|-------------|---------|-------------------------------------------------------------------------|----------|-----------------------|
+| sort_order |             | string  | the order in which the results should appear sorted by created_at       | optional | default is desc       |
+|            | asc         |         | ascending order                                                         | optional |                       |
+|            | desc        |         | descending order                                                        | optional | default               |
+| page       |             | integer | the page number; use to get the next or previous page of search results | optional |                       |
+| per_page   |             | integer | number of results per page                                              | optional | default is 50         |
+
+
+
+**Request Example**
+
+[http://warper.wmflabs.org/api/v1/imports?sort_key=status&per_page=10](http://warper.wmflabs.org/api/v1/imports?sort_key=status&per_page=10)
+
+**Response**
+
+Returns a list of maps (See List maps documentation)
+
+Response where there are no maps (Import has not run, is "ready")
+
+```
+{"data":[],"links":{}}
+```
+
+###Create Import
+
+
+| Method       | Definition | 
+| ------------ | -------    | 
+| POST         |  api/v1/imports |
+
+Adds the import passing in JSON-API for the GCP.
+Requires authentication.
+Editor user only authorized.
+
+**Parameters**
+
+The body of the request should be in JSON-API format with the following attributes:
+
+| Name        | Type     | Description                                         | Notes                                            |
+|-------------|----------|-----------------------------------------------------|--------------------------------------------------|
+| category    | string   | The Wiki Category for the Import                    |      required                                    |
+| save_layer  | boolean  | if maps are added to a new or existing layer/mosaic |      required                                    |
+
+
+Example:
+
+```
+{
+	"data": {
+		"type": "gcps",
+		"attributes": {
+      "category":"Category:Tartu Maps",
+      "save_layer":true
+		}
+	}
+}
+```
+
+**cURL Example**
+
+```
+curl -H "Content-Type: application/json" -X POST -d '{"data":{"type":"gcps","attributes":{"category":"Category:Tartu Maps","save_layer":true}}}' http://warper.wmflabs.org/api/v1/imports -b cookie
+```
+
+**Response**
+
+If successful, the response should return the created import with the "ready" status
+
+```
+{
+	"data": {
+		"id": "121",
+		"type": "imports",
+		"attributes": {
+			"category": "Category:Maps Of Tartu",
+			"status": "ready",
+			"save-layer": true,
+			"created-at": "2016-06-12T13:54:42.170Z",
+			"finished-at": null,
+			"updated-at": "2016-06-12T13:54:42.170Z",
+			"file-count": 2
+		},
+		"relationships": {
+			"maps": {
+				"data": []
+			},
+			"user": {
+				"data": {
+					"id": "2",
+					"type": "users"
+				}
+			}
+		},
+		"links": {
+			"self": "http://localhost:3000/api/v1/imports/121"
+		}
+	}
+}
+```
+
+
+
+###Update Import
+
+| Method       | Definition | 
+| ------------ | -------    | 
+| PATCH         |  api/v1/imports/{:id} |
+
+Updated the import passing in JSON-API for the GCP.
+Requires authentication.
+Editor user only authorized.
+
+**Parameters**
+
+| Name |   | Type    | Description                          | Required | Notes |   |
+|------|---|---------|------------------------------------- |----------|-------|---|
+| id   |   | integer | the unique identifier for the import | required |       |   |
+
+
+The body of the request should be in JSON-API format with the following attributes:
+
+| Name        | Type     | Description                                         | Notes                                            |
+|-------------|----------|-----------------------------------------------------|--------------------------------------------------|
+| category    | string   | The Wiki Category for the Import                    | optional                                         |
+| save_layer  | boolean  | if maps are added to a new or existing layer/mosaic | optional                                         |
+
+
+Example:
+
+```
+{
+	"data": {
+		"type": "gcps",
+		"attributes": {
+      "category":"Category:Tartu Maps",
+      "save_layer":true
+		}
+	}
+}
+```
+
+**cURL Example**
+
+```
+curl -H "Content-Type: application/json" -X PATCH -d '{"data":{"type":"gcps","attributes":{"category":"Category:Maps of Tartu"}}}' http://warper.wmflabs.org/api/v1/imports/12 -b cookie
+```
+
+**Response**
+
+If successful, the response will be the updated import (see above)
+
+
+###Destroy Import
+
+
+| Method       | Definition | 
+| ------------ | -------    | 
+| DELETE         |  api/v1/imports |
+
+Delets an import.
+Requires authentication.
+Editor user only authorized.
+
+Note: imported maps and any created mosaic / layers will not be deleted when an import is deleted.
+
+**Parameters**
+
+| Name |   | Type    | Description                          | Required | Notes |   |
+|------|---|---------|------------------------------------- |----------|-------|---|
+| id   |   | integer | the unique identifier for the import | required |       |   |
+
+
+**cURL Example**
+
+```
+curl -H "Content-Type: application/json" -X DELETE  http://warper.wmflabs.org/api/v1/imports/12 -b cookie
+```
+
+**Response**
+
+If successful, the response will be the deleted import (see above)
