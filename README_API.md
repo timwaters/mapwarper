@@ -18,11 +18,11 @@ Welcome to the documentation for the Wikimaps Warper API! MapWarper is a free ap
 [Get Layer](#get-layer)  
 [Get a Layer's Maps](#get-a-layers-maps)  
 [Map and Layer Web Map Services](#map-and-layer-web-map-services)  
-[Ground Control Points](#ground-control-points) 
-[List and Sort Control Points](#list-and-sort-control-points)
-[Get a Map's Ground Control Points](#get-a-maps-ground-control-points)  
-[Get a Single Ground Control Point](#get-a-single-ground-control-point)  
-[Add Ground Control Points](#add-ground-control-points)  
+[Ground Control Points](#ground-control-points)  
+[List and Sort Control Points](#list-and-sort-control-points)  
+[Get a Map's Ground Control Points](#get-a-maps-ground-control-points)    
+[Get a Single Ground Control Point](#get-a-single-ground-control-point)    
+[Add Ground Control Points](#add-ground-control-points)    
 [Update a GCP](#update-a-gcp)  
 [Delete a GCP](#delete-a-gcp)  
 [Masking](#masking)  
@@ -32,44 +32,38 @@ Welcome to the documentation for the Wikimaps Warper API! MapWarper is a free ap
 [Mask Map](#mask-map)  
 [Save, Mask, and Warp Map](#save-mask-and-warp-map)  
 [Warping](#warping)  
-
-[Create Map](#create-map)
-[Update Map](#update-map)
-[Destroy Map](#destroy-map)
-[Publish Map](#publish-map)
-[Unpublish Map](#unpublish-map)
-
-[Add Many GCPs](#add-many-gcps)
-
-[Create Layer](#create-layer)
-[Update Layer](#update-layer)
-[Destroy Layer](#update-layer)
-[Toggle Layer Visibility](#toggle-layer-visibility)
-[Remove Map From Layer](#remove-map-from-layer)
-[Merge Layers](#merge-layers)
-
-[Get User](#get-user)
-[List Users](#list-users)
-
-[Imports](#imports)
-[Show Import](#show-import)
-[List Import Maps](#list-import-maps)
-[List Imports](#list-imports)
-[Create Import](#create-import)
-[Update Import](#update-import)
-[Destroy Import](#destroy-import)
-
-[Activity & Stats](#activity)
-List Activity
-List All Maps Activity
-List Map Activity
-List User Activity
-User Statistics
+[Create Map](#create-map)  
+[Update Map](#update-map)  
+[Destroy Map](#destroy-map)  
+[Publish Map](#publish-map)  
+[Unpublish Map](#unpublish-map)  
+[Add Many GCPs](#add-many-gcps)  
+[Create Layer](#create-layer)  
+[Update Layer](#update-layer)  
+[Destroy Layer](#update-layer)  
+[Toggle Layer Visibility](#toggle-layer-visibility)  
+[Remove Map From Layer](#remove-map-from-layer)  
+[Merge Layers](#merge-layers)  
+[Get User](#get-user)  
+[List Users](#list-users)  
+[Imports](#imports)  
+[Show Import](#show-import)  
+[List Import Maps](#list-import-maps)  
+[List Imports](#list-imports)  
+[Create Import](#create-import)  
+[Update Import](#update-import)  
+[Destroy Import](#destroy-import)  
+[Activity & Stats](#activity)  
+[List Activity](#list-activity)  
+[List All Maps Activity](#list-maps-activity)  
+[List Map Activity](#list-map-activity)  
+[List User Activity](#list-user-activity)  
+[User Statistics](#user-statistics)  
 
 
 ##Api-Endpoint
 
-```/api/v1```
+`/api/v1`
 
 ##Format
 
@@ -117,14 +111,14 @@ Unauthorized calls may return
 
 | Status        | Response |
 | ------------- | -------- | 
-| 402	(unauthorized) | ```{"errors":[{"title":"Unauthorized","detail":"Unauthorized Request"}]}```    |
+| 402	(unauthorized) | `{"errors":[{"title":"Unauthorized","detail":"Unauthorized Request"}]}`   |
 
 
 ##Search for Maps
 
 | Method        | Definition |
 | ------------- | ---------  |
-| GET           | http://warper.wmflabs.org/api/v1/maps.json?query=london | 
+| GET           | /api/v1/maps.json?query=london | 
 
 Returns a list of maps that meet search criteria (where the title or description contains "london")
 No authentication required.
@@ -401,8 +395,8 @@ curl -H 'Content-Type: application/json' -H 'Accept: application/json' -X GET 'h
 
 | Method        | Definition    |
 | ------------- | ------------- |
-| GET           | http://warper.wmflabs.org/api/v1/maps/{:id}.{:format} or     | 
-|               | http://warper.wmflabs.org/api/v1/maps/{:id}?format={:format} |
+| GET           | /api/v1/maps/{:id}.{:format} or     | 
+|               | /api/v1/maps/{:id}?format={:format} |
 
 Returns a map by ID.
 No authentication required.
@@ -583,7 +577,7 @@ If the map is not found, the request will return the following response.
 
 | Method       | Definition | 
 | ------------ | -------    | 
-| GET          |  http://warper.wmflabs.org/api/v1/maps/{:id}/status |
+| GET          |  /api/v1/maps/{:id}/status |
 
 Returns a map's status. This request is used to poll a maps status while it is being transfered from the wiki image server to the map server.
 
@@ -625,7 +619,7 @@ No authentication required.
 
 | Method       | Definition | 
 | ------------ | -------    | 
-| GET          |  http://warper.wmflabs.org/api/v1/layers |
+| GET          | /api/v1/layers |
 
 **Parameters**
 
@@ -789,8 +783,8 @@ indicates that 50 results have been found over 2 pages.
 
 | Method       | Definition | 
 | ------------ | -------    | 
-| GET          |  http://warper.wmflabs.org/api/v1/layers/{:id} or |
-|              |  http://warper.wmflabs.org/api/v1/layers/{:id}.json |
+| GET          |  /api/v1/layers/{:id} or |
+|              |  /api/v1/layers/{:id}.json |
 
 Returns a single layer.
 
@@ -925,8 +919,8 @@ If the layer is not found, the request will return the following response.
 
 | Method       | Definition | 
 | ------------ | ---------  | 
-| GET          |  http://warper.wmflabs.org/api/v1/maps/{:map_id}/layers or |
-|              |  http://warper.wmflabs.org/api/v1/layers?map_id={:map_id} |
+| GET          |  /api/v1/maps/{:map_id}/layers or |
+|              |  /api/v1/layers?map_id={:map_id} |
 
 Queries and returns a list of layers that a given map belongs to.
 
@@ -974,8 +968,8 @@ See [Query or List Layers](#query-or-list-layers)
 
 | Method       | Definition | 
 | ------------ | -------    | 
-| GET          |  http://warper.wmflabs.org/api/v1/layers/{:layer_id}/maps  or |
-|              |  http://warper.wmflabs.org/api/v1/layers?layer_id={:layer_id} |
+| GET          | /api/v1/layers/{:layer_id}/maps  or |
+|              | /api/v1/layers?layer_id={:layer_id} |
 
 Returns a paginated list of the maps that comprise a given layer.
 
@@ -1040,7 +1034,7 @@ Ground control points are the user-selected locations used to warp an image.
 
 | Method        | Definition    |
 | ------------- | ------------- |
-| GET           |  api/v1/gcps  |
+| GET           |  /api/v1/gcps  |
 
 Gets and sorts all control points.
 No authentication required.
@@ -1185,8 +1179,8 @@ There are two different ways to get the control points of a map:
 
 | Method        | Definition    |
 | ------------- | ------------- |
-| GET           |  api/v1/maps/{:map_id}/gcps    or  | 
-|               |  api/v1/gcps?map_id={:map_id}  (see above) |
+| GET           |  /api/v1/maps/{:map_id}/gcps    or  | 
+|               |  /api/v1/gcps?map_id={:map_id}  (see above) |
 
 Returns a list of the ground control points used to warp a map, as well as their calculated errors.
 No authentication required. 
@@ -1289,7 +1283,7 @@ Contains details about the combined error for the control points for the entire 
 
 | Method       | Definition | 
 | ------------ | ---------- | 
-| GET          |  api/v1/gcps/{:gcp_id} |
+| GET          |  /api/v1/gcps/{:gcp_id} |
 
 Returns a specified ground control point by ID.
 No authentication required.
@@ -1362,7 +1356,7 @@ If the GCP is not found, the request will return the following response:
 
 | Method       | Definition | 
 | ------------ | -------    | 
-| POST         |  api/v1/gcps |
+| POST         |  /api/v1/gcps |
 
 Adds the ground control points on which a warp will be based, passing in JSON-API for the GCP.
 Requires authentication.
@@ -1447,7 +1441,7 @@ An error will return something similar to the following message.
 
 | Method       | Definition | 
 | ------------ | -------    | 
-| PATCH          |  api/v1/gcps/{:gcp_id} |
+| PATCH          |  /api/v1/gcps/{:gcp_id} |
 
 Updates a given GCP.
 Requires authentication.
@@ -1499,7 +1493,7 @@ Example:
 
 | Method        | Definition | 
 | ------------- | ---------  | 
-| DELETE        |  api/v1/gcp/{:gcp_id} |
+| DELETE        |  /api/v1/gcp/{:gcp_id} |
 
 Deletes a ground control point. 
 Requires authentication.
@@ -1565,7 +1559,7 @@ http://warper.wmflabs.org/shared/masks/7449.gml.ol
 
 | Method        | Definition | 
 | ------------- | -------    | 
-| POST          | api/v1/maps/:id/mask  |
+| POST          | /api/v1/maps/:id/mask  |
 
 Saves a mask. Returns map json.
 Requires authentication.
@@ -1596,7 +1590,7 @@ A successful call will return the applicable map in json-api format.
 
 | Method        | Definition | 
 | ------------- | -------    | 
-| DELETE          |  api/v1/maps/{:map_id}/mask |
+| DELETE        |  /api/v1/maps/{:map_id}/mask |
 
 Deletes a mask.
 Requires authentication.
@@ -1617,7 +1611,7 @@ If sucessfully deleted the response will be the affected map in json api format
 
 | Method        | Definition | 
 | ------------- | -------    | 
-| PATCH          |  api/v1/maps/{:map_id}/crop |
+| PATCH          |  /api/v1/maps/{:map_id}/crop |
 
 Applies the clipping mask to a map, but does not warp it. A clipping mask should be saved before calling this. Requires authentication.
 
@@ -1680,7 +1674,7 @@ As rectify call.
 
 | Method       | Definition | 
 | ------------ | -------    | 
-| PATCH         |  api/v1/maps/{:map_id}/rectify |
+| PATCH         |  /api/v1/maps/{:map_id}/rectify |
 
 Warps or rectifies a map according to its saved GCPs and the parameters passed in. 
 Requires authentication.
@@ -1754,7 +1748,7 @@ Map currently being rectified
 
 | Method       | Definition | 
 | ------------ | -------    | 
-| POST         |  api/v1/maps |
+| POST         |  /api/v1/maps |
 
 Creates a new map.
 Requires authentication.
@@ -1814,7 +1808,7 @@ Status 422 and message for example if the page_id is not a number:
 
 | Method       | Definition | 
 | ------------ | -------    | 
-| PATCH         |  api/v1/maps/{:id} |
+| PATCH         |  /api/v1/maps/{:id} |
  
 Updates a  map. Allows an editor to change title and description.
 Requires authentication.
@@ -1868,7 +1862,7 @@ Status 422 and message with errors.
 
 | Method       | Definition | 
 | ------------ | -------    | 
-| DELETE         |  api/v1/maps/{:id} |
+| DELETE         |  /api/v1/maps/{:id} |
  
 Deletes a map. Allows an editor to delete a specific map.
 Requires authentication.
@@ -1907,7 +1901,7 @@ Administrator role authorized only.
 
 | Method       | Definition | 
 | ------------ | -------    | 
-| PATCH         |  api/v1/maps/{:id}/publish |
+| PATCH         |  /api/v1/maps/{:id}/publish |
  
 
 **Parameters**
@@ -1962,7 +1956,7 @@ Administrator role authorized only.
 
 | Method       | Definition | 
 | ------------ | -------    | 
-| PATCH         |  api/v1/maps/{:id}/unpublish |
+| PATCH         |  /api/v1/maps/{:id}/unpublish |
  
 
 **Parameters**
@@ -2360,7 +2354,7 @@ If error, the following will be returned (with 422 status)
 
 | Method       | Definition | 
 | ------------ | ---------- | 
-| GET          |  api/v1/users/{:id} |
+| GET          |  /api/v1/users/{:id} |
 
 Returns a specified user by ID.
 Authentication required. 
@@ -2478,7 +2472,7 @@ If the user is not found, the request will return the following response:
 
 | Method       | Definition | 
 | ------------ | -------    | 
-| GET          |  http://warper.wmflabs.org/api/v1/users |
+| GET          |  /api/v1/users |
 
 **Parameters**
 | Name       | values     | Type    | Description                                                             | Required | Notes                 |
@@ -2638,7 +2632,7 @@ All require authentication and are restricted to users with the editor role.
 
 | Method       | Definition | 
 | ------------ | ---------- | 
-| GET          |  api/v1/imports/{:id} |
+| GET          |  /api/v1/imports/{:id} |
 
 Returns a specified import by ID.
 Authentication required. 
@@ -2769,7 +2763,7 @@ If the import is not found, the request will return the following response:
 
 | Method       | Definition | 
 | ------------ | -------    | 
-| GET          |  api/v1/imports |
+| GET          |  /api/v1/imports |
 
 **Parameters**
 
@@ -2851,7 +2845,7 @@ If the import is not found, the request will return the following response:
 
 | Method       | Definition | 
 | ------------ | -------    | 
-| GET          |  api/v1/imports/{:id}/maps |
+| GET          |  /api/v1/imports/{:id}/maps |
 
 Lists the maps that were imported. Only returns maps if the Import has "finished" status.
 
@@ -2891,7 +2885,7 @@ Response where there are no maps (Import has not run, is "ready")
 
 | Method       | Definition | 
 | ------------ | -------    | 
-| POST         |  api/v1/imports |
+| POST         |  /api/v1/imports |
 
 Adds the import passing in JSON-API for the GCP.
 Requires authentication.
@@ -2969,7 +2963,7 @@ If successful, the response should return the created import with the "ready" st
 
 | Method       | Definition | 
 | ------------ | -------    | 
-| PATCH         |  api/v1/imports/{:id} |
+| PATCH         |  /api/v1/imports/{:id} |
 
 Updated the import passing in JSON-API for the GCP.
 Requires authentication.
@@ -3020,7 +3014,7 @@ If successful, the response will be the updated import (see above)
 
 | Method       | Definition | 
 | ------------ | -------    | 
-| DELETE         |  api/v1/imports |
+| DELETE         |  /api/v1/imports |
 
 Deletes an import.
 Requires authentication.
