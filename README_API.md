@@ -1,6 +1,6 @@
 #Wikmaps Warper API Documentation
 
-> ** Note: This has Wikimaps specific implementation details, for interacting with Wikimedia Commons as an image repository, and so will differ with the standard mapwarper.net API. 
+> ** Note: This has Wikimaps specific implementation details, for interacting with Wikimedia Commons as an image repository, and so will differ with the standard mapwarper.net API. http://warper.wmflabs.org 
 
 Welcome to the documentation for the Wikimaps Warper API! MapWarper is a free application that assigns the proper geographic coordinates to scanned maps in image formats. Users can upload images, then assign ground control points to match them up with a base map. Once MapWarper warps or stretches the image to match the corresponding extent of the base map, it can be aligned and displayed with other maps, and used for digital geographic analysis. You can access all of the functionality through the API. 
 
@@ -69,7 +69,7 @@ User Statistics
 
 ##Api-Endpoint
 
-```warper.wmflabs.org/api/v1```
+```/api/v1```
 
 ##Format
 
@@ -97,11 +97,11 @@ TODO - Implement & Document
 
 **Curl Examples for Email and password authentication and cookies**
 ```
-curl -X POST http://localhost:3000/u/sign_in.json -H "Content-Type: application/json" -d '{"user":{"email":"tim@example.com","password":"password"}}' -c cookie
+curl -X POST http://warper.wmflabs.org/u/sign_in.json -H "Content-Type: application/json" -d '{"user":{"email":"tim@example.com","password":"password"}}' -c cookie
 ```
 if successful, returns logged in user as jsonapi with roles relationships (see User and Roles section)
 ```
-{"data":{"id":"2","type":"users","attributes":{"login":"tim","created-at":"2010-08-26T15:37:34.619Z","enabled":true,"provider":null,"email":"tim@example.com"},"relationships":{"roles":{"data":[{"id":"1","type":"roles"},{"id":"2","type":"roles"},{"id":"3","type":"roles"},{"id":"4","type":"roles"}]}},"links":{"self":"http://localhost:3000/api/v1/users/2"}}}
+{"data":{"id":"2","type":"users","attributes":{"login":"tim","created-at":"2010-08-26T15:37:34.619Z","enabled":true,"provider":null,"email":"tim@example.com"},"relationships":{"roles":{"data":[{"id":"1","type":"roles"},{"id":"2","type":"roles"},{"id":"3","type":"roles"},{"id":"4","type":"roles"}]}},"links":{"self":"http://warper.wmflabs.org/api/v1/users/2"}}}
 ```
 if unauthorized returns a 401 status with
 ```
@@ -109,7 +109,7 @@ if unauthorized returns a 401 status with
 ```
 Example using the cookie:
 ```
-curl -H 'Content-Type: application/json' -H 'Accept: application/json' -X GET http://localhost:3000/api/v1/users/2.json -b cookie
+curl -H 'Content-Type: application/json' -H 'Accept: application/json' -X GET http://warper.wmflabs.org/api/v1/users/2.json -b cookie
 
 ```
 
@@ -124,7 +124,7 @@ Unauthorized calls may return
 
 | Method        | Definition |
 | ------------- | ---------  |
-| GET           | http://mapwarper.net/api/v1/maps.json?query=london | 
+| GET           | http://warper.wmflabs.org/api/v1/maps.json?query=london | 
 
 Returns a list of maps that meet search criteria (where the title or description contains "london")
 No authentication required.
@@ -167,13 +167,13 @@ Notes: Enter optional text for the query, based on the search field chosen. The 
 
 **Example json format**
 ```
-curl -H 'Content-Type: application/json' -H 'Accept: application/json' -X GET 'http://localhost:3000/api/v1/maps?field=title&query=Tartu&sort_key=updated_at&sort_order=desc&show_warped=1'
+curl -H 'Content-Type: application/json' -H 'Accept: application/json' -X GET 'http://warper.wmflabs.org/api/v1/maps?field=title&query=Tartu&sort_key=updated_at&sort_order=desc&show_warped=1'
 ```
-[http://mapwarper.net/api/v1/maps?field=title&query=Tartu&sort_key=updated_at&sort_order=desc&show_warped=1](http://mapwarper.net/maps?api/v1/maps?field=title&query=Tartu&sort_key=updated_at&sort_order=desc&show_warped=1)
+[http://warper.wmflabs.org/api/v1/maps?field=title&query=Tartu&sort_key=updated_at&sort_order=desc&show_warped=1](http://warper.wmflabs.org/maps?api/v1/maps?field=title&query=Tartu&sort_key=updated_at&sort_order=desc&show_warped=1)
 
 Example searching within a bounding box
 
-[http://mapwarper.net/api/v1/maps?field=title&query=Tartu&sort_key=updated_at&sort_order=desc&show_warped=1](http://mapwarper.net/maps?api/v1/maps?field=title&query=Tartu&sort_key=updated_at&sort_order=desc&bbox=-75.9831134505588,38.552727388127,-73.9526411829395,40.4029389105122)
+[http://warper.wmflabs.org/api/v1/maps?field=title&query=Tartu&sort_key=updated_at&sort_order=desc&show_warped=1](http://warper.wmflabs.org/maps?api/v1/maps?field=title&query=Tartu&sort_key=updated_at&sort_order=desc&bbox=-75.9831134505588,38.552727388127,-73.9526411829395,40.4029389105122)
 
 
 **Response**
@@ -220,15 +220,15 @@ JSON API Format
 			}
 		},
 		"links": {
-			"self": "http://localhost:3000/api/v1/maps/260",
-			"gcps-csv": "http://localhost:3000/maps/260/gcps.csv",
-			"mask": "http://localhost:3000/mapimages/260.gml.ol",
-			"geotiff": "http://localhost:3000/maps/260/export.tif",
-			"png": "http://localhost:3000/maps/260/export.png",
-			"aux-xml": "http://localhost:3000/maps/260/export.aux_xml",
-			"kml": "http://localhost:3000/maps/260.kml",
+			"self": "http://warper.wmflabs.org/api/v1/maps/260",
+			"gcps-csv": "http://warper.wmflabs.org/maps/260/gcps.csv",
+			"mask": "http://warper.wmflabs.org/mapimages/260.gml.ol",
+			"geotiff": "http://warper.wmflabs.org/maps/260/export.tif",
+			"png": "http://warper.wmflabs.org/maps/260/export.png",
+			"aux-xml": "http://warper.wmflabs.org/maps/260/export.aux_xml",
+			"kml": "http://warper.wmflabs.org/maps/260.kml",
 			"tiles": "http://warper.wmflabs.org/maps/tile/260/{z}/{x}/{y}.png",
-			"wms": "http://localhost:3000/maps/wms/260?request=GetCapabilities\u0026service=WMS\u0026version=1.1.1"
+			"wms": "http://warper.wmflabs.org/maps/wms/260?request=GetCapabilities\u0026service=WMS\u0026version=1.1.1"
 		}
 	}],
 	"included": [{
@@ -239,7 +239,7 @@ JSON API Format
 			"description": null
 		},
 		"links": {
-			"self": "http://localhost:3000/api/v1/layers/43"
+			"self": "http://warper.wmflabs.org/api/v1/layers/43"
 		}
 	}, {
 		"id": "44",
@@ -249,7 +249,7 @@ JSON API Format
 			"description": null
 		},
 		"links": {
-			"self": "http://localhost:3000/api/v1/layers/44"
+			"self": "http://warper.wmflabs.org/api/v1/layers/44"
 		}
 	}],
 	"links": {
@@ -368,9 +368,9 @@ indicates that 50 results have been found over 2 pages.
 **Example geojson format**
 
 ```
-curl -H 'Content-Type: application/json' -H 'Accept: application/json' -X GET 'http://localhost:3000/api/v1/maps?field=title&query=Tartu&sort_key=updated_at&sort_order=desc&show_warped=1&format=geojson'
+curl -H 'Content-Type: application/json' -H 'Accept: application/json' -X GET 'http://warper.wmflabs.org/api/v1/maps?field=title&query=Tartu&sort_key=updated_at&sort_order=desc&show_warped=1&format=geojson'
 ```
-[http://mapwarper.net/api/v1/maps.geojson?field=title&query=Tartu&sort_key=updated_at&sort_order=desc&show_warped=1](http://mapwarper.net/maps?api/v1/maps.geojson?field=title&query=Tartu&sort_key=updated_at&sort_order=desc&show_warped=1)
+[http://warper.wmflabs.org/api/v1/maps.geojson?field=title&query=Tartu&sort_key=updated_at&sort_order=desc&show_warped=1](http://warper.wmflabs.org/maps?api/v1/maps.geojson?field=title&query=Tartu&sort_key=updated_at&sort_order=desc&show_warped=1)
 
 ***Response***
 
@@ -401,8 +401,8 @@ curl -H 'Content-Type: application/json' -H 'Accept: application/json' -X GET 'h
 
 | Method        | Definition    |
 | ------------- | ------------- |
-| GET           | http://mapwarper.net/api/v1/maps/{:id}.{:format} or     | 
-|               | http://mapwarper.net/api/v1/maps/{:id}?format={:format} |
+| GET           | http://warper.wmflabs.org/api/v1/maps/{:id}.{:format} or     | 
+|               | http://warper.wmflabs.org/api/v1/maps/{:id}?format={:format} |
 
 Returns a map by ID.
 No authentication required.
@@ -583,7 +583,7 @@ If the map is not found, the request will return the following response.
 
 | Method       | Definition | 
 | ------------ | -------    | 
-| GET          |  http://mapwarper.net/api/v1/maps/{:id}/status |
+| GET          |  http://warper.wmflabs.org/api/v1/maps/{:id}/status |
 
 Returns a map's status. This request is used to poll a maps status while it is being transfered from the wiki image server to the map server.
 
@@ -595,7 +595,7 @@ Returns a map's status. This request is used to poll a maps status while it is b
 
 **Request Example**
 
-[http://mapwarper.net/api/v1/maps/8991/status](http://mapwarper.net/maps/api/v1/8991/status)
+[http://warper.wmflabs.org/api/v1/maps/8991/status](http://warper.wmflabs.org/maps/api/v1/8991/status)
 
 **Response**
 
@@ -1551,7 +1551,7 @@ NOTE: The correct way to find the path to the mask is to get the Map object and 
 
 **Examples**
 
-http://mapwarper.net/shared/masks/7449.gml.ol 
+http://warper.wmflabs.org/shared/masks/7449.gml.ol 
 
 **Response Example**
 
@@ -1688,7 +1688,7 @@ Requires authentication.
 **Curl Example**
 
 ```
-curl -X PATCH -d "use_mask=false&format=json" -u email@example.com:password  http://mapwarper.net/api/v1/maps/7449/rectify
+curl -X PATCH -d "use_mask=false&format=json" -u email@example.com:password  http://warper.wmflabs.org/api/v1/maps/7449/rectify
 ```
 
 **Parameters**
@@ -2390,7 +2390,7 @@ Administrator authorized users will also see attributes for email and the roles 
 			"provider": null
 		},
 		"links": {
-			"self": "http://localhost:3000/api/v1/users/23"
+			"self": "http://warper.wmflabs.org/api/v1/users/23"
 		}
 	}
 }
@@ -2423,7 +2423,7 @@ Administrator authorized users will also see attributes for email and the roles 
 			}
 		},
 		"links": {
-			"self": "http://localhost:3000/api/v1/users/2"
+			"self": "http://warper.wmflabs.org/api/v1/users/2"
 		}
 	},
 	"included": [
@@ -2539,7 +2539,7 @@ Notes: Enter optional text for the query, based on the search field chosen. The 
 				}
 			},
 			"links": {
-				"self": "http://localhost:3000/api/v1/users/23"
+				"self": "http://warper.wmflabs.org/api/v1/users/23"
 			}
 		},
 		{
@@ -2558,7 +2558,7 @@ Notes: Enter optional text for the query, based on the search field chosen. The 
 				}
 			},
 			"links": {
-				"self": "http://localhost:3000/api/v1/users/113"
+				"self": "http://warper.wmflabs.org/api/v1/users/113"
 			}
 		}
 	],
@@ -2692,7 +2692,7 @@ Example of a finished Import
 			}
 		},
 		"links": {
-			"self": "http://localhost:3000/api/v1/imports/87"
+			"self": "http://warper.wmflabs.org/api/v1/imports/87"
 		}
 	}
 }
@@ -2726,7 +2726,7 @@ Example of a ready Import
 			}
 		},
 		"links": {
-			"self": "http://localhost:3000/api/v1/imports/121"
+			"self": "http://warper.wmflabs.org/api/v1/imports/121"
 		}
 	}
 }
@@ -2828,14 +2828,14 @@ If the import is not found, the request will return the following response:
 				}
 			},
 			"links": {
-				"self": "http://localhost:3000/api/v1/imports/118"
+				"self": "http://warper.wmflabs.org/api/v1/imports/118"
 			}
 ...snip...
 	],
 	"links": {
-		"self": "http://localhost:3000/api/v1/imports?page%5Bnumber%5D=1&page%5Bsize%5D=2&per_page=2",
-		"next": "http://localhost:3000/api/v1/imports?page%5Bnumber%5D=2&page%5Bsize%5D=2&per_page=2",
-		"last": "http://localhost:3000/api/v1/imports?page%5Bnumber%5D=12&page%5Bsize%5D=2&per_page=2"
+		"self": "http://warper.wmflabs.org/api/v1/imports?page%5Bnumber%5D=1&page%5Bsize%5D=2&per_page=2",
+		"next": "http://warper.wmflabs.org/api/v1/imports?page%5Bnumber%5D=2&page%5Bsize%5D=2&per_page=2",
+		"last": "http://warper.wmflabs.org/api/v1/imports?page%5Bnumber%5D=12&page%5Bsize%5D=2&per_page=2"
 	}
 }
 ```
@@ -2957,7 +2957,7 @@ If successful, the response should return the created import with the "ready" st
 			}
 		},
 		"links": {
-			"self": "http://localhost:3000/api/v1/imports/121"
+			"self": "http://warper.wmflabs.org/api/v1/imports/121"
 		}
 	}
 }
@@ -3022,7 +3022,7 @@ If successful, the response will be the updated import (see above)
 | ------------ | -------    | 
 | DELETE         |  api/v1/imports |
 
-Delets an import.
+Deletes an import.
 Requires authentication.
 Editor user only authorized.
 
@@ -3051,20 +3051,428 @@ If successful, the response will be the deleted import (see above)
 
 Gets the activity of users actions over maps and control points, and a report on user statistics.
 Requires authentication.
-Most calls do not require special authorisation (except the user stats call)
+Most calls do not require special authorisation (except the user stats call).
 
 ###List Activity
-/api/v1/activity
+
+Lists all activity across maps and control points, ordered by created_at desc
+Authentication required.
+
+| Method       | Definition | 
+| ------------ | -------    | 
+| GET          |  /api/v1/activity |
+
+**Parameters**
+
+| Name     |     | Type      | Description                                                             | Required   | Notes         |  
+|----------|-----|-----------|-------------------------------------------------------------------------|------------|---------------|  
+| page     |     | integer   | the page number; use to get the next or previous page of search results | optional   |               |  
+| per_page |     | integer   | number of results per page                                              | optional   | default is 50 |  
+
+**cURL Example**
+
+```
+curl -H "Content-Type: application/json" -X GET  http://warper.wmflabs.org/api/v1/activity?per_page=2 -b cookie
+```
+
+**Response**
+
+```
+{
+	"data": [
+		{
+			"id": 2158,
+			"auditable_id": 228,
+			"auditable_type": "Gcp",
+			"user_id": 4,
+			"action": "create",
+			"version": 1,
+			"created_at": "2016-06-11T16:29:32.951Z"
+		},
+		{
+			"id": 2156,
+			"auditable_id": 294,
+			"auditable_type": "Map",
+			"user_id": 2,
+			"action": "create",
+			"version": 1,
+			"created_at": "2016-06-10T17:20:31.175Z"
+		}
+	],
+	"meta": {
+		"total-entries": 2140,
+		"total-pages": 1070
+	}
+}
+```
+
+**Response Elements**
+
+
+***Data***
+
+| Name           | Type     | Description                                          | Notes                                                 |
+|----------------|----------|------------------------------------------------------|-------------------------------------------------------|
+| id             | integer  | unique identifier of the activity                    |                                                       |
+| auditable_id   | integer  | unique identifier of the item the activity refers to | e.g. Gcp or Map                                       |
+| auditable_type | string   | The type ofitem the activity refers to               | e.g. Gcp or Map                                       |
+| user_id        | integer  | unique identifier of the user doing the action       |                                                       |
+| action         | string   | the type of action                                   | one of: "create", "update", "destroy"                 |
+| version        | integer  | the version of the item                              | e.g. a created map will always be version 1 initially |
+| created_at     | datetime | the time of the action                               |                                                       |
+
+***Meta***
+
+Useful in pagination. Will show the total number of results, for example if the request is limited to returning 25 maps:
+
+```
+"meta": {
+  "total-entries": 50,
+  "total-pages": 2
+}
+```
+
+
 
 ###List Maps Activity
-/api/v1/activity/maps
+
+Lists all activity across just maps, ordered by created_at desc
+Authentication required.
+
+| Method       | Definition | 
+| ------------ | -------    | 
+| GET          |  /api/v1/activity/maps |
+
+**Parameters**
+
+| Name     |     | Type      | Description                                                             | Required   | Notes         |  
+|----------|-----|-----------|-------------------------------------------------------------------------|------------|---------------|  
+| page     |     | integer   | the page number; use to get the next or previous page of search results | optional   |               |  
+| per_page |     | integer   | number of results per page                                              | optional   | default is 50 |  
+
+**cURL Example**
+
+```
+curl -H "Content-Type: application/json" -X GET  http://warper.wmflabs.org/api/v1/activity/maps?per_page=2 -b cookie
+```
+
+**Response**
+
+```
+{
+	"data": [
+		{
+			"id": 2158,
+			"auditable_id": 294,
+			"auditable_type": "Map",
+			"user_id": 4,
+			"action": "update",
+			"version": 1,
+			"created_at": "2016-06-11T16:29:32.951Z"
+		},
+		{
+			"id": 2156,
+			"auditable_id": 294,
+			"auditable_type": "Map",
+			"user_id": 2,
+			"action": "create",
+			"version": 1,
+			"created_at": "2016-06-10T17:20:31.175Z"
+		}
+	],
+	"meta": {
+		"total-entries": 2140,
+		"total-pages": 1070
+	}
+}
+```
+
+```
+curl -H "Content-Type: application/json" -X GET  http://warper.wmflabs.org/api/v1/activity/maps?per_page=2 -b cookie
+```
+
+**Response Elements**
+
+
+***Data***
+
+| Name           | Type     | Description                                          | Notes                                                 |
+|----------------|----------|------------------------------------------------------|-------------------------------------------------------|
+| id             | integer  | unique identifier of the activity                    |                                                       |
+| auditable_id   | integer  | unique identifier of the item the activity refers to | e.g. Map                                       |
+| auditable_type | string   | The type ofitem the activity refers to               | e.g.  Map                                       |
+| user_id        | integer  | unique identifier of the user doing the action       |                                                       |
+| action         | string   | the type of action                                   | one of: "create", "update", "destroy"                 |
+| version        | integer  | the version of the item                              | e.g. a created map will always be version 1 initially |
+| created_at     | datetime | the time of the action                               |                                                       |
+
+***Meta***
+
+Useful in pagination. Will show the total number of results, for example if the request is limited to returning 25 maps:
+
+```
+"meta": {
+  "total-entries": 50,
+  "total-pages": 2
+}
+```
 
 ###List Map Activity
 
-/api/v1/activity/maps/:id(
+Lists all activity across one specified map, ordered by created_at desc
+Authentication required.
+
+| Method       | Definition | 
+| ------------ | -------    | 
+| GET          |  /api/v1/activity/maps/{:id} |
+
+**Parameters**
+
+| Name     |     | Type      | Description                                                             | Required   | Notes         |  
+|----------|-----|-----------|-------------------------------------------------------------------------|------------|---------------|  
+| id       |     | integer   | unique identifier of the map                                            | required   |               | 
+| page     |     | integer   | the page number; use to get the next or previous page of search results | optional   |               |  
+| per_page |     | integer   | number of results per page                                              | optional   | default is 50 |  
+
+**cURL Example**
+
+```
+curl -H "Content-Type: application/json" -X GET  http://warper.wmflabs.org/api/v1/activity/maps/260?per_page=2 -b cookie
+```
+
+**Response**
+
+```
+{
+	"data": [
+		{
+			"id": 2116,
+			"auditable_id": 260,
+			"auditable_type": "Map",
+			"user_id": 2,
+			"action": "update",
+			"version": 16,
+			"created_at": "2016-04-10T17:00:36.588Z"
+		},
+		{
+			"id": 2115,
+			"auditable_id": 260,
+			"auditable_type": "Map",
+			"user_id": 2,
+			"action": "update",
+			"version": 15,
+			"created_at": "2016-04-10T17:00:31.684Z"
+		}
+	],
+	"meta": {
+		"total-entries": 16,
+		"total-pages": 8
+	}
+}
+```
+
+**Response Elements**
+
+
+***Data***
+
+| Name           | Type     | Description                                          | Notes                                                 |
+|----------------|----------|------------------------------------------------------|-------------------------------------------------------|
+| id             | integer  | unique identifier of the activity                    |                                                       |
+| auditable_id   | integer  | unique identifier of the item the activity refers to |                                                    |
+| auditable_type | string   | The type ofitem the activity refers to               | e.g.  Map                                       |
+| user_id        | integer  | unique identifier of the user doing the action       |                                                       |
+| action         | string   | the type of action                                   | one of: "create", "update", "destroy"                 |
+| version        | integer  | the version of the item                              | e.g. a created map will always be version 1 initially |
+| created_at     | datetime | the time of the action                               |                                                       |
+
+***Meta***
+
+Useful in pagination. Will show the total number of results, for example if the request is limited to returning 25 maps:
+
+```
+"meta": {
+  "total-entries": 50,
+  "total-pages": 2
+}
+```
+
+
 ###List User Activity
-api/v1/activity/users/:id
+
+Lists all activity for one user, ordered by created_at desc
+Authentication required.
+
+| Method       | Definition | 
+| ------------ | -------    | 
+| GET          |  /api/v1/activity/users/{:id} |
+
+**Parameters**
+
+| Name     |     | Type      | Description                                                             | Required   | Notes         |  
+|----------|-----|-----------|-------------------------------------------------------------------------|------------|---------------|  
+| id       |     | integer   | unique identifier of the user                                           | required   |               | 
+| page     |     | integer   | the page number; use to get the next or previous page of search results | optional   |               |  
+| per_page |     | integer   | number of results per page                                              | optional   | default is 50 |  
+
+**cURL Example**
+
+```
+curl -H "Content-Type: application/json" -X GET  http://warper.wmflabs.org/api/v1/activity/users/3?per_page=2 -b cookie
+```
+
+**Response**
+
+```
+{
+	"data": [
+		{
+			"id": 2148,
+			"auditable_id": 287,
+			"auditable_type": "Map",
+			"user_id": 2,
+			"action": "update",
+			"version": 3,
+			"created_at": "2016-05-03T12:14:11.872Z"
+		},
+		{
+			"id": 2147,
+			"auditable_id": 287,
+			"auditable_type": "Map",
+			"user_id": 2,
+			"action": "update",
+			"version": 2,
+			"created_at": "2016-05-03T12:14:11.607Z"
+		}
+	],
+	"meta": {
+		"total-entries": 1755,
+		"total-pages": 878
+	}
+}
+```
+
+**Response Elements**
+
+
+***Data***
+
+| Name           | Type     | Description                                          | Notes                                                 |
+|----------------|----------|------------------------------------------------------|-------------------------------------------------------|
+| id             | integer  | unique identifier of the activity                    |                                                       |
+| auditable_id   | integer  | unique identifier of the item the activity refers to |                                                       |
+| auditable_type | string   | The type ofitem the activity refers to               |                                                       |
+| user_id        | integer  | unique identifier of the user doing the action       |                                                       |
+| action         | string   | the type of action                                   | one of: "create", "update", "destroy"                 |
+| version        | integer  | the version of the item                              | e.g. a created map will always be version 1 initially |
+| created_at     | datetime | the time of the action                               |                                                       |
+
+***Meta***
+
+Useful in pagination. Will show the total number of results, for example if the request is limited to returning 25 maps:
+
+```
+"meta": {
+  "total-entries": 50,
+  "total-pages": 2
+}
+```
 
 ###User Statistics
 
- /api/v1/stats
+Returns statistics of all users based on combined activity.
+Authentication required.
+Administrator role only authorized
+
+| Method       | Definition | 
+| ------------ | -------    | 
+| GET          |  /api/v1/stats |
+
+**Parameters**
+
+**Parameters**
+
+| Name       | values            | Type    | Description                                                             | Required | Notes                  |
+|------------|-------------------|---------|-------------------------------------------------------------------------|----------|------------------------|
+| sort_key   |                   |         | the field that should be used to sort the results                       | optional | default is total_count |
+|            | total_count       |         | total  number of changes                                                |          |                        |
+|            | map_count         |         | number of map changes                                                   |          |                        |
+|            | gcp_count         |         | number of gcp changes                                                   |          |                        |
+|            | gcp_update_count  |         | number of gcp update changes                                            |          |                        |
+|            | gcp_create_count  |         | number of gcp creations                                                 |          |                        |
+|            | gcp_destroy_count |         | number of gcp deletions                                                 |          |                        |
+|            | user_id           |         | user id                                                                 |          |                        |
+| sort_order |                   | string  | the order in which the results should appear                            | optional | default is desc        |
+|            | asc               |         | ascending order                                                         | optional |                        |
+|            | desc              |         | descending order                                                        | optional | default                |
+| page       |                   | integer | the page number; use to get the next or previous page of search results | optional |                        |
+| per_page   |                   | integer | number of results per page                                              | optional | default is 50          |
+
+**cURL Example**
+
+```
+curl -H "Content-Type: application/json" -X GET  http://warper.wmflabs.org/api/v1/stats?per_page=3&sort_key=user_id&sort_order=asc -b cookie
+```
+
+**Response**
+
+```
+{
+	"data": [
+		{
+			"user_id": 2,
+			"username": null,
+			"total_count": 646,
+			"gcp_count": 244,
+			"map_count": 402,
+			"gcp_update_count": 90,
+			"gcp_create_count": 94,
+			"gcp_destroy_count": 60,
+			"id": null
+		},
+		{
+			"user_id": 11,
+			"username": null,
+			"total_count": 3,
+			"gcp_count": 0,
+			"map_count": 3,
+			"gcp_update_count": 0,
+			"gcp_create_count": 0,
+			"gcp_destroy_count": 0,
+			"id": null
+		}
+	],
+	"meta": {
+		"total-entries": 5,
+		"total-pages": 2
+	}
+}
+```
+
+**Response Elements**
+
+
+***Data***
+
+| Name              | Type    | Description                  | Notes |
+|-------------------|---------|------------------------------|-------|
+| total_count       | integer | total  number of changes     |       |
+| map_count         | integer | number of map changes        |       |
+| gcp_count         | integer | number of gcp changes        |       |
+| gcp_update_count  | integer | number of gcp update changes |       |
+| gcp_create_count  | integer | number of gcp creations      |       |
+| gcp_destroy_count | integer | number of gcp deletions      |       |
+| user_id           | integer | user id                      |       |
+
+note: ```username``` and ```id``` are not used.
+
+***Meta***
+
+Useful in pagination. Will show the total number of results, for example if the request is limited to returning 25 maps:
+
+```
+"meta": {
+  "total-entries": 50,
+  "total-pages": 2
+}
+```
