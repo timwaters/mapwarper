@@ -52,13 +52,14 @@ Welcome to the documentation for the Wikimaps Warper API! MapWarper is a free ap
 [List Users](#list-users)
 
 [Imports](#imports)
-Show Import
-List Import Maps
-List Imports
-Create Import
-Update Import
-Destroy Import
+[Show Import](#show-import)
+[List Import Maps](#list-import-maps)
+[List Imports](#list-imports)
+[Create Import](#create-import)
+[Update Import](#update-import)
+[Destroy Import](#destroy-import)
 
+[Activity & Stats](#activity)
 List Activity
 List All Maps Activity
 List Map Activity
@@ -130,35 +131,35 @@ No authentication required.
 
 **Parameters**
 
-| Name      	    |   values   | Type  | Description  |  Required | Notes  |
-| -----           | -----       | ----- | ---------    |  -----    | ------ |
-| query           |             |string | search query | optional  |        |
-| field           |             |string | specified field to be searched     | optional  | default is title  |
-|       		      | title      	|string  | the title of the map   | optional | default |
-|       		      | description | string | the description of the map | optional |       |
-|       		      | publisher   | string | the publisher | optional |       |
-|       		      | author      | string | the author of the map | optional |       |
-|       		      | status      | string | the status  | optional |       |
-| sort_key	      |            |         | the field that should be used to sort the results  | optional | default is updated_at  |
-| 		            | title      | string    | the title of the map	             | optional            | |
-| 		            | updated_at | string   | when the map was last updated	| optional            |  default |
-| 		            | created_at | string   | when the map was created	| optional            | |
-|		              | status	   | string   | the status of the map	            | optional            | ordered by integer (see below) |
-| sort_order	    |            |  string  | the order in which the results should appear | optional            | default is desc|
-|                 | asc 	     |           | ascending order               | optional            | |
-|		              | desc	     |           | descending order              | optional            | default |
-| show_warped	    | 		       | integer   | limits to maps that have already been warped   | optional |    | 
-|           	    | 1         | integer   | limits to maps that have already been warped   | optional  |    | 
-|           	    | 0         | integer   | gets all maps, warped and unwarped             | optional  |  default | 
-| format	        |     	     | string    | specifies output format       | optional      | can also be passed in as extension, eg. maps.json  |
-|                 | json       | string    | JSON format for maps   | optional            | default | 
-|                 | geojson    | string    | GeoJSON format for maps | optional           |   simple array, not featurecollection     |
-| page		        | 		        | integer   | the page number; use to get the next or previous page of search results | optional | |
-| per_page        |             | integer   | number of results per page | optional |default is 50 |
-| bbox	         | a comma-separated string of latitude and longitude coordinates | a rectangle delineating the geographic area to which the search should be limited | optional |
-| operation     |           | string       | specifies how to apply the bounding box  | optional  | default is intersect |
-|               | intersect | string       |uses the PostGIS ST_Intersects operation to retrieve warped maps whose extents intersect with the bbox parameter  | optional | preferred; orders results by proximity to the bbox extent; default |
-|               | within    | string	      | uses a PostGIS ST_Within operation to retrieve warped maps that fall entirely within the extent of the bbox parameter  | optional      |  |
+| Name        | values      | Type    | Description                                                             | Required | Notes                                             |
+|-------------|-------------|---------|-------------------------------------------------------------------------|----------|---------------------------------------------------|
+| query       |             | string  | search query                                                            | optional |                                                   |
+| field       |             | string  | specified field to be searched                                          | optional | default is title                                  |
+|             | title       | string  | the title of the map                                                    | optional | default                                           |
+|             | description | string  | the description of the map                                              | optional |                                                   |
+|             | publisher   | string  | the publisher                                                           | optional |                                                   |
+|             | author      | string  | the author of the map                                                   | optional |                                                   |
+|             | status      | string  | the status                                                              | optional |                                                   |
+| sort_key    |             |         | the field that should be used to sort the results                       | optional | default is updated_at                             |
+|             | title       | string  | the title of the map                                                    | optional |                                                   |
+|             | updated_at  | string  | when the map was last updated                                           | optional | default                                           |
+|             | created_at  | string  | when the map was created                                                | optional |                                                   |
+|             | status      | string  | the status of the map                                                   | optional | ordered by integer (see below)                    |
+| sort_order  |             | string  | the order in which the results should appear                            | optional | default is desc                                   |
+|             | asc         |         | ascending order                                                         | optional |                                                   |
+|             | desc        |         | descending order                                                        | optional | default                                           |
+| show_warped |             | integer | limits to maps that have already been warped                            | optional |                                                   |
+|             | 1           | integer | limits to maps that have already been warped                            | optional |                                                   |
+|             | 0           | integer | gets all maps, warped and unwarped                                      | optional | default                                           |
+| format      |             | string  | specifies output format                                                 | optional | can also be passed in as extension, eg. maps.json |
+|             | json        | string  | JSON format for maps                                                    | optional | default                                           |
+|             | geojson     | string  | GeoJSON format for maps                                                 | optional | simple array, not featurecollection               |
+| page        |             | integer | the page number; use to get the next or previous page of search results | optional |                                                   |
+| per_page    |             | integer | number of results per page                                              | optional | default is 50                                     |
+| bbox	      | a comma-separated string of latitude and longitude coordinates | a rectangle delineating the geographic area to which the search should be limited | optional |
+| operation   |             | string  | specifies how to apply the bounding box  | optional  | default is intersect |
+|             | intersect   | string  |uses the PostGIS ST_Intersects operation to retrieve warped maps whose extents intersect with the bbox parameter  | optional | preferred; orders results by proximity to the bbox extent; default |
+|             | within      | string	| uses a PostGIS ST_Within operation to retrieve warped maps that fall entirely within the extent of the bbox parameter  | optional      |  |
  
 
 Notes: Enter optional text for the query, based on the search field chosen. The query text is case insensitive. This is a simple exact string text search. For example, a search for "city New York" returns no results, but a search for "city of New York" returns 22. bbox format is y.min(lon min),x.min(lat min),y.max(lon max), x.max(lat max)
@@ -330,36 +331,37 @@ indicates that 50 results have been found over 2 pages.
  
 ***Attributes***
 
-| Name        	 | Type	   | Value		    | Description                       	| Notes |  
-| ------| -------     |------| -------     |  -------     | 
-| status	       |  string  |             |  the status of the map                |   |
-| 		           |          | unloaded	  | the map has not been loaded					       | |
-| 		           |          |  loading 	  | the master image is being requested from the NYPL repository	 |    |
-| 		           |          |  available	| the map has been copied and is ready to be warped	|  |
-| 		           |          |  warping	  | the map is undergoing the warping process			|  |
-| 		           |          |  warped	    | the map has been warped                 |  |
-| 		           |          |  published	| this status is set when the map should no longer be edited |  |
-| map-type	     | string 	|             | indicates whether the image is of a map or another type of content	| |
-|         	     |         	| index	      | indicates a map index or overview map							| |
-| 		           |          | is_map	    | indicates a map                       | default |
-| 	 	           |          | not_map	    | indicates non-map content, such as a plate depicting sea monsters		| |
-| updated-at	   | datetime  | 	        	| when the map was last updated         | |
-| created-at	   | datetime  | 	        	| when the map was first created          | |
-| title		       | string 	 |       		  |	the title of the map                    | |
-| description	   | string	  |	        	  |		the description of the map							| |
-| height	        | integer 	|          	|  the height of an unwarped map				| |
-| width	          | integer 	|        	  |  the width of an unwarped map				| |
-| mask-status	    | string	 |            | the status of the mask              | |
-| 		            |          |  unmasked	| the map has not been masked       	| |
-| 		            |          |  masking		| the map is undergoing the masking process				| |
-| 		            |          |  masked		| the map has been masked           	| |
-| bbox	          | comma-separated string of lat & lon coords |  a rectangle delineating the geographic area to which the search should be limited | |
-| source-uri	 | string 	|              	|  the URI to the source map page			| e.g. the wiki page |
-| unique-id	    | string 	|             	|  the image filename taken from the source image |  |
-| page-id	      | integer |             	|  The Wiki PAGEID for the source				| |
-| date-depicted	| string 	|             	|  string representation of the date that the map depicts	| |
-| image-url	    | string 	|              	|  URL to the original full size image| |
-| thumb-url	    | string 	|             	| URL to the thumbnail 	| 100px dimension |
+| Name          | Type     | Value     | Description                                                        | Notes              |   
+|---------------|----------|-----------|--------------------------------------------------------------------|--------------------|  
+| status        | string   |           | the status of the map                                              |                    |   
+|               |          | unloaded  | the map has not been loaded                                        |                    |   
+|               |          | loading   | the master image is being requested from the NYPL repository       |                    |   
+|               |          | available | the map has been copied and is ready to be warped                  |                    |   
+|               |          | warping   | the map is undergoing the warping process                          |                    |   
+|               |          | warped    | the map has been warped                                            |                    |   
+|               |          | published | this status is set when the map should no longer be edited         |                    |   
+| map-type      | string   |           | indicates whether the image is of a map or another type of content |                    |   
+|               |          | index     | indicates a map index or overview map                              |                    |   
+|               |          | is_map    | indicates a map                                                    | default            |   
+|               |          | not_map   | indicates non-map content, such as a plate depicting sea monsters  |                    |   
+| updated-at    | datetime |           | when the map was last updated                                      |                    |   
+| created-at    | datetime |           | when the map was first created                                     |                    |   
+| title         | string   |           | the title of the map                                               |                    |   
+| description   | string   |           | the description of the map                                         |                    |   
+| height        | integer  |           | the height of an unwarped map                                      |                    |   
+| width         | integer  |           | the width of an unwarped map                                       |                    |   
+| mask-status   | string   |           | the status of the mask                                             |                    |   
+|               |          | unmasked  | the map has not been masked                                        |                    |   
+|               |          | masking   | the map is undergoing the masking process                          |                    |   
+|               |          | masked    | the map has been masked                                            |                    |   
+| source-uri    | string   |           | the URI to the source map page                                     | e.g. the wiki page |   
+| unique-id     | string   |           | the image filename taken from the source image                     |                    |   
+| page-id       | integer  |           | The Wiki PAGEID for the source                                     |                    |   
+| date-depicted | string   |           | string representation of the date that the map depicts             |                    |   
+| image-url     | string   |           | URL to the original full size image                                |                    |   
+| thumb-url     | string   |           | URL to the thumbnail                                               | 100px dimension    |   
+| bbox	        | comma-separated string of lat & lon coords |  | a rectangle delineating the geographic area to which the search should be limited |  |  
+
 
 
 
@@ -510,14 +512,14 @@ GeoJSON Format
 ***Data***
 
 
-| Name          |    Value	   | Description                    	| Notes |  
-| ------| -------     |------| -------     |
-| id            |               | The id for the map             |       |  
-| type          |    maps       | the type of resource            |      |  
-| links         |               | links to the resource, and export links |   |   
-| attributes    |               | Attributes of the map | see separate table for more detail   |  
-| relationships | layers, added-by | the layers that the map belongs to and the user that uploaded it | (see included) |  
-| included      |               | Details about the layers  |   |   
+| Name          | Value            | Description                                                      | Notes                              |   
+|---------------|------------------|------------------------------------------------------------------|------------------------------------| 
+| id            |                  | The id for the map                                               |                                    |   
+| type          | maps             | the type of resource                                             |                                    |   
+| links         |                  | links to the resource, and export links                          |                                    |   
+| attributes    |                  | Attributes of the map                                            | see separate table for more detail |   
+| relationships | layers, added-by | the layers that the map belongs to and the user that uploaded it | (see included)                     |   
+| included      |                  | Details about the layers                                         |                                    |   
 
 
 ***Map Links***
@@ -535,37 +537,36 @@ GeoJSON Format
 
 ***Attributes***
 
-| Name        	 | Type	   | Value		    | Description                       	| Notes |  
-| ------| -------     |------| -------     |  -------     | 
-| status	       |  string  |             |  the status of the map                |   |
-| 		           |          | unloaded	  | the map has not been loaded					       | |
-| 		           |          |  loading 	  | the master image is being requested from the NYPL repository	 |    |
-| 		           |          |  available	| the map has been copied and is ready to be warped	|  |
-| 		           |          |  warping	  | the map is undergoing the warping process			|  |
-| 		           |          |  warped	    | the map has been warped                 |  |
-| 		           |          |  published	| this status is set when the map should no longer be edited |  |
-| map-type	     | string 	|             | indicates whether the image is of a map or another type of content	| |
-|         	     |         	| index	      | indicates a map index or overview map							| |
-| 		           |          | is_map	    | indicates a map                       | default |
-| 	 	           |          | not_map	    | indicates non-map content, such as a plate depicting sea monsters		| |
-| updated-at	   | datetime  | 	        	| when the map was last updated         | |
-| created-at	   | datetime  | 	        	| when the map was first created          | |
-| title		       | string 	 |       		  |	the title of the map                    | |
-| description	   | string	  |	        	  |		the description of the map							| |
-| height	        | integer 	|          	|  the height of an unwarped map				| |
-| width	          | integer 	|        	  |  the width of an unwarped map				| |
-| mask-status	    | string	 |            | the status of the mask              | |
-| 		            |          |  unmasked	| the map has not been masked       	| |
-| 		            |          |  masking		| the map is undergoing the masking process				| |
-| 		            |          |  masked		| the map has been masked           	| |
-| bbox	          | comma-separated string of lat & lon coords |  a rectangle delineating the geographic area to which the search should be limited | |
-| source-uri	 | string 	|              	|  the URI to the source map page			| e.g. the wiki page |
-| unique-id	    | string 	|             	|  the image filename taken from the source image |  |
-| page-id	      | integer |             	|  The Wiki PAGEID for the source				| |
-| date-depicted	| string 	|             	|  string representation of the date that the map depicts	| |
-| image-url	    | string 	|              	|  URL to the original full size image| |
-| thumb-url	    | string 	|             	| URL to the thumbnail 	| 100px dimension |
-
+| Name          | Type     | Value     | Description                                                        | Notes              |   
+|---------------|----------|-----------|--------------------------------------------------------------------|--------------------|  
+| status        | string   |           | the status of the map                                              |                    |   
+|               |          | unloaded  | the map has not been loaded                                        |                    |   
+|               |          | loading   | the master image is being requested from the NYPL repository       |                    |   
+|               |          | available | the map has been copied and is ready to be warped                  |                    |   
+|               |          | warping   | the map is undergoing the warping process                          |                    |   
+|               |          | warped    | the map has been warped                                            |                    |   
+|               |          | published | this status is set when the map should no longer be edited         |                    |   
+| map-type      | string   |           | indicates whether the image is of a map or another type of content |                    |   
+|               |          | index     | indicates a map index or overview map                              |                    |   
+|               |          | is_map    | indicates a map                                                    | default            |   
+|               |          | not_map   | indicates non-map content, such as a plate depicting sea monsters  |                    |   
+| updated-at    | datetime |           | when the map was last updated                                      |                    |   
+| created-at    | datetime |           | when the map was first created                                     |                    |   
+| title         | string   |           | the title of the map                                               |                    |   
+| description   | string   |           | the description of the map                                         |                    |   
+| height        | integer  |           | the height of an unwarped map                                      |                    |   
+| width         | integer  |           | the width of an unwarped map                                       |                    |   
+| mask-status   | string   |           | the status of the mask                                             |                    |   
+|               |          | unmasked  | the map has not been masked                                        |                    |   
+|               |          | masking   | the map is undergoing the masking process                          |                    |   
+|               |          | masked    | the map has been masked                                            |                    |   
+| source-uri    | string   |           | the URI to the source map page                                     | e.g. the wiki page |   
+| unique-id     | string   |           | the image filename taken from the source image                     |                    |   
+| page-id       | integer  |           | The Wiki PAGEID for the source                                     |                    |   
+| date-depicted | string   |           | string representation of the date that the map depicts             |                    |   
+| image-url     | string   |           | URL to the original full size image                                |                    |   
+| thumb-url     | string   |           | URL to the thumbnail                                               | 100px dimension    |   
+| bbox	        | comma-separated string of lat & lon coords |  | a rectangle delineating the geographic area to which the search should be limited |  |  
 
 
 
@@ -628,29 +629,29 @@ No authentication required.
 
 **Parameters**
 
-| Name      	    |   values   | Type  | Description  |  Required | Notes  |
-| -----           | -----       | ----- | ---------    |  -----    | ------ |
-| query           |             |string | search query | optional  |        |
-| field           |             |string | specified field to be searched     | optional  | default is title  |
-|       		      | name      	|string  | the title of the layer   | optional | default |
-|       		      | description | string | the description of the layer | optional |       |   |
-| sort_key	      |            |         | the field that should be used to sort the results  | optional | default is updated_at  |
-| 		            | name      | string    | the name of the layer	             | optional            | |
-| 		            | updated_at | string   | when the layer was last updated	| optional            |  default |
-| 		            | created_at | string   | when the layer was created	| optional            | |
-|		              | percent	   | string   | the percent of maps which are rectified in the layer | optional            | ordered by integer (see below) |
-| sort_order	    |            |  string  | the order in which the results should appear | optional            | default is desc|
-|                 | asc 	     |           | ascending order               | optional            | |
-|		              | desc	     |           | descending order              | optional            | default | 
-| format	        |     	     | string    | specifies output format       | optional      | can also be passed in as extension, eg. maps.json  |
-|                 | json       | string    | JSON format for layer   | optional            | default | 
-|                 | geojson    | string    | GeoJSON format for layer | optional           |  simple array, not featurecollection   |
-| page		        | 		        | integer   | the page number; use to get the next or previous page of search results | optional | |
-| per_page        |             | integer   | number of results per page | optional |default is 50 |
-| bbox	         | a comma-separated string of latitude and longitude coordinates | a rectangle delineating the geographic area to which the search should be limited | optional |
-| operation     |           | string       | specifies how to apply the bounding box  | optional  | default is intersect |
-|               | intersect | string       |uses the PostGIS ST_Intersects operation to retrieve warped maps whose extents intersect with the bbox parameter  | optional | preferred; orders results by proximity to the bbox extent; default |
-|               | within    | string	      | uses a PostGIS ST_Within operation to retrieve warped maps that fall entirely within the extent of the bbox parameter  | optional      |  |
+| Name       | values      | Type    | Description                                                             | Required | Notes                                             |
+|------------|-------------|---------|-------------------------------------------------------------------------|----------|---------------------------------------------------|
+| query      |             | string  | search query                                                            | optional |                                                   |
+| field      |             | string  | specified field to be searched                                          | optional | default is title                                  |
+|            | name        | string  | the title of the layer                                                  | optional | default                                           |
+|            | description | string  | the description of the layer                                            | optional |                                                   |
+| sort_key   |             |         | the field that should be used to sort the results                       | optional | default is updated_at                             |
+|            | name        | string  | the name of the layer                                                   | optional |                                                   |
+|            | updated_at  | string  | when the layer was last updated                                         | optional | default                                           |
+|            | created_at  | string  | when the layer was created                                              | optional |                                                   |
+|            | percent     | string  | the percent of maps which are rectified in the layer                    | optional | ordered by integer (see below)                    |
+| sort_order |             | string  | the order in which the results should appear                            | optional | default is desc                                   |
+|            | asc         |         | ascending order                                                         | optional |                                                   |
+|            | desc        |         | descending order                                                        | optional | default                                           |
+| format     |             | string  | specifies output format                                                 | optional | can also be passed in as extension, eg. maps.json |
+|            | json        | string  | JSON format for layer                                                   | optional | default                                           |
+|            | geojson     | string  | GeoJSON format for layer                                                | optional | simple array, not featurecollection               |
+| page       |             | integer | the page number; use to get the next or previous page of search results | optional |                                                   |
+| per_page   |             | integer | number of results per page                                              | optional | default is 50                                     |
+| bbox	     | a comma-separated string of latitude and longitude coordinates | a rectangle delineating the geographic area to which the search should be limited | optional |  |  
+| operation  |           | string       | specifies how to apply the bounding box  | optional  | default is intersect |
+|            | intersect | string       |uses the PostGIS ST_Intersects operation to retrieve warped maps whose extents intersect with the bbox parameter  | optional | preferred; orders results by proximity to the bbox extent; default |
+|            | within    | string	      | uses a PostGIS ST_Within operation to retrieve warped maps that fall entirely within the extent of the bbox parameter  | optional      |   |  
  
 
 Notes: Enter optional text for the query, based on the search field chosen. The query text is case insensitive. This is a simple exact string text search. For example, a search for "city New York" returns no results, but a search for "city of New York" returns 22. bbox format is y.min(lon min),x.min(lat min),y.max(lon max), x.max(lat max)
@@ -980,36 +981,36 @@ Returns a paginated list of the maps that comprise a given layer.
 
 **Parameters**
 
-| Name      	    |   values   | Type  | Description  |  Required | Notes  |
-| -----           | -----       | ----- | ---------    |  -----    | ------ |
-| layer_id       |             | integer | the unique identifier for the layer   |  required  | 
-| query           |             |string | search query | optional  |        |
-| field           |             |string | specified field to be searched     | optional  | default is title  |
-|       		      | title      	|string  | the title of the map   | optional | default |
-|       		      | description | string | the description of the map | optional |       |
-|       		      | publisher   | string | the publisher | optional |       |
-|       		      | author      | string | the author of the map | optional |       |
-|       		      | status      | string | the status  | optional |       |
-| sort_key	      |            |         | the field that should be used to sort the results  | optional | default is updated_at  |
-| 		            | title      | string    | the title of the map	             | optional            | |
-| 		            | updated_at | string   | when the map was last updated	| optional            |  default |
-| 		            | created_at | string   | when the map was created	| optional            | |
-|		              | status	   | string   | the status of the map	            | optional            | ordered by integer (see below) |
-| sort_order	    |            |  string  | the order in which the results should appear | optional            | default is desc|
-|                 | asc 	     |           | ascending order               | optional            | |
-|		              | desc	     |           | descending order              | optional            | default |
-| show_warped	    | 		       | integer   | limits to maps that have already been warped   | optional |    | 
-|           	    | 1         | integer   | limits to maps that have already been warped   | optional  |    | 
-|           	    | 0         | integer   | gets all maps, warped and unwarped             | optional  |  default | 
-| format	        |     	     | string    | specifies output format       | optional      | can also be passed in as extension, eg. maps.json  |
-|                 | json       | string    | JSON format for maps   | optional            | default | 
-|                 | geojson    | string    | GeoJSON format for maps | optional           |   simple array, not featurecollection     |
-| page		        | 		        | integer   | the page number; use to get the next or previous page of search results | optional | |
-| per_page        |             | integer   | number of results per page | optional |default is 50 |
-| bbox	         | a comma-separated string of latitude and longitude coordinates | a rectangle delineating the geographic area to which the search should be limited | optional |
-| operation     |           | string       | specifies how to apply the bounding box  | optional  | default is intersect |
-|               | intersect | string       |uses the PostGIS ST_Intersects operation to retrieve warped maps whose extents intersect with the bbox parameter  | optional | preferred; orders results by proximity to the bbox extent; default |
-|               | within    | string	      | uses a PostGIS ST_Within operation to retrieve warped maps that fall entirely within the extent of the bbox parameter  | optional      |  |
+| Name        | values      | Type    | Description                                                             | Required | Notes                                             |
+|-------------|-------------|---------|-------------------------------------------------------------------------|----------|---------------------------------------------------|
+| layer_id    |             | integer | the unique identifier for the layer                                     | required |                                                   |
+| query       |             | string  | search query                                                            | optional |                                                   |
+| field       |             | string  | specified field to be searched                                          | optional | default is title                                  |
+|             | title       | string  | the title of the map                                                    | optional | default                                           |
+|             | description | string  | the description of the map                                              | optional |                                                   |
+|             | publisher   | string  | the publisher                                                           | optional |                                                   |
+|             | author      | string  | the author of the map                                                   | optional |                                                   |
+|             | status      | string  | the status                                                              | optional |                                                   |
+| sort_key    |             |         | the field that should be used to sort the results                       | optional | default is updated_at                             |
+|             | title       | string  | the title of the map                                                    | optional |                                                   |
+|             | updated_at  | string  | when the map was last updated                                           | optional | default                                           |
+|             | created_at  | string  | when the map was created                                                | optional |                                                   |
+|             | status      | string  | the status of the map                                                   | optional | ordered by integer (see below)                    |
+| sort_order  |             | string  | the order in which the results should appear                            | optional | default is desc                                   |
+|             | asc         |         | ascending order                                                         | optional |                                                   |
+|             | desc        |         | descending order                                                        | optional | default                                           |
+| show_warped |             | integer | limits to maps that have already been warped                            | optional |                                                   |
+|             | 1           | integer | limits to maps that have already been warped                            | optional |                                                   |
+|             | 0           | integer | gets all maps, warped and unwarped                                      | optional | default                                           |
+| format      |             | string  | specifies output format                                                 | optional | can also be passed in as extension, eg. maps.json |
+|             | json        | string  | JSON format for maps                                                    | optional | default                                           |
+|             | geojson     | string  | GeoJSON format for maps                                                 | optional | simple array, not featurecollection               |
+| page        |             | integer | the page number; use to get the next or previous page of search results | optional |                                                   |
+| per_page    |             | integer | number of results per page                                              | optional | default is 50                                     |
+| bbox	      | a comma-separated string of latitude and longitude coordinates | a rectangle delineating the geographic area to which the search should be limited | optional |
+| operation   |           | string       | specifies how to apply the bounding box  | optional  | default is intersect |
+|             | intersect | string       |uses the PostGIS ST_Intersects operation to retrieve warped maps whose extents intersect with the bbox parameter  | optional | preferred; orders results by proximity to the bbox extent; default |
+|             | within    | string	      | uses a PostGIS ST_Within operation to retrieve warped maps that fall entirely within the extent of the bbox parameter  | optional      |  |
 
 **Request Examples**
  
@@ -1046,22 +1047,22 @@ No authentication required.
 
 **Parameters**
 
-| Name      	    |   values   | Type  | Description  |  Required | Notes  |
-| ------------- | ------------- | ------------- | ------------- |------------- | ------------- |
-| sort_key	      |            |         | the field that should be used to sort the results  | optional | default is updated_at  |
-| 		            | map_id     | string    | the id of the map the GCP belongs to	             | optional            | |
-| 		            | lat      | string    | the latitude of the ground control point             | optional            | |
-| 		            | lon      | string    | the longitude of the ground control point 	             | optional            | |
-| 		            | x        | string    |  the x coordinate on the image that corresponds to "lon"	             | optional            | |
-| 		            | y        | string    | the y coordinate on the image that corresponds to "lat"	             | optional            | |
-| 		            | updated_at | string   | when the GCP was last updated	| optional            |  default |
-| 		            | created_at | string   | when the GCP was first created	| optional            | |
-| sort_order	    |            |  string  | the order in which the results should appear | optional            | default is desc|
-|                 | asc 	     |           | ascending order               | optional            | |
-|		              | desc	     |           | descending order              | optional            | default |
-| page		        | 		        | integer   | the page number; use to get the next or previous page of search results | optional | |
-| per_page        |             | integer   | number of results per page | optional |default is 50 |
-| map_id          |            | integer  | restricts results to the map given | optional | |
+| Name       | values     | Type    | Description                                                             | Required | Notes                 |
+|------------|------------|---------|-------------------------------------------------------------------------|----------|-----------------------|
+| sort_key   |            |         | the field that should be used to sort the results                       | optional | default is updated_at |
+|            | map_id     | string  | the id of the map the GCP belongs to                                    | optional |                       |
+|            | lat        | string  | the latitude of the ground control point                                | optional |                       |
+|            | lon        | string  | the longitude of the ground control point                               | optional |                       |
+|            | x          | string  | the x coordinate on the image that corresponds to "lon"                 | optional |                       |
+|            | y          | string  | the y coordinate on the image that corresponds to "lat"                 | optional |                       |
+|            | updated_at | string  | when the GCP was last updated                                           | optional | default               |
+|            | created_at | string  | when the GCP was first created                                          | optional |                       |
+| sort_order |            | string  | the order in which the results should appear                            | optional | default is desc       |
+|            | asc        |         | ascending order                                                         | optional |                       |
+|            | desc       |         | descending order                                                        | optional | default               |
+| page       |            | integer | the page number; use to get the next or previous page of search results | optional |                       |
+| per_page   |            | integer | number of results per page                                              | optional | default is 50         |
+| map_id     |            | integer | restricts results to the map given                                      | optional |                       |
 
 **Request Examples**
  
@@ -1692,30 +1693,30 @@ curl -X PATCH -d "use_mask=false&format=json" -u email@example.com:password  htt
 
 **Parameters**
 
-| Name      	    |       | Type  | Description  |  Required | Notes  |
-| -----          | ----- | ----- | ---------    |  -----    | ------ |
-| map_id      		 |       | integer  | the unique identifier for the map   | required |  |
-| use_mask		     |       | boolean  | applies any saved mask to the map | optional | default is false     |
-| format         |       | string   | specifies output format           | optional |  default is HTML     |
-|                | json  |          | requests output in JSON format, rather than HTML or XML | optional | |
+| Name     |      | Type    | Description                                             | Required | Notes            |
+|----------|------|---------|---------------------------------------------------------|----------|------------------|
+| map_id   |      | integer | the unique identifier for the map                       | required |                  |
+| use_mask |      | boolean | applies any saved mask to the map                       | optional | default is false |
+| format   |      | string  | specifies output format                                 | optional | default is HTML  |
+|          | json |         | requests output in JSON format, rather than HTML or XML | optional |                  |
 
 **Other Parameters**
 
 The following options specify the algorithm or method that should be used to warp a map.
 
-| Name      	       |                | Type    | Description            |  Required | Notes  |
-| -----             | -------------  | ------- | ---------              |  -------  | -----  |
-| resample_options  |                | string  |                        | optional  |        |         
-|                   | near      		   |         | nearest neighbor       | optional  | fastest processing; default |
-|                   | bilinear		     |         | bilinear interpolation | optional  |                         |
-|                   | cubic 		       |         | cubic                  | optional  | good option, but slower | 
-|                   | cubicspline	   |         | cubic spline           | optional  | slowest; best quality   | 
-| transform_options |                | string  |                        | optional  |        |
-|                   | auto     		    |         |                        | optional  | default |
-|                   | p1		           |         | 1st order polynomial   | optional |  requires a minimum of 3 GCPs   |
-|                   | p2 		          |         | 2nd order polynomial   | optional |  requires a minimum of 6 GCPs   | 
-|                   | p3	            |         | 3rd order polynomial   | optional |  requires a minimum of 10 GCPs   | 
-|                   | tps	           |         | thin plate spline      | optional |  requires many evenly-distributed GCPs |
+| Name              |             | Type   | Description            | Required | Notes                                 |
+|-------------------|-------------|--------|------------------------|----------|---------------------------------------|
+| resample_options  |             | string |                        | optional |                                       |
+|                   | near        |        | nearest neighbor       | optional | fastest processing; default           |
+|                   | bilinear    |        | bilinear interpolation | optional |                                       |
+|                   | cubic       |        | cubic                  | optional | good option, but slower               |
+|                   | cubicspline |        | cubic spline           | optional | slowest; best quality                 |
+| transform_options |             | string |                        | optional |                                       |
+|                   | auto        |        |                        | optional | default                               |
+|                   | p1          |        | 1st order polynomial   | optional | requires a minimum of 3 GCPs          |
+|                   | p2          |        | 2nd order polynomial   | optional | requires a minimum of 6 GCPs          |
+|                   | p3          |        | 3rd order polynomial   | optional | requires a minimum of 10 GCPs         |
+|                   | tps         |        | thin plate spline      | optional | requires many evenly-distributed GCPs |
 
 **Response**
 
@@ -1762,10 +1763,10 @@ Requires authentication.
 
 The body of the request should be in JSON-API format with the following attribute. 
 
-| Name               | Type        | Description           	| Notes |  
-| ------| -------     |------| -------     |
-| page_id         | integer | the Wiki PAGEID of the map   | required (note the underscore, not dash when posting) |
-| title         | string | the title of the map   | required, but will be overwritten from wiki page |
+| Name    | Type    | Description                | Notes                                                 |
+|---------|---------|----------------------------|-------------------------------------------------------|
+| page_id | integer | the Wiki PAGEID of the map | required (note the underscore, not dash when posting) |
+| title   | string  | the title of the map       | required, but will be overwritten from wiki page      | 
 
 The PAGEID is the unique number given to all mediawiki pages. 
 
@@ -1822,18 +1823,17 @@ Editor role only authorized.
 **Parameters**
 
 
-| Name      	    |  Type      | Description  |  Required | 
-| -------------  | ---------- | ------------ |  -------- | 
+| Name      	  |  Type      | Description  |  Required | 
+| ------------- | ---------- | ------------ |  -------- | 
 |   id     		  | integer    | the unique identifier for the map   | required |
 
 
 The body of the request should be in JSON-API format with the following attributes 
 
-| Name               | Type        | Description           	| Notes |  
-| ------| -------     |------| -------     |
-| title |        | string | the title of the map   | optional |
-| description |         | string | the description of the map   | optional|
-
+| Name        | Type | Description | Notes                      |          |
+|-------------|------|-------------|----------------------------|----------|
+| title       |      | string      | the title of the map       | optional |
+| description |      | string      | the description of the map | optional |
 
 Example:
 
@@ -3044,3 +3044,27 @@ curl -H "Content-Type: application/json" -X DELETE  http://warper.wmflabs.org/ap
 **Response**
 
 If successful, the response will be the deleted import (see above)
+
+---------
+
+##Activity & Stats
+
+Gets the activity of users actions over maps and control points, and a report on user statistics.
+Requires authentication.
+Most calls do not require special authorisation (except the user stats call)
+
+###List Activity
+/api/v1/activity
+
+###List Maps Activity
+/api/v1/activity/maps
+
+###List Map Activity
+
+/api/v1/activity/maps/:id(
+###List User Activity
+api/v1/activity/users/:id
+
+###User Statistics
+
+ /api/v1/stats
