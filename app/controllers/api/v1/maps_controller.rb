@@ -62,7 +62,7 @@ class Api::V1::MapsController < Api::V1::ApiController
   end
 
   def gcps
-    render :json  => @map.gcps_with_error, :meta => {"map-error"=>@map.error}
+    render :json  => @map.gcps_with_error, :meta => {"map_error"=>@map.error}
   end
   
   #patch warp
@@ -291,8 +291,8 @@ class Api::V1::MapsController < Api::V1::ApiController
     #ActiveSupport.escape_html_entities_in_json = false
     render :json => @maps, 
       :include => ['layers', 'owner'],
-      :meta => {"total-entries" => @maps.total_entries,
-      "total-pages"   => @maps.total_pages}
+      :meta => {"total_entries" => @maps.total_entries,
+      "total_pages"   => @maps.total_pages}
   end
 
   private

@@ -25,7 +25,7 @@ class ImportsControllerTest < ActionController::TestCase
     end
     assert_response :created
     body = JSON.parse(response.body)
-    assert_equal 2, body["data"]["attributes"]["file-count"]
+    assert_equal 2, body["data"]["attributes"]["file_count"]
     assert_equal "ready", body["data"]["attributes"]["status"]
     assert_equal "Category:Maps_Of_Tartu", body["data"]["attributes"]["category"]
     assert_equal 0, body["data"]["relationships"]["maps"]["data"].size
@@ -41,7 +41,7 @@ class ImportsControllerTest < ActionController::TestCase
     assert_response :ok
 
     body = JSON.parse(response.body)
-    assert_equal 0, body["data"]["attributes"]["file-count"]
+    assert_equal 0, body["data"]["attributes"]["file_count"]
   end
   
   test "show" do
@@ -50,7 +50,7 @@ class ImportsControllerTest < ActionController::TestCase
     assert_response :ok
     
     body = JSON.parse(response.body)
-    assert_equal 2, body["data"]["attributes"]["file-count"]
+    assert_equal 2, body["data"]["attributes"]["file_count"]
     assert_equal "ready", body["data"]["attributes"]["status"]
     assert_equal "Category:Maps_Of_Tartu", body["data"]["attributes"]["category"]
   end

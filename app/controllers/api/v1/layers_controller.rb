@@ -182,8 +182,8 @@ def index
   end  
   
   render :json => @layers, :meta => {
-    "total-entries" => @layers.total_entries,
-    "total-pages"   => @layers.total_pages}
+    "total_entries" => @layers.total_entries,
+    "total_pages"   => @layers.total_pages}
 end
     
 #maps

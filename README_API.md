@@ -117,7 +117,7 @@ A successful response returns the user as JSON in the data element and the authe
     "type": "users",
     "attributes": {
       "login": "tim",
-      "created-at": "2010-08-26T15:37:34.619Z",
+      "created_at": "2010-08-26T15:37:34.619Z",
       "enabled": true,
       "provider": null
     },
@@ -170,7 +170,7 @@ A successful response returns the user as JSON in the data element and the authe
     "type": "users",
     "attributes": {
       "login": "tim",
-      "created-at": "2010-08-26T15:37:34.619Z",
+      "created_at": "2010-08-26T15:37:34.619Z",
       "enabled": true,
       "provider": null
     },
@@ -298,7 +298,7 @@ if successful, returns logged in user as jsonapi
     "type": "users",
     "attributes": {
       "login": "tim",
-      "created-at": "2010-08-26T15:37:34.619Z",
+      "created_at": "2010-08-26T15:37:34.619Z",
       "enabled": true,
       "provider": null
     }"links": {
@@ -397,17 +397,17 @@ JSON API Format
 			"width": 800,
 			"height": 595,
 			"status": "warped",
-			"mask-status": "unmasked",
-			"created-at": "2016-02-07T17:52:19.479Z",
-			"updated-at": "2016-04-10T17:00:36.586Z",
+			"mask_status": "unmasked",
+			"created_at": "2016-02-07T17:52:19.479Z",
+			"updated_at": "2016-04-10T17:00:36.586Z",
 			"bbox": "26.66587052714201,58.33686848133336,26.806590271771057,58.407077366797424",
-			"map-type": "is_map",
-			"source-uri": "http://commons.wikimedia.beta.wmflabs.org/wiki/File:Tartu_turismiskeem.png",
-			"unique-id": "Tartu_turismiskeem.png",
-			"page-id": "52021",
-			"date-depicted": "",
-			"image-url": "http://upload.beta.wmflabs.org/wikipedia/commons/4/44/Tartu_turismiskeem.png",
-			"thumb-url": "http://upload.beta.wmflabs.org/wikipedia/commons/thumb/4/44/Tartu_turismiskeem.png/100px-Tartu_turismiskeem.png"
+			"map_type": "is_map",
+			"source_uri": "http://commons.wikimedia.beta.wmflabs.org/wiki/File:Tartu_turismiskeem.png",
+			"unique_id": "Tartu_turismiskeem.png",
+			"page_id": "52021",
+			"date_depicted": "",
+			"image_url": "http://upload.beta.wmflabs.org/wikipedia/commons/4/44/Tartu_turismiskeem.png",
+			"thumb_url": "http://upload.beta.wmflabs.org/wikipedia/commons/thumb/4/44/Tartu_turismiskeem.png/100px-Tartu_turismiskeem.png"
 		},
 		"relationships": {
 			"layers": {
@@ -419,7 +419,7 @@ JSON API Format
 					"type": "layers"
 				}]
 			},
-			"added-by": {
+			"added_by": {
 				"data": {
 					"id": "2",
 					"type": "users"
@@ -428,11 +428,11 @@ JSON API Format
 		},
 		"links": {
 			"self": "http://warper.wmflabs.org/api/v1/maps/260",
-			"gcps-csv": "http://warper.wmflabs.org/maps/260/gcps.csv",
+			"gcps_csv": "http://warper.wmflabs.org/maps/260/gcps.csv",
 			"mask": "http://warper.wmflabs.org/mapimages/260.gml.ol",
 			"geotiff": "http://warper.wmflabs.org/maps/260/export.tif",
 			"png": "http://warper.wmflabs.org/maps/260/export.png",
-			"aux-xml": "http://warper.wmflabs.org/maps/260/export.aux_xml",
+			"aux_xml": "http://warper.wmflabs.org/maps/260/export.aux_xml",
 			"kml": "http://warper.wmflabs.org/maps/260.kml",
 			"tiles": "http://warper.wmflabs.org/maps/tile/260/{z}/{x}/{y}.png",
 			"wms": "http://warper.wmflabs.org/maps/wms/260?request=GetCapabilities\u0026service=WMS\u0026version=1.1.1"
@@ -465,8 +465,8 @@ JSON API Format
       "last":"http://warper.wmflabs.org/api/v1/maps?format=json\u0026page%5Bnumber%5D=3\u0026page%5Bsize%5D=2\u0026per_page=2"
   },
 	"meta": {
-		"total-entries": 5,
-		"total-pages": 2
+		"total_entries": 5,
+		"total_pages": 2
 	}
 }
 ```
@@ -484,7 +484,7 @@ An array of maps, each having an attributes object and, id and type and links
 | type          |    maps       | the type of resource            |      |  
 | links         |               | links to the resource, and export links |   |   
 | attributes    |               | Attributes of the map | see separate table for more detail   |  
-| relationships | layers, added-by | the layers that the map belongs to and the user that uploaded it | (see included) |  
+| relationships | layers, added_by | the layers that the map belongs to and the user that uploaded it | (see included) |  
 | included      |               | Details about the layers  |   |   
 
 ***Links***
@@ -511,26 +511,26 @@ Useful in pagination. Will show the total number of results, for example if the 
 
 ```
 "meta": {
-  "total-entries": 50,
-  "total-pages": 2
+  "total_entries": 50,
+  "total_pages": 2
 }
 ```
 indicates that 50 results have been found over 2 pages.
 
 | Value | Description |
 | ------| -------     |
-| total-entries | the total number of maps found for this request |
-| total-pages |  the total number of pages found |
+| total_entries | the total number of maps found for this request |
+| total_pages |  the total number of pages found |
 
 ***Map Links***
 
 | Value | Description |
 | ------| -------     |
-| gcps-csv| CSV for the control points |
+| gcps_csv| CSV for the control points |
 | mask |  the GML clipping mask |
 | geotiff | The export GeoTiff url |
 | png |The export PNG url |
-| aux-xml | The export PNG XML url |
+| aux_xml | The export PNG XML url |
 | kml | The export KML url |
 | tiles | The Tiles template |
 | wms | The WMS getCapabilities endpoint |  
@@ -547,26 +547,26 @@ indicates that 50 results have been found over 2 pages.
 |               |          | warping   | the map is undergoing the warping process                          |                    |   
 |               |          | warped    | the map has been warped                                            |                    |   
 |               |          | published | this status is set when the map should no longer be edited         |                    |   
-| map-type      | string   |           | indicates whether the image is of a map or another type of content |                    |   
+| map_type      | string   |           | indicates whether the image is of a map or another type of content |                    |   
 |               |          | index     | indicates a map index or overview map                              |                    |   
 |               |          | is_map    | indicates a map                                                    | default            |   
 |               |          | not_map   | indicates non-map content, such as a plate depicting sea monsters  |                    |   
-| updated-at    | datetime |           | when the map was last updated                                      |                    |   
-| created-at    | datetime |           | when the map was first created                                     |                    |   
+| updated_at    | datetime |           | when the map was last updated                                      |                    |   
+| created_at    | datetime |           | when the map was first created                                     |                    |   
 | title         | string   |           | the title of the map                                               |                    |   
 | description   | string   |           | the description of the map                                         |                    |   
 | height        | integer  |           | the height of an unwarped map                                      |                    |   
 | width         | integer  |           | the width of an unwarped map                                       |                    |   
-| mask-status   | string   |           | the status of the mask                                             |                    |   
+| mask_status   | string   |           | the status of the mask                                             |                    |   
 |               |          | unmasked  | the map has not been masked                                        |                    |   
 |               |          | masking   | the map is undergoing the masking process                          |                    |   
 |               |          | masked    | the map has been masked                                            |                    |   
-| source-uri    | string   |           | the URI to the source map page                                     | e.g. the wiki page |   
-| unique-id     | string   |           | the image filename taken from the source image                     |                    |   
-| page-id       | integer  |           | The Wiki PAGEID for the source                                     |                    |   
-| date-depicted | string   |           | string representation of the date that the map depicts             |                    |   
-| image-url     | string   |           | URL to the original full size image                                |                    |   
-| thumb-url     | string   |           | URL to the thumbnail                                               | 100px dimension    |   
+| source_uri    | string   |           | the URI to the source map page                                     | e.g. the wiki page |   
+| unique_id     | string   |           | the image filename taken from the source image                     |                    |   
+| page_id       | integer  |           | The Wiki PAGEID for the source                                     |                    |   
+| date_depicted | string   |           | string representation of the date that the map depicts             |                    |   
+| image_url     | string   |           | URL to the original full size image                                |                    |   
+| thumb_url     | string   |           | URL to the thumbnail                                               | 100px dimension    |   
 | bbox	        | comma-separated string of lat & lon coords |  | a rectangle delineating the geographic area to which the search should be limited |  |  
 
 
@@ -639,17 +639,17 @@ The response will be be in the following format.
 			"width": 595,
 			"height": 760,
 			"status": "warped",
-			"mask-status": "unmasked",
-			"created-at": "2015-10-20T17:17:58.300Z",
-			"updated-at": "2016-06-08T10:55:13.660Z",
+			"mask_status": "unmasked",
+			"created_at": "2015-10-20T17:17:58.300Z",
+			"updated_at": "2016-06-08T10:55:13.660Z",
 			"bbox": "-7.706061311682345,49.02738371829112,3.420945210059412,56.46163780182066",
-			"map-type": "is_map",
-			"source-uri": "http://commons.wikimedia.beta.wmflabs.org/wiki/File:Lawrence-h-slaughter-collection-of-english-maps-england.jpeg",
-			"unique-id": "Lawrence-h-slaughter-collection-of-english-maps-england.jpeg",
-			"page-id": "51038",
-			"date-depicted": "",
-			"image-url": "http://upload.beta.wmflabs.org/wikipedia/commons/2/29/Lawrence-h-slaughter-collection-of-english-maps-england.jpeg",
-			"thumb-url": "http://upload.beta.wmflabs.org/wikipedia/commons/thumb/2/29/Lawrence-h-slaughter-collection-of-english-maps-england.jpeg/100px-Lawrence-h-slaughter-collection-of-english-maps-england.jpeg"
+			"map_type": "is_map",
+			"source_uri": "http://commons.wikimedia.beta.wmflabs.org/wiki/File:Lawrence-h-slaughter-collection-of-english-maps-england.jpeg",
+			"unique_id": "Lawrence-h-slaughter-collection-of-english-maps-england.jpeg",
+			"page_id": "51038",
+			"date_depicted": "",
+			"image_url": "http://upload.beta.wmflabs.org/wikipedia/commons/2/29/Lawrence-h-slaughter-collection-of-english-maps-england.jpeg",
+			"thumb_url": "http://upload.beta.wmflabs.org/wikipedia/commons/thumb/2/29/Lawrence-h-slaughter-collection-of-english-maps-england.jpeg/100px-Lawrence-h-slaughter-collection-of-english-maps-england.jpeg"
 		},
 		"relationships": {
 			"layers": {
@@ -658,7 +658,7 @@ The response will be be in the following format.
 					"type": "layers"
 				}]
 			},
-			"added-by": {
+			"added_by": {
 				"data": {
 					"id": "5",
 					"type": "users"
@@ -667,11 +667,11 @@ The response will be be in the following format.
 		},
 		"links": {
 			"self": "http://warper.wmflabs.org/api/v1/maps/2",
-			"gcps-csv": "http://warper.wmflabs.org/maps/2/gcps.csv",
+			"gcps_csv": "http://warper.wmflabs.org/maps/2/gcps.csv",
 			"mask": "http://warper.wmflabs.org/mapimages/2.gml.ol",
 			"geotiff": "http://warper.wmflabs.org/maps/2/export.tif",
 			"png": "http://warper.wmflabs.org/maps/2/export.png",
-			"aux-xml": "http://warper.wmflabs.org/maps/2/export.aux_xml",
+			"aux_xml": "http://warper.wmflabs.org/maps/2/export.aux_xml",
 			"kml": "http://warper.wmflabs.org/maps/2.kml",
 			"tiles": "http://warper.wmflabs.org/maps/tile/2/{z}/{x}/{y}.png",
 			"wms": "http://warper.wmflabs.org/maps/wms/2?request=GetCapabilities\u0026service=WMS\u0026version=1.1.1"
@@ -725,7 +725,7 @@ GeoJSON Format
 | type          | maps             | the type of resource                                             |                                    |   
 | links         |                  | links to the resource, and export links                          |                                    |   
 | attributes    |                  | Attributes of the map                                            | see separate table for more detail |   
-| relationships | layers, added-by | the layers that the map belongs to and the user that uploaded it | (see included)                     |   
+| relationships | layers, added_by | the layers that the map belongs to and the user that uploaded it | (see included)                     |   
 | included      |                  | Details about the layers                                         |                                    |   
 
 
@@ -733,11 +733,11 @@ GeoJSON Format
 
 | Value | Description |
 | ------| -------     |
-| gcps-csv| CSV for the control points |
+| gcps_csv| CSV for the control points |
 | mask |  the GML clipping mask |
 | geotiff | The export GeoTiff url |
 | png |The export PNG url |
-| aux-xml | The export PNG XML url |
+| aux_xml | The export PNG XML url |
 | kml | The export KML url |
 | tiles | The Tiles template |
 | wms | The WMS getCapabilities endpoint |  
@@ -753,26 +753,26 @@ GeoJSON Format
 |               |          | warping   | the map is undergoing the warping process                          |                    |   
 |               |          | warped    | the map has been warped                                            |                    |   
 |               |          | published | this status is set when the map should no longer be edited         |                    |   
-| map-type      | string   |           | indicates whether the image is of a map or another type of content |                    |   
+| map_type      | string   |           | indicates whether the image is of a map or another type of content |                    |   
 |               |          | index     | indicates a map index or overview map                              |                    |   
 |               |          | is_map    | indicates a map                                                    | default            |   
 |               |          | not_map   | indicates non-map content, such as a plate depicting sea monsters  |                    |   
-| updated-at    | datetime |           | when the map was last updated                                      |                    |   
-| created-at    | datetime |           | when the map was first created                                     |                    |   
+| updated_at    | datetime |           | when the map was last updated                                      |                    |   
+| created_at    | datetime |           | when the map was first created                                     |                    |   
 | title         | string   |           | the title of the map                                               |                    |   
 | description   | string   |           | the description of the map                                         |                    |   
 | height        | integer  |           | the height of an unwarped map                                      |                    |   
 | width         | integer  |           | the width of an unwarped map                                       |                    |   
-| mask-status   | string   |           | the status of the mask                                             |                    |   
+| mask_status   | string   |           | the status of the mask                                             |                    |   
 |               |          | unmasked  | the map has not been masked                                        |                    |   
 |               |          | masking   | the map is undergoing the masking process                          |                    |   
 |               |          | masked    | the map has been masked                                            |                    |   
-| source-uri    | string   |           | the URI to the source map page                                     | e.g. the wiki page |   
-| unique-id     | string   |           | the image filename taken from the source image                     |                    |   
-| page-id       | integer  |           | The Wiki PAGEID for the source                                     |                    |   
-| date-depicted | string   |           | string representation of the date that the map depicts             |                    |   
-| image-url     | string   |           | URL to the original full size image                                |                    |   
-| thumb-url     | string   |           | URL to the thumbnail                                               | 100px dimension    |   
+| source_uri    | string   |           | the URI to the source map page                                     | e.g. the wiki page |   
+| unique_id     | string   |           | the image filename taken from the source image                     |                    |   
+| page_id       | integer  |           | The Wiki PAGEID for the source                                     |                    |   
+| date_depicted | string   |           | string representation of the date that the map depicts             |                    |   
+| image_url     | string   |           | URL to the original full size image                                |                    |   
+| thumb_url     | string   |           | URL to the thumbnail                                               | 100px dimension    |   
 | bbox	        | comma-separated string of lat & lon coords |  | a rectangle delineating the geographic area to which the search should be limited |  |  
 
 
@@ -878,14 +878,14 @@ Notes: Enter optional text for the query, based on the search field chosen. The 
 			"attributes": {
 				"name": "Category:Tartu Maps",
 				"description": null,
-				"created-at": "2016-02-09T13:34:15.355Z",
-				"updated-at": "2016-04-04T16:20:52.442Z",
+				"created_at": "2016-02-09T13:34:15.355Z",
+				"updated_at": "2016-04-04T16:20:52.442Z",
 				"bbox": "26.111586,58.232919,27.358788,58.486400",
-				"maps-count": 1,
-				"rectified-maps-count": 1,
-				"is-visible": true,
-				"source-uri": "https://commons.wikimedia.org/wiki/Category:Tartu Maps",
-				"rectified-percent": 100
+				"maps_count": 1,
+				"rectified_maps_count": 1,
+				"is_visible": true,
+				"source_uri": "https://commons.wikimedia.org/wiki/Category:Tartu Maps",
+				"rectified_percent": 100
 			},
 			"relationships": {
 				"maps": {
@@ -910,8 +910,8 @@ Notes: Enter optional text for the query, based on the search field chosen. The 
 		"last": "http://warper.wmflabs.org/api/v1/layers?page%5Bnumber%5D=2&page%5Bsize%5D=1&per_page=1&query=tartu"
 	},
 	"meta": {
-		"total-entries": 2,
-		"total-pages": 2
+		"total_entries": 2,
+		"total_pages": 2
 	}
 ```
 
@@ -955,16 +955,16 @@ Useful in pagination. Will show the total number of results, for example if the 
 
 ```
 "meta": {
-  "total-entries": 50,
-  "total-pages": 2
+  "total_entries": 50,
+  "total_pages": 2
 }
 ```
 indicates that 50 results have been found over 2 pages.
 
 | Value | Description |
 | ------| -------     |
-| total-entries | the total number of layers found for this request |
-| total-pages |  the total number of pages found |
+| total_entries | the total number of layers found for this request |
+| total_pages |  the total number of pages found |
 
 
 ***Layer Links***
@@ -983,11 +983,11 @@ indicates that 50 results have been found over 2 pages.
 | name               | string      | the title of the layer |  |
 | description        | string      |  description of layer  |  |
 | is_visible          | boolean/string		   | if false, usually indicates a meta-layer or collection of atlases | these meta-layers will not have WMSs   |
-| maps-count        | integer   | how many maps a layer has, as opposed to title pages, plates, and other non-map content	| defines a map using the map_type => is_map variable    |
-| rectified-maps-count    | integer   | how many maps in the layer are warped	|    |
-| rectified-percent  | integer | the percentage of maps that are warped    |  |
+| maps_count        | integer   | how many maps a layer has, as opposed to title pages, plates, and other non-map content	| defines a map using the map_type => is_map variable    |
+| rectified_maps_count    | integer   | how many maps in the layer are warped	|    |
+| rectified_percent  | integer | the percentage of maps that are warped    |  |
 | bbox	              | a comma-separated string of latitude and longitude coordinates   | a rectangle delineating the geographic footprint of the layer 		|     | 
-| source-uri         | string | the URI to the source layer page  | e.g. the Wiki Category that the layer/mosaic represents |
+| source_uri         | string | the URI to the source layer page  | e.g. the Wiki Category that the layer/mosaic represents |
 | created_at		      | date, time, & time zone 	|		when the layer was created in the system		|    |
 | updated_at         | date, time, & time zone  | when the layer was last updated |  |
 
@@ -1024,14 +1024,14 @@ Returns a single layer.
 		"attributes": {
 			"name": "Category:Maps Of Tartu",
 			"description": null,
-			"created-at": "2015-11-12T10:56:25.461Z",
-			"updated-at": "2016-04-04T16:20:52.354Z",
+			"created_at": "2015-11-12T10:56:25.461Z",
+			"updated_at": "2016-04-04T16:20:52.354Z",
 			"bbox": "26.111586,58.232919,27.358788,58.486400",
-			"maps-count": 2,
-			"rectified-maps-count": 1,
-			"is-visible": true,
-			"source-uri": "https://commons.wikimedia.org/wiki/Category:Maps Of Tartu",
-			"rectified-percent": 50
+			"maps_count": 2,
+			"rectified_maps_count": 1,
+			"is_visible": true,
+			"source_uri": "https://commons.wikimedia.org/wiki/Category:Maps Of Tartu",
+			"rectified_percent": 50
 		},
 		"relationships": {
 			"maps": {
@@ -1064,7 +1064,7 @@ Returns a single layer.
 | type          |    layers       | the type of resource            |      |  
 | links         |               | links to the resource, and export links |  see Links  |   
 | attributes    |               | Attributes of the layer | see separate table for more detail   |  
-| relationships | layers, added-by | the maps that are in the layer |  |   
+| relationships | layers, added_by | the maps that are in the layer |  |   
 
 
 ***Links***
@@ -1083,11 +1083,11 @@ Returns a single layer.
 | name               | string      | the title of the layer |  |
 | description        | string      |  description of layer  |  |
 | is_visible          | boolean/string		   | if false, usually indicates a meta-layer or collection of atlases | these meta-layers will not have WMSs   |
-| maps-count        | integer   | how many maps a layer has, as opposed to title pages, plates, and other non-map content	| defines a map using the map_type => is_map variable    |
-| rectified-maps-count    | integer   | how many maps in the layer are warped	|    |
-| rectified-percent  | integer | the percentage of maps that are warped    |  |
+| maps_count        | integer   | how many maps a layer has, as opposed to title pages, plates, and other non-map content	| defines a map using the map_type => is_map variable    |
+| rectified_maps_count    | integer   | how many maps in the layer are warped	|    |
+| rectified_percent  | integer | the percentage of maps that are warped    |  |
 | bbox	              | a comma-separated string of latitude and longitude coordinates   | a rectangle delineating the geographic footprint of the layer 		|     | 
-| source-uri         | string | the URI to the source layer page  | e.g. the Wiki Category that the layer/mosaic represents |
+| source_uri         | string | the URI to the source layer page  | e.g. the Wiki Category that the layer/mosaic represents |
 | created_at		      | date, time, & time zone 	|		when the layer was created in the system		|    |
 | updated_at         | date, time, & time zone  | when the layer was last updated |  |
 
@@ -1285,13 +1285,13 @@ No authentication required.
 			"id": "2",
 			"type": "gcps",
 			"attributes": {
-				"map-id": 2,
+				"map_id": 2,
 				"x": 151.833333333328,
 				"y": 392.666666666666,
 				"lat": "52.7603488553",
 				"lon": "-4.6579885155",
-				"created-at": "2015-10-23T12:38:29.023Z",
-				"updated-at": "2016-06-08T10:54:44.094Z",
+				"created_at": "2015-10-23T12:38:29.023Z",
+				"updated_at": "2016-06-08T10:54:44.094Z",
 				"error": null
 			}
 		},
@@ -1299,13 +1299,13 @@ No authentication required.
 			"id": "3",
 			"type": "gcps",
 			"attributes": {
-				"map-id": 2,
+				"map_id": 2,
 				"x": 72.2142857142853,
 				"y": 712.952380952381,
 				"lat": "49.8494421783",
 				"lon": "-5.2512502342",
-				"created-at": "2015-10-23T12:38:36.048Z",
-				"updated-at": "2016-06-08T10:54:34.903Z",
+				"created_at": "2015-10-23T12:38:36.048Z",
+				"updated_at": "2016-06-08T10:54:34.903Z",
 				"error": null
 			}
 		}
@@ -1316,8 +1316,8 @@ No authentication required.
 		"last": "http://warper.wmflabs.org/api/v1/gcps?page%5Bnumber%5D=7&page%5Bsize%5D=2&per_page=2&sort_key=updated_at"
 	},
 	"meta": {
-		"total-entries": 13,
-		"total-pages": 7
+		"total_entries": 13,
+		"total_pages": 7
 	}
 }
 ```
@@ -1360,30 +1360,30 @@ Useful in pagination. Will show the total number of results, for example if the 
 
 ```
 "meta": {
-  "total-entries": 50,
-  "total-pages": 2
+  "total_entries": 50,
+  "total_pages": 2
 }
 ```
 indicates that 50 results have been found over 2 pages.
 
 | Value | Description |
 | ------| -------     |
-| total-entries | the total number of layers found for this request |
-| total-pages |  the total number of pages found |
+| total_entries | the total number of layers found for this request |
+| total_pages |  the total number of pages found |
 
 
 ***Attributes***
 
 | Name               | Type        | Description           	| Notes |  
 | ------| -------     |------| -------     |
-| map-id         | id      | the unique identifier for the map the point belongs to   |  see below for other way to get gcps for a map |
+| map_id         | id      | the unique identifier for the map the point belongs to   |  see below for other way to get gcps for a map |
 | lat           | big decimal | the latitude of the ground control point   | |
 | lon           | big decimal | the longitude of the ground control point           | |
 | x             | float       | the x coordinate on the image that corresponds to "lon"   | |
 | y             | float       | the y coordinate on the image that corresponds to "lat"   | |
 | error         | float       | the calculated root mean square error, or distortion, for the ground control point   | null unless called via `/api/v1/maps/{:map_id}/gcps` see below |
-| created-at    | date, time, & time zone | the date and time when the ground control point was created   | |
-| updated-at    | date, time, & time zone | the date and time when the ground control point was last updated   | |
+| created_at    | date, time, & time zone | the date and time when the ground control point was created   | |
+| updated_at    | date, time, & time zone | the date and time when the ground control point was last updated   | |
 
 
 ###Get a Map's Ground Control Points
@@ -1422,13 +1422,13 @@ The response will be a list of ground control points in the following format.
 			"id": "1",
 			"type": "gcps",
 			"attributes": {
-				"map-id": 2,
+				"map_id": 2,
 				"x": 479.35714285714,
 				"y": 380,
 				"lat": "52.959343811",
 				"lon": "0.593476328",
-				"created-at": "2015-10-23T12:38:24.222Z",
-				"updated-at": "2015-10-23T12:38:24.222Z",
+				"created_at": "2015-10-23T12:38:24.222Z",
+				"updated_at": "2015-10-23T12:38:24.222Z",
 				"error": 13.781432496303088
 			}
 		},
@@ -1437,13 +1437,13 @@ The response will be a list of ground control points in the following format.
 			"id": "19",
 			"type": "gcps",
 			"attributes": {
-				"map-id": 2,
+				"map_id": 2,
 				"x": 110.21428571429,
 				"y": 119.42857142857,
 				"lat": "54.9945666448",
 				"lon": "-5.1378768477",
-				"created-at": "2016-06-08T10:54:28.391Z",
-				"updated-at": "2016-06-08T10:54:28.391Z",
+				"created_at": "2016-06-08T10:54:28.391Z",
+				"updated_at": "2016-06-08T10:54:28.391Z",
 				"error": 15.401820748382049
 			}
 		}
@@ -1481,14 +1481,14 @@ Contains details about the combined error for the control points for the entire 
 
 | Name               | Type        | Description           	| Notes |  
 | ------| -------     |------| -------     |
-| map-id         | id      | the unique identifier for the map the point belongs to   |   |
+| map_id         | id      | the unique identifier for the map the point belongs to   |   |
 | lat           | big decimal | the latitude of the ground control point   | |
 | lon           | big decimal | the longitude of the ground control point           | |
 | x             | float       | the x coordinate on the image that corresponds to "lon"   | |
 | y             | float       | the y coordinate on the image that corresponds to "lat"   | |
 | error         | float       | the calculated root mean square error, or distortion, for the ground control point   |  |
-| created-at    | date, time, & time zone | the date and time when the ground control point was created   | |
-| updated-at    | date, time, & time zone | the date and time when the ground control point was last updated   | |
+| created_at    | date, time, & time zone | the date and time when the ground control point was created   | |
+| updated_at    | date, time, & time zone | the date and time when the ground control point was last updated   | |
 
 
 
@@ -1520,13 +1520,13 @@ No authentication required.
 		"id": "2",
 		"type": "gcps",
 		"attributes": {
-			"map-id": 2,
+			"map_id": 2,
 			"x": 151.833333333328,
 			"y": 392.666666666666,
 			"lat": "52.7603488553",
 			"lon": "-4.6579885155",
-			"created-at": "2015-10-23T12:38:29.023Z",
-			"updated-at": "2016-06-08T10:54:44.094Z",
+			"created_at": "2015-10-23T12:38:29.023Z",
+			"updated_at": "2016-06-08T10:54:44.094Z",
 			"error": null
 		}
 	}
@@ -1548,14 +1548,14 @@ No authentication required.
 
 | Name               | Type        | Description           	| Notes |  
 | ------| -------     |------| -------     |
-| map-id         | id      | the unique identifier for the map the point belongs to   |   |
+| map_id         | id      | the unique identifier for the map the point belongs to   |   |
 | lat           | big decimal | the latitude of the ground control point   | |
 | lon           | big decimal | the longitude of the ground control point           | |
 | x             | float       | the x coordinate on the image that corresponds to "lon"   | |
 | y             | float       | the y coordinate on the image that corresponds to "lat"   | |
 | error         | float       | the calculated root mean square error, or distortion, for the ground control point   |  |
-| created-at    | date, time, & time zone | the date and time when the ground control point was created   | |
-| updated-at    | date, time, & time zone | the date and time when the ground control point was last updated   | |
+| created_at    | date, time, & time zone | the date and time when the ground control point was created   | |
+| updated_at    | date, time, & time zone | the date and time when the ground control point was last updated   | |
 
 
 
@@ -1593,7 +1593,7 @@ Example:
 	"data": {
 		"type": "gcps",
 		"attributes": {
-			"map-id": 2,
+			"map_id": 2,
 			"x": 2,
 			"y":3,
 			"lat": "52.56",
@@ -1619,13 +1619,13 @@ If successful, the response should return the created point:
 		"id": "21",
 		"type": "gcps",
 		"attributes": {
-			"map-id": 2,
+			"map_id": 2,
 			"x": 1.0,
 			"y": 2.0,
 			"lat": "33.3",
 			"lon": "44.4",
-			"created-at": "2016-06-10T13:50:34.193Z",
-			"updated-at": "2016-06-10T13:50:34.193Z",
+			"created_at": "2016-06-10T13:50:34.193Z",
+			"updated_at": "2016-06-10T13:50:34.193Z",
 			"error": null
 		}
 	}
@@ -1689,13 +1689,13 @@ Example:
 		"id": "21",
 		"type": "gcps",
 		"attributes": {
-			"map-id": 2,
+			"map_id": 2,
 			"x": 22.0,
 			"y": 55.0,
 			"lat": "33.3",
 			"lon": "44.4",
-			"created-at": "2016-06-10T13:50:34.193Z",
-			"updated-at": "2016-06-10T14:59:56.596Z",
+			"created_at": "2016-06-10T13:50:34.193Z",
+			"updated_at": "2016-06-10T14:59:56.596Z",
 			"error": null
 		}
 	}
@@ -1972,7 +1972,7 @@ The body of the request should be in JSON-API format with the following attribut
 
 | Name    | Type    | Description                | Notes                                                 |
 |---------|---------|----------------------------|-------------------------------------------------------|
-| page_id | integer | the Wiki PAGEID of the map | required (note the underscore, not dash when posting) |
+| page_id | integer | the Wiki PAGEID of the map | required                                              |
 | title   | string  | the title of the map       | required, but will be overwritten from wiki page      | 
 
 The PAGEID is the unique number given to all mediawiki pages. 
@@ -2009,7 +2009,7 @@ Status 422 and message for example if the page_id is not a number:
 {
 	"errors": [{
 		"source": {
-			"pointer": "/data/attributes/page-id"
+			"pointer": "/data/attributes/page_id"
 		},
 		"detail": "is not a number"
 	}]
@@ -2272,13 +2272,13 @@ If successful, the response should return the newly added gcps
       "id": "228",
       "type": "gcps",
       "attributes": {
-        "map-id": 123,
+        "map_id": 123,
         "x": 2.0,
         "y": 3.0,
         "lat": "52.56",
         "lon": "-4.65",
-        "created-at": "2016-06-11T16:29:32.948Z",
-        "updated-at": "2016-06-11T16:29:32.948Z",
+        "created_at": "2016-06-11T16:29:32.948Z",
+        "updated_at": "2016-06-11T16:29:32.948Z",
         "error": null
       }
     },
@@ -2286,13 +2286,13 @@ If successful, the response should return the newly added gcps
       "id": "228",
       "type": "gcps",
       "attributes": {
-        "map-id": 542,
+        "map_id": 542,
         "x": 2.0,
         "y": 3.0,
         "lat": "52.56",
         "lon": "-4.65",
-        "created-at": "2016-06-11T16:29:32.948Z",
-        "updated-at": "2016-06-11T16:29:32.948Z",
+        "created_at": "2016-06-11T16:29:32.948Z",
+        "updated_at": "2016-06-11T16:29:32.948Z",
         "error": null
       }
     }
@@ -2594,7 +2594,7 @@ A response of a user with normal user authorizion
 		"type": "users",
 		"attributes": {
 			"login": "example",
-			"created-at": "2013-08-26T15:37:34.619Z",
+			"created_at": "2013-08-26T15:37:34.619Z",
 			"enabled": true,
 			"provider": null
 		},
@@ -2613,7 +2613,7 @@ A response of a user with admin user authorizion
 		"type": "users",
 		"attributes": {
 			"login": "example",
-			"created-at": "2013-08-26T15:37:34.619Z",
+			"created_at": "2013-08-26T15:37:34.619Z",
 			"enabled": true,
 			"provider": null,
 			"email": "example@example.com"
@@ -2729,7 +2729,7 @@ Notes: Enter optional text for the query, based on the search field chosen. The 
 			"type": "users",
 			"attributes": {
 				"login": "tim",
-				"created-at": "2010-08-26T15:37:34.619Z",
+				"created_at": "2010-08-26T15:37:34.619Z",
 				"enabled": true,
 				"provider": null,
 				"email": "example@example.com"
@@ -2757,7 +2757,7 @@ Notes: Enter optional text for the query, based on the search field chosen. The 
 			"type": "users",
 			"attributes": {
 				"login": "TimExample",
-				"created-at": "2015-04-22T18:45:04.988Z",
+				"created_at": "2015-04-22T18:45:04.988Z",
 				"enabled": true,
 				"provider": "github",
 				"email": "example@example-github.com"
@@ -2804,16 +2804,16 @@ Useful in pagination. Will show the total number of results, for example if the 
 
 ```
 "meta": {
-  "total-entries": 50,
-  "total-pages": 2
+  "total_entries": 50,
+  "total_pages": 2
 }
 ```
 indicates that 50 results have been found over 2 pages.
 
 | Value | Description |
 | ------| -------     |
-| total-entries | the total number of users found for this request |
-| total-pages |  the total number of pages found |
+| total_entries | the total number of users found for this request |
+| total_pages |  the total number of pages found |
 
 
 ***Layer Links***
@@ -2876,10 +2876,10 @@ Example of a finished Import
 		"attributes": {
 			"category": "Category:Old maps of Merikarvia",
 			"status": "finished",
-			"save-layer": true,
-			"created-at": "2015-09-29T16:34:55.057Z",
-			"finished-at": "2015-09-29T16:35:02.718Z",
-			"updated-at": "2015-09-29T16:35:02.824Z"
+			"save_layer": true,
+			"created_at": "2015-09-29T16:34:55.057Z",
+			"finished_at": "2015-09-29T16:35:02.718Z",
+			"updated_at": "2015-09-29T16:35:02.824Z"
 		},
 		"relationships": {
 			"maps": {
@@ -2918,11 +2918,11 @@ Example of a ready Import
 		"attributes": {
 			"category": "Category:Maps Of Tartu",
 			"status": "ready",
-			"save-layer": true,
-			"created-at": "2016-06-12T13:54:42.170Z",
-			"finished-at": null,
-			"updated-at": "2016-06-12T13:54:42.170Z",
-			"file-count": 2
+			"save_layer": true,
+			"created_at": "2016-06-12T13:54:42.170Z",
+			"finished_at": null,
+			"updated_at": "2016-06-12T13:54:42.170Z",
+			"file_count": 2
 		},
 		"relationships": {
 			"maps": {
@@ -2960,11 +2960,11 @@ Example of a ready Import
 |-------------|----------|-----------------------------------------------------|--------------------------------------------------|
 | category    | string   | The Wiki Category for the Import                    |                                                  |
 | status      | string   | status of the import                                | one of: "ready", "running", "finished", "failed" |
-| save-layer  | boolean  | if maps are added to a new or existing layer/mosaic |                                                  |
-| finished-at | datetime | when the import was finished                        |                                                  |
-| updated-at  | datetime | when the import was last updated                    |                                                  |
-| created-at  | datetime | when the import for first created                   |                                                  |
-| file-count  | integer  | the number of files due to be imported              |  only shown if status is "ready"                 |
+| save_layer  | boolean  | if maps are added to a new or existing layer/mosaic |                                                  |
+| finished_at | datetime | when the import was finished                        |                                                  |
+| updated_at  | datetime | when the import was last updated                    |                                                  |
+| created_at  | datetime | when the import for first created                   |                                                  |
+| file_count  | integer  | the number of files due to be imported              |  only shown if status is "ready"                 |
 
 
 If the import is not found, the request will return the following response:
@@ -3016,10 +3016,10 @@ If the import is not found, the request will return the following response:
 			"attributes": {
 				"category": "Category:Tartu Maps",
 				"status": "finished",
-				"save-layer": true,
-				"created-at": "2016-02-09T13:26:52.323Z",
-				"finished-at": "2016-02-09T13:27:04.085Z",
-				"updated-at": "2016-02-09T13:27:04.169Z"
+				"save_layer": true,
+				"created_at": "2016-02-09T13:26:52.323Z",
+				"finished_at": "2016-02-09T13:27:04.085Z",
+				"updated_at": "2016-02-09T13:27:04.169Z"
 			},
 			"relationships": {
 				"maps": {
@@ -3149,11 +3149,11 @@ If successful, the response should return the created import with the "ready" st
 		"attributes": {
 			"category": "Category:Maps Of Tartu",
 			"status": "ready",
-			"save-layer": true,
-			"created-at": "2016-06-12T13:54:42.170Z",
-			"finished-at": null,
-			"updated-at": "2016-06-12T13:54:42.170Z",
-			"file-count": 2
+			"save_layer": true,
+			"created_at": "2016-06-12T13:54:42.170Z",
+			"finished_at": null,
+			"updated_at": "2016-06-12T13:54:42.170Z",
+			"file_count": 2
 		},
 		"relationships": {
 			"maps": {
@@ -3310,8 +3310,8 @@ curl -H "Content-Type: application/json" -X GET  http://warper.wmflabs.org/api/v
 		}
 	],
 	"meta": {
-		"total-entries": 2140,
-		"total-pages": 1070
+		"total_entries": 2140,
+		"total_pages": 1070
 	}
 }
 ```
@@ -3337,8 +3337,8 @@ Useful in pagination. Will show the total number of results, for example if the 
 
 ```
 "meta": {
-  "total-entries": 50,
-  "total-pages": 2
+  "total_entries": 50,
+  "total_pages": 2
 }
 ```
 
@@ -3391,8 +3391,8 @@ curl -H "Content-Type: application/json" -X GET  http://warper.wmflabs.org/api/v
 		}
 	],
 	"meta": {
-		"total-entries": 2140,
-		"total-pages": 1070
+		"total_entries": 2140,
+		"total_pages": 1070
 	}
 }
 ```
@@ -3422,8 +3422,8 @@ Useful in pagination. Will show the total number of results, for example if the 
 
 ```
 "meta": {
-  "total-entries": 50,
-  "total-pages": 2
+  "total_entries": 50,
+  "total_pages": 2
 }
 ```
 
@@ -3475,8 +3475,8 @@ curl -H "Content-Type: application/json" -X GET  http://warper.wmflabs.org/api/v
 		}
 	],
 	"meta": {
-		"total-entries": 16,
-		"total-pages": 8
+		"total_entries": 16,
+		"total_pages": 8
 	}
 }
 ```
@@ -3502,8 +3502,8 @@ Useful in pagination. Will show the total number of results, for example if the 
 
 ```
 "meta": {
-  "total-entries": 50,
-  "total-pages": 2
+  "total_entries": 50,
+  "total_pages": 2
 }
 ```
 
@@ -3556,8 +3556,8 @@ curl -H "Content-Type: application/json" -X GET  http://warper.wmflabs.org/api/v
 		}
 	],
 	"meta": {
-		"total-entries": 1755,
-		"total-pages": 878
+		"total_entries": 1755,
+		"total_pages": 878
 	}
 }
 ```
@@ -3583,8 +3583,8 @@ Useful in pagination. Will show the total number of results, for example if the 
 
 ```
 "meta": {
-  "total-entries": 50,
-  "total-pages": 2
+  "total_entries": 50,
+  "total_pages": 2
 }
 ```
 
@@ -3653,8 +3653,8 @@ curl -H "Content-Type: application/json" -X GET  http://warper.wmflabs.org/api/v
 		}
 	],
 	"meta": {
-		"total-entries": 5,
-		"total-pages": 2
+		"total_entries": 5,
+		"total_pages": 2
 	}
 }
 ```
@@ -3682,7 +3682,7 @@ Useful in pagination. Will show the total number of results, for example if the 
 
 ```
 "meta": {
-  "total-entries": 50,
-  "total-pages": 2
+  "total_entries": 50,
+  "total_pages": 2
 }
 ```

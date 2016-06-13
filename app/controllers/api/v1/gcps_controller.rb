@@ -69,8 +69,8 @@ class Api::V1::GcpsController < Api::V1::ApiController
     @gcps = Gcp.where(map_conditions).order(order_options).paginate(paginate_options)
 
     render :json => @gcps, :meta => {
-      "total-entries" => @gcps.total_entries,
-      "total-pages"   => @gcps.total_pages}
+      "total_entries" => @gcps.total_entries,
+      "total_pages"   => @gcps.total_pages}
   end
     
   # Adds Many GCPS to Multiple Maps

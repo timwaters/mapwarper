@@ -28,7 +28,7 @@ class GcpsControllerTest < ActionController::TestCase
       post 'create', 'data' => {'type' => "gcps", "attributes"=>{"x"=>1}}
     end
     assert_response :unprocessable_entity
-    assert response.body.include?("map-id")
+    assert response.body.include?("map_id")
   end
   
   test "create" do
@@ -39,7 +39,7 @@ class GcpsControllerTest < ActionController::TestCase
     
     body = JSON.parse(response.body)
     assert_equal 1, body["data"]["attributes"]["x"].to_i
-    assert_equal @map.id, body["data"]["attributes"]["map-id"].to_i
+    assert_equal @map.id, body["data"]["attributes"]["map_id"].to_i
   end
   
   test "update" do

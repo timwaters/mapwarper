@@ -192,7 +192,7 @@ class LayersControllerTest < ActionController::TestCase
       patch 'toggle_visibility', :id => @layer.id
       assert_response :ok
       body = JSON.parse(response.body)
-      assert_equal false, body["data"]["attributes"]["is-visible"]
+      assert_equal false, body["data"]["attributes"]["is_visible"]
     end
     
     test "remove map" do

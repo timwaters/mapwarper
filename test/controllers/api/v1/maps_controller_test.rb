@@ -66,7 +66,7 @@ class MapsControllerTest < ActionController::TestCase
         body = JSON.parse(response.body)
         assert_equal 3, body["data"].length
         first = body["data"][0]["attributes"]
-        assert_equal @warped_map.id, first["map-id"]
+        assert_equal @warped_map.id, first["map_id"]
         assert_equal gcp_1.x , first["x"]
       end
       
@@ -121,8 +121,8 @@ class MapsControllerTest < ActionController::TestCase
         attribs = body["data"]["attributes"]
     
         assert_equal "File:Lawrence-h-slaughter-collection-of-english-maps-england.jpeg", attribs["title"]
-        assert_equal "http://upload.beta.wmflabs.org/wikipedia/commons/thumb/2/29/Lawrence-h-slaughter-collection-of-english-maps-england.jpeg/100px-Lawrence-h-slaughter-collection-of-english-maps-england.jpeg", attribs["thumb-url"]
-        assert_equal "http://upload.beta.wmflabs.org/wikipedia/commons/2/29/Lawrence-h-slaughter-collection-of-english-maps-england.jpeg", attribs["image-url"]
+        assert_equal "http://upload.beta.wmflabs.org/wikipedia/commons/thumb/2/29/Lawrence-h-slaughter-collection-of-english-maps-england.jpeg/100px-Lawrence-h-slaughter-collection-of-english-maps-england.jpeg", attribs["thumb_url"]
+        assert_equal "http://upload.beta.wmflabs.org/wikipedia/commons/2/29/Lawrence-h-slaughter-collection-of-english-maps-england.jpeg", attribs["image_url"]
         assert_equal "available",attribs["status"]
       end
     
@@ -183,7 +183,7 @@ class MapsControllerTest < ActionController::TestCase
         assert !File.exists?(test_gml)
       
         body = JSON.parse(response.body)
-        assert_equal "unmasked", body["data"]["attributes"]["mask-status"] 
+        assert_equal "unmasked", body["data"]["attributes"]["mask_status"] 
         cleanup_images(@map)
       end
      
@@ -199,7 +199,7 @@ class MapsControllerTest < ActionController::TestCase
         assert_response :ok
             
         body = JSON.parse(response.body)
-        assert_equal "masked", body["data"]["attributes"]["mask-status"] 
+        assert_equal "masked", body["data"]["attributes"]["mask_status"] 
       end
     
       #clip and rectify apply and warp
@@ -215,7 +215,7 @@ class MapsControllerTest < ActionController::TestCase
         assert_response :ok
             
         body = JSON.parse(response.body)
-        assert_equal "masked", body["data"]["attributes"]["mask-status"] 
+        assert_equal "masked", body["data"]["attributes"]["mask_status"] 
         assert_equal "warped", body["data"]["attributes"]["status"] 
       
         #cleanup
@@ -285,7 +285,7 @@ class MapsControllerTest < ActionController::TestCase
       assert_not_nil assigns(:maps)
       body = JSON.parse(response.body)
       assert_equal 1, body["data"].length
-      assert body["data"][0]["attributes"]["page-id"] == "123"
+      assert body["data"][0]["attributes"]["page_id"] == "123"
     end
 
     

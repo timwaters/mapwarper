@@ -75,7 +75,7 @@ class Api::V1::ActivityController < Api::V1::ApiController
   end
   
   def render_json(audits)
-    render :json => {:data => audits, :meta => {"total-entries" => audits.total_entries, "total-pages" => audits.total_pages} }, :adapter => :json
+    render :json => {:data => audits, :meta => {"total_entries" => audits.total_entries, "total_pages" => audits.total_pages} }, :adapter => :json
   end
   
 end 
