@@ -16,7 +16,6 @@
       var data;
       window.addEventListener("message", function(ev) {
         if (ev.data === "requestCredentials") {
-          <% logger.debug @user.inspect %>
             data = {
              message: "deliverCredentials", // required
              auth_token: '<%= @user.authentication_token%>', // required

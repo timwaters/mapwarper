@@ -9,7 +9,7 @@ class Api::V1::SessionsController < Devise::SessionsController
   def validate_token
     if current_user
       render :json => current_user, 
-        :meta => { :authentication_token => current_user.authentication_token }
+        :meta => { :auth_token => current_user.authentication_token }
     else
       render :json => {}.to_json, :status => :unprocessable_entity
     end
@@ -24,7 +24,7 @@ class Api::V1::SessionsController < Devise::SessionsController
     current_user.update authentication_token: nil
  
     render :json => current_user, 
-      :meta => { :authentication_token => current_user.authentication_token }
+      :meta => { :auth_token => current_user.authentication_token }
   end
 
   # DELETE /api/v1/auth/sign_out.json

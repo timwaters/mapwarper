@@ -126,7 +126,7 @@ A successful response returns the user as JSON in the data element and the authe
     }
   },
   "meta": {
-    "authentication_token": "BSNSJK3939sbascsc"
+    "auth_token": "BSNSJK3939sbascsc"
   }
 }
 ```
@@ -179,7 +179,7 @@ A successful response returns the user as JSON in the data element and the authe
     }
   },
   "meta": {
-    "authentication_token": "longtoken"
+    "auth_token": "longtoken"
   }
 }
 ```
