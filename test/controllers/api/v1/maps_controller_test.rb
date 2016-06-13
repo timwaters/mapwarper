@@ -277,7 +277,18 @@ class MapsControllerTest < ActionController::TestCase
     setup do
       @index_maps = FactoryGirl.create_list(:index_map, 5)
     end
+    
+   test "get map using uuid" do
+     @warped_map = FactoryGirl.create(:warped_map, :page_id=>123)
+      get :index, :field => "page_id", :query=>"123"
+      assert_response :success
+      assert_not_nil assigns(:maps)
+      body = JSON.parse(response.body)
+      assert_equal 1, body["data"].length
+      assert body["data"][0]["attributes"]["page-id"] == "123"
+    end
 
+    
     test "layers maps" do
       layer = FactoryGirl.create(:layer_with_maps)
       get :index, :layer_id => layer.id, :format => :json
@@ -398,7 +409,7 @@ class MapsControllerTest < ActionController::TestCase
     end
     
 
-  
+
   end
   
 end

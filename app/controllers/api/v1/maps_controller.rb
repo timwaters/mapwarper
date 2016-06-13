@@ -208,7 +208,7 @@ class Api::V1::MapsController < Api::V1::ApiController
     #sort / order 
     sort_order = "desc"
     sort_order = "asc" if index_params[:sort_order] == "asc"
-    sort_key = %w(title status created_at updated_at).detect{|f| f == (index_params[:sort_key])}
+    sort_key = %w(title status created_at updated_at page_id).detect{|f| f == (index_params[:sort_key])}
     sort_key = sort_key || "updated_at"
     if sort_order == "desc"
       sort_nulls = " NULLS LAST"
@@ -227,10 +227,13 @@ class Api::V1::MapsController < Api::V1::ApiController
     #query
     query = index_params[:query]
     
-    field = %w(tags title description status publisher authors).detect{|f| f == (index_params[:field])}
+    field = %w(tags title description status publisher authors page_id).detect{|f| f == (index_params[:field])}
     field = field || "title"
     if query && query.strip.length > 0 && field
       query_options = ["#{field}  ~* ?", '(:punct:|^|)'+query+'([^A-z]|$)']
+      if field == "page_id" && query =~ /\A\d+\Z/
+        query_options = {:page_id => query}
+      end
     else
       query_options = nil
     end
@@ -298,7 +301,7 @@ class Api::V1::MapsController < Api::V1::ApiController
   end
 
   def index_params
-    params.permit(:page, :per_page, :query, :field, :sort_key, :sort_order, :field, :show_warped, :bbox, :operation, :format, :layer_id, :id)
+    params.permit(:page, :per_page, :query, :field, :sort_key, :sort_order,  :show_warped, :bbox, :operation, :format, :layer_id, :id)
   end
   
   def find_map

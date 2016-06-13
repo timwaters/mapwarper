@@ -344,11 +344,13 @@ No authentication required.
 |             | publisher   | string  | the publisher                                                           | optional |                                                   |
 |             | author      | string  | the author of the map                                                   | optional |                                                   |
 |             | status      | string  | the status                                                              | optional |                                                   |
+|             | page_id     | string  | the wiki page_id                                                        | optional | exact match only, page_ids are numbers            |
 | sort_key    |             |         | the field that should be used to sort the results                       | optional | default is updated_at                             |
 |             | title       | string  | the title of the map                                                    | optional |                                                   |
 |             | updated_at  | string  | when the map was last updated                                           | optional | default                                           |
 |             | created_at  | string  | when the map was created                                                | optional |                                                   |
 |             | status      | string  | the status of the map                                                   | optional | ordered by integer (see below)                    |
+|             | page_id     | string  | the wiki page_id                                                        | optional |                                                   |
 | sort_order  |             | string  | the order in which the results should appear                            | optional | default is desc                                   |
 |             | asc         |         | ascending order                                                         | optional |                                                   |
 |             | desc        |         | descending order                                                        | optional | default                                           |
@@ -366,7 +368,8 @@ No authentication required.
 |             | within      | string	| uses a PostGIS ST_Within operation to retrieve warped maps that fall entirely within the extent of the bbox parameter  | optional      |  |
  
 
-Notes: Enter optional text for the query, based on the search field chosen. The query text is case insensitive. This is a simple exact string text search. For example, a search for "city New York" returns no results, but a search for "city of New York" returns 22. bbox format is y.min(lon min),x.min(lat min),y.max(lon max), x.max(lat max)
+Notes: Enter optional text for the query, based on the search field chosen. The query text is case insensitive. This is a simple exact string text search. For example, a search for "city New York" returns no results, but a search for "city of New York" returns 22. However, a query for page_id is exact. bbox format is y.min(lon min),x.min(lat min),y.max(lon max), x.max(lat max)
+
 
 
 **Example json format**
