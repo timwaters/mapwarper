@@ -195,7 +195,13 @@ Rails.application.routes.draw do
         get 'activity/:id' =>       'activity#show'
         
         #token / auth etc
-        get 'auth/validate_token' =>'sessions#validate_token'
+        #api/v1/auth/sign_in etc
+        devise_scope :user do
+          get    'auth/validate_token' => 'sessions#validate_token'
+          post   'auth/sign_in'        => 'sessions#create'
+          delete 'auth/sign_out'       => 'sessions#destroy'
+        end
+        
       end
     end
   end

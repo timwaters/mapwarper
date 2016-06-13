@@ -85,17 +85,227 @@ Authentication for the MapWarper API is via an authentication token passed in a 
 
 Alternatively the API can work via cookie also.
 
-**Curl Examples for Email and password authentication and authentication token**
+###Authentication Token
 
-TODO - Implement & Document
+To authenticate using an email and password to retrieve an authentication token.
 
-**Curl Examples for Email and password authentication and cookies**
+| Method        | Definition |
+| ------------- | ---------  |
+| POST           | /api/v1/auth/sign_in.json
+
+**Parameters**
+
+| Name     | Type   | Description          | Required | Notes |
+|----------|--------|----------------------|----------|-------|
+| email    | string | Email of the user    | required |       |
+| password | string | Password of the user | required |       |
+
+**Curl Example***
+
+```
+curl -X POST http://warper.wmflabs.org/api/v1/auth/sign_in.json -H "Content-Type: application/json" -d '{"user":{"email":"user@example.com","password":"userpassword"}}' -v
+```
+
+**Response**
+
+A successful response returns the user as JSON in the data element and the authentication token in a meta element
+
+```
+{
+  "data": {
+    "id": "2",
+    "type": "users",
+    "attributes": {
+      "login": "tim",
+      "created-at": "2010-08-26T15:37:34.619Z",
+      "enabled": true,
+      "provider": null
+    },
+    "links": {
+      "self": "http://warper.wmflabs.org/api/v1/users/2"
+    }
+  },
+  "meta": {
+    "authentication_token": "BSNSJK3939sbascsc"
+  }
+}
+```
+
+if unauthorized returns a 401 status with
+```
+{"error":"Invalid email or password."}
+```
+
+
+###Validate Token
+
+This is a call to check if an authentication token is still valid. (Signing in and out both reset tokens)
+
+
+| Method        | Definition |
+| ------------- | ---------  |
+| GET           | /api/v1/auth/validate_token.json
+
+**Parameters**
+
+| Name     | Type   | Description          | Required | Notes |
+|----------|--------|----------------------|----------|-------|
+| email    | string | Email of the user    | required |       |
+| password | string | Password of the user | required |       |
+
+**Curl Example***
+
+```
+curl -X POST http://warper.wmflabs.org/api/v1/auth/sign_in.json -H "Content-Type: application/json" -d '{"user":{"email":"user@example.com","password":"userpassword"}}' -v
+```
+
+**Response**
+
+A successful response returns the user as JSON in the data element and the authentication token in a meta element
+
+```
+{
+  "data": {
+    "id": "2",
+    "type": "users",
+    "attributes": {
+      "login": "tim",
+      "created-at": "2010-08-26T15:37:34.619Z",
+      "enabled": true,
+      "provider": null
+    },
+    "links": {
+      "self": "http://warper.wmflabs.org/api/v1/users/2"
+    }
+  },
+  "meta": {
+    "authentication_token": "longtoken"
+  }
+}
+```
+
+if unauthorized returns a 401 status with
+```
+{"error":"Invalid email or password."}
+```
+
+##Using the authentication token
+
+You can authentication via the token in two ways
+
+1. Recommended: setting  `X-User-Id` and `X-User-Token` in the header
+
+```
+curl  -H 'X-User-Token: longtoken' -H 'X-User-Id: 2' -X GET http://warper.wmflabs.org/api/v1/users/2.json -v
+```
+
+2. Passing `user_id` and `user_token` as parameters (handy for GET requests)
+
+```
+curl  -X GET http://warper.wmflabs.org/api/v1/users/2.json?user_id=2&user_token=longtoken -v
+
+```
+
+###Oauth Authenticaton and Authentication Token
+
+Instead of using an email and password, a user can login via OUath with Github, twitter, google, and Wikimedia Commons for example. 
+This is the way a third party JavaScript application can work with OAuth and the warper
+
+> ** Note: The Oauth path is `/u/auth/{:provider}` and not within the api namespace. This may change.
+
+| Method        | Definition |
+| ------------- | ---------  |
+| GET           | /u/auth/{:provider}
+
+**Parameters**
+
+| Name     | Type   | Description          | Required | Notes                                              |
+|----------|--------|----------------------|----------|-------                                             |
+| privoder | string | Oauth Provider       | required | one of "github", "mediawiki", "twitter", "osm "etc |
+
+
+The process uses the Browser postMessage API to communicate across windows.
+
+See https://github.com/timwaters/warper_oauth_token_auth_demo  for an example app that uses JToker Jquery library for authentication.
+
+Example JS code:
+
+```
+// create popup window
+var domain = 'http://warper.wmflabs.org';
+var myPopup = window.open(domain + '/u/auth/mediawiki?omniauth_window_type=newWindow&auth_origin_url=' + window.location.href, 'myWindow');
+
+// periodical message sender
+var messenger = setInterval(function() {
+  var message = 'requestCredentials';
+  //send the message and target URI
+  myPopup.postMessage(message, domain);
+}, 500);
+
+// listen to response
+window.addEventListener('message', function(event) {
+  // the message listener get's triggered by any URL make sure it's the right one
+  if (event.origin !== domain) return;
+  clearInterval(messenger);
+  console.log(event.data);
+}, false);
+```
+
+
+The warper renders /app/views/devise/omniauth_external_window.erb.html
+
+The following gets rendered when the user successfully allows the request:
+
+```
+var data;
+window.addEventListener("message", function(ev) {
+  if (ev.data === "requestCredentials") {
+      data = {
+       message: "deliverCredentials", 
+       auth_token: 'longtoken', 
+       uid: '1234', 
+       id: '23',
+       name: 'Username',
+       email: 'Username@example.com',
+       provider: 'mediawiki '
+   }
+
+    ev.source.postMessage(data, '*');
+   window.close();
+  }
+});
+function requestCredentials() {
+  return data;
+}
+```
+
+Then, using the id and the email from the message, API response can be crafted. See https://github.com/timwaters/warper_oauth_token_auth_demo  for an example app.
+
+
+###Cookie Authentication
+
+The API can also be authenticated with cookies (for example a user logged into the warper in the browser can call the API GET requests in the browser).
+
+**Curl Examples for Email and Password authentication and cookies**
 ```
 curl -X POST http://warper.wmflabs.org/u/sign_in.json -H "Content-Type: application/json" -d '{"user":{"email":"tim@example.com","password":"password"}}' -c cookie
 ```
-if successful, returns logged in user as jsonapi with roles relationships (see User and Roles section)
+if successful, returns logged in user as jsonapi 
 ```
-{"data":{"id":"2","type":"users","attributes":{"login":"tim","created-at":"2010-08-26T15:37:34.619Z","enabled":true,"provider":null,"email":"tim@example.com"},"relationships":{"roles":{"data":[{"id":"1","type":"roles"},{"id":"2","type":"roles"},{"id":"3","type":"roles"},{"id":"4","type":"roles"}]}},"links":{"self":"http://warper.wmflabs.org/api/v1/users/2"}}}
+{
+  "data": {
+    "id": "2",
+    "type": "users",
+    "attributes": {
+      "login": "tim",
+      "created-at": "2010-08-26T15:37:34.619Z",
+      "enabled": true,
+      "provider": null
+    }"links": {
+      "self": "http://warper.wmflabs.org/api/v1/users/2"
+    }
+  }
+}
 ```
 if unauthorized returns a 401 status with
 ```
@@ -1185,7 +1395,7 @@ There are two different ways to get the control points of a map:
 Returns a list of the ground control points used to warp a map, as well as their calculated errors.
 No authentication required. 
 
-Note: api/v1/maps/:id/gcps includes the calculated error but with no sorting or pagination, whereas api/v1/gcps?map_id={:map_id} whilst has sorting and pagination but with no calculated error.
+> ** Note: api/v1/maps/:id/gcps includes the calculated error but with no sorting or pagination, whereas api/v1/gcps?map_id={:map_id} whilst has sorting and pagination but with no calculated error.
 
 **Parameters**
 
@@ -1537,7 +1747,7 @@ Uses GML to mask a portion of the map. This essentially crops the map. Masking i
 Gets a GML string containing coordinates for the polygon(s) to mask over.
 No authentication required. 
 
-NOTE: The correct way to find the path to the mask is to get the Map object and look in it's links
+> ** Note: The correct way to find the path to the mask is to get the Map object and look in it's links
 
 ```
 "mask": "http://warper.wmflabs.org/mapimages/260.gml.ol",
@@ -2372,6 +2582,8 @@ Administrator authorized users will also see attributes for email and the roles 
 
 **Response**
 
+A response of a user with normal user authorizion 
+
 ```
 {
 	"data": {
@@ -2390,6 +2602,7 @@ Administrator authorized users will also see attributes for email and the roles 
 }
 ```
 
+A response of a user with admin user authorizion 
 ```
 {
 	"data": {
@@ -3020,7 +3233,7 @@ Deletes an import.
 Requires authentication.
 Editor user only authorized.
 
-Note: imported maps and any created mosaic / layers will not be deleted when an import is deleted.
+> ** Note: imported maps and any created mosaic / layers will not be deleted when an import is deleted.
 
 **Parameters**
 
