@@ -136,6 +136,28 @@ if unauthorized returns a 401 status with
 {"error":"Invalid email or password."}
 ```
 
+###Sign out
+
+To sign out which deletes the authentication token.
+Authentication is required.
+
+| Method        | Definition |
+| ------------- | ---------  |
+| DELETE           | /api/v1/auth/sign_out.json |
+
+
+**Curl Example***
+
+```
+curl -X DELETE http://warper.wmflabs.org/api/v1/auth/sign_out.json -H -H 'X-User-Token: longtoken' -H 'X-User-Id: 2' "Content-Type: application/json" -v
+```
+
+**Response**
+
+A successful response returns a 200 OK status and an empty hash `{}`
+
+An unsuccessful response returns a 422 unprocessable entity status and an empty hash `{}`
+
 
 ###Validate Token
 
