@@ -91,7 +91,7 @@ To authenticate using an email and password to retrieve an authentication token.
 
 | Method        | Definition |
 | ------------- | ---------  |
-| POST           | /api/v1/auth/sign_in.json
+| POST           | /api/v1/auth/sign_in.json |
 
 **Parameters**
 
@@ -144,7 +144,7 @@ This is a call to check if an authentication token is still valid. (Signing in a
 
 | Method        | Definition |
 | ------------- | ---------  |
-| GET           | /api/v1/auth/validate_token.json
+| GET           | /api/v1/auth/validate_token.json |
 
 **Parameters**
 
@@ -215,7 +215,7 @@ This is the way a third party JavaScript application can work with OAuth and the
 
 | Method        | Definition |
 | ------------- | ---------  |
-| GET           | /u/auth/{:provider}
+| GET           | /u/auth/{:provider} |
 
 **Parameters**
 
