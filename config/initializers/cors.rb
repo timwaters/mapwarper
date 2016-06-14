@@ -1,12 +1,12 @@
-module YourApp
+module Rails4Mapwarper
   class Application < Rails::Application
     config.middleware.use Rack::Cors do
       allow do
-        origins 'localhost:8000'
+        origins '*'
         resource '/api/*',
           :headers => :any,
           :expose  => ['access-token', 'expiry', 'token-type', 'uid', 'client'],
-          :methods => [:get, :post, :options, :delete, :put]
+          :methods => [:get, :post, :options, :delete, :put, :patch]
       end
     end
   end
