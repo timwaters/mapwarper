@@ -289,7 +289,7 @@ DEPENDENCIES
   rack-cors
   rails (= 4.1.13)
   rails-api
-  redcarpet (~> 3.3)
+  redcarpet
   rvm1-capistrano3
   sass-rails (~> 4.0.3)
   sdoc (~> 0.4.0)
