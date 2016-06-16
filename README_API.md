@@ -178,7 +178,7 @@ This is a call to check if an authentication token is still valid. (Signing in a
 **Curl Example***
 
 ```
-curl -X POST http://warper.wmflabs.org/api/v1/auth/sign_in.json -H "Content-Type: application/json" -d '{"user":{"email":"user@example.com","password":"userpassword"}}' -v
+curl -X POST http://warper.wmflabs.org/api/v1/auth/sign_in.json -H "Content-Type: application/json" -H 'Accept: application/json' -d '{"user":{"email":"user@example.com","password":"userpassword"}}' -v
 ```
 
 **Response**
@@ -309,10 +309,13 @@ Then, using the id and the email from the message, API response can be crafted. 
 The API can also be authenticated with cookies (for example a user logged into the warper in the browser can call the API GET requests in the browser).
 
 **Curl Examples for Email and Password authentication and cookies**
+
 ```
-curl -X POST http://warper.wmflabs.org/u/sign_in.json -H "Content-Type: application/json" -d '{"user":{"email":"tim@example.com","password":"password"}}' -c cookie
+curl -X POST http://warper.wmflabs.org/u/sign_in.json -H "Content-Type: application/json"  -H 'Accept: application/json' -d '{"user":{"email":"tim@example.com","password":"password"}}' -c cookie
 ```
+
 if successful, returns logged in user as jsonapi 
+
 ```
 {
   "data": {
@@ -329,14 +332,16 @@ if successful, returns logged in user as jsonapi
   }
 }
 ```
+
 if unauthorized returns a 401 status with
 ```
 {"error":"Invalid email or password."}
 ```
+
 Example using the cookie:
+
 ```
 curl -H 'Content-Type: application/json' -H 'Accept: application/json' -X GET http://warper.wmflabs.org/api/v1/users/2.json -b cookie
-
 ```
 
 Unauthorized calls may return
@@ -408,6 +413,7 @@ Example searching within a bounding box
 **Response**
 
 JSON API Format
+
 ```
 {
 	"data": [{
@@ -649,7 +655,9 @@ No authentication required.
 **Response**
 
 JSON-API
+
 The response will be be in the following format.
+
 ```
 {
 	"data": {
@@ -714,6 +722,7 @@ The response will be be in the following format.
 ```
 
 GeoJSON Format
+
 ```
 {
 	"id": 2,
@@ -891,6 +900,7 @@ Notes: Enter optional text for the query, based on the search field chosen. The 
 [http://warper.wmflabs.org/api/v1/layers?query=tartu](http://warper.wmflabs.org/api/v1/layers?query=tartu)
 
 **Response**
+
 ```
 {
 	"data": [
@@ -1628,7 +1638,7 @@ Example:
 **cURL Example**
 
 ```
-curl -H "Content-Type: application/json" -X POST -d '{"data":{"type":"gcps","attributes":{"x":1,"y":2,"lat":33.3,"lon":44.4,"map_id":2}}}' http://warper.wmflabs.org/api/v1/gcps -b cookie
+curl -H "Content-Type: application/json" -H 'Accept: application/json' -X POST -d '{"data":{"type":"gcps","attributes":{"x":1,"y":2,"lat":33.3,"lon":44.4,"map_id":2}}}' http://warper.wmflabs.org/api/v1/gcps -b cookie
 ```
 
 **Response**
@@ -1697,7 +1707,7 @@ Requires authentication.
 In this example, we are changing the value of x and y.
 
 ```
-curl -H "Content-Type: application/json" -X PUT -d '{"data":{"type":"gcps","attributes":{"x":22,"y":55,"map_id":2}}}' http://wikimaps.mapwarper.net/api/v1/gcps/21 -b cookie
+curl -H "Content-Type: application/json" -H 'Accept: application/json' -X PUT -d '{"data":{"type":"gcps","attributes":{"x":22,"y":55,"map_id":2}}}' http://wikimaps.mapwarper.net/api/v1/gcps/21 -b cookie
 ```
 
 **Response**
@@ -1705,6 +1715,7 @@ curl -H "Content-Type: application/json" -X PUT -d '{"data":{"type":"gcps","attr
 If successful the response will be the updated control point.
 
 Example:
+
 ```
 {
 	"data": {
@@ -1744,7 +1755,7 @@ Example:
 **curl example**
 
 ```
-curl -H "Content-Type: application/json" -X DELETE http://wikimaps.mapwarper.net/api/v1/gcps/21 -b cookie
+curl -H "Content-Type: application/json" -H 'Accept: application/json' -X DELETE http://wikimaps.mapwarper.net/api/v1/gcps/21 -b cookie
 ```
 
 **Response**
@@ -1853,7 +1864,7 @@ Applies the clipping mask to a map, but does not warp it. A clipping mask should
 **Example**
 
 ```
-curl -H "Content-Type: application/json" -X PATCH http://wikimaps.mapwarper.net/api/v1/maps/2/crop -b cookie
+curl -H "Content-Type: application/json" -H 'Accept: application/json' -X PATCH http://wikimaps.mapwarper.net/api/v1/maps/2/crop -b cookie
 ```
 
 **Response**
@@ -2016,7 +2027,7 @@ Example:
 **cURL Example**
 
 ```
-curl -H "Content-Type: application/json" -X POST -d '{"data":{"type":"maps","attributes": {"title":"initial",  page_id":1234}}}' http://warper.wmflabs.org/api/v1/maps -b cookie
+curl -H "Content-Type: application/json" -H 'Accept: application/json'  -X POST -d '{"data":{"type":"maps","attributes": {"title":"initial",  page_id":1234}}}' http://warper.wmflabs.org/api/v1/maps -b cookie
 ```
 
 **Response**
@@ -2081,7 +2092,7 @@ Example:
 **cURL Example**
 
 ```
-curl -H "Content-Type: application/json" -X PATCH -d '{"data":{"type":"maps","attributes": {"title":"A New Improved Title"}}}' http://warper.wmflabs.org/api/v1/maps/3 -b cookie
+curl -H "Content-Type: application/json" -H 'Accept: application/json' -X PATCH -d '{"data":{"type":"maps","attributes": {"title":"A New Improved Title"}}}' http://warper.wmflabs.org/api/v1/maps/3 -b cookie
 ```
 
 **Response**
@@ -2116,7 +2127,7 @@ Editor role only authorized.
 **cURL Example**
 
 ```
-curl -H "Content-Type: application/json" -X DELETE http://warper.wmflabs.org/api/v1/maps/3 -b cookie
+curl -H "Content-Type: application/json" -H 'Accept: application/json' -X DELETE http://warper.wmflabs.org/api/v1/maps/3 -b cookie
 ```
 
 **Response**
@@ -2150,7 +2161,7 @@ Administrator role authorized only.
 **cURL Example**
 
 ```
-curl -H "Content-Type: application/json" -X PATCH  http://warper.wmflabs.org/api/v1/maps/3/publish -b cookie
+curl -H "Content-Type: application/json" -H 'Accept: application/json' -X PATCH  http://warper.wmflabs.org/api/v1/maps/3/publish -b cookie
 ```
 
 **Response**
@@ -2205,7 +2216,7 @@ Administrator role authorized only.
 **cURL Example**
 
 ```
-curl -H "Content-Type: application/json" -X PATCH  http://warper.wmflabs.org/api/v1/maps/3/unpublish -b cookie
+curl -H "Content-Type: application/json" -H 'Accept: application/json' -X PATCH  http://warper.wmflabs.org/api/v1/maps/3/unpublish -b cookie
 ```
 
 **Response**
@@ -2280,7 +2291,7 @@ Points cannot be added twice.
 **cURL Example**
 
 ```
-curl -H "Content-Type: application/json" -X POST -d '{"gcps":[{"mapid":123,"x":2,"y":3,"lat":"52.56","lon":"-4.65"},{"pageid":123,"x":12,"y":23,"lat":"32.56","lon":"-2.65"}]}' http://warper.wmflabs.org/api/v1/gcps/add_many -b cookie
+curl -H "Content-Type: application/json" -H 'Accept: application/json' -X POST -d '{"gcps":[{"mapid":123,"x":2,"y":3,"lat":"52.56","lon":"-4.65"},{"pageid":123,"x":12,"y":23,"lat":"32.56","lon":"-2.65"}]}' http://warper.wmflabs.org/api/v1/gcps/add_many -b cookie
 ```
 
 **Response**
@@ -2376,7 +2387,7 @@ Example:
 **cURL Example**
 
 ```
-curl -H "Content-Type: application/json" -X POST -d '{"data":{"type":"layers","attributes":{"name":"a new layer","description":"new description"},"map_ids":[123,553,224]}}' http://warper.wmflabs.org/api/v1/layers -b cookie
+curl -H "Content-Type: application/json" -H 'Accept: application/json' -X POST -d '{"data":{"type":"layers","attributes":{"name":"a new layer","description":"new description"},"map_ids":[123,553,224]}}' http://warper.wmflabs.org/api/v1/layers -b cookie
 ```
 
 **Response**
@@ -2431,7 +2442,7 @@ Example:
 **cURL Example**
 
 ```
-curl -H "Content-Type: application/json" -X PATCH -d '{"data":{"type":"layers","attributes":{"name":"a different name"},"map_ids":[4423,22]}}' http://warper.wmflabs.org/api/v1/layers -b cookie
+curl -H "Content-Type: application/json" -H 'Accept: application/json' -X PATCH -d '{"data":{"type":"layers","attributes":{"name":"a different name"},"map_ids":[4423,22]}}' http://warper.wmflabs.org/api/v1/layers -b cookie
 ```
 
 **Response**
@@ -2458,7 +2469,7 @@ Administrator authorized only.
 **cURL Example**
 
 ```
-curl -H "Content-Type: application/json" -X DELETE -d http://warper.wmflabs.org/api/v1/layers/12 -b cookie
+curl -H "Content-Type: application/json" -H 'Accept: application/json' -X DELETE -d http://warper.wmflabs.org/api/v1/layers/12 -b cookie
 ```
 
 **Response**
@@ -2490,7 +2501,7 @@ Administrator authorized only.
 **cURL Example**
 
 ```
-curl -H "Content-Type: application/json" -X PATCH  http://warper.wmflabs.org/api/v1/layers/2/toggle_visibility -b cookie
+curl -H "Content-Type: application/json" -H 'Accept: application/json' -X PATCH  http://warper.wmflabs.org/api/v1/layers/2/toggle_visibility -b cookie
 ```
 
 **Response**
@@ -2524,7 +2535,7 @@ It takes a single parameter, map_id containing the id of the map to be removed.
 **cURL Example**
 
 ```
-curl -H "Content-Type: application/json" -X PATCH -d '{"map_id":123}' http://warper.wmflabs.org/api/v1/layers/2/remove_map -b cookie
+curl -H "Content-Type: application/json" -H 'Accept: application/json' -X PATCH -d '{"map_id":123}' http://warper.wmflabs.org/api/v1/layers/2/remove_map -b cookie
 ```
 
 **Response**
@@ -2566,7 +2577,7 @@ Administrator authorized only.
 **cURL Example**
 
 ```
-curl -H "Content-Type: application/json" -X PATCH -d '{"dest_id":3}' http://warper.wmflabs.org/api/v1/layers/2/merge -b cookie
+curl -H "Content-Type: application/json" -H 'Accept: application/json' -X PATCH -d '{"dest_id":3}' http://warper.wmflabs.org/api/v1/layers/2/merge -b cookie
 ```
 
 **Response**
@@ -2628,6 +2639,7 @@ A response of a user with normal user authorizion
 ```
 
 A response of a user with admin user authorizion 
+
 ```
 {
 	"data": {
@@ -2713,6 +2725,7 @@ If the user is not found, the request will return the following response:
 | GET          |  /api/v1/users |
 
 **Parameters**
+
 | Name       | values     | Type    | Description                                                             | Required | Notes                 |
 |------------|------------|---------|-------------------------------------------------------------------------|----------|-----------------------|
 | query      |            | string  | search query                                                            | optional |                       |
@@ -2743,6 +2756,7 @@ Notes: Enter optional text for the query, based on the search field chosen. The 
 [http://warper.wmflabs.org/api/v1/users?query=tim&field=login](http://warper.wmflabs.org/api/v1/users?query=tim&field=login)
 
 **Response**
+
 ```
 {
 	"data": [
@@ -2877,6 +2891,7 @@ Authentication required.
 Editor authorized users only.
 
 **Parameters**
+
 | Name |   | Type    | Description                        | Required | Notes |
 |------|---|---------|------------------------------------|----------|-------|
 | id   |   | integer | the unique identifier for the import | required |       |
@@ -3156,7 +3171,7 @@ Example:
 **cURL Example**
 
 ```
-curl -H "Content-Type: application/json" -X POST -d '{"data":{"type":"gcps","attributes":{"category":"Category:Tartu Maps","save_layer":true}}}' http://warper.wmflabs.org/api/v1/imports -b cookie
+curl -H "Content-Type: application/json" -H 'Accept: application/json' -X POST -d '{"data":{"type":"gcps","attributes":{"category":"Category:Tartu Maps","save_layer":true}}}' http://warper.wmflabs.org/api/v1/imports -b cookie
 ```
 
 **Response**
@@ -3239,7 +3254,7 @@ Example:
 **cURL Example**
 
 ```
-curl -H "Content-Type: application/json" -X PATCH -d '{"data":{"type":"gcps","attributes":{"category":"Category:Maps of Tartu"}}}' http://warper.wmflabs.org/api/v1/imports/12 -b cookie
+curl -H "Content-Type: application/json" -H 'Accept: application/json'  -X PATCH -d '{"data":{"type":"gcps","attributes":{"category":"Category:Maps of Tartu"}}}' http://warper.wmflabs.org/api/v1/imports/12 -b cookie
 ```
 
 **Response**
@@ -3304,7 +3319,7 @@ Authentication required.
 **cURL Example**
 
 ```
-curl -H "Content-Type: application/json" -X GET  http://warper.wmflabs.org/api/v1/activity?per_page=2 -b cookie
+curl -H "Content-Type: application/json" -H 'Accept: application/json' -X GET  http://warper.wmflabs.org/api/v1/activity?per_page=2 -b cookie
 ```
 
 **Response**
@@ -3385,7 +3400,7 @@ Authentication required.
 **cURL Example**
 
 ```
-curl -H "Content-Type: application/json" -X GET  http://warper.wmflabs.org/api/v1/activity/maps?per_page=2 -b cookie
+curl -H "Content-Type: application/json" -H 'Accept: application/json' -X GET  http://warper.wmflabs.org/api/v1/activity/maps?per_page=2 -b cookie
 ```
 
 **Response**
@@ -3550,7 +3565,7 @@ Authentication required.
 **cURL Example**
 
 ```
-curl -H "Content-Type: application/json" -X GET  http://warper.wmflabs.org/api/v1/activity/users/3?per_page=2 -b cookie
+curl -H "Content-Type: application/json" -H 'Accept: application/json' -X GET  http://warper.wmflabs.org/api/v1/activity/users/3?per_page=2 -b cookie
 ```
 
 **Response**
@@ -3643,7 +3658,7 @@ Administrator role only authorized
 **cURL Example**
 
 ```
-curl -H "Content-Type: application/json" -X GET  http://warper.wmflabs.org/api/v1/stats?per_page=3&sort_key=user_id&sort_order=asc -b cookie
+curl -H "Content-Type: application/json" -H 'Accept: application/json'  -X GET  http://warper.wmflabs.org/api/v1/stats?per_page=3&sort_key=user_id&sort_order=asc -b cookie
 ```
 
 **Response**

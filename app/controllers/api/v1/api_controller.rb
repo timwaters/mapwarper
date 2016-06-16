@@ -41,5 +41,15 @@ class Api::V1::ApiController < ActionController::API
       return
     end
   end
+  
+  def index
+    m = Redcarpet::Markdown.new(Redcarpet::Render::HTML,
+    :fenced_code_blocks => true,
+    :autolink => true,
+    :tables => true,
+    :hard_wrap =>true )
+    content = m.render(File.open(Rails.root + "README_API.md", 'r').read)
+    render :html => content.html_safe, :layout => 'layouts/markdown'
+  end
 
 end

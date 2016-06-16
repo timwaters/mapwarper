@@ -196,6 +196,7 @@ GEM
     rake (10.4.2)
     rdoc (4.1.1)
       json (~> 1.4)
+    redcarpet (3.3.4)
     rest-client (1.7.2)
       mime-types (>= 1.16, < 3.0)
       netrc (~> 0.7)
@@ -288,6 +289,7 @@ DEPENDENCIES
   rack-cors
   rails (= 4.1.13)
   rails-api
+  redcarpet
   rvm1-capistrano3
   sass-rails (~> 4.0.3)
   sdoc (~> 0.4.0)
