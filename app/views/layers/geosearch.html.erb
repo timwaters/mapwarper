@@ -1,8 +1,8 @@
 <% content_for :head do %>
   <script type="text/javascript">
     var gs_bounds = new OpenLayers.Bounds(<%=@bbox-%>);
-    var mapBaseURL = '/layers';
-    var mapThumbBaseURL = '/layers/thumb';
+    var mapBaseURL = '/mosaics';
+    var mapThumbBaseURL = '/mosaics/thumb';
   </script> 
   <%= javascript_include_tag "geosearch" %>
   <%= javascript_include_tag "geosearch-layer" %>

@@ -51,12 +51,17 @@ Rails.application.routes.draw do
         get 'geosearch'
         get 'tag'
     end
-    resources :layers
+    [:mosaics, :layers].each do | path |
+      resources :layers, :path => path
+    end
   end
   
   get '/mapimages/:id.gml.ol' => 'maps#get_mask', :as => "masking_map"
   get '/maps/thumb/:id' => 'maps#thumb', :as =>'thumb_map'
-  get '/layers/thumb/:id' => 'layers#thumb', :as =>'thumb_layer'
+  
+  get '/mosaics/thumb/:id' => 'layers#thumb', :as =>'thumb_layer'
+  get '/layers/thumb/:id' => 'layers#thumb'
+ 
   
   get '/gcps/' => 'gcp#index', :as => "gcps"
   get '/gcps/bulk_import' => 'gcps#bulk_import', :as => "bulk_import_gcps"
@@ -73,29 +78,37 @@ Rails.application.routes.draw do
   get '/maps/wms/:id' => "maps#wms", :as => 'wms_map'
   get '/maps/tile/:id/:z/:x/:y' => "maps#tile", :as => 'tile_map'
   
-  get '/layers/wms/:id' => "layers#wms", :as => "wms_layer"
-  get '/layers/wms' => "layers#wms", :as => "wms_layer_base"
-  get '/layers/tile/:id/:z/:x/:y' => "layers#tile", :as => 'tile_layer'
+  get '/mosaics/wms/:id' => "layers#wms", :as => "wms_layer"
+  get '/mosaics/wms' => "layers#wms", :as => "wms_layer_base"
+  get '/mosaics/tile/:id/:z/:x/:y' => "layers#tile", :as => 'tile_layer'
   
-  resources :layers do
-    member do
-      get 'comments'
-      get 'merge'
-      get 'publish'
-      get 'toggle_visibility'
-      post 'update_year'
-      get 'wms'
-      get 'wms2'
-      get 'maps'
-      get 'export'
-      get 'metadata'
-      get 'delete'
-      get 'id'
-      get 'trace'
-      get 'idland'
-    end
-    collection do 
-      get 'geosearch'
+  get '/layers/wms/:id' => "layers#wms"
+  get '/layers/wms' => "layers#wms"
+  get '/layers/tile/:id/:z/:x/:y' => "layers#tile"
+  
+
+  
+  [:mosaics, :layers].each do | path |
+    resources :layers, :path => path do
+      member do
+        get 'comments'
+        get 'merge'
+        get 'publish'
+        get 'toggle_visibility'
+        post 'update_year'
+        get 'wms'
+        get 'wms2'
+        get 'maps'
+        get 'export'
+        get 'metadata'
+        get 'delete'
+        get 'id'
+        get 'trace'
+        get 'idland'
+      end
+      collection do 
+        get 'geosearch'
+      end
     end
   end
   

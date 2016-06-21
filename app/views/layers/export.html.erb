@@ -6,7 +6,7 @@
     <%= link_to("WMS link suitable for JOSM OpenStreetMap Editor", josm_url) %> <br />
   </li>
   <li>
-  <% tile_url = "http://warper.wmflabs.org/layers/tile/#{@layer.id}/{z}/{x}/{y}.png" %>
+  <% tile_url = "http://warper.wmflabs.org/mosaics/tile/#{@layer.id}/{z}/{x}/{y}.png" %>
     Tiles (Google/OSM scheme): <%= tile_url %>
   </li>
   <li>

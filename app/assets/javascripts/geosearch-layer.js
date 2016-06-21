@@ -5,7 +5,7 @@ function replaceMapTable(smaps) {
     var tableRow = "<tr id='map-row-" + smap.id + "' class='minimap-tr'>" +
             "<td class='mini-map-thumb'><img src='" + mapThumbBaseURL + "/" + smap.id + "' height='70' ></td>" +
             "<td>" + smap.name + "<br />" +
-            "<a href='" + mapBaseURL + "/" + smap.id + "' target='_blank'>Open layer</a> </td></tr>";
+            "<a href='" + mapBaseURL + "/" + smap.id + "' target='_blank'>Open mosaic</a> </td></tr>";
 
     jQuery("#searchmap-table").append(tableRow);
   }
@@ -21,7 +21,7 @@ function insertMapTablePagination(total, per, current) {
     num = total;
     last = true;
   }
-  var tableCaption = "<caption>Found " + total + " Layers. Showing " + start + " - " + num;
+  var tableCaption = "<caption>Found " + total + " Mosaics. Showing " + start + " - " + num;
   jQuery("#searchmap-table").append(tableCaption);
 
 
@@ -59,7 +59,7 @@ function onFeatureSelect(feature) {
           feature.mapId + "' target='_blank'>" +
           //feature.mapTitle+"</a><br />"+
           "<a href='#a-map-row-" + feature.mapId + "' ><img title='" + feature.mapTitle + "' src='" + mapThumbBaseURL + "/" + feature.mapId + "' height='80'></a>" +
-          "<br /> <a href='" + mapBaseURL + "/" + feature.mapId + "' target='_blank'>Open layer in new page.</a>" +
+          "<br /> <a href='" + mapBaseURL + "/" + feature.mapId + "' target='_blank'>Open mosaic in new page.</a>" +
           "</div>",
           null, true, onPopupClose);
   popup.panMapIfOutOfView = false;

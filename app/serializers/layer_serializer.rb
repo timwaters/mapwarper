@@ -4,7 +4,7 @@ class LayerSerializer < ActiveModel::Serializer
   link(:self) {   api_v1_layer_url(object) }
 
   link(:kml){     layer_url(:id => object.id, :format => :kml)}
-  link(:tiles) { "http://warper.wmflabs.org/layers/tile/#{object}/{z}/{x}/{y}.png" }
+  link(:tiles) { "http://warper.wmflabs.org/mosaics/tile/#{object}/{z}/{x}/{y}.png" }
   link(:wms) {    wms_layer_url(:id=>object.id, :request => "GetCapabilities", :service => "WMS", :version => "1.1.1") }
 
 end

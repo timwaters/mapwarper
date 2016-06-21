@@ -7,7 +7,7 @@
 
     <li class="responsive"><%= link_to_unless_current("Browse All Mosaics",  layers_path) { "<span>Browse All Mosaics</span>".html_safe } %></li>
     <% if user_signed_in? && current_user.has_role?("administrator") %>
-     <li class="responsive responsive_wide"><%= link_to_unless_current("Find Mosaics by Location",  geosearch_layers_url) { "<span>Find Layers by Mosaics</span>".html_safe } %></li>
+     <li class="responsive responsive_wide"><%= link_to_unless_current("Find Mosaics by Location",  geosearch_layers_url) { "<span>Find Mosaics by Location</span>".html_safe } %></li>
     <li class="responsive responsive_narrow"><%= link_to_unless_current("Add Mosaic", new_layer_path) { "<span>Add Mosaic</span>".html_safe } %></li>
     <% end %>
 

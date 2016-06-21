@@ -859,6 +859,8 @@ This request returns text. If a map has no status (i.e., has not been transferre
 A layer is a mosaic in which the component maps are stitched together and displayed as one seamless map. Layers are often comprised of contiguous maps from the facing pages of a scanned book. For examples of layers, see the [Plan of the town of Paramaribo, capital of Surinam](http://maps.nypl.org/warper/layers/1450) or the map of New York City and Vicinity at [http://maps.nypl.org/warper/layers/1404](http://maps.nypl.org/warper/layers/1404).
 No authentication required.
 
+> ** Note: in the mapwarper application Layers are often called "Mosaics"
+
 ###Query or List Layers
 
 | Method       | Definition | 
