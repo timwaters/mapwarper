@@ -44,7 +44,7 @@ class WikimapsController < ApplicationController
       if map = Map.find_by_page_id(page_id) || Map.find_by_unique_id(unique_id)
 
         if map.warped_or_published?
-          redirect_to map_path(id: map, anchor: 'Preview_Map_tab')
+          redirect_to map_path(id: map, anchor: 'Preview_tab')
         elsif user_signed_in?
           redirect_to map_path(id: map, anchor: 'Rectify_tab')
         else
