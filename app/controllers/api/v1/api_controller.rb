@@ -1,6 +1,7 @@
 class Api::V1::ApiController < ActionController::API
   include ActionController::Serialization
   acts_as_token_authentication_handler_for User, :fallback => :none
+  before_filter :check_protocol
   
   def check_administrator_role
     check_role("administrator")
@@ -44,12 +45,24 @@ class Api::V1::ApiController < ActionController::API
   
   def index
     m = Redcarpet::Markdown.new(Redcarpet::Render::HTML,
-    :fenced_code_blocks => true,
-    :autolink => true,
-    :tables => true,
-    :hard_wrap =>true )
+      :fenced_code_blocks => true,
+      :autolink => true,
+      :tables => true,
+      :hard_wrap =>true )
     content = m.render(File.open(Rails.root + "README_API.md", 'r').read)
     render :html => content.html_safe, :layout => 'layouts/markdown'
+  end
+  
+  protected
+  #
+  # Needed to make sure the right protocol is set in the url helpers in the serializers
+  #
+  def check_protocol
+    if request.ssl?
+      Rails.application.routes.default_url_options[:protocol] = 'https'
+    else
+      Rails.application.routes.default_url_options[:protocol] = 'http'
+    end
   end
 
 end

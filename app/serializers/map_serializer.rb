@@ -11,7 +11,7 @@ class MapSerializer < ActiveModel::Serializer
   link(:png) {      export_map_url(:id => object.id, :format => :png)}
   link(:aux_xml){   export_map_url(:id => object.id, :format => :aux_xml) }
   link(:kml) {      map_url(:id => object.id, :format => :kml)}
-  link(:tiles){     "http://warper.wmflabs.org/maps/tile/#{object.id}/{z}/{x}/{y}.png" }
+  link(:tiles){    "#{tile_map_base_url(:id => object.id)}/{z}/{x}/{y}.png" }
   link(:wms) {      wms_map_url(:id=>object.id, :request => "GetCapabilities", :service => "WMS", :version => "1.1.1")}
   
   class LayerSerializer < ActiveModel::Serializer

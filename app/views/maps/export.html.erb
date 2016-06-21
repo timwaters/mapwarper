@@ -18,7 +18,7 @@
     (<%= link_to "for JOSM OpenStreetMap Editor", josm_url %>    )
   </li>
   <li>
-    <% tile_url = "http://warper.wmflabs.org/maps/tile/#{@map.id}/{z}/{x}/{y}.png" %>
+    <% tile_url = "#{tile_map_base_url(:id => @map.id)}/{z}/{x}/{y}.png" %>
     Tiles (Google/OSM scheme): <%= tile_url %>
   </li>
 </ul>
