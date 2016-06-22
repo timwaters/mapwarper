@@ -65,6 +65,10 @@ Welcome to the documentation for the Wikimaps Warper API! MapWarper is a free ap
 
 `/api/v1`
 
+##Protocol
+
+Both http and https calls work. If you call a https resource, then links within the JSON response should also have https protocols, if you call it via http then the links should be in http.
+
 ##Format
 
 Where possible most output formats are in json-api format. Some creation and updating requests also require the json to be in this format. 
