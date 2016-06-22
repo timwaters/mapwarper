@@ -12,7 +12,7 @@ class Map < ActiveRecord::Base
   
   has_attached_file :upload, :styles => {:thumb => ["100x100>", :png]} ,
     :url => '/:attachment/:id/:style/:basename.:extension',
-    :default_url => "missing.png"
+    :default_url => "/assets/missing.png"
   validates_attachment_size(:upload, :less_than => MAX_ATTACHMENT_SIZE) if defined?(MAX_ATTACHMENT_SIZE)
   #attr_protected :upload_file_name, :upload_content_type, :upload_size
   validates_attachment_content_type :upload, :content_type => ["image/jpg", "image/jpeg", "image/png", "image/gif", "image/tiff"]
@@ -63,40 +63,6 @@ class Map < ActiveRecord::Base
   
   def unloaded?
     self.status == :unloaded
-  end
-  
-  #Map.new_from_wiki(pageid)
-  #returns a new map by querying the wikicommons api
-  def self.new_from_wiki(page_id)
-    site = APP_CONFIG["omniauth_mediawiki_site"]
-    
-    url = URI.encode(site + '/w/api.php?action=query&prop=imageinfo&iiprop=url|mime&iiurlwidth=100&format=json&pageids=' + page_id)
-    data = URI.parse(url).read
-    json = ActiveSupport::JSON.decode(data)
-    
-    image_url =   json['query']['pages'][page_id]['imageinfo'][0]['url']
-    image_title = json['query']['pages'][page_id]['title']
-    description = 'From: ' + json['query']['pages'][page_id]['imageinfo'][0]['descriptionurl']
-    source_uri = json['query']['pages'][page_id]['imageinfo'][0]['descriptionurl']
-    unique_id = File.basename(json['query']['pages'][page_id]['imageinfo'][0]['url'])
-    thumb_url = json['query']['pages'][page_id]['imageinfo'][0]['thumburl']
-    
-    map = {
-      title: image_title,
-      unique_id: unique_id,
-      public: true,
-      map_type: 'is_map',
-      description: description,
-      source_uri: source_uri,
-      upload_url: image_url,
-      page_id: page_id,
-      image_url: image_url,
-      thumb_url: thumb_url,
-      status: :loading
-    }
-    
-    map = Map.new(map)
-    return map
   end
   
   def resume_loading!
@@ -895,7 +861,7 @@ class Map < ActiveRecord::Base
     
     if new_template 
       wikitext[wikitext_start_index..(wikitext_stop_index)] = new_template
-      puts "changing"
+      logger.debug "Changing wikitext"
       uri = "#{site}/w/api.php?action=query&meta=tokens&type=csrf&format=json"
       resp = access_token.get(URI.encode(uri), {'User-Agent' => user_agent})
       body = JSON.parse(resp.body)
@@ -932,6 +898,14 @@ class Map < ActiveRecord::Base
   ############
   #PRIVATE
   ############
+  
+  #  warp status/Warp status/warp_status/Warp_status
+  #  Indicates if the map has been georeferenced in the Wikimaps Warper. Allowed values are:
+  #  [blank]: add it in
+  #  skip: The map is not suited for the warper, but its being warped (change to warped)
+  #  help: An invitation to import the map into the warper (change to warped)
+  #  unwarped: The map is in the warper but not rectified (change to warped)
+  #  warped: The map is in the warper where it has been rectified
 
   def update_template(str, bbox)
     map_attrs = str.split("|")
@@ -944,30 +918,30 @@ class Map < ActiveRecord::Base
     latitude = "#{bbox_array[1]}/#{bbox_array[3]}"
 
     something_changed  = false
-
+    
     map_attrs.each do | map_attr |
 
       if map_attr.split("=").size == 2 && !map_attr.include?("<!--")
         key, value = map_attr.split("=")
-
-        if key.include? "warped"
-          unless value.include?("yes")  # don't edit if it's already there
+        
+        if (key.include? "warp status") || (key.include? "Warp status") || (key.include? "warp_status") || (key.include? "Warp_status")
+          if value.include?("unwarped") || value.include?("help") || value.include?("skip") || value.strip.blank? 
             something_changed = true
-            map_attr = "warped=yes\n"
-          end    
+            map_attr = " warp_status=warped\n"
+          end
         end
 
         if key.include? "latitude"
           if value.strip != latitude
             something_changed = true
-            map_attr = "latitude=#{latitude}\n"  
+            map_attr = " latitude=#{latitude}\n"  
           end
         end
 
         if key.include? "longitude"
           if value.strip != longitude
             something_changed = true
-            map_attr = "longitude=#{longitude}\n"  
+            map_attr = " longitude=#{longitude}\n"  
           end
         end
 
@@ -979,10 +953,11 @@ class Map < ActiveRecord::Base
 
     end
 
-    #if it has help warp but no warped, we have to add in warped
-    if map_template_attrs.any? { | s| (s.include?("help warp") or s.include?("help_warp"))} && map_template_attrs.none? {|s| s.include? "warped"}
+    #if there is no warp_status, add it in.
+    if map_template_attrs.none? {|s| (s.include? "warp status") || (s.include? "Warp status") || (s.include? "warp_status") || (s.include? "Warp_status")}
       something_changed = true
-      new_attrs.insert(2, "warped=yes\n")
+      insert_at = new_attrs.size >= 2 ? new_attrs.size - 2 : 2
+      new_attrs.insert(insert_at, " warp_status=warped\n")
     end
 
     map_template = new_attrs.join("|")
