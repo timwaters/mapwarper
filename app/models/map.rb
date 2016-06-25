@@ -65,6 +65,41 @@ class Map < ActiveRecord::Base
     self.status == :unloaded
   end
   
+    #Map.new_from_wiki(pageid)
+  #returns a new map by querying the wikicommons api
+  def self.new_from_wiki(page_id)
+    site = APP_CONFIG["omniauth_mediawiki_site"]
+    
+    url = URI.encode(site + '/w/api.php?action=query&prop=imageinfo&iiprop=url|mime&iiurlwidth=100&format=json&pageids=' + page_id)
+    data = URI.parse(url).read
+    json = ActiveSupport::JSON.decode(data)
+    
+    image_url =   json['query']['pages'][page_id]['imageinfo'][0]['url']
+    image_title = json['query']['pages'][page_id]['title']
+    description = 'From: ' + json['query']['pages'][page_id]['imageinfo'][0]['descriptionurl']
+    source_uri = json['query']['pages'][page_id]['imageinfo'][0]['descriptionurl']
+    unique_id = File.basename(json['query']['pages'][page_id]['imageinfo'][0]['url'])
+    thumb_url = json['query']['pages'][page_id]['imageinfo'][0]['thumburl']
+    
+    map = {
+      title: image_title,
+      unique_id: unique_id,
+      public: true,
+      map_type: 'is_map',
+      description: description,
+      source_uri: source_uri,
+      upload_url: image_url,
+      page_id: page_id,
+      image_url: image_url,
+      thumb_url: thumb_url,
+      status: :loading
+    }
+    
+    map = Map.new(map)
+    return map
+  end
+
+  
   def resume_loading!
     logger.debug "resume loading"
     unless self.image_url.blank?
