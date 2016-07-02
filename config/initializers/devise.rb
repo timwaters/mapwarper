@@ -263,3 +263,17 @@ Devise.setup do |config|
   # so you need to do it manually. For the users scope, it would be:
   # config.omniauth_path_prefix = '/my_engine/users/auth'
 end
+
+
+module Devise
+  module OmniAuth
+    module UrlHelpers
+      
+      def omniauth_authorize_url(resource_or_scope, *args)
+        scope = Devise::Mapping.find_scope!(resource_or_scope)
+        _devise_route_context.send("#{scope}_omniauth_authorize_url", *args)
+      end
+
+    end
+  end
+end

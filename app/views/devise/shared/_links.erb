@@ -27,14 +27,15 @@
      
 <div class="omniauth_links">
   Alternatively, <%= sign_action %> with: <br /> 
+  <% protocol = Rails.env == "development" ? "http" : "https"  %>
   <span class="omniauth_link osm">
-    <%= link_to "#{image_tag("osm_logo.png", width: '25', height: '25')} OpenStreetMap".html_safe, omniauth_authorize_path(resource_name, "osm"), :class=>"osm" %>
+    <%= link_to "#{image_tag("osm_logo.png", width: '25', height: '25')} OpenStreetMap".html_safe, omniauth_authorize_url(resource_name, "osm", :protocol => protocol), :class=>"osm" %>
   </span>
   <span class="omniauth_link github">
-    <%= link_to "#{image_tag("github_logo.png", width: '25', height: '25')} GitHub".html_safe, omniauth_authorize_path(resource_name, "github"), :class=>"github" %>
+    <%= link_to "#{image_tag("github_logo.png", width: '25', height: '25')} GitHub".html_safe, omniauth_authorize_url(resource_name, "github", :protocol => protocol), :class=>"github" %>
   </span>
   <span class="omniauth_link commons">
-    <%= link_to "#{image_tag("commons_logo.png", width: '25', height: '25')} Wikimedia Commons".html_safe, omniauth_authorize_path(resource_name, "mediawiki"), :class=>"osm" %>
+    <%= link_to "#{image_tag("commons_logo.png", width: '25', height: '25')} Wikimedia Commons".html_safe, omniauth_authorize_url(resource_name, "mediawiki", :protocol => protocol), :class=>"osm" %>
   </span>
   <div class="commons_oauth_info">When logged in via Wikimedia, we may update the Commons file page for the map on your behalf by your user.</div>
 </div>

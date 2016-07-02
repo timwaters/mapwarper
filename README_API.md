@@ -67,7 +67,7 @@ Welcome to the documentation for the Wikimaps Warper API! MapWarper is a free ap
 
 ##Protocol
 
-Both http and https calls work. If you call a https resource, then links within the JSON response should also have https protocols, if you call it via http then the links should be in http.
+Both http and https calls work. If you call a https resource, then links within the JSON response should also have https protocols, if you call it via http then the links should be in http. Note that OAuth authentication is configured for https only.
 
 ##Format
 
@@ -239,6 +239,8 @@ This is the way a third party JavaScript application can work with OAuth and the
 
 > ** Note: The Oauth path is `/u/auth/{:provider}` and not within the api namespace. This may change.
 
+> ** Note: Oauth on Warper.wmflabs.org is configured via HTTPS only. 
+
 | Method        | Definition |
 | ------------- | ---------  |
 | GET           | /u/auth/{:provider} |
@@ -258,7 +260,7 @@ Example JS code:
 
 ```
 // create popup window
-var domain = 'http://warper.wmflabs.org';
+var domain = 'https://warper.wmflabs.org';
 var myPopup = window.open(domain + '/u/auth/mediawiki?omniauth_window_type=newWindow&auth_origin_url=' + window.location.href, 'myWindow');
 
 // periodical message sender
