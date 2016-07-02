@@ -37,6 +37,19 @@
   <span class="omniauth_link commons">
     <%= link_to "#{image_tag("commons_logo.png", width: '25', height: '25')} Wikimedia Commons".html_safe, omniauth_authorize_url(resource_name, "mediawiki", :protocol => protocol), :class=>"osm" %>
   </span>
-  <div class="commons_oauth_info">When logged in via Wikimedia, we may update the Commons file page for the map on your behalf by your user.</div>
+  <div class="commons_oauth_info"><%= image_tag("commons_logo.png", width: '25', height: '25') %> If you log in via Wikimedia Commons, when you warp a map, this application will edit and update the Commons wiki page for the particular map on your behalf.</div>
 </div>
 <% end -%>
+
+<script type="text/javascript">
+  jQuery( document ).ready(function() {
+    
+    jQuery(".omniauth_link.commons").hover(
+      function(){ jQuery(".commons_oauth_info").addClass( "oauthhover" ); },
+      function(){ jQuery(".commons_oauth_info").removeClass( "oauthhover" ); }
+    );
+
+  });
+</script>
+
+  

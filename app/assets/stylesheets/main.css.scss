@@ -1544,6 +1544,22 @@ fieldset#control_panel_fieldset a {
 
 .commons_oauth_info {
   font-size: smaller;
+  border: 2px solid navy;
+  padding-top: 7px;
+  padding-bottom: 5px;
+  padding-right: 5px;
+  padding-left: 5px;
+  color: black;
+  margin-top: 4px;
+  margin-left: 2px;
+  max-width: 500px;
+}
+.commons_oauth_info img {
+  vertical-align: bottom;
+}
+
+.oauthhover {
+  background-color: #eeeee0;
 }
 
 /* Rules for the iD editor */
