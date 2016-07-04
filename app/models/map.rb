@@ -994,6 +994,19 @@ class Map < ActiveRecord::Base
       insert_at = new_attrs.size >= 2 ? new_attrs.size - 2 : 2
       new_attrs.insert(insert_at, " warp_status=warped\n")
     end
+    
+    if map_template_attrs.none? {|s| (s.include? "latitude") || (s.include? "Latitude") }
+      something_changed = true
+      insert_at = new_attrs.size >= 2 ? new_attrs.size - 2 : 2
+      new_attrs.insert(insert_at, " latitude=#{latitude}\n" )
+    end
+    
+    if map_template_attrs.none? {|s| (s.include? "longitude") || (s.include? "Longitude") }
+      something_changed = true
+      insert_at = new_attrs.size >= 2 ? new_attrs.size - 2 : 2
+      new_attrs.insert(insert_at, " longitude=#{longitude}\n")
+    end
+    
 
     map_template = new_attrs.join("|")
 
