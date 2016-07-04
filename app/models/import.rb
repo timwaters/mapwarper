@@ -182,6 +182,68 @@ class Import < ActiveRecord::Base
   def file_count
     Import.file_count(self.category)
   end
+  
+  def has_map_template?
+    site = APP_CONFIG["omniauth_mediawiki_site"]
+    user_agent = "#{APP_CONFIG['site']} (Import Maps from Category) (https://commons.wikimedia.org/wiki/Commons:Wikimaps)"
+    category_members = []
+
+    cmlimit = 2
+    uri = "#{site}/w/api.php?action=query&list=categorymembers&cmtype=file&continue=&cmtitle=#{category}&format=json&cmlimit=#{cmlimit}"
+
+    url = URI.parse(URI.encode(uri))
+    log_info "Calling #{url}"
+    http = Net::HTTP.new(url.host, url.port)
+    http.use_ssl = true if url.scheme == "https"
+    http.verify_mode = OpenSSL::SSL::VERIFY_NONE if url.scheme == "https"
+    
+    begin
+      req = Net::HTTP::Get.new(URI.encode(uri))
+      req.add_field('User-Agent', user_agent)
+      resp = http.request(req)
+      body = JSON.parse(resp.body)
+    rescue JSON::ParserError => e
+      logger.error "JSON::ParserError with OAuth Get from wiki api"
+      logger.error e.inspect
+      return false
+    rescue => e
+      logger.error "Error with OAuth Get from wiki api"
+      logger.error e.inspect
+      return false
+    end
+    
+    #auth Error
+    if body["error"]
+      logger.error "Response body returned error"
+      logger.error body["error"].inspect
+      return false
+    end
+
+    category_members = body['query']['categorymembers']
+
+    member = category_members.first
+    member_pageid = member["pageid"]
+    url = "#{site}/w/api.php?action=query&prop=revisions&rvprop=content&format=json&pageids=#{member_pageid}"
+    log_info "Calling #{url}"
+    req = Net::HTTP::Get.new(URI.encode(url))
+    req.add_field('User-Agent', user_agent)
+    resp = http.request(req)
+    body = JSON.parse(resp.body)
+    
+    pageid = body["query"]["pages"].keys.first
+    return false if body["query"]["pages"][pageid]["missing"]
+    
+    revision = body["query"]["pages"][pageid]["revisions"].first 
+    wikitext = revision["*"]
+    
+    map_match = /\{{2}\s*(Map|Template:map)(.*)}}/mi.match(wikitext)
+    
+    if map_match
+      return true
+    else
+      return false
+    end
+  end
 
   protected
   

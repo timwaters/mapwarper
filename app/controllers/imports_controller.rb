@@ -49,6 +49,7 @@ class ImportsController < ApplicationController
   def show
     @count = nil
     if @import.status == :ready
+      @has_map_template = @import.has_map_template?
       @count = @import.file_count
     end
   end

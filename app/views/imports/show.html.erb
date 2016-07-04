@@ -58,6 +58,11 @@
             <% end %>
           <% end %>
         </div>
+        <% unless @has_map_template %>
+          <div class="no_template">
+            <span class="warning">Warning:</span> <%= link_to @import.category, "https://commons.wikimedia.org/wiki/#{@import.category}" %> does not appear to have a <a href="https://commons.wikimedia.org/wiki/Template:Map">Map Template</a> added to the the wiki page of the first map. You should add the Map Template to ensure the maps have the georeferencing buttons that link the wiki page to this Wikimaps Warper application.
+          </div>
+        <% end %>
         <%= link_to('START IMPORT', start_import_path(@import), :data => {:confirm => "Ready to Start this import?"}, :class=>"buttonWarper") %>
         <% else%>
           <% if @import.status == :running %>
