@@ -6,7 +6,7 @@ class  OmniauthCallbacksController < Devise::OmniauthCallbacksController
       flash[:notice] = I18n.t "devise.omniauth_callbacks.success", :kind => "Twitter"
       sign_in_render_or_redirect
     else
-      session["devise.twitter_data"] = request.env["omniauth.auth"]
+      #session["devise.twitter_data"] = request.env["omniauth.auth"]
       redirect_to root_path
     end
   end
@@ -17,7 +17,7 @@ class  OmniauthCallbacksController < Devise::OmniauthCallbacksController
       flash[:notice] = I18n.t "devise.omniauth_callbacks.success", :kind => "Osm"
       sign_in_render_or_redirect
     else
-      session["devise.osm_data"] = request.env["omniauth.auth"]
+      #session["devise.osm_data"] = request.env["omniauth.auth"]
       redirect_to root_path
     end
   end
@@ -28,7 +28,7 @@ class  OmniauthCallbacksController < Devise::OmniauthCallbacksController
       flash[:notice] = I18n.t "devise.omniauth_callbacks.success", :kind => "Mediawiki"
       sign_in_render_or_redirect
     else
-      session["devise.mediawiki_data"] = request.env["omniauth.auth"]
+      #session["devise.mediawiki_data"] = request.env["omniauth.auth"]
       redirect_to root_path
     end
   end
@@ -39,7 +39,7 @@ class  OmniauthCallbacksController < Devise::OmniauthCallbacksController
       flash[:notice] = I18n.t "devise.omniauth_callbacks.success", :kind => "Github"
       sign_in_render_or_redirect
     else
-      session["devise.github_data"] = request.env["omniauth.auth"]
+      #session["devise.github_data"] = request.env["omniauth.auth"]
       redirect_to root_path
     end
   end
