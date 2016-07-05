@@ -1361,6 +1361,12 @@ color: #00aeff;
 border:2px solid #00f2ab;
 }
 
+#add_custom_layer {
+font-size: smaller;
+}
+#add_custom_layer code {
+  font-size: small !important;
+}
 
 /* OPENLAYERS spechul stilz */
 .olPopupCloseBox {
@@ -1398,6 +1404,9 @@ div.olControlMousePosition
     border:1px solid gray;
 }
 
+.toPanel{
+width: 140px !important;
+}
 .olControlEditingToolbar div { 
   float:right;
   width:  24px;
@@ -1494,6 +1503,12 @@ div.olControlMousePosition
   background-repeat: no-repeat;
   background-position: -178px -23px;
 
+}
+
+.olControlEditingToolbar .layerButtonItemInactive{
+  background-image: asset_url("add_layer.gif");
+  background-repeat: no-repeat;
+  background-position: 0px 1px;
 }
 
 .headerDiv h1 {
