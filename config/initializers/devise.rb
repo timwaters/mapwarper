@@ -264,6 +264,17 @@ Devise.setup do |config|
   # config.omniauth_path_prefix = '/my_engine/users/auth'
 end
 
+# 
+# If a logged in user calls /u/auth/mediawiki for example, this will log them out.
+#
+OmniAuth.config.before_request_phase do |env|
+  warden = env['warden']
+  
+  if warden.authenticated? 
+    warden.logout
+  end
+  
+end
 
 module Devise
   module OmniAuth
