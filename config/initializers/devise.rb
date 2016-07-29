@@ -271,9 +271,11 @@ OmniAuth.config.before_request_phase do |env|
   warden = env['warden']
   
   if warden.authenticated? 
+    omniauth_params = env["rack.session"]["omniauth.params"]
     warden.logout
+    env["rack.session"]["omniauth.params"] = omniauth_params
   end
-  
+
 end
 
 module Devise
