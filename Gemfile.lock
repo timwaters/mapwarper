@@ -19,6 +19,15 @@ GIT
       activerecord (~> 4.0)
       audited (= 3.0.0)
 
+GIT
+  remote: git://github.com/timwaters/omniauth-mediawiki.git
+  revision: 2a335a1bbe34928d5534f71b4cbe87a781d2596d
+  branch: raw_info_before
+  specs:
+    omniauth-mediawiki (0.0.2)
+      jwt (~> 1.0)
+      omniauth-oauth (~> 1.0)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -135,7 +144,7 @@ GEM
       net-ssh (>= 2.6.5)
     net-ssh (2.9.1)
     netrc (0.7.7)
-    oauth (0.4.7)
+    oauth (0.5.1)
     oauth2 (1.1.0)
       faraday (>= 0.8, < 0.10)
       jwt (~> 1.0, < 1.5.2)
@@ -148,10 +157,7 @@ GEM
     omniauth-github (1.1.2)
       omniauth (~> 1.0)
       omniauth-oauth2 (~> 1.1)
-    omniauth-mediawiki (0.0.2)
-      jwt (~> 1.0)
-      omniauth-oauth (~> 1.0)
-    omniauth-oauth (1.0.1)
+    omniauth-oauth (1.1.0)
       oauth
       omniauth (~> 1.0)
     omniauth-oauth2 (1.4.0)
@@ -280,7 +286,7 @@ DEPENDENCIES
   jquery-ui-rails (= 3.0.1)
   mocha
   omniauth-github
-  omniauth-mediawiki
+  omniauth-mediawiki!
   omniauth-oauth2
   omniauth-osm
   omniauth-twitter

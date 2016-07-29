@@ -40,7 +40,7 @@ gem 'omniauth-oauth2'#, "~> 1.2.0" #prev 1.2.0
 gem 'omniauth-twitter'
 gem 'omniauth-osm'
 gem 'omniauth-github'
-gem "omniauth-mediawiki"
+gem "omniauth-mediawiki", github: 'timwaters/omniauth-mediawiki', branch: 'raw_info_before' 
 
 gem 'pg'
 gem 'activerecord-postgis-adapter'
