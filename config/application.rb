@@ -23,7 +23,7 @@ module Rails4Mapwarper
     config.api_only = false
     config.middleware.use Rack::MethodOverride
     config.middleware.use ActionDispatch::Cookies
-    config.middleware.use config.session_store, config.session_options
+    #config.middleware.use config.session_store, config.session_options
     #config.middleware.use ActionDispatch::Session::CookieStore
     config.middleware.use ActionDispatch::Flash
   end
