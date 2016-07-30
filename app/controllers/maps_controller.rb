@@ -779,6 +779,9 @@ class MapsController < ApplicationController
     if status == "unwarped"
       raster.data = @map.unwarped_filename
       
+      #HTTP CACHING for unwarped image (used by passenger and browser)
+      expires_in 10.months, :public => true
+    
     else #show the warped map
       raster.data = @map.warped_filename
     end
