@@ -69,6 +69,9 @@ gem 'active_model_serializers', github: 'rails-api/active_model_serializers', ta
 gem 'simple_token_authentication', '~> 1.0'
 gem 'rack-cors', :require => 'rack/cors'
 
+gem 'actionpack-action_caching', github: 'timwaters/actionpack-action_caching', branch: 'feature/take_format_from_request'
+gem 'redis-rails', '~> 4'
+
 group :development do
    gem 'spring'
    gem 'thin'

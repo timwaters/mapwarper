@@ -114,6 +114,8 @@ class Api::V1::MapsController < Api::V1::ApiController
      
     @map.warp! transform_option, resample_option, use_mask
     
+    @map.clear_cache
+    
     if user_signed_in?
       begin
         @map.update_commons_page(current_user)

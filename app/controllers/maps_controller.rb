@@ -17,11 +17,26 @@ class MapsController < ApplicationController
   before_filter :check_if_map_is_editable, :only => [:edit, :update]
   before_filter :check_if_map_can_be_deleted, :only => [:destroy, :delete]
   skip_before_filter :verify_authenticity_token, :only => [:save_mask, :delete_mask, :save_mask_and_warp, :mask_map, :rectify, :set_rough_state, :set_rough_centroid]
+  before_filter :set_wms_format, :only => :wms
   
   rescue_from ActiveRecord::RecordNotFound, :with => :bad_record
 
   helper :sort
   include SortHelper
+  
+  require 'digest/sha1'
+  caches_action :wms, 
+    :if => Proc.new {|c|
+      c.params["status"]  == "warped" || c.params["STATUS"] == "warped"
+    },
+    :cache_path => Proc.new { |c| 
+      string =  c.params.to_s
+      {:status => c.params["status"] || c.params["STATUS"], :tag => Digest::SHA1.hexdigest(string)}
+    }
+  caches_action :tile, :cache_path => Proc.new { |c| 
+      string =  c.params.to_s
+      {:tag => Digest::SHA1.hexdigest(string)}
+    }
   
   ###############
   #
@@ -801,7 +816,7 @@ class MapsController < ApplicationController
     
     send_data result_data, :type => content_type, :disposition => "inline"
     Mapscript::msIO_resetHandlers
-    
+
     
   end
   
@@ -884,8 +899,10 @@ class MapsController < ApplicationController
         # two ways of creating the relationship
         # @map.users << current_user
       end
-
+      
       @output = @map.warp! transform_option, resample_option, use_mask #,masking_option
+      
+      @map.clear_cache
       
       if user_signed_in?
         begin
@@ -1019,5 +1036,8 @@ class MapsController < ApplicationController
     
   end
   
+  def set_wms_format
+    request.format = "png"
+  end
   
 end

@@ -42,7 +42,8 @@ class Layer < ActiveRecord::Base
   def update_layer
     create_tileindex
     set_bounds
-    #FIXME get_bounds
+    Rails.cache.delete_matched "*/mosaics/tile/#{self.id}/*"
+    Rails.cache.delete_matched "*/mosaics/wms/#{self.id}?*"
   end
 
   def update_counts
@@ -77,6 +78,7 @@ class Layer < ActiveRecord::Base
     dest_layer.update_counts
     self.reload #possibly not needed
     dest_layer.reload #possibly not needed
+    dest_layer.update_layer
   end
 
   #removes map from a layer

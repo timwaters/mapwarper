@@ -10,6 +10,18 @@ class LayersController < ApplicationController
   rescue_from ActiveRecord::RecordNotFound, :with => :bad_record
   helper :sort
   include SortHelper
+  
+  require 'digest/sha1'
+  caches_action :wms, 
+    :cache_path => Proc.new { |c| 
+      string =  c.params.to_s
+      {:tag => Digest::SHA1.hexdigest(string)}
+    }
+  caches_action :tile, :cache_path => Proc.new { |c| 
+      string =  c.params.to_s
+      {:tag => Digest::SHA1.hexdigest(string)}
+    }
+
 
   def comments
     @html_title = "comments"
