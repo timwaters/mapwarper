@@ -21,6 +21,7 @@ defaults: &defaults
   omniauth_github_secret: "ABC"
   id_key: ""
   id_secret: ""
+  enable_wiki_editing: true
   
 
 development:
