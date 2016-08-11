@@ -905,7 +905,7 @@ class MapsController < ApplicationController
       @map.clear_cache
       
       if user_signed_in? && APP_CONFIG['enable_wiki_editing'] == true
-        puts "gogog"
+        logger.debug "starting update commons wiki page"
         begin
           @map.update_commons_page(current_user)
         rescue => e

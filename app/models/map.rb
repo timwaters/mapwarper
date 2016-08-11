@@ -892,7 +892,10 @@ class Map < ActiveRecord::Base
     return false unless map_template && template_end_index
     
     map_template_string =  wikitext[wikitext_start_index..(wikitext_stop_index)]
-    new_template = update_template(map_template_string, self.bbox)
+    
+    trimmed = map_template_string.chomp[2..-3].lstrip
+    
+    new_template = update_template(trimmed, self.bbox)
     
     if new_template 
       wikitext[wikitext_start_index..(wikitext_stop_index)] = new_template
@@ -991,19 +994,19 @@ class Map < ActiveRecord::Base
     #if there is no warp_status, add it in.
     if map_template_attrs.none? {|s| (s.include? "warp status") || (s.include? "Warp status") || (s.include? "warp_status") || (s.include? "Warp_status")}
       something_changed = true
-      insert_at = new_attrs.size >= 2 ? new_attrs.size - 2 : 2
+      insert_at = new_attrs.size 
       new_attrs.insert(insert_at, " warp_status=warped\n")
     end
     
     if map_template_attrs.none? {|s| (s.include? "latitude") || (s.include? "Latitude") }
       something_changed = true
-      insert_at = new_attrs.size >= 2 ? new_attrs.size - 2 : 2
+      insert_at = new_attrs.size
       new_attrs.insert(insert_at, " latitude=#{latitude}\n" )
     end
     
     if map_template_attrs.none? {|s| (s.include? "longitude") || (s.include? "Longitude") }
       something_changed = true
-      insert_at = new_attrs.size >= 2 ? new_attrs.size - 2 : 2
+      insert_at = new_attrs.size
       new_attrs.insert(insert_at, " longitude=#{longitude}\n")
     end
     
@@ -1011,7 +1014,7 @@ class Map < ActiveRecord::Base
     map_template = new_attrs.join("|")
 
     if something_changed
-      return map_template
+      return "{{"+ map_template+ "}}"
     else
       return nil
     end
