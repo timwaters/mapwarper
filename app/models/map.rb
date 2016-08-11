@@ -965,21 +965,21 @@ class Map < ActiveRecord::Base
         if (key.include? "warp status") || (key.include? "Warp status") || (key.include? "warp_status") || (key.include? "Warp_status")
           if value.include?("unwarped") || value.include?("help") || value.include?("skip") || value.strip.blank? 
             something_changed = true
-            map_attr = " warp_status=warped\n"
+            map_attr = "warp_status=warped\n"
           end
         end
 
         if key.include? "latitude"
           if value.strip != latitude
             something_changed = true
-            map_attr = " latitude=#{latitude}\n"  
+            map_attr = "latitude=#{latitude}\n"  
           end
         end
 
         if key.include? "longitude"
           if value.strip != longitude
             something_changed = true
-            map_attr = " longitude=#{longitude}\n"  
+            map_attr = "longitude=#{longitude}\n"  
           end
         end
 
@@ -995,19 +995,19 @@ class Map < ActiveRecord::Base
     if map_template_attrs.none? {|s| (s.include? "warp status") || (s.include? "Warp status") || (s.include? "warp_status") || (s.include? "Warp_status")}
       something_changed = true
       insert_at = new_attrs.size 
-      new_attrs.insert(insert_at, " warp_status=warped\n")
+      new_attrs.insert(insert_at, "warp_status=warped\n")
     end
     
     if map_template_attrs.none? {|s| (s.include? "latitude") || (s.include? "Latitude") }
       something_changed = true
       insert_at = new_attrs.size
-      new_attrs.insert(insert_at, " latitude=#{latitude}\n" )
+      new_attrs.insert(insert_at, "latitude=#{latitude}\n" )
     end
     
     if map_template_attrs.none? {|s| (s.include? "longitude") || (s.include? "Longitude") }
       something_changed = true
       insert_at = new_attrs.size
-      new_attrs.insert(insert_at, " longitude=#{longitude}\n")
+      new_attrs.insert(insert_at, "longitude=#{longitude}\n")
     end
     
 
