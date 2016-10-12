@@ -7,7 +7,7 @@ It enables a user to upload an image, a scanned map or aerial photo for example,
 
 The application can be seen in use at http://mapwarper.net for public use and in library setting at http://maps.nypl.org
 
-The application is a web based crowdsourced geospatial project that enables people and organisations to collaboratively publish images of maps online and digitize and extract vector information from them. 
+The application is a web based crowdsourced geospatial project that enables people and organisations to collaboratively publish images of maps online and digitize and extract vector information from them.
 
 Users rectify, warp or stretch images of historical maps with a reference basemap, assigning locations on image and map that line up with each other. Often these historical maps were in big paper books, and so for the first time they can be stitched together and shown as a whole, in digital format.
 
@@ -34,7 +34,7 @@ Groups of maps can be made into "mosaics" that will stictch together the composi
 * OR signup with email and password
 * Export as GeoTiff, PNG, WMS, Tile, KML etc
 * Preview in Google Earth and Google Maps
-* User Groups 
+* User Groups
 * Map Favourites
 * Social media sharing
 * Bibliographic metatadata creation and export support
@@ -47,7 +47,7 @@ Groups of maps can be made into "mosaics" that will stictch together the composi
   * User administration, disabling
   * Roles management (editor, developer, admin etc)
   * Batch Imports
-  
+
 
 ## Note on code and branches
 
@@ -58,7 +58,7 @@ Unmaintained branches exist for older systems and setups
 
 ## Ruby & Rails
 
-* Rails 4.1.x 
+* Rails 4.1.x
 * Ruby 1.9
 
 ## Database
@@ -80,6 +80,9 @@ Then install the gem files using bundler
 
 ```bundle install```
 
+If you want to keep gem dependency under project folder, specify `--path` option.
+
+```bundle install --path=vendor/bundler```
 
 ## Configuration
 
@@ -89,7 +92,7 @@ Create and configure the following files
 * `config/database.yml`
 * `config/application.yml`
 
-In addition have a look in `config/initializers/application_config.rb `for some other paths and variables, and `config/initializers/devise.rb `for devise and omniauth 
+In addition have a look in `config/initializers/application_config.rb `for some other paths and variables, and `config/initializers/devise.rb `for devise and omniauth
 
 ## Database creation
 
@@ -124,15 +127,15 @@ Creating a new user
     permission.save
 
 
-## Development 
+## Development
 
 Via Vagrant - There is a vagrantfile you can use this uses a provision script in lib/vagrant. Type
 
     vagrant up
-    
-to get and install the virtual machine - this will also install the libraries and depencies and ruby gems for mapwarper into the virtual machine. See the file in lib/vagrant/provision.sh for more details about this process 
 
-After that runs, type vagrant ssh to login and then you can 
+to get and install the virtual machine - this will also install the libraries and depencies and ruby gems for mapwarper into the virtual machine. See the file in lib/vagrant/provision.sh for more details about this process
+
+After that runs, type vagrant ssh to login and then you can
 
     cd /srv/mapwarper
     rails c
@@ -150,5 +153,3 @@ The system can use capistrano for deployment
 ## API
 
 See README_API.md for API details
-
-
