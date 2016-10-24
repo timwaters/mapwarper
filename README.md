@@ -49,22 +49,15 @@ Groups of maps can be made into "mosaics" that will stictch together the composi
   * Batch Imports
   
 
-## Note on code and branches
-
-Unmaintained branches exist for older systems and setups
-
-* Rails 2.3 and Ruby 1.9.1 - See the ruby1.9.1 branch
-* Rails 2.3 and Ruby 1.8.4 - See the rails2 branch
-
 ## Ruby & Rails
 
-* Rails 4.1.x 
-* Ruby 1.9
+* Rails 4
+* Ruby 2.2
 
 ## Database
 
-* Postgresql 8.4 (or 9.1)
-* Postgis 1.5 (may work with 2.0)
+* Postgresql 8.4+ 
+* Postgis 1.5+
 
 ## Installation Dependencies
 
