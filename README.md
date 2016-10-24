@@ -117,6 +117,11 @@ Creating a new user
     permission.user = user
     permission.save
 
+## Upgrading
+
+Note that the activerecord postgis adapter is upgraded - as such you may need to change or remove the SRID of any existing maps and layers bbox_geom . 
+It should now be 0 where before it may be 4326 This is due to the columns being geometry type as opposed to geographic. SRIDs only really work well for geographic types.
+
 
 ## Development 
 
