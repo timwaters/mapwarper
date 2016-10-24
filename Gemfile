@@ -68,3 +68,9 @@ group :development do
    gem 'capistrano-bundler',  :require => false
    gem 'rvm1-capistrano3',    :require => false
 end
+
+group :test do
+  gem 'mocha'
+  gem 'factory_girl_rails'
+  gem 'webmock'
+end

@@ -1,0 +1,23 @@
+HTTP/1.1 200 OK
+Server: deployment-mediawiki01.deployment-prep.eqiad.wmflabs
+X-Powered-By: HHVM/3.12.1
+X-Content-Type-Options: nosniff
+Cache-control: private, must-revalidate, max-age=0
+P3P: CP="This is not a P3P policy! See http://commons.wikimedia.beta.wmflabs.org/wiki/Special:CentralAutoLogin/P3P for more info."
+X-Frame-Options: DENY
+Vary: Accept-Encoding,X-Forwarded-Proto,Cookie,Authorization
+Backend-Timing: D=87096 t=1463671646516674
+Content-Type: application/json; charset=utf-8
+X-Varnish: 606794196, 1345646804
+Via: 1.1 varnish, 1.1 varnish
+Transfer-Encoding: chunked
+Date: Thu, 19 May 2016 15:27:26 GMT
+Age: 0
+Connection: keep-alive
+X-Cache: deployment-cache-text04 miss, deployment-cache-text04 miss
+Set-Cookie: WMF-Last-Access=19-May-2016;Path=/;HttpOnly;secure;Expires=Mon, 20 Jun 2016 12:00:00 GMT
+X-Analytics: nocookies=1
+X-Client-IP: 88.97.108.253
+Set-Cookie: GeoIP=GB:::51.50:-0.13:v4; Path=/; secure; Domain=.beta.wmflabs.org
+
+{"batchcomplete":"","query":{"normalized":[{"from":"Category:foo","to":"Category:Foo"}],"pages":{"-1":{"ns":14,"title":"Category:Foo","missing":"","categoryinfo":{"size":1,"pages":0,"files":1,"subcats":0}}}}}

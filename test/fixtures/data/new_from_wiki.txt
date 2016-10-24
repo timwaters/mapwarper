@@ -1,0 +1,23 @@
+HTTP/1.1 200 OK
+Server: deployment-mediawiki01.deployment-prep.eqiad.wmflabs
+X-Powered-By: HHVM/3.12.1
+X-Content-Type-Options: nosniff
+Cache-control: private, must-revalidate, max-age=0
+P3P: CP="This is not a P3P policy! See http://commons.wikimedia.beta.wmflabs.org/wiki/Special:CentralAutoLogin/P3P for more info."
+X-Frame-Options: DENY
+Vary: Accept-Encoding,X-Forwarded-Proto,Cookie,Authorization
+Backend-Timing: D=108494 t=1462273517278883
+Content-Type: application/json; charset=utf-8
+X-Varnish: 591485122, 2098548191
+Via: 1.1 varnish, 1.1 varnish
+Transfer-Encoding: chunked
+Date: Tue, 03 May 2016 11:05:17 GMT
+Age: 0
+Connection: keep-alive
+X-Cache: deployment-cache-text04 miss+chfp(0), deployment-cache-text04 frontend miss+chfp(0)
+Set-Cookie: WMF-Last-Access=03-May-2016;Path=/;HttpOnly;secure;Expires=Sat, 04 Jun 2016 00:00:00 GMT
+X-Analytics: nocookies=1
+X-Client-IP: 88.97.108.253
+Set-Cookie: GeoIP=GB:::51.50:-0.13:v4; Path=/; secure; Domain=.beta.wmflabs.org
+
+{"batchcomplete":"","query":{"pages":{"51038":{"pageid":51038,"ns":6,"title":"File:Lawrence-h-slaughter-collection-of-english-maps-england.jpeg","imagerepository":"local","imageinfo":[{"thumburl":"http://upload.beta.wmflabs.org/wikipedia/commons/thumb/2/29/Lawrence-h-slaughter-collection-of-english-maps-england.jpeg/100px-Lawrence-h-slaughter-collection-of-english-maps-england.jpeg","thumbwidth":100,"thumbheight":128,"url":"http://upload.beta.wmflabs.org/wikipedia/commons/2/29/Lawrence-h-slaughter-collection-of-english-maps-england.jpeg","descriptionurl":"http://commons.wikimedia.beta.wmflabs.org/wiki/File:Lawrence-h-slaughter-collection-of-english-maps-england.jpeg","descriptionshorturl":"http://commons.wikimedia.beta.wmflabs.org/w/index.php?curid=51038","mime":"image/jpeg"}]}}}}

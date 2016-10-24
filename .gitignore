@@ -39,3 +39,9 @@ db/maptileindex/*
 
 #public assets
 public/assets/**
+
+vendor/bundle
+
+#test files
+test/test_files/*
+
