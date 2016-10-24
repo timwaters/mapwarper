@@ -123,12 +123,12 @@ ActiveRecord::Schema.define(version: 20150424134733) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "user_id"
-    t.string   "depicts_year",         limit: 4,                               default: ""
-    t.integer  "maps_count",                                                   default: 0
-    t.integer  "rectified_maps_count",                                         default: 0
-    t.boolean  "is_visible",                                                   default: true
+    t.string   "depicts_year",         limit: 4,                            default: ""
+    t.integer  "maps_count",                                                default: 0
+    t.integer  "rectified_maps_count",                                      default: 0
+    t.boolean  "is_visible",                                                default: true
     t.string   "source_uri"
-    t.geometry "bbox_geom",            limit: {:srid=>4326, :type=>"polygon"}
+    t.geometry "bbox_geom",            limit: {:srid=>0, :type=>"polygon"}
   end
 
   add_index "layers", ["bbox_geom"], name: "index_layers_on_bbox_geom", using: :gist
@@ -164,15 +164,15 @@ ActiveRecord::Schema.define(version: 20150424134733) do
     t.datetime "published_date"
     t.datetime "reprint_date"
     t.integer  "owner_id"
-    t.boolean  "public",                                                                                   default: true
-    t.boolean  "downloadable",                                                                             default: true
+    t.boolean  "public",                                                                                default: true
+    t.boolean  "downloadable",                                                                          default: true
     t.string   "cached_tag_list"
-    t.integer  "map_type",                                                                                 default: 1
+    t.integer  "map_type",                                                                              default: 1
     t.string   "source_uri"
-    t.geometry "bbox_geom",              limit: {:srid=>4236, :type=>"polygon"}
-    t.decimal  "rough_lat",                                                      precision: 15, scale: 10
-    t.decimal  "rough_lon",                                                      precision: 15, scale: 10
-    t.geometry "rough_centroid",         limit: {:srid=>4326, :type=>"point"}
+    t.geometry "bbox_geom",              limit: {:srid=>0, :type=>"polygon"}
+    t.decimal  "rough_lat",                                                   precision: 15, scale: 10
+    t.decimal  "rough_lon",                                                   precision: 15, scale: 10
+    t.geometry "rough_centroid",         limit: {:srid=>0, :type=>"point"}
     t.integer  "rough_zoom"
     t.integer  "rough_state"
     t.integer  "import_id"
@@ -180,9 +180,9 @@ ActiveRecord::Schema.define(version: 20150424134733) do
     t.string   "subject_area"
     t.string   "unique_id"
     t.string   "metadata_projection"
-    t.decimal  "metadata_lat",                                                   precision: 15, scale: 10
-    t.decimal  "metadata_lon",                                                   precision: 15, scale: 10
-    t.string   "date_depicted",          limit: 4,                                                         default: ""
+    t.decimal  "metadata_lat",                                                precision: 15, scale: 10
+    t.decimal  "metadata_lon",                                                precision: 15, scale: 10
+    t.string   "date_depicted",          limit: 4,                                                      default: ""
     t.string   "call_number"
     t.datetime "rectified_at"
     t.datetime "gcp_touched_at"

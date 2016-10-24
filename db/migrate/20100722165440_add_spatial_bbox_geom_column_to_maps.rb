@@ -1,6 +1,6 @@
 class AddSpatialBboxGeomColumnToMaps < ActiveRecord::Migration
   def self.up
-    add_column :maps, :bbox_geom, :st_polygon, :srid => 4236
+    add_column :maps, :bbox_geom, :st_polygon
     add_index :maps, :bbox_geom, :using => :gist
   end
 

@@ -252,7 +252,7 @@ class MapsController < ApplicationController
         [ extents[0], extents[1] ]
       ]
 
-      bbox_polygon = GeoRuby::SimpleFeatures::Polygon.from_coordinates([bbox_poly_ary], -1).as_ewkt
+      bbox_polygon = GeoRuby::SimpleFeatures::Polygon.from_coordinates([bbox_poly_ary]).as_wkt
       if params[:operation] == "within"
         conditions = ["ST_Within(bbox_geom, ST_GeomFromText('#{bbox_polygon}'))"]
       else
