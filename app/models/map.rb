@@ -844,6 +844,9 @@ class Map < ActiveRecord::Base
     rescue SocketError => e
       logger.error "Socket error in find bestguess places" + e.to_s
       placemaker_result = {:status => "fail", :code => "socketError"}
+    rescue Yql::Error => e
+      logger.error "YQL error in find bestguess places" + e.to_s
+      placemaker_result = {:status => "fail", :code => "yqlError"}
     end
     
     placemaker_result
