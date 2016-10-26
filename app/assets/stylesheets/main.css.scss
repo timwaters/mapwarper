@@ -81,6 +81,39 @@ form.new_import input {
     width:35em;
 }
 
+.no_template {
+  padding-left: 10px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  margin-bottom: 15px;
+  font-size:larger;
+  background-color: #EAEAD7;
+  max-width: 600px;
+}
+
+.no_template span.warning {
+  font-weight: bold;
+  color: red;
+}
+.help {
+	margin: 1em;
+}
+
+code {
+font-family: monaco,menlo,monospace;}
+
+div.import_error_messages div.error_messages {
+  border: 3px solid #EEC;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 5px;
+
+
+  font-weight: 700;
+  padding-top: 2px;
+  padding-bottom: 2px;
+}
+
 div.comment {
   padding-bottom: 5px;
   font-size: smaller;
@@ -92,6 +125,7 @@ div.comment span.comment_metadata {
 
 #warper-maindiv {
     margin: 1.5em;
+    margin-top: 0.2em;
 }
 
 #warper-maindiv h4 {
@@ -206,7 +240,7 @@ padding-left: 0px;
 div.addthis_toolbox {
 float:left;
 font-style: normal;
-padding-right: 2em;
+padding-right: 0.5em;
 }
 
 a.addthis_button_compact{
@@ -392,7 +426,14 @@ a:hover {
 }
 
 .ui-widget-content a.unauthorized:hover {
-color:#447a05;
+  background: #e3e3d4;
+  box-shadow:1px 2px 4px 2px rgba(0,0,0,0.2), inset 1px 2px 4px rgba(255,255,255,0.4);;
+  background: #e3e3d4;
+  color:#191970;
+  -moz-transition:all 0.42 ease-in-out;
+  -webkit-transition:all 0.2s ease-in-out;
+  transition:all 0.2s ease-in-out;
+  text-decoration: none !important;
 }
 
 
@@ -702,6 +743,9 @@ clear: both;
 	font-weight: bold;
 }
 
+#search-pagination-bottom .pagination{
+  margin-bottom: 10px;
+}
 
 .browseButtonBlock {
 	float:left;
@@ -803,10 +847,13 @@ padding: 0.5em 0.6em !important;
 
 .map_links
 {
-	font-size:60%;
+	font-size:70%;
 	display: block;
 }
 
+.map_links img {
+  vertical-align: bottom;
+}
 .hidden {
  display: none;
   }
@@ -909,6 +956,27 @@ font-weight: bold;
   padding-bottom: 2px;
 }
 
+/* responsive map tabs */
+@media screen and (max-width: 500px) {
+  .ui-tabs {font-size: 15px; }
+}
+@media screen and (max-width: 415px) {
+  .ui-tabs {font-size: 12px;}
+}
+
+
+/*responsive nav tabs*/
+
+
+@media screen and (max-width: 1500px) {
+  #navlist li.responsive_wide{ display:none;}
+}
+@media screen and (max-width: 970px) {
+  #navlist li.responsive_narrow{ display:none;}
+}
+@media screen and (max-width: 470px) {
+  #navlist li.responsive{ display:none;}
+}
 #navlist {
 	padding: 3px 0 0 1em;
 	border-bottom: 1px solid #999;
@@ -930,6 +998,10 @@ font-weight: bold;
 	background: #ddd; 
 	background:rgba(255,255,255,0.7); 
 }
+
+@-moz-document url-prefix() {
+  #navlist li a, #navlist li span { padding-bottom: 4.5px; } 
+} 
 
 #navlist li a:hover {
 	background: #191970; 
@@ -994,6 +1066,7 @@ font-weight: bold;
 	margin-bottom:10px;
     clear: right;
 	width: auto;
+  min-width: 410px;
 }
 
 #map_table tr:nth-of-type(odd), #layer_table tr:nth-of-type(odd) {
@@ -1031,6 +1104,20 @@ font-weight: bold;
 	background: #999;
 	color: #fff;
 }
+
+#map_table th a, #layer_table th a {
+	color: #fff;
+}
+#map_table th a:hover, #layer_table th a:hover {
+	color: #191970;
+}
+#map_table th.year-sort, #layer_table th.year-sort {
+  min-width: 56px;
+}
+#map_table th.modified-sort, #layer_table th.modified-sort {
+  min-width: 130px;
+}
+
 
 #map_table th:nth-child(odd), #layer_table th:nth-child(odd) {
 	background: #888;
@@ -1207,6 +1294,13 @@ font-style:italic;
 	width:auto;
 }
 
+fieldset.gcp_upload{
+ border: 1.5px solid #000;
+ border-color: #C0C0C0;
+ padding: 3px;
+ display: inline;
+}
+
 #gcp_table_div {
 margin-bottom: 1em;
 }
@@ -1271,8 +1365,19 @@ color: #00aeff;
 border:2px solid #00f2ab;
 }
 
+#add_custom_layer {
+font-size: smaller;
+}
+#add_custom_layer code {
+  font-size: small !important;
+}
 
 /* OPENLAYERS spechul stilz */
+.olPopupCloseBox {
+    background: transparent asset_url("close.gif") no-repeat scroll 0% 0%;
+        margin-right: -3px;
+    }
+
 div.olControlMousePosition
 {
 	bottom:0;
@@ -1303,6 +1408,9 @@ div.olControlMousePosition
     border:1px solid gray;
 }
 
+.toPanel{
+width: 140px !important;
+}
 .olControlEditingToolbar div { 
   float:right;
   width:  24px;
@@ -1401,6 +1509,12 @@ div.olControlMousePosition
 
 }
 
+.olControlEditingToolbar .layerButtonItemInactive{
+  background-image: asset_url("add_layer.gif");
+  background-repeat: no-repeat;
+  background-position: 0px 1px;
+}
+
 .headerDiv h1 {
 	font-size:36px; /*change later*/
 
@@ -1471,4 +1585,25 @@ fieldset#control_panel_fieldset a {
 #id-map {
   height: 700px;
   border: 1px solid #999999;
+}
+.noUi-connect {
+  background-color: #D4BABD !important;
+}
+.noUi-target {
+  height: 15px !important;
+}
+.noUi-horizontal .noUi-handle{
+  height: 24px !important;
+}
+
+.progress-label{
+  position: absolute;
+  left: 50%;
+  font-weight: bold;
+  text-shadow: 1px 1px 0px #FFF; 
+}
+
+.ui-progressbar-value {
+  transition: width 0.5s;
+  -webkit-transition: width 0.5s;
 }

@@ -55,7 +55,12 @@ Rails.application.routes.draw do
     resources :layers
   end
   
+  get '/mapimages/:id.gml.ol' => 'maps#get_mask', :as => "masking_map"
   get '/maps/thumb/:id' => 'maps#thumb', :as =>'thumb_map'
+  
+  get '/mosaics/thumb/:id' => 'layers#thumb', :as =>'thumb_layer'
+  get '/layers/thumb/:id' => 'layers#thumb'
+ 
   
   get '/gcps/' => 'gcp#index', :as => "gcps"
   get '/gcps/:id' => 'gcps#show', :as => "gcp"
@@ -67,6 +72,7 @@ Rails.application.routes.draw do
 
   get '/maps/wms/:id' => "maps#wms", :as => 'wms_map'
   get '/maps/tile/:id/:z/:x/:y' => "maps#tile", :as => 'tile_map'
+  get '/maps/tile/:id' => "maps#tile", :as => 'tile_map_base'
   
   get '/layers/wms/:id' => "layers#wms", :as => "wms_layer"
   get '/layers/tile/:id/:z/:x/:y' => "layers#tile", :as => 'tile_layer'
