@@ -12,3 +12,14 @@ def raster_bands_count(filename)
   raster = Gdal::Gdal.open(filename)
   raster.RasterCount
 end
+
+def is_color_table_gray?(filename)
+  raster = Gdal::Gdal.open(filename)
+  color_table = raster.get_raster_band(1).get_color_table
+  return false unless color_table
+  if color_table.get_palette_interpretation == 1
+    return true
+  else
+    return false
+  end
+end
