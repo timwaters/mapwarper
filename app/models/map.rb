@@ -67,7 +67,7 @@ class Map < ActiveRecord::Base
       return false
     end
     self.upload = img_upload
-    self.source_uri = upload_url
+    self.source_uri = source_uri || upload_url
     
     if Map.find_by_upload_file_name(upload.original_filename)
       errors.add(:filename, "is already being used")
@@ -456,7 +456,8 @@ class Map < ActiveRecord::Base
     lat_shift = south.to_f - north.to_f
 
     origgcps.each do |gcp|
-      a = Gcp.new(gcp.attributes.except("id"))
+      a = Gcp.new()
+      a = gcp.clone
       if align == "east"
         a.lon -= lon_shift
       elsif align == "west"
@@ -487,7 +488,8 @@ class Map < ActiveRecord::Base
     self.gcps.hard.destroy_all unless append == true
 
     origgcps.each do |gcp|
-      new_gcp = Gcp.new(gcp.attributes.except("id"))
+      new_gcp = Gcp.new()
+      new_gcp = gcp.clone
       if align == "east"
         new_gcp.x -= srcmap.width
 
