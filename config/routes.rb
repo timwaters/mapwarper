@@ -74,9 +74,16 @@ Rails.application.routes.draw do
   get '/maps/tile/:id/:z/:x/:y' => "maps#tile", :as => 'tile_map'
   get '/maps/tile/:id' => "maps#tile", :as => 'tile_map_base'
   
-  get '/layers/wms/:id' => "layers#wms", :as => "wms_layer"
-  get '/layers/tile/:id/:z/:x/:y' => "layers#tile", :as => 'tile_layer'
-  
+  get '/mosaics/wms/:id' => "layers#wms", :as => "wms_layer"
+  get '/mosaics/wms' => "layers#wms", :as => "wms_layer_base"
+  get '/mosaics/tile/:id/:z/:x/:y' => "layers#tile", :as => 'tile_layer'
+  get '/mosaics/tile/:id' => "layers#tile", :as => 'tile_layer_base'
+ 
+  get '/layers/wms/:id' => "layers#wms"
+  get '/layers/wms' => "layers#wms"
+  get '/layers/tile/:id/:z/:x/:y' => "layers#tile"
+  get '/layers/tile/:id' => "layers#tile"
+
   resources :layers do
     member do
       get 'comments'

@@ -89,7 +89,7 @@ module ApplicationHelper
   end
   
   def map_thumb_url(map)
-    map.thumb_url || map.upload.url(:thumb)
+    map.upload.url(:thumb)
   end
   
 end

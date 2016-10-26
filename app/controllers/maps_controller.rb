@@ -15,7 +15,8 @@ class MapsController < ApplicationController
   before_filter :check_if_map_is_editable, :only => [:edit, :update, :map_type]
   before_filter :check_if_map_can_be_deleted, :only => [:destroy, :delete]
   #skip_before_filter :verify_authenticity_token, :only => [:save_mask, :delete_mask, :save_mask_and_warp, :mask_map, :rectify, :set_rough_state, :set_rough_centroid]
-  
+  before_filter :set_wms_format, :only => :wms
+
   rescue_from ActiveRecord::RecordNotFound, :with => :bad_record
 
   helper :sort
@@ -485,6 +486,7 @@ class MapsController < ApplicationController
   def thumb
     map = Map.find(params[:id])
     thumb = map.upload.url(:thumb)
+    
     redirect_to thumb
   end
   
@@ -955,5 +957,8 @@ class MapsController < ApplicationController
     
   end
   
+  def set_wms_format
+    request.format = "png"
+  end
   
 end

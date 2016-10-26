@@ -36,7 +36,7 @@
             </td>
             <td class="<%= cl %>">
               <label for ="<%= map.id%>">
-                <%=  image_tag(map.upload.url(:thumb)) -%>
+                <%=  image_tag(map_thumb_url(map)) -%>
                 <%=  h(map.title) -%>
               </label>
             </td>

@@ -46,6 +46,9 @@ class Layer < ActiveRecord::Base
     update_attribute(:rectified_maps_count, self.maps.warped.count)
   end
 
+  #def rectified_maps_count
+  #  self.maps.warped.count 
+  #end
 
 
   def rectified_percent
@@ -70,6 +73,7 @@ class Layer < ActiveRecord::Base
     dest_layer.update_counts
     self.reload #possibly not needed
     dest_layer.reload #possibly not needed
+    dest_layer.update_layer
   end
 
   #removes map from a layer
