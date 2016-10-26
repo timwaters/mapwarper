@@ -999,9 +999,6 @@ font-weight: bold;
 	background:rgba(255,255,255,0.7); 
 }
 
-@-moz-document url-prefix() {
-  #navlist li a, #navlist li span { padding-bottom: 4.5px; } 
-} 
 
 #navlist li a:hover {
 	background: #191970; 
@@ -1017,6 +1014,14 @@ font-weight: bold;
 	color:#E3E3D4;
 	border-bottom: 1px solid #191970;
 }
+
+@-moz-document url-prefix() {
+  #navlist li a, #navlist li span { 
+  padding-bottom: 4.5px; 
+  padding-top: 4px;
+  border-bottom: 0px;
+  } 
+} 
 
 #footer {
 	text-align:center;
