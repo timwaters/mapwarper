@@ -1078,7 +1078,7 @@ class Map < ActiveRecord::Base
       results = JSON.parse(data)
 
       places = Array.new
-      if results["query"]["results"]["matches"]
+      if results["query"]["results"] && results["query"]["results"]["matches"]
         found_places = results["query"]["results"]["matches"]["match"]
         max_lat, max_lon, min_lat, min_lon = -90.0, -180.0, -90.0, 180.0
         found_places = [found_places] if found_places.is_a?(Hash)
