@@ -84,15 +84,17 @@
   <div id="warped-slider"><div class="ui-slider-handle"></div></div>
 </div>
 <div id="popoverNotice" class="hidden-at-start"><%= image_tag "spinner.gif" %><span id="noticeMessage"></span></div>
-<!--
-<div id = "add_layer_control" onClick="Element.show('add_layer');">Add layer</div>
-<div id = "add_layer" style="display:none;">
 
-  <form onSubmit="addLayerToDest(this);return false;" action="">
-    Enter in number of warped map to add <input type="text" name="layer_num" id="layer_num" />
+
+<div id="add_custom_layer" style="display:none;">
+  Enter a tile URL template, or tile URL.  Z/X/Y ordered scheme only. <br />
+  E.g. <code>https://maps.wikimedia.org/osm/{z}/{x}/{y}.png</code> <br />
+  or <code>https://maps.wikimedia.org/osm/10/507/329.png</code>  
+  <form>
+   <input type="text" name="template" id="template" size="42"/>
   </form>
-<a class="fake_link" onClick="Element.hide('add_layer');">hide</a></div>
--->
+</div>
+
 <div id="gcp">
   <em>Double-click on both maps, then click</em>
   <div id="addPointDiv" class="addPoint"><input type="button" id="GcpButton" value="Add Control Point" onclick="set_gcp();" class="gcp_button" /></div>.
