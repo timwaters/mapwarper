@@ -40,18 +40,8 @@ function get_tilesathome_osm_url (bounds) {
     }
 }
 
-var osma = new OpenLayers.Layer.TMS(
-    "Osmarender",
-    ["http://a.tah.openstreetmap.org/Tiles/tile/", "http://b.tah.openstreetmap.org/Tiles/tile/", "http://c.tah.openstreetmap.org/Tiles/tile/"],
-    {
-        type:'png',
-        getURL: get_tilesathome_osm_url,
-        displayOutsideMaxExtent: true
-    }, {
-        'buffer':1
-    } );
 
-var mapnik = new OpenLayers.Layer.TMS("OSM Mapnik", "http://tile.openstreetmap.org/", {
+var mapnik = new OpenLayers.Layer.TMS("OpenStreetMap", "http://tile.openstreetmap.org/", {
     type: 'png',
     getURL: osm_getTileURL,
     displayOutsideMaxExtent: true,
@@ -60,17 +50,15 @@ var mapnik = new OpenLayers.Layer.TMS("OSM Mapnik", "http://tile.openstreetmap.o
 });
 
 
-var jpl_wms = new OpenLayers.Layer.WMS("NASA Landsat 7", "http://t1.hypercube.telascience.org/cgi-bin/landsat7", {
-    layers: "landsat7"
-});
+var satellite = new OpenLayers.Layer.XYZ(
+  'Mapbox Satellite',
+  ["https://api.mapbox.com/styles/v1/mapbox/satellite-v9/tiles/256/${z}/${x}/${y}?access_token=<%= APP_CONFIG['mapbox_access_token'] %>"],
+  {
+    sphericalMercator: true,
+    wrapDateLine: true,
+    attribution: '<a href="https://www.mapbox.com/about/maps/" target="_blank">&copy; Mapbox</a> <a href="https://openstreetmap.org/about/" target="_blank">&copy; OpenStreetMap</a> <a class="mapbox-improve-map" href="https://www.mapbox.com/map-feedback/" target="_blank">Improve this map</a> <a href="https://www.digitalglobe.com/" target="_blank">&copy; DigitalGlobe</a>'
+  }
+);
 
-var oamlayer = new OpenLayers.Layer.WMS( "OpenAerialMap",
-   "http://openaerialmap.org/wms/",
-   {layers: "world"}, { gutter: 15, buffer:0});
 
-if(typeof(G_SATELLITE_MAP) !== 'undefined'){
-  var googleSat = new OpenLayers.Layer.Google( "Google Satellite", {type: G_SATELLITE_MAP, 'sphericalMercator': true});
-  var googleMaps = new OpenLayers.Layer.Google( "Google Streets", { 'sphericalMercator': true});
-  var googleHybrid = new OpenLayers.Layer.Google("Google Hybrid", {type: G_HYBRID_MAP, 'sphericalMercator': true});
-}
 
