@@ -63,12 +63,16 @@ Rails.application.routes.draw do
  
   
   get '/gcps/' => 'gcp#index', :as => "gcps"
+  get '/gcps/bulk_import' => 'gcps#bulk_import', :as => "bulk_import_gcps"
   get '/gcps/:id' => 'gcps#show', :as => "gcp"
   delete '/gcps/:id/destroy' => 'gcps#destroy', :as => "destroy_gcp"
   post '/gcps/add/:mapid' => 'gcps#add', :as => "add_gcp"
   put '/gcps/update/:id' => 'gcps#update', :as => "update_gcp"
   put '/gcps/update_field/:id' => 'gcps#update_field', :as => "update_field_gcp"
   
+  
+  post '/gcps/add_many' => 'gcps#add_many', :as => 'add_many_gcps'
+  post '/gcps/add_many/:mapid' => 'gcps#add_many_to_map', :as => 'add_many_gcps_to_map'
 
   get '/maps/wms/:id' => "maps#wms", :as => 'wms_map'
   get '/maps/tile/:id/:z/:x/:y' => "maps#tile", :as => 'tile_map'

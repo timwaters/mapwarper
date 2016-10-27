@@ -28,3 +28,7 @@ Bibliographic:
     <%= link_to 'Bibliographic', "http://example.com/alink"  %>
   </li>
 </ul>
+
+<h3>Ground Control Points</h3>
+<ul>
+  <li>CSV: <%= link_to "Download control points as CSV", gcps_map_url(@map, :format=>:csv) %> </li>

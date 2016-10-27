@@ -89,7 +89,7 @@ function init() {
 
   } else {
     //set to the world
-    to_map.setCenter(lonLatToMercator(new OpenLayers.LonLat(0.0, 0.0)), 10);
+    to_map.setCenter(lonLatToMercator(new OpenLayers.LonLat(0.0, 0.0)), 3);
   }
 
   //style for the active, temporary vector marker, the one the user actually adds themselves,

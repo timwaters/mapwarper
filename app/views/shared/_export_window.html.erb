@@ -45,6 +45,7 @@
               <% tile_url = url_for(:controller => "maps", :action => "tile", :id => @map, :x => "x", :y => "y", :z => "z", :only_path => false) %>
               <%=link_to image_tag("tiles-20x25.png")+"Tiles base URL", tile_url %> 
             </li>
+            <li><%= link_to image_tag("csv-20x25.png")+"Download points as CSV", gcps_map_url(@map, :format=>:csv) %></li>
             <% if user_signed_in? -%>
               <li><%= link_to(image_tag("image-icon-20x25.png")+"Download rectified GeoTiff", export_map_url(:id => @map, :format => :tif)) %> </li>
               <li><%= link_to(image_tag("image-icon-20x25.png")+"Download rectified PNG", export_map_url(:id => @map, :format => :png)) %></li>

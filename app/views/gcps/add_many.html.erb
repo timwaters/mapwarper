@@ -1,0 +1,35 @@
+<%= link_to "&lt; Back to Import CSV".html_safe, bulk_import_gcps_url%>
+<h2>Bulk GCP Import Results</h2>
+<div class="help">
+<% if gcps.blank? %>
+  No control points imported!
+<% else %>
+  <%= "#{gcps.size} Control points imported!" %>
+<% end %>
+</div>
+
+<% unless gcps.blank? %>
+<table id="map_table">
+  <thead>
+    <th>id</th>
+    <th>Map</th>
+    <th>X</th>
+    <th>Y</th>
+    <th>Lon</th>
+    <th>Lat</th>
+  </thead>
+  <tbody>  
+<% gcps.each do | gcp | %>
+    <tr>
+      <td><%= gcp.id %></td>
+      <td><%= link_to "Map #{gcp.map_id}", map_path(gcp.map_id) %></td>
+      <td><%= gcp.x %></td>
+      <td><%= gcp.y %></td>
+      <td><%= gcp.lon %></td>
+      <td><%= gcp.lat %></td>
+    </tr>
+<% end %>
+  </tbody>  
+</table>
+
+<% end %>
