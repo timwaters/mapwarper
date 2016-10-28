@@ -22,6 +22,20 @@ class MapsController < ApplicationController
   helper :sort
   include SortHelper
   
+  require 'digest/sha1'
+  caches_action :wms, 
+    :if => Proc.new {|c|
+      c.params["status"]  == "warped" || c.params["STATUS"] == "warped"
+    },
+    :cache_path => Proc.new { |c| 
+      string =  c.params.to_s
+      {:status => c.params["status"] || c.params["STATUS"], :tag => Digest::SHA1.hexdigest(string)}
+    }
+  caches_action :tile, :cache_path => Proc.new { |c| 
+      string =  c.params.to_s
+      {:tag => Digest::SHA1.hexdigest(string)}
+    }
+  
   ###############
   #
   # CRUD
@@ -731,6 +745,9 @@ class MapsController < ApplicationController
     if status == "unwarped"
       raster.data = @map.unwarped_filename
       
+      #HTTP CACHING for unwarped image (used by passenger and browser)
+      expires_in 10.months, :public => true
+    
     else #show the warped map
       raster.data = @map.warped_filename
     end
@@ -833,8 +850,11 @@ class MapsController < ApplicationController
         # two ways of creating the relationship
         # @map.users << current_user
       end
-
+      
       @output = @map.warp! transform_option, resample_option, use_mask #,masking_option
+      
+      @map.clear_cache
+
       @notice_text = "Map rectified."
     end
   end

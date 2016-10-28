@@ -59,6 +59,9 @@ gem 'georuby'
 gem 'geoplanet'
 gem 'yql', '0.0.2'
 
+gem 'actionpack-action_caching', github: 'timwaters/actionpack-action_caching', branch: 'feature/take_format_from_request'
+gem 'redis-rails', '~> 4'
+
 group :development do
    gem 'web-console', '~> 2.0'
    gem 'spring'

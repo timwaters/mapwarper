@@ -1,4 +1,12 @@
 GIT
+  remote: git://github.com/timwaters/actionpack-action_caching.git
+  revision: 61d36c171d53402b08c98d60c12230b4f9b42fd2
+  branch: feature/take_format_from_request
+  specs:
+    actionpack-action_caching (1.1.0)
+      actionpack (>= 4.0.0, < 5.0)
+
+GIT
   remote: git://github.com/timwaters/audited.git
   revision: 5d945c1b3fa5bf99a2a9df512d1a58a90c67e5cd
   branch: rails4
@@ -217,6 +225,23 @@ GEM
       thor (>= 0.18.1, < 2.0)
     rake (11.3.0)
     rdoc (4.2.0)
+    redis (3.3.1)
+    redis-actionpack (4.0.1)
+      actionpack (~> 4)
+      redis-rack (~> 1.5.0)
+      redis-store (~> 1.1.0)
+    redis-activesupport (4.1.5)
+      activesupport (>= 3, < 5)
+      redis-store (~> 1.1.0)
+    redis-rack (1.5.0)
+      rack (~> 1.5)
+      redis-store (~> 1.1.0)
+    redis-rails (4.0.0)
+      redis-actionpack (~> 4)
+      redis-activesupport (~> 4)
+      redis-store (~> 1.1.0)
+    redis-store (1.1.7)
+      redis (>= 2.2)
     responders (2.1.0)
       railties (>= 4.2.0, < 5)
     rest-client (1.8.0)
@@ -288,6 +313,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  actionpack-action_caching!
   activerecord-postgis-adapter (~> 3.0)
   acts-as-taggable-on (~> 3.3.0)
   acts_as_commentable
@@ -313,6 +339,7 @@ DEPENDENCIES
   paperclip (~> 4.3.7)
   pg
   rails (= 4.2.7.1)
+  redis-rails (~> 4)
   rvm1-capistrano3
   sass-rails (~> 4.0.3)
   sdoc (~> 0.4.0)

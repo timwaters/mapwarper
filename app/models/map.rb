@@ -854,6 +854,10 @@ class Map < ActiveRecord::Base
     placemaker_result
   end
 
+  def clear_cache
+    Rails.cache.delete_matched ".*/maps/wms/#{self.id}.png\?status=warped.*"
+    Rails.cache.delete_matched "*/maps/tile/#{self.id}/*"
+  end
   
   
 end

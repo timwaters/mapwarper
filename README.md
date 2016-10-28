@@ -47,6 +47,7 @@ Groups of maps can be made into "mosaics" that will stictch together the composi
   * User administration, disabling
   * Roles management (editor, developer, admin etc)
   * Batch Imports
+* Caching of WMS and Tile via Redis 
   
 
 ## Ruby & Rails
@@ -116,6 +117,16 @@ Creating a new user
     permission.role = role
     permission.user = user
     permission.save
+
+## WMS/Tile Caching
+
+To enable caching, install Redis and enable caching in the environment file. You may want to configure the redis.conf as appropriate to your server.
+For example turning off saving to disk and setting a memory value for LRU  "maxmemory 2000mb" "maxmemory-policy allkeys-lru" keeps the redis server having 2gig and expires keys based on a least used algorithm. 
+
+## Benchmarks
+
+TODO - add production / apache / subdomain benchmarks
+
 
 ## Upgrading
 
