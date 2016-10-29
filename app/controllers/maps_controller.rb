@@ -406,9 +406,6 @@ class MapsController < ApplicationController
     @current_tab = "export"
     @selected_tab = 6
     @html_title = "Export Map" + @map.id.to_s
-    unless @map.warped_or_published? && @map.map_type == :is_map
-      flash.now[:notice] = "Map needs to be rectified before being able to be exported"
-    end
     choose_layout_if_ajax
     respond_to do | format |
       format.html {}
@@ -416,6 +413,9 @@ class MapsController < ApplicationController
       format.png     { send_file @map.warped_png, :x_sendfile => (Rails.env != "development") }
       format.aux_xml { send_file @map.warped_png_aux_xml,:x_sendfile => (Rails.env != "development") }
     end
+  rescue ActionController::MissingFile => e
+    logger.error e.message
+    redirect_to maps_url, :notice => "File Not Found. Perhaps the map has not been rectified yet?"
   end
   
   def clip
@@ -911,7 +911,7 @@ class MapsController < ApplicationController
       format.json {render :json => {:stat => "not found", :items =>[]}.to_json, :status => 404}
     end
   end
-
+  
   #only allow editing by a user if the user owns it, or if and editor tries to edit it
   def check_if_map_is_editable
     if user_signed_in? and (current_user.own_this_map?(params[:id])  or current_user.has_role?("editor"))
