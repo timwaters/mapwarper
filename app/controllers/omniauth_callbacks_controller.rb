@@ -51,6 +51,21 @@ class  OmniauthCallbacksController < Devise::OmniauthCallbacksController
       redirect_to root_path
     end
   end
-
+  
+  def facebook
+    @user = User.find_for_facebook_oauth(request.env["omniauth.auth"], current_user)
+    if @user.persisted?
+      flash[:notice] = I18n.t "devise.omniauth_callbacks.success", :kind => "Facebook"
+      sign_in_and_redirect @user, :event => :authentication
+      # sign_in @user, :event => :authentication
+      # redirect_to session[:user_return_to] root_path
+    else
+      session["devise.facebook_data"] = request.env["omniauth.auth"]
+      redirect_to root_path
+    end
+  end
+  
+  
+  
 
 end

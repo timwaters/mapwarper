@@ -18,6 +18,8 @@ defaults: &defaults
   omniauth_mediawiki_secret: "ABC"
   omniauth_github_key: "ABC"
   omniauth_github_secret: "ABC"
+  omniauth_facebook_key: "ABC"
+  omniauth_facebook_secret: "ABC"
   id_key: ""
   id_secret: ""
   mapbox_access_token: ""

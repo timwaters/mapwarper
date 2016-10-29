@@ -133,6 +133,25 @@ class User < ActiveRecord::Base
     end
     user
   end
+
+  def self.find_for_facebook_oauth(auth, signed_in_resource=nil)
+    user = User.where(:provider => auth.provider, :uid => auth.uid.to_s).first
+    logger.debug auth.info.inspect 
+    unless user
+      user = User.new(
+        login: auth.info.name,
+        provider: auth.provider,
+        uid: auth.uid,
+        email: "warper_fb_"+auth.info["email"], # make sure this is unique
+        password: Devise.friendly_token[0,20]
+      )
+      user.skip_confirmation!
+      user.save!
+    end
+    
+    user
+  end
+
   
   protected
 

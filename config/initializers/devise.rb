@@ -240,6 +240,8 @@ Devise.setup do |config|
   
   config.omniauth :github, APP_CONFIG["omniauth_github_key"], APP_CONFIG["omniauth_github_secret"]
 
+  config.omniauth :facebook, APP_CONFIG["omniauth_facebook_key"], APP_CONFIG["omniauth_facebook_secret"]
+
   # ==> Warden configuration
   # If you want to use other strategies, that are not supported by Devise, or
   # change the failure app, you can configure them inside the config.warden block.
