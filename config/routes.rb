@@ -57,7 +57,8 @@ Rails.application.routes.draw do
   
   get '/mapimages/:id.gml.ol' => 'maps#get_mask', :as => "masking_map"
   get '/maps/thumb/:id' => 'maps#thumb', :as =>'thumb_map'
-  
+  get '/maps/thumb' => 'maps#thumb', :as => 'map_thumb_base'
+  get '/layers/thumb' => 'layers#thumb', :as => 'layer_thumb_base'
   get '/mosaics/thumb/:id' => 'layers#thumb', :as =>'thumb_layer'
   get '/layers/thumb/:id' => 'layers#thumb'
  

@@ -21,9 +21,9 @@
           bgiframe: true,
           autoOpen: false,
           title: "Depicts Year (admin only)",
-          height: 200,
+          height: 250,
           hide: 'slow',
-          width: 250,
+          width: 305,
           modal: true,
           buttons: {
             Cancel: function() {
@@ -41,7 +41,23 @@
           selected: <%=@selected_tab||0 %>,
           select: function(event, ui) {
             return true;
-          } //select
+          },
+         beforeLoad: function( event, ui ) {
+          ui.jqXHR.fail(function() {
+            if (ui.jqXHR.status == 401){ 
+                <% flash  = "Sorry. You may need to <a class='unauthorized' href='#{url_for(new_user_session_path)}'>Log In</a> to view this." %>
+                var flash = "<%= flash.html_safe %>";
+                ui.panel.html(flash);
+              } else if (ui.jqXHR.status == 503){
+               <% flash  = "Sorry. The site is currently in read only mode and some features are disabled. Please try again later." %>
+                var flash = "<%= flash.html_safe %>";
+                ui.panel.html(flash);
+            }else {
+                ui.panel.html("Something went wrong with this. Sorry! Please try again, or try logging in first.");
+            }
+          });
+        }
+        
         });
 
         jQuery("#wooTabs").bind("tabsselect", function(event, ui) {

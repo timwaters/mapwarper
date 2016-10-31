@@ -49,6 +49,10 @@ table {
 
 /* end reset */
 
+input.date-field{
+  width:100px;
+}
+
 tr.import-maps textarea{
     margin-left:4.5em;
 }
@@ -121,6 +125,16 @@ div.comment {
 div.comment span.comment_metadata {
   font-size: smaller;
   font-style: italic;
+}
+
+  
+a.buttonWarperBlue{
+  padding: 6px 6px 3px 6px;
+  margin-left:4px;
+  margin-bottom: 2px;
+  margin-top: 2px;
+  background: #191970 none repeat scroll 0% 0%;
+  color: #E3E3D4;
 }
 
 #warper-maindiv {
@@ -256,6 +270,24 @@ a.addthis_button_compact{
 font-size: 10px;
 }
 
+#geosearch-link{
+  float:right;
+}
+
+#geosearch-year-filter-container {
+  height: 55px;
+  margin-top: 27px;
+}
+
+#geosearch-year-filter-container #year-slider-container {
+  width: 350px;
+}
+
+#geosearch {
+  border: 2px solid #BBBBBB;
+  padding: 5px;
+}
+
 #searchmap
 {     margin-left: 2px;
         position: relative;
@@ -282,7 +314,9 @@ float: right;
 }
 
 #searchmap-table td {
-font-size: 70%;
+  font-size: 70%;
+  vertical-align: top;
+  padding-right: 1em;
 }
 
 #searchmap-table td.mini-map-thumb {
@@ -292,6 +326,10 @@ width: 80px;
 #searchmap-table tfoot td {
   text-align: center;
   font-size: 110%;
+}
+
+#searchmap-table caption {
+  min-width: 120px;
 }
 
 .normal { background-color: #CCCCCC }
@@ -336,6 +374,15 @@ padding-bottom:5px;
   margin: 1em;
   border: 1px solid coral;
 }
+
+div.admin-panel{
+  padding: 1em;
+}
+
+div.admin-panel li{
+  margin: 4px;
+}
+
 
 .x-panel-body-noheader {
   border-top: 0px;
@@ -466,7 +513,7 @@ p {
 	color: #fff;
 }
 
-.buttonWarper, input[type="submit"], .headerDiv .user_status a  {
+.buttonWarper, .buttonWarperBlue, input[type="submit"], .headerDiv .user_status a  {
 	background: #191970;
  	color:#e3e3d4;
 	font-weight: 600;
@@ -517,8 +564,8 @@ select {
 	border:1px solid #ccc;
 }
 
-.buttonWarper:hover, input[type="submit"]:hover, .headerDiv .user_status a:hover { /*KAREN ADDED*/
-    box-shadow:1px 2px 4px 2px rgba(0,0,0,0.2), inset 1px 2px 4px rgba(255,255,255,0.4);;
+.buttonWarper:hover, .buttonWarperBlue:hover, input[type="submit"]:hover, .headerDiv .user_status a:hover { /*KAREN ADDED*/
+  box-shadow:1px 2px 4px 2px rgba(0,0,0,0.2), inset 1px 2px 4px rgba(255,255,255,0.4);;
 	background: #e3e3d4;
 	background:rgba(255,255,255,0.7); 
 	color:#191970;
@@ -693,6 +740,12 @@ border: dashed;
 width: 100%;
 }
 
+div.period {
+  text-transform:uppercase;
+}
+div.period span.period{
+   font-weight: bold;
+}
 .browse{
   margine: 0 1em;
 }
@@ -704,8 +757,28 @@ width: 100%;
 	margin-bottom: 10px;
 	overflow:hidden; /*to clear float*/
 }
+
+#searchform #radio-buttons{ 
+  display: inline-block;
+}
+#searchform {
+  margin-top: 15px;
+}
+#searchform input{
+ margin-bottom: 26px;
+}
+#searchform input[type="radio"] {
+  margin-bottom: 0px;
+}
+
+#searchform input[type="submit"] {
+  padding-right: 10px;
+  padding-left: 10px;
+  margin-right: 10px;
+  margin-left: 10px;
+}
 #searchform #query{
-      width:10em;
+      width:11em;
 }
 #search-form input {
 	vertical-align: center;
@@ -971,10 +1044,10 @@ font-weight: bold;
 @media screen and (max-width: 1500px) {
   #navlist li.responsive_wide{ display:none;}
 }
-@media screen and (max-width: 970px) {
+@media screen and (max-width: 1068px) {
   #navlist li.responsive_narrow{ display:none;}
 }
-@media screen and (max-width: 470px) {
+@media screen and (max-width: 580px) {
   #navlist li.responsive{ display:none;}
 }
 #navlist {
@@ -1590,6 +1663,40 @@ fieldset#control_panel_fieldset a {
 #id-map {
   height: 700px;
   border: 1px solid #999999;
+}
+
+#year-filter{
+  vertical-align: top;
+  display: inline-block;
+  margin-bottom: 10px;
+}
+#year-label{
+  float:left;
+  padding-left: 5px;
+}
+
+#year-slider-container {
+  padding-top: 7px;
+  padding-right: 20px;
+  padding-left: 58px;
+  width: 300px;
+}
+.year-slider-tooltip {
+	display: block;
+	position: absolute;
+	border: 1px solid #D9D9D9;
+	font: 400 12px/12px Arial;
+	border-radius: 3px;
+	background: #fff;
+  top: -26px;
+	padding: 5px;
+	left: -9px;
+	text-align: center;
+	width: 50px;
+}
+.year-slider-tooltip strong {
+	display: block;
+	padding: 2px;
 }
 .noUi-connect {
   background-color: #D4BABD !important;

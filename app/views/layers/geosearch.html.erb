@@ -1,39 +1,89 @@
 <% content_for :head do %>
   <script type="text/javascript">
     var gs_bounds = new OpenLayers.Bounds(<%=@bbox-%>);
-    var mapBaseURL = '/layers';
-    var mapThumbBaseURL = '/layers/thumb';
+
+    var mapBaseURL = '<%= url_for layers_path %>';
+    var mapThumbBaseURL = '<%= url_for(layer_thumb_base_path) %>/';
+
+    var year_from = <%=  @year_min.to_i %>;
+    var year_to = <%=  @year_max.to_i %>;
+
+    jQuery(function () {
+      jQuery("#year-slider").noUiSlider({
+        start: [year_from, year_to],
+        connect: true,
+        step: 1,
+        format: wNumb({
+          decimals: 0
+        }),
+        range: {
+          'min': <%=  @year_min.to_i %>,
+          'max': <%= @year_max.to_i %>
+        }
+      });
+
+      jQuery("#year-slider").Link('upper').to('-inline-<div class="year-slider-tooltip"></div>', function (value) {
+        jQuery(this).html(
+                '<span>' + value + '</span>'
+                );
+      });
+
+      jQuery("#year-slider").Link('lower').to('-inline-<div class="year-slider-tooltip"></div>', function (value) {
+        jQuery(this).html(
+                '<span>' + value + '</span>'
+                );
+      });
+      jQuery("#year-slider").Link("upper").to(jQuery("input#to"));
+      jQuery("#year-slider").Link("lower").to(jQuery("input#from"));
+      $('#year-slider').on('set', function () {
+        do_search(1);
+      });
+    });
   </script> 
   <%= javascript_include_tag "geosearch" %>
   <%= javascript_include_tag "geosearch-layer" %>
 
   <% @onload = "searchmapinit();" %> 
 <% end %>
+<h2>Find Layers by Location</h2>
+<div id="geosearch">
+  <p>Move or zoom map - both the map and list will be updated with found layers. <br /> Layers are shown if they have one or more rectified maps within them, and are visible (not a meta collection/layer).
+  </p>
+  <div id="searchmap-container">
+    <div id="searchmap-list-block">
 
-<h2>Find Mosaics.</h2>
-<p>Move or zoom map - both the map and list will be updated with found mosaics. <br /> Mosaics are shown if they have one or more rectified maps within them, and are visible (not a meta collection/mosaic).
-</p>
-<div id="searchmap-container">
-  <div id="searchmap-list-block">
+      <div id="geosearch-year-filter-container">
+        <div id="year-filter">
+          <div id="year-label">
+            Year
+          </div>
+          <div id="year-slider-container">
+            <div id="year-slider"></div>
+          </div>	
+        </div>
+      </div>
 
+      <table id="searchmap-table" style="table-layout:fixed">
 
-    <table id="searchmap-table" style="table-layout:fixed">
+  
 
-
-    </table>
+      </table>
+    </div>
+    <div id="searchmap-block">
+      <form id='placeSearchForm'  onsubmit='doPlaceSearch(this);
+          return false;' class='geosearchform'>
+        <input type="text" id="place" name="place" value="">
+        <input type="hidden" name="operation" value="intersect" >
+        <input type="submit" value="Find Location" class="geosearch-button">
+      </form>
+      <span id="loadingDiv"><%= image_tag "spinner-horiz.gif" %> </span>
+      <input type="hidden" id="from" value = "<%= @year_min %>"/>
+      <input type="hidden" id="to" value = "<%= @year_max %>" />
+      <div id="searchmap"></div>
+    </div>
   </div>
-  <div id="searchmap-block">
-    <form id='placeSearchForm'  onsubmit='doPlaceSearch(this);
-        return false;' class='geosearchform'>
-      <input type="text" id="place" name="place" value="">
-      <input type="hidden" name="operation" value="intersect" >
-      <input type="submit" value="Find Location!" class="geosearch-button">
-    </form>
-    <span id="loadingDiv"><%= image_tag "spinner-horiz.gif" %> </span>
-
-    <div id="searchmap"></div>
+  <div id="under-searchmap-container">
   </div>
 </div>
-<div id="under-searchmap-container">
-</div>
+
 

@@ -9,7 +9,8 @@ class GcpsController < ApplicationController
 
   def show
     respond_to do | format |
-      format.json {render :json => {:stat => "ok", :items => @gcp.to_a}.to_json, :callback => params[:callback]  }
+      format.html
+      format.json {render :json => {:stat => "ok", :items => @gcp}.to_json, :callback => params[:callback]  }
       format.xml  {render :xml => @gcp.to_xml}
     end
 

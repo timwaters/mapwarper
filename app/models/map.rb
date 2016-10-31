@@ -20,6 +20,8 @@ class Map < ActiveRecord::Base
   validates_presence_of :title
   validates_numericality_of :rough_lat, :rough_lon, :rough_zoom, :allow_nil => true
   validates_numericality_of :metadata_lat, :metadata_lon, :allow_nil => true
+  validates_length_of :issue_year, :maximum => 4,:allow_nil => true, :allow_blank => true
+  validates_numericality_of :issue_year, :if => Proc.new {|c| not c.issue_year.blank?}
 
   acts_as_taggable
   acts_as_commentable
@@ -36,7 +38,7 @@ class Map < ActiveRecord::Base
   
   attr_accessor :error
   attr_accessor :upload_url
-  
+
   after_initialize :default_values
   before_create :download_remote_image, :if => :upload_url_provided?
   before_create :save_dimensions
@@ -262,7 +264,7 @@ class Map < ActiveRecord::Base
   #############################################
   #ACCESSOR METHODS
   #############################################
-
+  
   def maps_dir
     defined?(SRC_MAPS_DIR) ? SRC_MAPS_DIR :  File.join(Rails.root, "/public/mapimages/src/")
   end
@@ -344,7 +346,7 @@ class Map < ActiveRecord::Base
   
   
   def depicts_year
-    self.layers.with_year.collect(&:depicts_year).compact.first
+    issue_year ||  self.layers.with_year.collect(&:depicts_year).compact.first
   end
   
   def warped?
@@ -799,7 +801,7 @@ class Map < ActiveRecord::Base
     yql = Yql::Client.new
     query = Yql::QueryBuilder.new 'geo.placemaker'
 
-    query.conditions = {:documentContent => self.title.to_s + " "+ self.description.to_s, :documentType => "text/plain", :appid => APP_CONFIG['yahoo_app_id'] }
+    query.conditions = {:documentContent => ERB::Util.h(self.title.to_s) + " "+ ERB::Util.h(self.description.to_s), :documentType => "text/plain", :appid => APP_CONFIG['yahoo_app_id'] }
     yql.query = query
     yql.format = "json"
     begin

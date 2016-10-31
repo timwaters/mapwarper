@@ -9,7 +9,19 @@
   </select>
   for 
   <%= text_field_tag 'query', @query -%>
-  <input type="submit" value=" Go ">
+  <input type="hidden" id="from" />
+  <input type="hidden" id="to"/>
+  
+  <div id="year-filter">
+    <div id="year-label">
+      Year
+    </div>
+    <div id="year-slider-container">
+      <div id="year-slider"></div>
+    </div>	
+  </div>
+  
+  <input type="submit" value="Search">
   <% if @show_warped == "1" -%>
     <% check_all = false -%>
     <% check_rectified = true -%>
@@ -17,12 +29,46 @@
     <% check_all = true -%>
     <% check_rectified = false -%>
   <% end %>
+  <div id="radio-buttons">
+    <label for="all_maps">All maps</label>
+    <%= radio_button_tag('show_warped', 0, check_all, :id => 'all_maps') %>
+    <label for="rectified_maps">Rectified maps only</label>
+    <%= radio_button_tag('show_warped', 1, check_rectified, :id => 'rectified_maps') %>
+ </div>
 
-  <label for="all_maps">All maps</label>
-  <%= radio_button_tag('show_warped', 0, check_all, :id => 'all_maps') %>
-  <label for="rectified_maps">Rectified maps only</label>
-  <%= radio_button_tag('show_warped', 1, check_rectified, :id => 'rectified_maps') %>
+  <script>
+    var year_from = <%= params[:from] || @year_min.to_i %>;
+    var year_to = <%= params[:to] || @year_max.to_i %>;
+  jQuery("#year-slider").noUiSlider({
+    start: [year_from, year_to],
+    connect: true,
+    step: 1,
+    format: wNumb({
+      decimals: 0
+    }),
+    range: {
+      'min': <%=  @year_min.to_i %>,
+      'max': <%= @year_max.to_i %>
+    }
+    });
+    
+    jQuery("#year-slider").Link('upper').to('-inline-<div class="year-slider-tooltip"></div>', function ( value ) {
+      jQuery(this).html(
+        '<span>' + value + '</span>'
+      );
+    });
+       
+    jQuery("#year-slider").Link('lower').to('-inline-<div class="year-slider-tooltip"></div>', function ( value ) {
+      jQuery(this).html(
+        '<span>' + value + '</span>'
+      );
+    });
+    
+    jQuery("#year-slider").Link('upper').to('to')
+    jQuery("#year-slider").Link('lower').to('from')
 
+   </script>	
 <% end -%>
-  <br />
-  New: <%= link_to 'Find Rectified Maps by Location',  url_for(:controller => 'maps', :action=>'geosearch'), :class => "buttonWarper" %>
+<div id="geosearch-link">
+ New: <%= link_to 'Find Rectified Maps by Location',  url_for(:controller => 'maps', :action=>'geosearch'), :class => "buttonWarper" %>
+</div>

@@ -43,7 +43,7 @@ class MapsController < ApplicationController
   ###############
   
   def new
-    @map = Map.new
+    @map = Map.new(:issue_year => Time.now.year)
     @html_title = "Upload a new map to "
     @max_size = Map.max_attachment_size
     if Map.max_dimension
@@ -157,12 +157,25 @@ class MapsController < ApplicationController
         conditions = nil
       end
       
+      @year_min = Map.minimum(:issue_year).to_i - 1
+      @year_max = Map.maximum(:issue_year).to_i + 1
+      @year_min = 1600 if @year_min == -1
+      @year_max = Time.now.year if @year_max == 1
+    
+      year_conditions = nil
+      if params[:from] && params[:to] && !(@year_min == params[:from].to_i && @year_max == params[:to].to_i)
+        year_conditions = {:issue_year => params[:from].to_i..params[:to].to_i}
+      end
+    
+      @from = params[:from]
+      @to = params[:to]
+
       if params[:sort_order] && params[:sort_order] == "desc"
         sort_nulls = " NULLS LAST"
       else
         sort_nulls = " NULLS FIRST"
       end
-      @per_page = params[:per_page] || 10
+      @per_page = params[:per_page] || 50
       paginate_params = {
         :page => params[:page],
         :per_page => @per_page
@@ -172,13 +185,13 @@ class MapsController < ApplicationController
       #order('name').where('name LIKE ?', "%#{search}%").paginate(page: page, per_page: 10)
 
       if @show_warped == "1"
-        @maps = Map.warped.are_public.where(where_options).order(order_options).paginate(paginate_params)
+        @maps = Map.warped.are_public.where(where_options).where(year_conditions).order(order_options).paginate(paginate_params)
       elsif @show_warped == "1" && (user_signed_in? and current_user.has_role?("editor"))
-        @maps = Map.warped.where(where_options).order(order_options).paginate(paginate_params)
+        @maps = Map.warped.where(where_options).where(year_conditions).order(order_options).paginate(paginate_params)
       elsif  @show_warped != "1" && (user_signed_in? and current_user.has_role?("editor"))
-        @maps = Map.where(where_options).order(order_options).paginate(paginate_params)
+        @maps = Map.where(where_options).order(order_options).where(year_conditions).paginate(paginate_params)
       else
-        @maps = Map.are_public.where(where_options).order(order_options).paginate(paginate_params)
+        @maps = Map.are_public.where(where_options).where(year_conditions).order(order_options).paginate(paginate_params)
       end
       
       @html_title = "Browse Maps"
@@ -294,12 +307,24 @@ class MapsController < ApplicationController
       sort_geo ="ST_Area(bbox_geom) DESC ,"
     end
 
+    @year_min = Map.minimum(:issue_year).to_i - 1 
+    @year_max = Map.maximum(:issue_year).to_i + 1
+    @year_min = 1600 if @year_min == -1
+    @year_max = Time.now.year if @year_max == 1
+
+    year_conditions = nil
+    if params[:from] && params[:to] && !(@year_min == params[:from].to_i && @year_max == params[:to].to_i)
+      year_conditions = {:issue_year => params[:from].to_i..params[:to].to_i}
+    end
+    
+    status_conditions = {:status => [Map.status(:warped), Map.status(:published), Map.status(:publishing)]}
+    
     paginate_params = {
       :page => params[:page],
       :per_page => 20
     }
     order_params = sort_geo + sort_clause + sort_nulls
-    @maps = Map.select("bbox, title, description, updated_at, id, date_depicted").warped.where(conditions).order(order_params).paginate(paginate_params)
+    @maps = Map.select("bbox, title, description, updated_at, id, date_depicted, issue_year, status").warped.where(conditions).where(year_conditions).where(status_conditions).order(order_params).paginate(paginate_params)
     @jsonmaps = @maps.to_json # (:only => [:bbox, :title, :id, :nypl_digital_id])
     respond_to do |format|
       format.html{ render :layout =>'application' }
@@ -940,7 +965,7 @@ class MapsController < ApplicationController
       :source_uri, :call_number, :publisher, :publication_place, :authors, :date_depicted, :scale,
       :metadata_projection, :metadata_lat, :metadata_lon, :public,
       "published_date(3i)", "published_date(2i)", "published_date(1i)", "reprint_date(3i)", 
-      "reprint_date(2i)", "reprint_date(1i)", :upload_url, :upload ) 
+      "reprint_date(2i)", "reprint_date(1i)", :upload_url, :upload, :issue_year ) 
   end
   
   def choose_layout_if_ajax
