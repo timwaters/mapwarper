@@ -40,7 +40,8 @@ function warpedinit() {
             status: 'warped'
         }, {
             TRANSPARENT: 'true',
-            reproject: 'true'
+            reproject: 'true',
+            transitionEffect: null
         }, {
             gutter: 15,
             buffer: 0

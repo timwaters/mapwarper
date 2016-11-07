@@ -5,12 +5,17 @@ class ApplicationController < ActionController::Base
 
   before_filter :configure_permitted_parameters, if: :devise_controller?
 
+    
   def check_super_user_role
     check_role('super user')
   end
 
   def check_administrator_role
     check_role("administrator")
+  end
+  
+  def check_editor_role
+    check_role("editor")
   end
 
   def check_developer_role

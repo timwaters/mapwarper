@@ -9,6 +9,12 @@ class HomeController < ApplicationController
     @maps = Map.where(:public => true, :status => [2,3,4]).order(:updated_at =>  :desc).limit(3).includes(:gcps)
     
     @layers = Layer.all.order(:updated_at => :desc).limit(3).includes(:maps)
+
+    @year_min = Map.minimum(:issue_year).to_i - 1
+    @year_max = Map.maximum(:issue_year).to_i + 1
+    @year_min = 1600 if @year_min == -1
+    @year_max = Time.now.year if @year_max == 1
+
     get_news_feeds
     
     if user_signed_in?

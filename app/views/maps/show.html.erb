@@ -3,8 +3,8 @@
   <script type="text/javascript">
     var map_id = '<%=h @map.id -%>';
     var title = 'unwarped map';
-    var unwarped_image_width = <%= @map.width %>;
-    var unwarped_image_height = <%= @map.height %>;
+    var unwarped_image_width = <%= @map.width || 0 %>;
+    var unwarped_image_height = <%= @map.height || 0%>;
     var wms_url = '<%= wms_map_path(@map)  -%>';
   </script>
 

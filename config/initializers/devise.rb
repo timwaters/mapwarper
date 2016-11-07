@@ -95,10 +95,10 @@ Devise.setup do |config|
   # a value less than 10 in other environments. Note that, for bcrypt (the default
   # encryptor), the cost increases exponentially with the number of stretches (e.g.
   # a value of 20 is already extremely slow: approx. 60 seconds for 1 calculation).
-  config.stretches = 1
+  config.stretches = Rails.env.test? ? 1 : 11
 
   # Setup a pepper to generate the encrypted password.
-  config.pepper = ''
+  #config.pepper = ''
 
   # ==> Configuration for :confirmable
   # A period that the user is allowed to access the website even without
@@ -198,7 +198,7 @@ Devise.setup do |config|
   #
   # Require the `devise-encryptable` gem when using anything other than bcrypt
   # config.encryptor = :sha512
-  config.encryptor = :legacy_restfulauthentication
+  config.encryptor = :bcrypt
 
   # ==> Scopes configuration
   # Turn scoped views on. Before rendering "sessions/new", it will first check for
@@ -239,6 +239,8 @@ Devise.setup do |config|
   config.omniauth :mediawiki,  APP_CONFIG["omniauth_mediawiki_key"], APP_CONFIG["omniauth_mediawiki_secret"], {:client_options => {:site => APP_CONFIG["omniauth_mediawiki_site"] }}
   
   config.omniauth :github, APP_CONFIG["omniauth_github_key"], APP_CONFIG["omniauth_github_secret"]
+
+  config.omniauth :facebook, APP_CONFIG["omniauth_facebook_key"], APP_CONFIG["omniauth_facebook_secret"]
 
   # ==> Warden configuration
   # If you want to use other strategies, that are not supported by Devise, or

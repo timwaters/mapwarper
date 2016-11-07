@@ -20,6 +20,7 @@
 <table class="usertable">
   <thead>
     <tr>
+      <%= sort_header_tag('created_at', :title => "Signed Up") %>
       <%= sort_header_tag('login', :title => "Username") %>
       <% if admin_authorized? %>
         <%= sort_header_tag('provider', :title => "OAuth Provider") %>

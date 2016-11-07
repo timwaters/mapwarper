@@ -25,7 +25,7 @@
       var warped_image_height = <%= @map.height %>
       var warpedwms_url = '<%= url_for :controller => 'maps', :action => 'wms', :id => @map  -%>';
       var warped_bounds = new OpenLayers.Bounds(<%=@map.bounds-%>);
-      var layer_baseurl = '/layers/wms';
+      var layer_baseurl = '<%=url_for :controller => 'layers', :action => 'wms' %>';
       var layers_array = [<%=@other_layers.join(",")-%>];
     </script>
 

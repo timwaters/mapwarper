@@ -22,6 +22,7 @@
 //= require unwarped
 //= require SelectFeatureNoClick
 //= require querystring
+//= require jquery.nouislider.all.min
 
 var querystring = require('querystring-component');
 

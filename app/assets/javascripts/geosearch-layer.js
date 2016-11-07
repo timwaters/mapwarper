@@ -2,9 +2,11 @@
 function replaceMapTable(smaps) {
   for (var a = 0; a < smaps.length; a++) {
     var smap = smaps[a];
+    var depicts_year = smap.depicts_year == null ? "" : smap.depicts_year;
     var tableRow = "<tr id='map-row-" + smap.id + "' class='minimap-tr'>" +
             "<td class='mini-map-thumb'><img src='" + mapThumbBaseURL + "/" + smap.id + "' height='70' ></td>" +
             "<td>" + smap.name + "<br />" +
+            depicts_year + "<br />"+
             "<a href='" + mapBaseURL + "/" + smap.id + "' target='_blank'>Open layer</a> </td></tr>";
 
     jQuery("#searchmap-table").append(tableRow);
@@ -14,6 +16,9 @@ function replaceMapTable(smaps) {
 function insertMapTablePagination(total, per, current) {
   var num = current * per;
   var start = num - per;
+  if (start  == 0){
+    start = 1;
+  }
   var last = false;
   var nextlot = current + 1;
   var prevlot = current - 1;
@@ -21,7 +26,12 @@ function insertMapTablePagination(total, per, current) {
     num = total;
     last = true;
   }
-  var tableCaption = "<caption>Found " + total + " Layers. Showing " + start + " - " + num;
+  if (total > 0) {
+    var tableCaption = "<caption>Found " + total + " Layers. Showing " + start + " - " + num;
+  } else {
+    var tableCaption = "<caption>Found " + total + " Layers";
+  }
+
   jQuery("#searchmap-table").append(tableCaption);
 
 

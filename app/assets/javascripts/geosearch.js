@@ -57,6 +57,13 @@ function searchmapinit(){
         fillOpacity: 0.0
     };
 
+    var deactivated_style = {
+        fill: false,
+        strokeOpacity: 1,
+        strokeColor: "blue",
+        strokeWidth: 1.5
+    };
+
     var style_blue = {
         fill: true,
         strokeOpacity: 1,
@@ -160,7 +167,9 @@ function doPlaceZoom(resp){
   var options = {'bbox': searchmapExtent,
     'format': 'json',
     'page': pageNum,
-    'operation': 'intersect'};
+    'operation': 'intersect',
+    'from': jQuery("#from").val(),
+    'to': jQuery("#to").val()};
   OpenLayers.loadURL(mapBaseURL+'/geosearch',
     options,
     this,

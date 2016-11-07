@@ -21,3 +21,17 @@
 
 en:
   hello: "Hello world"
+      
+en:
+  activerecord:
+    models:
+      map:
+        zero:  maps
+        one:   map
+        other: maps
+      layer:
+        zero:  layers
+        one:   layer
+        other: layers
+        
+        

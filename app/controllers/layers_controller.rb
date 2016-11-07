@@ -9,6 +9,18 @@ class LayersController < ApplicationController
   rescue_from ActiveRecord::RecordNotFound, :with => :bad_record
   helper :sort
   include SortHelper
+  
+  require 'digest/sha1'
+  caches_action :wms, 
+    :cache_path => Proc.new { |c| 
+      string =  c.params.to_s
+      {:tag => Digest::SHA1.hexdigest(string)}
+    }
+  caches_action :tile, :cache_path => Proc.new { |c| 
+      string =  c.params.to_s
+      {:tag => Digest::SHA1.hexdigest(string)}
+    }
+
 
   def comments
     @html_title = "comments"
@@ -68,7 +80,7 @@ class LayersController < ApplicationController
         [ extents[0], extents[1] ]
       ]
 
-      bbox_polygon = GeoRuby::SimpleFeatures::Polygon.from_coordinates([bbox_poly_ary], -1).as_ewkt
+      bbox_polygon = GeoRuby::SimpleFeatures::Polygon.from_coordinates([bbox_poly_ary]).as_wkt
       if params[:operation] == "within"
         conditions = ["ST_Within(bbox_geom, ST_GeomFromText('#{bbox_polygon}'))"]
       else
@@ -92,16 +104,23 @@ class LayersController < ApplicationController
     else
       sort_geo ="ST_Area(bbox_geom) DESC ,"
     end
-    
-    
+
+    @year_min = Map.minimum(:issue_year) - 1
+    @year_max = Map.maximum(:issue_year) + 1
+
+    year_conditions = nil
+    if params[:from] && params[:to] && !(@year_min == params[:from].to_i && @year_max == params[:to].to_i)
+      year_conditions = {:depicts_year => params[:from].to_i..params[:to].to_i}
+    end
+
     paginate_params = {
       :page => params[:page],
       :per_page => 20
     }
     order_params = sort_geo + sort_clause + sort_nulls
     @layers = Layer.select("bbox, name, updated_at, id, maps_count, rectified_maps_count,
-                       depicts_year").visible.with_maps.where(conditions).paginate(paginate_params)
-    
+                       depicts_year").visible.with_maps.where(conditions).where(year_conditions).paginate(paginate_params)
+
     @jsonlayers = @layers.to_json
     respond_to do |format|
       format.html{ render :layout =>'application' }
@@ -135,13 +154,25 @@ class LayersController < ApplicationController
       select = "*"
     end
 
+    @year_min = Map.minimum(:issue_year).to_i - 1
+    @year_max = Map.maximum(:issue_year).to_i + 1
+
+    year_conditions = nil
+    if params[:from] && params[:to] && !(@year_min == params[:from].to_i && @year_max == params[:to].to_i)
+      year_conditions = {:depicts_year => params[:from].to_i..params[:to].to_i}
+    end
+
+    @from = params[:from]
+    @to = params[:to]
+
+
     if params[:sort_order] && params[:sort_order] == "desc"
       sort_nulls = " NULLS LAST"
     else
       sort_nulls = " NULLS FIRST"
     end
 
-    @per_page = params[:per_page] || 20
+    @per_page = params[:per_page] || 50
     paginate_params = {
       :page => params[:page],
       :per_page => @per_page
@@ -153,11 +184,11 @@ class LayersController < ApplicationController
     if !map.nil?
       @map = Map.find(map)
       layer_ids = @map.layers.map(&:id)
-      @layers = Layer.where(id: layer_ids).select('*, round(rectified_maps_count::float / maps_count::float * 100) as percent').where(conditions).order(order_options).paginate(paginate_params)
+      @layers = Layer.where(id: layer_ids).where(conditions).select('*, round(rectified_maps_count::float / maps_count::float * 100) as percent').where(conditions).order(order_options).paginate(paginate_params)
       @html_title = "Mosaic List for Map #{@map.id}"
       @page = "for_map"
     else
-      @layers = Layer.select(select).where(conditions).order(sort_clause + sort_nulls).paginate(paginate_params)
+      @layers = Layer.select(select).where(conditions).where(year_conditions).order(sort_clause + sort_nulls).paginate(paginate_params)
       @html_title = "Browse Mosaic List"
     end
    
@@ -382,7 +413,7 @@ class LayersController < ApplicationController
   end
 
   def update_year
-    @layer.update_attributes(params[:layer])
+    @layer.update_attributes(params[:layer].permit(:depicts_year))
     render :json => {:message => "Depicts : " + @layer.depicts_year.to_s }
   end
 

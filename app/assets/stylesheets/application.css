@@ -15,4 +15,5 @@
  *= require custom-theme/jquery-ui-1.7.custom
  *= require tabs
  *= require main
+ *= require jquery.nouislider.min
  */

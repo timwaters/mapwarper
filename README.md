@@ -47,24 +47,17 @@ Groups of maps can be made into "mosaics" that will stictch together the composi
   * User administration, disabling
   * Roles management (editor, developer, admin etc)
   * Batch Imports
-
-
-## Note on code and branches
-
-Unmaintained branches exist for older systems and setups
-
-* Rails 2.3 and Ruby 1.9.1 - See the ruby1.9.1 branch
-* Rails 2.3 and Ruby 1.8.4 - See the rails2 branch
+* Caching of WMS and Tile via Redis
 
 ## Ruby & Rails
 
-* Rails 4.1.x
-* Ruby 1.9
+* Rails 4
+* Ruby 2.2
 
 ## Database
 
-* Postgresql 8.4 (or 9.1)
-* Postgis 1.5 (may work with 2.0)
+* Postgresql 8.4+
+* Postgis 1.5+
 
 ## Installation Dependencies
 
@@ -106,11 +99,12 @@ Creating a new user
 
     user = User.new
     user.login = "super"
-    user.email = "super@superxyz123.com"
+    user.email = "super@example.com"
     user.password = "your_password"
     user.password_confirmation = "your_password"
     user.save
     user.confirmed_at = Time.now
+    user.save
 
     role = Role.find_by_name('super user')
     user = User.find_by_login('super')
@@ -125,6 +119,21 @@ Creating a new user
     permission.role = role
     permission.user = user
     permission.save
+
+## WMS/Tile Caching
+
+To enable caching, install Redis and enable caching in the environment file. You may want to configure the redis.conf as appropriate to your server.
+For example turning off saving to disk and setting a memory value for LRU  "maxmemory 2000mb" "maxmemory-policy allkeys-lru" keeps the redis server having 2gig and expires keys based on a least used algorithm.
+
+## Benchmarks
+
+TODO - add production / apache / subdomain benchmarks
+
+
+## Upgrading
+
+Note that the activerecord postgis adapter is upgraded - as such you may need to change or remove the SRID of any existing maps and layers bbox_geom .
+It should now be 0 where before it may be 4326 This is due to the columns being geometry type as opposed to geographic. SRIDs only really work well for geographic types.
 
 
 ## Development

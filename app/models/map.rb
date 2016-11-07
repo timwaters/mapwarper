@@ -12,7 +12,7 @@ class Map < ActiveRecord::Base
   
   has_attached_file :upload, :styles => {:thumb => ["100x100>", :png]} ,
     :url => '/:attachment/:id/:style/:basename.:extension',
-    :default_url => "/assets/missing.png"
+    :default_url => "missing.png"
   validates_attachment_size(:upload, :less_than => MAX_ATTACHMENT_SIZE) if defined?(MAX_ATTACHMENT_SIZE)
   #attr_protected :upload_file_name, :upload_content_type, :upload_size
   validates_attachment_content_type :upload, :content_type => ["image/jpg", "image/jpeg", "image/png", "image/gif", "image/tiff"]
@@ -20,6 +20,8 @@ class Map < ActiveRecord::Base
   validates_presence_of :title
   validates_numericality_of :rough_lat, :rough_lon, :rough_zoom, :allow_nil => true
   validates_numericality_of :metadata_lat, :metadata_lon, :allow_nil => true
+  validates_length_of :issue_year, :maximum => 4,:allow_nil => true, :allow_blank => true
+  validates_numericality_of :issue_year, :if => Proc.new {|c| not c.issue_year.blank?}
 
   acts_as_taggable
   acts_as_commentable
@@ -36,7 +38,7 @@ class Map < ActiveRecord::Base
   
   attr_accessor :error
   attr_accessor :upload_url
-  
+
   after_initialize :default_values
   before_create :download_remote_image, :if => :upload_url_provided?
   before_create :save_dimensions
@@ -67,7 +69,7 @@ class Map < ActiveRecord::Base
       return false
     end
     self.upload = img_upload
-    self.source_uri = upload_url
+    self.source_uri = source_uri || upload_url
     
     if Map.find_by_upload_file_name(upload.original_filename)
       errors.add(:filename, "is already being used")
@@ -131,7 +133,19 @@ class Map < ActiveRecord::Base
       tiffed_file_path = File.join(maps_dir , tiffed_filename)
       
       logger.info "We convert to tiff"
-      command  = "#{GDAL_PATH}gdal_translate #{self.upload.path} #{outsize} -co COMPRESS=DEFLATE  -co PHOTOMETRIC=RGB -co PROFILE=BASELINE #{tiffed_file_path}"
+
+      #for those greyscale or lack and white images with one band
+      bands  = ""
+      if raster_bands_count(self.upload.path) == 1
+        bands = "-b 1 -b 1 -b 1"
+      end
+      
+      #transparent pngs may cause issues, so let's remove the alpha band
+      if raster_bands_count(self.upload.path) == 4 && orig_ext == ".png"
+        bands = "-b 1 -b 2 -b 3"
+      end
+      
+      command  = "#{GDAL_PATH}gdal_translate #{self.upload.path} #{outsize} #{bands} -co COMPRESS=DEFLATE -co PHOTOMETRIC=RGB -co PROFILE=BASELINE #{tiffed_file_path}"
       logger.info command
       ti_stdin, ti_stdout, ti_stderr =  Open3::popen3( command )
       logger.info ti_stdout.readlines.to_s
@@ -250,7 +264,7 @@ class Map < ActiveRecord::Base
   #############################################
   #ACCESSOR METHODS
   #############################################
-
+  
   def maps_dir
     defined?(SRC_MAPS_DIR) ? SRC_MAPS_DIR :  File.join(Rails.root, "/public/mapimages/src/")
   end
@@ -332,7 +346,7 @@ class Map < ActiveRecord::Base
   
   
   def depicts_year
-    self.layers.with_year.collect(&:depicts_year).compact.first
+    issue_year ||  self.layers.with_year.collect(&:depicts_year).compact.first
   end
   
   def warped?
@@ -444,7 +458,8 @@ class Map < ActiveRecord::Base
     lat_shift = south.to_f - north.to_f
 
     origgcps.each do |gcp|
-      a = Gcp.new(gcp.attributes.except("id"))
+      a = Gcp.new()
+      a = gcp.clone
       if align == "east"
         a.lon -= lon_shift
       elsif align == "west"
@@ -475,7 +490,8 @@ class Map < ActiveRecord::Base
     self.gcps.hard.destroy_all unless append == true
 
     origgcps.each do |gcp|
-      new_gcp = Gcp.new(gcp.attributes.except("id"))
+      new_gcp = Gcp.new()
+      new_gcp = gcp.clone
       if align == "east"
         new_gcp.x -= srcmap.width
 
@@ -687,7 +703,7 @@ class Map < ActiveRecord::Base
           [ extents[0], extents[1] ]
         ]
 
-        self.bbox_geom = GeoRuby::SimpleFeatures::Polygon.from_coordinates([poly_array], -1).as_ewkt
+        self.bbox_geom = GeoRuby::SimpleFeatures::Polygon.from_coordinates([poly_array]).as_wkt
 
         save
       rescue Exception => e
@@ -785,7 +801,7 @@ class Map < ActiveRecord::Base
     yql = Yql::Client.new
     query = Yql::QueryBuilder.new 'geo.placemaker'
 
-    query.conditions = {:documentContent => self.title.to_s + " "+ self.description.to_s, :documentType => "text/plain", :appid => APP_CONFIG['yahoo_app_id'] }
+    query.conditions = {:documentContent => ERB::Util.h(self.title.to_s) + " "+ ERB::Util.h(self.description.to_s), :documentType => "text/plain", :appid => APP_CONFIG['yahoo_app_id'] }
     yql.query = query
     yql.format = "json"
     begin
@@ -795,7 +811,7 @@ class Map < ActiveRecord::Base
       results = JSON.parse(data)
 
       places = Array.new
-      if results["query"]["results"]["matches"]
+      if results["query"]["results"] && results["query"]["results"]["matches"]
         found_places = results["query"]["results"]["matches"]["match"]
         max_lat, max_lon, min_lat, min_lon = -90.0, -180.0, -90.0, 180.0
         found_places = [found_places] if found_places.is_a?(Hash)
@@ -832,11 +848,18 @@ class Map < ActiveRecord::Base
     rescue SocketError => e
       logger.error "Socket error in find bestguess places" + e.to_s
       placemaker_result = {:status => "fail", :code => "socketError"}
+    rescue Yql::Error => e
+      logger.error "YQL error in find bestguess places" + e.to_s
+      placemaker_result = {:status => "fail", :code => "yqlError"}
     end
     
     placemaker_result
   end
 
+  def clear_cache
+    Rails.cache.delete_matched ".*/maps/wms/#{self.id}.png\?status=warped.*"
+    Rails.cache.delete_matched "*/maps/tile/#{self.id}/*"
+  end
   
   
 end

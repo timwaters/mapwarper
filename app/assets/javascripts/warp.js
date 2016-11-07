@@ -78,8 +78,8 @@ function init() {
   }
 
 
-  jpl_wms.setVisibility(false);
-  to_map.addLayer(jpl_wms);
+  satellite.setVisibility(false);
+  to_map.addLayer(satellite);
 
   if (map_has_bounds) {
     map_bounds_merc = new OpenLayers.Bounds();
@@ -89,7 +89,7 @@ function init() {
 
   } else {
     //set to the world
-    to_map.setCenter(lonLatToMercator(new OpenLayers.LonLat(0.0, 0.0)), 10);
+    to_map.setCenter(lonLatToMercator(new OpenLayers.LonLat(0.0, 0.0)), 3);
   }
 
   //style for the active, temporary vector marker, the one the user actually adds themselves,
@@ -120,7 +120,7 @@ function init() {
   //  OpenLayers.Control.DragFeature.prototype.upFeature = function() {};
   //fix
   var to_panel = new OpenLayers.Control.Panel(
-          {displayClass: 'olControlEditingToolbar'}
+          {displayClass: 'toPanel olControlEditingToolbar'}
   );
   var dragMarker = new OpenLayers.Control.DragFeature(to_vectors,
           {displayClass: 'olControlDragFeature', title: 'Move Control Point'});
@@ -148,11 +148,79 @@ function init() {
   dragMarkerFrom.onComplete = function(feature) {
     saveDraggedMarker(feature);
   };
+  
+ 
+  function addCustomLayerAction() {
+
+    var dialog = jQuery("#add_custom_layer").dialog({
+      bgiframe: true,
+      height: 300,
+      width: 500,
+      resizable: false,
+      draggable: false,
+      modal: true,
+      hide: 'slow',
+      title: 'Add Custom Basemap',
+      buttons: {
+        "Add Layer": function(){
+          var template = jQuery("#template").val();
+          addCustomLayer(template);
+          dialog.dialog("close"); 
+          form[ 0 ].reset();
+        },
+        Cancel: function () {
+          form[ 0 ].reset();
+          dialog.dialog("close");
+        }
+      },
+      close: function () {
+        form[ 0 ].reset();
+      }
+    });
+    
+  var form = dialog.find( "form" ).on( "submit", function( event ) {
+      var template = jQuery("#template").val();
+      event.preventDefault();
+      addCustomLayer(template);
+      dialog.dialog("close"); 
+    });
+   
+ }
+  function addCustomLayer(template) {
+    var tokens = template.split("/")
+    var basetokens = tokens.slice(0, tokens.length - 3)
+    var baseurl = basetokens.join("/") + "/";
+    var img_type = template.split(".").pop()
+    if (basetokens.length <= 0){
+      return false;
+    } 
+  
+    var temp_layer = new OpenLayers.Layer.TMS("Custom basemap", baseurl,
+            {type: img_type,
+              getURL: osm_getTileURL,
+              displayOutsideMaxExtent: true,
+              transitionEffect: 'resize',
+              attribution: "Custom basemap " + baseurl
+            }
+    );
+
+    temp_layer.setVisibility(true);
+    temp_layer.setIsBaseLayer(true);
+    to_map.addLayer(temp_layer);
+    to_map.setBaseLayer(temp_layer)
+    to_layer_switcher.maximizeControl();
+    jQuery('#add_layer').hide();
+  }
+  
+  var layerButton = new OpenLayers.Control.Button({
+    displayClass: 'layerButton', title: 'Add Custom Basemap', trigger: addCustomLayerAction 
+ });
+
 
   navig = new OpenLayers.Control.Navigation({title: "Move Around Map"});
   navigFrom = new OpenLayers.Control.Navigation({title: "Move Around Map"});
 
-  to_panel.addControls([navig, dragMarker, drawFeatureTo]);
+  to_panel.addControls([layerButton, navig, dragMarker, drawFeatureTo]);
   to_map.addControl(to_panel);
 
   from_panel.addControls([navigFrom, dragMarkerFrom, drawFeatureFrom]);
@@ -208,7 +276,7 @@ function joinControls(first, second) {
 function get_map_layer(layerid) {
   var newlayer_url = layer_baseurl + "/" + layerid;
   var map_layer = new OpenLayers.Layer.WMS
-          ("Layer " + layerid,
+          ("Mosaic " + layerid,
                   newlayer_url,
                   {format: 'image/png'},
           {TRANSPARENT: 'true', reproject: 'true'},

@@ -47,7 +47,7 @@ class UsersController < ApplicationController
     else
       conditions = nil
     end
-    @users = User.where(conditions).order(sort_clause).paginate(:page=> params[:page], :per_page => 30)
+    @users = User.where(conditions).order(sort_clause).paginate(:page=> params[:page], :per_page => 50)
 
   end
 
@@ -64,7 +64,7 @@ class UsersController < ApplicationController
       conditions = nil
     end
     @users = @group.users.where(conditions).order(sort_clause).paginate(:page=> params[:page],
-:per_page => 30)
+      :per_page => 30)
     render :action => 'index'
   end
 

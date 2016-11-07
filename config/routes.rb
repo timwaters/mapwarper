@@ -55,22 +55,40 @@ Rails.application.routes.draw do
     resources :layers
   end
   
+  get '/mapimages/:id.gml.ol' => 'maps#get_mask', :as => "masking_map"
   get '/maps/thumb/:id' => 'maps#thumb', :as =>'thumb_map'
+  get '/maps/thumb' => 'maps#thumb', :as => 'map_thumb_base'
+  get '/layers/thumb' => 'layers#thumb', :as => 'layer_thumb_base'
+  get '/mosaics/thumb/:id' => 'layers#thumb', :as =>'thumb_layer'
+  get '/layers/thumb/:id' => 'layers#thumb'
+ 
   
   get '/gcps/' => 'gcp#index', :as => "gcps"
+  get '/gcps/bulk_import' => 'gcps#bulk_import', :as => "bulk_import_gcps"
   get '/gcps/:id' => 'gcps#show', :as => "gcp"
   delete '/gcps/:id/destroy' => 'gcps#destroy', :as => "destroy_gcp"
   post '/gcps/add/:mapid' => 'gcps#add', :as => "add_gcp"
   put '/gcps/update/:id' => 'gcps#update', :as => "update_gcp"
   put '/gcps/update_field/:id' => 'gcps#update_field', :as => "update_field_gcp"
   
+  
+  post '/gcps/add_many' => 'gcps#add_many', :as => 'add_many_gcps'
+  post '/gcps/add_many/:mapid' => 'gcps#add_many_to_map', :as => 'add_many_gcps_to_map'
 
   get '/maps/wms/:id' => "maps#wms", :as => 'wms_map'
   get '/maps/tile/:id/:z/:x/:y' => "maps#tile", :as => 'tile_map'
+  get '/maps/tile/:id' => "maps#tile", :as => 'tile_map_base'
   
-  get '/layers/wms/:id' => "layers#wms", :as => "wms_layer"
-  get '/layers/tile/:id/:z/:x/:y' => "layers#tile", :as => 'tile_layer'
-  
+  get '/mosaics/wms/:id' => "layers#wms", :as => "wms_layer"
+  get '/mosaics/wms' => "layers#wms", :as => "wms_layer_base"
+  get '/mosaics/tile/:id/:z/:x/:y' => "layers#tile", :as => 'tile_layer'
+  get '/mosaics/tile/:id' => "layers#tile", :as => 'tile_layer_base'
+ 
+  get '/layers/wms/:id' => "layers#wms"
+  get '/layers/wms' => "layers#wms"
+  get '/layers/tile/:id/:z/:x/:y' => "layers#tile"
+  get '/layers/tile/:id' => "layers#tile"
+
   resources :layers do
     member do
       get 'comments'
