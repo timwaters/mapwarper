@@ -1,11 +1,11 @@
 
-<div id="search-title">Tags for <%=@tags-%></div>
+<div id="search-title"><%= t('.for') %> <%=@tags-%></div>
 <% content_for :head do -%>
   <%=  auto_discovery_link_tag(:rss, {:controller => "maps", :action => "tag", :format => "rss", :id=> @tags}) %>
 <% end -%>
 
 <%=image_tag 'feed-icon-14x14.png' -%>
-<%= link_to 'RSS Feed' , tag_maps_path(:format=>:rss, :id => @tags) %>
+<%= link_to t('.rss') , tag_maps_path(:format=>:rss, :id => @tags) %>
 
 <div class="warper_pagination">
   <div id="search-pagination-top">
@@ -15,11 +15,11 @@
 <table id="map_table" cellpadding="3">
   <thead>
     <tr>
-        <th>Map</th>
-        <%= sort_header_tag('title', :title => "Title") %>
-        <%= sort_header_tag('issue_year', :title => "Year", :class=>"year-sort") %>
-        <%= sort_header_tag('updated_at', :title => "Last modified", :class => "modified-sort") %>
-        <%= sort_header_tag('status', :title => "Status") %>
+        <th><%= t('map_th') %></th>
+        <%= sort_header_tag('title', :title => t('title_th')) %>
+        <%= sort_header_tag('issue_year', :title => t('year_th'), :class=>"year-sort") %>
+        <%= sort_header_tag('updated_at', :title => t('last_th'), :class => "modified-sort") %>
+        <%= sort_header_tag('status', :title => t('status_th')) %>
     </tr>
   </thead>
 
