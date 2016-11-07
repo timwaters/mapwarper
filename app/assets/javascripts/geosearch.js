@@ -78,7 +78,7 @@ function searchmapinit(){
         'select': style_blue
     });
 
-  mapIndexLayer = new OpenLayers.Layer.Vector("Map Outlines", {styleMap: styleMap, visibility: false});
+  mapIndexLayer = new OpenLayers.Layer.Vector(I18n["geosearch"]["outline_layer"], {styleMap: styleMap, visibility: false});
   mapIndexSelCtrl = new OpenLayers.Control.SelectFeatureNoClick(mapIndexLayer, {hover:false, onSelect: onFeatureSelect, onUnselect: onFeatureUnselect});
   searchmap.addControl(mapIndexSelCtrl);
   mapIndexSelCtrl.deactivate(); 
@@ -200,7 +200,7 @@ function loadItems(resp){
   }
 
 function failMessage(resp){
-  alert("Sorry, something went wrong with the search");
+  alert(I18n["geosearch"]["search_fail"]);
   jQuery('#loadingDiv').hide();
 }
 

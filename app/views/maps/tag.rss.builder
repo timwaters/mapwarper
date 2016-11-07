@@ -1,8 +1,8 @@
 xml.instruct! :xml, :version => "1.0"
 xml.rss :version => "2.0" do
 xml.channel do
-  xml.title "Feed of Warper Maps tagged with " + @tags.to_s
-  xml.description "Maps tagged with "+ @tags
+  xml.title t('.feed_title') + @tags.to_s
+  xml.description t('.feed_description')+ @tags
   xml.link tag_maps_url(:id=>@tags)
   for map in @maps
 

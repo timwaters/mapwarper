@@ -11,37 +11,37 @@
 
     <div class="map_description"><span><%=strip_brackets(h(map.description)) -%>
         <% if map.layers.count > 0 %>
-          (In <%=link_to(pluralize(map.layers.count, 'mosaic'), map_layers_path(map.id)) -%>)
+          (<%= t('.in') %> <%=link_to(pluralize(map.layers.count, t('layer')), map_layers_path(map.id)) -%>)
         <%end %>
       </span>
 
       <span class="map_year">
         <% if map.depicts_year -%>
-          Depicts: <%= map.depicts_year -%>
+          <%= t('.depicts') %>: <%= map.depicts_year -%>
         <% end -%>
       </span>
-      <% if !map.public? %><span class="publicprivate">(Not listed)</span><% end-%>
+      <% if !map.public? %><span class="publicprivate">(<%= t('.private') %>)</span><% end-%>
     </div>
     <div class="map_links_bigger">
       <%= link_to("View Map",map) -%>
       |
       <% if !admin_authorized? && map.published? %>
-        <strong title ="This map has been published by an admin and no further editing is possible">Published</strong>
+        <strong title ="<%= t('.published_warn') %>"><%= t('.published') %></strong>
       <%  else %>
-        <%= link_to("Rectify Map", map_path(:id=> map.id,:anchor=>"Rectify_tab")) -%>
+        <%= link_to(t('.warp_map'), map_path(:id=> map.id,:anchor=>"Rectify_tab")) -%>
       <% end %>
       <% if user_signed_in? -%>
         <% current_user_maps = current_user.maps %>
         <% if current_user_maps.to_a.include?(map) -%>
-          | <%= link_to('Remove from My Maps', destroy_my_map_path(:user_id => current_user, :map_id => map.id), :method => :post, :data => {:confirm => "really remove this map from your list?"} ) -%>
+          | <%= link_to(t('.remove_my'), destroy_my_map_path(:user_id => current_user, :map_id => map.id), :method => :post, :data => {:confirm => t('.confirm_my')} ) -%>
         <% else -%>
-          | <%= link_to('Save to My Maps', add_my_map_path(:user_id => current_user, :map_id => map.id), :method => :post) -%>
+          | <%= link_to(t('.save_my'), add_my_map_path(:user_id => current_user, :map_id => map.id), :method => :post) -%>
         <% end -%>
       <% end -%>
 
 
       <% if admin_authorized? and @layer -%>
-        | <%= link_to "remove map from this mosaic", remove_layer_map_path(:id => @layer.id, :map_id => map.id), :method => :put %>
+        | <%= link_to t('.remove_from_layer'), remove_layer_map_path(:id => @layer.id, :map_id => map.id), :method => :put %>
       <%end -%>
 
       <% if admin_authorized? -%>
@@ -50,12 +50,12 @@
       <% end -%>
 
       <%if map.warped_or_published?-%> |
-        <%= link_to("Download KML", map_url(:id => map, :format=>:kml)) -%>
+        <%= link_to(t('.kml'), map_url(:id => map, :format=>:kml)) -%>
       <% end -%>
     </div>
     <div class="map_links">
       <% if map.source_uri %>
-        Links: <%= link_to 'Source / Biblio Ref', map.source_uri  %>
+        <%= t('.links') %>: <%= link_to t('.source'), map.source_uri  %>
       <% end %>
     </div>
 
@@ -64,13 +64,13 @@
     <%=  map.depicts_year %>
   </td>
   <td>
-    <%=h time_ago_in_words(map.updated_at) -%> ago.
+    <%=h time_ago_in_words(map.updated_at) -%> ago
   </td>
   <td>
     <%if map.gcps.hard.size > 0 %>
-      <%=pluralize(map.gcps.hard.size, "control point") -%>.
+      <%=pluralize(map.gcps.hard.size, t('.gcp')) -%>
     <%else-%>
-      Unrectified.
+      <%= t('.unwarped') %>
     <%end-%>
   </td>
 

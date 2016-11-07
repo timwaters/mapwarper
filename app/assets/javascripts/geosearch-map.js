@@ -7,7 +7,7 @@ function replaceMapTable(smaps) {
             "<td class='mini-map-thumb'><img src='" + mapThumbBaseURL + smap.id + "' height='70' ></td>" +
             "<td>" + smap.title + "<br />" +
             issue_year  + "<br />"+ 
-            "<a href='" + mapBaseURL + "/" + smap.id + "' target='_blank'>Open map</a> </td></tr>";
+            "<a href='" + mapBaseURL + "/" + smap.id + "' target='_blank'>"+I18n["geosearch"]["open"]+"</a> </td></tr>";
 
     jQuery("#searchmap-table").append(tableRow);
   }
@@ -27,9 +27,9 @@ function insertMapTablePagination(total, per, current) {
     last = true;
   }
   if (total > 0) {
-    var tableCaption = "<caption>Found " + total + " Maps. Showing " + start + " - " + num;
+    var tableCaption = "<caption>"+I18n["geosearch"]["found"]+ " " + total + " "+ I18n["geosearch"]["found_maps"]+  " " + I18n["geosearch"]["showing"] + " "+ start + " - " + num;
   } else {
-    var tableCaption = "<caption>Found " + total + " Maps";
+    var tableCaption = "<caption>"+ I18n["geosearch"]["found"] + " "+ total + " "+I18n["geosearch"]["found_maps"];
   }
   jQuery("#searchmap-table").append(tableCaption);
 
@@ -68,7 +68,7 @@ function onFeatureSelect(feature) {
           feature.mapId + "' target='_blank'>" +
           //feature.mapTitle+"</a><br />"+
           "<a href='#a-map-row-" + feature.mapId + "' ><img title='" + feature.mapTitle + "' src='" + mapThumbBaseURL + feature.mapId + "' height='80'></a>" +
-          "<br /> <a href='" + mapBaseURL + "/" + feature.mapId + "' target='_blank'>Open map in new page.</a>" +
+          "<br /> <a href='" + mapBaseURL + "/" + feature.mapId + "' target='_blank'>"+I18n["geosearch"]["open"]+".</a>" +
           "</div>",
           null, true, onPopupClose);
   popup.panMapIfOutOfView = false;

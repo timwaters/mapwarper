@@ -10,6 +10,7 @@
     <br />
     <span class="layer_description">
       <%= layer.description %>
+      Last modified <%=h time_ago_in_words(layer.updated_at) -%> ago.
     </span>
     <span class="layer_year">
       <span id="depicts-year-span-top">

@@ -1,0 +1,106 @@
+---
+en:
+  gcp: gcp
+  last_th: Last Updated
+  layer: mosaic
+  layer_th: Mosaic
+  map: map
+  map_th: Map
+  my_maps: My Maps
+  num_th: Number of Maps
+  per_page: per page
+  percent_th: Percentage Complete
+  status_th: Status
+  title_th: Title
+  year_th: Year
+  
+  home:
+    index:
+      all_maps: browse all maps
+      all_my_maps: See all of My Maps
+      click_news: click here to read this story
+      create_layer: Create a new mosaic
+      more: read more
+      news: News
+      recent_layers: Recent Mosaics
+      rect_maps: Last Rectified Maps
+      see_maps: See all maps
+      tags: Tags
+      view_layers: View all Mosaics
+      
+  layers:
+    geosearch:
+      button: Find Location
+      description_html: Move or zoom map - both the map and list will be updated with found layers. <br /> Layers are shown if they have one or more rectified maps within them, and are visible (not a meta collection/layer).
+      found: Found
+      found_layers: Mosaics.
+      more: More
+      open: Open mosaic
+      outline_layer: Map Outlines
+      prev: Prev
+      search_fail: Sorry, something went wrong with the search
+      showing: Showing
+      title: Find Mosaics by Location
+    layer:
+      depicts: Depicts
+      edit: Edit Mosaic
+      hidden: Not Visible
+      kml: Download KML
+      links: Links
+      made_by: Compiled by
+      merge: Merge
+      publish: Publish
+      source: Source / Biblio Ref
+      toggle: Toggle Visibility
+      visible: Visible
+      
+  maps:
+    geosearch:
+      button: Find Location
+      description: Move or zoom map - both the map and list will be updated with found maps.
+      found: Found
+      found_maps: Maps.
+      more: More
+      open: Open map
+      outline_layer: Map Outlines
+      prev: Prev
+      search_fail: Sorry, something went wrong with the search
+      showing: Showing
+      title: Find Rectified Maps.
+    index:
+      results: 'Searched for '
+      title: Browse Maps
+    map:
+      confirm_my: really remove this map from your list?
+      depicts: Depicts
+      gcp: control point
+      in: In
+      kml: Download KML
+      links: Links
+      private: Not listed
+      published: Published
+      published_warn: This map has been published by an admin and no further editing is possible
+      remove_from_layer: remove map from this mosaic
+      remove_my: Remove from My Maps
+      save_my: Save to My Maps
+      source: Source / Biblio Ref
+      unwarped: Unrectified
+      warp_map: Rectify Map
+    tag:
+      feed_description: 'Maps tagged with '
+      feed_title: 'Feed of Warper Maps tagged with '
+      for: Tags for
+      rss: RSS Feed
+
+  shared:
+    search:
+      all_maps: All maps
+      author: Author
+      button: Search
+      description: Description
+      find_geosearch: Find Rectified Maps by Location
+      only_rectified: Rectified maps only
+      publisher: Publisher
+      tags: Tags
+      title: Title
+

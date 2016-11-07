@@ -1,5 +1,9 @@
 <% content_for :head do %>
   <script type="text/javascript">
+   <% I18n.t(:foo) # to initialise I18n in case of error %>
+  window.I18n = <%= I18n.backend.send(:translations)[I18n.locale][:layers].to_json.html_safe %>
+  </script>
+  <script type="text/javascript">
     var gs_bounds = new OpenLayers.Bounds(<%=@bbox-%>);
 
     var mapBaseURL = '<%= url_for layers_path %>';
@@ -45,9 +49,9 @@
 
   <% @onload = "searchmapinit();" %> 
 <% end %>
-<h2>Find Layers by Location</h2>
+<h2><%= t('.title') %></h2>
 <div id="geosearch">
-  <p>Move or zoom map - both the map and list will be updated with found layers. <br /> Layers are shown if they have one or more rectified maps within them, and are visible (not a meta collection/layer).
+  <p><%= t('.description_html') %>
   </p>
   <div id="searchmap-container">
     <div id="searchmap-list-block">
@@ -55,7 +59,7 @@
       <div id="geosearch-year-filter-container">
         <div id="year-filter">
           <div id="year-label">
-            Year
+            <%= t('year_th') %>
           </div>
           <div id="year-slider-container">
             <div id="year-slider"></div>
@@ -74,7 +78,7 @@
           return false;' class='geosearchform'>
         <input type="text" id="place" name="place" value="">
         <input type="hidden" name="operation" value="intersect" >
-        <input type="submit" value="Find Location" class="geosearch-button">
+        <input type="submit" value="<%= t('.button') %>" class="geosearch-button">
       </form>
       <span id="loadingDiv"><%= image_tag "spinner-horiz.gif" %> </span>
       <input type="hidden" id="from" value = "<%= @year_min %>"/>

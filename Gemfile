@@ -71,6 +71,7 @@ group :development do
    gem 'capistrano-rails',    :require => false
    gem 'capistrano-bundler',  :require => false
    gem 'rvm1-capistrano3',    :require => false
+   gem 'i18n-tasks', '~> 0.9.6'
 end
 
 group :test do
