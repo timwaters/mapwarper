@@ -224,7 +224,8 @@ class MapsController < ApplicationController
   def tag
     sort_init('updated_at', {:default_order => "desc"})
     sort_update
-    @tags = params[:id] || @query
+    @tags = params[:id] || params[:query]
+    @query = @tags
     @html_title = "Maps tagged with #{@tags} on "
     @maps = Map.are_public.order(sort_clause).tagged_with(@tags).paginate(
       :page => params[:page],
