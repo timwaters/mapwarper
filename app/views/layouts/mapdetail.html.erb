@@ -3,7 +3,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <%= favicon_link_tag 'favicon.ico' %>
-    <title>Map Warper: <%= h(snippet(@html_title, 40)) || ''-%> </title>
+    <title> <%= t('site_title') %>: <%= h(snippet(@html_title, 40)) || ''-%> </title>
     <%= stylesheet_link_tag "application" %>
     <link href='http://fonts.googleapis.com/css?family=Lato:400,700|Sorts+Mill+Goudy|Vidaloka' rel='stylesheet' type='text/css'>
     <%= javascript_include_tag "openlayers/2.8/OpenLayers-2.8/OpenLayers" %>
@@ -29,15 +29,15 @@
           beforeLoad: function( event, ui ) {
             ui.jqXHR.error(function() {
               if (ui.jqXHR.status == 401){
-                <% flash  = "Sorry. You may need to <a class='unauthorized' href='#{url_for(new_user_session_path)}'>Log In</a> to view this." %>
+               <% flash = t("layouts.tabs.unauthorized_html", href: url_for(new_user_session_path)) %>
                 var flash = "<%= flash.html_safe %>";
                 jQuery(ui.panel).html(flash)
               }else if (ui.jqXHR.status == 503){
-               <% flash  = "Sorry. The site is currently in read only mode and some features are disabled. Please try again later." %>
+               <% flash  = t('layouts.tabs.unaccessible_html') %>
                 var flash = "<%= flash.html_safe %>";
                 jQuery(ui.panel).html(flash)
               }else{
-              //  <% flash  = "Something went wrong with this. Sorry! Please try again, or try logging in first." %>
+              //  <% flash  = t('layouts.tabs.fail_html') %>
               //  var flash = "<%= flash.html_safe %>";
               //  jQuery(ui.panel).html(flash)
               }
@@ -130,7 +130,7 @@
     <%end%>
     <%= render :partial => 'shared/analyticstop' %>
     <div id="headerDiv" class="headerDiv">
-      <h1><%= link_to "Map Warper", root_path %></h1>
+      <h1><%= link_to t('site_title'), root_path %></h1>
       <%= render :partial => 'shared/header' %>
       <%= render :partial => 'shared/nav' %>
     </div>
@@ -139,16 +139,16 @@
       <%= render :partial => 'maps/map_detail', :object => @map, :locals => {:variety => "detail"} %>
     </table>
 
-    <% @tabs = [{:name=>"show",:divname=>"Show", :label=>"Show", :path=>map_path},
-      {:name=>"edit",:divname=>"Edit", :label=>"Edit", :path=>edit_map_path(:id => @map)},
-      {:name=>"warp",:divname=>"Rectify", :label=>"Rectify", :path=>warp_map_path(:id => @map)},
-      {:name=>"clip",:divname=>"Crop", :label=>"Crop", :path=>clip_map_path(:id => @map)},
-      {:name=>"align",:divname=>"Align", :label=>"Align", :path=>align_map_path(:id => @map)},
-      {:name=>"warped",:divname=>"Preview_Rectified_Map", :label=>"Preview", :path=>warped_map_path(:id => @map)},
-      {:name=>"export",:divname=>"Export", :label=>"Export", :path=>export_map_path(:id => @map)},
-      {:name=>"metadata",:divname=>"Metadata", :label=>"Metadata", :path=>metadata_map_path(:id => @map)},
-      {:name=>"activity",:divname=>"Activity_History", :label=>"Activity",:path=> map_activity_path(:id => @map)},
-      {:name=>"comments",:divname=>"Comments", :label=>"Comments", :count=>@map.comments.size.to_s, :path=>comments_map_path(:id => @map)}  ] %>
+    <% @tabs = [{:name=>"show",:divname=>"Show", :label=> t('layouts.tabs.show'), :path=>map_path},
+      {:name=>"edit",:divname=>"Edit", :label=> t('layouts.tabs.edit'), :path=>edit_map_path(:id => @map)},
+      {:name=>"warp",:divname=>"Rectify", :label=> t('layouts.tabs.rectify'), :path=>warp_map_path(:id => @map)},
+      {:name=>"clip",:divname=>"Crop", :label=> t('layouts.tabs.crop'), :path=>clip_map_path(:id => @map)},
+      {:name=>"align",:divname=>"Align", :label=> t('layouts.tabs.align'), :path=>align_map_path(:id => @map)},
+      {:name=>"warped",:divname=>"Preview_Rectified_Map", :label=> t('layouts.tabs.preview'), :path=>warped_map_path(:id => @map)},
+      {:name=>"export",:divname=>"Export", :label=> t('layouts.tabs.export'), :path=>export_map_path(:id => @map)},
+      {:name=>"metadata",:divname=>"Metadata", :label=> t('layouts.tabs.metadata'), :path=>metadata_map_path(:id => @map)},
+      {:name=>"activity",:divname=>"Activity_History", :label=> t('layouts.tabs.activity'),:path=> map_activity_path(:id => @map)},
+      {:name=>"comments",:divname=>"Comments", :label=> t('layouts.tabs.comments'), :count=>@map.comments.size.to_s, :path=>comments_map_path(:id => @map)}  ] %>
     <div id="wooTabs">
       <ul>
         <% @tabs.each do |tab| %>

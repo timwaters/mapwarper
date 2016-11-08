@@ -6,28 +6,27 @@
   });
 </script>
 <%= form_for(@map, :remote=>true, :html => {:multipart => true}) do |f| %>
-  <div class="column span-12">
+       
+<div class="column span-12">
     <p>
-      <b>Title</b><br />
+      <b> <%= t('maps.form.title') %></b><br />
       <%= f.text_field :title %>
     </p>
 
     <p>
-      <b>Description </b><span class="tiny-text"> (max 256 chars)</span><br />
-      <%= f.text_area(:description, :rows => 12, :cols => 30) %>
+      <b> <%= t('maps.form.desc') %> </b><span class="tiny-text"> <%= t('maps.form.desc_hint') %> </span><br />
+      <%= f.text_area(:description, :cols => 30, :rows => 12) %>
     </p>
     <p>
-      <b>Issue Year</b><span class="tiny-text"> (year, optional)<br /> 
+    <b><%= t('maps.form.issue') %></b><span class="tiny-text"> <%= t('maps.form.issue_hint') %><br />
       Used to display maps by year. 
       </span><br />
       <%= f.text_field :issue_year %>
     </p>
-
     <p>
-      <b>Tags </b><span class="tiny-text"> (comma separated)</span> <br />
+      <b><%= t('maps.form.tags') %></b><span class="tiny-text"> <%= t('maps.form.tags_hint') %></span> <br />
       <%= f.text_field :tag_list %>
     </p>
-
     <p>
       <br />
       <%= f.select(:map_type, Map.map_type_hash, :selected=>:is_map) -%>
@@ -36,78 +35,79 @@
 
   <div class="column span-12 last">
     <p>
-      <b>Subject Area</b><span class="tiny-text"> (optional)</span><br />
+      <b><%= t('maps.form.subject') %></b><span class="tiny-text"> <%= t('maps.form.optional_hint') %></span><br />
       <%= f.text_field :subject_area %>
     </p>
 
-
     <p>
-      <b>Metadata Unique ID</b><span class="tiny-text"> (optional)</span><br />
+      <b><%= t('maps.form.unique_id') %></b><span class="tiny-text"> <%= t('maps.form.optional_hint') %> </span><br />
       <%= f.text_field :unique_id %>
     </p>
 
     <p>
-      <b>Source / Bibliographic Ref URL</b><span class="tiny-text"> (optional)</span><br />
+      <b><%= t('maps.form.source') %></b><span class="tiny-text"> <%= t('maps.form.optional_hint') %></span><br />
       <%= f.text_field :source_uri %>
     </p>
 
     <p>
-      <b>Call Number</b><span class="tiny-text"> (optional)</span><br />
+      <b><%= t('maps.form.call') %> </b><span class="tiny-text"> <%= t('maps.form.optional_hint') %></span><br />
       <%= f.text_field :call_number %>
     </p>
 
     <p>
-      <b>Publisher</b><span class="tiny-text"> (optional)</span><br />
+      <b><%= t('maps.form.publisher') %></b><span class="tiny-text"> <%= t('maps.form.optional_hint') %></span><br />
       <%= f.text_field :publisher %>
     </p>
 
     <p>
-      <b>Place of Publication</b><span class="tiny-text"> (optional)</span><br />
+      <b><%= t('maps.form.place') %></b><span class="tiny-text"> <%= t('maps.form.optional_hint') %></span><br />
       <%= f.text_field :publication_place %>
     </p>
     <p>
-      <b>Author(s)</b><span class="tiny-text"> (optional)</span><br />
+      <b><%= t('maps.form.author') %></b><span class="tiny-text"> <%= t('maps.form.optional_hint') %></span><br />
       <%= f.text_field :authors %>
     </p>
 
-    <p>
-      <b>Date Depicted</b><span class="tiny-text"> (year, optional)</span><br />
+     <p>
+      <b><%= t('maps.form.depicted') %></b><span class="tiny-text"> <%= t('maps.form.depicted_hint') %></span><br />
       <%= f.text_field :date_depicted %>
-    </p>
+     </p>
 
     <p>
-      <b>Published Date</b><span class="tiny-text"> (optional)</span><br />
+      <b><%= t('maps.form.published') %></b><span class="tiny-text"> <%= t('maps.form.optional_hint') %></span><br />
       <%= f.date_select(:published_date, :include_blank => true, :order => [:day, :month, :year ], :start_year => 1600, :end_year =>Time.now.year)  %>
     </p>
 
     <p>
-      <b>Reprint Date </b><span class="tiny-text"> (optional)</span><br />
+      <b><%= t('maps.form.reprint') %> </b><span class="tiny-text"> <%= t('maps.form.optional_hint') %></span><br />
       <%= f.date_select(:reprint_date, :include_blank => true, :order => [:day, :month, :year ], :start_year => 1600, :end_year =>Time.now.year)  %>
     </p>
-
+    
     <p>
-      <b>Scale</b><span class="tiny-text"> (optional)</span><br />
+      <b><%= t('maps.form.scale') %></b><span class="tiny-text"> <%= t('maps.form.optional_hint') %></span><br />
       <%= f.text_field :scale %>
     </p>
 
     <p>
-      <b>Metadata Projection</b><span class="tiny-text"> (optional)</span><br />
+      <b><%= t('maps.form.projection') %></b><span class="tiny-text"> <%= t('maps.form.optional_hint') %> </span><br />
       <%= f.text_field :metadata_projection %>
     </p>
     <p>
-      <b>Metadata Location</b><span class="tiny-text"> (optional)</span><br />
-      <b>Lat: </b> <%= f.text_field :metadata_lat %><br />
-      <b>Lon: </b> <%= f.text_field :metadata_lon %>
+      <b><%= t('maps.form.location') %></b><span class="tiny-text"> <%= t('maps.form.optional_hint') %></span><br />
+      <b><%= t('maps.form.lat') %> </b> <%= f.text_field :metadata_lat %><br />
+      <b><%= t('maps.form.lon') %> </b> <%= f.text_field :metadata_lon %>
     </p>
 
   </div>
 
+
+
   <div class="column span-24">
     <%- if defined?(page)  && page =~ /new/ -%>
       <p>
-        <label for="upload"><b>Upload An Image File:</b>
+        <label for="upload"><b><%= t('maps.form.upload_file') %></b>
           <br /><% if @max_size %>
-            Max size:
+            <%= t('maps.form.max_size') %>
             <%=  number_to_human_size @max_size %>.
           <% end %>
           <%= @upload_file_message %>
@@ -118,14 +118,14 @@
 
     <%- if defined?(page)  && (page =~ /edit/ && user_signed_in? && (current_user == @map.owner || current_user.has_role?("editor")) || page =~ /new/ ) -%>
       <p>
-        Map visibility. Maps are by default visible to all users.<br />
-        <% unless @map.public? %>
-          <%= f.radio_button :public, "true" %><label for="map_public_true">Make Public</label>
+      <%= t('maps.form.are_visible') %><br />
+      <% unless @map.public? %>
+          <%= f.radio_button :public, "true" %><label for="map_public_true"><%= t('maps.form.are_public') %></label>
         <% end %>
       </p>
     <%- end -%>
     <p>
-      <%= f.submit((defined?(page) && page =~ /new/) ? "Create" : "Update" )%>
+      <%= f.submit((defined?(page) && page =~ /new/) ? t('create_button') : t('update_button') )%>
     </p>
 
   </div>

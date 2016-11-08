@@ -1,5 +1,6 @@
 ---
 en:
+  site_title: Map Warper
   gcp: gcp
   last_th: Last Updated
   layer: mosaic
@@ -13,7 +14,29 @@ en:
   status_th: Status
   title_th: Title
   year_th: Year
-  
+  create_button: Create
+  update_button: Update
+  layouts:
+    tabs:
+      show: Show
+      edit: Edit
+      export: Export
+      metadata: Metadata
+      comments: Comments
+      rectify: Rectify
+      crop: Crop
+      align: Align
+      preview: Preview
+      activity: Activity
+      
+      unauthorized_html: "Sorry. You may need to <a class='unauthorized' href='%{href}'>Log In</a> to view this."
+      unaccessible_html: "Sorry. The site is currently in read only mode and some features are disabled. Please try again later."
+      fail_html: "Something went wrong with this. Sorry! Please try again, or try logging in first."
+    layerdetail:
+      year_dialog_title: Depicts Year (admin only)
+      year_dialog_label: "Add / edit year that this mosaic depicts:"
+      year_fail_alert: 'Sorry, something went wrong trying to save this'
+      year_button: "Save"
   home:
     index:
       all_maps: browse all maps
@@ -91,6 +114,39 @@ en:
       feed_title: 'Feed of Warper Maps tagged with '
       for: Tags for
       rss: RSS Feed
+
+    form:
+      title: Title
+      desc: Description
+      desc_hint: (max 256 chars)
+      issue: Issue Year
+      issue_hint: (year, optional)
+      tags: Tags
+      tags_hint: (comma separated)
+      subject: Subject Area
+      optional_hint: (optional)
+      
+      unique_id: Metadata Unique ID
+      source: Source / Bibliographic Ref URL
+      call: Call Number
+      publisher: Publisher
+      place: Place of Publication
+      author: Author(s)
+      depicted: Date Depicted
+      depicted_hint: (year, optional)
+      published: Published Date
+      reprint: Reprint Date
+      scale: Scale
+      projection: Metadata Projection
+      location: Metadata Location
+      lat: "Lat:"
+      lon: "Lon:"
+      upload_file: "Upload An Image File:"
+      max_size: "Max size:"
+      upload_url: "Upload from a URL:"
+      are_visible: Map visibility. Maps are by default visible to all users.
+      make_public: Make Public
+      
 
   shared:
     search:
