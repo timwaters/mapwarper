@@ -23,7 +23,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.synced_folder ".", "/srv/mapwarper"
 
   config.vm.provision :shell, :path => "lib/vagrant/provision.sh"
-  
+
 
   #you may want to alter this
   config.vm.provider :virtualbox do |v|
@@ -32,5 +32,5 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     # v.customize [ "modifyvm", :id, "--hwvirtex", "off", "--memory", 1024, "--cpus", 1 ]
   end
 
-  
+
 end
