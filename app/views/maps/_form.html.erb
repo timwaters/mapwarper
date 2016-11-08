@@ -1,22 +1,22 @@
 <%= form_for(@map, :html => {:multipart => true}) do |f| %>
   <div class="column span-12">
     <p>
-      <b>Title</b><br />
+      <b> <%= t('.title') %></b><br />
       <%= f.text_field :title %>
     </p>
 
     <p>
-      <b>Description </b><span class="tiny-text"> (max 256 chars)</span><br />
+      <b> <%= t('.desc') %> </b><span class="tiny-text"> <%= t('.desc_hint') %> </span><br />
       <%= f.text_area(:description, :cols => 30, :rows => 12) %>
     </p>
     <p>
-      <b>Issue Year</b><span class="tiny-text"> (year, optional)<br />
+    <b><%= t('.issue') %></b><span class="tiny-text"> <%= t('.issue_hint') %><br />
       Used to display maps by year. 
       </span><br />
       <%= f.text_field :issue_year %>
     </p>
     <p>
-      <b>Tags </b><span class="tiny-text"> (comma separated)</span> <br />
+      <b><%= t('.tags') %></b><span class="tiny-text"> <%= t('.tags_hint') %></span> <br />
       <%= f.text_field :tag_list %>
     </p>
     <p>
@@ -27,67 +27,67 @@
 
   <div class="column span-12 last">
     <p>
-      <b>Subject Area</b><span class="tiny-text"> (optional)</span><br />
+      <b><%= t('.subject') %></b><span class="tiny-text"> <%= t('.optional_hint') %></span><br />
       <%= f.text_field :subject_area %>
     </p>
 
     <p>
-      <b>Metadata Unique ID</b><span class="tiny-text"> (optional)</span><br />
+      <b><%= t('.unique_id') %></b><span class="tiny-text"> <%= t('.optional_hint') %> </span><br />
       <%= f.text_field :unique_id %>
     </p>
 
     <p>
-      <b>Source / Bibliographic Ref URL</b><span class="tiny-text"> (optional)</span><br />
+      <b><%= t('.source') %></b><span class="tiny-text"> <%= t('.optional_hint') %></span><br />
       <%= f.text_field :source_uri %>
     </p>
 
     <p>
-      <b>Call Number</b><span class="tiny-text"> (optional)</span><br />
+      <b><%= t('.call') %> </b><span class="tiny-text"> <%= t('.optional_hint') %></span><br />
       <%= f.text_field :call_number %>
     </p>
 
     <p>
-      <b>Publisher</b><span class="tiny-text"> (optional)</span><br />
+      <b><%= t('.publisher') %></b><span class="tiny-text"> <%= t('.optional_hint') %></span><br />
       <%= f.text_field :publisher %>
     </p>
 
     <p>
-      <b>Place of Publication</b><span class="tiny-text"> (optional)</span><br />
+      <b><%= t('.place') %></b><span class="tiny-text"> <%= t('.optional_hint') %></span><br />
       <%= f.text_field :publication_place %>
     </p>
     <p>
-      <b>Author(s)</b><span class="tiny-text"> (optional)</span><br />
+      <b><%= t('.author') %></b><span class="tiny-text"> <%= t('.optional_hint') %></span><br />
       <%= f.text_field :authors %>
     </p>
 
      <p>
-      <b>Date Depicted</b><span class="tiny-text"> (year, optional)</span><br />
+      <b><%= t('.depicted') %></b><span class="tiny-text"> <%= t('.depicted_hint') %></span><br />
       <%= f.text_field :date_depicted %>
      </p>
 
     <p>
-      <b>Published Date</b><span class="tiny-text"> (optional)</span><br />
+      <b><%= t('.published') %></b><span class="tiny-text"> <%= t('.optional_hint') %></span><br />
       <%= f.date_select(:published_date, :include_blank => true, :order => [:day, :month, :year ], :start_year => 1600, :end_year =>Time.now.year)  %>
     </p>
 
     <p>
-      <b>Reprint Date </b><span class="tiny-text"> (optional)</span><br />
+      <b><%= t('.reprint') %> </b><span class="tiny-text"> <%= t('.optional_hint') %></span><br />
       <%= f.date_select(:reprint_date, :include_blank => true, :order => [:day, :month, :year ], :start_year => 1600, :end_year =>Time.now.year)  %>
     </p>
     
     <p>
-      <b>Scale</b><span class="tiny-text"> (optional)</span><br />
+      <b><%= t('.scale') %></b><span class="tiny-text"> <%= t('.optional_hint') %></span><br />
       <%= f.text_field :scale %>
     </p>
 
     <p>
-      <b>Metadata Projection</b><span class="tiny-text"> (optional)</span><br />
+      <b><%= t('.projection') %></b><span class="tiny-text"> <%= t('.optional_hint') %> </span><br />
       <%= f.text_field :metadata_projection %>
     </p>
     <p>
-      <b>Metadata Location</b><span class="tiny-text"> (optional)</span><br />
-      <b>Lat: </b> <%= f.text_field :metadata_lat %><br />
-      <b>Lon: </b> <%= f.text_field :metadata_lon %>
+      <b><%= t('.location') %></b><span class="tiny-text"> <%= t('.optional_hint') %></span><br />
+      <b><%= t('.lat') %> </b> <%= f.text_field :metadata_lat %><br />
+      <b><%= t('.lon') %> </b> <%= f.text_field :metadata_lon %>
     </p>
 
   </div>
@@ -95,9 +95,9 @@
   <div class="column span-24">
     <%- if defined?(page)  && page =~ /new/ -%>
       <p>
-        <label for="upload"><b>Upload An Image File:</b>
+        <label for="upload"><b><%= t('.upload_file') %></b>
           <% if @max_size %>
-            Max size: <%=  number_to_human_size @max_size %>.
+            <%= t('.max_size') %> <%=  number_to_human_size @max_size %>.
           <% end %>
           <%= @upload_file_message %>
         </label> <br />
@@ -105,22 +105,21 @@
       </p>
       OR
       <p>
-        <label for="upload_url"><b>Upload from a URL:</b></label>
+        <label for="upload_url"><b><%= t('.upload_url') %></b></label>
         <%= f.text_field :upload_url %>
-        <%# text_field_tag(:upload_url, "", :size=>40, :class=>"upload_url") %>
       </p>
     <%- end -%>
 
     <%- if defined?(page)  && (page =~ /edit/ && user_signed_in? && (current_user == @map.owner || current_user.has_role?("editor")) || page =~ /new/ ) -%>
-      <p>
-        Map visibility. Maps are by default visible to all users.<br />
+      <p> 
+        <%= t('.are_visible') %><br />
         <% unless @map.public? %>
-          <%= f.radio_button :public, "true" %><label for="map_public_true">Make Public</label>
+          <%= f.radio_button :public, "true" %><label for="map_public_true"><%= t('.are_public') %></label>
         <% end %>
       </p>
     <%- end -%>
     <p>
-      <%= f.submit((defined?(page) && page =~ /new/) ? "Create" : "Update" )%>
+      <%= f.submit((defined?(page) && page =~ /new/) ? t('create_button') : t('update_button') )%>
     </p>
 
   </div>
