@@ -33,27 +33,27 @@ pushd /srv/mapwarper
 
 # do bundle install as a convenience
 sudo -u vagrant -H bundle install
+
 # create user and database for openstreetmap-website
 db_user_exists=`sudo -u postgres psql postgres -tAc "select 1 from pg_roles where rolname='vagrant'"`
 if [ "$db_user_exists" != "1" ]; then
-		sudo -u postgres createuser -s vagrant
-		sudo -u vagrant -H createdb -E UTF-8 -O vagrant mapwarper_development
+    sudo -u postgres createuser -s vagrant
+    sudo -u vagrant -H createdb -E UTF-8 -O vagrant mapwarper_development
 fi
 
 # build and set up postgres extensions
-
 sudo -u vagrant psql mapwarper_development -c "create extension postgis;"
 
 
 # set up sample configs
 if [ ! -f config/database.yml ]; then
-		sudo -u vagrant cp config/database.example.yml config/database.yml
+    sudo -u vagrant cp config/database.example.yml config/database.yml
 fi
 if [ ! -f config/application.yml ]; then
-		sudo -u vagrant cp config/application.example.yml config/application.yml
+    sudo -u vagrant cp config/application.example.yml config/application.yml
 fi
 if [ ! -f config/secrets.yml ]; then
-		sudo -u vagrant cp config/secrets.yml.example config/secrets.yml
+    sudo -u vagrant cp config/secrets.yml.example config/secrets.yml
 fi
 
 echo "now migrating database. This may take a few minutes"
