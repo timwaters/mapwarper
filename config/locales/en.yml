@@ -1,5 +1,19 @@
 ---
 en:
+  # External Libraries
+  activerecord:
+    attributes:
+      map:
+        title: Title
+    models:
+      layer:
+        one: layer
+        other: layers
+        zero: layers
+      map:
+        one: map
+        other: maps
+        zero: maps
   will_paginate:
     page_entries_info:
       multi_page: Displaying %{model} %{from} - %{to} of %{count} in total
@@ -12,3 +26,224 @@ en:
         one: Displaying <b>1</b> %{model}
         other: Displaying <b>all&nbsp;%{count}</b> %{model}
         zero: No %{model} found
+  devise:
+    users_registrations:
+      user:
+        signed_up: "Welcome! You have signed up successfully."
+    confirmations:
+      confirmed: "Your account was successfully confirmed."
+      send_instructions: "You will receive an email with instructions about how to confirm your account in a few minutes."
+      send_paranoid_instructions: "If your email address exists in our database, you will receive an email with instructions about how to confirm your account in a few minutes."
+    failure:
+      already_authenticated: "You are already signed in."
+      inactive: "Your account is not activated yet."
+      invalid: "Invalid email or password."
+      locked: "Your account is locked."
+      last_attempt: "You have one more attempt before your account will be locked."
+      not_found_in_database: "Invalid email or password."
+      timeout: "Your session expired. Please sign in again to continue."
+      unauthenticated: "You need to sign in or sign up before continuing."
+      unconfirmed: "You have to confirm your account before continuing."
+    mailer:
+      confirmation_instructions:
+        subject: "Map Warper email address confirmation instructions"
+      reset_password_instructions:
+        subject: "Map Warper Reset password instructions"
+      unlock_instructions:
+        subject: "Unlock Instructions"
+    omniauth_callbacks:
+      failure: "Could not authenticate you from %{kind} because \"%{reason}\"."
+      success: "Successfully authenticated from %{kind} account."
+    passwords:
+      no_token: "You can't access this page without coming from a password reset email. If you do come from a password reset email, please make sure you used the full URL provided."
+      send_instructions: "You will receive an email with instructions on how to reset your password in a few minutes."
+      send_paranoid_instructions: "If your email address exists in our database, you will receive a password recovery link at your email address in a few minutes."
+      updated: "Your password was changed successfully. You are now signed in."
+      updated_not_active: "Your password was changed successfully."
+    registrations:
+      destroyed: "Bye! Your account was successfully cancelled. We hope to see you again soon."
+      signed_up: "Welcome! You have signed up successfully."
+      signed_up_but_inactive: "You have signed up successfully. However, we could not sign you in because your account is not yet activated."
+      signed_up_but_locked: "You have signed up successfully. However, we could not sign you in because your account is locked."
+      signed_up_but_unconfirmed: "Thanks! A message with a confirmation link has been sent to your email address. Please open the link to activate your account."
+      update_needs_confirmation: "You updated your account successfully, but we need to verify your new email address. Please check your email and click on the confirm link to finalize confirming your new email address."
+      updated: "You updated your account successfully."
+    sessions:
+      signed_in: "Signed in successfully."
+      signed_out: "Signed out successfully."
+    unlocks:
+      send_instructions: "You will receive an email with instructions about how to unlock your account in a few minutes."
+      send_paranoid_instructions: "If your account exists, you will receive an email with instructions about how to unlock it in a few minutes."
+      unlocked: "Your account has been unlocked successfully. Please sign in to continue."
+  errors:
+    messages:
+      already_confirmed: "was already confirmed, please try signing in"
+      confirmation_period_expired: "needs to be confirmed within %{period}, please request a new one"
+      expired: "has expired, please request a new one"
+      not_found: "not found"
+      not_locked: "was not locked"
+      not_saved:
+        one: "1 error prohibited this %{resource} from being saved:"
+        other: "%{count} errors prohibited this %{resource} from being saved:"
+        
+  # Main Warper Translations
+
+  site_title: Map Warper
+  gcp: gcp
+  last_th: Last Updated
+  layer: mosaic
+  layer_th: Mosaic
+  map: map
+  map_th: Map
+  my_maps: My Maps
+  num_th: Number of Maps
+  per_page: per page
+  percent_th: Percentage Complete
+  status_th: Status
+  title_th: Title
+  year_th: Year
+  create_button: Create
+  update_button: Update
+  layouts:
+    tabs:
+      show: Show
+      edit: Edit
+      export: Export
+      metadata: Metadata
+      comments: Comments
+      rectify: Rectify
+      crop: Crop
+      align: Align
+      preview: Preview
+      activity: Activity
+      
+      unauthorized_html: "Sorry. You may need to <a class='unauthorized' href='%{href}'>Log In</a> to view this."
+      unaccessible_html: "Sorry. The site is currently in read only mode and some features are disabled. Please try again later."
+      fail_html: "Something went wrong with this. Sorry! Please try again, or try logging in first."
+    layerdetail:
+      year_dialog_title: Depicts Year (admin only)
+      year_dialog_label: "Add / edit year that this mosaic depicts:"
+      year_fail_alert: 'Sorry, something went wrong trying to save this'
+      year_button: "Save"
+  home:
+    index:
+      all_maps: browse all maps
+      all_my_maps: See all of My Maps
+      click_news: click here to read this story
+      create_layer: Create a new mosaic
+      more: read more
+      news: News
+      recent_layers: Recent Mosaics
+      rect_maps: Last Rectified Maps
+      see_maps: See all maps
+      tags: Tags
+      view_layers: View all Mosaics
+      
+  layers:
+    geosearch:
+      button: Find Location
+      description_html: Move or zoom map - both the map and list will be updated with found layers. <br /> Layers are shown if they have one or more rectified maps within them, and are visible (not a meta collection/layer).
+      found: Found
+      found_layers: Mosaics.
+      more: More
+      open: Open mosaic
+      outline_layer: Map Outlines
+      prev: Prev
+      search_fail: Sorry, something went wrong with the search
+      showing: Showing
+      title: Find Mosaics by Location
+    layer:
+      depicts: Depicts
+      edit: Edit Mosaic
+      hidden: Not Visible
+      kml: Download KML
+      links: Links
+      made_by: Compiled by
+      merge: Merge
+      publish: Publish
+      source: Source / Biblio Ref
+      toggle: Toggle Visibility
+      visible: Visible
+      
+  maps:
+    geosearch:
+      button: Find Location
+      description: Move or zoom map - both the map and list will be updated with found maps.
+      found: Found
+      found_maps: Maps.
+      more: More
+      open: Open map
+      outline_layer: Map Outlines
+      prev: Prev
+      search_fail: Sorry, something went wrong with the search
+      showing: Showing
+      title: Find Rectified Maps.
+    index:
+      results: 'Searched for '
+      title: Browse Maps
+    map:
+      confirm_my: really remove this map from your list?
+      depicts: Depicts
+      gcp: control point
+      in: In
+      kml: Download KML
+      links: Links
+      private: Not listed
+      published: Published
+      published_warn: This map has been published by an admin and no further editing is possible
+      remove_from_layer: remove map from this mosaic
+      remove_my: Remove from My Maps
+      save_my: Save to My Maps
+      source: Source / Biblio Ref
+      unwarped: Unrectified
+      warp_map: Rectify Map
+    tag:
+      feed_description: 'Maps tagged with '
+      feed_title: 'Feed of Warper Maps tagged with '
+      for: Tags for
+      rss: RSS Feed
+    form:
+      title: Title
+      desc: Description
+      desc_hint: (max 256 chars)
+      issue: Issue Year
+      issue_hint: (year, optional)
+      tags: Tags
+      tags_hint: (comma separated)
+      subject: Subject Area
+      optional_hint: (optional)
+      
+      unique_id: Metadata Unique ID
+      source: Source / Bibliographic Ref URL
+      call: Call Number
+      publisher: Publisher
+      place: Place of Publication
+      author: Author(s)
+      depicted: Date Depicted
+      depicted_hint: (year, optional)
+      published: Published Date
+      reprint: Reprint Date
+      scale: Scale
+      projection: Metadata Projection
+      location: Metadata Location
+      lat: "Lat:"
+      lon: "Lon:"
+      upload_file: "Upload An Image File:"
+      max_size: "Max size:"
+      upload_url: "Upload from a URL:"
+      are_visible: Map visibility. Maps are by default visible to all users.
+      make_public: Make Public
+      
+  shared:
+    search:
+      all_maps: All maps
+      author: Author
+      button: Search
+      description: Description
+      find_geosearch: Find Rectified Maps by Location
+      only_rectified: Rectified maps only
+      publisher: Publisher
+      tags: Tags
+      title: Title
+
+
