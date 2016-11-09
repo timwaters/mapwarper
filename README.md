@@ -73,10 +73,6 @@ Then install the gem files using bundler
 
 ```bundle install```
 
-If you want to keep gem dependency under project folder, specify `--path` option.
-
-```bundle install --path=vendor/bundler```
-
 ## Configuration
 
 Create and configure the following files
