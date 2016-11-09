@@ -46,7 +46,7 @@ gem 'pg'
 
 gem 'activerecord-postgis-adapter', '~>3.0'
 
-gem 'acts-as-taggable-on', '~> 3.3.0'
+gem 'acts-as-taggable-on', '~> 3.5.0'
 gem 'paperclip', '~> 4.3.7'
 gem 'acts_as_commentable'
 gem 'will_paginate', '~> 3.0'
