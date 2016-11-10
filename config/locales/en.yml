@@ -1,6 +1,6 @@
 ---
 en:
-  # External Libraries
+# Active Record, plurals etc
   activerecord:
     attributes:
       map:
@@ -14,6 +14,8 @@ en:
         one: map
         other: maps
         zero: maps
+        
+# External Libraries
   will_paginate:
     page_entries_info:
       multi_page: Displaying %{model} %{from} - %{to} of %{count} in total
@@ -86,7 +88,7 @@ en:
         one: "1 error prohibited this %{resource} from being saved:"
         other: "%{count} errors prohibited this %{resource} from being saved:"
         
-  # Main Warper Translations
+# Main Warper Translations
 
   site_title: Map Warper
   gcp: gcp
@@ -104,6 +106,8 @@ en:
   year_th: Year
   create_button: Create
   update_button: Update
+  back_link: Back
+  ago: ago
   layouts:
     tabs:
       show: Show
@@ -143,14 +147,6 @@ en:
     geosearch:
       button: Find Location
       description_html: Move or zoom map - both the map and list will be updated with found layers. <br /> Layers are shown if they have one or more rectified maps within them, and are visible (not a meta collection/layer).
-      found: Found
-      found_layers: Mosaics.
-      more: More
-      open: Open mosaic
-      outline_layer: Map Outlines
-      prev: Prev
-      search_fail: Sorry, something went wrong with the search
-      showing: Showing
       title: Find Mosaics by Location
     layer:
       depicts: Depicts
@@ -166,17 +162,72 @@ en:
       visible: Visible
       
   maps:
+    align:
+      instructions_html: "If this map belongs to a mosaic with other maps, you can copy the control points from an adjacent map that has already been rectified to this one.<br /> Click + and choose a map, then drag and drop to choose the alignment."
+      add_map_title: Click to add map here
+      form_title: Control Panel
+      overwrite_label: Overwrite any existing control points?
+      append_yes: Yes
+      append_no: No
+      type_label: Type of align
+      original_type: Using original map? (nicer fit, trickier to edit later)
+      warped_type: Using rectified map? (worse fit, easier to edit later)
+      align_button: align map!
+      ref_title: Add Reference Map
+      ref_instructions: Choose a rectified map to copy the control points from the same mosaics
+      ref_button: Use
+      no_layers_message: Sorry, but there are no mosaics containing rectifed maps to choose from.
+      manual_instructions:  Add map number manually
+      map: Map
+   
+    clip:
+      instructions_html: '<p>1. Draw around the area you wish to keep.  </p><p>2. Then to apply the mask to the map, click "Mask Map!" </p>'
+      clipping_wait_msg_html: '<br />Saving mask...<br />Cropping map...'
+      clip_button: Mask Map!
+      delete: Delete mask
+      confirm_delete: Really delete mask and start over?
+      delete_alert: that didnt work as expected, sorry
+
+    comments:
+      header: Comments
+      no_comments: "There's no comments for this map, why not add one now!"
+      login: Log in to add a comment
+      
+    delete:
+      header: Really delete the map?
+      help_text_html: 'All images, uploaded and rectified will be deleted.<br /> All control points deleted. <br /> All WMS, KML and export options will be unavailable for users.<br />'
+      no_button: No, get me out of here!
+      yes_button: Yes, Delete map!
+      
+    edit:
+      header: Editing Map Attributes
+      delete_link: Delete this map.
+      
+    export:
+      header: Export
+      images_header: Images
+      services_header: Map Services
+      gcp_header: Ground Control Points
+      geotiff: GeoTiff
+      geotiff_link: Download rectified GeoTiff
+      png:  PNG
+      png_link: Download rectified PNG
+      png_aux: and associated .aux.xml file
+      kml: KML
+      kml_link: Download KML file
+      kml_hint: (for use in Google Earth, etc)
+      wms: WMS
+      wms_link: WMS Capabilities URL
+      josm_link: for JOSM OpenStreetMap Editor
+      tiles: Tiles (Google/OSM scheme)
+      bibliographic_header: "Biliographic Links:"
+      bibliographic: Biliographic
+      gcp_csv: CSV
+      gcp_csv_link: Download control points as CSV
+      
     geosearch:
       button: Find Location
       description: Move or zoom map - both the map and list will be updated with found maps.
-      found: Found
-      found_maps: Maps.
-      more: More
-      open: Open map
-      outline_layer: Map Outlines
-      prev: Prev
-      search_fail: Sorry, something went wrong with the search
-      showing: Showing
       title: Find Rectified Maps.
     index:
       results: 'Searched for '
@@ -197,6 +248,62 @@ en:
       source: Source / Biblio Ref
       unwarped: Unrectified
       warp_map: Rectify Map
+    map_detail:
+      map_user_label: Uploaded by
+      last_modified: Last modified
+      tags: Tags
+      publish: Publish
+      publish_confirm: Really publish this map? This will mean that no further editing can be done
+      unpublish: UnPublish
+      unpublish_confirm: Really un publish this map? This will mean that the map can be edited now
+    
+    metadata:
+      header: Metadata
+    new:
+      header: Upload a new map
+      permission_notice: By uploading images to the website, you agree that you have permission to do so, and accept that anyone else can potentially view and use them, including changing control points.
+    show:
+      loading: Loading map...
+      requesting: requesting
+      loaded_html: "Map has successfully loaded, page will automatically refresh in a couple of seconds <a href='%{href}'>Click here</a> if you don't want to wait."
+      unloaded: The map did not load properly, please refresh the page and try again. If it does not load properly a second time, please choose another map, and try again another day.
+    warp:
+      close_popup: Close popup
+      custom_layer_instructions_html: "Enter a tile URL template, or tile URL.  Z/X/Y ordered scheme only. <br /> E.g. <code>https://maps.wikimedia.org/osm/{z}/{x}/{y}.png</code> <br /> or <code>https://maps.wikimedia.org/osm/10/507/329.png</code>"
+      click_text_top: Double-click on both maps, then click
+      click_text_btm: Do this for at least three points.
+      click_button: Add Control Point
+      panel_title: Control Panel
+      gcps_link: Control Points
+      gcp_point: Point
+      gcp_x: Image X
+      gcp_y: Image Y
+      gcp_lon: Lon
+      gcp_lat: Lat
+      gcp_error: Error
+      add_manually_button: Add Control Point Manually
+      download_gcps: Download points as CSV
+      gcp_upload_label: CSV File with Control Points
+      gcp_upload_button: Upload CSV!
+      advanced_options: Advanced options
+      method_label: "Rectify Method:"
+      auto_method: Auto - based on number of control points (default)
+      p1_method: 1st Order Polynomial (min 3 points)
+      p2_method: 2nd Order Polynomial (min 6 points)
+      p3_method: 3rd Order Polynomial (min 10 points)
+      tps_method: Thin Plate Spline (many points widely spread)
+      resample_label: "Resampling Method:"
+      near: Nearest Neighbour, fastest (default)
+      bilinear: Bilinear
+      cubic: Cubic
+      cubicspline: Cubic Spline , slower but best quality
+      lanczos: Lanczos
+      rectifying_notice: Rectifying.....
+      server_error: Sorry, there appears to be an error sending the request to the server, try again?...
+      warp_button: "Warp Image! &rarr;"
+      unmasked_question_html: "This map is not currently masked. Do you want to <a href='%{href}'>add or edit a mask now</a>?"
+      apply_mask_html: "Apply <a href='%{href}'>clipping mask </a> when rectifying?"
+
     tag:
       feed_description: 'Maps tagged with '
       feed_title: 'Feed of Warper Maps tagged with '
@@ -212,7 +319,6 @@ en:
       tags_hint: (comma separated)
       subject: Subject Area
       optional_hint: (optional)
-      
       unique_id: Metadata Unique ID
       source: Source / Bibliographic Ref URL
       call: Call Number
@@ -245,5 +351,70 @@ en:
       publisher: Publisher
       tags: Tags
       title: Title
+      
+  comments:
+    comment:
+      delete_link: delete
+      confirm_delete: Really delete this comment?
+    comment_form:
+      header: Comment on this
+      add_comment: Add Comment
+    index:
+      header: Comments
+      comment_th: Comment
+      comment_type: Comment On
+      user: User
+      created: Created at
+      actions_th: Actions
+   
+  js:
+    align:
+      dialog_add_button: Add Map
+      not_enough_maps_alert: Sorry, but there should be at least two maps selected
+      wrong_align_alert: Sorry, only horizontal and vertical alignment are available at the moment
+      no_map_alert: Sorry, either no map was selected, or the same map number was entered   
+    clip:
+      move_tool_title: Move around Map
+      draw_tool_title: Draw new polygon to mask
+      delete_tool_title: Delete a polygon
+      confirm_delete_tool: Really delete this?
+    geosearch:
+      open_map: Open map
+      open_layer: Open mosaic
+      outline_layer: Map Outlines
+      prev: Prev
+      search_fail: Sorry, something went wrong with the search
+      found: Found
+      found_maps: Maps.
+      found_layers: Layers.
+      more: More
+      showing: Showing
+    warp:
+      move_gcp: Move Control Point
+      add_gcp: Add Control Point
+      custom_layer_title: Add Custom Basemap
+      custom_layer: Custom basemap
+      move_map: Move Around Map
+      gcp_updating: Updating...
+      gcp_updated: Control Point updated!
+      gcp_failed: Had trouble updating that point with the server. Try again?
+      gcp_adding: Adding...
+      rms_error_prefix: Error
+      gcp_premature_alert: You have to add a new control point on each map before pressing this button.
+      warped_layer: warped map
+      best_guess_message: "Map zoomed to best guess:"
+      other_places: "Other places:"
+      warp_popup_title: Rectifier is Working...
+    warped:
+      warped_map: warped image
+      warped_layer: Layer
+    layers:
+      osm_attribution: '&copy <a href="http://www.openstreetmap.org/">OpenStreetMap</a> contributors'
+      mbox_satellite_attribution: '<a href="https://www.mapbox.com/about/maps/" target="_blank">&copy; Mapbox</a> <a href="https://openstreetmap.org/about/" target="_blank">&copy; OpenStreetMap</a> <a class="mapbox-improve-map" href="https://www.mapbox.com/map-feedback/" target="_blank">Improve this map</a> <a href="https://www.digitalglobe.com/" target="_blank">&copy; DigitalGlobe</a>'
+      map_outlines_label:  Map Outlines
+      map_outlines_toggle: Toggle map outlines on map above
+      loading_fail: Sorry, something went wrong loading the items
+      edit_map: Edit this map
 
 
+      

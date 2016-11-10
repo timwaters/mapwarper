@@ -79,7 +79,7 @@
      onclick="toggleJoinLinks();" title="Pan/zoom lock" ></div>
 
 <div id = "to_map_block">
-  <div id="to_map_notification" class="hidden"><div id="to_map_notify_close"><a href="#" title="Close popup">X</a></div><div id="to_map_notification_inner"></div> </div>
+  <div id="to_map_notification" class="hidden"><div id="to_map_notify_close"><a href="#" title="<%= t('.close_popup') %>">X</a></div><div id="to_map_notification_inner"></div> </div>
   <div id="to_map" class="map-off"></div>
   <div id="warped-slider"><div class="ui-slider-handle"></div></div>
 </div>
@@ -87,71 +87,69 @@
 
 
 <div id="add_custom_layer" style="display:none;">
-  Enter a tile URL template, or tile URL.  Z/X/Y ordered scheme only. <br />
-  E.g. <code>https://maps.wikimedia.org/osm/{z}/{x}/{y}.png</code> <br />
-  or <code>https://maps.wikimedia.org/osm/10/507/329.png</code>  
+  <%= t('.custom_layer_instructions_html') %>
   <form>
    <input type="text" name="template" id="template" size="42"/>
   </form>
 </div>
 
 <div id="gcp">
-  <em>Double-click on both maps, then click</em>
-  <div id="addPointDiv" class="addPoint"><input type="button" id="GcpButton" value="Add Control Point" onclick="set_gcp();" class="gcp_button" /></div>.
-  <em> Do this for at least three points.</em></div>
+  <em><%= t('.click_text_top') %></em>
+  <div id="addPointDiv" class="addPoint"><input type="button" id="GcpButton" value="<%= t('.click_button') %>" onclick="set_gcp();" class="gcp_button" /></div>.
+  <em><%= t('.click_text_btm') %></em></div>
 
 <fieldset id="control_panel_fieldset">
 
-  <legend>Control Panel</legend>
+  <legend><%= t('.panel_title') %></legend>
   <div id="rectifyNotice">
     <span id="spinner" style="display:none;"><%= image_tag 'spinner.gif' %></span><span id="gcp_notice"></span>
   </div>
-  <a href="#" id="controlPointLink">Control Points</a>
+  <a href="#" id="controlPointLink"><%= t('.gcps_link') %></a>
   <div id = "div_gcp_form">
     <%= form_for(:gcp, {:html => {:id => 'gcp_form'} ,  :url =>rectify_map_path(@map), :remote => true }) do |f| %>
       <div id="gcp_table_div" >
         <table id="gcp_table" class="gcpTabClass">
 
           <thead>
-            <tr><th>Point</th><th>Image X</th><th>Image Y</th><th>Lon</th><th>Lat</th><th id="errortitle">Error(<%=sprintf("%.2f",@map.error) %>)</th><th></th>
+            <tr><th><%= t('.gcp_point') %></th><th><%= t('.gcp_x') %></th><th><%= t('.gcp_y') %></th><th><%= t('.gcp_lon') %></th><th><%= t('.gcp_lat') %></th><th id="errortitle"><%= t('.gcp_error') %>(<%=sprintf("%.2f",@map.error) %>)</th><th></th>
             </tr>
           </thead>
           <tbody id="gcp_list">
             <%= render(:partial => "gcps/gcp", :collection => @gcps) %>
           </tbody>
         </table>
-        <input type="button" value="Add Control Point Manually" onclick="save_new_gcp(0, 0, 0, 0);" />
+        <input type="button" value="<%= t('.add_manually_button') %>" onclick="save_new_gcp(0, 0, 0, 0);" />
         <br />
-        <%= link_to image_tag("csv-20x25.png")+"Download points as CSV", gcps_map_url(@map, :format=>:csv) %> <br />
+        <%= link_to image_tag("csv-20x25.png")+ t('.download_gcps'), gcps_map_url(@map, :format=>:csv) %> <br />
         
       <% if editor_authorized? %>
         <fieldset class="gcp_upload">
-          <label for="file">CSV File with Control Points</label>
+          <label for="file"><%= t('.gcp_upload_label') %></label>
           <%= file_field_tag :file %>
-          <input type="button" id="upload-csv-button" value="Upload CSV!"  />
+          <input type="button" id="upload-csv-button" value="<%= t('.gcp_upload_button') %>"  />
         </fieldset>
       <% end %>
       </div>
 
       <input type="hidden" name="map" value ="<%= @map.id %>" />
-      <a href="#" id="advancedLink">Advanced options</a>
+      <a href="#" id="advancedLink"><%= t('.advanced_options') %></a>
       <div id="advanced_form_options" >
-        Rectify Method:
+        <%= t('.method_label') %>
         <select name="transform_options">
-          <option value="auto" selected="selected">Auto - based on number of control points (default)</option>
-          <option value="p1">1st Order Polynomial (min 3 points)</option>
-          <option value="p2">2nd Order Polynomial (min 6 points)</option>
-          <option value="p3">3rd Order Polynomial (min 10 points)</option>
-          <option value="tps">Thin Plate Spline (many points widely spread)</option> <!-- tps could be unsuitable for this style of rectification? needs a good spread of gcps anyhow. -->
+          <option value="auto" selected="selected"><%= t('.auto_method') %></option>
+          <option value="p1"><%= t('.p1_method') %></option>
+          <option value="p2"><%= t('.p2_method') %></option>
+          <option value="p3"><%= t('.p3_method') %></option>
+          <option value="tps"><%= t('.tps_method') %></option> <!-- tps could be unsuitable for this style of rectification? needs a good spread of gcps anyhow. -->
         </select>
         <br />
-        Resampling Method:
+        <%= t('.resample_label') %>
         <select name="resample_options">
-          <option value="near" selected="selected">Nearest Neighbour, fastest (default)</option>
-          <option value="bilinear">Bilinear</option>
-          <option value="cubic">Cubic</option>
-          <option value="cubicspline">Cubic Spline , slower but best quality</option>
-          <!-- <option value="lanczos">Lanczos</option> this is very very slow -->
+          <option value="near" selected="selected"><%= t('.near') %></option>
+          <option value="bilinear"><%= t('.bilinear') %></option>
+          <option value="cubic"><%= t('.cubic') %></option>
+          <option value="cubicspline"><%= t('.cubicspline') %></option>
+          <!-- <option value="lanczos"><%= t('.lanczos') %></option> this is very very slow -->
         </select>
       </div>
       <p>
@@ -167,21 +165,22 @@
       });
       jQuery("form#gcp_form").bind("ajax:before", function(event, data, status, xhr) {
         if (event.target.id == "gcp_form"){
-          bigModalDialog('Rectifying.....');
+          bigModalDialog('<%= t('.rectifying_notice') %>');
         }
       }).bind("ajax:error", function(){
-        gcp_notice('Sorry, there appears to be an error sending the request to the server, try again?...');  
+        gcp_notice('<%= t('.server_error') %>');  
       });
     });
   </script>
-        <%= f.submit 'Warp Image! &rarr;'.html_safe, {:class  => "warp_button", :id=>"warp_button"}%>
+        <%= f.submit t('.warp_button').html_safe, {:class  => "warp_button", :id=>"warp_button"}%>
       </p>
       <div id ="clipping_mask_buttons">
 
         <% if @map.mask_status.nil? || @map.mask_status == :unmasked -%>
-          This map either is not currently masked. Do you want to <%= link_to "add or edit a mask now", map_path(:id =>@map, :anchor=>"Crop_tab") %>? <br />
+          <%= t('.unmasked_question_html', :href => url_for(map_path(:id =>@map, :anchor=>"Crop_tab"))) %>
+          <br />
         <% end %>
-        Apply <%= link_to "clipping mask", map_path(:id =>@map, :anchor=>"Crop_tab") %> when rectifying?
+          <%= t('.apply_mask_html', :href=> url_for(map_path(:id =>@map, :anchor=>"Crop_tab"))) %>
         <label for="use_mask1">
           <input <% if @map.mask_status == :masked -%>checked<%end-%> id="use_mask1" type="radio" name="use_mask" value="true" />Yes
         </label>

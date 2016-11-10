@@ -42,7 +42,7 @@ jQuery(function() {
   });
   jQuery("#align-accordian button").click(function(evt) {
     jQuery("#mapid").val(evt.target.id);
-    jQuery("#dialog").dialog("option", "buttons")["Add Map"].apply(jQuery("#dialog"));
+    jQuery("#dialog").dialog("option", "buttons")[I18n["align"]["dialog_add_button"]].apply(jQuery("#dialog"));
   });
 
 
@@ -82,7 +82,7 @@ function serialiseStuff() {
   finalPos = jQuery("#sortable").sortable("toArray");
 
   if (gridArray.length <= 1) {
-    alert("Sorry, but there should be at least two maps selected");
+    alert(I18n["align"]["not_enough_maps_alert"]);
     return false;
   }
   origSrc = gridArray[0].place.substring(gridArray[0].place.length - 1); //i.e. 2
@@ -113,7 +113,7 @@ function serialiseStuff() {
   }
 
   if (align == "other") {
-    alert("Sorry, only horizontal and vertical alignment are available at the moment");
+    alert(I18n["align"]["not_enough_maps_alert"]);
     return false;
 
   } else {
@@ -123,7 +123,7 @@ function serialiseStuff() {
     if ((frm.destmap.value != frm.srcmap.value) && (frm.destmap.value.length > 0)) {
       return true;
     } else {
-      alert("Sorry, either no map was selected, or the same map number was entered");
+      alert(I18n["align"]["no_map_alert"]);
       return false;
     }
   }

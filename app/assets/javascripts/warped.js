@@ -34,7 +34,7 @@ function warpedinit() {
 
     var warped_wms_url = warpedwms_url;
 
-    warped_wmslayer = new OpenLayers.Layer.WMS("warped image",
+    warped_wmslayer = new OpenLayers.Layer.WMS(I18n['warped']['warped_map'],
         warped_wms_url, {
             format: 'image/png',
             status: 'warped'
@@ -74,7 +74,7 @@ function warpedinit() {
 
 function get_map_layer(layerid) {
     var newlayer_url = layer_baseurl + "/" + layerid;
-    var map_layer = new OpenLayers.Layer.WMS("Layer " + layerid,
+    var map_layer = new OpenLayers.Layer.WMS(I18n['warped']['warped_layer']+" " + layerid,
         newlayer_url, {
             format: 'image/png'
         }, {

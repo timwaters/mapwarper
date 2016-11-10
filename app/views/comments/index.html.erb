@@ -1,14 +1,14 @@
-<h2>Comments </h2>
+<h2> <%= t('.header') %></h2>
 
 <%= will_paginate @comments %>
 <table class="commentstable">
   <thead>
     <tr>
-      <th>Comment</th>
-      <%= sort_header_tag('commentable_type', :title => "Comment On") %>
-      <%= sort_header_tag('user_id', :title => "User") %>
-      <%= sort_header_tag('created_at', :title => "Created At") %>
-      <th>Actions</th>
+      <th><%= t('.comment_th') %></th>
+      <%= sort_header_tag('commentable_type', :title => t('.comment_type')) %>
+      <%= sort_header_tag('user_id', :title => t('.user')) %>
+      <%= sort_header_tag('created_at', :title => t('.created')) %>
+      <th><%= t('.actions_th') %></th>
     </tr>
   </thead>
   <tbody>

@@ -123,19 +123,19 @@ function init() {
           {displayClass: 'toPanel olControlEditingToolbar'}
   );
   var dragMarker = new OpenLayers.Control.DragFeature(to_vectors,
-          {displayClass: 'olControlDragFeature', title: 'Move Control Point'});
+          {displayClass: 'olControlDragFeature', title: I18n["warp"]["move_gcp"]});
   dragMarker.onComplete = function(feature) {
     saveDraggedMarker(feature);
   };
 
   var drawFeatureTo = new OpenLayers.Control.DrawFeature(active_to_vectors, OpenLayers.Handler.Point,
-          {displayClass: 'olControlDrawFeaturePoint', title: 'Add Control Point', handlerOptions: {style: active_style}});
+          {displayClass: 'olControlDrawFeaturePoint', title: I18n["warp"]["add_gcp"], handlerOptions: {style: active_style}});
   drawFeatureTo.featureAdded = function(feature) {
     newaddGCPto(feature);
   };
 
   var drawFeatureFrom = new OpenLayers.Control.DrawFeature(active_from_vectors, OpenLayers.Handler.Point,
-          {displayClass: 'olControlDrawFeaturePoint', title: 'Add Control Point', handlerOptions: {style: active_style}});
+          {displayClass: 'olControlDrawFeaturePoint', title: I18n["warp"]["add_gcp"], handlerOptions: {style: active_style}});
   drawFeatureFrom.featureAdded = function(feature) {
     newaddGCPfrom(feature);
   };
@@ -144,7 +144,7 @@ function init() {
           {displayClass: 'olControlEditingToolbar'}
   );
   var dragMarkerFrom = new OpenLayers.Control.DragFeature(from_vectors,
-          {displayClass: 'olControlDragFeature', title: 'Move Control Point'});
+          {displayClass: 'olControlDragFeature', title: I18n["warp"]["move_gcp"]});
   dragMarkerFrom.onComplete = function(feature) {
     saveDraggedMarker(feature);
   };
@@ -160,7 +160,7 @@ function init() {
       draggable: false,
       modal: true,
       hide: 'slow',
-      title: 'Add Custom Basemap',
+      title: I18n["warp"]["custom_layer_title"],
       buttons: {
         "Add Layer": function(){
           var template = jQuery("#template").val();
@@ -195,12 +195,12 @@ function init() {
       return false;
     } 
   
-    var temp_layer = new OpenLayers.Layer.TMS("Custom basemap", baseurl,
+    var temp_layer = new OpenLayers.Layer.TMS(I18n["warp"]["custom_layer"], baseurl,
             {type: img_type,
               getURL: osm_getTileURL,
               displayOutsideMaxExtent: true,
               transitionEffect: 'resize',
-              attribution: "Custom basemap " + baseurl
+              attribution: I18n["warp"]["custom_layer"]+ " " + baseurl
             }
     );
 
@@ -213,12 +213,12 @@ function init() {
   }
   
   var layerButton = new OpenLayers.Control.Button({
-    displayClass: 'layerButton', title: 'Add Custom Basemap', trigger: addCustomLayerAction 
+    displayClass: 'layerButton', title: I18n["warp"]["custom_layer_title"], trigger: addCustomLayerAction 
  });
 
 
-  navig = new OpenLayers.Control.Navigation({title: "Move Around Map"});
-  navigFrom = new OpenLayers.Control.Navigation({title: "Move Around Map"});
+  navig = new OpenLayers.Control.Navigation({title: I18n["warp"]["move_map"]});
+  navigFrom = new OpenLayers.Control.Navigation({title: I18n["warp"]["move_map"]});
 
   to_panel.addControls([layerButton, navig, dragMarker, drawFeatureTo]);
   to_map.addControl(to_panel);
@@ -376,19 +376,19 @@ function update_gcp_field(gcp_id, elem) {
   var url = gcp_update_field_url + "/" + id;
 
   jQuery('#spinner').show();
-  gcp_notice('Updating...');
+  gcp_notice(I18n["warp"]["gcp_updating"]);
 
   var request = jQuery.ajax({
     type: "PUT",
     url: url,
     data: {authenticity_token: encodeURIComponent(window._token), attribute: attrib, value: value}}
   ).success(function() {
-    gcp_notice("Control Point updated!");
+    gcp_notice(I18n["warp"]["gcp_updated"]);
     move_map_markers(gcp_id, elem);
   }).done(function() {
     jQuery('#spinner').hide();
   }).fail(function() {
-    gcp_notice("Had trouble updating that point with the server. Try again?");
+    gcp_notice(I18n["warp"]["gcp_failed"]);
     elem.value = value;
   });
 }
@@ -417,7 +417,7 @@ function update_gcp(gcp_id, listele) {
 
     }
   }
-  gcp_notice('Updating...');
+  gcp_notice(I18n["warp"]["gcp_updating"]);
   jQuery('#spinner').show();
   
   var request = jQuery.ajax({
@@ -425,11 +425,11 @@ function update_gcp(gcp_id, listele) {
     url: url,
     data: {authenticity_token: encodeURIComponent(window._token), x: x, y: y, lon: lon, lat: lat}}
   ).success(function() {
-    gcp_notice("Control Point updated!");
+    gcp_notice(I18n["warp"]["gcp_updated"]);
   }).done(function() {
     jQuery('#spinner').hide();
   }).fail(function() {
-    gcp_notice("Had trouble updating that point with the server. Try again?");
+    gcp_notice(I18n["warp"]["gcp_failed"]);
     elem.value = value;
   });
 
@@ -538,7 +538,7 @@ function saveDraggedMarker(feature) {
 function save_new_gcp(x, y, lon, lat) {
 
   url = gcp_add_url;
-  gcp_notice("Adding...");
+  gcp_notice(I18n["warp"]["gcp_adding"]);
   jQuery('#spinner').show();
   
   var request = jQuery.ajax({
@@ -549,7 +549,7 @@ function save_new_gcp(x, y, lon, lat) {
     update_row_numbers();
     jQuery('#spinner').hide();
   }).fail(function() {
-    gcp_notice("Had trouble saving that point to the server. Try again?");
+    gcp_notice(I18n["warp"]["gcp_failed"]);
   });
   
 }
@@ -557,7 +557,7 @@ function save_new_gcp(x, y, lon, lat) {
 
 function update_rms(new_rms) {
   fi = document.getElementById('errortitle');
-  fi.value = "Error(" + new_rms + ")";
+  fi.innerHTML=  I18n["warp"]["rms_error_prefix"]+"(" + new_rms + ")";
 }
 
 
@@ -655,7 +655,7 @@ function populate_gcps(gcp_id, img_lon, img_lat, dest_lon, dest_lat, error) {
 function set_gcp() {
   check_if_gcp_ready();
   if (!temp_gcp_status) {
-    alert("You have to add a new control point on each map before pressing this button.");
+    alert(I18n["warp"]["gcp_premature_alert"]);
     return false;
   } else {
     var from_lonlat = from_templl;
@@ -707,7 +707,7 @@ function addLayerToDest(frm) {
   num = frm.layer_num.value;
   new_wms_url = empty_wms_url + '/' + num;
 
-  new_warped_layer = new OpenLayers.Layer.WMS.Untiled("warped map " + num, new_wms_url, {
+  new_warped_layer = new OpenLayers.Layer.WMS.Untiled(I18n["warp"]["warped_layer"]+" " + num, new_wms_url, {
     format: 'image/png',
     status: 'warped'
   },
@@ -796,7 +796,7 @@ function addLayerToDest(frm) {
   num = frm.layer_num.value;
   new_wms_url = empty_wms_url + '/' + num;
 
-  new_warped_layer = new OpenLayers.Layer.WMS.Untiled("warped map " + num, new_wms_url,
+  new_warped_layer = new OpenLayers.Layer.WMS.Untiled(I18n["warp"]["warped_layer"]+" " + num, new_wms_url,
           {format: 'image/png', status: 'warped'},
   {TRANSPARENT: 'true', reproject: 'true'},
   {gutter: 15, buffer: 0},
@@ -865,12 +865,12 @@ function bestGuess(guessObj) {
       zoom = to_map.getZoomForExtent(sibBounds.transform(to_map.displayProjection, to_map.projection));
     }
     var places = guessObj["places"];
-    var message = "Map zoomed to best guess: " +
+    var message = I18n["warp"]["best_guess_message"]+ " " +
             "<a href='#' onclick='centerToMap(" + places[0].lon + "," + places[0].lat + "," + zoom + ");return false;'>" + places[0].name + "</a><br />";
     centerToMap(places[0].lon, places[0].lat, zoom);
 
     if (places.length > 1) {
-      message = message + "Other places:<br />";
+      message = message + I18n["warp"]["other_places"]+":<br />";
       for (var i = 1; i < places.length; i++) {
         var place = places[i];
         message = message + "<a href='#' onclick='centerToMap(" + place.lon + "," + place.lat + "," + zoom + ");return false;'>" + place.name + "</a><br />"

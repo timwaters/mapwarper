@@ -64,7 +64,7 @@
     <%=  map.depicts_year %>
   </td>
   <td>
-    <%=h time_ago_in_words(map.updated_at) -%> ago
+    <%=h time_ago_in_words(map.updated_at) -%> <%= t('ago') %>
   </td>
   <td>
     <%if map.gcps.hard.size > 0 %>

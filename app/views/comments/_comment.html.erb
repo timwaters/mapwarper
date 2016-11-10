@@ -6,10 +6,10 @@
     <% if comment.user -%>
       <%= link_to comment.user.login, user_path(comment.user) -%>
     <% end -%>
-    - <%= time_ago_in_words(comment.created_at) %> ago.
+    - <%= time_ago_in_words(comment.created_at) %> <%= t('ago') %>.
     <%if user_signed_in? -%>
       <% if current_user == comment.user || admin_authorized? %>
-        <%= link_to "delete", url_for(:controller => "comments", :action => "destroy", :id => comment.id), :method => :delete, :data => {:confirm => "Really delete this comment?"} %>
+        <%= link_to t('.delete_link'), url_for(:controller => "comments", :action => "destroy", :id => comment.id), :method => :delete, :data => {:confirm => t('.confirm_delete')} %>
       <% end -%>
     <% end -%>
   </span>

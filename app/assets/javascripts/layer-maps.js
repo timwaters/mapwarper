@@ -67,7 +67,7 @@ function init(){
       'select': mapIndexSelectStyle
     });
   
-  mapIndexLayer = new OpenLayers.Layer.Vector("Map Outlines", {styleMap: styleMap, visibility: false});
+  mapIndexLayer = new OpenLayers.Layer.Vector(I18n['layers']['map_outlines_label'], {styleMap: styleMap, visibility: false});
   mapIndexSelCtrl = new OpenLayers.Control.SelectFeature(mapIndexLayer, {hover:false, onSelect: onFeatureSelect, onUnselect: onFeatureUnselect});
   layerMap.addControl(mapIndexSelCtrl);
   mapIndexSelCtrl.activate();
@@ -85,7 +85,7 @@ function init(){
 
   loadMapFeatures();
 
-  jQuery("#view-maps-index-link").append("(<a href='javascript:toggleMapIndexLayer();'>Toggle map outlines on map above</a>)");
+  jQuery("#view-maps-index-link").append("(<a href='javascript:toggleMapIndexLayer();'>I18n['layers']['map_outlines_toggle']</a>)");
 }
 
 function toggleMapIndexLayer(){
@@ -113,7 +113,7 @@ function loadItems(resp){
 }
 
 function failMessage(resp){
-  alert("Sorry, something went wrong loading the items");
+  alert(I18n['layers']['loading_fail']);
 }
 
 function addMapToMapLayer(mapitem){
@@ -135,7 +135,7 @@ function onFeatureSelect(feature) {
     "<div class='layermap-popup'> Map "+
       feature.mapId + "<br /> <a href='" + mapBaseURL + "/"+ feature.mapId + "' target='_blank'>"+feature.mapTitle+"</a><br />"+
       "<img src='"+mapThumbBaseURL+feature.mapId+"' height='80'>"+
-      "<br /> <a href='"+mapBaseURL+"/"+feature.mapId+"#Rectify_tab' target='_blank'>Edit this map</a>"+
+      "<br /> <a href='"+mapBaseURL+"/"+feature.mapId+"#Rectify_tab' target='_blank'>"+I18n['layers']['edit_map']+"</a>"+
       "</div>",
     null, true, onPopupClose);
   popup.minSize = new OpenLayers.Size(180,150);
