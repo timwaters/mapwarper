@@ -303,6 +303,9 @@ en:
       warp_button: "Warp Image! &rarr;"
       unmasked_question_html: "This map is not currently masked. Do you want to <a href='%{href}'>add or edit a mask now</a>?"
       apply_mask_html: "Apply <a href='%{href}'>clipping mask </a> when rectifying?"
+    warped:
+      unwarped_notice: Sorry, you'll have to rectify a map before you can view it.
+      transparency: Transparency
 
     tag:
       feed_description: 'Maps tagged with '
