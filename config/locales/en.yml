@@ -160,6 +160,18 @@ en:
       source: Source / Biblio Ref
       toggle: Toggle Visibility
       visible: Visible
+    layer_detail:
+      last_modified: Last modified
+      edit_year: Add/Edit Year
+    form:
+      source: "Source / Bibliographic Ref URL"
+      depicts_hint: (year, optional)
+      depicts_hint_2:  Used to display layers by year.
+      select_map_head: 'Choose from "My Maps"'
+      no_maps: 'You have no warped'
+      my_maps: my maps
+      detail: detail
+      
       
   maps:
     align:
@@ -318,6 +330,7 @@ en:
       desc_hint: (max 256 chars)
       issue: Issue Year
       issue_hint: (year, optional)
+      issue_hint_2: Used to display maps by year.
       tags: Tags
       tags_hint: (comma separated)
       subject: Subject Area
