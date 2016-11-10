@@ -7,7 +7,7 @@ function replaceMapTable(smaps) {
             "<td class='mini-map-thumb'><img src='" + mapThumbBaseURL + smap.id + "' height='70' ></td>" +
             "<td>" + smap.title + "<br />" +
             issue_year  + "<br />"+ 
-            "<a href='" + mapBaseURL + "/" + smap.id + "' target='_blank'>"+I18n["geosearch"]["open"]+"</a> </td></tr>";
+            "<a href='" + mapBaseURL + "/" + smap.id + "' target='_blank'>"+I18n["geosearch"]["open_map"]+"</a> </td></tr>";
 
     jQuery("#searchmap-table").append(tableRow);
   }
@@ -35,11 +35,11 @@ function insertMapTablePagination(total, per, current) {
 
 
   var footer = "";
-  var next = "<a href='#' onclick='do_search(" + nextlot + "); return false;'>More<a/>";
+  var next = "<a href='#' onclick='do_search(" + nextlot + "); return false;'>"+I18n['geosearch']['more']+"<a/>";
   var previous = "";
 
   if (current > 1) {
-    previous = "<a href='#' onclick='do_search(" + prevlot + ");'>Prev</a>&nbsp;&nbsp; ";
+    previous = "<a href='#' onclick='do_search(" + prevlot + ");'>"+I18n['geosearch']['prev']+"</a>&nbsp;&nbsp; ";
   }
   if (last) {
     next = "";
@@ -68,7 +68,7 @@ function onFeatureSelect(feature) {
           feature.mapId + "' target='_blank'>" +
           //feature.mapTitle+"</a><br />"+
           "<a href='#a-map-row-" + feature.mapId + "' ><img title='" + feature.mapTitle + "' src='" + mapThumbBaseURL + feature.mapId + "' height='80'></a>" +
-          "<br /> <a href='" + mapBaseURL + "/" + feature.mapId + "' target='_blank'>"+I18n["geosearch"]["open"]+".</a>" +
+          "<br /> <a href='" + mapBaseURL + "/" + feature.mapId + "' target='_blank'>"+I18n["geosearch"]["open_map"]+".</a>" +
           "</div>",
           null, true, onPopupClose);
   popup.panMapIfOutOfView = false;

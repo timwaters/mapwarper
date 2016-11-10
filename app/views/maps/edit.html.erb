@@ -1,9 +1,9 @@
-<h2>Editing Map Attributes</h2>
+<h2><%= t('.header') %></h2>
 
 <%= error_messages_for @map %>
 
-<%- if (current_user = @map.owner || admin_authorized?) -%>
-   <p>&mdash; <%=  link_to 'Delete this map.', delete_map_path(@map)  %> &mdash; </p>
+<%- if (current_user == @map.owner || admin_authorized?) -%>
+   <p>&mdash; <%=  link_to t('.delete_link'), delete_map_path(@map)  %> &mdash; </p>
 <% end %>
 
 <%= render :partial => "form_remote", :locals => {:page => "edit"} %>

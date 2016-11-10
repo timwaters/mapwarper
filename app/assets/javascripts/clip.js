@@ -72,7 +72,7 @@ function clipinit() {
     onDelete: function(feature) {
       //  OpenLayers.Console.log("delete", feature.id);
     },
-    title: "Modify existing polygon",
+    title: I18n["clip"]["modify_tool_title"],
     displayClass: "olControlModifyFeature"
   };
 
@@ -82,7 +82,7 @@ function clipinit() {
     scratchGeom = null;
   });
   navigate = new OpenLayers.Control.Navigation({
-    title: "Move around Map"
+    title: I18n["clip"]["move_tool_title"]
   });
   navigate.events.register("activate", this, function() {
     //check to see if theres something in the temp buffer
@@ -92,16 +92,15 @@ function clipinit() {
   });
   polygon = new OpenLayers.Control.DrawFeature(vectors, OpenLayers.Handler.Polygon,
           {
+            title: I18n["clip"]["draw_tool_title"],
+            displayClass: 'olControlDrawFeature',
             callbacks: {
               "cancel": function(polyGeom) {
                 scratchGeom = polyGeom.clone();
               }
             }
-          },
-  {
-    title: "Draw new polygon to mask",
-    displayClass: 'olControlDrawFeature'
-  });
+          }
+  );
 
 
   polygon.featureAdded = function(feature) {
@@ -113,7 +112,7 @@ function clipinit() {
   deletePoly = new OpenLayers.Control.SelectFeature(vectors,
           {
             onSelect: deletePolygon,
-            title: "Delete a polygon",
+            title: I18n["clip"]["delete_tool_title"],
             displayClass: 'olControlDeleteFeature'
           });
 
@@ -129,7 +128,7 @@ function clipinit() {
 }
 
 function deletePolygon(feature) {
-  var c = confirm("Really delete this?");
+  var c = confirm(I18n["clip"]["confirm_delete_tool"]);
   if (c === true) {
     vectors.removeFeatures([feature]);
   }

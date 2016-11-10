@@ -17,6 +17,7 @@
 //= require jquery-bramus-progressbar/jquery-bramus-progressbar
 //= require general
 //= require jquery.history
+//= require i18n-translations
 //= require jquery-warper
 //= require layers
 //= require unwarped

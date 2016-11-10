@@ -1,9 +1,5 @@
 <% content_for :head do %>
   <script type="text/javascript">
-   <% I18n.t(:foo) # to initialise I18n in case of error %>
-  window.I18n = <%= I18n.backend.send(:translations)[I18n.locale][:maps].to_json.html_safe %>
-  </script>
-  <script type="text/javascript">
     var gs_bounds = new OpenLayers.Bounds(<%=@bbox-%>);
     var mapBaseURL = '<%= url_for maps_path %>';
     var mapThumbBaseURL = '<%= url_for(map_thumb_base_path) %>/';

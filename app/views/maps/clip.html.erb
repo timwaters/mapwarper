@@ -24,8 +24,7 @@
 <div id="maskresult"></div>
 
 <div id="cliphelp">
-  <p>1. Draw around the area you wish to keep.  </p>
-  <p>2. Then to apply the mask to the map, click "Mask Map!" </p>
+  <%= t('.instructions_html') %>
 </div>
 
 <div id="info">
@@ -36,7 +35,7 @@
         jQuery("#maskresult").html(data.message);
       }).bind("ajax:before", function() {
         deselect();
-        bigModalDialog2('<br />Saving mask...<br />Cropping map...');
+        bigModalDialog2("<%= t('.clipping_wait_msg_html') %>");
         serialize_features();
       }).bind("ajax:complete", function() {
         closeBigModalDialog2();
@@ -46,7 +45,7 @@
   </script>
   <%= form_tag save_mask_and_warp_map_path(@map.id, :format=>"json"), :remote => true, :id => 'clip_form2' do %>
     <%= hidden_field_tag "output" %>
-    <%= submit_tag "Mask Map!" %>
+    <%= submit_tag t('.clip_button') %>
   <% end %>
 
   <br />
@@ -59,12 +58,12 @@
       }).bind("ajax:complete", function() {
         updateOtherMaps();
       }).bind("ajax:error", function() {
-        alert('that didnt work as expected, sorry');
+        alert('<%= t('.delete_alert')  %>');
       });
     });
   </script>
 
-  <%= link_to("Delete mask", delete_mask_map_path(:id=>@map.id, :format=>"json"), :id => "delete_mask", :class=>"delete_button", :remote => true,  :method => "delete",  data: { confirm: 'Really delete mask and start over?'})%>
+  <%= link_to(t('.delete'), delete_mask_map_path(:id=>@map.id, :format=>"json"), :id => "delete_mask", :class=>"delete_button", :remote => true,  :method => "delete",  data: { confirm: t('.confirm_delete')})%>
 
 
 </div>

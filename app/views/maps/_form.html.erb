@@ -114,7 +114,7 @@
       <p> 
         <%= t('.are_visible') %><br />
         <% unless @map.public? %>
-          <%= f.radio_button :public, "true" %><label for="map_public_true"><%= t('.are_public') %></label>
+          <%= f.radio_button :public, "true" %><label for="map_public_true"><%= t('.make_public') %></label>
         <% end %>
       </p>
     <%- end -%>

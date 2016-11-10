@@ -7,7 +7,7 @@ function replaceMapTable(smaps) {
             "<td class='mini-map-thumb'><img src='" + mapThumbBaseURL + "/" + smap.id + "' height='70' ></td>" +
             "<td>" + smap.name + "<br />" +
             depicts_year + "<br />"+
-            "<a href='" + mapBaseURL + "/" + smap.id + "' target='_blank'>"+I18n["geosearch"]["open"]+"</a> </td></tr>";
+            "<a href='" + mapBaseURL + "/" + smap.id + "' target='_blank'>"+I18n["geosearch"]["open_layer"]+"</a> </td></tr>";
     jQuery("#searchmap-table").append(tableRow);
   }
   addClickToTable();
@@ -68,7 +68,7 @@ function onFeatureSelect(feature) {
           feature.mapId + "' target='_blank'>" +
           //feature.mapTitle+"</a><br />"+
           "<a href='#a-map-row-" + feature.mapId + "' ><img title='" + feature.mapTitle + "' src='" + mapThumbBaseURL + "/" + feature.mapId + "' height='80'></a>" +
-          "<br /> <a href='" + mapBaseURL + "/" + feature.mapId + "' target='_blank'>"+I18n["geosearch"]["open"]+"</a>" +
+          "<br /> <a href='" + mapBaseURL + "/" + feature.mapId + "' target='_blank'>"+I18n["geosearch"]["open_layer"]+"</a>" +
           "</div>",
           null, true, onPopupClose);
   popup.panMapIfOutOfView = false;
