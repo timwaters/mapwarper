@@ -1,6 +1,6 @@
 
 <%unless @map.warped_or_published? && @map.gcps.hard.size > 2 %>
-  Sorry, you'll have to rectify a map before you can view it.
+  <%= t('.unwarped_notice') %>
 <% else %>
   <% content_for :head do %>
     <%= javascript_include_tag "warped" %>
@@ -42,7 +42,7 @@
 
   </div>
   <div id="opacity-info">
-    Transparency: <input id="opacity" type="text" value="70" size="3" disabled="true" />
+    <%= t('.transparency') %>: <input id="opacity" type="text" value="70" size="3" disabled="true" />
   </div>
 
 <%end %>
