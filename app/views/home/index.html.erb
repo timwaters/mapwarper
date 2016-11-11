@@ -2,20 +2,19 @@
 
   <div id="left-col">
     <div id="video-intro" class="paraMargin">
-      <h2>Overview</h2>
-      <p>Find maps and other imagery, upload, and rectify against a real map.</p>
-      <p>You can then download and use the rectified map in your mapping applications.</p>
-      <p>Just sign up and you can start uploading and get warping!</p>
+      <h2><%= t('.overview_header') %></h2>
+      <p><%= t('.overview_p1') %></p>
+      <p><%= t('.overview_p2') %></p>
+      <p><%= t('.overview_p3') %></p>
 
-      <%= link_to "Upload Map!", new_map_path , :class => "buttonWarper"-%>
+      <%= link_to t('.upload_map'), new_map_path , :class => "buttonWarper"-%>
 
     </div>
 
     <div class="paraMargin">
-      <h2>What is it?</h2>
-      <p>It's a free to use, open source map warper / map georectifier, and image georeferencer tool. This project is supported by <a href="http://topomancy.com">Topomancy LLC</a> and the <a href="http://maps.nypl.org">New York Public Library</a>.
-      </p>
-      <p>Mail me at tim@geothings.net for more information!</p>
+      <h2><%= t('.info_header') %></h2>
+      <p><%= t('.info_paragraph_html') %></p>
+      <p><%= t('.info_contact') %></p>
     </div>
 
     <div id="tag-cloud" class="paraMargin">

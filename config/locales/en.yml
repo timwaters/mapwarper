@@ -218,6 +218,15 @@ en:
     
   home:
     index:
+      overview_header: Overview
+      overview_p1: Find maps and other imagery, upload, and rectify against a real map.
+      overview_p2: You can then download and use the rectified map in your mapping applications.
+      overview_p3: Just sign up and you can start uploading and get warping!
+      upload_map: Upload Map!
+      info_header: What is it?
+      info_paragraph_html: "It's a free to use, open source map warper / map georectifier, and image georeferencer tool. This project is supported by <a  href='http://topomancy.com'>Topomancy LLC</a> and the <a href='http://maps.nypl.org'>New York Public Library</a>."
+      info_contact: Mail me at tim@geothings.net for more information!
+      
       all_maps: browse all maps
       all_my_maps: See all of My Maps
       click_news: click here to read this story
