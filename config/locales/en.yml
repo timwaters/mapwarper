@@ -627,6 +627,17 @@ en:
       user: User
       created: Created at
       actions_th: Actions
+      
+  user_mailer:
+    disabled_change_password:
+      greeting: Hi
+      intro: "Your account using %{email} email has been disabled by an admin, and you will need to change your password in order to re-enble it. "
+      end: You should get an additional email with the link to do this within it.
+      
+    new_registration:
+      intro: "Thanks for signing up to use %{site_name}."
+      click_the_link: "Your account has been created and you can log in using the email: %{email} at:"
+      
    
   js:
     align:
