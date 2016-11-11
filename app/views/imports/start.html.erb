@@ -17,7 +17,7 @@
         },
         error: function() {
           keepOnPolling = false;
-          jQuery('#updateMe').html("Something went wrong with the request to the server");
+          jQuery('#updateMe').html("<%= t('.error') %>");
           jQuery('#spinner').hide();
         }
       });
@@ -38,14 +38,14 @@
 
 </script>
 
-<h2>Importing...</h2>
+<h2><%= t('.header') %></h2>
 
 <span id="spinner" style="display:none;"><%= image_tag 'spinner-horiz.gif' %></span>
-Progress:<br />
+<%= t('.progress') %><br />
 <div id="updateMe">
-  Importing....
+  <%= t('.importing') %>
 </div>
 <div id="afterImport">
-  <h3>All done!</h3>
-  Import finished, <%= link_to"click here to edit the maps", maps_import_path(@import) %>
+  <h3><%= t('.finished_notice') %></h3>
+  <%= link_to t('.edit_maps_link'), maps_import_path(@import) %>
 </div>
