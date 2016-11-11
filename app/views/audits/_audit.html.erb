@@ -38,7 +38,7 @@
   <td class="<%=cl %>">
 
     <%-unless defined?(page) && page =~ /detail/ -%>
-      <%= link_to "Further details", activity_details_url(:id => audit) %>
+      <%= link_to t('.further_details'), activity_details_url(:id => audit) %>
     <%-end-%>
   </td>
 </tr>

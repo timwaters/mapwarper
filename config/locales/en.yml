@@ -129,6 +129,30 @@ en:
       year_dialog_label: "Add / edit year that this mosaic depicts:"
       year_fail_alert: 'Sorry, something went wrong trying to save this'
       year_button: "Save"
+  audits:
+    show:
+      header: Activity Detail
+      time: Time
+      user: User
+      summary: Activity summary
+      version: Version
+      details_header: Details
+      item: Item
+      value: Value
+    index:
+      feed_description: Feed for recent activity
+      changed: changed
+      action: Action    
+      rss_link: RSS Feed
+      only_maps: Show Just Map Activity
+    for_user:
+      header: Changes for user
+    for_map_model:
+      header: Changes for all Maps
+    audit:
+      further_details: Further details
+
+    
   home:
     index:
       all_maps: browse all maps
