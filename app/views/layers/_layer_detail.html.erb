@@ -42,7 +42,7 @@
             jQuery("a#<%="toggle-vis-#{layer.id}"%>").bind("ajax:success", function(e, data, status, xhr) {
               jQuery("<%="#vis-text-#{layer.id}"%>").html(data.message);
             }).bind("ajax:error", function(e) {
-              console.log("error", e);
+              //console.log("error", e);
             });
           });
         </script>

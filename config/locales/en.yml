@@ -183,7 +183,6 @@ en:
       align: Align
       preview: Preview
       activity: Activity
-      
       unauthorized_html: "Sorry. You may need to <a class='unauthorized' href='%{href}'>Log In</a> to view this."
       unaccessible_html: "Sorry. The site is currently in read only mode and some features are disabled. Please try again later."
       fail_html: "Something went wrong with this. Sorry! Please try again, or try logging in first."
@@ -307,14 +306,26 @@ en:
       finished_notice: All done!
       edit_maps_link:  "click here to edit the maps"
       error: Something went wrong with the request to the server
-    
-    
       
   layers:
+    delete:
+      header: Really delete the mosaic?
+      no_button: No, get me out of here!
+      yes_button: Yes, Delete mosaic!
+    edit:
+      header: Edit Mosaic
+      help_html: "Note: All Mosaics are public, you can add your private maps to them, they won't be listed<br />
+      but they will be seen on the final map image."
+      delete_link: Delete this mosaic.
+    export:
+      header: Export Mosaic
     geosearch:
       button: Find Location
       description_html: Move or zoom map - both the map and list will be updated with found layers. <br /> Layers are shown if they have one or more rectified maps within them, and are visible (not a meta collection/layer).
       title: Find Mosaics by Location
+    index:
+      search: Search
+      for: for
     layer:
       depicts: Depicts
       edit: Edit Mosaic
@@ -330,6 +341,24 @@ en:
     layer_detail:
       last_modified: Last modified
       edit_year: Add/Edit Year
+    layermap:
+      transparency: "Transparency:"
+    merge:
+      header: Merge Mosaic 
+      admin_only: "(admins only)"
+      help_html: "Merge this mosaic with another. <br /> Deletes the reference of %{count_maps} from Mosaic %{layer_id} and moves them onto the specified destination mosaic. <br /> This cannot be undone!"
+      move_all: "Move all %{count_maps} to this mosaic:"
+      destination: Destination Layer
+      merge_button: Merge Mosaic!
+      confirm: Are you sure, this cannot be undone?
+    metadata: 
+      header: Metadata
+      name: Name
+      description: Description
+      depicts_year: Depicts Year
+    new:
+      header: New Mosaic
+      help: "Note: All Mosaics are public, you can add unlisted maps to them they won't be listed<br /> but they would be seen on the final map image."
     form:
       source: "Source / Bibliographic Ref URL"
       depicts_hint: (year, optional)
@@ -338,6 +367,13 @@ en:
       no_maps: 'You have no warped'
       my_maps: my maps
       detail: detail
+    comments:
+      no_comments: "There's no comments for this mosaic, why not add one now!"
+    show:
+      maps: Maps
+      loading: "Loading....."
+      new_link: Create New Mosaic
+      
       
       
   maps:
