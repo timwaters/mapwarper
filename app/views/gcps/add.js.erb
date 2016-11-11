@@ -1,5 +1,5 @@
 jQuery("#gcp_list").html("<%= escape_javascript(render(:partial => 'gcp', :collection => @gcps)) %>");
-jQuery("#gcp_notice").html("New control point added.");
+jQuery("#gcp_notice").html("<%= t('.new_gcp_notice') %>");
 populate_gcps(<%= "#{@gcp.id},#{@gcp.x}, #{@gcp.y}, #{@gcp.lon}, #{@gcp.lat}" %>);
 update_rms(<%="#{sprintf('%.2f',@map.error)}"%>);
 update_row_numbers();
