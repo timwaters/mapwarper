@@ -36,6 +36,9 @@ en:
       confirmed: "Your account was successfully confirmed."
       send_instructions: "You will receive an email with instructions about how to confirm your account in a few minutes."
       send_paranoid_instructions: "If your email address exists in our database, you will receive an email with instructions about how to confirm your account in a few minutes."
+      new:
+        header: Resend confirmation instructions
+        resend_button: "Resend confirmation instructions"
     failure:
       already_authenticated: "You are already signed in."
       inactive: "Your account is not activated yet."
@@ -49,10 +52,23 @@ en:
     mailer:
       confirmation_instructions:
         subject: "Map Warper email address confirmation instructions"
+        greeting: "Welcome,"
+        intro: "Thanks for signing up to use %{site_name}. Please confirm your email to continue the sign up process."
+        about_site: "%{site_name} is a participatory site where you can discover, georeference and upload your own maps and imagery. You can georectify or warp the map to base map to be able to use the map in new ways. You can download the georeferenced image in a number of formats including KML, WMS, and Tiles."
+        click_the_link: "You can confirm your account email through the link below:"
+        confirm_button: Confirm my account
       reset_password_instructions:
         subject: "Map Warper Reset password instructions"
+        greeting: "Hello"
+        intro: Someone has requested a link to change your password. You can do this through the link below.
+        link: Change my password
+        please_ignore: "If you didn't request this, please ignore this email. Your password won't change until you access the link above and create a new one."
       unlock_instructions:
         subject: "Unlock Instructions"
+        greeting: "Hello"
+        intro: Your account has been locked due to an excessive number of unsuccessful sign in attempts.
+        click_the_link: "Click the link below to unlock your account:"
+        link: Unlock my account
     omniauth_callbacks:
       failure: "Could not authenticate you from %{kind} because \"%{reason}\"."
       success: "Successfully authenticated from %{kind} account."
@@ -62,6 +78,14 @@ en:
       send_paranoid_instructions: "If your email address exists in our database, you will receive a password recovery link at your email address in a few minutes."
       updated: "Your password was changed successfully. You are now signed in."
       updated_not_active: "Your password was changed successfully."
+      new:
+        header: Forgot your password?
+        send_instructions_button: "Send me reset password instructions"
+      edit:
+        header: Change your password
+        submit_button: "Change my password"
+        new_password: "New password"
+        confirm_password: "Confirm new password"
     registrations:
       destroyed: "Bye! Your account was successfully cancelled. We hope to see you again soon."
       signed_up: "Welcome! You have signed up successfully."
@@ -70,13 +94,52 @@ en:
       signed_up_but_unconfirmed: "Thanks! A message with a confirmation link has been sent to your email address. Please open the link to activate your account."
       update_needs_confirmation: "You updated your account successfully, but we need to verify your new email address. Please check your email and click on the confirm link to finalize confirming your new email address."
       updated: "You updated your account successfully."
+      edit:
+        header: User Settings
+        no_settings_notice: You are logged in with your %{provider} account, and not a email and password, so there are no settings for you to edit.
+        edit_header: Edit User
+        name_label: "Name"
+        description_label: "Short profile description (optional)"
+        waiting_confirmation: Currently waiting confirmation for
+        password_label: "(leave blank if you don't want to change it)"
+        current_password_label: "(we need your current password to confirm your changes)"
+        cancel_account_header: Cancel my account
+        cancel_account_instructions: Unhappy? This will delete all the maps you uploaded and mosaics you created.
+        cancel_account_button: "Cancel my account"
+        cancel_confirm: "Are you sure?"
+      new:
+        header: Sign up
+        sign_up_help: You can sign up with an email and password, or sign up using another service, using the links below.
+        name_label: "Name"
+        email_label: "Email - you'll log in with this"
+        sign_up_button: "Sign up"
     sessions:
       signed_in: "Signed in successfully."
       signed_out: "Signed out successfully."
+      new:
+        header: Log in
+        login_button: "Log in"
+    shared:
+      links:
+        login: Log in
+        sign_up: Sign up
+        forgot_password: Forgot Your password?
+        new_confirmation_instructions: "Didn't receive confirmation instructions?"
+        new_unlock_instructions: "Didn't receive unlock instructions?"
+        openstreetmap: OpenStreetMap
+        github: GitHub
+        wikimedia: Wikimedia Commons
+        facebook: Facebook
+        google: Google
+        twitter: Twitter
+      
     unlocks:
       send_instructions: "You will receive an email with instructions about how to unlock your account in a few minutes."
       send_paranoid_instructions: "If your account exists, you will receive an email with instructions about how to unlock it in a few minutes."
       unlocked: "Your account has been unlocked successfully. Please sign in to continue."
+      new:
+        header: Resend unlock instructions
+        button: Resend unlock instructions
   errors:
     messages:
       already_confirmed: "was already confirmed, please try signing in"

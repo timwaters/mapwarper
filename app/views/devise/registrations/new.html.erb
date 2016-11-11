@@ -1,12 +1,12 @@
-<h2>Sign up</h2>
-<div>You can sign up with an email and password, or sign up using another service, using the links below.</div>
+<h2><%= t('.header') %></h2>
+<div><%= t('.sign_up_help') %></div>
 <%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
   <%= devise_error_messages! %>
 
-  <div><%= f.label :login, "Name" %><br />
+  <div><%= f.label :login, t('.name_label') %><br />
   <%= f.text_field :login, autofocus: true %></div>
 
-  <div><%= f.label :email, "Email - you'll log in with this" %><br />
+  <div><%= f.label :email, t('.email_label')  %><br />
   <%= f.email_field :email %></div>
 
   <div><%= f.label :password %><br />
@@ -15,7 +15,7 @@
   <div><%= f.label :password_confirmation %><br />
     <%= f.password_field :password_confirmation, autocomplete: "off" %></div>
 
-  <div><%= f.submit "Sign up" %></div>
+  <div><%= f.submit t('.sign_up_button') %></div>
 <% end %>
 
 <%= render "devise/shared/links" %>
