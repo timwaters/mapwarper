@@ -52,7 +52,8 @@ class LayersController < ApplicationController
       GeoPlanet.appid = APP_CONFIG['yahoo_app_id']
       
       geoplanet_result = GeoPlanet::Place.search(place_query, :count => 2)
-      if geoplanet_result[0]
+      
+      if geoplanet_result && geoplanet_result[0]
         g_bbox =  geoplanet_result[0].bounding_box.map!{|x| x.reverse}
         extents = g_bbox[1] + g_bbox[0]
         render :json => extents.to_json
