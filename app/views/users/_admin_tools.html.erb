@@ -21,7 +21,7 @@
     <%= link_to "Change and reset password", disable_and_reset_user_path(@user.id), :method => :put %> This changes the password of the users account, and sends link via email to user to create a new password. Until a password is changed, the user cannot login.<br />
 <% end %>
 
-    <%= link_to 'Edit roles', user_roles_path(@user) -%> Change roles / groups that the user belongs to
+    <%= link_to 'Edit roles', user_roles_path(@user) -%> Change roles that the user belongs to
   </div>
 <% end -%>
 
