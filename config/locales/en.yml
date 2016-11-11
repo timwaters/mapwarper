@@ -192,6 +192,7 @@ en:
       year_dialog_label: "Add / edit year that this mosaic depicts:"
       year_fail_alert: 'Sorry, something went wrong trying to save this'
       year_button: "Save"
+      
   audits:
     show:
       header: Activity Detail
@@ -226,7 +227,6 @@ en:
       info_header: What is it?
       info_paragraph_html: "It's a free to use, open source map warper / map georectifier, and image georeferencer tool. This project is supported by <a  href='http://topomancy.com'>Topomancy LLC</a> and the <a href='http://maps.nypl.org'>New York Public Library</a>."
       info_contact: Mail me at tim@geothings.net for more information!
-      
       all_maps: browse all maps
       all_my_maps: See all of My Maps
       click_news: click here to read this story
@@ -238,6 +238,43 @@ en:
       see_maps: See all maps
       tags: Tags
       view_layers: View all Mosaics
+      
+  gcps:
+    add:
+      new_gcp_notice: New control point added.
+    destroy:
+      deleted_notice: Control Point deleted sucessfully
+    update:
+      update_notice: Control Point updated
+    add_many:
+      back: "&lt; Back to Main Import Page"
+      header: Bulk GCP Import Results
+      nothing_imported: No control points imported!
+      gcps_imported: "%{count} Control points imported!"
+      id: id
+      map: Map
+      x: X
+      y: Y
+      lon: Lon
+      lat: Lat
+    bulk_import:
+      back: "&lt; Back to Main Import Page"
+      header: Bulk Control Point CSV Import
+      help_html: "For individual maps instead of using this page you can upload a CSV on the map recitfy view, under the control points table. The csv should have a header <pre><code>x,y,lon,lat</code></pre>"
+      new_import_header: New Bulk Import
+      import_help_html: "Use this page to import many control points for many maps. Upload a CSV, comma separated file with a header row with the following format:
+      <pre><code>mapid,x,y,lon,lat</code></pre> where <code>mapid</code> equals the warper map ID for each map you want to add a control point to. <br />
+      Points can only be added, not updated. Duplicate control points will not be added if imported again."
+      csv_file: CSV File to Upload
+      button: Upload CSV!
+    gcp:
+      deleting: Deleting...
+      error: Sorry, there seems to be an error with this delete request, try again?
+      delete_button: delete
+      delete_confirm: Really delete these points?
+    index:
+      notice: This notice is usually shown if theres an error, if called directly, or if some action with the control points was not called properly.
+      back: "Back to maps"
       
   layers:
     geosearch:
@@ -287,7 +324,6 @@ en:
       no_layers_message: Sorry, but there are no mosaics containing rectifed maps to choose from.
       manual_instructions:  Add map number manually
       map: Map
-   
     clip:
       instructions_html: '<p>1. Draw around the area you wish to keep.  </p><p>2. Then to apply the mask to the map, click "Mask Map!" </p>'
       clipping_wait_msg_html: '<br />Saving mask...<br />Cropping map...'
@@ -295,22 +331,18 @@ en:
       delete: Delete mask
       confirm_delete: Really delete mask and start over?
       delete_alert: that didnt work as expected, sorry
-
     comments:
       header: Comments
       no_comments: "There's no comments for this map, why not add one now!"
-      login: Log in to add a comment
-      
+      login: Log in to add a comment  
     delete:
       header: Really delete the map?
       help_text_html: 'All images, uploaded and rectified will be deleted.<br /> All control points deleted. <br /> All WMS, KML and export options will be unavailable for users.<br />'
       no_button: No, get me out of here!
-      yes_button: Yes, Delete map!
-      
+      yes_button: Yes, Delete map!  
     edit:
       header: Editing Map Attributes
-      delete_link: Delete this map.
-      
+      delete_link: Delete this map.  
     export:
       header: Export
       images_header: Images
@@ -332,7 +364,6 @@ en:
       bibliographic: Biliographic
       gcp_csv: CSV
       gcp_csv_link: Download control points as CSV
-      
     geosearch:
       button: Find Location
       description: Move or zoom map - both the map and list will be updated with found maps.
@@ -364,7 +395,6 @@ en:
       publish_confirm: Really publish this map? This will mean that no further editing can be done
       unpublish: UnPublish
       unpublish_confirm: Really un publish this map? This will mean that the map can be edited now
-    
     metadata:
       header: Metadata
     new:
