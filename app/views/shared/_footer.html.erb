@@ -1,11 +1,8 @@
 <div id="nav">
-  <a href="/">Home</a> |
-  <%= link_to "Add Map", new_map_path %> |
-  <a href="/about.htm">About</a> |
-  <a href="/help.htm">Help</a> |
-  Supported by 
-  <a href="http://maps.nypl.org">New York Public Library</a>
-  and
-  <a href="http://topomancy.com">Topomancy LLC</a>
+  <a href="/"><%= t('.home') %></a> |
+  <%= link_to t('.add_map'), new_map_path %> |
+  <a href="/about.htm"><%= t('.about') %></a> |
+  <a href="/help.htm"><%= t('.help') %></a> |
+  <%= t('.supported_by_html') %>
 </div>
 
