@@ -373,8 +373,7 @@ en:
       maps: Maps
       loading: "Loading....."
       new_link: Create New Mosaic
-      
-      
+
       
   maps:
     align:
@@ -514,7 +513,6 @@ en:
     warped:
       unwarped_notice: Sorry, you'll have to rectify a map before you can view it.
       transparency: Transparency
-
     tag:
       feed_description: 'Maps tagged with '
       feed_title: 'Feed of Warper Maps tagged with '
@@ -543,7 +541,7 @@ en:
       reprint: Reprint Date
       scale: Scale
       projection: Metadata Projection
-      location: Metadata Location
+      location: Metadata Locations
       lat: "Lat:"
       lon: "Lon:"
       upload_file: "Upload An Image File:"
@@ -552,7 +550,58 @@ en:
       are_visible: Map visibility. Maps are by default visible to all users.
       make_public: Make Public
       
+  my_maps:
+    list:
+      header: My Maps for %{username}
+      help: Showing list of maps saved or edited by a user.
+
+  roles:
+    role:
+      remove: remove role
+      assign: assign role
+    index:
+      header: Roles for %{username}
+      assigned: "Roles assigned:"
+      available: "Roles available:"
+      
   shared:
+    export_window:
+      header: Export
+      links: Export Links
+      more: More export options
+    footer:
+      home: Home
+      add_map: Add Map
+      about: About
+      help: Help
+      supported_by_html:  "Supported by <a href='http://maps.nypl.org'>New York Public Library</a> and <a href='http://topomancy.com'>Topomancy LLC</a>"
+    header:
+      logged_in_as: "Logged in as:"
+      my_maps: My Maps
+      my_activity: My Activity
+      settings: Settings
+      log_out: Log Out
+      log_in: Log In
+      sign_up: Create Account
+      all_maps: All Maps
+      all_layers: All Mosaics
+      all_activity: All Activity
+      all_comments: All Comments
+      imports: Imports
+      user_stats: User Stats
+      admin_users: Administer Users
+    nav:
+      home: Home
+      maps: Browse All Maps
+      rectified_maps: Browse Rectified Maps
+      geosearch_maps: Find Maps by Location
+      add_map: Upload Map
+      layers: Browse All Mosaics
+      geosearch_layers: Find Mosaics by Location
+      add_layer: Add Mosaic
+      about: About
+      help: Help
+        
     search:
       all_maps: All maps
       author: Author
