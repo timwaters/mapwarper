@@ -1,11 +1,11 @@
-<p>Welcome <%= @email %>!</p>
+<p><%= t('.greeting') %> <%= @email %></p>
 
-<p>Thanks for signing up to use <%= APP_CONFIG['site_name'] %>. Please confirm your email to continue the sign up process. </p>
+<p><%= t('.intro', :site_name => APP_CONFIG['site_name']) %> </p>
 
 <p>
-<%= APP_CONFIG['site_name'] %>  is a participatory site where you can discover, georeference and upload your own maps and imagery. You can georectify or warp the map to base map to be able to use the map in new ways. You can download the georeferenced image in a number of formats including KML, WMS, and Tiles.
+  <%= t('.about_site', :site_name => APP_CONFIG['site_name']) %>
 </p>
 
-<p>You can confirm your account email through the link below:</p>
+<p><%= t('.click_the_link') %></p>
 
-<p><%= link_to 'Confirm my account', confirmation_url(@resource, confirmation_token: @token) %></p>
+<p><%= link_to t('.confirm_button'), confirmation_url(@resource, confirmation_token: @token) %></p>
