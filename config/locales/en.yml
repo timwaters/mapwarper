@@ -276,6 +276,40 @@ en:
       notice: This notice is usually shown if theres an error, if called directly, or if some action with the control points was not called properly.
       back: "Back to maps"
       
+  imports:
+    edit:
+      header: Edit Import
+    index:
+      header: Imports
+      csv_header: Bulk Ground Control CSV Import
+      csv_link: Import CSV
+      maps_header: New Maps Import
+      maps_link: Add new import
+      id: Id
+      name: Name
+      maps: maps
+      user: User
+      created: Created
+      status: Status
+      actions: Actions
+    import:
+      imported: "(Imported: %{count})"
+      edit: edit
+      edit_maps: edit maps
+    new:
+      header: New import
+    maps:
+      header: "Import: %{name} Edit Maps"
+    start:
+      header: Importing...
+      progress: "Progress:"
+      importing: "Importing...."
+      finished_notice: All done!
+      edit_maps_link:  "click here to edit the maps"
+      error: Something went wrong with the request to the server
+    
+    
+      
   layers:
     geosearch:
       button: Find Location
