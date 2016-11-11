@@ -61,7 +61,7 @@
     <%if layer.depicts_year -%><%= layer.depicts_year -%> <%end-%>
   </td>
  <td>
-    <%= time_ago_in_words(layer.updated_at) -%> ago
+    <%= time_ago_in_words(layer.updated_at) -%> <%= t('ago') %>
   </td>
   <td>
     <span class="layer_mapcount">

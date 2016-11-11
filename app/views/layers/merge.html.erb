@@ -1,25 +1,23 @@
-<h2>Merge Mosaic <span class="admin-only">(admins only)</span></h2>
+<h2><%= t('.header') %><span class="admin-only"><%= t('.admin_only') %></span></h2>
 <p>
-Merge this mosaic with another. <br />
-Deletes the reference of <%= pluralize @layer.maps_count,'map' -%>  from Mosaic <%=@layer.id %> and moves them onto the specified destination mosaic.<br />
-This cannot be undone!
+<%= t('.help_html', :count_maps => pluralize(@layer.maps_count, t('map')), :layer_id => @layer.id ) %>
 </p>
 <table>
   <tr>
     <td><%= image_tag(@layer.thumb) %></td>
-    <td>Mosaic <%=@layer.id%> : <%= link_to h(@layer.name),  layer_path(@layer) -%>
+    <td><%= t('layer') %> <%=@layer.id%> : <%= link_to h(@layer.name),  layer_path(@layer) -%>
     </td>
   </tr>
 </table>
 
-Move all <%= pluralize @layer.maps_count,'map' -%> to this mosaic:
+<%= t('.move_all', :count_maps => pluralize(@layer.maps_count, t('map')) ) %>
 
 <%= form_for :layer, :url=> { :action=>"merge"},
   :html => {:method => :put } do |f| %>
     <%= f.hidden_field :id %>
-    <label for="dest_id">Destination Layer</label>
+    <label for="dest_id"><%= t('.destination') %></label>
     <%= text_field_tag :dest_id %>
     <br />
-    <%= submit_tag 'Merge Mosaic!', :data => {:confirm => "Are you sure, this cannot be undone?"} %>
+    <%= submit_tag t('.merge_button'), :data => {:confirm => t('.confirm')} %>
   <%end-%>
 

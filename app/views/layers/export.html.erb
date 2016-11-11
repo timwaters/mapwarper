@@ -1,19 +1,19 @@
-<h2>Mosaic</h2>
+<h2><%= t('.header') %></h2>
 <ul>
   <li>
-  WMS: <%=link_to "WMS Capabilties URL", :action => "wms", :id => @layer, :request => "GetCapabilities", :service => "WMS", :version => "1.1.1"  %>  <br />
+  <%= t('maps.export.wms') %>: <%=link_to(t('maps.export.wms_link'), :action => "wms", :id => @layer, :request => "GetCapabilities", :service => "WMS", :version => "1.1.1") %>  <br />
    <% josm_url = url_for(wms_layer_url(:id => @layer)) + "?request=GetMap&version=1.1.1&styles=&format=image/png&srs={proj}&exceptions=application/vnd.ogc.session.inimage&width={width}&height={height}&BBOX={bbox}&" %>
-    <%= link_to("WMS link suitable for JOSM OpenStreetMap Editor", josm_url) %> <br />
+    <%= link_to(t('maps.export.josm_link'), josm_url) %> <br />
   </li>
   <li>
   <% tile_url = "#{tile_layer_base_url(:id => @layer.id)}/{z}/{x}/{y}.png" %>
-    Tiles (Google/OSM scheme): <%= tile_url %>
+    <%= t('maps.export.tiles') %>: <%= tile_url %>
   </li>
   <li>
-    KML: <%= link_to("Download KML", layer_url(:id => @layer, :format=>:kml)) %>
+    KML: <%= link_to(t('maps.export.kml_link'), layer_url(:id => @layer, :format=>:kml)) %>
   </li>
   <li>
-    Bibliographic:  <%= link_to 'biblio record', "http://example.com" -%>
+    <%= t('maps.export.bibliographic') %>:  <%= link_to t('maps.export.bibliographic'), "http://example.com" -%>
   </li>
 </ul>
 <br />
