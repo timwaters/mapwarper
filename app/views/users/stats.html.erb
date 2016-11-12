@@ -1,17 +1,17 @@
-<h2>User Statistics</h2>
+<h2><%= t('.header') %></h2>
 
 <%= will_paginate @users_activity %>
 <table class="usertable">
   <thead>
     <tr>
-      <%= sort_header_tag('username', :title => "User") %>
-      <%= sort_header_tag('total_count', :title => "Total") %>
-      <%= sort_header_tag('map_count', :title => "Total Map Changes") %>
-      <%= sort_header_tag('gcp_count', :title => "Total Points Changes") %>
-      <%= sort_header_tag('gcp_create_count', :title => "Created Points") %>
-      <%= sort_header_tag('gcp_update_count', :title => "Updated Points") %>
-      <%= sort_header_tag('gcp_destroy_count', :title => "Deleted Points") %>
-      <th>Further Details</th>
+      <%= sort_header_tag('username', :title => t('users.show.user')) %>
+      <%= sort_header_tag('total_count', :title => t('.total_count')) %>
+      <%= sort_header_tag('map_count', :title => t('.map_count')) %>
+      <%= sort_header_tag('gcp_count', :title => t('.gcp_count')) %>
+      <%= sort_header_tag('gcp_create_count', :title => t('.gcp_create_count')) %>
+      <%= sort_header_tag('gcp_update_count', :title => t('.gcp_update_count')) %>
+      <%= sort_header_tag('gcp_destroy_count', :title => t('.gcp_destroy_count')) %>
+      <th><%= t('.details') %></th>
     </tr>
   </thead>
   <tbody>
@@ -23,7 +23,7 @@
         %>
             <%= link_to(user_name, user_path(user.user_id))%>
           <% else %>
-            Unknown
+            <%= t('.unknown') %>
           <% end %>
           </td>
         <td><%=user.total_count %></td>
@@ -34,7 +34,7 @@
         <td><%=user.gcp_destroy_count %></td>
         <td>
           <% if user.user_id %>
-            <%= link_to("User Activity", user_activity_path(user.user_id)) %>
+            <%= link_to(t('users.show.activity'), user_activity_path(user.user_id)) %>
           <% else %>
           <% end %>
         </td>

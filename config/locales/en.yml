@@ -628,6 +628,61 @@ en:
       created: Created at
       actions_th: Actions
       
+  users:
+    admin_tools:
+      delete_user: Delete User
+      delete_confirm: Are you sure?
+      delete_hint: This cannot be undone. Removes all their data.
+      confirm: 'Manually confirm'
+      confirm_hint: Force confirmation of user, cannot be changed.
+      enable_hint: the user's account - changeable by admin
+      reset_password: Change and reset password
+      reset_hint: This changes the password of the users account, and sends link via email to user to create a new password. Until a password is changed, the user cannot login.
+      roles_hint: Change roles that the user belongs to  
+    index:
+      header: Users
+      search: User Search
+      name: Name
+      email: Email
+      provider: OAuth Provider
+      button: " Go "
+      for_query: "&mdash; Searched for "
+      created: Signed Up
+      login:   Username
+      enabled: Enabled?
+      for: for
+      confirmed: Confirmed?
+      roles: Roles
+    show:
+      back_to_maps: "&lt; Browse Maps"
+      user: User
+      provider_user_html: A %{provider_thumb} %{provider_name} User
+      joined: Joined on
+      profile: "Profile Description:"
+      activity: 'User Activity'
+      user_maps: User Maps
+    stats:
+      header:  User Statistics
+      total_count: Total
+      map_count: Total Map Changes
+      gcp_count: Total Points Changes
+      gcp_create_count: Created Points
+      gcp_update_count: Updated Points
+      gcp_destroy_count: Deleted Points
+      details: Further Details
+      unknown: Unknown
+      
+    user:
+      u_yes: "yes"
+      u_no: "no"
+      enable: enable
+      disable: disable
+      activate: activate
+      edit_roles: edit roles
+    
+    
+    
+      
   user_mailer:
     disabled_change_password:
       greeting: Hi

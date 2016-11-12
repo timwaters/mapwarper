@@ -1,33 +1,33 @@
 
 <% if admin_authorized? %>
  <%= form_tag url_for(:controller => "users"), :id=>"searchform",:name=> "searchform", :method => :get do -%>
-    User Search
+    <%= t('.search') %>
     <select id="field" name="field">
-      <%= options_for_select([ ["Name", "login"],
-          ["Email", "email"],["OAuth Provider", "provider"] ], @field)-%>
+      <%= options_for_select([ [t('.name'), "login"],
+          [t('.email'), "email"],[t('.provider'), "provider"] ], @field)-%>
     </select>
-    for
+    <%= t('.for') %>
     <%= text_field_tag 'query', @query -%>
-    <input type="submit" value=" Go " />
+    <input type="submit" value="<%= t('.button') %>" />
   <% end -%>
 <% end %>
-<h2>Users
+<h2><%= t('.header') %>
   <% if @group -%> in Group <%= @group.id.to_s -%>. <% end -%>
-  <%if @query && @query.length > 0 %>&mdash; Searched for "<%=@query%>"
+  <%if @query && @query.length > 0 %><%= t('.for_query') %> "<%=@query%>"
   <%end-%></h2>
 
 <%= will_paginate @users %>
 <table class="usertable">
   <thead>
     <tr>
-      <%= sort_header_tag('created_at', :title => "Signed Up") %>
-      <%= sort_header_tag('login', :title => "Username") %>
+      <%= sort_header_tag('created_at', :title => t('.created')) %>
+      <%= sort_header_tag('login', :title => t('.login')) %>
       <% if admin_authorized? %>
-        <%= sort_header_tag('provider', :title => "OAuth Provider") %>
-        <%= sort_header_tag('email', :title => "Email") %>
-        <%= sort_header_tag('enabled', :title => "Enabled?") %>
-        <%= sort_header_tag('confirmed_at', :title => "Confirmed?") %>
-        <th>Roles</th>
+        <%= sort_header_tag('provider', :title => t('.provider')) %>
+        <%= sort_header_tag('email', :title => t('.email')) %>
+        <%= sort_header_tag('enabled', :title => t('.enabled')) %>
+        <%= sort_header_tag('confirmed_at', :title => t('.confirmed')) %>
+        <th><%= t('.roles') %></th>
       <% end -%>
     </tr>
   </thead>
