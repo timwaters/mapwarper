@@ -317,6 +317,8 @@ en:
       header: New import
     maps:
       header: "Import: %{name} Edit Maps"
+    show:
+      not_found:  Import not found
     start:
       header: Importing...
       progress: "Progress:"
