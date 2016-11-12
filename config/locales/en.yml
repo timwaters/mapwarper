@@ -13,7 +13,19 @@ en:
       map:
         one: map
         other: maps
-        zero: maps
+        zero: maps 
+    errors:
+      models:
+        map:
+          error_url: is invalid or inaccessible
+          filename_not_unique: is already being used
+        import:
+          layer_error: does not exist, or has not been specified properly
+          blank_layer_title: is blank
+          user_not_exist: does not exist
+          path_not_exist: does not exist
+          no_files_error: has no files within the directory
+          
         
 # External Libraries
   will_paginate:
@@ -276,8 +288,14 @@ en:
       back: "Back to maps"
       
   imports:
+    create:
+      flash: "New Import Created!"
+      error: "Something went wrong creating the import"
     edit:
       header: Edit Import
+    destroy:
+      flash: "Import deleted!"
+      error: "Import couldn't be deleted."
     index:
       header: Imports
       csv_header: Bulk Ground Control CSV Import
@@ -306,6 +324,9 @@ en:
       finished_notice: All done!
       edit_maps_link:  "click here to edit the maps"
       error: Something went wrong with the request to the server
+    update:
+      flash: "Successfully updated import."
+      error:  "Something went wrong updating the import"
       
   layers:
     delete:
@@ -376,6 +397,15 @@ en:
 
       
   maps:
+    model:
+      map_type:
+        index:  "Index/Overview"
+        map:     "Is a map"
+        not_map: "Not a map"
+      delete_mask_success: "mask deleted"
+      unknown_mask_format: "Mask format unknown"
+      gml_mask_saved: "Map clipping mask saved (gml)"
+      
     align:
       instructions_html: "If this map belongs to a mosaic with other maps, you can copy the control points from an adjacent map that has already been rectified to this one.<br /> Click + and choose a map, then drag and drop to choose the alignment."
       add_map_title: Click to add map here
@@ -393,6 +423,7 @@ en:
       no_layers_message: Sorry, but there are no mosaics containing rectifed maps to choose from.
       manual_instructions:  Add map number manually
       map: Map
+      title: "Align Maps "
     clip:
       instructions_html: '<p>1. Draw around the area you wish to keep.  </p><p>2. Then to apply the mask to the map, click "Mask Map!" </p>'
       clipping_wait_msg_html: '<br />Saving mask...<br />Cropping map...'
@@ -400,18 +431,27 @@ en:
       delete: Delete mask
       confirm_delete: Really delete mask and start over?
       delete_alert: that didnt work as expected, sorry
+      title: "Cropping Map "
     comments:
       header: Comments
       no_comments: "There's no comments for this map, why not add one now!"
-      login: Log in to add a comment  
+      login: Log in to add a comment
+    create:
+      flash: Map was successfully created.
     delete:
       header: Really delete the map?
       help_text_html: 'All images, uploaded and rectified will be deleted.<br /> All control points deleted. <br /> All WMS, KML and export options will be unavailable for users.<br />'
       no_button: No, get me out of here!
       yes_button: Yes, Delete map!  
+    destroy:
+      flash: Map deleted!
+      error: Map wasnt deleted
+      cannot_delete_others: "Sorry, you cannot delete other people's maps!"
     edit:
       header: Editing Map Attributes
-      delete_link: Delete this map.  
+      delete_link: Delete this map.
+      title: Editing Map %{map_title} on
+      cannot_edit_others: "Sorry, you cannot edit other people's maps"
     export:
       header: Export
       images_header: Images
@@ -433,6 +473,7 @@ en:
       bibliographic: Biliographic
       gcp_csv: CSV
       gcp_csv_link: Download control points as CSV
+      missing_file_flash: "File Not Found. Perhaps the map has not been rectified yet?"
     geosearch:
       button: Find Location
       description: Move or zoom map - both the map and list will be updated with found maps.
@@ -464,16 +505,39 @@ en:
       publish_confirm: Really publish this map? This will mean that no further editing can be done
       unpublish: UnPublish
       unpublish_confirm: Really un publish this map? This will mean that the map can be edited now
+    map_type: 
+      flash: "Map has changed. Map type: "
+    mask_map:
+      not_found: "Mask file not found"
     metadata:
       header: Metadata
     new:
       header: Upload a new map
       permission_notice: By uploading images to the website, you agree that you have permission to do so, and accept that anyone else can potentially view and use them, including changing control points.
+      may_resize: It may resize the image if it's too large
+      title: "Upload a new map to "
+    publish:
+      flash: "Map changed. New Status: "
+    rectify:
+      not_enough_points: "Sorry, the map needs at least three control points to be able to rectify it"
+      being_rectified_error: "Sorry, the map is currently being rectified somewhere else, please try again later."
+      rectified_success: "Map rectified."
+    save_mask_and_warp:
+      masked_needs_more_points: "Map masked, but it needs more control points to rectify. Click the Rectify tab to add some."
+      masked_warped: "Map masked and rectified."
+      masked_warp_failed: "Mask saved, but not applied as the map is currently being rectified somewhere else, please try again later."
     show:
+      title: "Viewing Map %{map_id}"
+      login_notice: "You may need to %s to start editing the map"
+      login_notice_link: "log in" 
       loading: Loading map...
       requesting: requesting
       loaded_html: "Map has successfully loaded, page will automatically refresh in a couple of seconds <a href='%{href}'>Click here</a> if you don't want to wait."
       unloaded: The map did not load properly, please refresh the page and try again. If it does not load properly a second time, please choose another map, and try again another day.
+      not_found: "Map not found"
+    update:
+      flash: 'Map was successfully updated.'
+      error: 'There was an error updating the map'
     warp:
       close_popup: Close popup
       custom_layer_instructions_html: "Enter a tile URL template, or tile URL.  Z/X/Y ordered scheme only. <br /> E.g. <code>https://maps.wikimedia.org/osm/{z}/{x}/{y}.png</code> <br /> or <code>https://maps.wikimedia.org/osm/10/507/329.png</code>"
@@ -510,10 +574,18 @@ en:
       warp_button: "Warp Image! &rarr;"
       unmasked_question_html: "This map is not currently masked. Do you want to <a href='%{href}'>add or edit a mask now</a>?"
       apply_mask_html: "Apply <a href='%{href}'>clipping mask </a> when rectifying?"
+      title: "Rectifying Map "
     warped:
+      title: "Viewing Rectfied Map "
+      needs_warping: Whoops, the map needs to be rectified before you can view it"
       unwarped_notice: Sorry, you'll have to rectify a map before you can view it.
       transparency: Transparency
+    warp_aligned:
+      no_destination: "Sorry the destination map is not available to be aligned."
+      success: "Map aligned. You can now rectify it!"
+      unknown_alignment: "Sorry, only horizontal and vertical alignment are available at the moment."
     tag:
+      title: "Maps tagged with %{tags} on "
       feed_description: 'Maps tagged with '
       feed_title: 'Feed of Warper Maps tagged with '
       for: Tags for

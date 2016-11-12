@@ -44,10 +44,10 @@ class MapsController < ApplicationController
   
   def new
     @map = Map.new(:issue_year => Time.now.year)
-    @html_title = "Upload a new map to "
+    @html_title = t('.title')
     @max_size = Map.max_attachment_size
     if Map.max_dimension
-      @upload_file_message  = " It may resize the image if it's too large (#{Map.max_dimension}x#{Map.max_dimension}) "
+      @upload_file_message  = t('.may_resize')+" (#{Map.max_dimension}x#{Map.max_dimension}) "
     else
       @upload_file_message = ""
     end
@@ -68,7 +68,7 @@ class MapsController < ApplicationController
 
     respond_to do |format|
       if @map.save
-        flash[:notice] = 'Map was successfully created.'
+        flash[:notice] = t('.flash')
         format.html { redirect_to(@map) }
         format.xml  { render :xml => @map, :status => :created, :location => @map }
       else
@@ -81,7 +81,7 @@ class MapsController < ApplicationController
   def edit
     @current_tab = :edit
     @selected_tab = 1
-    @html_title = "Editing Map #{@map.title} on"
+    @html_title = t('.title', :map_title => @map.title)
     choose_layout_if_ajax
     respond_to do |format|
       format.html {} #{ render :layout =>'application' }  # new.html.erb
@@ -92,9 +92,9 @@ class MapsController < ApplicationController
   def update
    
     if @map.update_attributes(map_params)
-      flash.now[:notice] = 'Map was successfully updated.'
+      flash.now[:notice] = t('.flash')
     else
-      flash.now[:error] = 'There was an error updating the map' 
+      flash.now[:error] = t('.error')
     end
     
     if request.xhr?
@@ -118,9 +118,9 @@ class MapsController < ApplicationController
   #only editors or owners of maps
   def destroy
     if @map.destroy
-      flash[:notice] = "Map deleted!"
+      flash[:notice] = t('.flash')
     else
-      flash[:notice] = "Map wasnt deleted"
+      flash[:notice] = t('.error')
     end
     respond_to do |format|
       format.html { redirect_to(maps_url) }
@@ -194,7 +194,7 @@ class MapsController < ApplicationController
         @maps = Map.are_public.where(where_options).where(year_conditions).order(order_options).paginate(paginate_params)
       end
       
-      @html_title = "Browse Maps"
+      @html_title = t('.title')
       if request.xhr?
         render :action => 'index.rjs'
       else
@@ -226,7 +226,7 @@ class MapsController < ApplicationController
     sort_update
     @tags = params[:id] || params[:query]
     @query = @tags
-    @html_title = "Maps tagged with #{@tags} on "
+    @html_title =  t('.title', :tags => @tags)
     @maps = Map.are_public.order(sort_clause).tagged_with(@tags).paginate(
       :page => params[:page],
       :per_page => 20)
@@ -352,7 +352,7 @@ class MapsController < ApplicationController
     @selected_tab = 0
     @disabled_tabs =[]
     @map = Map.find(params[:id])
-    @html_title = "Viewing Map "+@map.id.to_s
+    @html_title = t('.title', :map_id =>@map.id.to_s)
 
     if @map.status.nil? || @map.status == :unloaded
       @mapstatus = "unloaded"
@@ -370,8 +370,8 @@ class MapsController < ApplicationController
         @disabled_tabs += ["warped"]
       end
       
-      flash.now[:notice] = "You may need to %s to start editing the map"
-      flash.now[:notice_item] = ["log in", :new_user_session]
+      flash.now[:notice] = t('.login_notice')
+      flash.now[:notice_item] = [t('.login_notice_link'), :new_user_session]
       session[:user_return_to] = request.url
       
       if request.xhr?
@@ -418,7 +418,7 @@ class MapsController < ApplicationController
   
 
   def comments
-    @html_title = "comments"
+    @html_title = t('.header')
     @selected_tab = 9
     @current_tab = "comments"
     @comments = @map.comments
@@ -431,7 +431,7 @@ class MapsController < ApplicationController
   def export
     @current_tab = "export"
     @selected_tab = 6
-    @html_title = "Export Map" + @map.id.to_s
+    @html_title = t('.header')
     choose_layout_if_ajax
     respond_to do | format |
       format.html {}
@@ -441,14 +441,14 @@ class MapsController < ApplicationController
     end
   rescue ActionController::MissingFile => e
     logger.error e.message
-    redirect_to maps_url, :notice => "File Not Found. Perhaps the map has not been rectified yet?"
+    redirect_to maps_url, :notice => t('.missing_file_flash')
   end
   
   def clip
     #TODO delete current_tab
     @current_tab = "clip"
     @selected_tab = 3
-    @html_title = "Cropping Map "+ @map.id.to_s
+    @html_title = t('.title')+ @map.id.to_s
     @gml_exists = "false"
     if File.exists?(@map.masking_file_gml+".ol")
       @gml_exists = "true"
@@ -460,7 +460,7 @@ class MapsController < ApplicationController
   def warped
     @current_tab = "warped"
     @selected_tab = 5
-    @html_title = "Viewing Rectfied Map "+ @map.id.to_s
+    @html_title = t('.title')+ @map.id.to_s
     if @map.warped_or_published? && @map.gcps.hard.size > 2
       @other_layers = Array.new
       @map.layers.visible.each do |layer|
@@ -468,13 +468,13 @@ class MapsController < ApplicationController
       end
 
     else
-      flash.now[:notice] = "Whoops, the map needs to be rectified before you can view it"
+      flash.now[:notice] = t('.needs_warping')
     end
     choose_layout_if_ajax
   end
   
   def align
-    @html_title = "Align Maps "
+    @html_title = t('.title')
     @current_tab = "align"
     @selected_tab = 3
 
@@ -484,7 +484,7 @@ class MapsController < ApplicationController
   def warp
     @current_tab = "warp"
     @selected_tab = 2
-    @html_title = "Rectifying Map "+ @map.id.to_s
+    @html_title = t('.title')+ @map.id.to_s
     @bestguess_places = @map.find_bestguess_places  if @map.gcps.hard.empty?
     @other_layers = Array.new
     @map.layers.visible.each do |layer| 
@@ -542,7 +542,7 @@ class MapsController < ApplicationController
       @maps = @layer.maps.paginate(:per_page => 30, :page => 1, :order => :map_type)
     end
     
-    render :text => "Map has changed. Map type: "+@map.map_type.to_s
+    render :text => t('.map_type')+@map.map_type.to_s
   end
 
   #pass in soft true to get soft gcps
@@ -623,7 +623,7 @@ class MapsController < ApplicationController
       @map.unpublish
     end
 
-    flash[:notice] = "Map changed. New Status: " + @map.status.to_s
+    flash[:notice] = t('.flash') + @map.status.to_s
     redirect_to @map
   end
 
@@ -653,7 +653,7 @@ class MapsController < ApplicationController
         format.js { render :text => message} #if request.xhr?
         format.json { render :json => {:stat =>"ok", :message => message}.to_json , :callback => params[:callback]}
       else
-        message = "Mask file not found"
+        message = t('.not_found')
         format.html { render :text => message  }
         format.js { render :text => message} #if request.xhr?
         format.json { render :json => {:stat =>"fail", :message => message}.to_json , :callback => params[:callback]}
@@ -668,16 +668,16 @@ class MapsController < ApplicationController
       @map.mask!
       stat = "ok"
       if @map.gcps.hard.size.nil? || @map.gcps.hard.size < 3
-        msg = "Map masked, but it needs more control points to rectify. Click the Rectify tab to add some."
+        msg = t('.masked_needs_more_points')
         stat = "fail"
       else
         params[:use_mask] = "true"
         rectify_main
-        msg = "Map masked and rectified."
+        msg = t('.masked_warped')
       end
     else
       stat = "fail"
-      msg = "Mask saved, but not applied as the map is currently being rectified somewhere else, please try again later."
+      msg = t('.masked_warp_failed')
     end
 
     respond_to do |format|
@@ -696,7 +696,7 @@ class MapsController < ApplicationController
     destmap = Map.find(params[:destmap])
 
     if destmap.status.nil? or destmap.status == :unloaded or destmap.status == :loading
-      flash.now[:notice] = "Sorry the destination map is not available to be aligned."
+      flash.now[:notice] = t('.no_destination')
       redirect_to :action => "show", :id=> params[:destmap]
     elsif align != "other"
 
@@ -705,10 +705,10 @@ class MapsController < ApplicationController
       else
         destmap.align_with_warped(params[:srcmap], align, append )
       end
-      flash.now[:notice] = "Map aligned. You can now rectify it!"
+      flash.now[:notice] = t('.success')
       redirect_to :action => "warp", :id => destmap.id
     else
-      flash.now[:notice] = "Sorry, only horizontal and vertical alignment are available at the moment."
+      flash.now[:notice] = t('.unknown_alignment')
       redirect_to :action => "align", :id=> params[:srcmap]
     end
   end
@@ -862,11 +862,11 @@ class MapsController < ApplicationController
     @too_few = false
     if @map.gcps.hard.size.nil? || @map.gcps.hard.size < 3
       @too_few = true
-      @notice_text = "Sorry, the map needs at least three control points to be able to rectify it"
+      @notice_text = t('.not_enough_points')
       @output = @notice_text
     elsif @map.status == :warping
       @fail = true
-      @notice_text = "Sorry, the map is currently being rectified somewhere else, please try again later."
+      @notice_text = t('being_rectified_error')
       @output = @notice_text
     else
       if user_signed_in?
@@ -881,7 +881,7 @@ class MapsController < ApplicationController
       
       @map.clear_cache
 
-      @notice_text = "Map rectified."
+      @notice_text = t('.rectified_success')
     end
   end
   
@@ -922,7 +922,7 @@ class MapsController < ApplicationController
     if user_signed_in? and (current_user.own_this_map?(params[:id])  or current_user.has_role?("editor"))
       @map = Map.find(params[:id])
     else
-      flash[:notice] = "Sorry, you cannot delete other people's maps!"
+      flash[:notice] = t('maps.destroy.cannot_delete_others')
       redirect_to map_path
     end
   end
@@ -931,7 +931,7 @@ class MapsController < ApplicationController
     #logger.error("not found #{params[:id]}")
     respond_to do | format |
       format.html do
-        flash[:notice] = "Map not found"
+        flash[:notice] = t('maps.show.not_found')
         redirect_to :action => :index
       end
       format.json {render :json => {:stat => "not found", :items =>[]}.to_json, :status => 404}
@@ -945,7 +945,7 @@ class MapsController < ApplicationController
     elsif Map.find(params[:id]).owner.nil?
       @map = Map.find(params[:id])
     else
-      flash[:notice] = "Sorry, you cannot edit other people's maps"
+      flash[:notice] = t('maps.edit.cannot_edit_others')
       redirect_to map_path
     end
   end

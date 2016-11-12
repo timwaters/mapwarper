@@ -85,14 +85,14 @@ class Import < ActiveRecord::Base
   end
 
   protected
-  
+  #errors are activemodel.errors.model.import.
   def custom_validate
-    errors.add(:layer_id, "does not exist, or has not been specified properly") unless Layer.exists?(layer_id) || layer_id == nil || layer_id == -99
-    errors.add(:uploader_user_id, "does not exist") if !User.exists?(uploader_user_id)
-    errors.add(:layer_title, "is blank") if layer_title.blank? && layer_id == -99
+    errors.add(:layer_id, :layer_error) unless Layer.exists?(layer_id) || layer_id == nil || layer_id == -99
+    errors.add(:uploader_user_id, :user_not_exist) if !User.exists?(uploader_user_id)
+    errors.add(:layer_title, :blank_layer_title) if layer_title.blank? && layer_id == -99
     begin
-      errors.add(:path, "does not exist") if !File.exists?(path)
-      errors.add(:path, "has no files within the directory") if Dir.entries(path).size - 2 == 0
+      errors.add(:path, :path_not_exist) if !File.exists?(path)
+      errors.add(:path, :no_files_error) if Dir.entries(path).size - 2 == 0
     rescue Errno::ENOENT
     end
   end
