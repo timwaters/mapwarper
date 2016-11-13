@@ -30,7 +30,7 @@
   <div><%= f.label :current_password %> <i><%= t('.current_password_label') %></i><br />
     <%= f.password_field :current_password, autocomplete: "off" %></div>
 
-  <div><%= f.submit t('update_button') %></div>
+  <div><%= f.submit t('common.update_button') %></div>
 <% end %>
 
 <% end %>
@@ -40,4 +40,4 @@
 <p><%= t('.cancel_account_instructions') %> <br />
  <%= button_to t('.cancel_account_button'), registration_path(resource_name), data: { confirm: t('.cancel_confirm') }, method: :delete %></p>
 
-<%= link_to t('back_link'), :back %>
+<%= link_to t('common.back_link'), :back %>

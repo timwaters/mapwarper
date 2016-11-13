@@ -3,7 +3,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <%= favicon_link_tag 'favicon.ico' %>
-    <title> <%= t('site_title') %>: <%= h(snippet(@html_title, 40)) || ''-%> </title>
+    <title> <%= t('common.site_title') %>: <%= h(snippet(@html_title, 40)) || ''-%> </title>
     <%= stylesheet_link_tag "application" %>
     <link href='http://fonts.googleapis.com/css?family=Lato:400,700|Sorts+Mill+Goudy|Vidaloka' rel='stylesheet' type='text/css'>
     <%= javascript_include_tag "openlayers/2.8/OpenLayers-2.8/OpenLayers" %>
@@ -130,7 +130,7 @@
     <%end%>
     <%= render :partial => 'shared/analyticstop' %>
     <div id="headerDiv" class="headerDiv">
-      <h1><%= link_to t('site_title'), root_path %></h1>
+      <h1><%= link_to t('common.site_title'), root_path %></h1>
       <%= render :partial => 'shared/header' %>
       <%= render :partial => 'shared/nav' %>
     </div>

@@ -59,6 +59,8 @@ en:
         one: Displaying <b>1</b> %{model}
         other: Displaying <b>all&nbsp;%{count}</b> %{model}
         zero: No %{model} found
+        
+        
   devise:
     users_registrations:
       user:
@@ -183,25 +185,25 @@ en:
           other: "%{count} errors prohibited this %{resource} from being saved:"
         
 # Main Warper Translations
-
-  site_title: Map Warper
-  gcp: gcp
-  last_th: Last Updated
-  layer: mosaic
-  layer_th: Mosaic
-  map: map
-  map_th: Map
-  my_maps_head: My Maps
-  num_th: Number of Maps
-  per_page: per page
-  percent_th: Percentage Complete
-  status_th: Status
-  title_th: Title
-  year_th: Year
-  create_button: Create
-  update_button: Update
-  back_link: Back
-  ago: ago
+  common:
+    site_title: Map Warper
+    gcp: gcp
+    last_th: Last Updated
+    layer: mosaic
+    layer_th: Mosaic
+    map: map
+    map_th: Map
+    my_maps_head: My Maps
+    num_th: Number of Maps
+    per_page: per page
+    percent_th: Percentage Complete
+    status_th: Status
+    title_th: Title
+    year_th: Year
+    create_button: Create
+    update_button: Update
+    back_link: Back
+    ago: ago
   layouts:
     tabs:
       show: Show

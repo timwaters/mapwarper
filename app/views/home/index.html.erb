@@ -64,15 +64,15 @@
 
 
       <% if @my_maps -%>
-        <h3><%= t('my_maps_head') %></h3>
+        <h3><%= t('common.my_maps_head') %></h3>
         <table id="map_table" cellpadding="3">
           <thead>
             <tr>
-              <th><%= t('map_th') %></th>
-              <th><%= t('title_th') %></th>
-              <th><%= t('year_th') %></th>
-              <th><%= t('last_th') %></th>
-              <th><%= t('status_th') %></th>
+              <th><%= t('common.map_th') %></th>
+              <th><%= t('common.title_th') %></th>
+              <th><%= t('common.year_th') %></th>
+              <th><%= t('common.last_th') %></th>
+              <th><%= t('common.status_th') %></th>
             </tr>
           </thead>
           <%= render :partial => 'maps/map', :collection => @my_maps  unless @my_maps.nil? %>
@@ -87,11 +87,11 @@
       <table id="map_table" cellpadding="3">
         <thead>
           <tr>
-              <th><%= t('map_th') %></th>
-              <th><%= t('title_th') %></th>
-              <th><%= t('year_th') %></th>
-              <th><%= t('last_th') %></th>
-              <th><%= t('status_th') %></th>
+              <th><%= t('common.map_th') %></th>
+              <th><%= t('common.title_th') %></th>
+              <th><%= t('common.year_th') %></th>
+              <th><%= t('common.last_th') %></th>
+              <th><%= t('common.status_th') %></th>
           </tr>
         </thead>
         <%= render :partial => 'maps/map', :collection => @maps unless @maps.nil? %>
@@ -107,12 +107,12 @@
       <table id="layer_table" cellpadding="3">
         <thead>
           <tr>
-            <th><%= t('layer_th') %></th>
-            <th class="widthTh"><%= t('title_th') %></th>
-            <th><%= t('year_th') %></th>
-            <th><%= t('last_th') %></th>
-            <th><%= t('num_th') %></th>
-            <th><%= t('percent_th') %></th>
+            <th><%= t('common.layer_th') %></th>
+            <th class="widthTh"><%= t('common.title_th') %></th>
+            <th><%= t('common.year_th') %></th>
+            <th><%= t('common.last_th') %></th>
+            <th><%= t('common.num_th') %></th>
+            <th><%= t('common.percent_th') %></th>
           </tr>
         </thead>
         <%= render :partial => 'layers/layer', :collection => @layers unless @layers.nil? %>
