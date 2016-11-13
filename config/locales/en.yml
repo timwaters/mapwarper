@@ -16,6 +16,14 @@ en:
         zero: maps 
     errors:
       models:
+        layers_map:
+          attributes:
+            layer_id:
+              already_has_map: "already has this map"
+        my_map:
+          attributes:
+            user_id:
+              not_unique: "Map has already been saved."
         map:
           error_url: is invalid or inaccessible
           filename_not_unique: is already being used
@@ -203,8 +211,35 @@ en:
       year_dialog_label: "Add / edit year that this mosaic depicts:"
       year_fail_alert: 'Sorry, something went wrong trying to save this'
       year_button: "Save"
+  application:
+    permission_denied: "Sorry you do not have permission to view that."
+    helper:
+      breadcrumbs:
+        home: Home
+        search: Search
+        maps: Maps
+        map: "Map %{map_id}"
+        map_layers: Map Layers
+        layers: Mosaics
+        layer: Mosaic %{layer_id}
+      error_messages_for:
+        invalid_fields: "Invalid Fields"
+        message: "Correct the following errors and try again."
+        
       
   audits:
+    helper:
+      summary:
+        unloaded: "Map was unloaded"
+        loading: "Map started loading from library"
+        available: "Map became available"
+        warping: "Map started rectification process"
+        warped: "Map successfully rectified"
+        published: "Map successfully published"
+        unmasked: "Map was unmasked"
+        masking: "Map started masking process"
+        masked: "Map successfully masked"
+        
     show:
       header: Activity Detail
       time: Time
@@ -215,6 +250,8 @@ en:
       item: Item
       value: Value
     index:
+      html_title: "Recent Activity"
+      title: "Recent Activity For Everything"
       feed_description: Feed for recent activity
       changed: changed
       action: Action    
@@ -222,14 +259,90 @@ en:
       only_maps: Show Just Map Activity
     for_user:
       header: Changes for user
+      html_title: "Activity for "
+      title: "Recent Activity for User "
+      html_title_nouser: "Activity for not found user "
+      title_nouser: "Recent Activity for not found user "
+    for_map:
+      html_title: "Activity for Map "
+      title: "Recent Activity for Map "
     for_map_model:
+      html_title: "Activity for All Maps"
+      title: "Recent Activity for All Maps"
+       
       header: Changes for all Maps
     audit:
       further_details: Further details
 
-    
+  comments:
+    comment:
+      delete_link: delete
+      confirm_delete: Really delete this comment?
+    comment_form:
+      header: Comment on this
+      add_comment: Add Comment
+    destroy:
+      flash: "Comment deleted"
+      error:  "Comment couldn't be deleted"
+    index:
+      title: "Browse Comments"
+      header: Comments
+      comment_th: Comment
+      comment_type: Comment On
+      user: User
+      created: Created at
+      actions_th: Actions
+    show:
+      not_found: "Comment not found"
+         
+  gcps:
+    add:
+      new_gcp_notice: New control point added.
+    destroy:
+      deleted_notice: Control Point deleted sucessfully
+    update:
+      error: "Points couldnt be updated"
+      update_notice: Control Point updated
+    add_many:
+      back: "&lt; Back to Main Import Page"
+      header: Bulk GCP Import Results
+      nothing_imported: No control points imported!
+      not_found: Record not found.
+      gcps_imported: "%{count} Control points imported!"
+      id: id
+      map: Map
+      x: X
+      y: Y
+      lon: Lon
+      lat: Lat
+    add_many_to_map:
+      notice: "GCPS saved"
+    bulk_import:
+      back: "&lt; Back to Main Import Page"
+      header: Bulk Control Point CSV Import
+      help_html: "For individual maps instead of using this page you can upload a CSV on the map recitfy view, under the control points table. The csv should have a header <pre><code>x,y,lon,lat</code></pre>"
+      new_import_header: New Bulk Import
+      import_help_html: "Use this page to import many control points for many maps. Upload a CSV, comma separated file with a header row with the following format:
+      <pre><code>mapid,x,y,lon,lat</code></pre> where <code>mapid</code> equals the warper map ID for each map you want to add a control point to. <br />
+      Points can only be added, not updated. Duplicate control points will not be added if imported again."
+      csv_file: CSV File to Upload
+      button: Upload CSV!
+    gcp:
+      deleting: Deleting...
+      error: Sorry, there seems to be an error with this delete request, try again?
+      delete_button: delete
+      delete_confirm: Really delete these points?
+    index:
+      notice: This notice is usually shown if theres an error, if called directly, or if some action with the control points was not called properly.
+      back: "Back to maps"
+    show:
+      not_found: "GCP not found"   
+    update_field:
+      error: "Control point couldnt be updated"
+      
   home:
     index:
+      title: "Home - "
       overview_header: Overview
       overview_p1: Find maps and other imagery, upload, and rectify against a real map.
       overview_p2: You can then download and use the rectified map in your mapping applications.
@@ -249,43 +362,6 @@ en:
       see_maps: See all maps
       tags: Tags
       view_layers: View all Mosaics
-      
-  gcps:
-    add:
-      new_gcp_notice: New control point added.
-    destroy:
-      deleted_notice: Control Point deleted sucessfully
-    update:
-      update_notice: Control Point updated
-    add_many:
-      back: "&lt; Back to Main Import Page"
-      header: Bulk GCP Import Results
-      nothing_imported: No control points imported!
-      gcps_imported: "%{count} Control points imported!"
-      id: id
-      map: Map
-      x: X
-      y: Y
-      lon: Lon
-      lat: Lat
-    bulk_import:
-      back: "&lt; Back to Main Import Page"
-      header: Bulk Control Point CSV Import
-      help_html: "For individual maps instead of using this page you can upload a CSV on the map recitfy view, under the control points table. The csv should have a header <pre><code>x,y,lon,lat</code></pre>"
-      new_import_header: New Bulk Import
-      import_help_html: "Use this page to import many control points for many maps. Upload a CSV, comma separated file with a header row with the following format:
-      <pre><code>mapid,x,y,lon,lat</code></pre> where <code>mapid</code> equals the warper map ID for each map you want to add a control point to. <br />
-      Points can only be added, not updated. Duplicate control points will not be added if imported again."
-      csv_file: CSV File to Upload
-      button: Upload CSV!
-    gcp:
-      deleting: Deleting...
-      error: Sorry, there seems to be an error with this delete request, try again?
-      delete_button: delete
-      delete_confirm: Really delete these points?
-    index:
-      notice: This notice is usually shown if theres an error, if called directly, or if some action with the control points was not called properly.
-      back: "Back to maps"
       
   imports:
     create:
@@ -331,22 +407,43 @@ en:
       error:  "Something went wrong updating the import"
       
   layers:
+    comments:
+      no_comments: "There's no comments for this mosaic, why not add one now!"
+    create:
+      flash: "Mosaic was successfully created."
     delete:
       header: Really delete the mosaic?
       no_button: No, get me out of here!
       yes_button: Yes, Delete mosaic!
+    destroy:
+      not_others: "Sorry, you cannot delete other people's mosaics!"
+      flash: "Mosaic deleted!"
+      error: "Mosaic wasnt deleted"
     edit:
+      title: Editing Mosaic %{layer_id} on
       header: Edit Mosaic
       help_html: "Note: All Mosaics are public, you can add your private maps to them, they won't be listed<br />
       but they will be seen on the final map image."
       delete_link: Delete this mosaic.
     export:
+      title: Export Mosaic %{mosaic_id}
       header: Export Mosaic
+      cannot_edit_others: "Sorry, you cannot edit another person's Mosaic"
+    form:
+      source: "Source / Bibliographic Ref URL"
+      depicts_hint: (year, optional)
+      depicts_hint_2:  Used to display layers by year.
+      select_map_head: 'Choose from "My Maps"'
+      no_maps: 'You have no warped'
+      my_maps: my maps
+      detail: detail
     geosearch:
       button: Find Location
       description_html: Move or zoom map - both the map and list will be updated with found layers. <br /> Layers are shown if they have one or more rectified maps within them, and are visible (not a meta collection/layer).
       title: Find Mosaics by Location
     index:
+      title_for_map: Mosaic List for Map %{map_id}
+      title: "Browse Mosaic List"
       search: Search
       for: for
     layer:
@@ -374,28 +471,32 @@ en:
       destination: Destination Layer
       merge_button: Merge Mosaic!
       confirm: Are you sure, this cannot be undone?
+      flash: "Mosaic has been merged into new layer - all maps copied across!"
     metadata: 
       header: Metadata
       name: Name
       description: Description
       depicts_year: Depicts Year
     new:
+      title: "Make new mosaic -"
       header: New Mosaic
       help: "Note: All Mosaics are public, you can add unlisted maps to them they won't be listed<br /> but they would be seen on the final map image."
-    form:
-      source: "Source / Bibliographic Ref URL"
-      depicts_hint: (year, optional)
-      depicts_hint_2:  Used to display layers by year.
-      select_map_head: 'Choose from "My Maps"'
-      no_maps: 'You have no warped'
-      my_maps: my maps
-      detail: detail
-    comments:
-      no_comments: "There's no comments for this mosaic, why not add one now!"
+    publish:
+      not_all_maps_ready: "Mosaic has less than 100% of its maps rectified"
+      flash: "Mosaic will be published"
+    remove_map:
+      flash: "Map removed from this mosaic"
     show:
+      title: Mosaic %{layer_id} %{layer_name}
       maps: Maps
       loading: "Loading....."
       new_link: Create New Mosaic
+      not_found: "Mosaic not found"
+    update:
+      flash:  "Mosaic was successfully updated."
+      error: "The mosaic was not able to be updated"
+    update_year:
+      message: "Depicts :"
 
       
   maps:
@@ -625,6 +726,13 @@ en:
       make_public: Make Public
       
   my_maps:
+    create:
+      flash: "Map saved to My Maps"
+      others_error: "You cannot add a map to another user!"
+    destroy:
+      flash: "Map removed from list!"
+      error: Map coudn't be removed from list
+      not_your_own: Sorry, you cannot remove maps you have uploaded, from the list
     list:
       header: My Maps for %{username}
       help: Showing list of maps saved or edited by a user.
@@ -687,20 +795,6 @@ en:
       tags: Tags
       title: Title
       
-  comments:
-    comment:
-      delete_link: delete
-      confirm_delete: Really delete this comment?
-    comment_form:
-      header: Comment on this
-      add_comment: Add Comment
-    index:
-      header: Comments
-      comment_th: Comment
-      comment_type: Comment On
-      user: User
-      created: Created at
-      actions_th: Actions
       
   users:
     admin_tools:
@@ -713,7 +807,29 @@ en:
       reset_password: Change and reset password
       reset_hint: This changes the password of the users account, and sends link via email to user to create a new password. Until a password is changed, the user cannot login.
       roles_hint: Change roles that the user belongs to  
+    edit:
+      title: Edit User Setttings
+    destroy:
+      flash: User successfully deleted
+      error: User could not be deleted
+      admins_cannot_be_destroyed: Admins cannot be destroyed
+    disable:
+      flash: User disabled
+      error: There was a problem disabling this user.
+    disable_and_reset:
+      providers_cannot: "Sorry, users from other providers are not able to be reset"
+      flash: "User changed and an email sent with password reset link"
+      error: "Sorry, there was a problem changing this user"
+      admins_cannot_be_disabled: "Admins cannot be disabled and reset, sorry"
+    enable:
+      flash: "User enabled"
+      error: "There was a problem enabling this user."
+    force_confirm:
+      flash: User confirmed
+      error: There was a problem confirming this user.
+      already_confirmed: User already confirmed
     index:
+      title: Users
       header: Users
       search: User Search
       name: Name
@@ -728,6 +844,7 @@ en:
       confirmed: Confirmed?
       roles: Roles
     show:
+      title: Showing User %{user_name}
       back_to_maps: "&lt; Browse Maps"
       user: User
       provider_user_html: A %{provider_thumb} %{provider_name} User
@@ -735,7 +852,9 @@ en:
       profile: "Profile Description:"
       activity: 'User Activity'
       user_maps: User Maps
+      not_found: User not found
     stats:
+      title: "Users Stats"
       header:  User Statistics
       total_count: Total
       map_count: Total Map Changes
@@ -745,7 +864,8 @@ en:
       gcp_destroy_count: Deleted Points
       details: Further Details
       unknown: Unknown
-      
+    update:
+      flash: "User updated"
     user:
       u_yes: "yes"
       u_no: "no"
@@ -754,16 +874,16 @@ en:
       activate: activate
       edit_roles: edit roles
     
-    
-    
-      
+  
   user_mailer:
     disabled_change_password:
       greeting: Hi
+      subject: "%{site_name} Your account is disabled until you change your password"
       intro: "Your account using %{email} email has been disabled by an admin, and you will need to change your password in order to re-enble it. "
       end: You should get an additional email with the link to do this within it.
       
     new_registration:
+      subject: "Welcome to %{site_name} %{user_name}"
       intro: "Thanks for signing up to use %{site_name}."
       click_the_link: "Your account has been created and you can log in using the email: %{email} at:"
       

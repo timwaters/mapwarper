@@ -21,17 +21,17 @@ module AuditsHelper
         
         case map_action
         when :unloaded
-          summ = "Map was unloaded"
+          summ = t('audits.helper.summary.unloaded')
         when :loading
-          summ = "Map started loading from library"
+          summ = t('audits.helper.summary.loading')
         when :available
-          summ = "Map became available"
+          summ = t('audits.helper.summary.available')
         when :warping
-          summ = "Map started rectification process"
+          summ = t('audits.helper.summary.warping')
         when :warped
-          summ = "Map successfully rectified"
+          summ = t('audits.helper.summary.warped')
         when :published
-          summ = "Map successfully published"
+          summ = t('audits.helper.summary.published')
         else
           summ =""
         end
@@ -49,11 +49,11 @@ module AuditsHelper
         end
         case mask_action
         when :unmasked
-          summ = "Map was unmasked"
+          summ = t('audits.helper.summary.unmasked')
         when :masking
-          summ = "Map started masking process"
+          summ = t('audits.helper.summary.masking')
         when :masked
-          summ = "Map successfully masked"
+          summ = t('audits.helper.summary.masked')
         else
           summ = ""
         end

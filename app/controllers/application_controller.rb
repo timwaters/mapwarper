@@ -41,7 +41,7 @@ class ApplicationController < ActionController::Base
   end
 
   def permission_denied
-    flash[:error] = "Sorry you do not have permission to view that."
+    flash[:error] = t('application.permission_denied')
     redirect_to root_path
   end
 

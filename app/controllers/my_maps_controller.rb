@@ -16,13 +16,13 @@ class MyMapsController < ApplicationController
       @map = Map.find(params[:map_id])
       um = @user.my_maps.new(:map => @map)
       if um.save     
-        flash[:notice] = "Map saved to My Maps"
+        flash[:notice] = t('.flash')
       else
         flash[:notice] = um.errors.on(:user_id)
       end
 
     else
-      flash[:notice] = "You cannot add a map to another user!"
+      flash[:notice] = t('.others_error')
       #TODO redirect back with message
     end
 
@@ -38,15 +38,15 @@ class MyMapsController < ApplicationController
       my_map = @user.my_maps.find_by_map_id(params[:map_id])
 
       if my_map.destroy 
-        flash[:notice] = "Map removed from list!"
+        flash[:notice] = t('.flash')
       else
-        flash[:notice] = "Map coudn't be removed from list"
+        flash[:notice] = t('.error')
       end
     else
       if current_user.own_this_map?(params[:map_id])
-        flash[:notice]= "Sorry, you cannot remove maps you have uploaded, from the list"
+        flash[:notice]= t('.not_your_own')
       else
-        flash[:notice]= "Map coudn't be removed from list"
+        flash[:notice]= t('.error')
       end
 
    
