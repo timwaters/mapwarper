@@ -5,6 +5,11 @@ en:
     attributes:
       map:
         title: Title
+      user:
+        current_password: Current password
+        email: Email
+        password: password
+        password_confirmation: Password confirmation
     models:
       layer:
         one: layer
@@ -33,7 +38,13 @@ en:
           user_not_exist: does not exist
           path_not_exist: does not exist
           no_files_error: has no files within the directory
-          
+  helpers:
+    label:
+      user:
+        current_password:  Current password
+        email:  Email
+        password: Password
+        password_confirmation: Password confirmation
         
 # External Libraries
   will_paginate:
