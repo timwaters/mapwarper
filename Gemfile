@@ -63,6 +63,8 @@ gem 'yql', '0.0.2'
 gem 'actionpack-action_caching', github: 'timwaters/actionpack-action_caching', branch: 'feature/take_format_from_request'
 gem 'redis-rails', '~> 4'
 
+gem "rails-i18n"
+
 group :development do
    gem 'web-console', '~> 2.0'
    gem 'spring'
