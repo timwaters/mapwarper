@@ -61,15 +61,15 @@
     <%if layer.depicts_year -%><%= layer.depicts_year -%> <%end-%>
   </td>
  <td>
-    <%= time_ago_in_words(layer.updated_at) -%> <%= t('ago') %>
+    <%= time_ago_in_words(layer.updated_at) -%> <%= t('common.ago') %>
   </td>
   <td>
     <span class="layer_mapcount">
-      <%= pluralize layer.maps_count, t('map') -%>
+      <%= pluralize layer.maps_count, t('common.map') -%>
     </span>
   </td>
   <td>
     <%=number_to_percentage(layer.rectified_percent, :precision=>0) %><br />
-    (<%= pluralize layer.rectified_maps_count, t('map') -%>)
+    (<%= pluralize layer.rectified_maps_count, t('common.map') -%>)
   </td>
 </tr>

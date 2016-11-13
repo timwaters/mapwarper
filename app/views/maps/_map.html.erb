@@ -11,7 +11,7 @@
 
     <div class="map_description"><span><%=strip_brackets(h(map.description)) -%>
         <% if map.layers.count > 0 %>
-          (<%= t('.in') %> <%=link_to(pluralize(map.layers.count, t('layer')), map_layers_path(map.id)) -%>)
+          (<%= t('.in') %> <%=link_to(pluralize(map.layers.count, t('common.layer')), map_layers_path(map.id)) -%>)
         <%end %>
       </span>
 
@@ -64,7 +64,7 @@
     <%=  map.depicts_year %>
   </td>
   <td>
-    <%=h time_ago_in_words(map.updated_at) -%> <%= t('ago') %>
+    <%=h time_ago_in_words(map.updated_at) -%> <%= t('common.ago') %>
   </td>
   <td>
     <%if map.gcps.hard.size > 0 %>

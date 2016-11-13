@@ -18,11 +18,11 @@
   <table id="map_table" cellpadding="3">
     <thead>
       <tr>
-        <th><%= t('map') %></th>
-        <%= sort_header_tag('title', :title => t('title_th')) %>
-        <%= sort_header_tag('issue_year', :title => t('year_th'), :class=>"year-sort") %>
-        <%= sort_header_tag('updated_at', :title => t('last_th'), :class => "modified-sort") %>
-        <%= sort_header_tag('status', :title => t('status_th')) %>
+        <th><%= t('common.map') %></th>
+        <%= sort_header_tag('title', :title => t('common.title_th')) %>
+        <%= sort_header_tag('issue_year', :title => t('common.year_th'), :class=>"year-sort") %>
+        <%= sort_header_tag('updated_at', :title => t('common.last_th'), :class => "modified-sort") %>
+        <%= sort_header_tag('status', :title => t('common.status_th')) %>
       </tr>
     </thead>
 
@@ -35,7 +35,7 @@
     <div id="search-pagination-bottom">
       <%= will_paginate @maps %>
       <div class="per_page_select">
-        <%= page_entries_info @maps %>.&nbsp;<%= select_tag :per_page, options_for_select([20,50,100], @per_page.to_i), :onchange => "if(this.value){reload_with_page(this.value)};" %> <%= t('per_page') %>
+        <%= page_entries_info @maps %>.&nbsp;<%= select_tag :per_page, options_for_select([20,50,100], @per_page.to_i), :onchange => "if(this.value){reload_with_page(this.value)};" %> <%= t('common.per_page') %>
       </div>
     </div>
   </div>

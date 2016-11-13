@@ -12,7 +12,7 @@
       <%= link_to comment_detail.user.login, user_path(comment_detail.user) -%>
     <% end -%>
   </td>
-  <td><%= time_ago_in_words(comment_detail.created_at) %> <%= t('ago') %></td>
+  <td><%= time_ago_in_words(comment_detail.created_at) %> <%= t('common.ago') %></td>
   <td>
     <%if user_signed_in? -%>
       <% if current_user == comment_detail.user || admin_authorized? %>

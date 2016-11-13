@@ -22,7 +22,7 @@
     
       <div id="year-filter">
         <div id="year-label">
-          <%= t('year_th') %>
+          <%= t('common.year_th') %>
         </div>
         <div id="year-slider-container">
           <div id="year-slider"></div>
@@ -86,12 +86,12 @@
   <table id="layer_table" cellpadding="3">
     <thead>
       <tr>
-        <th><%= t('layer_th') %></th>
-        <%= sort_header_tag('name', :title => t('title_th')) %>
-        <%= sort_header_tag('depicts_year', :title => t('year_th'), :class=>"year-sort") %> 
-        <%= sort_header_tag('updated_at', :title => t('last_th')) %>
-        <%= sort_header_tag('maps_count', :title=> t('num_th')) %>
-        <%= sort_header_tag('percent', :title => t('percent_th')) %>
+        <th><%= t('common.layer_th') %></th>
+        <%= sort_header_tag('name', :title => t('common.title_th')) %>
+        <%= sort_header_tag('depicts_year', :title => t('common.year_th'), :class=>"year-sort") %> 
+        <%= sort_header_tag('updated_at', :title => t('common.last_th')) %>
+        <%= sort_header_tag('maps_count', :title=> t('common.num_th')) %>
+        <%= sort_header_tag('percent', :title => t('common.percent_th')) %>
       </tr>
     </thead>
     <tbody id="results">
@@ -104,7 +104,7 @@
   <div id="search-pagination-bottom">
     <%= will_paginate @layers %>
     <div class="per_page_select">
-      <%= page_entries_info @layers %>&nbsp;<%= select_tag :per_page, options_for_select([20,50,100], @per_page.to_i), :onchange => "if(this.value){reload_with_page(this.value)};" %> <%= t('per_page') %>
+      <%= page_entries_info @layers %>&nbsp;<%= select_tag :per_page, options_for_select([20,50,100], @per_page.to_i), :onchange => "if(this.value){reload_with_page(this.value)};" %> <%= t('common.per_page') %>
     </div>
   </div>
 </div>

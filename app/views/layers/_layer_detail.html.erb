@@ -10,7 +10,7 @@
     <br />
     <span class="layer_description">
       <%= layer.description %>
-      <%= t('.last_modified') %> <%=h time_ago_in_words(layer.updated_at) -%> <%= t('ago') %>.
+      <%= t('.last_modified') %> <%=h time_ago_in_words(layer.updated_at) -%> <%= t('common.ago') %>.
     </span>
     <span class="layer_year">
       <span id="depicts-year-span-top">
@@ -24,8 +24,8 @@
     </span>
     <br />
     <span class="layer_mapcount">
-      <%= pluralize layer.maps_count, t('map')  -%>
-      (<%= pluralize layer.rectified_maps_count, t('map') -%> rectified <%=number_to_percentage(layer.rectified_percent, :precision=>0)-%>)
+      <%= pluralize layer.maps_count, t('common.map')  -%>
+      (<%= pluralize layer.rectified_maps_count, t('common.map') -%> rectified <%=number_to_percentage(layer.rectified_percent, :precision=>0)-%>)
     </span><br />
     <% if admin_authorized? -%>
       <span class="layer_visibility">
