@@ -95,7 +95,7 @@ Rails.application.routes.draw do
       get 'merge'
       get 'publish'
       get 'toggle_visibility'
-      post 'update_year'
+      patch 'update_year'
       get 'wms'
       get 'wms2'
       get 'maps'
