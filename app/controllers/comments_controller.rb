@@ -56,7 +56,7 @@ class CommentsController < ApplicationController
     #logger.error("not found #{params[:id]}")
     respond_to do | format |
       format.html do
-        flash[:notice] = t('.comments.show.not_found')
+        flash[:notice] = t('comments.show.not_found')
         redirect_to :root
       end
       format.json {render :json => {:stat => "not found", :items =>[]}.to_json, :status => 404}

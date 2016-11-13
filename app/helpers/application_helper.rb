@@ -67,8 +67,8 @@ module ApplicationHelper
   
   def error_messages_for(*objects)
     options = objects.extract_options!
-    options[:header_message] ||= I18n.t(:"activerecord.errors.header", :default => t('application.helper.error_messages_for.invalid_fields'))
-    options[:message] ||= I18n.t(:"activerecord.errors.message", :default => t('application.helper.error_messages_for.message'))
+    options[:header_message] ||= I18n.t(:"errors.template.header", :default => t('application.helper.error_messages_for.invalid_fields'))
+    options[:message] ||= I18n.t(:"errors.template.body", :default => t('application.helper.error_messages_for.message'))
     messages = objects.compact.map { |o| o.errors.full_messages }.flatten
     unless messages.empty?
       content_tag(:div, :class => "error_messages") do
