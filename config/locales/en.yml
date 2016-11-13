@@ -160,16 +160,16 @@ en:
       new:
         header: Resend unlock instructions
         button: Resend unlock instructions
-  errors:
-    messages:
-      already_confirmed: "was already confirmed, please try signing in"
-      confirmation_period_expired: "needs to be confirmed within %{period}, please request a new one"
-      expired: "has expired, please request a new one"
-      not_found: "not found"
-      not_locked: "was not locked"
-      not_saved:
-        one: "1 error prohibited this %{resource} from being saved:"
-        other: "%{count} errors prohibited this %{resource} from being saved:"
+    errors:
+      messages:
+        already_confirmed: "was already confirmed, please try signing in"
+        confirmation_period_expired: "needs to be confirmed within %{period}, please request a new one"
+        expired: "has expired, please request a new one"
+        not_found: "not found"
+        not_locked: "was not locked"
+        not_saved:
+          one: "1 error prohibited this %{resource} from being saved:"
+          other: "%{count} errors prohibited this %{resource} from being saved:"
         
 # Main Warper Translations
 
@@ -402,6 +402,7 @@ en:
       finished_notice: All done!
       edit_maps_link:  "click here to edit the maps"
       error: Something went wrong with the request to the server
+      already_imported_error: "Sorry, can't be done, this import has already been imported."
     update:
       flash: "Successfully updated import."
       error:  "Something went wrong updating the import"
@@ -425,10 +426,10 @@ en:
       help_html: "Note: All Mosaics are public, you can add your private maps to them, they won't be listed<br />
       but they will be seen on the final map image."
       delete_link: Delete this mosaic.
+      cannot_edit_others: "Sorry, you cannot edit another person's Mosaic"
     export:
       title: Export Mosaic %{mosaic_id}
       header: Export Mosaic
-      cannot_edit_others: "Sorry, you cannot edit another person's Mosaic"
     form:
       source: "Source / Bibliographic Ref URL"
       depicts_hint: (year, optional)
@@ -609,7 +610,7 @@ en:
       unpublish: UnPublish
       unpublish_confirm: Really un publish this map? This will mean that the map can be edited now
     map_type: 
-      flash: "Map has changed. Map type: "
+      flash: "Map has changed. Map type: %{map_type}"
     mask_map:
       not_found: "Mask file not found"
     metadata:
@@ -621,7 +622,7 @@ en:
       title: "Upload a new map to "
     publish:
       flash: "Map changed. New Status: "
-    rectify:
+    rectify_main:
       not_enough_points: "Sorry, the map needs at least three control points to be able to rectify it"
       being_rectified_error: "Sorry, the map is currently being rectified somewhere else, please try again later."
       rectified_success: "Map rectified."

@@ -18,7 +18,7 @@
     <td>
       <%= user.confirmed? ? t('.u_yes') : t('.u_no') -%>
       <% if !user.confirmed? -%>
-        <%= link_to((t'.activate'), force_confirm_user_path(user.id), :method => :put) -%>  
+        <%= link_to(t('.activate'), force_confirm_user_path(user.id), :method => :put) -%>  
       <% end-%>
     </td>
     <td><%= link_to(t('.edit_roles'), user_roles_path(user))-%></td>

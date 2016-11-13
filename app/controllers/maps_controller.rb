@@ -542,7 +542,7 @@ class MapsController < ApplicationController
       @maps = @layer.maps.paginate(:per_page => 30, :page => 1, :order => :map_type)
     end
     
-    render :text => t('.map_type')+@map.map_type.to_s
+    render :text => t('.flash', map_type: @map.map_type)
   end
 
   #pass in soft true to get soft gcps
@@ -866,7 +866,7 @@ class MapsController < ApplicationController
       @output = @notice_text
     elsif @map.status == :warping
       @fail = true
-      @notice_text = t('being_rectified_error')
+      @notice_text = t('.being_rectified_error')
       @output = @notice_text
     else
       if user_signed_in?

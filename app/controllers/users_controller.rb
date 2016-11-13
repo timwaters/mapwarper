@@ -115,7 +115,7 @@ class UsersController < ApplicationController
   def disable_and_reset
     @user = User.find(params[:id])
     if @user.provider?
-      flash[:error] = t('.provider_cannot')
+      flash[:error] = t('.providers_cannot')
       return redirect_to :action => 'show'
     end
     unless @user.has_role?("administrator") ||  @user.has_role?("super user")

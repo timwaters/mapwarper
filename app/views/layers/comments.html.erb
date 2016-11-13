@@ -7,5 +7,5 @@
 <% if user_signed_in? %>
   <%= render :partial => 'comments/comment_form', :object => @layer, as: 'comment_obj' -%>
 <% else -%>
-  <%= link_to t('maps.comment.login'),new_session_path %> 
+  <%= link_to t('maps.comments.login'),new_session_path %> 
 <% end -%>
