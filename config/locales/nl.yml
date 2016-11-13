@@ -1,6 +1,10 @@
 nl:
   activerecord:
     attributes:
+      layer:
+        depicts_year: 
+        description: 
+        name: 
       map:
         title: Titel
       user:
@@ -8,6 +12,7 @@ nl:
         email: E-mail
         password: wachtwoord
         password_confirmation: Bevestig wachtwoord
+        remember_me: 
     errors:
       models:
         import:
@@ -294,11 +299,16 @@ nl:
       error: 
   helpers:
     label:
+      layer:
+        depicts_year: 
+        description: 
+        name: 
       user:
         current_password: 
         email: 
         password: 
         password_confirmation: 
+        remember_me: 
   home:
     index:
       all_maps: 
@@ -900,6 +910,12 @@ nl:
       u_no: 
       u_yes: 
   will_paginate:
+    layer:
+      page_entries_info:
+        single_page_html: 
+    map:
+      page_entries_info:
+        single_page_html: 
     page_entries_info:
       multi_page: 
       multi_page_html: 
