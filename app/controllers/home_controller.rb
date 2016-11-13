@@ -3,7 +3,7 @@ class HomeController < ApplicationController
   layout 'application'
   
   def index
-    @html_title =  "Home - "
+    @html_title =  t('.title')
 
     @tags = Map.where(:public => true).tag_counts(:limit => 100)
     @maps = Map.where(:public => true, :status => [2,3,4]).order(:updated_at =>  :desc).limit(3).includes(:gcps)

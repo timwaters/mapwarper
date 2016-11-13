@@ -30,21 +30,21 @@ module ApplicationHelper
   #from rails way
   def breadcrumbs(stop_at_controller=nil)
     return if controller.controller_name == 'home' || controller.controller_name =='my_maps'
-    html = [link_to('Home', root_path)]
+    html = [link_to(t('application.helper.breadcrumbs.home'), root_path)]
     #first level
-    html << link_to('Search', @link_back) if @link_back
-    html << link_to('Maps', maps_path) if @maps || @map
-    html << link_to('Map '+@map.id.to_s, map_path(@map)) if @map unless @layer || stop_at_controller
-    html << link_to('Map '+@map.id.to_s, map_path(@map)) if @map  && @layers
+    html << link_to(t('application.helper.breadcrumbs.search'), @link_back) if @link_back
+    html << link_to(t('application.helper.breadcrumbs.maps'), maps_path) if @maps || @map
+    html << link_to(t('application.helper.breadcrumbs.map', map_id: @map.id), map_path(@map)) if @map unless @layer || stop_at_controller
+    html << link_to(t('application.helper.breadcrumbs.map', map_id: @map.id), map_path(@map)) if @map  && @layers
 
     #second level
     if @page && @page == "for_map"
-      html << link_to('Map Layers', map_layers_path(@map))
+      html << link_to(t('application.helper.breadcrumbs.map_layers'), map_layers_path(@map))
     else
-      html << link_to('Mosaics', layers_path) if @layers || @layer
+      html << link_to(t('application.helper.breadcrumbs.layers'), layers_path) if @layers || @layer
     end
 
-    html << link_to('Mosaic '+@layer.id.to_s, layer_path(@layer)) if @layer && @layer.id
+    html << link_to(t('application.helper.breadcrumbs.layer', layer_id: @layer.id), layer_path(@layer)) if @layer && @layer.id
     html.join(' &gt; '  ).html_safe
   end
   
@@ -67,8 +67,8 @@ module ApplicationHelper
   
   def error_messages_for(*objects)
     options = objects.extract_options!
-    options[:header_message] ||= I18n.t(:"activerecord.errors.header", :default => "Invalid Fields")
-    options[:message] ||= I18n.t(:"activerecord.errors.message", :default => "Correct the following errors and try again.")
+    options[:header_message] ||= I18n.t(:"activerecord.errors.header", :default => t('application.helper.error_messages_for.invalid_fields'))
+    options[:message] ||= I18n.t(:"activerecord.errors.message", :default => t('application.helper.error_messages_for.message'))
     messages = objects.compact.map { |o| o.errors.full_messages }.flatten
     unless messages.empty?
       content_tag(:div, :class => "error_messages") do

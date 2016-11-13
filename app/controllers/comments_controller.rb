@@ -9,7 +9,7 @@ class CommentsController < ApplicationController
   include SortHelper
 
   def index
-    @html_title = "Browse Comments"
+    @html_title = t('.title')
     sort_init 'created_at'
     sort_update
     @query = params[:query]
@@ -26,9 +26,9 @@ class CommentsController < ApplicationController
     commentable = comment.commentable
     if (comment.user == current_user) or admin_authorized?
       if comment.destroy
-        flash.now[:notice] = "Comment deleted"
+        flash.now[:notice] = t('.flash')
       else
-        flash.now[:notice] = "Comment couldn't be deleted"
+        flash.now[:notice] = t('.error')
       end
     end
     redirect_to polymorphic_path(commentable, :anchor => "Comments_tab")
@@ -56,7 +56,7 @@ class CommentsController < ApplicationController
     #logger.error("not found #{params[:id]}")
     respond_to do | format |
       format.html do
-        flash[:notice] = "Comment not found"
+        flash[:notice] = t('.comments.show.not_found')
         redirect_to :root
       end
       format.json {render :json => {:stat => "not found", :items =>[]}.to_json, :status => 404}

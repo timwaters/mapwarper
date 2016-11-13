@@ -39,7 +39,7 @@ class GcpsController < ApplicationController
       else
 
         format.json { render :json => {:stat => "fail", :message =>"Could not update GCP", :errors => @gcp.errors.to_a, :items => []}.to_json , :callback => params[:callback]}
-        format.html {  redirect_to_index("points couldnt be updated")}
+        format.html {  redirect_to_index(t('.error'))}
       end
 
     end
@@ -67,7 +67,7 @@ class GcpsController < ApplicationController
       else
 
         format.json { render :json => {:stat => "fail", :message =>"Could not update GCP", :errors => @gcp.errors.to_a, :items => []}.to_json , :callback => params[:callback]}
-        format.html {redirect_to_index("Control point couldnt be updated")}
+        format.html {redirect_to_index(t('.error'))}
       end
     end
 
@@ -153,10 +153,10 @@ class GcpsController < ApplicationController
       
       respond_to do | format |
         format.html do
-          flash[:notice] = "Record not found. #{e.message}"
+          flash[:notice] = "#{t('.not_found')} #{e.message}"
           redirect_to :bulk_import_gcps
         end
-        format.json {render :json => {:stat => "record not found #{e.message}", :items =>[]}.to_json, :status => 404}
+        format.json {render :json => {:stat => "#{t('.not_found')} #{e.message}", :items =>[]}.to_json, :status => 404}
       end
       return false
     end
@@ -180,7 +180,7 @@ class GcpsController < ApplicationController
       gcps = Gcp.add_many_from_file(params[:file], params[:mapid])
     end
     
-    redirect_to  map_path(:id => params[:mapid], :anchor => "Rectify_tab"), :notice => "GCPS saved"
+    redirect_to  map_path(:id => params[:mapid], :anchor => "Rectify_tab"), :notice => t('.notice')
   end
   
   def index
@@ -207,7 +207,7 @@ class GcpsController < ApplicationController
     #logger.error("not found #{params[:id]}")
     respond_to do | format |
       format.html do
-        flash.now[:notice] = "GCP not found"
+        flash.now[:notice] = t('gcps.show.not_found')
         redirect_to :action => :index
       end
       format.json {render :json => {:stat => "not found", :items =>[]}.to_json, :status => 404}
