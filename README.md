@@ -152,6 +152,13 @@ Create a user in the console, as shown above and then exit
 
 to start the server, running on port 3000
 
+##I18n Locales / Translations
+
+Currently we are using LocaleApp to assist with translations, which is open to all.
+
+Edit the translations directly on the [mapwarper](http://www.localeapp.com/projects/public?search=mapwarper) project.
+
+
 ## Deployment instructions
 
 The system can use capistrano for deployment
