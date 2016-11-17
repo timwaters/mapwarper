@@ -48,6 +48,7 @@ Groups of maps can be made into "mosaics" that will stictch together the composi
   * Roles management (editor, developer, admin etc)
   * Batch Imports
 * Caching of WMS and Tile via Redis
+* i18n support
 
 ## Ruby & Rails
 
