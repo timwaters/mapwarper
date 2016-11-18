@@ -222,6 +222,10 @@ GEM
     parser (2.3.1.4)
       ast (~> 2.2)
     pg (0.18.1)
+    pg_search (1.0.6)
+      activerecord (>= 3.1)
+      activesupport (>= 3.1)
+      arel
     rack (1.6.4)
     rack-test (0.6.3)
       rack (>= 1.0)
@@ -380,6 +384,7 @@ DEPENDENCIES
   omniauth-twitter
   paperclip (~> 4.3.7)
   pg
+  pg_search
   rails (= 4.2.7.1)
   rails-i18n
   redis-rails (~> 4)

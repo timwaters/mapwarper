@@ -31,6 +31,9 @@ class Map < ActiveRecord::Base
   acts_as_enum :rough_state, [:step_1, :step_2, :step_3, :step_4]
   audited :allow_mass_assignment => true
   
+  include PgSearch
+  multisearchable :against => [:title, :description], :if => :warped?
+  
   scope :warped,    -> { where({ :status => [Map.status(:warped), Map.status(:published)], :map_type => Map.map_type(:is_map)  }) }
   scope :published, -> { where({:status => Map.status(:published), :map_type => Map.map_type(:is_map)})}
   scope :are_public, -> { where(public: true) }

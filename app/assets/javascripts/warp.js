@@ -154,7 +154,7 @@ function init() {
 
     var dialog = jQuery("#add_custom_layer").dialog({
       bgiframe: true,
-      height: 300,
+      height: 350,
       width: 500,
       resizable: false,
       draggable: false,
@@ -162,10 +162,13 @@ function init() {
       hide: 'slow',
       title: I18n["warp"]["custom_layer_title"],
       buttons: {
-        "Add Layer": function(){
-          var template = jQuery("#template").val();
-          addCustomLayer(template);
-          dialog.dialog("close"); 
+        "Add Layer": function () {
+          var selected = jQuery('.layer-select').select2("data")[0];
+          if (selected.tiles) {
+            var layer = {"title": selected.title, "type": selected.type, "template": selected.tiles};
+            addCustomLayer(layer);
+          }
+          dialog.dialog("close");
           form[ 0 ].reset();
         },
         Cancel: function () {
@@ -186,7 +189,11 @@ function init() {
     });
    
  }
-  function addCustomLayer(template) {
+  function addCustomLayer(layer) {
+    var template = layer.template;
+    var title = "";
+    var type = layer.type;
+    var attribution = "";
     var tokens = template.split("/")
     var basetokens = tokens.slice(0, tokens.length - 3)
     var baseurl = basetokens.join("/") + "/";
@@ -195,12 +202,21 @@ function init() {
       return false;
     } 
   
-    var temp_layer = new OpenLayers.Layer.TMS(I18n["warp"]["custom_layer"], baseurl,
+    if (type == "Custom") {
+      title = I18n["warp"]["custom_layer"];
+      attribution = I18n["warp"]["custom_layer"] + " " + baseurl
+    } else {
+      title = type + ": " + layer.title.substring(0,20);
+      attribution = title + " " + baseurl
+    }
+    
+  
+    var temp_layer = new OpenLayers.Layer.TMS(title, baseurl,
             {type: img_type,
               getURL: osm_getTileURL,
               displayOutsideMaxExtent: true,
               transitionEffect: 'resize',
-              attribution: I18n["warp"]["custom_layer"]+ " " + baseurl
+              attribution: attribution
             }
     );
 
@@ -254,8 +270,9 @@ function init() {
       jQuery("#warped-slider").hide();
     }
   });
-
-
+  
+  setupLayerSelect();
+  
 }
 
 function joinControls(first, second) {
@@ -702,38 +719,6 @@ function add_gcp_marker(markers_layer, lonlat, is_active_marker, id_index, gcp_i
 }
 
 
-
-function addLayerToDest(frm) {
-  num = frm.layer_num.value;
-  new_wms_url = empty_wms_url + '/' + num;
-
-  new_warped_layer = new OpenLayers.Layer.WMS.Untiled(I18n["warp"]["warped_layer"]+" " + num, new_wms_url, {
-    format: 'image/png',
-    status: 'warped'
-  },
-  {
-    TRANSPARENT: 'true',
-    reproject: 'true'
-  },
-  {
-    gutter: 15,
-    buffer: 0
-  },
-  {
-    projection: "epsg:4326",
-    units: "m"
-  });
-  new_warped_layer.setOpacity(0.6);
-  new_warped_layer.setVisibility(true);
-  new_warped_layer.setIsBaseLayer(false);
-  to_map.addLayer(new_warped_layer);
-
-  to_layer_switcher.maximizeControl();
-
-  jQuery('#add_layer').hide();
-
-}
-
 function show_warped_map() {
   warped_layer.setVisibility(true);
   warped_layer.mergeNewParams({'random': Math.random()});
@@ -792,26 +777,7 @@ function newaddGCPfrom(feat) {
   check_if_gcp_ready();
 }
 
-function addLayerToDest(frm) {
-  num = frm.layer_num.value;
-  new_wms_url = empty_wms_url + '/' + num;
 
-  new_warped_layer = new OpenLayers.Layer.WMS.Untiled(I18n["warp"]["warped_layer"]+" " + num, new_wms_url,
-          {format: 'image/png', status: 'warped'},
-  {TRANSPARENT: 'true', reproject: 'true'},
-  {gutter: 15, buffer: 0},
-  {projection: "epsg:4326", units: "m"}
-  );
-  new_warped_layer.setOpacity(.6);
-  new_warped_layer.setVisibility(true);
-  new_warped_layer.setIsBaseLayer(false);
-  to_map.addLayer(new_warped_layer);
-
-  to_layer_switcher.maximizeControl();
-
-  jQuery('#add_layer').hide();
-
-}
 
 function resetHighlighting() {
   to_map.div.className = "map-off";
@@ -884,4 +850,84 @@ function bestGuess(guessObj) {
 function centerToMap(lon, lat, zoom) {
   var newCenter = new OpenLayers.LonLat(lon, lat).transform(to_map.displayProjection, to_map.projection);
   to_map.setCenter(newCenter, zoom);
+}
+
+var customId = 10000;
+function setupLayerSelect() {
+  jQuery('.layer-select').select2({
+    ajax: {
+      url: "http://localhost:3000/search.json",
+      dataType: 'json',
+      delay: 250,
+      transport: function (params, success, failure) {
+        if (params.data && params.data.query.indexOf("http") === 0) {
+          var title = params.data.query;
+          customId = customId + 1
+          var id = customId;
+          jQuery('.layer-select').data('select2').dataAdapter.select({"id": id, "type": "Custom", "title": title, "description": "", "href": params.data.query, "thumb": "/uploads/6/thumb/NYC1776-mod.png", "tiles": params.data.query, "year": null})
+          return null;
+        } else {
+          $request = jQuery.ajax(params);
+          $request.then(success);
+          $request.fail(failure);
+
+          return $request;
+        }
+      },
+      data: function (params) {
+        return {
+          query: params.term
+        };
+
+      },
+      processResults: function (data, params) {
+        params.page = params.page || 1;
+
+        return {
+          results: data.data,
+          pagination: {
+            more: (params.page * 50) < data.total_count
+          }
+        };
+
+      },
+      cache: true
+    },
+    escapeMarkup: function (markup) {
+      return markup;
+    },
+    allowClear: true,
+    minimumInputLength: 3,
+    templateResult: formatItems,
+    templateSelection: formatItemSelection
+  });
+
+  function formatItems(item) {
+    if (item.loading)
+      return item.title;
+
+    var markup = "<div class='select2-result-item clearfix'>" +
+            "<div class='select2-result-item__thumb'><img src='" + item.thumb + "' /></div>" +
+            "<div class='select2-result-item__meta'>" +
+            "<div class='select2-result-item__title'><span class='select2-result-item__type'>" + item.type + ":</span> " + item.title + "</div>";
+
+    if (item.year) {
+      markup += "<div class='select2-result-item__year'>Year: " + item.year + "</div>";
+    }
+
+    markup += "</div></div>";
+
+    return markup;
+  }
+
+  function formatItemSelection(item) {
+    if (item.id === "") {
+      return item.text; //placeholder text
+    } else {
+      return item.type + ": " + item.title;
+    }
+  }
+
+
+
 }

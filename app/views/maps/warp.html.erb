@@ -1,4 +1,11 @@
 <% content_for :head do %>
+  <%= javascript_include_tag 'select2/select2.min' %>
+  <%= stylesheet_link_tag 'select2/select2.min' %>
+  <script type="text/javascript" charset="utf-8">
+    jQuery.fn.select2.defaults.set('language', '<%= I18n.locale.to_s %>');
+  </script>
+
+  <%= javascript_include_tag 'select2/i18n/nl' %>
   <%= javascript_tag "window._token = '#{form_authenticity_token}'" %>
   <script type="text/javascript" charset="utf-8">
     var icon_imgPath = '/assets/icons/';
@@ -89,7 +96,10 @@
 <div id="add_custom_layer" style="display:none;">
   <%= t('.custom_layer_instructions_html') %>
   <form>
-   <input type="text" name="template" id="template" size="42"/>
+    <div class="layer-select-container">
+      <select class="layer-select"  data-placeholder="<%= t('.custom_layer_placeholder') %>">
+      </select>
+    </div>
   </form>
 </div>
 

@@ -65,6 +65,8 @@ gem 'redis-rails', '~> 4'
 
 gem "rails-i18n"
 
+gem 'pg_search'
+
 group :development do
    gem 'web-console', '~> 2.0'
    gem 'spring'
