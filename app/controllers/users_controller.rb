@@ -14,7 +14,7 @@ class UsersController < ApplicationController
     sort_init "total_count"
     sort_update
 
-    @html_title = "Users Stats"
+    @html_title = t('.title')
 
     the_sql = "select user_id, username, COUNT(user_id) as total_count,
       COUNT(case when auditable_type='Gcp' then 1 end) as gcp_count,
@@ -37,7 +37,7 @@ class UsersController < ApplicationController
 
 
   def index
-    @html_title = "Users"
+    @html_title = t('.title')
     sort_init 'email'
     sort_update
     @query = params[:query]
@@ -70,7 +70,7 @@ class UsersController < ApplicationController
 
   def show
     @user = User.find(params[:id]) || current_user
-    @html_title = "Showing User "+ @user.login.capitalize
+    @html_title = t('.title', user_name: @user.login.capitalize)
     @mymaps = @user.maps.order("updated_at DESC").paginate(:page => params[:page],:per_page => 8)
     @current_user_maps = current_user.maps
     respond_to do | format |
@@ -84,14 +84,14 @@ class UsersController < ApplicationController
 
 
   def edit
-    @html_title = "Edit User Setttings"
+    @html_title = t('.title')
     @user = current_user
   end
 
   def update
     @user = User.find(current_user)
     if @user.update_attributes(params[:user])
-      flash[:notice] = "User updated"
+      flash[:notice] = t('.flash')
       redirect_to :action => 'show', :id => current_user
     else
       render :action => 'edit'
@@ -102,12 +102,12 @@ class UsersController < ApplicationController
     @user = User.find(params[:id])
     unless @user.has_role?("administrator") ||  @user.has_role?("super user")
       if @user.destroy
-        flash[:notice] = "User successfully deleted"
+        flash[:notice] = t('.flash')
       else
-        flash[:error] = "User could not be deleted"
+        flash[:error] = t('.error')
       end
     else
-      flash[:error] = "Admins cannot be destroyed"
+      flash[:error] = t('.admins_cannot_be_destroyed')
     end
     redirect_to :action => 'index'
   end
@@ -115,7 +115,7 @@ class UsersController < ApplicationController
   def disable_and_reset
     @user = User.find(params[:id])
     if @user.provider?
-      flash[:error] = "Sorry, users from other providers are not able to be reset"
+      flash[:error] = t('.providers_cannot')
       return redirect_to :action => 'show'
     end
     unless @user.has_role?("administrator") ||  @user.has_role?("super user")
@@ -126,13 +126,13 @@ class UsersController < ApplicationController
       if @user.save
         UserMailer.disabled_change_password(@user).deliver_now
         @user.send_reset_password_instructions
-        flash[:notice] = "User changed and an email sent with password reset link"
+        flash[:notice] = t('.flash')
       else
-        flash[:error] = "Sorry, there was a problem changingin this user"
+        flash[:error] = t('.error')
       end
       
     else
-      flash[:error] = "Admins cannot be disabled and reset, sorry"
+      flash[:error] = t('.admins_cannot_be_disabled')
     end
     
     redirect_to :action => 'show'
@@ -141,9 +141,9 @@ class UsersController < ApplicationController
   def disable
     @user = User.find(params[:id])
     if @user.update_attribute(:enabled, false)
-      flash[:notice] = "User disabled"
+      flash[:notice] = t('.flash')
     else
-      flash[:error] = "There was a problem disabling this user."
+      flash[:error] = t('.error')
     end
     redirect_to :action => 'index'
   end
@@ -151,9 +151,9 @@ class UsersController < ApplicationController
   def enable
     @user = User.find(params[:id])
     if @user.update_attribute(:enabled, true)
-      flash[:notice] = "User enabled"
+      flash[:notice] = t('.flash')
     else
-      flash[:error] = "There was a problem enabling this user."
+      flash[:error] = t('.error')
     end
     redirect_to :action => 'index'
   end
@@ -163,12 +163,12 @@ class UsersController < ApplicationController
     if !@user.confirmed?
       @user.force_confirm!
       if @user.confirmed? 
-        flash[:notice] = "User confirmed"
+        flash[:notice] = t('.flash')
       else
-        flash[:error] = "There was a problem confirming this user."
+        flash[:error] = t('.error')
       end
     else
-      flash[:notice] = "User already confirmed"
+      flash[:notice] = t('.already_confirmed')
     end
     redirect_to :action => 'index'
   end
@@ -178,7 +178,7 @@ class UsersController < ApplicationController
   def bad_record
     respond_to do | format |
       format.html do
-        flash[:notice] = "User not found"
+        flash[:notice] = t('users.show.not_found')
         redirect_to root_path
       end
       format.json {render :json => {:stat => "not found", :items =>[]}.to_json, :status => 404}

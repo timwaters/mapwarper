@@ -1,21 +1,21 @@
 <%=render :partial => 'layers/layermap', :object => @layer unless @layer.rectified_maps_count  < 1 || !@layer.is_visible?%>
-<h3>Maps <span id="view-maps-index-link"></span></h3>
+<h3><%= t('.maps') %> <span id="view-maps-index-link"></span></h3>
 <div class="warper_pagination">
   <div id="search-pagination-top">
     <%= will_paginate @maps %>
   </div>
 </div>
 
-<div id="loading-spinner" style="width:100px;margin-left:auto;margin-right:auto" class="hidden">Loading..... <br /><%= image_tag "spinner.gif" %> </div>
+<div id="loading-spinner" style="width:100px;margin-left:auto;margin-right:auto" class="hidden"><%= t('.loading') %> <br /><%= image_tag "spinner.gif" %> </div>
 <div id="map_table_div">
   <table id="map_table" cellpadding="3">
     <thead>
       <tr>
-        <th>Map</th>
-        <th>Title</th>
-        <th>Year</th>
-        <th>Last modified</th>
-        <th>Status</th>
+        <th><%= t('common.map_th') %></th>
+        <th><%= t('common.title_th') %></th>
+        <th><%= t('common.year_th') %></th>
+        <th><%= t('common.last_th') %></th>
+        <th><%= t('common.status_th') %></th>
       </tr>
     </thead>
 
@@ -30,4 +30,4 @@
   </div>
 </div>
 
-<%= link_to("Create New Mosaic", new_layer_url) %>
+<%= link_to(t('.new_link'), new_layer_url) %>

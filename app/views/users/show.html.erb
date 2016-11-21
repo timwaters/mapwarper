@@ -1,26 +1,27 @@
-<%= link_to "&lt; Browse Maps".html_safe, maps_path %>
+<%= link_to t('.back_to_maps').html_safe, maps_path %>
 
-<h2>User: <%=h @user.login %></h2>
+<h2><%= t('.user') %>: <%=h @user.login %></h2>
 <%- if @user.provider %>
-<p>A <%= image_tag(@user.provider+'_logo.png', width: '17', height: '17') %> <%=@user.provider_name.titlecase %> User </p>
+<p>
+  <%= t('.provider_user_html', :provider_thumb => image_tag(@user.provider+'_logo.png', width: '17', height: '17'), :provider_name => @user.provider_name.titlecase) %>
 <%- end %>
-<p>Joined on: <%= @user.created_at.to_s(:long) %></p>
-<h3>Profile Description:</h3>
+<p><%= t('.joined') %>: <%= @user.created_at.to_s(:long) %></p>
+<h3><%= t('.profile') %></h3>
 <p><%= (h @user.description).gsub("\n","<br/>") %></p>
-<p><%=link_to 'User activity', user_activity_url(:id=>@user.id) %></p>
+<p><%=link_to t('.activity'), user_activity_url(:id=>@user.id) %></p>
 <%= render :partial => 'users/admin_tools', :object => @user %>
-<h3>User Maps</h3>
+<h3><%= t('.user_maps') %></h3>
 
 <div id = "usermaps">
   <%=will_paginate @mymaps %>
   <table id="map_table" cellpadding="3">
     <thead>
       <tr>
-        <th>Map</th>
-        <th>Title</th>
-        <th>Year</th>
-        <th>Last modified</th>
-        <th>Status</th>
+        <th><%= t('common.map_th') %></th>
+        <th><%= t('common.title_th') %></th>
+        <th><%= t('common.year_th') %></th>
+        <th><%= t('common.last_th') %></th>
+        <th><%= t('common.status_th') %></th>
       </tr>
     </thead>
     <tbody id="results">

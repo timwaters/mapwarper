@@ -48,6 +48,7 @@ Groups of maps can be made into "mosaics" that will stictch together the composi
   * Roles management (editor, developer, admin etc)
   * Batch Imports
 * Caching of WMS and Tile via Redis
+* i18n support
 
 ## Ruby & Rails
 
@@ -150,6 +151,13 @@ Create a user in the console, as shown above and then exit
     rails s -b 0.0.0.0 -p 3000
 
 to start the server, running on port 3000
+
+##I18n Locales / Translations
+
+Currently we are using LocaleApp to assist with translations, which is open to all.
+
+Edit the translations directly on the [mapwarper](http://www.localeapp.com/projects/public?search=mapwarper) project.
+
 
 ## Deployment instructions
 

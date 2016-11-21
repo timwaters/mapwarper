@@ -15,26 +15,26 @@
       <%=strip_brackets(h(map.description)) -%>
     </span>
     <span class="map_summary">
-      <%- if map.owner -%>Uploaded by <%= link_to(map.owner.login, user_path(map.owner)) -%>.<%-end-%>
+      <%- if map.owner -%><%= t('.map_user_label') %> <%= link_to(map.owner.login, user_path(map.owner)) -%>.<%-end-%>
       <%- if map.layers.count > 0 -%>
-        (In <%=link_to(pluralize(map.layers.count, 'mosaic'), map_layers_path(map.id)) -%>)
+        (In <%=link_to(pluralize(map.layers.count, t('common.layer')), map_layers_path(map.id)) -%>)
       <%-  end -%>
       <span class="map_year">
         <% if map.depicts_year -%>
-          Depicts: <%= map.depicts_year -%>
+          <%= t('maps.map.depicts') %>: <%= map.depicts_year -%>
         <% end -%>
       </span>
-      <% if !map.public? %><span class="publicprivate">(Not listed)</span><% end-%>
-      Last modified <%=h time_ago_in_words(map.last_changed) -%> ago.
+      <% if !map.public? %><span class="publicprivate">(<%= t('maps.map.private') %>)</span><% end-%>
+      <%= t('.last_modified') %> <%=h time_ago_in_words(map.last_changed) -%> <%= t('common.ago') %>.
       <%if map.gcps.hard.size > 0 %>
-        <%=pluralize(map.gcps.hard.size, "control point") -%>.
+        <%=pluralize(map.gcps.hard.size, t('maps.map.gcp')) -%>.
       <%else-%>
-        Unrectified.
+        <%= t('maps.map.unwarped') %>.
       <%end-%>
     </span>
     <br />
     <% if map.tags.count > 0 -%>
-      <span class="map_summary">Tags:</span>
+      <span class="map_summary"><%= t('.tags') %></span>
       <span class="tags">
         <% map.tags.each do | tag | -%>
           <%= link_to tag.name, { :controller=> :maps, :action => :tag, :id => tag.name } %>
@@ -47,30 +47,30 @@
       <% if user_signed_in? %>
         <% current_user_maps = current_user.maps %>
         <% if current_user_maps.to_a.include?(map) %>
-          <%= link_to('Remove from My Maps',
-            destroy_my_map_path(:user_id => current_user, :map_id => map), :method => :post, :data => {:confirm => "really remove this map from your list?"} ) -%>  |
+          <%= link_to(t('maps.map.remove_my'),
+            destroy_my_map_path(:user_id => current_user, :map_id => map), :method => :post, :data => {:confirm => t('maps.map.confirm_my')} ) -%>  |
         <% else %>
-          <%= link_to('Save to My Maps',
+          <%= link_to(t('maps.map.save_my'),
             add_my_map_path(:user_id => current_user, :map_id => map), :method => :post) -%>  |
         <% end -%>
       <% end -%>
 
       <%- if map.source_uri -%>
-        Links: <%= link_to 'Source / Biblio Ref',map.source_uri  %>
+        <%= t('maps.map.links') %>: <%= link_to t('maps.map.source'),map.source_uri  %>
       <%- end -%>
       <% if !admin_authorized? && map.published? %>
-        | <strong>Published [<a href="#" title="This map has been published by an admin and no further editing is possible.">?</a>]</strong>
+        | <strong><%= t('maps.map.published') %> [<a href="#" title="<%= t('maps.map.published_warn') %>">?</a>]</strong>
       <% end %>
       <% if admin_authorized? %>
         <% if map.status == :warped  %>
-          | <%= link_to("Publish",publish_map_path(:id => map, :to => "publish"), :data => {:confirm => "Really publish this map? This will mean that no further editing can be done"} ) -%>
+          | <%= link_to(t('.publish'),publish_map_path(:id => map, :to => "publish"), :data => {:confirm => t('.publish_confirm')} ) -%>
         <% elsif map.published? %>
-          | <%= link_to("UnPublish",publish_map_path(:id => map, :to => "unpublish"), :data => {:confirm => "Really un publish this map? This will mean that the map can be edited now"} ) -%>
+          | <%= link_to(t('.unpublish'),publish_map_path(:id => map, :to => "unpublish"), :data => {:confirm => t('.unpublish_confirm')} ) -%>
         <% end %>
       <% end -%>
 
       <%if map.warped_or_published? %> |
-        <%= link_to("Download KML", map_url(:id => map, :format=>:kml)) %>
+        <%= link_to(t('maps.map.kml'), map_url(:id => map, :format=>:kml)) %>
       <% end %>
 
       <% if admin_authorized? %>

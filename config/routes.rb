@@ -95,7 +95,7 @@ Rails.application.routes.draw do
       get 'merge'
       get 'publish'
       get 'toggle_visibility'
-      post 'update_year'
+      patch 'update_year'
       get 'wms'
       get 'wms2'
       get 'maps'
@@ -147,6 +147,8 @@ Rails.application.routes.draw do
       get 'status'
     end
   end
+  
+  get '/search' => 'home#search', :as => 'search'
    
   
   # The priority is based upon order of creation: first created -> highest priority.

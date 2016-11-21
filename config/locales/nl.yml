@@ -1,0 +1,935 @@
+nl:
+  activerecord:
+    attributes:
+      layer:
+        depicts_year: Jaar
+        description: Beschrijving
+        name: Naam
+      map:
+        title: Titel
+      user:
+        current_password: Huidig wachtwoord
+        email: E-mail
+        password: wachtwoord
+        password_confirmation: Bevestig wachtwoord
+        remember_me: Onthoud mijn gegevens
+    errors:
+      models:
+        import:
+          blank_layer_title: is leeg
+          layer_error: bestaat niet, of is nog niet goed beschreven
+          no_files_error: heeft geen files in deze map
+          path_not_exist: bestaat niet
+          user_not_exist: bestaat niet
+        layers_map:
+          attributes:
+            layer_id:
+              already_has_map: heeft deze kaart al
+        map:
+          error_url: is niet geldig of toegankelijk
+          filename_not_unique: is al in gebruik
+        my_map:
+          attributes:
+            user_id:
+              not_unique: Kaart is al opgeslagen
+    models:
+      layer:
+        one: laag
+        other: lagen
+      map:
+        one: kaart
+        other: kaarten
+  application:
+    helper:
+      breadcrumbs:
+        home: Home
+        layer: Mosaic %{layer_id}
+        layers: Mosaic
+        map: Kaart %{map_id}
+        map_layers: Kaartlagen
+        maps: Kaarten
+        search: Zoek
+      error_messages_for:
+        invalid_fields: Ongeldige velden
+        message: Verbeter de volgende foutmeldingen en probeer het opnieuw.
+    permission_denied: Sorry, u heeft geen toestemming om dat te zien.
+  audits:
+    audit:
+      further_details: Meer informatie
+    for_map:
+      html_title: Activiteit voor kaart
+      title: Recente activiteit voor kaart
+    for_map_model:
+      header: Veranderingen aan alle kaarten
+      html_title: Activiteiten voor alle kaarten
+      title: Recente activiteiten voor alle kaarten
+    for_user:
+      header: Veranderingen door gebruiker
+      html_title: Activiteit door
+      html_title_nouser: Activiteit door niet gevonden gebruiker
+      title: Recente activiteiten door gebruiker
+      title_nouser: Recente activiteiten door niet gevonden gebruiker
+    helper:
+      summary:
+        available: Kaart is beschikbaar
+        loading: Kaart wordt geladen
+        masked: Kaart succesvol gemasked
+        masking: Het masken is gestart
+        published: Kaart is succesvol gepubliceerd
+        unloaded: Kaart laden is gestopt
+        unmasked: 'Kaart mask is verwijderd '
+        warped: Kaart georefereren was succesvol
+        warping: Georefereren is gestart
+    index:
+      action: Actie
+      changed: aangepast
+      feed_description: Feed voor recente activiteiten
+      html_title: Recente activiteiten
+      only_maps: Toon alleen kaart activiteiten
+      rss_link: RSS Feed
+      title: 'Alle recente activiteiten '
+    show:
+      details_header: Details
+      header: Activiteit details
+      item: Onderdeel
+      summary: Activiteitenoverzicht
+      time: Tijd
+      user: Gebruiker
+      value: Waarde
+      version: Versie
+  comments:
+    comment:
+      confirm_delete: Wilt u deze opmerking echt verwijderen?
+      delete_link: verwijderen
+    comment_form:
+      add_comment: Voeg opmerking toe
+      header: Voeg een opmerking toe
+    destroy:
+      error: De opmerking kon niet verwijderd worden
+      flash: Opmerking verwijderd
+    index:
+      actions_th: Acties
+      comment_th: Opmerking
+      comment_type: Geef een opmerking op
+      created: Gemaakt op
+      header: Opmerkingen
+      title: Bekijk opmerkingen
+      user: Gebruiker
+    show:
+      not_found: Opmerking niet gevonden
+  common:
+    ago: geleden
+    back_link: Terug
+    create_button: Maak
+    gcp: gcp
+    last_th: Bijgewerkt op
+    layer: mosaic
+    layer_th: Mosaic
+    map: kaart
+    map_th: Kaart
+    my_maps_head: Mijn kaarten
+    num_th: Aantal kaarten
+    per_page: per pagina
+    percent_th: Percentage compleet
+    site_title: Map Warper
+    status_th: Status
+    title_th: Titel
+    update_button: Update
+    year_th: Jaar
+  devise:
+    confirmations:
+      confirmed: Uw account is succesvol aangemaakt.
+      new:
+        header: Bevestigingsinstructies opnieuw verzenden
+        resend_button: Bevestigingsinstructies opnieuw verzenden
+      send_instructions: U ontvangt binnen een paar minuten een e-mail met instructies voor het bevestigen van uw account.
+      send_paranoid_instructions: Als uw e-mailadres al in onze database voorkomt, ontvangt u binnen een paar minuten een e-mail met instructies voor het bevestigen van uw account.
+    errors:
+      messages:
+        already_confirmed: is al bevestigd, probeer alstublieft in te loggen
+        confirmation_period_expired: moet bevestigd worden binnen %{period}, vraag alstublieft een nieuwe aan
+        expired: is verlopen, vraag alstublieft een nieuwe aan
+        not_found: niet gevonden
+        not_locked: is niet vergrendeld
+        not_saved:
+          one: '1 fout verhinderde dat deze %{resource} kon worden opgeslagen:'
+          other: "%{count} fouten verhinderden dat deze %{resource} kon worden opgeslagen:"
+    failure:
+      already_authenticated: U bent al ingelogd.
+      inactive: Uw account is nog niet geactiveerd.
+      invalid: Het e-mailadres of wachtwoord is ongeldig.
+      last_attempt: U heeft nog een poging voordat uw account geblokkeerd wordt.
+      locked: Uw account is geblokkeerd.
+      not_found_in_database: 'Het e-mailadres of wachtwoord is ongeldig. '
+      timeout: Uw sessie is verlopen. Als u opnieuw inlogt, kunt u verder gaan.
+      unauthenticated: U moet inloggen of een account aanmaken voordat u verder kunt.
+      unconfirmed: Bevestig uw account om verder te kunnen.
+    mailer:
+      confirmation_instructions:
+        about_site: |-
+          %{site_name} is een crowd source site, waar u kaarten kunt ontdekken, georefereren en uploaden. U kunt de gegeorefereerde kaarten downloaden in een aantal bestandsformaten, waaronder KML, WMS en Tiles.
+          a participatory site where you can discover, georeference and upload your own maps and imagery. You can georectify or warp the map to base map to be able to use the map in new ways. You can download the georeferenced image in a number of formats including KML, WMS, and Tiles.
+        click_the_link: 'U kunt uw e-mail adres bevestigen met de link hieronder:'
+        confirm_button: Bevestig mijn account
+        greeting: 'Welkom, '
+        intro: Dank u voor het aanmelden bij %{site_name}. Bevestig uw e-mail adres om het aanmeldproces te vervolgen.
+        subject: Map Warper bevestiging e-mailadres
+      reset_password_instructions:
+        greeting: Hallo
+        intro: Iemand heeft gevraagd om een link waarmee u uw wachtwoord kan wijzigen. Dit kunt u doen met behulp van de onderstaande link.
+        link: Wijzig mijn wachtwoord
+        please_ignore: Als u dit niet heeft aangevraagd, beschouwt u deze mail dan alstublieft als niet verzonden. Uw wachtwoord zal niet worden gewijzigd, tenzij u met behulp van de bovenstaande link een nieuwe instelt.
+        subject: Map Warper wijzig e-mail adres
+      unlock_instructions:
+        click_the_link: 'Klik op de link hieronder om uw account te ontgrendelen:'
+        greeting: Hallo
+        intro: Uw account is vergrendeld, vanwege te veel foutieve aanmeldpogingen.
+        link: Ontgrendel mijn account
+        subject: Instructies voor ontgrendelen
+    omniauth_callbacks:
+      failure: De authenticatie van %{kind} is niet gelukt omdat "%{reason}".
+      success: Succesvolle authenticatie van %{kind} account.
+    passwords:
+      edit:
+        confirm_password: Bevestig nieuw wachtwoord
+        header: Wijzig uw wachtwoord
+        new_password: Nieuw wachtwoord
+        submit_button: Wijzig mijn wachtwoord
+      new:
+        header: Wachtwoord vergeten?
+        send_instructions_button: Stuur met instructies om mijn wachtwoord te resetten.
+      no_token: U kunt deze pagina alleen bezoeken vanuit een wachtwoord reset e-mail. Als u vanuit een wachtwoord reset e-mail komt, zorgt u er dan voor dat u de volledige URL gebruikt.
+      send_instructions: 'U ontvangt binnen een paar minuten een e-mail met instructies voor het resetten van uw wachtwoord. '
+      send_paranoid_instructions: Als uw e-mailadres al voorkomt in onze database, ontvangt u binnen een paar minuten een e-mail met een link voor het herstellen van uw wachtwoord.
+      updated: Uw wachtwoord is succesvol gewijzigd. U bent nu ingelogd.
+      updated_not_active: Uw wachtwoord is succesvol gewijzigd.
+    registrations:
+      destroyed: Vaarwel! Uw account is succesvol verwijderd. We hopen u snel weer te zien.
+      edit:
+        cancel_account_button: Verwijder mijn account
+        cancel_account_header: Verwijder mijn account
+        cancel_account_instructions: Ontevreden? Dit zal alle kaarten die u heeft geupload en alle mosaics die u heeft gecreëerd verwijderen.
+        cancel_confirm: Weet u het zeker?
+        current_password_label: "(we hebben uw huidige wachtwoord nodig om uw wijzigingen te bevestigen)"
+        description_label: Kort profiel (optioneel)
+        edit_header: Wijzig Gebruiker
+        header: Gebruikersinstellingen
+        name_label: Naam
+        no_settings_notice: U bent ingelogd met uw %{provider} account, en niet met een e-mail en wachtwoord. Daarom zijn er geen instellingen om te wijzigen.
+        password_label: "(laat leeg als u het niet wilt wijzigen)"
+        waiting_confirmation: Momenteel in afwachting van de bevestiging van
+      new:
+        email_label: E-mail - U logt hier mee in
+        header: Registreren
+        name_label: Naam
+        sign_up_button: Registreren
+        sign_up_help: U kunt zich registreren met een e-mailadres of wachtwoord, of via een andere service, met behulp van de links hieronder.
+      signed_up: Welkom! Het registreren is gelukt.
+      signed_up_but_inactive: Het registreren is gelukt. Helaas konden we u nog niet aanmelden omdat uw account nog niet is geactiveerd.
+      signed_up_but_locked: 'Het registreren is gelukt. Helaas konden we u nog niet aanmelden omdat uw account is geblokkeerd. '
+      signed_up_but_unconfirmed: Bedankt! U ontvangt een bevestigingslink per e-mail, waarmee u uw account kan activeren.
+      update_needs_confirmation: Het updaten van uw account is gelukt, maar u moet uw nieuwe e-mailadres bevestigen. U ontvangt een bevestigingslink per e-mail, waarmee u uw nieuwe adres kan bevestigen.
+      updated: Het updaten van uw account is gelukt.
+    sessions:
+      new:
+        header: Log in
+        login_button: Log in
+      signed_in: Inloggen is gelukt.
+      signed_out: Uitloggen is gelukt.
+    shared:
+      links:
+        facebook: Facebook
+        forgot_password: Wachtwoord vergeten?
+        github: GitHub
+        google: Google
+        login: Log in
+        new_confirmation_instructions: Geen bevestigingsinstructies ontvangen?
+        new_unlock_instructions: Geen deblokkeer instructies ontvangen?
+        openstreetmap: OpenStreetMap
+        sign_up: Registreren
+        twitter: Twitter
+        wikimedia: Wikimedia Commons
+    unlocks:
+      new:
+        button: Stuur deblokkeer instructies opnieuw
+        header: Stuur deblokkeer instructies opnieuw
+      send_instructions: 'U zult binnen enkele minuten een e-mail ontvangen, waarin staat hoe u uw account kan deblokkeren. '
+      send_paranoid_instructions: Als uw account bestaat, ontvangt u een e-mail met instructies voor het deblokkeren van uw account.
+      unlocked: Het deblokkeren van uw account is gelukt! Log in om verder te gaan.
+    users_registrations:
+      user:
+        signed_up: Welkom! Het aanmelden is gelukt.
+  gcps:
+    add:
+      new_gcp_notice: Nieuw controlepunt toegevoegd.
+    add_many:
+      back: "&tl; Terug naar Hoofd Importeer Pagina"
+      gcps_imported: "%{count} Controlepunten geïmporteerd!"
+      header: Bulk GCP Importeer Resultaten
+      id: id
+      lat: Lat
+      lon: Lon
+      map: Kaart
+      not_found: Record niet gevonden.
+      nothing_imported: Geen controlepunten geïmporteerd!
+      x: X
+      y: Y
+    add_many_to_map:
+      notice: GCPS opgeslagen
+    bulk_import:
+      back: "&lt; Terug naar Hoofd Importeer Pagina"
+      button: Upload CSV!
+      csv_file: CSV bestand om te importeren
+      header: Bulk Controlepunt CSV Import
+      help_html: Voor individuele kaarten kunt u ook een CSV uploaden via Kaart Georefereren, onder de tabel met controlepunten. De CSV moet een header hebben bestaande uit <bre><code>x, y, lon, lat</code></pre>
+      import_help_html: 'Hier kunt u meerdere controlepunten importeren, voor meerdere kaarten. Upload een CSV (komma gescheiden bestand), met een header met het volgende format: <pre><code>mapid,x,y,lon,lat</code></pre> Het veld <code>mapid</code> moet gelijk zijn aan het Map Warper ID, bij de kaarten waar u controlepunten aan wilt toevoegen. Punten kunnen alleen worden toegevoegd, niet geüpdatet. Reeds bestaande controlepunten worden niet toegevoegd als ze opnieuw worden geïmporteerd.'
+      new_import_header: Nieuwe Bulk Import
+    destroy:
+      deleted_notice: Controlepunt verwijderen is gelukt
+    gcp:
+      delete_button: delete
+      delete_confirm: Deze punten echt verwijderen?
+      deleting: Deleten...
+      error: Sorry, er lijkt iets fout te zijn gegaan. Opnieuw proberen?
+    index:
+      back: Terug naar kaarten
+      notice: Dit bericht wordt meestal getoond als er iets fout is gegaan, of als de controlepunten niet goed zijn aangeroepen.
+    show:
+      not_found: 'GCP niet gevonden '
+    update:
+      error: 'De punten konden niet worden geüpdatet. '
+      update_notice: Controlepunt geüpdatet
+    update_field:
+      error: Controlepunt kon niet worden geüpdatet
+  helpers:
+    label:
+      layer:
+        depicts_year: 
+        description: 
+        name: 
+      user:
+        current_password: Huidig wachtwoord
+        email: E-mail
+        password: Wachtwoord
+        password_confirmation: Wachtwoord bevestigen
+        remember_me: 
+  home:
+    index:
+      all_maps: Doorzoek alle kaarten
+      all_my_maps: Toon al mijn kaarten
+      click_news: klik hier om verder te lezen
+      create_layer: Maak een nieuw mosaic
+      info_contact: Mail me op tim@geothings.net voor meer informatie!
+      info_header: Wat is het?
+      info_paragraph_html: Map Warper is een gratis, open source tool om kaarten te georefereren. Dit project is mogelijk gemaakt door <a  href='http://topomancy.com'>Topomancy LLC</a>, de <a href='http://maps.nypl.org'>New York Public Library</a> en <a  href='https://www.erfgoedleiden.nl'>Erfgoed Leiden en Omstreken</a>.
+      more: lees meer
+      news: Nieuws
+      overview_header: Overzicht
+      overview_p1: Map Warper is een tool voor het georefereren (op de juiste geografische locatie leggen) van historische kaarten uit de collectie van Erfgoed Leiden en Omstreken. Het is ook mogelijk om zelf rechtenvrije kaarten te uploaden. U bent welkom om de kaarten bekijken, en om te helpen bij het georefereren. Bekijk de video hierboven en leer hoe u mee kunt doen!
+      overview_p2: U kunt de kaarten ook downloaden, en bijvoorbeeld in uw kaartapplicaties gebruiken.
+      overview_p3: Maak een account aan, en u kunt direct aan de slag.
+      recent_layers: Recente mosaics
+      rect_maps: Recent gegeorefereerde kaarten
+      see_maps: Bekijk alle kaarten
+      tags: Tags
+      title: Home -
+      upload_map: Upload een kaart!
+      view_layers: Bekijk alle mosaics
+  imports:
+    create:
+      error: Er ging iets mis bij het importeren.
+      flash: Nieuwe import gedaan!
+    destroy:
+      error: De import kon niet worden verwijderd.
+      flash: Import verwijderd!
+    edit:
+      header: Wijzig import
+    import:
+      edit: pas aan
+      edit_maps: pas kaarten aan
+      imported: "(Geimporteerd: %{count})"
+    index:
+      actions: Acties
+      created: Gemaakt
+      csv_header: Bulk Ground Control CSV Import
+      csv_link: Importeer CSV
+      header: Imports
+      id: Id
+      maps: kaarten
+      maps_header: Importeer nieuwe kaarten
+      maps_link: Voeg een nieuwe import toe
+      name: Naam
+      status: Status
+      user: Gebruiker
+    maps:
+      header: 'Importeer: %{name} Wijzig kaarten'
+    new:
+      header: Nieuwe import
+    show:
+      not_found: Import niet gevonden
+    start:
+      already_imported_error: Sorry, dit kan niet, deze import is al geimporteerd.
+      edit_maps_link: klik hier om de kaarten te wijzigen
+      error: Er ging iets fout...
+      finished_notice: Klaar!
+      header: Importeren...
+      importing: Importeren...
+      progress: 'Voortgang:'
+    update:
+      error: Er ging iets mis tijdens het importeren.
+      flash: De import is succesvol geüpdatet
+  js:
+    align:
+      dialog_add_button: Voeg kaart toe
+      no_map_alert: Sorry, er was geen kaart geselecteerd of hetzelfde kaartnummer is ingevuld.
+      not_enough_maps_alert: Sorry, maar er moeten minstens twee kaarten geselecteerd zijn.
+      wrong_align_alert: Sorry, alleen horizontale en verticale alignment zijn momenteel beschikbaar.
+    clip:
+      confirm_delete_tool: Wilt u dit echt verwijderen?
+      delete_tool_title: Verwijder een polygoon.
+      draw_tool_title: Teken een nieuwe polygoon voor het masken.
+      move_tool_title: Verplaats de kaart
+    geosearch:
+      found: Gevonden
+      found_layers: Lagen.
+      found_maps: Kaarten.
+      more: Meer
+      open_layer: Open mosaic
+      open_map: Open kaart
+      outline_layer: Kaart randen
+      prev: Terug
+      search_fail: Sorry, er ging iets mis bij het zoeken
+      showing: Toon
+    layers:
+      edit_map: Wijzig deze kaart
+      loading_fail: Sorry, er ging iets mis bij het laden
+      map_outlines_label: Kaartomtrek
+      map_outlines_toggle: Teken de kaartomtrek op de kaart hierboven
+      mbox_satellite_attribution: <a href="https://www.mapbox.com/about/maps/" target="_blank">&copy; Mapbox</a> <a href="https://openstreetmap.org/about/" target="_blank">&copy; OpenStreetMap</a> <a class="mapbox-improve-map" href="https://www.mapbox.com/map-feedback/" target="_blank">Improve this map</a> <a href="https://www.digitalglobe.com/" target="_blank">&copy; DigitalGlobe</a>
+      osm_attribution: '&copy <a href="http://www.openstreetmap.org/">OpenStreetMap</a> hebben bijgedragen'
+    warp:
+      add_gcp: Voeg controlepunt toe
+      best_guess_message: 'Kaart ingezoomd op:'
+      custom_layer: Eigen basiskaart
+      custom_layer_title: Voeg eigen basiskaart toe
+      gcp_adding: Toevoegen...
+      gcp_failed: Er waren problemen bij het updaten van dit punt. Opnieuw proberen?
+      gcp_premature_alert: U moet een nieuw controlepunt op elke kaart toevoegen voordat u op deze knop drukt.
+      gcp_updated: Controlepunt bijgewerkt!
+      gcp_updating: Bijwerken...
+      move_gcp: Verplaats controlepunt
+      move_map: Verplaats kaart
+      other_places: 'Andere plaatsen:'
+      rms_error_prefix: Foutmelding
+      warp_popup_title: Georefereren...
+      warped_layer: Gewarpede kaart
+    warped:
+      warped_layer: Kaartlaag
+      warped_map: gewarpde afbeelding
+  layers:
+    comments:
+      no_comments: Er zijn geen opmerkingen bij deze mosaic. Waarom voegt u er niet een toe?
+    create:
+      flash: Het aanmaken van het mosaic is gelukt.
+    delete:
+      header: Wilt u dit mosaic echt verwijderen?
+      no_button: Nee, haal me hier weg!
+      yes_button: Ja, verwijder het mosaic!
+    destroy:
+      error: Het mosaic is niet verwijderd.
+      flash: Het mosaic is verwijderd!
+      not_others: Sorry, u kunt geen mosaics van andere mensen verwijderen!
+    edit:
+      cannot_edit_others: Sorry, u kunt geen mosaics van andere mensen wijzigen.
+      delete_link: Verwijder dit mosaic.
+      header: Wijzig mosaic.
+      help_html: Alle mosacis zijn openbaar. U kunt uw eigen kaarten toevoegen. Deze wordt worden niet geregistreerd <br/> maar zijn wel voor iedereen zichtbaar op de mosaic.
+      title: Wijzig mosaic %{layer_id} op
+    export:
+      header: Exporteer mosaic
+      title: Exporteer mosaic %{mosaic_id}
+    form:
+      depicts_hint: "(jaar, optioneel)"
+      depicts_hint_2: Gebruikt om kaartlagen per jaar te tonen.
+      detail: detail
+      my_maps: mijn kaarten
+      no_maps: U heeft geen gewarpte
+      select_map_head: Kies uit "Mijn Kaarten"
+      source: Bron / Bibliografische referentie URL
+    geosearch:
+      button: Zoek Locatie
+      description_html: Versleep de kaart of zoom in - de kaart en de lijst worden geüpdatet met gevonden kaartlagen. <br /> Lagen worden getoond als ze een of meer gegeorefereerde kaarten bevatten, en zijn zichtbaar (niet een meta collectie/laag).
+      title: 'Zoek mosaics op locatie '
+    index:
+      for: voor
+      search: Zoek
+      title: Blader door mosaic lijst
+      title_for_map: Mosaic lijst voor kaart %{map_id}
+    layer:
+      depicts: Jaar
+      edit: Wijzig mosaic
+      hidden: Niet zichtbaar
+      kml: Download KML
+      links: Links
+      made_by: Samengesteld door
+      merge: Samenvoegen
+      publish: Publiceer
+      source: Bron / Biblio ref
+      toggle: Verander zichtbaarheid
+      visible: Zichtbaar
+    layer_detail:
+      edit_year: Voeg toe/wijzig Jaar
+      last_modified: 'Laatst gewijzigd:'
+    layermap:
+      transparency: 'Transparantie:'
+    merge:
+      admin_only: "(alleen admins)"
+      confirm: Bent u zeker? Dit kan niet ongedaan worden gemaakt.
+      destination: Bestemmingslaag
+      flash: Het moscaic is samengevoegd aan een nieuwe laag - alle kaarten zijn erheen gekopieerd!
+      header: Mosaic samenvoegen
+      help_html: Voeg dit mosaic samen met een andere. <br /> Verwijder de verwijzingen naar %{count_maps} kaarten van het mosaic %{layer_id} en verplaatst ze naar de opgegeven bestemmingsmosaic. <br /> Dit kan niet ongedaan worden gemaakt!
+      merge_button: Voeg mosaic samen!
+      move_all: Verplaats alle %{count_maps} naar dit mosaic"
+    metadata:
+      depicts_year: 'Jaar:'
+      description: Beschrijving
+      header: Metadata
+      name: Naam
+    new:
+      header: Nieuw mosaic
+      help: 'Let op: alle mosaics zijn openbaar. U kunt privékaarten toevoegen. Deze blijven privé, maar zijn wel voor iedereen te zien op de uiteindelijke kaart.'
+      title: Maak nieuw mosaic-
+    publish:
+      flash: Mosaics worden gepubliceerd
+      not_all_maps_ready: Mosaic heeft minder dan 100% van zijn kaarten gegeorefereerd
+    remove_map:
+      flash: Kaart verwijderd uit deze mosaic
+    show:
+      loading: Laden...
+      maps: Kaarten
+      new_link: Maak nieuw mosaic
+      not_found: Mosaic niet gevonden
+      title: Mosaic %{layer_id} %{layer_name}
+    update:
+      error: De mosaic con niet worden geüpdatet
+      flash: Het updaten van de mosaic is gelukt
+    update_year:
+      message: 'Jaar:'
+  layouts:
+    layerdetail:
+      year_button: Bewaar
+      year_dialog_label: Voeg toe / wijzig het jaar dat het mosaic verbeeld
+      year_dialog_title: Jaar (alleen admin)
+      year_fail_alert: Sorry, er ging iets mis bij het opslaan
+    tabs:
+      activity: Activiteit
+      align: Align
+      comments: Opmerkingen
+      crop: Crop
+      edit: Wijzig
+      export: Exporteer
+      fail_html: Er ging iets mis, sorry! Probeer het opnieuw, of probeer eerst in te loggen
+      metadata: Metadata
+      preview: Preview
+      rectify: Georefereer
+      show: Toon
+      unaccessible_html: 'Sorry. De website is momenteel in een alleen-lezen vorm beschikbaar en sommige mogelijkheden zijn uitgeschakeld. Probeer het later opnieuw. '
+      unauthorized_html: Sorry. Misschien moet u <a class='unauthorized' href='%{href}'>inloggen</a> om dit te kunnen zien.
+  maps:
+    align:
+      add_map_title: Klik hier om een kaart toe te voegen.
+      align_button: align kaart!
+      append_no: false
+      append_yes: true
+      form_title: Controlepaneel
+      instructions_html: 'Als deze kaart onderdeel uit maakt  van een mosaic, kunt u controlepunten van een aangrenzende kaart kopiëren naar deze. Klik + en kies een kaart, en sleep ze vervolgens naar de goede plek om de alignment te kiezen. '
+      manual_instructions: Voeg zelf kaartnummer toe.
+      map: Kaart
+      no_layers_message: Sorry, maar er zijn geen mosaics met gegeorefereerde kaarten om uit te kiezen.
+      original_type: De originele kaart gebruiken? (past beter, maar is wat lastiger om later te wijzigen)
+      overwrite_label: De bestaande controlepunten overschrijven?
+      ref_button: Gebruik
+      ref_instructions: Kies een gegeorefereerde kaart om de contolepunten te kopiëren van dezelfde mosaics
+      ref_title: Voeg gerectificeerde kaart toe
+      title: Align de kaarten
+      type_label: Soort align
+      warped_type: Een gegeorefereerde kaart gebruiken? (past minder goed, maar is later gemakkelijker aan te passen)
+    clip:
+      clip_button: Mask de kaart!
+      clipping_wait_msg_html: "<br />Mask opslaan...<br />Kaart uitsnijden..."
+      confirm_delete: Wilt u de mask echt verwijderen en opnieuw beginnen?
+      delete: Delete mask
+      delete_alert: dat ging niet zoals gepland, sorry
+      instructions_html: <p>1. Selecteer het gebied dat u wilt verwijderen  </p><p>2. Om de mask toe te passen, klik "Mask Map!" </p>
+      title: Kaart uitsnijden
+    comments:
+      header: Opmerkingen
+      login: Log in om een opmerking toe te voegen
+      no_comments: Er zijn nog geen opmerkingen voor deze map, waarom voegt u er niet een toe?
+    create:
+      flash: Het maken van de kaart is gelukt!
+    delete:
+      header: Wilt u deze kaart echt verwijderen?
+      help_text_html: 'Alle afbeeldingen die zijn geuploaded en gegeorefereerd zullen worden verwijderd. <br /> Alle controlepunten worden verwijderd.<br / ? Alle WMS, KML en export mogelijkheden zijn niet meer beschikbaar voor gebruikers. '
+      no_button: Nee, haal me hier weg!
+      yes_button: Ja, verwijder de kaart!
+    destroy:
+      cannot_delete_others: Sorry, u kunt geen kaarten van andere gebruikers verwijderen!
+      error: Kaart was niet verwijderd
+      flash: Kaart verwijderd!
+    edit:
+      cannot_edit_others: Sorry, u kunt geen kaarten van andere gebruikers bewerken.
+      delete_link: Verwijder deze kaart.
+      header: Kaartattributen aanpassen
+      title: Kaar %{map_title} wordt aangepast
+    export:
+      bibliographic: Bibliografisch
+      bibliographic_header: 'Bibliografische links:'
+      gcp_csv: CSV
+      gcp_csv_link: Download controlepunten als CSV
+      gcp_header: Controlepunten
+      geotiff: GeoTiff
+      geotiff_link: Download gegeorefereerde GeoTiff
+      header: Export
+      images_header: Afbeeldingen
+      josm_link: voor JOSM OpenStreetMap Editor
+      kml: KML
+      kml_hint: "(om te gebruiken in Google Earth, etc.)"
+      kml_link: Download KML file
+      missing_file_flash: File niet gevonden. Misschien is de kaart nog niet gegeorefereerd?
+      png: PNG
+      png_aux: en bijbehorende .aux.xml bestand
+      png_link: Download gegeorefereerde PNG
+      services_header: Map Services
+      tiles: Tiles (Google/OSM schema)
+      wms: WMS
+      wms_link: WMS Capabilities URL
+    form:
+      are_visible: Kaart zichtbaarheid. Kaarten zijn standaard voor alle gebruikers zichtbaar.
+      author: 'Auteur(s):'
+      call: Bel nummer
+      depicted: 'Datum:'
+      depicted_hint: "(jaar, optioneel)"
+      desc: 'Beschrijving:'
+      desc_hint: "(max 256 chars)"
+      issue: 'Jaar van uitgave:'
+      issue_hint: "(jaar, optioneel)"
+      issue_hint_2: Gebruikt om kaarten per jaar te tonen
+      lat: 'Lat:'
+      location: Metadata locaties
+      lon: 'Lon:'
+      make_public: Openbaar maken
+      max_size: 'Max afmetingen:'
+      optional_hint: "(optioneel)"
+      place: 'Plaats van publicatie:'
+      projection: 'Metadata projectie:'
+      published: 'Publicatiedatum:'
+      publisher: 'Gepubliceerd door:'
+      reprint: 'Datum herdruk:'
+      scale: 'Schaal:'
+      source: 'Bron/Referentie URL:'
+      subject: 'Gebied:'
+      tags: 'Tags:'
+      tags_hint: "(komma gescheiden)"
+      title: 'Titel:'
+      unique_id: Metadata uniek ID
+      upload_file: 'Afbeelding uploaden:'
+      upload_url: 'Upload via een URL:'
+    geosearch:
+      button: Zoek Locatie
+      description: Beweeg de kaart of zoom in - zowel de kaart als de lijst worden geüpdatet met gevonden kaarten.
+      title: Zoek gegeorefereerde kaart
+    index:
+      results: 'Gezocht naar:'
+      title: Zoek kaarten
+    map:
+      confirm_my: echt deze kaart verwijderen uit uw lijst?
+      depicts: Jaar
+      gcp: controlepunt
+      in: In
+      kml: Download KML
+      links: Links
+      private: Niet openbaar
+      published: Gepubliceerd
+      published_warn: Deze kaart is gepubliceerd door een admin, en kan niet worden gewijzigd
+      remove_from_layer: verwijder kaart van dit mosaic
+      remove_my: Verwijder uit Mijn Kaarten
+      save_my: Bewaar in Mijn Kaarten
+      source: Bron / Referentie
+      unwarped: Niet gegeorefereerd
+      warp_map: Georefereer kaart
+    map_detail:
+      last_modified: 'Laatst gewijzigd:'
+      map_user_label: Toegevoegd door
+      publish: 'Publiceer '
+      publish_confirm: Weet u zeker dat u deze kaart wilt publiceren? Dit betekent dat u niet meer kunt wijzigen.
+      tags: Tags
+      unpublish: Depubliceer
+      unpublish_confirm: Deze kaart echt depubliceren? Dat betekent dat de kaart gewijzigd kan worden.
+    map_type:
+      flash: 'Kaart is gewijzigd. Type: %{map_type}'
+    mask_map:
+      not_found: Mask file niet gevonden
+    metadata:
+      header: Metadata
+    model:
+      delete_mask_success: mask verwijderd
+      gml_mask_saved: Mask opgeslagen (gml)
+      map_type:
+        index: Index/Overzicht
+        map: Is een kaart
+        not_map: Geen kaart
+      unknown_mask_format: Mask format onbekend
+    new:
+      header: Upload een nieuwe kaart
+      may_resize: Het kan de afmetingen van de afbeelding aanpassen, als deze te groot is.
+      permission_notice: Door het uploaden van afbeeldingen naar deze website, geeft u aan dat u daar de rechten voor heeft, en accepteert u dat iemand anders de afbeelding kan zien en gebruiken, inclusief het aanpassen van controlepunten.
+      title: Upload een nieuwe kaart naar
+    publish:
+      flash: 'Kaart gewijzigd. Nieuwe status:'
+    rectify_main:
+      being_rectified_error: Sorry, deze kaart wordt momenteel al gegeorefereerd. Probeer het later opnieuw.
+      not_enough_points: Sorry, er zijn ten minste drie controlepunten nodig om de kaart te kunnen georefereren.
+      rectified_success: Kaart gegeorefereerd.
+    save_mask_and_warp:
+      masked_needs_more_points: De kaart is uitgesneden, maar er zijn meer controlepunten nodig om hem te georeferren. Klik op het tabblad Georefereren om punten toe te voegen.
+      masked_warp_failed: De mask is opgeslagen maar nog niet toegepast, omdat de kaart momenteel gegeorefereerd wordt. Probeer het later opnieuw.
+      masked_warped: Kaart uitgesneden en gegeorefereerd.
+    show:
+      loaded_html: Het laden van de kaart is gelukt. De pagina zal over een paar seconden opnieuw geladen worden. <a href='%{href}'>Klik hier</a> als u niet wilt wachten.
+      loading: Kaart laden...
+      login_notice: U moet misschien %s om deze kaart te kunnen bewerken
+      login_notice_link: inloggen
+      not_found: Kaart niet gevonden
+      requesting: verzoeken
+      title: Toont kaart %{map_id}
+      unloaded: De kaart is niet goed geladen. Herlaad de pagina en probeer het opnieuw. Als de kaart de tweede keer ook niet laat, kies dan alstublieft een andere kaart en probeer het een andere keer opnieuw.
+    tag:
+      feed_description: Kaarten getagged met
+      feed_title: Feed van Warper Maps geotagged met
+      for: Tags voor
+      rss: RSS Feed
+      title: Maps geotagged met %{tags} op
+    update:
+      error: Er ging iets fout met het updaten van de kaart
+      flash: Het updaten van de kaart is gelukt.
+    warp:
+      add_manually_button: Voeg handmatig controlepunt toe
+      advanced_options: Uitgebreide mogelijkheiden
+      apply_mask_html: Gebruik <a href='%{href}'>mask </a> bij het georefereren?
+      auto_method: Auto - gebaseerd op het aantal controlepunten (standaard)
+      bilinear: Bilinear
+      click_button: Voeg controlepunt toe
+      click_text_btm: Doe dit voor tenminste drie punten.
+      click_text_top: Dubbelklik op beide kaarten, en klik dan
+      close_popup: Sluit popup
+      cubic: Cubic
+      cubicspline: Cubic Spline, langzamer maar de hoogste kwaliteit
+      custom_layer_instructions_html: Voer een file URL template, of een file URL in, met een Z/X/Y geordend schema <br /> Bijvoorbeeld <code>https://maps.wikimedia.org/osm/{z}/{x}/{y}.png</code> <br /> of <code>https://maps.wikimedia.org/osm/10/507/329.png</code>
+      download_gcps: Download punten als CSV
+      gcp_error: Foutmelding
+      gcp_lat: Lat
+      gcp_lon: Lon
+      gcp_point: Punt
+      gcp_upload_button: Upload CSV!
+      gcp_upload_label: CSV bestand met controlepunten
+      gcp_x: Afbeelding X
+      gcp_y: Afbeelding Y
+      gcps_link: Controlepunt
+      lanczos: Lanczos
+      method_label: 'Georefereer methode:'
+      near: Nearest Neighbour, snelste (standaard)
+      p1_method: 1st Order Polynomial (min 3 punten)
+      p2_method: 2nd Order Polynomial (min 6 punten)
+      p3_method: 3rd Order Polynomial (min 10 punten)
+      panel_title: Controlepaneel
+      rectifying_notice: Georefereren...
+      resample_label: 'Methode:'
+      server_error: Sorry, maar er lijkt zich een fout voor te doen bij het versturen van het verzoek naar de server. Opnieuw proberen?
+      title: Georefereer kaart
+      tps_method: Thin Plate Spline (veel punten, erg verspreid)
+      unmasked_question_html: 'Deze kaart is nog niet uitgesneden. Wilt u <a href=''%{href}''>een mask toevoegen of wijzigen</a>? '
+      warp_button: Warp afbeelding! &rarr;
+    warp_aligned:
+      no_destination: 'Sorry, de bestemmings kaart is niet beschikbaar voor het alignen. '
+      success: Kaart is aligned. Nu kunt u hem georefereren!
+      unknown_alignment: Sorry, momenteel kan alleen horizontaal en verticaal aligned worden
+    warped:
+      needs_warping: Oeps, de kaart moet gegeorefereerd worden voordat u hem kunt zien.
+      title: Toon gegeorefereerde kaarten
+      transparency: Transparantie
+      unwarped_notice: Sorry, u moet de kaart georefereren voordat u hem kunt zien.
+  my_maps:
+    create:
+      flash: Kaart opgeslagen in Mijn Kaarten
+      others_error: U kunt geen kaart toevoegen aan een andere gebruiker!
+    destroy:
+      error: De kaart kon niet verwijderd worden van de lijst.
+      flash: Kaart verwijderd uit de lijst!
+      not_your_own: Sorry, u kunt geen kaarten die u heeft geupload verwijderen uit de lijst.
+    list:
+      header: Mijn kaarten van %{username}
+      help: Toon lijst van kaarten bewaard of gewijzigd door een gebruiker.
+  roles:
+    index:
+      assigned: 'Toegewezen rollen:'
+      available: 'Beschikbare rollen:'
+      header: Rollen van %{username}
+    role:
+      assign: Wijs rol toe
+      remove: verwijder rol
+  shared:
+    export_window:
+      header: Exporteer
+      links: Exporteer links
+      more: Meer exporteer mogelijkheden
+    footer:
+      about: Over
+      add_map: Kaart toevoegen
+      help: Help
+      home: Home
+      supported_by_html: Mede mogelijk gemaakt door <a href='https://www.erfgoedleiden.nl'>Erfgoed Leiden en Omstreken</a>, <a href='http://maps.nypl.org'>New York Public Library</a>  en <a href='http://topomancy.com'>Topomancy LLC</a>
+    header:
+      admin_users: Admin gebruikers
+      all_activity: Alle activiteiten
+      all_comments: Alle opmerkingen
+      all_layers: Alle mosaics
+      all_maps: Alle kaarten
+      imports: Imports
+      log_in: Log in
+      log_out: Log uit
+      logged_in_as: 'Ingelogs als:'
+      my_activity: Mijn activiteiten
+      my_maps: Mijn kaarten
+      settings: Instellingen
+      sign_up: Registreer
+      user_stats: Gebruikersstatistieken
+    nav:
+      about: Over
+      add_layer: Mosaic toevoegen
+      add_map: Upload Kaart
+      geosearch_layers: Zoek mosaics op locatie
+      geosearch_maps: Zoek kaarten op locatie
+      help: Help
+      home: Home
+      layers: Zoek mosaic
+      maps: Zoek kaart
+      rectified_maps: Zoek gegeorefereerde kaart
+    search:
+      all_maps: Alle kaarten
+      author: Auteur
+      button: Zoek
+      description: Beschrijving
+      find_geosearch: Zoek gegeorefereerde kaarten op locatie
+      only_rectified: Alleen gegeorefereerde kaarten
+      publisher: Gepubliceerd door
+      tags: Tags
+      title: Titel
+  user_mailer:
+    disabled_change_password:
+      end: U ontvangt nog een email met een link om dit te doen.
+      greeting: Hi
+      intro: Uw account met als e-mailadres %{email} is uitgeschakeld door een admin. U dient uw wachtwoord te wijzigen om het account weer in te schakelen.
+      subject: "%{site_name} Uw account is uitgeschakeld totdat u uw wachtwoord wijzigt."
+    new_registration:
+      click_the_link: 'Uw account is aangemaakt, en u kunt inloggen met %{email} via:'
+      intro: Bedankt voor het aanmelden bij %{site_name}.
+      subject: Welkom bij %{site_name} %{user_name}
+  users:
+    admin_tools:
+      confirm: Bevestig
+      confirm_hint: De bevestiging van de gebruiker kan niet worden gewijzigd.
+      delete_confirm: Bent u er zeker van?
+      delete_hint: Dit kan niet ongedaan worden gemaakt. Al hun gegevens worden verwijderd.
+      delete_user: Verwijder gebruiker
+      enable_hint: het gebruikersaccount - te wijzigen door admin
+      reset_hint: Dit wijzigt het wachtwoord van de gebruikersaccount, en stuurt een mail naar de gebruiker met een link om een nieuw wachtwoord in te stellen. Totdat het wachtwoord is gewijzigd, kan de gebruiker niet inloggen.
+      reset_password: Wijzig en reset wachtwoord.
+      roles_hint: Wijzig rollen van gebruiker
+    destroy:
+      admins_cannot_be_destroyed: Admins kunnen niet worden verwijderd
+      error: Gebruiker kon niet worden verwijderd
+      flash: Gebruiker succesvol verwijderd
+    disable:
+      error: Er was een probleem bij het uitschakelen van deze gebruiker.
+      flash: Gebruiker uitgeschakeld
+    disable_and_reset:
+      admins_cannot_be_disabled: Admins kunnen niet worden uitgeschakeld en gereset, sorry
+      error: Sorry, er was een probleem  bij het wijzigen van deze gebruiker
+      flash: Gebruiker gewijzigd en e-mail met wachtwoord en reset link verstuurd
+      providers_cannot: Sorry, gebruikers van andere providers kunnen niet worden gereset
+    edit:
+      title: Wijzig gebruikersinstellingen
+    enable:
+      error: Er was een probleem bij het inschakelen van deze gebruiker.
+      flash: Gebruiker ingeschakeld
+    force_confirm:
+      already_confirmed: Gebruiker al bevestigd
+      error: Er was een probleem bij het bevestigen van deze gebruiker
+      flash: Gebruiker bevestigd
+    index:
+      button: Ga
+      confirmed: Bevestigd?
+      created: Aangemeld
+      email: E-mail
+      enabled: Ingeschakeld?
+      for: voor
+      for_query: "&mdash; Zoek op"
+      header: Gebruikers
+      login: Gebruikersnaam
+      name: Naam
+      provider: OAuth Provider
+      roles: Rollen
+      search: Zoek
+      title: Gebruikers
+    show:
+      activity: Gebruikersactiviteiten
+      back_to_maps: "&lt; Zoek kaarten"
+      joined: Aangemeld op
+      not_found: Gebruiker niet gevonden
+      profile: 'Profiel beschrijving:'
+      provider_user_html: Een %{provider_thumb} %{provider_name} gebruiker
+      title: Toon gebruiker %{user_name}
+      user: Gebruiker
+      user_maps: Gebruiker kaarten
+    stats:
+      details: 'Meer details '
+      gcp_count: Totaal aangepaste punten
+      gcp_create_count: Gemaakte punten
+      gcp_destroy_count: Verwijderde punten
+      gcp_update_count: Bijgewerkte punten
+      header: Gebruikersstatistieken
+      map_count: Totaal kaart aanpassingen
+      title: Gebruikersstatistieken
+      total_count: Totaal
+      unknown: Onbekend
+    update:
+      flash: Gebruiker gewijzigd
+    user:
+      activate: activeer
+      disable: uitschakelen
+      edit_roles: rol wijzigen
+      enable: inschakelen
+      u_no: nee
+      u_yes: ja
+  will_paginate:
+    layer:
+      page_entries_info:
+        single_page_html:
+          one: Toon <b>1</b> %{model}
+          other: Toon <b>all&nbsp;%{count}</b> %{model}
+    map:
+      page_entries_info:
+        single_page_html:
+          one: Toon <b>1</b> %{model}
+          other: Toon <b>all&nbsp;%{count}</b> %{model}
+    page_entries_info:
+      multi_page: Toon %{model} %{from} - %{to} van %{count} in totaal
+      multi_page_html: Toon %{model} <b>%{from}&nbsp;-&nbsp;%{to}</b> van <b>%{count}</b> in totaal
+      single_page:
+        one: Toon 1 %{model}
+        other: Toon alle %{count} %{model}
+      single_page_html:
+        one: Toon <b>1</b> %{model}
+        other: Toon <b>all&nbsp;%{count}</b> %{model}

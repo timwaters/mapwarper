@@ -7,8 +7,7 @@ function replaceMapTable(smaps) {
             "<td class='mini-map-thumb'><img src='" + mapThumbBaseURL + "/" + smap.id + "' height='70' ></td>" +
             "<td>" + smap.name + "<br />" +
             depicts_year + "<br />"+
-            "<a href='" + mapBaseURL + "/" + smap.id + "' target='_blank'>Open layer</a> </td></tr>";
-
+            "<a href='" + mapBaseURL + "/" + smap.id + "' target='_blank'>"+I18n["geosearch"]["open_layer"]+"</a> </td></tr>";
     jQuery("#searchmap-table").append(tableRow);
   }
   addClickToTable();
@@ -27,20 +26,20 @@ function insertMapTablePagination(total, per, current) {
     last = true;
   }
   if (total > 0) {
-    var tableCaption = "<caption>Found " + total + " Layers. Showing " + start + " - " + num;
+    var tableCaption = "<caption>"+I18n["geosearch"]["found"]+ " " + total + " "+ I18n["geosearch"]["found_layers"]+  " " + I18n["geosearch"]["showing"] + " "+ start + " - " + num;
   } else {
-    var tableCaption = "<caption>Found " + total + " Layers";
+    var tableCaption = "<caption>"+ I18n["geosearch"]["found"] + " "+ total + " "+I18n["geosearch"]["found_layers"];
   }
 
   jQuery("#searchmap-table").append(tableCaption);
 
 
   var footer = "";
-  var next = "<a href='#' onclick='do_search(" + nextlot + "); return false;'>More<a/>";
+  var next = "<a href='#' onclick='do_search(" + nextlot + "); return false;'>"+I18n["geosearch"]["more"]+"<a/>";
   var previous = "";
 
   if (current > 1) {
-    previous = "<a href='#' onclick='do_search(" + prevlot + ");'>Prev</a>&nbsp;&nbsp; ";
+    previous = "<a href='#' onclick='do_search(" + prevlot + ");'>"+I18n["geosearch"]["prev"]+"</a>&nbsp;&nbsp; ";
   }
   if (last) {
     next = "";
@@ -69,7 +68,7 @@ function onFeatureSelect(feature) {
           feature.mapId + "' target='_blank'>" +
           //feature.mapTitle+"</a><br />"+
           "<a href='#a-map-row-" + feature.mapId + "' ><img title='" + feature.mapTitle + "' src='" + mapThumbBaseURL + "/" + feature.mapId + "' height='80'></a>" +
-          "<br /> <a href='" + mapBaseURL + "/" + feature.mapId + "' target='_blank'>Open layer in new page.</a>" +
+          "<br /> <a href='" + mapBaseURL + "/" + feature.mapId + "' target='_blank'>"+I18n["geosearch"]["open_layer"]+"</a>" +
           "</div>",
           null, true, onPopupClose);
   popup.panMapIfOutOfView = false;

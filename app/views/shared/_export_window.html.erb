@@ -29,46 +29,45 @@
 </script>
 
 <span id="export_toolbox">|&nbsp;
-  <a href="#" id="export_button" class="export_button"><%=image_tag("KML-logo-20x25.png", :height => '16')%>&nbsp;Export</a>
+  <a href="#" id="export_button" class="export_button"><%=image_tag("KML-logo-20x25.png", :height => '16')%>&nbsp;<%= t('.header') %></a>
   <div id="export_window" class="export_float_div hidden" >
     <div id="export_window_inner">
       <div id="export_window_head">
-        <span>Export Links</span>
+        <span><%= t('.links') %></span>
         <a id="close_export_window" href="#" >X</a>
       </div>
       <div id="export_window_content" style="display: block;">
         <% unless @layer -%>
           <ul>
-            <li> <%= link_to(image_tag("KML-logo-20x25.png")+"Download KML file",  map_url(:id => @map, :format => :kml)) %>  </li>
-            <li><%= link_to(image_tag("wms-20x25.png")+"WMS Capabilities URL",url_for(wms_map_url(:id=>@map, :request => "GetCapabilities", :service => "WMS", :version => "1.1.1")) )%> </li>
+            <li> <%= link_to(image_tag("KML-logo-20x25.png")+t('maps.export.kml_link'),  map_url(:id => @map, :format => :kml)) %>  </li>
+            <li><%= link_to(image_tag("wms-20x25.png")+t('maps.export.wms_link'),url_for(wms_map_url(:id=>@map, :request => "GetCapabilities", :service => "WMS", :version => "1.1.1")) )%> </li>
             <li>
               <% tile_url = url_for(:controller => "maps", :action => "tile", :id => @map, :x => "x", :y => "y", :z => "z", :only_path => false) %>
-              <%=link_to image_tag("tiles-20x25.png")+"Tiles base URL", tile_url %> 
+              <%=link_to image_tag("tiles-20x25.png")+t('maps.export.tiles'), tile_url %> 
             </li>
-            <li><%= link_to image_tag("csv-20x25.png")+"Download points as CSV", gcps_map_url(@map, :format=>:csv) %></li>
+            <li><%= link_to image_tag("csv-20x25.png")+t('maps.export.gcp_csv_link'), gcps_map_url(@map, :format=>:csv) %></li>
             <% if user_signed_in? -%>
-              <li><%= link_to(image_tag("image-icon-20x25.png")+"Download rectified GeoTiff", export_map_url(:id => @map, :format => :tif)) %> </li>
-              <li><%= link_to(image_tag("image-icon-20x25.png")+"Download rectified PNG", export_map_url(:id => @map, :format => :png)) %></li>
+              <li><%= link_to(image_tag("image-icon-20x25.png")+t('maps.export.geotiff_link'), export_map_url(:id => @map, :format => :tif)) %> </li>
+              <li><%= link_to(image_tag("image-icon-20x25.png")+t('maps.export.png_link'), export_map_url(:id => @map, :format => :png)) %></li>
               <li>&nbsp;</li>
             <% else -%>
               <li> Log in for</li>
             <% end -%>
-            <li> <%= link_to_if(user_signed_in?, "More export options", map_path(:id=> @map,:anchor=>"Export_tab")) -%> </li>
+            <li> <%= link_to_if(user_signed_in?, t('.more'), map_path(:id=> @map,:anchor=>"Export_tab")) -%> </li>
           </ul>
         <% else  -%>
   <%#layer%>
           <ul>
-            <li> <%= link_to(image_tag("KML-logo-20x25.png")+"Download KML file",  layer_url(:id => @layer, :format => :kml)) %>  </li>
-            <li><%= link_to(image_tag("google_maps-20x25.png")+"View KML in Google Maps", "http://maps.google.com?q="+layer_url(:id => @layer, :format => :kml), :target => "_blank") %> </li>
-            <li><%= link_to(image_tag("wms-20x25.png")+"WMS Capabilities", :action=>"wms", :id=>@layer, :request => "GetCapabilities", :service => "WMS", :version => "1.1.1" )%> </li>
+            <li> <%= link_to(image_tag("KML-logo-20x25.png")+t('maps.export.kml_link'),  layer_url(:id => @layer, :format => :kml)) %>  </li>
+            <li><%= link_to(image_tag("wms-20x25.png")+t('maps.export.wms_link'), :action=>"wms", :id=>@layer, :request => "GetCapabilities", :service => "WMS", :version => "1.1.1" )%> </li>
             <li>
               <% tile_url = url_for(:controller => "layers", :action => "tile", :x => "x", :y => "y", :z => "z", :only_path => false) %>
-              <%=link_to image_tag("tiles-20x25.png")+"Tiles base URL", tile_url %> 
+              <%=link_to image_tag("tiles-20x25.png")+t('maps.export.tiles'), tile_url %> 
             </li>
             <% unless user_signed_in? -%>
               <li> Log in for</li>
             <% end -%>
-            <li> <%= link_to_if(user_signed_in?, "More export options", layer_path(:id=> @layer,:anchor=>"Export_tab")) -%> </li>
+            <li> <%= link_to_if(user_signed_in?, t('.more'), layer_path(:id=> @layer,:anchor=>"Export_tab")) -%> </li>
 
           </ul>
 
@@ -77,7 +76,7 @@
         <div style="clear:both;"></div>
       </div>
       <div id="export_window_foot" style="display: block;">
-        MapWarper
+        <%= t('common.site_title') %>
       </div>
     </div>
   </div>

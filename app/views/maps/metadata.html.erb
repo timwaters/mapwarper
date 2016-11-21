@@ -1,19 +1,18 @@
-<h2>Metadata</h2>
+<h2><%= t('.header') %></h2>
 
 
 <div class="column span-12">
   <p>
-    <b>Title</b><br />
+    <b><%= t('maps.form.title') %></b><br />
     <%= h @map.title %>
   </p>
-
   <p>
-    <b>Description </b><br />
+    <b><%= t('maps.form.desc') %> </b><br />
     <%= h @map.description %>
   </p>
   <p>
     <% if @map.tags.count > 0 -%>
-      <span class="map_summary">Tags:</span>
+      <span class="map_summary"><%= t('maps.form.tags') %>:</span>
       <span class="tags">
         <% @map.tags.each do | tag | -%>
           <%= link_to tag.name, { :controller=> :maps, :action => :tag, :id => tag.name } %>
@@ -30,30 +29,30 @@
 
 <div class="column span-12 last">
   <p>
-    <b>Source/ Bibliographic Ref URL</b><br />
+    <b><%= t('maps.form.source') %></b><br />
     <%= @map.source_uri %>
   </p>
   <p>
-    <b>Publisher</b><br />
+    <b><%= t('maps.form.publisher') %></b><br />
     <%= @map.publisher %>
   </p>
 
   <p>
-    <b>Author(s)</b><br />
+    <b><%= t('maps.form.author') %></b><br />
     <%= @map.authors %>
   </p>
 
   <p>
-    <b>Scale</b><br />
+    <b><%= t('maps.form.scale') %></b><br />
     <%= @map.scale %>
   </p>
 
   <p>
-    <b>Published Date</b><br />
+    <b><%= t('maps.form.published') %></b><br />
     <%= @map.published_date %>
 
   <p>
-    <b>Reprint Date</b><br />
+    <b><%= t('maps.form.reprint') %></b><br />
       <%= @map.reprint_date %>
   </p>
 </div>

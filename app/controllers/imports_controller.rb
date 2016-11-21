@@ -22,10 +22,10 @@ class ImportsController < ApplicationController
     @import.user = current_user
     @import.state = "ready"
     if @import.save
-      flash[:notice] = "New Import Created!"
+      flash[:notice] = t('.flash')
       redirect_to import_url(@import)
     else
-      flash[:error] = "Something went wrong creating the import"
+      flash[:error] = t('.error')
       render :action => 'new'
     end
   end
@@ -39,19 +39,19 @@ class ImportsController < ApplicationController
 
   def destroy
     if @import.destroy
-      flash[:notice] = "Import deleted!"
+      flash[:notice] = t('.flash')
     else
-      flash[:notice] = "Import couldn't be deleted."
+      flash[:notice] = t('.error')
     end
     redirect_to imports_path
   end
  
   def update
     if @import.update_attributes(import_params)
-      flash[:notice] = "Successfully updated import."
+      flash[:notice] = t('.flash')
       redirect_to import_url(@import)
     else
-      flash[:error] = "Something went wrong updating the import"
+      flash[:error] = t('.error')
       render :action => 'edit'
     end
   end
@@ -86,7 +86,7 @@ class ImportsController < ApplicationController
 
   def check_imported
     if @import.state == "imported"
-      flash[:notice] = "Sorry, can't be done, this import has already been imported."
+      flash[:notice] = t('imports.start.already_imported_error')
       redirect_to imports_path
     end
   end
@@ -94,7 +94,7 @@ class ImportsController < ApplicationController
   def bad_record
     respond_to do | format |
       format.html do
-        flash[:notice] = "Import not found"
+        flash[:notice] = t('imports.show.not_found')
         redirect_to :root
       end
       format.json {render :json => {:stat => "not found", :items =>[]}.to_json, :status => 404}

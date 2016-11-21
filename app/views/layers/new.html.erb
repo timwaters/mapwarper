@@ -1,6 +1,5 @@
-<h2>New Mosaic</h2>
-<em>Note: All Mosaics are public, you can add unlisted maps to them they won't be listed<br />
-  but they could be seen on the final map image.</em>
+<h2><%= t('.header') %></h2>
+<em><%= t('.help') %></em>
 <%= error_messages_for @layer %>
 
 <%= render :partial => "form", :locals => {:page => "new"} %>

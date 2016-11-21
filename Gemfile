@@ -63,6 +63,10 @@ gem 'yql', '0.0.2'
 gem 'actionpack-action_caching', github: 'timwaters/actionpack-action_caching', branch: 'feature/take_format_from_request'
 gem 'redis-rails', '~> 4'
 
+gem "rails-i18n"
+
+gem 'pg_search'
+
 group :development do
    gem 'web-console', '~> 2.0'
    gem 'spring'
@@ -71,6 +75,8 @@ group :development do
    gem 'capistrano-rails',    :require => false
    gem 'capistrano-bundler',  :require => false
    gem 'rvm1-capistrano3',    :require => false
+   gem 'i18n-tasks', '~> 0.9.6'
+   gem 'localeapp'
 end
 
 group :test do

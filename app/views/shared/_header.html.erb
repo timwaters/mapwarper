@@ -1,30 +1,30 @@
 <div class="user_status">
   <% if user_signed_in? %>
-    Logged in as:
+    <%= t('.logged_in_as') %>
     <% if current_user.provider? %>
       <%= link_to "#{image_tag(current_user.provider+'_logo.png', width: '17', height: '17', class: 'user_provider')} #{current_user.login.capitalize}".html_safe, user_path(current_user) %>
     <% else %>
       <%= link_to h(current_user.login.capitalize), user_path(current_user) %>
     <% end %>
-    <%= link_to "My Maps", my_maps_path(current_user) %>
-    <%= link_to "My Activity", user_activity_path(current_user) %>
-    <%= link_to "Settings", edit_user_registration_path %>
-    <%= link_to "Log Out", destroy_user_session_path, :method => :delete %>
+    <%= link_to t('.my_maps'), my_maps_path(current_user) %>
+    <%= link_to t('.my_activity'), user_activity_path(current_user) %>
+    <%= link_to t('.settings'), edit_user_registration_path %>
+    <%= link_to t('.log_out'), destroy_user_session_path, :method => :delete %>
   <% else %>
-    <%= link_to "Log In", new_user_session_path %>
-    <%= link_to "Create Account", new_user_registration_path %>
+    <%= link_to t('.log_in'), new_user_session_path %>
+    <%= link_to t('.sign_up'), new_user_registration_path %>
   <% end %>
   <% if user_signed_in? %>
     <% if current_user.has_role?("administrator") || current_user.has_role?("super user") %>
       <br />
-      <%= link_to "All Maps", maps_path %>
-      <%= link_to "All Mosaics", layers_path %>
-      <%= link_to "All Activity", activity_path %>
-      <%= link_to "All Comments", comments_path %>
-      <%= link_to "Groups", groups_path %>
-      <%= link_to "Imports", imports_path %>
-      <%= link_to "User Stats", stats_users_path %>
-      <%= link_to "Administer Users", users_path %>
+      <%= link_to t('.all_maps'), maps_path %>
+      <%= link_to t('.all_layers'), layers_path %>
+      <%= link_to t('.all_activity'), activity_path %>
+      <%= link_to t('.all_comments'), comments_path %>
+      <%# link_to "Groups", groups_path %>
+      <%= link_to t('.imports'), imports_path %>
+      <%= link_to t('.user_stats'), stats_users_path %>
+      <%= link_to t('.admin_users'), users_path %>
     <% end %>
   <% end %>
 </div>

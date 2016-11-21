@@ -9,12 +9,12 @@
   <div id="search-form">
 
     <%= form_tag url_for(:controller => "layers"), :id=>"searchform",:name=> "searchform", :method => :get do -%>
-      Search
+      <%= t('.search') %>
       <select id="field" name="field">
-        <%= options_for_select([ ["Title", "name"],
-            ["Description", "description"]], @field)-%>
+        <%= options_for_select([ [t('shared.search.title'), "name"],
+            [t('shared.search.description'), "description"]], @field)-%>
       </select>
-      for
+      <%= t('.for') %>
       <%= text_field_tag 'query', @query -%>
       <input type="hidden" id="from" />
       <input type="hidden" id="to"/>
@@ -22,14 +22,14 @@
     
       <div id="year-filter">
         <div id="year-label">
-          Year
+          <%= t('common.year_th') %>
         </div>
         <div id="year-slider-container">
           <div id="year-slider"></div>
         </div>	
       </div>
       
-      <input type="submit" value="Search" />
+      <input type="submit" value="<%= t('shared.search.button') %>" />
       <script>
         var year_from = <%= params[:from] || @year_min.to_i %>;
         var year_to = <%= params[:to] || @year_max.to_i %>;
@@ -65,12 +65,12 @@
       
     <% end %>
     <div id="geosearch-link">
-      New: <%= link_to 'Find Mosaics by Location',  url_for(:controller => 'layers', :action=>'geosearch'), :class => "buttonWarper"%>
+      <%= link_to t('layers.geosearch.title'),  url_for(:controller => 'layers', :action=>'geosearch'), :class => "buttonWarper"%>
     </div>
   </div>
 
   <h2><%= @html_title -%>
-    <%if @query && @query.length > 0 %>&mdash; Searched for "<%=@query%>"
+    <%if @query && @query.length > 0 %>&mdash; <%= t('maps.index.results') %> "<%=@query%>"
     <%end-%>
   </h2>
 
@@ -86,12 +86,12 @@
   <table id="layer_table" cellpadding="3">
     <thead>
       <tr>
-        <th>Layer</th>
-        <%= sort_header_tag('name', :title => "Title") %>
-        <%= sort_header_tag('depicts_year', :title => "Year", :class=>"year-sort") %> 
-        <%= sort_header_tag('updated_at', :title => "Last Updated") %>
-        <%= sort_header_tag('maps_count', :title=> "Number of Maps") %>
-        <%= sort_header_tag('percent', :title => "Percent Complete") %>
+        <th><%= t('common.layer_th') %></th>
+        <%= sort_header_tag('name', :title => t('common.title_th')) %>
+        <%= sort_header_tag('depicts_year', :title => t('common.year_th'), :class=>"year-sort") %> 
+        <%= sort_header_tag('updated_at', :title => t('common.last_th')) %>
+        <%= sort_header_tag('maps_count', :title=> t('common.num_th')) %>
+        <%= sort_header_tag('percent', :title => t('common.percent_th')) %>
       </tr>
     </thead>
     <tbody id="results">
@@ -104,7 +104,7 @@
   <div id="search-pagination-bottom">
     <%= will_paginate @layers %>
     <div class="per_page_select">
-      <%= page_entries_info @layers %>&nbsp;<%= select_tag :per_page, options_for_select([20,50,100], @per_page.to_i), :onchange => "if(this.value){reload_with_page(this.value)};" %> per page.
+      <%= page_entries_info @layers %>&nbsp;<%= select_tag :per_page, options_for_select([20,50,100], @per_page.to_i), :onchange => "if(this.value){reload_with_page(this.value)};" %> <%= t('common.per_page') %>
     </div>
   </div>
 </div>

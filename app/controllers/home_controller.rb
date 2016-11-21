@@ -3,7 +3,7 @@ class HomeController < ApplicationController
   layout 'application'
   
   def index
-    @html_title =  "Home - "
+    @html_title =  t('.title')
 
     @tags = Map.where(:public => true).tag_counts(:limit => 100)
     @maps = Map.where(:public => true, :status => [2,3,4]).order(:updated_at =>  :desc).limit(3).includes(:gcps)
@@ -25,7 +25,18 @@ class HomeController < ApplicationController
       format.xml  { render :xml => @maps }
     end
   end
-
+  
+  # Searches for Maps and Layers across the titles and descriptions
+  # Returns json (using jbuilder)
+  # params 
+  # query : string to search
+  # per_page : limit number of records (optional)
+  def search
+    per_page = params[:per_page] || 50
+    logger.debug per_page
+    @results = PgSearch.multisearch(params[:query].to_s).limit(per_page.to_i)
+  end
+  
   private
   
   def get_news_feeds

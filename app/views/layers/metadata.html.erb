@@ -1,22 +1,22 @@
-<h2>metadata</h2>
+<h2><%= t('.header') %></h2>
 
 <div class="column span-12">
   <p>
-    <b>Name</b> <br />
+    <b><%= t('.name') %></b> <br />
     <%= @layer.name %>
   </p>
   <p>
-    <b>Description</b><br />
+    <b><%= t('.description') %></b><br />
     <%= @layer.description %>
   </p>
   <p>
-    <b>Source/ Bibliographic Ref URL</b><br />
+    <b><%= t('layers.form.source') %></b><br />
     <%= @layer.source_uri %>
   </p>
 </div>
 <span>
   <span id="depicts-year-span">
-    Depicts Year: <%if @layer.depicts_year%><%= @layer.depicts_year %><%end%>
+    <%= t('.depicts_year') %>  : <%if @layer.depicts_year%><%= @layer.depicts_year %><%end%>
   </span>
 </span>
 <div style="clear: both;"></div>

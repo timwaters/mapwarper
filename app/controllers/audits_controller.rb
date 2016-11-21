@@ -6,10 +6,10 @@ class AuditsController < ApplicationController
   end
 
   def index
-    @html_title = "Recent Activity"
+    @html_title = t('.html_title')
     @audits = Audited::Adapters::ActiveRecord::Audit.unscoped.order(:created_at => :desc).paginate(:page => params[:page],
       :per_page => 20)
-    @title = "Recent Activity For Everything"
+    @title = t('.title')
     @linktomap = "yes please"
     render :action => 'index'
   end
@@ -20,11 +20,11 @@ class AuditsController < ApplicationController
     user_id = params[:id].to_i
     @user = User.where(id: user_id).first
     if @user
-      @html_title = "Activity for " + @user.login.capitalize
-      @title = "Recent Activity for User " +@user.login.capitalize
+      @html_title = t('.html_title') + @user.login.capitalize
+      @title = t('.title') +@user.login.capitalize
     else
-      @html_title = "Activity for not found user #{params[:id]}"
-      @title = "Recent Activity for not found user #{params[:id]}"
+      @html_title = "#{t('.html_title_nouser')} #{params[:id]}"
+      @title = "#{t('.title_nouser')} #{params[:id]}"
     end
     
     
@@ -41,13 +41,13 @@ class AuditsController < ApplicationController
     @selected_tab = 5
     @current_tab = "activity"
     @map = Map.find(params[:id])
-    @html_title = "Activity for Map " + @map.id.to_s
+    @html_title = t('.html_title') + @map.id.to_s
     
     order_options = "created_at DESC"
     where_options = ['auditable_type = ? AND auditable_id = ?', 'Map', @map.id]
     @audits = Audited::Adapters::ActiveRecord::Audit.unscoped.where(where_options).order(order_options).paginate(:page => params[:page], :per_page => 20)
 
-    @title = "Recent Activity for Map "+params[:id].to_s
+    @title = t('.title')+params[:id].to_s
     respond_to do | format |
       if request.xhr?
         @xhr_flag = "xhr"
@@ -60,12 +60,12 @@ class AuditsController < ApplicationController
   end
 
   def for_map_model
-    @html_title = "Activity for All Maps"
+    @html_title = t('.html_title')
     order_options = "created_at DESC"
     where_options = ['auditable_type = ?', 'Map']
     @audits = Audited::Adapters::ActiveRecord::Audit.unscoped.where(where_options).order(order_options).paginate(:page => params[:page], :per_page => 20)
 
-    @title = "Recent Activity for All Maps"
+    @title = t('.title')
     render :action => 'index'
   end
 

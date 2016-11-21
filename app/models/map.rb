@@ -31,6 +31,9 @@ class Map < ActiveRecord::Base
   acts_as_enum :rough_state, [:step_1, :step_2, :step_3, :step_4]
   audited :allow_mass_assignment => true
   
+  include PgSearch
+  multisearchable :against => [:title, :description], :if => :warped?
+  
   scope :warped,    -> { where({ :status => [Map.status(:warped), Map.status(:published)], :map_type => Map.map_type(:is_map)  }) }
   scope :published, -> { where({:status => Map.status(:published), :map_type => Map.map_type(:is_map)})}
   scope :are_public, -> { where(public: true) }
@@ -65,14 +68,14 @@ class Map < ActiveRecord::Base
   def download_remote_image
     img_upload = do_download_remote_image
     unless img_upload
-      errors.add(:upload_url, "is invalid or inaccessible")
+      errors.add(:upload_url, :error_url)  #(en.activerecord.errors.models.map.error_url)
       return false
     end
     self.upload = img_upload
     self.source_uri = source_uri || upload_url
     
     if Map.find_by_upload_file_name(upload.original_filename)
-      errors.add(:filename, "is already being used")
+      errors.add(:filename, :filename_not_unique)
       return false
     end
     
@@ -249,7 +252,7 @@ class Map < ActiveRecord::Base
 
   def self.map_type_hash
     values = Map::MAP_TYPE
-    keys = ["Index/Overview", "Is a map", "Not a map"]
+    keys = [I18n.t('maps.model.map_type.index'), I18n.t('maps.model.map_type.map'), I18n.t('maps.model.map_type.not_map')]
     Hash[*keys.zip(values).flatten]
   end
   
@@ -726,7 +729,7 @@ class Map < ActiveRecord::Base
     
     self.mask_status = :unmasked
     save!
-    "mask deleted"
+    I18n.t('maps.model.delete_mask_success')
   end
   
   
@@ -734,7 +737,7 @@ class Map < ActiveRecord::Base
     if self.mask_file_format == "gml"
       msg = save_mask_gml(vector_features)
     else
-      msg = "Mask format unknown"
+      msg = I18n.t('maps.model.unknown_mask_format')
     end
     msg
   end
@@ -774,7 +777,7 @@ class Map < ActiveRecord::Base
     gmlfile = File.new(self.masking_file_gml, "w+")
     doc.write(gmlfile)
     gmlfile.close
-    message = "Map clipping mask saved (gml)"
+    message = I18n.t('maps.model.gml_mask_saved')
   end
   
  

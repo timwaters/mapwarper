@@ -313,6 +313,10 @@ width: 44%;
 float: right;
 }
 
+#searchmap-table {
+  min-width: 250px;
+}
+
 #searchmap-table td {
   font-size: 70%;
   vertical-align: top;
@@ -1449,6 +1453,44 @@ font-size: smaller;
 #add_custom_layer code {
   font-size: small !important;
 }
+.layer-select-container{
+  padding-top:10px;
+}
+.layer-select {
+  width: 450px;
+}
+
+.select2-result-item {
+  padding-top: 4px;
+  padding-bottom: 0px;
+}
+.select2-result-item__thumb {
+  float: left;
+  width: 100px;
+  margin-right: 10px;
+}
+.select2-result-item__meta {
+  margin-left: 70px;
+}
+.select2-result-item__title { 
+  color: black;
+  font-weight: bold;
+  word-wrap: break-word;
+  margin-bottom: 4px;
+}
+.select2-result-item__type { 
+  color: #6b6868;;
+  font-weight: normal;
+  word-wrap: break-word;
+  margin-bottom: 4px;
+}
+.select2-container--default .select2-results > .select2-results__options {
+  max-height: 400px !important;
+  overflow-y: auto;
+}
+.clearfix:before, .clearfix:after { content: " "; display: table; }
+.clearfix:after { clear: both; }
+
 
 /* OPENLAYERS spechul stilz */
 .olPopupCloseBox {

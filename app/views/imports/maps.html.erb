@@ -1,4 +1,4 @@
-<h2>Import: <%=h @import.name %> Edit Maps</h2>
+<h2><%= t('.header', :name => @import.name ) %></h2>
 <p>Created: <%= @import.created_at.to_s(:long) %> by <%= link_to(( h @import.user.login), user_path(@import.user.id), :method => :get)  -%></p>
 <p>From: <%= @import.path %> Found <%= @import.file_count.to_s %> files in directory. Imported <%= @import.imported_count %> Maps.
 </p>

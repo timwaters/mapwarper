@@ -4,23 +4,23 @@
   <% if admin_authorized? %>
     <td><%=h user.provider -%></td>
     <td><%=h user.email -%></td>
-    <td><%= user.enabled ? 'yes' : 'no' -%>&nbsp;
+    <td><%= user.enabled ? t('.u_yes') : t('.u_no') -%>&nbsp;
       <% unless user == current_user -%>
         <% if user.enabled -%>
-          <%= link_to('disable', disable_user_path(user.id), :method => :put) -%>
+          <%= link_to(t('.disable'), disable_user_path(user.id), :method => :put) -%>
         <% else -%>
-          <%= link_to('enable', enable_user_path(user.id), :method => :put) -%>
+          <%= link_to(t('.enable'), enable_user_path(user.id), :method => :put) -%>
         <% end -%>
 
       <% end -%>
       &nbsp;
     </td>
     <td>
-      <%= user.confirmed? ? 'yes' : 'no' -%>
+      <%= user.confirmed? ? t('.u_yes') : t('.u_no') -%>
       <% if !user.confirmed? -%>
-        <%= link_to('activate', force_confirm_user_path(user.id), :method => :put) -%>  
+        <%= link_to(t('.activate'), force_confirm_user_path(user.id), :method => :put) -%>  
       <% end-%>
     </td>
-    <td><%= link_to 'edit roles', user_roles_path(user) -%></td>
+    <td><%= link_to(t('.edit_roles'), user_roles_path(user))-%></td>
   <% end -%>
 </tr>

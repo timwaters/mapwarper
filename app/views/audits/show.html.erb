@@ -1,24 +1,24 @@
-<%= link_to "&lt; Back".html_safe, :back -%>
+<%= link_to ("&lt;"+ t('common.back_link')).html_safe, :back -%>
 
-<h2>Activity Detail</h2>
+<h2><%= t('.header') %></h2>
 <table class="activity-table">
   <tr>
-    <th>Time</th>
-    <th>User</th>
+    <th><%= t('.time') %></th>
+    <th><%= t('.user') %></th>
     <th></th>
-    <th>Activity Summary</th>
-    <th>Version</th>
+    <th><%= t('.summary') %></th>
+    <th><%= t('.version') %></th>
 
     <%= render :partial => 'audit', :object => @audit, :locals => {:page => 'detail'} %>
     <th></th>
   </tr>
 </table>
 
-<h3>Details</h3>
+<h3><%= t('.details_header') %></h3>
 <table  class="activity-details">
   <thead>
-  <th>Item&nbsp;</th>
-  <th>Value</th>
+  <th><%= t('.item') %>&nbsp;</th>
+  <th><%= t('.value') %></th>
 </thead>
 <% @audit.audited_changes.each do |key, value| -%>
   <tr>

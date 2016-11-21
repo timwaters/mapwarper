@@ -1,21 +1,20 @@
-
-<h2>Imports</h2>
-<h3>Bulk Ground Control CSV Import</h3>
-<%= link_to 'Import CSV ', bulk_import_gcps_url%>
+<h2><%= t('.header') %></h2>
+<h3><%= t('.csv_header') %></h3>
+<%= link_to t('.csv_link'), bulk_import_gcps_url%>
 <hr />
-<h3>New Maps Import</h3>
-<%= link_to 'Add new import', new_import_url %>
+<h3><%= t('.maps_header') %></h3>
+<%= link_to t('.maps_link'), new_import_url %>
 <%= will_paginate @imports %>
 <table class="usertable">
   <thead>
     <tr>
-      <th>Id</th>
-      <th>Name</th>
-      <th>maps</th>
-      <th>User</th>
-      <th>Created</th>
-      <th>Status</th>
-      <th>Actions</th>
+      <th><%= t('.id') %></th>
+      <th><%= t('.name') %></th>
+      <th><%= t('.maps') %></th>
+      <th><%= t('.user') %></th>
+      <th><%= t('.created') %></th>
+      <th><%= t('.status') %></th>
+      <th><%= t('.actions') %></th>
     </tr>
   </thead>
   <tbody>

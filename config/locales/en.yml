@@ -1,37 +1,940 @@
-# Files in the config/locales directory are used for internationalization
-# and are automatically loaded by Rails. If you want to use locales other
-# than English, add the necessary files in this directory.
-#
-# To use the locales, use `I18n.t`:
-#
-#     I18n.t 'hello'
-#
-# In views, this is aliased to just `t`:
-#
-#     <%= t('hello') %>
-#
-# To use a different locale, set it with `I18n.locale`:
-#
-#     I18n.locale = :es
-#
-# This would use the information in config/locales/es.yml.
-#
-# To learn more, please read the Rails Internationalization guide
-# available at http://guides.rubyonrails.org/i18n.html.
-
-en:
-  hello: "Hello world"
-      
 en:
   activerecord:
-    models:
-      map:
-        zero:  maps
-        one:   map
-        other: maps
+    attributes:
       layer:
-        zero:  layers
-        one:   layer
+        depicts_year: Depicts year
+        description: Description
+        name: Name
+      map:
+        title: Title
+      user:
+        current_password: Current password
+        email: Email
+        password: password
+        password_confirmation: Password confirmation
+        remember_me: Remember me
+    errors:
+      models:
+        import:
+          blank_layer_title: is blank
+          layer_error: does not exist, or has not been specified properly
+          no_files_error: has no files within the directory
+          path_not_exist: does not exist
+          user_not_exist: does not exist
+        layers_map:
+          attributes:
+            layer_id:
+              already_has_map: already has this map
+        map:
+          error_url: is invalid or inaccessible
+          filename_not_unique: is already being used
+        my_map:
+          attributes:
+            user_id:
+              not_unique: Map has already been saved.
+    models:
+      layer:
+        one: layer
         other: layers
-        
-        
+        zero: layers
+      map:
+        one: map
+        other: maps
+        zero: maps
+  application:
+    helper:
+      breadcrumbs:
+        home: Home
+        layer: Mosaic %{layer_id}
+        layers: Mosaics
+        map: Map %{map_id}
+        map_layers: Map Layers
+        maps: Maps
+        search: Search
+      error_messages_for:
+        invalid_fields: Invalid Fields
+        message: Correct the following errors and try again.
+    permission_denied: Sorry you do not have permission to view that.
+  audits:
+    audit:
+      further_details: Further details
+    for_map:
+      html_title: 'Activity for Map '
+      title: 'Recent Activity for Map '
+    for_map_model:
+      header: Changes for all Maps
+      html_title: Activity for All Maps
+      title: Recent Activity for All Maps
+    for_user:
+      header: Changes for user
+      html_title: 'Activity for '
+      html_title_nouser: 'Activity for not found user '
+      title: 'Recent Activity for User '
+      title_nouser: 'Recent Activity for not found user '
+    helper:
+      summary:
+        available: Map became available
+        loading: Map started loading from library
+        masked: Map successfully masked
+        masking: Map started masking process
+        published: Map successfully published
+        unloaded: Map was unloaded
+        unmasked: Map was unmasked
+        warped: Map successfully rectified
+        warping: Map started rectification process
+    index:
+      action: Action
+      changed: changed
+      feed_description: Feed for recent activity
+      html_title: Recent Activity
+      only_maps: Show Just Map Activity
+      rss_link: RSS Feed
+      title: Recent Activity For Everything
+    show:
+      details_header: Details
+      header: Activity Detail
+      item: Item
+      summary: Activity summary
+      time: Time
+      user: User
+      value: Value
+      version: Version
+  comments:
+    comment:
+      confirm_delete: Really delete this comment?
+      delete_link: delete
+    comment_form:
+      add_comment: Add Comment
+      header: Comment on this
+    destroy:
+      error: Comment couldn't be deleted
+      flash: Comment deleted
+    index:
+      actions_th: Actions
+      comment_th: Comment
+      comment_type: Comment On
+      created: Created at
+      header: Comments
+      title: Browse Comments
+      user: User
+    show:
+      not_found: Comment not found
+  common:
+    ago: ago
+    back_link: Back
+    create_button: Create
+    gcp: gcp
+    last_th: Last Updated
+    layer: mosaic
+    layer_th: Mosaic
+    map: map
+    map_th: Map
+    my_maps_head: My Maps
+    num_th: Number of Maps
+    per_page: per page
+    percent_th: Percentage Complete
+    site_title: Map Warper
+    status_th: Status
+    title_th: Title
+    update_button: Update
+    year_th: Year
+  devise:
+    confirmations:
+      confirmed: Your account was successfully confirmed.
+      new:
+        header: Resend confirmation instructions
+        resend_button: Resend confirmation instructions
+      send_instructions: You will receive an email with instructions about how to confirm your account in a few minutes.
+      send_paranoid_instructions: If your email address exists in our database, you will receive an email with instructions about how to confirm your account in a few minutes.
+    errors:
+      messages:
+        already_confirmed: was already confirmed, please try signing in
+        confirmation_period_expired: needs to be confirmed within %{period}, please request a new one
+        expired: has expired, please request a new one
+        not_found: not found
+        not_locked: was not locked
+        not_saved:
+          one: '1 error prohibited this %{resource} from being saved:'
+          other: "%{count} errors prohibited this %{resource} from being saved:"
+    failure:
+      already_authenticated: You are already signed in.
+      inactive: Your account is not activated yet.
+      invalid: Invalid email or password.
+      last_attempt: You have one more attempt before your account will be locked.
+      locked: Your account is locked.
+      not_found_in_database: Invalid email or password.
+      timeout: Your session expired. Please sign in again to continue.
+      unauthenticated: You need to sign in or sign up before continuing.
+      unconfirmed: You have to confirm your account before continuing.
+    mailer:
+      confirmation_instructions:
+        about_site: "%{site_name} is a participatory site where you can discover, georeference and upload your own maps and imagery. You can georectify or warp the map to base map to be able to use the map in new ways. You can download the georeferenced image in a number of formats including KML, WMS, and Tiles."
+        click_the_link: 'You can confirm your account email through the link below:'
+        confirm_button: Confirm my account
+        greeting: Welcome,
+        intro: Thanks for signing up to use %{site_name}. Please confirm your email to continue the sign up process.
+        subject: Map Warper email address confirmation instructions
+      reset_password_instructions:
+        greeting: Hello
+        intro: Someone has requested a link to change your password. You can do this through the link below.
+        link: Change my password
+        please_ignore: If you didn't request this, please ignore this email. Your password won't change until you access the link above and create a new one.
+        subject: Map Warper Reset password instructions
+      unlock_instructions:
+        click_the_link: 'Click the link below to unlock your account:'
+        greeting: Hello
+        intro: Your account has been locked due to an excessive number of unsuccessful sign in attempts.
+        link: Unlock my account
+        subject: Unlock Instructions
+    omniauth_callbacks:
+      failure: Could not authenticate you from %{kind} because "%{reason}".
+      success: Successfully authenticated from %{kind} account.
+    passwords:
+      edit:
+        confirm_password: Confirm new password
+        header: Change your password
+        new_password: New password
+        submit_button: Change my password
+      new:
+        header: Forgot your password?
+        send_instructions_button: Send me reset password instructions
+      no_token: You can't access this page without coming from a password reset email. If you do come from a password reset email, please make sure you used the full URL provided.
+      send_instructions: You will receive an email with instructions on how to reset your password in a few minutes.
+      send_paranoid_instructions: If your email address exists in our database, you will receive a password recovery link at your email address in a few minutes.
+      updated: Your password was changed successfully. You are now signed in.
+      updated_not_active: Your password was changed successfully.
+    registrations:
+      destroyed: Bye! Your account was successfully cancelled. We hope to see you again soon.
+      edit:
+        cancel_account_button: Cancel my account
+        cancel_account_header: Cancel my account
+        cancel_account_instructions: Unhappy? This will delete all the maps you uploaded and mosaics you created.
+        cancel_confirm: Are you sure?
+        current_password_label: "(we need your current password to confirm your changes)"
+        description_label: Short profile description (optional)
+        edit_header: Edit User
+        header: User Settings
+        name_label: Name
+        no_settings_notice: You are logged in with your %{provider} account, and not a email and password, so there are no settings for you to edit.
+        password_label: "(leave blank if you don't want to change it)"
+        waiting_confirmation: Currently waiting confirmation for
+      new:
+        email_label: Email - you'll log in with this
+        header: Sign up
+        name_label: Name
+        sign_up_button: Sign up
+        sign_up_help: You can sign up with an email and password, or sign up using another service, using the links below.
+      signed_up: Welcome! You have signed up successfully.
+      signed_up_but_inactive: You have signed up successfully. However, we could not sign you in because your account is not yet activated.
+      signed_up_but_locked: You have signed up successfully. However, we could not sign you in because your account is locked.
+      signed_up_but_unconfirmed: Thanks! A message with a confirmation link has been sent to your email address. Please open the link to activate your account.
+      update_needs_confirmation: You updated your account successfully, but we need to verify your new email address. Please check your email and click on the confirm link to finalize confirming your new email address.
+      updated: You updated your account successfully.
+    sessions:
+      new:
+        header: Log in
+        login_button: Log in
+      signed_in: Signed in successfully.
+      signed_out: Signed out successfully.
+    shared:
+      links:
+        facebook: Facebook
+        forgot_password: Forgot Your password?
+        github: GitHub
+        google: Google
+        login: Log in
+        new_confirmation_instructions: Didn't receive confirmation instructions?
+        new_unlock_instructions: Didn't receive unlock instructions?
+        openstreetmap: OpenStreetMap
+        sign_up: Sign up
+        twitter: Twitter
+        wikimedia: Wikimedia Commons
+    unlocks:
+      new:
+        button: Resend unlock instructions
+        header: Resend unlock instructions
+      send_instructions: You will receive an email with instructions about how to unlock your account in a few minutes.
+      send_paranoid_instructions: If your account exists, you will receive an email with instructions about how to unlock it in a few minutes.
+      unlocked: Your account has been unlocked successfully. Please sign in to continue.
+    users_registrations:
+      user:
+        signed_up: Welcome! You have signed up successfully.
+  gcps:
+    add:
+      new_gcp_notice: New control point added.
+    add_many:
+      back: "&lt; Back to Main Import Page"
+      gcps_imported: "%{count} Control points imported!"
+      header: Bulk GCP Import Results
+      id: id
+      lat: Lat
+      lon: Lon
+      map: Map
+      not_found: Record not found.
+      nothing_imported: No control points imported!
+      x: X
+      y: Y
+    add_many_to_map:
+      notice: GCPS saved
+    bulk_import:
+      back: "&lt; Back to Main Import Page"
+      button: Upload CSV!
+      csv_file: CSV File to Upload
+      header: Bulk Control Point CSV Import
+      help_html: For individual maps instead of using this page you can upload a CSV on the map recitfy view, under the control points table. The csv should have a header <pre><code>x,y,lon,lat</code></pre>
+      import_help_html: 'Use this page to import many control points for many maps. Upload a CSV, comma separated file with a header row with the following format: <pre><code>mapid,x,y,lon,lat</code></pre> where <code>mapid</code> equals the warper map ID for each map you want to add a control point to. <br /> Points can only be added, not updated. Duplicate control points will not be added if imported again.'
+      new_import_header: New Bulk Import
+    destroy:
+      deleted_notice: Control Point deleted sucessfully
+    gcp:
+      delete_button: delete
+      delete_confirm: Really delete these points?
+      deleting: Deleting...
+      error: Sorry, there seems to be an error with this delete request, try again?
+    index:
+      back: Back to maps
+      notice: This notice is usually shown if theres an error, if called directly, or if some action with the control points was not called properly.
+    show:
+      not_found: GCP not found
+    update:
+      error: Points couldnt be updated
+      update_notice: Control Point updated
+    update_field:
+      error: Control point couldnt be updated
+  helpers:
+    label:
+      layer:
+        depicts_year: Depicts Year
+        description: Description
+        name: Name
+      user:
+        current_password: Current password
+        email: Email
+        password: Password
+        password_confirmation: Password confirmation
+        remember_me: Remember Me
+  home:
+    index:
+      all_maps: browse all maps
+      all_my_maps: See all of My Maps
+      click_news: click here to read this story
+      create_layer: Create a new mosaic
+      info_contact: Mail me at tim@geothings.net for more information!
+      info_header: What is it?
+      info_paragraph_html: It's a free to use, open source map warper / map georectifier, and image georeferencer tool. This project is supported by <a  href='http://topomancy.com'>Topomancy LLC</a> and the <a href='http://maps.nypl.org'>New York Public Library</a>.
+      more: read more
+      news: News
+      overview_header: Overview
+      overview_p1: Find maps and other imagery, upload, and rectify against a real map.
+      overview_p2: You can then download and use the rectified map in your mapping applications.
+      overview_p3: Just sign up and you can start uploading and get warping!
+      recent_layers: Recent Mosaics
+      rect_maps: Last Rectified Maps
+      see_maps: See all maps
+      tags: Tags
+      title: 'Home - '
+      upload_map: Upload Map!
+      view_layers: View all Mosaics
+  imports:
+    create:
+      error: Something went wrong creating the import
+      flash: New Import Created!
+    destroy:
+      error: Import couldn't be deleted.
+      flash: Import deleted!
+    edit:
+      header: Edit Import
+    import:
+      edit: edit
+      edit_maps: edit maps
+      imported: "(Imported: %{count})"
+    index:
+      actions: Actions
+      created: Created
+      csv_header: Bulk Ground Control CSV Import
+      csv_link: Import CSV
+      header: Imports
+      id: Id
+      maps: maps
+      maps_header: New Maps Import
+      maps_link: Add new import
+      name: Name
+      status: Status
+      user: User
+    maps:
+      header: 'Import: %{name} Edit Maps'
+    new:
+      header: New import
+    show:
+      not_found: Import not found
+    start:
+      already_imported_error: Sorry, can't be done, this import has already been imported.
+      edit_maps_link: click here to edit the maps
+      error: Something went wrong with the request to the server
+      finished_notice: All done!
+      header: Importing...
+      importing: Importing....
+      progress: 'Progress:'
+    update:
+      error: Something went wrong updating the import
+      flash: Successfully updated import.
+  js:
+    align:
+      dialog_add_button: Add Map
+      no_map_alert: Sorry, either no map was selected, or the same map number was entered
+      not_enough_maps_alert: Sorry, but there should be at least two maps selected
+      wrong_align_alert: Sorry, only horizontal and vertical alignment are available at the moment
+    clip:
+      confirm_delete_tool: Really delete this?
+      delete_tool_title: Delete a polygon
+      draw_tool_title: Draw new polygon to mask
+      move_tool_title: Move around Map
+    geosearch:
+      found: Found
+      found_layers: Layers.
+      found_maps: Maps.
+      more: More
+      open_layer: Open mosaic
+      open_map: Open map
+      outline_layer: Map Outlines
+      prev: Prev
+      search_fail: Sorry, something went wrong with the search
+      showing: Showing
+    layers:
+      edit_map: Edit this map
+      loading_fail: Sorry, something went wrong loading the items
+      map_outlines_label: Map Outlines
+      map_outlines_toggle: Toggle map outlines on map above
+      mbox_satellite_attribution: <a href="https://www.mapbox.com/about/maps/" target="_blank">&copy; Mapbox</a> <a href="https://openstreetmap.org/about/" target="_blank">&copy; OpenStreetMap</a> <a class="mapbox-improve-map" href="https://www.mapbox.com/map-feedback/" target="_blank">Improve this map</a> <a href="https://www.digitalglobe.com/" target="_blank">&copy; DigitalGlobe</a>
+      osm_attribution: '&copy <a href="http://www.openstreetmap.org/">OpenStreetMap</a> contributors'
+    warp:
+      add_gcp: Add Control Point
+      best_guess_message: 'Map zoomed to best guess:'
+      custom_layer: Custom basemap
+      custom_layer_title: Add Custom Basemap
+      gcp_adding: Adding...
+      gcp_failed: Had trouble updating that point with the server. Try again?
+      gcp_premature_alert: You have to add a new control point on each map before pressing this button.
+      gcp_updated: Control Point updated!
+      gcp_updating: Updating...
+      move_gcp: Move Control Point
+      move_map: Move Around Map
+      other_places: 'Other places:'
+      rms_error_prefix: Error
+      warp_popup_title: Rectifier is Working...
+      warped_layer: warped map
+    warped:
+      warped_layer: Layer
+      warped_map: warped image
+  layers:
+    comments:
+      no_comments: There's no comments for this mosaic, why not add one now!
+    create:
+      flash: Mosaic was successfully created.
+    delete:
+      header: Really delete the mosaic?
+      no_button: No, get me out of here!
+      yes_button: Yes, Delete mosaic!
+    destroy:
+      error: Mosaic wasnt deleted
+      flash: Mosaic deleted!
+      not_others: Sorry, you cannot delete other people's mosaics!
+    edit:
+      cannot_edit_others: Sorry, you cannot edit another person's Mosaic
+      delete_link: Delete this mosaic.
+      header: Edit Mosaic
+      help_html: 'Note: All Mosaics are public, you can add your private maps to them, they won''t be listed<br /> but they will be seen on the final map image.'
+      title: Editing Mosaic %{layer_id} on
+    export:
+      header: Export Mosaic
+      title: Export Mosaic %{mosaic_id}
+    form:
+      depicts_hint: "(year, optional)"
+      depicts_hint_2: Used to display layers by year.
+      detail: detail
+      my_maps: my maps
+      no_maps: You have no warped
+      select_map_head: Choose from "My Maps"
+      source: Source / Bibliographic Ref URL
+    geosearch:
+      button: Find Location
+      description_html: Move or zoom map - both the map and list will be updated with found layers. <br /> Layers are shown if they have one or more rectified maps within them, and are visible (not a meta collection/layer).
+      title: Find Mosaics by Location
+    index:
+      for: for
+      search: Search
+      title: Browse Mosaic List
+      title_for_map: Mosaic List for Map %{map_id}
+    layer:
+      depicts: Depicts
+      edit: Edit Mosaic
+      hidden: Not Visible
+      kml: Download KML
+      links: Links
+      made_by: Compiled by
+      merge: Merge
+      publish: Publish
+      source: Source / Biblio Ref
+      toggle: Toggle Visibility
+      visible: Visible
+    layer_detail:
+      edit_year: Add/Edit Year
+      last_modified: Last modified
+    layermap:
+      transparency: 'Transparency:'
+    merge:
+      admin_only: "(admins only)"
+      confirm: Are you sure, this cannot be undone?
+      destination: Destination Layer
+      flash: Mosaic has been merged into new layer - all maps copied across!
+      header: Merge Mosaic
+      help_html: Merge this mosaic with another. <br /> Deletes the reference of %{count_maps} from Mosaic %{layer_id} and moves them onto the specified destination mosaic. <br /> This cannot be undone!
+      merge_button: Merge Mosaic!
+      move_all: 'Move all %{count_maps} to this mosaic:'
+    metadata:
+      depicts_year: Depicts Year
+      description: Description
+      header: Metadata
+      name: Name
+    new:
+      header: New Mosaic
+      help: 'Note: All Mosaics are public, you can add unlisted maps to them they won''t be listed<br /> but they would be seen on the final map image.'
+      title: Make new mosaic -
+    publish:
+      flash: Mosaic will be published
+      not_all_maps_ready: Mosaic has less than 100% of its maps rectified
+    remove_map:
+      flash: Map removed from this mosaic
+    show:
+      loading: Loading.....
+      maps: Maps
+      new_link: Create New Mosaic
+      not_found: Mosaic not found
+      title: Mosaic %{layer_id} %{layer_name}
+    update:
+      error: The mosaic was not able to be updated
+      flash: Mosaic was successfully updated.
+    update_year:
+      message: 'Depicts :'
+  layouts:
+    layerdetail:
+      year_button: Save
+      year_dialog_label: 'Add / edit year that this mosaic depicts:'
+      year_dialog_title: Depicts Year (admin only)
+      year_fail_alert: Sorry, something went wrong trying to save this
+    tabs:
+      activity: Activity
+      align: Align
+      comments: Comments
+      crop: Crop
+      edit: Edit
+      export: Export
+      fail_html: Something went wrong with this. Sorry! Please try again, or try logging in first.
+      metadata: Metadata
+      preview: Preview
+      rectify: Rectify
+      show: Show
+      unaccessible_html: Sorry. The site is currently in read only mode and some features are disabled. Please try again later.
+      unauthorized_html: Sorry. You may need to <a class='unauthorized' href='%{href}'>Log In</a> to view this.
+  maps:
+    align:
+      add_map_title: Click to add map here
+      align_button: align map!
+      append_no: false
+      append_yes: true
+      form_title: Control Panel
+      instructions_html: If this map belongs to a mosaic with other maps, you can copy the control points from an adjacent map that has already been rectified to this one.<br /> Click + and choose a map, then drag and drop to choose the alignment.
+      manual_instructions: Add map number manually
+      map: Map
+      no_layers_message: Sorry, but there are no mosaics containing rectifed maps to choose from.
+      original_type: Using original map? (nicer fit, trickier to edit later)
+      overwrite_label: Overwrite any existing control points?
+      ref_button: Use
+      ref_instructions: Choose a rectified map to copy the control points from the same mosaics
+      ref_title: Add Reference Map
+      title: 'Align Maps '
+      type_label: Type of align
+      warped_type: Using rectified map? (worse fit, easier to edit later)
+    clip:
+      clip_button: Mask Map!
+      clipping_wait_msg_html: "<br />Saving mask...<br />Cropping map..."
+      confirm_delete: Really delete mask and start over?
+      delete: Delete mask
+      delete_alert: that didnt work as expected, sorry
+      instructions_html: <p>1. Draw around the area you wish to keep.  </p><p>2. Then to apply the mask to the map, click "Mask Map!" </p>
+      title: 'Cropping Map '
+    comments:
+      header: Comments
+      login: Log in to add a comment
+      no_comments: There's no comments for this map, why not add one now!
+    create:
+      flash: Map was successfully created.
+    delete:
+      header: Really delete the map?
+      help_text_html: All images, uploaded and rectified will be deleted.<br /> All control points deleted. <br /> All WMS, KML and export options will be unavailable for users.<br />
+      no_button: No, get me out of here!
+      yes_button: Yes, Delete map!
+    destroy:
+      cannot_delete_others: Sorry, you cannot delete other people's maps!
+      error: Map wasnt deleted
+      flash: Map deleted!
+    edit:
+      cannot_edit_others: Sorry, you cannot edit other people's maps
+      delete_link: Delete this map.
+      header: Editing Map Attributes
+      title: Editing Map %{map_title} on
+    export:
+      bibliographic: Biliographic
+      bibliographic_header: 'Biliographic Links:'
+      gcp_csv: CSV
+      gcp_csv_link: Download control points as CSV
+      gcp_header: Ground Control Points
+      geotiff: GeoTiff
+      geotiff_link: Download rectified GeoTiff
+      header: Export
+      images_header: Images
+      josm_link: for JOSM OpenStreetMap Editor
+      kml: KML
+      kml_hint: "(for use in Google Earth, etc)"
+      kml_link: Download KML file
+      missing_file_flash: File Not Found. Perhaps the map has not been rectified yet?
+      png: PNG
+      png_aux: and associated .aux.xml file
+      png_link: Download rectified PNG
+      services_header: Map Services
+      tiles: Tiles (Google/OSM scheme)
+      wms: WMS
+      wms_link: WMS Capabilities URL
+    form:
+      are_visible: Map visibility. Maps are by default visible to all users.
+      author: Author(s)
+      call: Call Number
+      depicted: Date Depicted
+      depicted_hint: "(year, optional)"
+      desc: Description
+      desc_hint: "(max 256 chars)"
+      issue: Issue Year
+      issue_hint: "(year, optional)"
+      issue_hint_2: Used to display maps by year.
+      lat: 'Lat:'
+      location: Metadata Locations
+      lon: 'Lon:'
+      make_public: Make Public
+      max_size: 'Max size:'
+      optional_hint: "(optional)"
+      place: Place of Publication
+      projection: Metadata Projection
+      published: Published Date
+      publisher: Publisher
+      reprint: Reprint Date
+      scale: Scale
+      source: Source / Bibliographic Ref URL
+      subject: Subject Area
+      tags: Tags
+      tags_hint: "(comma separated)"
+      title: Title
+      unique_id: Metadata Unique ID
+      upload_file: 'Upload An Image File:'
+      upload_url: 'Upload from a URL:'
+    geosearch:
+      button: Find Location
+      description: Move or zoom map - both the map and list will be updated with found maps.
+      title: Find Rectified Maps.
+    index:
+      results: 'Searched for '
+      title: Browse Maps
+    map:
+      confirm_my: really remove this map from your list?
+      depicts: Depicts
+      gcp: control point
+      in: In
+      kml: Download KML
+      links: Links
+      private: Not listed
+      published: Published
+      published_warn: This map has been published by an admin and no further editing is possible
+      remove_from_layer: remove map from this mosaic
+      remove_my: Remove from My Maps
+      save_my: Save to My Maps
+      source: Source / Biblio Ref
+      unwarped: Unrectified
+      warp_map: Rectify Map
+    map_detail:
+      last_modified: Last modified
+      map_user_label: Uploaded by
+      publish: Publish
+      publish_confirm: Really publish this map? This will mean that no further editing can be done
+      tags: Tags
+      unpublish: UnPublish
+      unpublish_confirm: Really un publish this map? This will mean that the map can be edited now
+    map_type:
+      flash: 'Map has changed. Map type: %{map_type}'
+    mask_map:
+      not_found: Mask file not found
+    metadata:
+      header: Metadata
+    model:
+      delete_mask_success: mask deleted
+      gml_mask_saved: Map clipping mask saved (gml)
+      map_type:
+        index: Index/Overview
+        map: Is a map
+        not_map: Not a map
+      unknown_mask_format: Mask format unknown
+    new:
+      header: Upload a new map
+      may_resize: It may resize the image if it's too large
+      permission_notice: By uploading images to the website, you agree that you have permission to do so, and accept that anyone else can potentially view and use them, including changing control points.
+      title: 'Upload a new map to '
+    publish:
+      flash: 'Map changed. New Status: '
+    rectify_main:
+      being_rectified_error: Sorry, the map is currently being rectified somewhere else, please try again later.
+      not_enough_points: Sorry, the map needs at least three control points to be able to rectify it
+      rectified_success: Map rectified.
+    save_mask_and_warp:
+      masked_needs_more_points: Map masked, but it needs more control points to rectify. Click the Rectify tab to add some.
+      masked_warp_failed: Mask saved, but not applied as the map is currently being rectified somewhere else, please try again later.
+      masked_warped: Map masked and rectified.
+    show:
+      loaded_html: Map has successfully loaded, page will automatically refresh in a couple of seconds <a href='%{href}'>Click here</a> if you don't want to wait.
+      loading: Loading map...
+      login_notice: You may need to %s to start editing the map
+      login_notice_link: log in
+      not_found: Map not found
+      requesting: requesting
+      title: Viewing Map %{map_id}
+      unloaded: The map did not load properly, please refresh the page and try again. If it does not load properly a second time, please choose another map, and try again another day.
+    tag:
+      feed_description: 'Maps tagged with '
+      feed_title: 'Feed of Warper Maps tagged with '
+      for: Tags for
+      rss: RSS Feed
+      title: 'Maps tagged with %{tags} on '
+    update:
+      error: There was an error updating the map
+      flash: Map was successfully updated.
+    warp:
+      add_manually_button: Add Control Point Manually
+      advanced_options: Advanced options
+      apply_mask_html: Apply <a href='%{href}'>clipping mask </a> when rectifying?
+      auto_method: Auto - based on number of control points (default)
+      bilinear: Bilinear
+      click_button: Add Control Point
+      click_text_btm: Do this for at least three points.
+      click_text_top: Double-click on both maps, then click
+      close_popup: Close popup
+      cubic: Cubic
+      cubicspline: Cubic Spline , slower but best quality
+      custom_layer_instructions_html: Search for a Map or Layer. <br />Or paste in a tile URL template (Z/X/Y ordered scheme only) <br /> E.g. <code>https://example.com/osm/{z}/{x}/{y}.png</code>
+      custom_layer_placeholder: Search for Maps and Layers
+      download_gcps: Download points as CSV
+      gcp_error: Error
+      gcp_lat: Lat
+      gcp_lon: Lon
+      gcp_point: Point
+      gcp_upload_button: Upload CSV!
+      gcp_upload_label: CSV File with Control Points
+      gcp_x: Image X
+      gcp_y: Image Y
+      gcps_link: Control Points
+      lanczos: Lanczos
+      method_label: 'Rectify Method:'
+      near: Nearest Neighbour, fastest (default)
+      p1_method: 1st Order Polynomial (min 3 points)
+      p2_method: 2nd Order Polynomial (min 6 points)
+      p3_method: 3rd Order Polynomial (min 10 points)
+      panel_title: Control Panel
+      rectifying_notice: Rectifying.....
+      resample_label: 'Resampling Method:'
+      server_error: Sorry, there appears to be an error sending the request to the server, try again?...
+      title: 'Rectifying Map '
+      tps_method: Thin Plate Spline (many points widely spread)
+      unmasked_question_html: This map is not currently masked. Do you want to <a href='%{href}'>add or edit a mask now</a>?
+      warp_button: Warp Image! &rarr;
+    warp_aligned:
+      no_destination: Sorry the destination map is not available to be aligned.
+      success: Map aligned. You can now rectify it!
+      unknown_alignment: Sorry, only horizontal and vertical alignment are available at the moment.
+    warped:
+      needs_warping: Whoops, the map needs to be rectified before you can view it"
+      title: 'Viewing Rectfied Map '
+      transparency: Transparency
+      unwarped_notice: Sorry, you'll have to rectify a map before you can view it.
+  my_maps:
+    create:
+      flash: Map saved to My Maps
+      others_error: You cannot add a map to another user!
+    destroy:
+      error: Map coudn't be removed from list
+      flash: Map removed from list!
+      not_your_own: Sorry, you cannot remove maps you have uploaded, from the list
+    list:
+      header: My Maps for %{username}
+      help: Showing list of maps saved or edited by a user.
+  roles:
+    index:
+      assigned: 'Roles assigned:'
+      available: 'Roles available:'
+      header: Roles for %{username}
+    role:
+      assign: assign role
+      remove: remove role
+  shared:
+    export_window:
+      header: Export
+      links: Export Links
+      more: More export options
+    footer:
+      about: About
+      add_map: Add Map
+      help: Help
+      home: Home
+      supported_by_html: Supported by <a href='http://maps.nypl.org'>New York Public Library</a> and <a href='http://topomancy.com'>Topomancy LLC</a>
+    header:
+      admin_users: Administer Users
+      all_activity: All Activity
+      all_comments: All Comments
+      all_layers: All Mosaics
+      all_maps: All Maps
+      imports: Imports
+      log_in: Log In
+      log_out: Log Out
+      logged_in_as: 'Logged in as:'
+      my_activity: My Activity
+      my_maps: My Maps
+      settings: Settings
+      sign_up: Create Account
+      user_stats: User Stats
+    nav:
+      about: About
+      add_layer: Add Mosaic
+      add_map: Upload Map
+      geosearch_layers: Find Mosaics by Location
+      geosearch_maps: Find Maps by Location
+      help: Help
+      home: Home
+      layers: Browse All Mosaics
+      maps: Browse All Maps
+      rectified_maps: Browse Rectified Maps
+    search:
+      all_maps: All maps
+      author: Author
+      button: Search
+      description: Description
+      find_geosearch: Find Rectified Maps by Location
+      only_rectified: Rectified maps only
+      publisher: Publisher
+      tags: Tags
+      title: Title
+  user_mailer:
+    disabled_change_password:
+      end: You should get an additional email with the link to do this within it.
+      greeting: Hi
+      intro: 'Your account using %{email} email has been disabled by an admin, and you will need to change your password in order to re-enble it. '
+      subject: "%{site_name} Your account is disabled until you change your password"
+    new_registration:
+      click_the_link: 'Your account has been created and you can log in using the email: %{email} at:'
+      intro: Thanks for signing up to use %{site_name}.
+      subject: Welcome to %{site_name} %{user_name}
+  users:
+    admin_tools:
+      confirm: Manually confirm
+      confirm_hint: Force confirmation of user, cannot be changed.
+      delete_confirm: Are you sure?
+      delete_hint: This cannot be undone. Removes all their data.
+      delete_user: Delete User
+      enable_hint: the user's account - changeable by admin
+      reset_hint: This changes the password of the users account, and sends link via email to user to create a new password. Until a password is changed, the user cannot login.
+      reset_password: Change and reset password
+      roles_hint: Change roles that the user belongs to
+    destroy:
+      admins_cannot_be_destroyed: Admins cannot be destroyed
+      error: User could not be deleted
+      flash: User successfully deleted
+    disable:
+      error: There was a problem disabling this user.
+      flash: User disabled
+    disable_and_reset:
+      admins_cannot_be_disabled: Admins cannot be disabled and reset, sorry
+      error: Sorry, there was a problem changing this user
+      flash: User changed and an email sent with password reset link
+      providers_cannot: Sorry, users from other providers are not able to be reset
+    edit:
+      title: Edit User Setttings
+    enable:
+      error: There was a problem enabling this user.
+      flash: User enabled
+    force_confirm:
+      already_confirmed: User already confirmed
+      error: There was a problem confirming this user.
+      flash: User confirmed
+    index:
+      button: " Go "
+      confirmed: Confirmed?
+      created: Signed Up
+      email: Email
+      enabled: Enabled?
+      for: for
+      for_query: "&mdash; Searched for "
+      header: Users
+      login: Username
+      name: Name
+      provider: OAuth Provider
+      roles: Roles
+      search: User Search
+      title: Users
+    show:
+      activity: User Activity
+      back_to_maps: "&lt; Browse Maps"
+      joined: Joined on
+      not_found: User not found
+      profile: 'Profile Description:'
+      provider_user_html: A %{provider_thumb} %{provider_name} User
+      title: Showing User %{user_name}
+      user: User
+      user_maps: User Maps
+    stats:
+      details: Further Details
+      gcp_count: Total Points Changes
+      gcp_create_count: Created Points
+      gcp_destroy_count: Deleted Points
+      gcp_update_count: Updated Points
+      header: User Statistics
+      map_count: Total Map Changes
+      title: Users Stats
+      total_count: Total
+      unknown: Unknown
+    update:
+      flash: User updated
+    user:
+      activate: activate
+      disable: disable
+      edit_roles: edit roles
+      enable: enable
+      u_no: 'no'
+      u_yes: 'yes'
+  will_paginate:
+    layer:
+      page_entries_info:
+        single_page_html:
+          one: Displaying <b>1</b> %{model}
+          other: Displaying <b>all&nbsp;%{count}</b> %{model}
+          zero: No %{model} found
+    map:
+      page_entries_info:
+        single_page_html:
+          one: Displaying <b>1</b> %{model}
+          other: Displaying <b>all&nbsp;%{count}</b> %{model}
+          zero: No %{model} found
+    page_entries_info:
+      multi_page: Displaying %{model} %{from} - %{to} of %{count} in total
+      multi_page_html: Displaying %{model} <b>%{from}&nbsp;-&nbsp;%{to}</b> of <b>%{count}</b> in total
+      single_page:
+        one: Displaying 1 %{model}
+        other: Displaying all %{count} %{model}
+        zero: No %{model} found
+      single_page_html:
+        one: Displaying <b>1</b> %{model}
+        other: Displaying <b>all&nbsp;%{count}</b> %{model}
+        zero: No %{model} found

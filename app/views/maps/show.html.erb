@@ -23,19 +23,17 @@
 <% else %>
 
   <div id="loading">
-    Loading map... <span id="spinner"><%= image_tag 'spinner.gif' %></span></div>
+    <%= t('.loading') %> <span id="spinner"><%= image_tag 'spinner.gif' %></span></div>
 
 
   <span class="progressBar" id="prog">20%</span>
-  <span id="map_status" class="mapstatus">requesting</span>
+  <span id="map_status" class="mapstatus"><%= t('.requesting') %></span>
 
   <div id="loaded" style="display:none;" >
-    Map has successfully loaded, page will automatically refresh in a couple of seconds.
-    <A HREF="javascript:history.go(0)">Click here</A> if you don't want to wait.
+    <%= t('.loaded_html', :href => "javascript:history.go(0)") %>
   </div>
   <div id="unloaded" style="display:none;">
-    The map did not load properly, please refresh the page and try again.
-    If it does not load properly a second time, please choose another map, and try again another day.
+    <%= t('.unloaded') %>
   </div>
 
     <script type="text/javascript">
@@ -97,11 +95,7 @@
       function timedRefresh(timeoutPeriod) {
         setTimeout("location.reload(true);", timeoutPeriod);
       }
-  
-  
-  
-  
-  
+
     </script>
 
 

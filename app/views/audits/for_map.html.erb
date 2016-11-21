@@ -1,7 +1,7 @@
 <h2> <%= @title %> </h2>
 
-<%=image_tag 'feed-icon-14x14.png' -%> <%= link_to 'RSS Feed' , 'http://'+ request.host_with_port + request.path + '.rss' %>&nbsp;
-<% if @linktomap %><%= link_to "Show Just Map Activity", :controller=>"maps", :action=>"activity" %><% end %>
+<%=image_tag 'feed-icon-14x14.png' -%> <%= link_to t('audits.index.rss_link') , 'http://'+ request.host_with_port + request.path + '.rss' %>&nbsp;
+<% if @linktomap %><%= link_to t('audits.index.only_maps'), :controller=>"maps", :action=>"activity" %><% end %>
 <br /><br />
 
 <%= will_paginate @audits %>
