@@ -147,6 +147,8 @@ Rails.application.routes.draw do
       get 'status'
     end
   end
+  
+  get '/search' => 'home#search', :as => 'search'
    
   
   # The priority is based upon order of creation: first created -> highest priority.

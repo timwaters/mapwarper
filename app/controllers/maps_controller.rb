@@ -862,11 +862,11 @@ class MapsController < ApplicationController
     @too_few = false
     if @map.gcps.hard.size.nil? || @map.gcps.hard.size < 3
       @too_few = true
-      @notice_text = t('.not_enough_points')
+      @notice_text = t('maps.rectify_main.not_enough_points')
       @output = @notice_text
     elsif @map.status == :warping
       @fail = true
-      @notice_text = t('.being_rectified_error')
+      @notice_text = t('maps.rectify_main.being_rectified_error')
       @output = @notice_text
     else
       if user_signed_in?
@@ -881,7 +881,7 @@ class MapsController < ApplicationController
       
       @map.clear_cache
 
-      @notice_text = t('.rectified_success')
+      @notice_text = t('maps.rectify_main.rectified_success')
     end
   end
   

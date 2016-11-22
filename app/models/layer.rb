@@ -5,6 +5,9 @@ class Layer < ActiveRecord::Base
   
   acts_as_commentable  
   
+  include PgSearch
+  multisearchable :against => [:name, :description]
+  
   validates_presence_of :name
   validates_length_of :depicts_year, :maximum => 4,:allow_nil => true, :allow_blank => true
   validates_numericality_of :depicts_year, :if => Proc.new {|c| not c.depicts_year.blank?}

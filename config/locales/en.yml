@@ -726,7 +726,8 @@ en:
       close_popup: Close popup
       cubic: Cubic
       cubicspline: Cubic Spline , slower but best quality
-      custom_layer_instructions_html: Enter a tile URL template, or tile URL.  Z/X/Y ordered scheme only. <br /> E.g. <code>https://maps.wikimedia.org/osm/{z}/{x}/{y}.png</code> <br /> or <code>https://maps.wikimedia.org/osm/10/507/329.png</code>
+      custom_layer_instructions_html: Search for a Map or Layer. <br />Or paste in a tile URL template (Z/X/Y ordered scheme only) <br /> E.g. <code>https://example.com/osm/{z}/{x}/{y}.png</code>
+      custom_layer_placeholder: Search for Maps and Layers
       download_gcps: Download points as CSV
       gcp_error: Error
       gcp_lat: Lat
