@@ -145,6 +145,7 @@ Rails.application.routes.draw do
       get 'maps'
       get 'start'
       get 'status'
+      get 'log'
     end
   end
   

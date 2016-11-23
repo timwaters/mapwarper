@@ -1491,6 +1491,10 @@ font-size: smaller;
 .clearfix:before, .clearfix:after { content: " "; display: table; }
 .clearfix:after { clear: both; }
 
+#import_layer_ids {
+  width: 450px;
+}
+
 
 /* OPENLAYERS spechul stilz */
 .olPopupCloseBox {

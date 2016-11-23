@@ -1,0 +1,59 @@
+<% if  !@import.layers.empty? %>
+  <div class="layers">
+    <h3><%= t('.header') %></h3>
+    <table id="layer_table" cellpadding="3">
+      <thead>
+        <tr>
+          <th></th>
+          <th><%= t('common.layer_th') %></th>
+          <th><%= t('common.year_th') %></th>
+          <th><%= t('common.last_th') %></th>
+          <th><%= t('common.num_th') %></th>
+          <th><%= t('common.percent_th') %></th>
+        </tr>
+      </thead>
+      <tbody id="results">
+        <% @import.layers.each do | layer | %>
+          <tr>
+            <td >
+              <%= image_tag(layer.thumb) %>
+            </td>
+            <td >
+              <span class="layer_title">
+                <%= link_to layer.name,  layer_path(layer) -%>
+              </span>
+              <br />
+              <span class="layer_description">
+                <%= layer.description %>
+                <%- if layer.user -%><%= t('layers.layer.made_by') %> <%= link_to(layer.user.login, user_path(layer.user)) -%>.<%-end-%>
+              </span>
+              <span class="layer_year">
+                <%if layer.depicts_year%><%= t('layers.layer.depicts') %>: <%= layer.depicts_year %> <%end%>
+              </span>
+            </td>
+            <td>
+              <%if layer.depicts_year -%><%= layer.depicts_year -%> <%end-%>
+            </td>
+            <td>
+              <%= time_ago_in_words(layer.updated_at) -%> <%= t('common.ago') %>
+            </td>
+            <td>
+              <span class="layer_mapcount">
+                <%= pluralize layer.maps_count, t('common.map') -%>
+              </span>
+            </td>
+            <td>
+              <%=number_to_percentage(layer.rectified_percent, :precision=>0) %><br />
+              (<%= pluralize layer.rectified_maps_count, t('common.map') -%>)
+            </td>
+
+          </tr>
+        <% end %>
+
+      </tbody>
+
+    </table>
+  </div>
+<% else %>
+  <p><%= t('.no_layers') %></p>
+<% end %>

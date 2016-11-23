@@ -15,13 +15,14 @@ class Map < ActiveRecord::Base
     :default_url => "missing.png"
   validates_attachment_size(:upload, :less_than => MAX_ATTACHMENT_SIZE) if defined?(MAX_ATTACHMENT_SIZE)
   #attr_protected :upload_file_name, :upload_content_type, :upload_size
-  validates_attachment_content_type :upload, :content_type => ["image/jpg", "image/jpeg", "image/png", "image/gif", "image/tiff"]
+  validates_attachment_content_type :upload, :content_type => ["image/jp2","image/jpg", "image/jpeg", "image/png", "image/gif", "image/tiff"]
   
   validates_presence_of :title
   validates_numericality_of :rough_lat, :rough_lon, :rough_zoom, :allow_nil => true
   validates_numericality_of :metadata_lat, :metadata_lon, :allow_nil => true
   validates_length_of :issue_year, :maximum => 4,:allow_nil => true, :allow_blank => true
   validates_numericality_of :issue_year, :if => Proc.new {|c| not c.issue_year.blank?}
+  validates_uniqueness_of :unique_id, :allow_nil => true, :allow_blank => true
 
   acts_as_taggable
   acts_as_commentable
@@ -94,7 +95,7 @@ class Map < ActiveRecord::Base
   end
    
   def save_dimensions
-    if ["image/jpeg", "image/tiff", "image/png", "image/gif", "image/bmp"].include?(upload.content_type.to_s)      
+    if ["image/jp2","image/jpeg", "image/tiff", "image/png", "image/gif", "image/bmp"].include?(upload.content_type.to_s)      
       tempfile = upload.queued_for_write[:original]
       unless tempfile.nil?
         geometry = Paperclip::Geometry.from_file(tempfile)

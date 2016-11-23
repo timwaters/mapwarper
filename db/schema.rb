@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161117150808) do
+ActiveRecord::Schema.define(version: 20161122125007) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -113,7 +113,23 @@ ActiveRecord::Schema.define(version: 20161117150808) do
     t.integer  "imported_count"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.datetime "finished_at"
+    t.integer  "status"
+    t.boolean  "save_layer"
+    t.string   "log_filename"
+    t.string   "metadata_file_name"
+    t.string   "metadata_content_type"
+    t.integer  "metadata_file_size"
+    t.datetime "metadata_updated_at"
   end
+
+  create_table "imports_layers", force: :cascade do |t|
+    t.integer "import_id"
+    t.integer "layer_id"
+  end
+
+  add_index "imports_layers", ["import_id"], name: "index_imports_layers_on_import_id", using: :btree
+  add_index "imports_layers", ["layer_id"], name: "index_imports_layers_on_layer_id", using: :btree
 
   create_table "layers", force: :cascade do |t|
     t.string   "name"

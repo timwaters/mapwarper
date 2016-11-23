@@ -16,6 +16,9 @@ en:
     errors:
       models:
         import:
+          attributes:
+            metadata:
+              no_file_uploaded: file is not uploaded
           blank_layer_title: is blank
           layer_error: does not exist, or has not been specified properly
           no_files_error: has no files within the directory
@@ -41,6 +44,9 @@ en:
         one: map
         other: maps
         zero: maps
+      import:
+        one: import
+        other: imports
   application:
     helper:
       breadcrumbs:
@@ -344,10 +350,15 @@ en:
       flash: Import deleted!
     edit:
       header: Edit Import
+    form:
+      metadata: CSV Metadata File
+      name_label: Name (give a name to the import, required)
+      layers_label: Layers to assign the maps to
     import:
       edit: edit
       edit_maps: edit maps
       imported: "(Imported: %{count})"
+      view_maps: view maps
     index:
       actions: Actions
       created: Created
@@ -355,18 +366,34 @@ en:
       csv_link: Import CSV
       header: Imports
       id: Id
-      maps: maps
+      layers: Layers
+      maps: Maps
       maps_header: New Maps Import
       maps_link: Add new import
       name: Name
       status: Status
       user: User
+    layers:
+      header: Assigned to Layers
+      no_layers: Maps not added to any Layers
     maps:
       header: 'Import: %{name} Edit Maps'
+      created: 'Created at %{created_at} by: '
     new:
       header: New import
     show:
+      count_files: Count of files in directory
+      delete: Delete this import (Does not delete maps)
+      delete_confirm: Are you sure?
+      edit: Edit this import
+      header: 'Import: %{import_name}'
+      import_is_running: This import is still running, depending on the number of maps it may take some time.
+      imported_count: Imported Count 
       not_found: Import not found
+      start_button: START IMPORT
+      start_confirm: Ready to Start this import?
+      view_log_file: View Log File
+      view_running_status: View Running Status 
     start:
       already_imported_error: Sorry, can't be done, this import has already been imported.
       edit_maps_link: click here to edit the maps
@@ -374,7 +401,10 @@ en:
       finished_notice: All done!
       header: Importing...
       importing: Importing....
+      imported_count: Imported Count
       progress: 'Progress:'
+      status: Status
+      view: View Import
     update:
       error: Something went wrong updating the import
       flash: Successfully updated import.

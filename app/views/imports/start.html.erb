@@ -5,15 +5,15 @@
       jQuery.ajax({
         method: 'get',
         url: '<%= status_import_path(@import)%>',
-        dataType: 'text',
-        success: function(text) {
-          console.log(text);
-          if (text.indexOf("Finished") != -1) {
+        dataType: 'json',
+        success: function(json) {
+          
+          if (json.status == "finished") {
             keepOnPolling = false;
             jQuery('#afterImport').show();
             jQuery('#spinner').hide();
           }
-          jQuery('#updateMe').html(text);
+          jQuery('#updateMe').html("<%= t('.status')  %>: "+ json.status + " <%= t('.imported_count')  %>: " + json.count );
         },
         error: function() {
           keepOnPolling = false;
@@ -25,9 +25,6 @@
       jQuery('#spinner').hide();
     }
   }
-
-
-
 
   jQuery(document).ready(function() {
     jQuery('#afterImport').hide();
@@ -47,5 +44,5 @@
 </div>
 <div id="afterImport">
   <h3><%= t('.finished_notice') %></h3>
-  <%= link_to t('.edit_maps_link'), maps_import_path(@import) %>
+ <%= t('.view') %>: <%= link_to(( h @import.name), import_path(@import.id)) %>
 </div>

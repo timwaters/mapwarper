@@ -5,11 +5,11 @@
   </td>
   <td>
     <div class="maplist_title">
-      <%=link_to(strip_brackets(h(map.title)), map) %>
+      <%=link_to(strip_brackets(map.title), map) %>
 
     </div>
 
-    <div class="map_description"><span><%=strip_brackets(h(map.description)) -%>
+    <div class="map_description"><span><%=strip_brackets(map.description) -%>
         <% if map.layers.count > 0 %>
           (<%= t('.in') %> <%=link_to(pluralize(map.layers.count, t('common.layer')), map_layers_path(map.id)) -%>)
         <%end %>
