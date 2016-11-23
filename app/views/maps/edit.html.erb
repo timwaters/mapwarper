@@ -1,6 +1,5 @@
 <h2><%= t('.header') %></h2>
 
-<%= error_messages_for @map %>
 
 <%- if (current_user == @map.owner || admin_authorized?) -%>
    <p>&mdash; <%=  link_to t('.delete_link'), delete_map_path(@map)  %> &mdash; </p>

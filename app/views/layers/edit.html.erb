@@ -1,5 +1,5 @@
 <h2><%= t('.header') %></h2>
-<%= error_messages_for @layer %>
+
 <em><%= t('.help_html') %></em>
 <%- if (current_user = @layer.user || admin_authorized?) -%>
   <p>&mdash; <%=  link_to t('.delete_link'),
