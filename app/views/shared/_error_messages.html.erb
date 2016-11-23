@@ -1,0 +1,10 @@
+<% if target.errors.any? %>
+  <div id="error_explanation">
+    <h2><%= t('errors.template.header', model: target.class.name.downcase, count: target.errors.messages.size) %></h2>
+    <ul>
+      <% target.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+    </ul>
+  </div>
+<% end %>

@@ -6,7 +6,7 @@
   });
 </script>
 <%= form_for(@map, :remote=>true, :html => {:multipart => true}) do |f| %>
-       
+ <%= render "shared/error_messages", :target => @map %>      
 <div class="column span-12">
     <p>
       <b> <%= t('maps.form.title') %></b><br />

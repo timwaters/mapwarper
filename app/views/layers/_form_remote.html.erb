@@ -7,7 +7,7 @@
 </script>
 <%= form_for(@layer, :remote=>true) do |f| %>
 
-
+  <%= render "shared/error_messages", :target => @layer %>
   <div class="column span-12">
 
     <p>
