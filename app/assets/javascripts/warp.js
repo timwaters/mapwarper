@@ -88,8 +88,8 @@ function init() {
     to_map.zoomToExtent(map_bounds_merc);
 
   } else {
-    //set to the world
-    to_map.setCenter(lonLatToMercator(new OpenLayers.LonLat(0.0, 0.0)), 3);
+    //set to leiden lat 52.166667 lon=4.483333
+    to_map.setCenter(lonLatToMercator(new OpenLayers.LonLat(4.483, 52.1611)), 13);
   }
 
   //style for the active, temporary vector marker, the one the user actually adds themselves,
