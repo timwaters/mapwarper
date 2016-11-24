@@ -73,7 +73,6 @@ class Import < ActiveRecord::Base
     self.status
   end
   
-  
   def import_maps
     data = open(self.metadata.path)
     map_data = CSV.parse(data, :headers => true, :header_converters => :symbol, :col_sep => ";")
@@ -97,12 +96,36 @@ class Import < ActiveRecord::Base
         date = DateTime.parse(published_date)
         issue_year = date.year
       end
+      date_depicted = issue_year
+    
+      description = map_row[:beschrijving]
+      unless map_row[:overige_vervaardigersnaamnaam].blank?
+        description = description +  " Overige vervaardigers: " + map_row[:overige_vervaardigersnaamnaam]
+      end
+      unless map_row[:rechthebbendenaam].blank?
+        description = description +  " Rechtehbbende: " + map_row[:rechthebbendenaam]
+      end
+      tags = nil
+      tags = map_row[:techniek] unless map_row[:techniek].blank?
+      subject_area = nil
+      subject_area = map_row[:locatiepreflabel] unless map_row[:locatiepreflabel].blank?
+      publisher = nil
+      publisher = map_row[:overige_vervaardigersnaamnaam] unless map_row[:overige_vervaardigersnaamnaam].blank?
+      authors = nil
+      authors = map_row[:primaire_vervaardigernaam] unless map_row[:primaire_vervaardigernaam].blank?
+        
       map = {
         title: map_row[:titel],
-        description: map_row[:beschrijving],
+        description: description,
         published_date: published_date,
+        date_depicted: date_depicted,
         issue_year: issue_year,
-        publisher: map_row[:primaire_vervaardigernaam], 
+        publisher: publisher,
+        source_uri: "https://www.erfgoedleiden.nl/#{uuid}",
+        tag_list: tags,
+        subject_area: subject_area,
+        publisher: publisher,
+        authors: authors,
         unique_id: uuid,
         status: :unloaded,
         map_type: 'is_map',
