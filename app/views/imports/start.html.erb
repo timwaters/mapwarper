@@ -42,6 +42,11 @@
 <div id="updateMe">
   <%= t('.importing') %>
 </div>
+
+<div class="log">
+  <%= t('imports.show.view_log_file') %> <%= link_to(@import.log_filename, log_import_path(@import), :target => :new)  %>      
+</div>
+
 <div id="afterImport">
   <h3><%= t('.finished_notice') %></h3>
  <%= t('.view') %>: <%= link_to(( h @import.name), import_path(@import.id)) %>
