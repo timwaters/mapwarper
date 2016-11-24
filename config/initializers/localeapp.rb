@@ -1,4 +1,4 @@
-if Rails.env != "test"
+if defined? Rails && Rails.env != "test"
   require 'localeapp/rails'
 
   if defined? APP_CONFIG['localeapp_api_key'] 
