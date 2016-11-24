@@ -856,7 +856,7 @@ var customId = 10000;
 function setupLayerSelect() {
   jQuery('.layer-select').select2({
     ajax: {
-      url: "http://localhost:3000/search.json",
+      url: "/search.json",
       dataType: 'json',
       delay: 250,
       transport: function (params, success, failure) {
