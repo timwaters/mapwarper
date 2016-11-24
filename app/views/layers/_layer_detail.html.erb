@@ -18,7 +18,7 @@
       <%if admin_authorized? %>&nbsp;<a href="#" id="edit-year-link-top"><%= t('.edit_year') %></a><%end-%>
     </span>
     <span class="layer_summary">
-      <%- if layer.source_uri -%>
+      <%- if !layer.source_uri.blank? -%>
         <%= t('layers.layer.links') %>: <%= link_to t('layers.layer.source') ,layer.source_uri  %>
       <%- end -%>
     </span>

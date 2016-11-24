@@ -54,7 +54,7 @@
       <% end -%>
     </div>
     <div class="map_links">
-      <% if map.source_uri %>
+      <% if !map.source_uri.blank? %>
         <%= t('.links') %>: <%= link_to t('.source'), map.source_uri  %>
       <% end %>
     </div>

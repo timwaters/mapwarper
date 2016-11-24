@@ -55,7 +55,7 @@
         <% end -%>
       <% end -%>
 
-      <%- if map.source_uri -%>
+      <%- if !map.source_uri.blank? -%>
         <%= t('maps.map.links') %>: <%= link_to t('maps.map.source'),map.source_uri  %>
       <%- end -%>
       <% if !admin_authorized? && map.published? %>

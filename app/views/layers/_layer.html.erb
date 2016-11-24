@@ -15,7 +15,7 @@
       <%if layer.depicts_year%><%= t('.depicts') %>: <%= layer.depicts_year %> <%end%>
     </span>
     <span class="map_links">
-      <%- if layer.source_uri -%>
+      <%- if !layer.source_uri.blank? -%>
         <%= t('.links') %>: <%= link_to t('.source'),layer.source_uri  %>
       <%- end -%>
     </span>
