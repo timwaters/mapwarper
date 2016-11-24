@@ -16,6 +16,9 @@ nl:
     errors:
       models:
         import:
+          attributes:
+            metadata:
+              no_file_uploaded: bestand is niet geüpload
           blank_layer_title: is leeg
           layer_error: bestaat niet, of is nog niet goed beschreven
           no_files_error: heeft geen files in deze map
@@ -33,6 +36,9 @@ nl:
             user_id:
               not_unique: Kaart is al opgeslagen
     models:
+      import:
+        one: importeer
+        other: importeren
       layer:
         one: laag
         other: lagen
@@ -43,8 +49,8 @@ nl:
     helper:
       breadcrumbs:
         home: Home
-        layer: Mosaic %{layer_id}
-        layers: Mosaic
+        layer: Mozaïek %{layer_id}
+        layers: Mozaïek
         map: Kaart %{map_id}
         map_layers: Kaartlagen
         maps: Kaarten
@@ -93,7 +99,7 @@ nl:
       header: Activiteit details
       item: Onderdeel
       summary: Activiteitenoverzicht
-      time: Tijd
+      time: Datum
       user: Gebruiker
       value: Waarde
       version: Versie
@@ -102,7 +108,7 @@ nl:
       confirm_delete: Wilt u deze opmerking echt verwijderen?
       delete_link: verwijderen
     comment_form:
-      add_comment: Voeg opmerking toe
+      add_comment: Publiceer
       header: Voeg een opmerking toe
     destroy:
       error: De opmerking kon niet verwijderd worden
@@ -120,11 +126,11 @@ nl:
   common:
     ago: geleden
     back_link: Terug
-    create_button: Maak
+    create_button: Publiceer
     gcp: gcp
     last_th: Bijgewerkt op
-    layer: mosaic
-    layer_th: Mosaic
+    layer: mozaïek
+    layer_th: Mozaïek
     map: kaart
     map_th: Kaart
     my_maps_head: Mijn kaarten
@@ -208,7 +214,7 @@ nl:
       edit:
         cancel_account_button: Verwijder mijn account
         cancel_account_header: Verwijder mijn account
-        cancel_account_instructions: Ontevreden? Dit zal alle kaarten die u heeft geupload en alle mosaics die u heeft gecreëerd verwijderen.
+        cancel_account_instructions: Dit zal alle kaarten die u heeft geupload en alle mozaïeken die u heeft gecreëerd verwijderen.
         cancel_confirm: Weet u het zeker?
         current_password_label: "(we hebben uw huidige wachtwoord nodig om uw wijzigingen te bevestigen)"
         description_label: Kort profiel (optioneel)
@@ -304,21 +310,21 @@ nl:
   helpers:
     label:
       layer:
-        depicts_year: 
-        description: 
-        name: 
+        depicts_year: Jaar
+        description: Beschrijving
+        name: Naam
       user:
         current_password: Huidig wachtwoord
         email: E-mail
         password: Wachtwoord
         password_confirmation: Wachtwoord bevestigen
-        remember_me: 
+        remember_me: Onthoud me
   home:
     index:
       all_maps: Doorzoek alle kaarten
       all_my_maps: Toon al mijn kaarten
       click_news: klik hier om verder te lezen
-      create_layer: Maak een nieuw mosaic
+      create_layer: Maak een nieuw mozaïek
       info_contact: Mail me op tim@geothings.net voor meer informatie!
       info_header: Wat is het?
       info_paragraph_html: Map Warper is een gratis, open source tool om kaarten te georefereren. Dit project is mogelijk gemaakt door <a  href='http://topomancy.com'>Topomancy LLC</a>, de <a href='http://maps.nypl.org'>New York Public Library</a> en <a  href='https://www.erfgoedleiden.nl'>Erfgoed Leiden en Omstreken</a>.
@@ -328,13 +334,13 @@ nl:
       overview_p1: Map Warper is een tool voor het georefereren (op de juiste geografische locatie leggen) van historische kaarten uit de collectie van Erfgoed Leiden en Omstreken. Het is ook mogelijk om zelf rechtenvrije kaarten te uploaden. U bent welkom om de kaarten bekijken, en om te helpen bij het georefereren. Bekijk de video hierboven en leer hoe u mee kunt doen!
       overview_p2: U kunt de kaarten ook downloaden, en bijvoorbeeld in uw kaartapplicaties gebruiken.
       overview_p3: Maak een account aan, en u kunt direct aan de slag.
-      recent_layers: Recente mosaics
+      recent_layers: Recente mozaïeken
       rect_maps: Recent gegeorefereerde kaarten
       see_maps: Bekijk alle kaarten
       tags: Tags
       title: Home -
       upload_map: Upload een kaart!
-      view_layers: Bekijk alle mosaics
+      view_layers: Bekijk alle mozaïeken
   imports:
     create:
       error: Er ging iets mis bij het importeren.
@@ -344,10 +350,15 @@ nl:
       flash: Import verwijderd!
     edit:
       header: Wijzig import
+    form:
+      layers_label: Kaartlagen om de kaarten aan toe te wijzen
+      metadata: CSV metadata bestand
+      name_label: Naam (geef een naam aan de import, verplicht)
     import:
       edit: pas aan
       edit_maps: pas kaarten aan
       imported: "(Geimporteerd: %{count})"
+      view_maps: bekijk kaarten
     index:
       actions: Acties
       created: Gemaakt
@@ -355,26 +366,45 @@ nl:
       csv_link: Importeer CSV
       header: Imports
       id: Id
+      layers: Kaartlagen
       maps: kaarten
       maps_header: Importeer nieuwe kaarten
       maps_link: Voeg een nieuwe import toe
       name: Naam
       status: Status
       user: Gebruiker
+    layers:
+      header: Toegewezen aan kaartlagen
+      no_layers: Kaarten zijn niet toegevoegd aan een laag
     maps:
+      created: 'Gemaakt op %{created_at} door:'
       header: 'Importeer: %{name} Wijzig kaarten'
     new:
       header: Nieuwe import
     show:
+      count_files: Aantal bestanden in map
+      delete: Delete deze import (verwijdert geen kaarten)
+      delete_confirm: Weet je het zeker?
+      edit: Bewerk deze import
+      header: 'Import: %{import_name}'
+      import_is_running: De import is nog bezig. Afhankelijk van het aantal kaarten kan het even duren.
+      imported_count: 'Aantal geïmporteerd '
       not_found: Import niet gevonden
+      start_button: START IMPORT
+      start_confirm: Ben je klaar om te beginnen met importeren?
+      view_log_file: Bekijk Log File
+      view_running_status: Bekijk de status
     start:
       already_imported_error: Sorry, dit kan niet, deze import is al geimporteerd.
       edit_maps_link: klik hier om de kaarten te wijzigen
       error: Er ging iets fout...
       finished_notice: Klaar!
       header: Importeren...
+      imported_count: Aantal geïmporteerd
       importing: Importeren...
       progress: 'Voortgang:'
+      status: Status
+      view: Bekijk import
     update:
       error: Er ging iets mis tijdens het importeren.
       flash: De import is succesvol geüpdatet
@@ -394,7 +424,7 @@ nl:
       found_layers: Lagen.
       found_maps: Kaarten.
       more: Meer
-      open_layer: Open mosaic
+      open_layer: Open mozaïek
       open_map: Open kaart
       outline_layer: Kaart randen
       prev: Terug
@@ -428,26 +458,26 @@ nl:
       warped_map: gewarpde afbeelding
   layers:
     comments:
-      no_comments: Er zijn geen opmerkingen bij deze mosaic. Waarom voegt u er niet een toe?
+      no_comments: Er zijn geen opmerkingen bij deze mozaïek. Waarom voegt u er niet een toe?
     create:
-      flash: Het aanmaken van het mosaic is gelukt.
+      flash: Het aanmaken van het mozaïek is gelukt.
     delete:
-      header: Wilt u dit mosaic echt verwijderen?
+      header: Wilt u dit mozaïek echt verwijderen?
       no_button: Nee, haal me hier weg!
-      yes_button: Ja, verwijder het mosaic!
+      yes_button: Ja, verwijder het mozaïek!
     destroy:
-      error: Het mosaic is niet verwijderd.
-      flash: Het mosaic is verwijderd!
-      not_others: Sorry, u kunt geen mosaics van andere mensen verwijderen!
+      error: Het mozaïek is niet verwijderd.
+      flash: Het mozaïek is verwijderd!
+      not_others: Sorry, u kunt geen mozaïeken van andere mensen verwijderen!
     edit:
-      cannot_edit_others: Sorry, u kunt geen mosaics van andere mensen wijzigen.
-      delete_link: Verwijder dit mosaic.
-      header: Wijzig mosaic.
-      help_html: Alle mosacis zijn openbaar. U kunt uw eigen kaarten toevoegen. Deze wordt worden niet geregistreerd <br/> maar zijn wel voor iedereen zichtbaar op de mosaic.
-      title: Wijzig mosaic %{layer_id} op
+      cannot_edit_others: Sorry, u kunt geen mozaïek van andere mensen wijzigen.
+      delete_link: Verwijder dit mozaïek.
+      header: Wijzig mozaïek.
+      help_html: Alle mozaïeken zijn openbaar. U kunt uw eigen kaarten toevoegen. Deze wordt worden niet geregistreerd <br/> maar zijn wel voor iedereen zichtbaar in het mozaïek.
+      title: Wijzig mozaïek %{layer_id} op
     export:
-      header: Exporteer mosaic
-      title: Exporteer mosaic %{mosaic_id}
+      header: Exporteer mozaïek
+      title: Exporteer mozaïek %{mosaic_id}
     form:
       depicts_hint: "(jaar, optioneel)"
       depicts_hint_2: Gebruikt om kaartlagen per jaar te tonen.
@@ -455,26 +485,26 @@ nl:
       my_maps: mijn kaarten
       no_maps: U heeft geen gewarpte
       select_map_head: Kies uit "Mijn Kaarten"
-      source: Bron / Bibliografische referentie URL
+      source: Bron / Referentie URL
     geosearch:
       button: Zoek Locatie
       description_html: Versleep de kaart of zoom in - de kaart en de lijst worden geüpdatet met gevonden kaartlagen. <br /> Lagen worden getoond als ze een of meer gegeorefereerde kaarten bevatten, en zijn zichtbaar (niet een meta collectie/laag).
-      title: 'Zoek mosaics op locatie '
+      title: Zoek Mozaïeken op locatie
     index:
       for: voor
       search: Zoek
-      title: Blader door mosaic lijst
-      title_for_map: Mosaic lijst voor kaart %{map_id}
+      title: Blader door mozaïeken
+      title_for_map: Mozaïeklijst voor kaart %{map_id}
     layer:
       depicts: Jaar
-      edit: Wijzig mosaic
+      edit: Wijzig mozaïek
       hidden: Niet zichtbaar
       kml: Download KML
       links: Links
       made_by: Samengesteld door
       merge: Samenvoegen
       publish: Publiceer
-      source: Bron / Biblio ref
+      source: Bron/Referentie
       toggle: Verander zichtbaarheid
       visible: Zichtbaar
     layer_detail:
@@ -487,39 +517,39 @@ nl:
       confirm: Bent u zeker? Dit kan niet ongedaan worden gemaakt.
       destination: Bestemmingslaag
       flash: Het moscaic is samengevoegd aan een nieuwe laag - alle kaarten zijn erheen gekopieerd!
-      header: Mosaic samenvoegen
-      help_html: Voeg dit mosaic samen met een andere. <br /> Verwijder de verwijzingen naar %{count_maps} kaarten van het mosaic %{layer_id} en verplaatst ze naar de opgegeven bestemmingsmosaic. <br /> Dit kan niet ongedaan worden gemaakt!
-      merge_button: Voeg mosaic samen!
-      move_all: Verplaats alle %{count_maps} naar dit mosaic"
+      header: Mozaïek samenvoegen
+      help_html: Voeg dit mozaïek samen met een andere. <br /> Verwijder de verwijzingen naar %{count_maps} kaarten van het mozaïek %{layer_id} en verplaatst ze naar de opgegeven bestemmings mozaïek. <br /> Dit kan niet ongedaan worden gemaakt!
+      merge_button: Voeg mozaïek samen!
+      move_all: Verplaats alle %{count_maps} naar dit mozaïek
     metadata:
       depicts_year: 'Jaar:'
       description: Beschrijving
       header: Metadata
       name: Naam
     new:
-      header: Nieuw mosaic
-      help: 'Let op: alle mosaics zijn openbaar. U kunt privékaarten toevoegen. Deze blijven privé, maar zijn wel voor iedereen te zien op de uiteindelijke kaart.'
-      title: Maak nieuw mosaic-
+      header: Nieuw mozaïek
+      help: 'Let op: alle mozaïeken zijn openbaar. U kunt privékaarten toevoegen. Deze blijven privé, maar zijn wel voor iedereen te zien op de uiteindelijke kaart.'
+      title: Maak nieuw mozaïek-
     publish:
-      flash: Mosaics worden gepubliceerd
-      not_all_maps_ready: Mosaic heeft minder dan 100% van zijn kaarten gegeorefereerd
+      flash: Mozaïek wordt gepubliceerd
+      not_all_maps_ready: Mozaïek heeft minder dan 100% van zijn kaarten gegeorefereerd
     remove_map:
-      flash: Kaart verwijderd uit deze mosaic
+      flash: Kaart verwijderd uit deze mozaïek
     show:
       loading: Laden...
       maps: Kaarten
-      new_link: Maak nieuw mosaic
-      not_found: Mosaic niet gevonden
-      title: Mosaic %{layer_id} %{layer_name}
+      new_link: Maak nieuw mozaïek
+      not_found: Mozaïek niet gevonden
+      title: Mozaïek %{layer_id} %{layer_name}
     update:
-      error: De mosaic con niet worden geüpdatet
-      flash: Het updaten van de mosaic is gelukt
+      error: De mozaïek kon niet worden geüpdatet
+      flash: Het updaten van de mozaïek is gelukt
     update_year:
       message: 'Jaar:'
   layouts:
     layerdetail:
       year_button: Bewaar
-      year_dialog_label: Voeg toe / wijzig het jaar dat het mosaic verbeeld
+      year_dialog_label: Voeg toe / wijzig het jaar dat het mozaïek verbeeldt
       year_dialog_title: Jaar (alleen admin)
       year_fail_alert: Sorry, er ging iets mis bij het opslaan
     tabs:
@@ -543,14 +573,14 @@ nl:
       append_no: false
       append_yes: true
       form_title: Controlepaneel
-      instructions_html: 'Als deze kaart onderdeel uit maakt  van een mosaic, kunt u controlepunten van een aangrenzende kaart kopiëren naar deze. Klik + en kies een kaart, en sleep ze vervolgens naar de goede plek om de alignment te kiezen. '
+      instructions_html: Als deze kaart onderdeel uit maakt  van een mozaïek, kunt u controlepunten van een aangrenzende kaart kopiëren naar deze. Klik + en kies een kaart, en sleep ze vervolgens naar de goede plek om de alignment te kiezen.
       manual_instructions: Voeg zelf kaartnummer toe.
       map: Kaart
-      no_layers_message: Sorry, maar er zijn geen mosaics met gegeorefereerde kaarten om uit te kiezen.
+      no_layers_message: Sorry, maar er zijn geen mozaïeken met gegeorefereerde kaarten om uit te kiezen.
       original_type: De originele kaart gebruiken? (past beter, maar is wat lastiger om later te wijzigen)
       overwrite_label: De bestaande controlepunten overschrijven?
       ref_button: Gebruik
-      ref_instructions: Kies een gegeorefereerde kaart om de contolepunten te kopiëren van dezelfde mosaics
+      ref_instructions: Kies een gegeorefereerde kaart om de contolepunten te kopiëren van dezelfde mozaïeken
       ref_title: Voeg gerectificeerde kaart toe
       title: Align de kaarten
       type_label: Soort align
@@ -561,12 +591,12 @@ nl:
       confirm_delete: Wilt u de mask echt verwijderen en opnieuw beginnen?
       delete: Delete mask
       delete_alert: dat ging niet zoals gepland, sorry
-      instructions_html: <p>1. Selecteer het gebied dat u wilt verwijderen  </p><p>2. Om de mask toe te passen, klik "Mask Map!" </p>
+      instructions_html: <p>1. Selecteer het gebied dat u wilt behouden  </p><p>2. Om de mask toe te passen, klik "Mask de kaart" </p>
       title: Kaart uitsnijden
     comments:
       header: Opmerkingen
       login: Log in om een opmerking toe te voegen
-      no_comments: Er zijn nog geen opmerkingen voor deze map, waarom voegt u er niet een toe?
+      no_comments: Er zijn nog geen opmerkingen voor deze kaart. Waarom voegt u er niet een toe?
     create:
       flash: Het maken van de kaart is gelukt!
     delete:
@@ -606,24 +636,24 @@ nl:
       wms: WMS
       wms_link: WMS Capabilities URL
     form:
-      are_visible: Kaart zichtbaarheid. Kaarten zijn standaard voor alle gebruikers zichtbaar.
+      are_visible: Kaarten zijn standaard voor alle gebruikers zichtbaar.
       author: 'Auteur(s):'
-      call: Bel nummer
+      call: Telefoonnummer
       depicted: 'Datum:'
       depicted_hint: "(jaar, optioneel)"
       desc: 'Beschrijving:'
-      desc_hint: "(max 256 chars)"
+      desc_hint: "(max 256 tekens)"
       issue: 'Jaar van uitgave:'
       issue_hint: "(jaar, optioneel)"
       issue_hint_2: Gebruikt om kaarten per jaar te tonen
       lat: 'Lat:'
-      location: Metadata locaties
+      location: Locaties
       lon: 'Lon:'
       make_public: Openbaar maken
       max_size: 'Max afmetingen:'
       optional_hint: "(optioneel)"
       place: 'Plaats van publicatie:'
-      projection: 'Metadata projectie:'
+      projection: 'Projectie:'
       published: 'Publicatiedatum:'
       publisher: 'Gepubliceerd door:'
       reprint: 'Datum herdruk:'
@@ -633,30 +663,30 @@ nl:
       tags: 'Tags:'
       tags_hint: "(komma gescheiden)"
       title: 'Titel:'
-      unique_id: Metadata uniek ID
+      unique_id: Uniek ID
       upload_file: 'Afbeelding uploaden:'
       upload_url: 'Upload via een URL:'
     geosearch:
       button: Zoek Locatie
       description: Beweeg de kaart of zoom in - zowel de kaart als de lijst worden geüpdatet met gevonden kaarten.
-      title: Zoek gegeorefereerde kaart
+      title: Zoek op kaart
     index:
       results: 'Gezocht naar:'
       title: Zoek kaarten
     map:
       confirm_my: echt deze kaart verwijderen uit uw lijst?
       depicts: Jaar
-      gcp: controlepunt
+      gcp: controlepunten
       in: In
       kml: Download KML
       links: Links
       private: Niet openbaar
       published: Gepubliceerd
       published_warn: Deze kaart is gepubliceerd door een admin, en kan niet worden gewijzigd
-      remove_from_layer: verwijder kaart van dit mosaic
+      remove_from_layer: verwijder kaart van dit mozaïek
       remove_my: Verwijder uit Mijn Kaarten
       save_my: Bewaar in Mijn Kaarten
-      source: Bron / Referentie
+      source: Bron/Referentie
       unwarped: Niet gegeorefereerd
       warp_map: Georefereer kaart
     map_detail:
@@ -679,7 +709,7 @@ nl:
       map_type:
         index: Index/Overzicht
         map: Is een kaart
-        not_map: Geen kaart
+        not_map: Is geen kaart
       unknown_mask_format: Mask format onbekend
     new:
       header: Upload een nieuwe kaart
@@ -721,12 +751,13 @@ nl:
       auto_method: Auto - gebaseerd op het aantal controlepunten (standaard)
       bilinear: Bilinear
       click_button: Voeg controlepunt toe
-      click_text_btm: Doe dit voor tenminste drie punten.
-      click_text_top: Dubbelklik op beide kaarten, en klik dan
+      click_text_btm: Doe dit voor tenminste drie punten.Via Controlepunt in het Controlepaneel, kunt u punten verwijderen of handmatig plaatsen.
+      click_text_top: Markeer een locatie op beide kaarten met een controlepunt. Klik dan op
       close_popup: Sluit popup
       cubic: Cubic
       cubicspline: Cubic Spline, langzamer maar de hoogste kwaliteit
       custom_layer_instructions_html: Voer een file URL template, of een file URL in, met een Z/X/Y geordend schema <br /> Bijvoorbeeld <code>https://maps.wikimedia.org/osm/{z}/{x}/{y}.png</code> <br /> of <code>https://maps.wikimedia.org/osm/10/507/329.png</code>
+      custom_layer_placeholder: Zoek kaarten en kaartlagen
       download_gcps: Download punten als CSV
       gcp_error: Foutmelding
       gcp_lat: Lat
@@ -794,7 +825,7 @@ nl:
       admin_users: Admin gebruikers
       all_activity: Alle activiteiten
       all_comments: Alle opmerkingen
-      all_layers: Alle mosaics
+      all_layers: Alle mozaïeken
       all_maps: Alle kaarten
       imports: Imports
       log_in: Log in
@@ -807,21 +838,21 @@ nl:
       user_stats: Gebruikersstatistieken
     nav:
       about: Over
-      add_layer: Mosaic toevoegen
+      add_layer: Maak mozaïek
       add_map: Upload Kaart
-      geosearch_layers: Zoek mosaics op locatie
+      geosearch_layers: Zoek mozaïeken op locatie
       geosearch_maps: Zoek kaarten op locatie
       help: Help
       home: Home
-      layers: Zoek mosaic
-      maps: Zoek kaart
-      rectified_maps: Zoek gegeorefereerde kaart
+      layers: Zoek mozaïek
+      maps: Zoek in lijst
+      rectified_maps: Zoek op kaart
     search:
       all_maps: Alle kaarten
       author: Auteur
       button: Zoek
       description: Beschrijving
-      find_geosearch: Zoek gegeorefereerde kaarten op locatie
+      find_geosearch: Zoek kaart op locatie
       only_rectified: Alleen gegeorefereerde kaarten
       publisher: Gepubliceerd door
       tags: Tags
