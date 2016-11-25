@@ -120,7 +120,6 @@ class Import < ActiveRecord::Base
         published_date: published_date,
         date_depicted: date_depicted,
         issue_year: issue_year,
-        publisher: publisher,
         source_uri: "https://www.erfgoedleiden.nl/#{uuid}",
         tag_list: tags,
         subject_area: subject_area,
