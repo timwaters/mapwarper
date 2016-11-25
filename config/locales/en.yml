@@ -658,6 +658,7 @@ en:
       make_public: Make Public
       max_size: 'Max size:'
       optional_hint: "(optional)"
+      photo_uuid: Photo Number
       place: Place of Publication
       projection: Metadata Projection
       published: Published Date

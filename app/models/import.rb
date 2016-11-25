@@ -86,6 +86,7 @@ class Import < ActiveRecord::Base
         map.save
         next
       end
+      photo_uuid = map_row[:fotonummer]
       file_base =  APP_CONFIG['import_maps_sftp_path']+"/"+map_row[:fotonummer]
       next if Dir.glob(file_base+".*").empty?
       upload_filename = Dir.glob(file_base+".*").first
@@ -126,6 +127,7 @@ class Import < ActiveRecord::Base
         publisher: publisher,
         authors: authors,
         unique_id: uuid,
+        photo_uuid: photo_uuid,
         status: :unloaded,
         map_type: 'is_map',
         public: true

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161122125007) do
+ActiveRecord::Schema.define(version: 20161125170404) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -203,6 +203,7 @@ ActiveRecord::Schema.define(version: 20161122125007) do
     t.datetime "rectified_at"
     t.datetime "gcp_touched_at"
     t.integer  "issue_year"
+    t.string   "photo_uuid"
   end
 
   add_index "maps", ["bbox_geom"], name: "index_maps_on_bbox_geom", using: :gist
