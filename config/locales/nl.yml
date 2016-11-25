@@ -79,11 +79,11 @@ nl:
       summary:
         available: Kaart is beschikbaar
         loading: Kaart wordt geladen
-        masked: Kaart succesvol gemasked
-        masking: Het masken is gestart
+        masked: Kaart succesvol uitgesneden
+        masking: Het uitsnijden is gestart
         published: Kaart is succesvol gepubliceerd
         unloaded: Kaart laden is gestopt
-        unmasked: 'Kaart mask is verwijderd '
+        unmasked: De selectie is verwijderd
         warped: Kaart georefereren was succesvol
         warping: Georefereren is gestart
     index:
@@ -128,10 +128,12 @@ nl:
     back_link: Terug
     create_button: Publiceer
     gcp: gcp
-    last_th: Bijgewerkt op
+    last_th: Bijgewerkt
     layer: mozaïek
+    layer_count: 
     layer_th: Mozaïek
     map: kaart
+    map_count: 
     map_th: Kaart
     my_maps_head: Mijn kaarten
     num_th: Aantal kaarten
@@ -417,7 +419,7 @@ nl:
     clip:
       confirm_delete_tool: Wilt u dit echt verwijderen?
       delete_tool_title: Verwijder een polygoon.
-      draw_tool_title: Teken een nieuwe polygoon voor het masken.
+      draw_tool_title: Teken een nieuwe polygoon om het gebied dat u wilt behouden
       move_tool_title: Verplaats de kaart
     geosearch:
       found: Gevonden
@@ -556,7 +558,7 @@ nl:
       activity: Activiteit
       align: Align
       comments: Opmerkingen
-      crop: Crop
+      crop: Uitsnijden
       edit: Wijzig
       export: Exporteer
       fail_html: Er ging iets mis, sorry! Probeer het opnieuw, of probeer eerst in te loggen
@@ -586,12 +588,12 @@ nl:
       type_label: Soort align
       warped_type: Een gegeorefereerde kaart gebruiken? (past minder goed, maar is later gemakkelijker aan te passen)
     clip:
-      clip_button: Mask de kaart!
-      clipping_wait_msg_html: "<br />Mask opslaan...<br />Kaart uitsnijden..."
-      confirm_delete: Wilt u de mask echt verwijderen en opnieuw beginnen?
-      delete: Delete mask
+      clip_button: Uitsnijden!
+      clipping_wait_msg_html: "<br />Selectie opslaan...<br />Kaart uitsnijden..."
+      confirm_delete: Wilt u de selectie echt verwijderen en opnieuw beginnen?
+      delete: Delete selectie
       delete_alert: dat ging niet zoals gepland, sorry
-      instructions_html: <p>1. Selecteer het gebied dat u wilt behouden  </p><p>2. Om de mask toe te passen, klik "Mask de kaart" </p>
+      instructions_html: <p>1. Selecteer het gebied dat u wilt behouden. Het gebied dat niet geselecteerd is (bijvoorbeeld de marges) wordt straks niet meer getoond. </p><p>2. Om de selectie toe te passen, klik "Uitsnijden!".</p>
       title: Kaart uitsnijden
     comments:
       header: Opmerkingen
@@ -677,6 +679,7 @@ nl:
       confirm_my: echt deze kaart verwijderen uit uw lijst?
       depicts: Jaar
       gcp: controlepunten
+      gcp_count: 
       in: In
       kml: Download KML
       links: Links
@@ -700,12 +703,12 @@ nl:
     map_type:
       flash: 'Kaart is gewijzigd. Type: %{map_type}'
     mask_map:
-      not_found: Mask file niet gevonden
+      not_found: Selectiebestand niet gevonden
     metadata:
       header: Metadata
     model:
-      delete_mask_success: mask verwijderd
-      gml_mask_saved: Mask opgeslagen (gml)
+      delete_mask_success: Selectie verwijderd
+      gml_mask_saved: Selectie opgeslagen (gml)
       map_type:
         index: Index/Overzicht
         map: Is een kaart
@@ -723,8 +726,8 @@ nl:
       not_enough_points: Sorry, er zijn ten minste drie controlepunten nodig om de kaart te kunnen georefereren.
       rectified_success: Kaart gegeorefereerd.
     save_mask_and_warp:
-      masked_needs_more_points: De kaart is uitgesneden, maar er zijn meer controlepunten nodig om hem te georeferren. Klik op het tabblad Georefereren om punten toe te voegen.
-      masked_warp_failed: De mask is opgeslagen maar nog niet toegepast, omdat de kaart momenteel gegeorefereerd wordt. Probeer het later opnieuw.
+      masked_needs_more_points: De kaart is uitgesneden, maar er zijn meer controlepunten nodig om hem te georefereren. Klik op het tabblad Georefereren om punten toe te voegen.
+      masked_warp_failed: De selectie is opgeslagen maar nog niet toegepast, omdat de kaart momenteel gegeorefereerd wordt. Probeer het later opnieuw.
       masked_warped: Kaart uitgesneden en gegeorefereerd.
     show:
       loaded_html: Het laden van de kaart is gelukt. De pagina zal over een paar seconden opnieuw geladen worden. <a href='%{href}'>Klik hier</a> als u niet wilt wachten.
@@ -747,7 +750,7 @@ nl:
     warp:
       add_manually_button: Voeg handmatig controlepunt toe
       advanced_options: Uitgebreide mogelijkheiden
-      apply_mask_html: Gebruik <a href='%{href}'>mask </a> bij het georefereren?
+      apply_mask_html: Gebruik <a href='%{href}'>uitsnede </a> bij het georefereren?
       auto_method: Auto - gebaseerd op het aantal controlepunten (standaard)
       bilinear: Bilinear
       click_button: Voeg controlepunt toe
@@ -780,7 +783,7 @@ nl:
       server_error: Sorry, maar er lijkt zich een fout voor te doen bij het versturen van het verzoek naar de server. Opnieuw proberen?
       title: Georefereer kaart
       tps_method: Thin Plate Spline (veel punten, erg verspreid)
-      unmasked_question_html: 'Deze kaart is nog niet uitgesneden. Wilt u <a href=''%{href}''>een mask toevoegen of wijzigen</a>? '
+      unmasked_question_html: Deze kaart is nog niet uitgesneden. Wilt u <a href='%{href}'>een uitsnede toevoegen of wijzigen</a>?
       warp_button: Warp afbeelding! &rarr;
     warp_aligned:
       no_destination: 'Sorry, de bestemmings kaart is niet beschikbaar voor het alignen. '
