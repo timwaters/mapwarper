@@ -36,6 +36,9 @@ public/mapimages/*
 #ignore tileindex files
 db/maptileindex/*
 
+#ignore import csv files
+db/imports/*
+
 #vagrant local
 .vagrant
 
