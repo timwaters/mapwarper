@@ -65,11 +65,11 @@
   </td>
   <td>
     <span class="layer_mapcount">
-      <%= pluralize layer.maps_count, t('common.map') -%>
+      <%= t('common.map_count', count: layer.maps_count) -%>
     </span>
   </td>
   <td>
     <%=number_to_percentage(layer.rectified_percent, :precision=>0) %><br />
-    (<%= pluralize layer.rectified_maps_count, t('common.map') -%>)
+    (<%= t('common.map_count', count: layer.rectified_maps_count) -%>)
   </td>
 </tr>

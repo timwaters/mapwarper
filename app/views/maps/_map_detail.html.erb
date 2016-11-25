@@ -17,7 +17,7 @@
     <span class="map_summary">
       <%- if map.owner -%><%= t('.map_user_label') %> <%= link_to(map.owner.login, user_path(map.owner)) -%>.<%-end-%>
       <%- if map.layers.count > 0 -%>
-        (In <%=link_to(pluralize(map.layers.count, t('common.layer')), map_layers_path(map.id)) -%>)
+        (<%= t('maps.map.in') %> <%=link_to(t('common.layer_count', count: map.layers.count), map_layers_path(map.id)) -%>)
       <%-  end -%>
       <span class="map_year">
         <% if map.depicts_year -%>
@@ -27,7 +27,7 @@
       <% if !map.public? %><span class="publicprivate">(<%= t('maps.map.private') %>)</span><% end-%>
       <%= t('.last_modified') %> <%=h time_ago_in_words(map.last_changed) -%> <%= t('common.ago') %>.
       <%if map.gcps.hard.size > 0 %>
-        <%=pluralize(map.gcps.hard.size, t('maps.map.gcp')) -%>.
+        <%= t('maps.map.gcp_count', count: map.gcps.hard.size) -%>.
       <%else-%>
         <%= t('maps.map.unwarped') %>.
       <%end-%>

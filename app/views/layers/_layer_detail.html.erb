@@ -24,8 +24,8 @@
     </span>
     <br />
     <span class="layer_mapcount">
-      <%= pluralize layer.maps_count, t('common.map')  -%>
-      (<%= pluralize layer.rectified_maps_count, t('common.map') -%> rectified <%=number_to_percentage(layer.rectified_percent, :precision=>0)-%>)
+      <%= t('common.map_count', count: layer.maps_count) -%>
+      (<%= t('common.map_count', count: layer.rectified_maps_count) -%> rectified <%=number_to_percentage(layer.rectified_percent, :precision=>0)-%>)
     </span><br />
     <% if admin_authorized? -%>
       <span class="layer_visibility">

@@ -11,7 +11,7 @@
 
     <div class="map_description"><span><%=strip_brackets(map.description) -%>
         <% if map.layers.count > 0 %>
-          (<%= t('.in') %> <%=link_to(pluralize(map.layers.count, t('common.layer')), map_layers_path(map.id)) -%>)
+          (<%= t('.in') %> <%=link_to(t('common.layer_count', count: map.layers.count), map_layers_path(map.id)) -%>)
         <%end %>
       </span>
 
@@ -68,7 +68,7 @@
   </td>
   <td>
     <%if map.gcps.hard.size > 0 %>
-      <%=pluralize(map.gcps.hard.size, t('.gcp')) -%>
+      <%= t('.gcp_count', count: map.gcps.hard.size) -%>
     <%else-%>
       <%= t('.unwarped') %>
     <%end-%>

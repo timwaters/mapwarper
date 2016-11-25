@@ -132,8 +132,16 @@ en:
     gcp: gcp
     last_th: Last Updated
     layer: mosaic
+    layer_count: {
+      one: '%{count} layer',
+      other: '%{count} layers',
+    }
     layer_th: Mosaic
     map: map
+    map_count: {
+      one: '%{count} map',
+      other: '%{count} maps'
+    }
     map_th: Map
     my_maps_head: My Maps
     num_th: Number of Maps
@@ -677,6 +685,10 @@ en:
       confirm_my: really remove this map from your list?
       depicts: Depicts
       gcp: control point
+      gcp_count: {
+        one: '%{count} control point',
+        other: '%{count} control points'
+      }
       in: In
       kml: Download KML
       links: Links

@@ -11,7 +11,7 @@
 
   <h3><%= t('imports.index.maps') %></h3>
   <p>
-    <%= link_to(pluralize(@import.maps.count, t('common.map')), maps_import_path(@import.id)) %>
+    <%= link_to(t('common.map_count', count: @import.maps.count), maps_import_path(@import.id)) %>
   </p>
 
 <% end %>
