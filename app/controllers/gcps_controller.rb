@@ -2,8 +2,9 @@ class GcpsController < ApplicationController
   layout 'application'
   #skip_before_filter :verify_authenticity_token, :only => [:update, :update_field, :add, :destroy, :show, :add_many, :add_many_to_map]
 
-  before_filter :authenticate_user!, :only => [:update, :update_field, :add, :destroy, :add_many, :add_many_to_map]
+  before_filter :authenticate_user!, :only => [:update, :update_field, :add, :destroy, :add_many, :add_many_to_map, :csv]
   before_filter :check_editor_role, :only => [:add_many, :add_many_to_map, :bulk_import]
+  before_filter :check_administrator_role, :only => [:csv]
   before_filter :find_gcp, :only => [:show, :update,:update_field, :destroy ]
   rescue_from ActiveRecord::RecordNotFound, :with => :bad_record
 
@@ -188,6 +189,10 @@ class GcpsController < ApplicationController
   
   def bulk_import
     
+  end
+  
+  def csv
+    send_data(Gcp.all_to_csv, {:filename => "gcps.csv", :type => 'text/csv'})
   end
 
   private

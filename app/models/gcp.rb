@@ -104,6 +104,15 @@ class Gcp < ActiveRecord::Base
     end
   end
   
+  def self.all_to_csv
+    CSV.generate do |csv|
+      csv << ["id", "map", "created_at", "updated_at", "x", "y", "lon", "lat"] ## Header values of CSV
+      all.each do |g|
+        csv << [g.id, g.map_id, g.created_at, g.updated_at, g.x, g.y, g.lon, g.lat] ##Row values of CSV
+      end
+    end
+  end
+  
   private
   
   def update_map_timestamp

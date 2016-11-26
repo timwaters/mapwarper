@@ -1,5 +1,6 @@
 require "open3"
 require "error_calculator"
+require 'csv'
 include ErrorCalculator
 class Map < ActiveRecord::Base
   
@@ -442,6 +443,12 @@ class Map < ActiveRecord::Base
     cbounds.join(",")
   end
   
+  def bbox_centroid
+    centroid =  bbox_geom.nil? ? nil : "#{bbox_geom.centroid.x},#{bbox_geom.centroid.x}"
+    
+    return centroid
+  end
+  
   #attempts to align based on the extent and offset of the
   #reference map's warped image
   #results it nicer gcps to edit with later
@@ -781,7 +788,27 @@ class Map < ActiveRecord::Base
     message = I18n.t('maps.model.gml_mask_saved')
   end
   
+  
+  def self.to_csv
+    CSV.generate(:col_sep => ";") do |csv|
+      csv <<  ["id", "title", "description", "authors", "bbox", "bbox_centroid", "tag_list", "call_number", "created_at", "updated_at", 
+        "date_depicted",  "filename", "import_id", "issue_year", "map_type", "mask_status", "owner_id", "photo_uuid", "public", 
+        "metadata_lat", "metadata_lon", "metadata_projection",
+        "publication_place", "published_date", "publisher", "rectified_at", "reprint_date", "scale", "source_uri", "status", 
+        "subject_area",  "unique_id",  "upload_content_type",  "upload_file_name", "upload_file_size", "height", "width"] ## Header values of CSV
+      all.each do |m |
+        csv << [m.id, m.title, m.description, m.authors, m.bbox, m.bbox_centroid, m.tag_list, m.call_number, m.created_at, m.updated_at,
+          m.date_depicted, m.filename, m.import_id, m.issue_year, m.map_type, m.mask_status, m.owner_id, m.photo_uuid, m.public,
+          m.metadata_lat, m.metadata_lon, m.metadata_projection,
+          m.publication_place, m.published_date, m.publisher, m.rectified_at, m.reprint_date, m.scale, m.source_uri, m.status,
+          m.subject_area, m.unique_id, m.upload_content_type, m.upload_file_name, m.upload_file_size, m.height, m.width          
+        ] ##Row values of CSV
+      end
+    end
+  end  
  
+
+  
   ############
   #PRIVATE
   ############

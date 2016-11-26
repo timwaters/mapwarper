@@ -51,6 +51,7 @@ Rails.application.routes.draw do
     collection do
         get 'geosearch'
         get 'tag'
+        get 'csv'
     end
     resources :layers
   end
@@ -63,8 +64,9 @@ Rails.application.routes.draw do
   get '/layers/thumb/:id' => 'layers#thumb'
  
   
-  get '/gcps/' => 'gcp#index', :as => "gcps"
+  #get '/gcps/' => 'gcps#index', :as => "gcps"
   get '/gcps/bulk_import' => 'gcps#bulk_import', :as => "bulk_import_gcps"
+  get '/gcps/csv' => 'gcps#csv', :as =>'csv_gcps'
   get '/gcps/:id' => 'gcps#show', :as => "gcp"
   delete '/gcps/:id/destroy' => 'gcps#destroy', :as => "destroy_gcp"
   post '/gcps/add/:mapid' => 'gcps#add', :as => "add_gcp"
@@ -148,6 +150,8 @@ Rails.application.routes.draw do
       get 'log'
     end
   end
+  
+  get 'exports' => 'imports#exports'
   
   get '/search' => 'home#search', :as => 'search'
    

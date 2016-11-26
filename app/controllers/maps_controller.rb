@@ -6,10 +6,10 @@ class MapsController < ApplicationController
   
   before_filter :authenticate_user!, :only => [:new, :create, :edit, :update, :destroy, :delete, :warp, :rectify, :clip, :align, :warp_align, :mask_map, :delete_mask, :save_mask, :save_mask_and_warp, :set_rough_state, :set_rough_centroid, :publish, :trace, :id, :map_type]
  
-  before_filter :check_administrator_role, :only => [:publish]
+  before_filter :check_administrator_role, :only => [:publish, :csv]
  
   before_filter :find_map_if_available,
-    :except => [:show, :index, :wms, :tile, :mapserver_wms, :warp_aligned, :status, :new, :create, :update, :edit, :tag, :geosearch]
+    :except => [:show, :index, :wms, :tile, :mapserver_wms, :warp_aligned, :status, :new, :create, :update, :edit, :tag, :geosearch, :csv]
 
   before_filter :check_link_back, :only => [:show, :warp, :clip, :align, :warped, :export, :activity]
   before_filter :check_if_map_is_editable, :only => [:edit, :update, :map_type]
@@ -339,6 +339,11 @@ class MapsController < ApplicationController
         :total_pages => @maps.total_pages,
         :items => @maps.to_a}.to_json(:methods => :depicts_year) , :callback => params[:callback]}
     end
+  end
+  
+  #admin only sends all maps as CSV format
+  def csv
+    send_data(Map.to_csv, {:filename => "maps.csv" })
   end
   
   

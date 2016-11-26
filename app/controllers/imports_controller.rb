@@ -3,7 +3,7 @@ class ImportsController < ApplicationController
   before_filter :authenticate_user!
   before_filter :check_administrator_role
 
-  before_filter :find_import, :except => [:index, :new, :create]
+  before_filter :find_import, :except => [:index, :new, :create, :exports]
   before_filter :check_imported, :only => [:start]
 
   rescue_from ActiveRecord::RecordNotFound, :with => :bad_record
@@ -88,6 +88,10 @@ class ImportsController < ApplicationController
   
   def log
     send_file @import.log_path, :disposition => :inline, :type => 'text/plain'
+  end
+  
+  def exports
+    
   end
 
   private
