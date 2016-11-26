@@ -97,7 +97,23 @@
               <th><%= t('common.status_th') %></th>
           </tr>
         </thead>
-        <%= render :partial => 'maps/map', :collection => @maps unless @maps.nil? %>
+        <%= render :partial => 'maps/map', :collection => @warped_maps unless @warped_maps.nil? %>
+      </table>
+      <%= link_to t(".see_maps"), maps_path, :class => "buttonWarper" %>
+    
+      <h3><%= t('.unrect_maps') %></h3>
+
+      <table id="map_table" cellpadding="3">
+        <thead>
+          <tr>
+              <th><%= t('common.map_th') %></th>
+              <th><%= t('common.title_th') %></th>
+              <th><%= t('common.year_th') %></th>
+              <th><%= t('common.last_th') %></th>
+              <th><%= t('common.status_th') %></th>
+          </tr>
+        </thead>
+        <%= render :partial => 'maps/map', :collection => @unwarped_maps unless @unwarped_maps.nil? %>
       </table>
 
       <%= link_to t(".see_maps"), maps_path, :class => "buttonWarper" %>

@@ -6,7 +6,8 @@ class HomeController < ApplicationController
     @html_title =  t('.title')
 
     @tags = Map.where(:public => true).tag_counts(:limit => 100)
-    @maps = Map.where(:public => true, :status => [2,3,4]).order(:updated_at =>  :desc).limit(3).includes(:gcps)
+    @warped_maps = Map.where(:public => true, :status => [3,4,5]).order(:updated_at =>  :desc).limit(3).includes(:gcps)
+    @unwarped_maps = Map.where(:public => true, :status => [1,2,3]).order(:updated_at =>  :desc).limit(3).includes(:gcps)
     
     @layers = Layer.all.order(:updated_at => :desc).limit(3).includes(:maps)
 

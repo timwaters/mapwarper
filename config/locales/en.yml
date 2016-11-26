@@ -345,6 +345,7 @@ en:
       see_maps: See all maps
       tags: Tags
       title: 'Home - '
+      unrect_maps: New Unrectified Maps
       upload_map: Upload Map!
       view_layers: View all Mosaics
   imports:
