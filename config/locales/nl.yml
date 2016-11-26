@@ -575,7 +575,7 @@ nl:
       append_no: false
       append_yes: true
       form_title: Controlepaneel
-      instructions_html: Als deze kaart onderdeel uit maakt  van een mozaïek, kunt u controlepunten van een aangrenzende kaart kopiëren naar deze. Klik + en kies een kaart, en sleep ze vervolgens naar de goede plek om de alignment te kiezen.
+      instructions_html: Als deze kaart onderdeel uit maakt  van een mozaïek, kunt u controlepunten van een aangrenzende kaart kopiëren naar deze kaart. Klik + en kies een kaart. De gekozen kaart kunt u vervolgens naar de goede positie slepen, ten opzichte van deze kaart. Klik vervolgens op 'Align kaart!'
       manual_instructions: Voeg zelf kaartnummer toe.
       map: Kaart
       no_layers_message: Sorry, maar er zijn geen mozaïeken met gegeorefereerde kaarten om uit te kiezen.
@@ -654,6 +654,7 @@ nl:
       make_public: Openbaar maken
       max_size: 'Max afmetingen:'
       optional_hint: "(optioneel)"
+      photo_uuid: 
       place: 'Plaats van publicatie:'
       projection: 'Projectie:'
       published: 'Publicatiedatum:'
