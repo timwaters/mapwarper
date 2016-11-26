@@ -1,0 +1,273 @@
+.foo{
+
+  background: asset_url('header_logo.png') 0 50% scroll no-repeat; 
+}
+
+.headerDiv{
+  padding-left: 0px;
+  padding-right: 0px;
+}
+
+/*responsive nav tabs*/
+
+
+@media screen and (max-width: 1445px) {
+  #nav  #nav-list li.responsive_wide{ display:none;}
+}
+@media screen and (max-width: 885px) {
+  #nav #nav-list li.responsive_narrow{ display:none;}
+}
+@media screen and (max-width: 600px) {
+  #nav #nav-list li.responsive{ display:none;}
+  #nav #nav-list li {  
+    font-size: 13px; 
+    height: 24px;
+    width: 25px;
+  }
+  #nav #nav-list li a, #nav #nav-list li span { 
+    color:rgba(0,0,0,0);
+    font-size: 0px;
+    padding-bottom: 8px !important;
+    padding-top: 18px !important;
+    background-position-x: 10px;
+  }
+
+
+}
+
+#nav #nav-list { 
+  list-style:none; 
+  border-bottom: 2px solid #f76b00;
+}
+#nav #nav-list li {
+  display:inline; 
+  padding:0 4px;
+}
+
+
+#nav #nav-list li a, #nav #nav-list li span {
+  padding-left: 28px;
+  padding-right: 13px;
+  padding-top: 6px;
+  padding-bottom:4px;
+  text-transform: uppercase;
+  color: white; 
+
+  text-decoration: none;
+  border: 1px solid #999;
+  border-bottom: none;
+  border-radius:5px 5px 0 0; 
+}
+
+#nav #nav-list li span {
+  background-color: #fe8933;
+}
+
+
+#nav-list a:hover {
+  -moz-transition:all 0.3s ease-in-out;
+  -webkit-transition:all 0.3s ease-in-out;
+  transition:all 0.3s ease-in-out; 
+}
+
+
+#nav-list .nav-home a, #nav-list .nav-home span { 
+  background:asset_url('tabs/icons/home_white.png') no-repeat 5px 4px transparent; 
+  background-color: #f76b00; 
+  background-size: 18px;
+}
+#nav-list .nav-home a:hover  {
+  background-color: #fe8933; 
+}
+
+
+#nav-list .nav-maps a, #nav-list .nav-maps span{ 
+  background:asset_url('tabs/icons/list_white.png') no-repeat 4px 5px transparent; 
+  background-color: #f76b00; 
+  background-size: 18px;
+}
+#nav-list .nav-maps a:hover  {
+  background-color: #fe8933; 
+}
+
+#nav-list .nav-geo-maps a, #nav-list .nav-geo-maps span { 
+  background:asset_url('tabs/icons/pin_white.png') no-repeat 5px 4px transparent; 
+  background-color: #f76b00; 
+  background-size: 12px;
+}
+#nav-list .nav-geo-maps a:hover  {
+  background-color: #fe8933; 
+}
+
+#nav-list .nav-add-map a, #nav-list .nav-add-map span { 
+  background:asset_url('tabs/icons/plus_white.png') no-repeat 5px 4px transparent; 
+  background-color: #f76b00; 
+  background-size: 18px;
+}
+#nav-list .nav-add-map a:hover  {
+  background-color: #fe8933; 
+}
+
+#nav-list .nav-layers a, #nav-list .nav-layers span { 
+  background:asset_url('tabs/icons/collections_white.png') no-repeat 5px 4px transparent; 
+  background-color: #f76b00; 
+  background-size: 19px;
+}
+#nav-list .nav-layers a:hover  {
+  background-color: #fe8933; 
+}
+
+#nav-list .nav-geo-layers a, #nav-list .nav-geo-layers span { 
+  background:asset_url('tabs/icons/pin_white.png') no-repeat 5px 4px transparent; 
+  background-color: #f76b00; 
+  background-size: 12px;
+}
+#nav-list .nav-geo-layers a:hover  {
+  background-color: #fe8933; 
+}
+
+#nav-list .nav-add-layer a, #nav-list .nav-add-layer span { 
+  background:asset_url('tabs/icons/maakmoziek_white.png') no-repeat 5px 5px transparent; 
+  background-color: #f76b00; 
+  background-size: 19px;
+}
+#nav-list .nav-add-layer a:hover  {
+  background-color: #fe8933; 
+}
+
+#nav-list .nav-help a, #nav-list .nav-help span{ 
+  background:asset_url('tabs/icons/help_white.png') no-repeat 5px 4px transparent; 
+  background-color: #f76b00; 
+  background-size: 18px;
+}
+#nav-list .nav-help a:hover  {
+  background-color: #fe8933; 
+}
+
+
+@-moz-document url-prefix() {
+  #nav-list li a, #nav-list li span { 
+    padding-bottom: 4px !important; 
+
+  } 
+}
+
+
+
+.buttonWarper, .buttonWarperBlue, input[type="submit"], .headerDiv .user_status a  {
+  background: #bebec8;
+  color: white;
+}
+
+.buttonWarper:hover, .buttonWarperBlue:hover, input[type="submit"]:hover, .headerDiv .user_status a:hover {
+  background: #f76b00;
+  color: white;
+}
+
+
+
+#warper-maindiv .buttonWarper, .warp_button {
+  background:#f76b00;
+}
+
+#warper-maindiv .buttonWarper:hover, #searchform input[type="submit"]:hover {
+  color: white;
+  background-color: #fe8933;
+}
+
+input[type="submit"], .submitStyle  {
+  padding:6px 3px 5px 3px;
+  background:#f76b00;
+  color:#fff;
+  cursor:pointer;
+}
+input[type="submit"]:hover, .submitStyle:hover  {
+  color: white;
+  background-color: #fe8933;
+}
+
+#searchform input[type="submit"] {
+  padding-left: 28px;
+  background:asset_url('tabs/icons/search_white.png') no-repeat 5px 5px transparent; 
+  background-color: #f76b00; 
+  background-size: 21px;
+  padding-right: 10px;
+  margin-right: 10px;
+  margin-left: 10px;
+}
+
+#geosearch-link .buttonWarper {
+  padding-left: 28px;
+  background:asset_url('tabs/icons/pin_white.png') no-repeat 5px 5px transparent; 
+  background-color: #f76b00; 
+  background-size: 12px;
+  padding-right: 10px;
+}
+
+#geosearch-link .buttonWarper:hover{
+  background:asset_url('tabs/icons/pin_white.png') no-repeat 5px 5px transparent; 
+  background-size: 12px;
+  color: white;
+  background-color: #fe8933;
+}
+
+#div_gcp_form input.warp_button {
+  background: #f76b00;
+  color: white;
+}
+
+#div_gcp_form input.warp_button:hover {
+  background: #fe8933;
+  color: white;
+}
+
+
+
+
+
+#map_table tr:nth-of-type(odd), #layer_table tr:nth-of-type(odd) {
+  background: #f3f3f5;
+}
+
+#map_table tr:nth-of-type(even), #layer_table tr:nth-of-type(even) {
+  background: white;
+}
+
+#map_table th, #layer_table th {
+  background: #fe8933;
+  color: #fff;
+}
+
+#map_table th a, #layer_table th a {
+  color: #fff;
+}
+#map_table th a:hover, #layer_table th a:hover {
+  color: #191970;
+}
+
+#map_table th:nth-child(odd), #layer_table th:nth-child(odd) {
+  background: #f76b00;
+}
+
+.table0
+{
+  background:#f3f3f5 none repeat scroll 0;
+}
+
+#search-form, #left-col {
+  background:#f3f3f5 
+}
+
+
+.omniauth_links a {
+  background: #fe8933;
+}
+
+.noUi-handle {
+  background: #bebec8 ;
+  border: 1px solid #bebec8;
+  box-shadow: inset 0 0 1px #bebec8,inset 0 1px 7px #bebec8,0 3px 6px -3px #bebec8;
+}
+
+
+
