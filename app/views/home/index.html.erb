@@ -57,10 +57,6 @@
   <div id="right-col">
     <div id="search-form">
       <%= render :partial => 'shared/search' -%>
-      <br/>
-      <p class="browseButtonBlock">
-        <%= link_to t(".all_maps"), maps_path, :class => "buttonWarper" %>
-      </p>
     </div>
 
     <div id="map_list">
@@ -83,7 +79,25 @@
         <%= link_to t(".all_my_maps"), my_maps_path(:user_id => current_user), :class => "buttonWarper" -%>
       <%end -%>
 
-      <br/>
+    
+      
+     <h3><%= t('.unrect_maps') %></h3>
+
+      <table id="map_table" cellpadding="3">
+        <thead>
+          <tr>
+              <th><%= t('common.map_th') %></th>
+              <th><%= t('common.title_th') %></th>
+              <th><%= t('common.year_th') %></th>
+              <th><%= t('common.last_th') %></th>
+              <th><%= t('common.status_th') %></th>
+          </tr>
+        </thead>
+        <%= render :partial => 'maps/map', :collection => @unwarped_maps unless @unwarped_maps.nil? %>
+      </table>
+
+      <%= link_to t(".see_maps"), maps_path, :class => "buttonWarper" %>
+
 
       <h3><%= t('.rect_maps') %></h3>
 
@@ -101,22 +115,6 @@
       </table>
       <%= link_to t(".see_maps"), maps_path, :class => "buttonWarper" %>
     
-      <h3><%= t('.unrect_maps') %></h3>
-
-      <table id="map_table" cellpadding="3">
-        <thead>
-          <tr>
-              <th><%= t('common.map_th') %></th>
-              <th><%= t('common.title_th') %></th>
-              <th><%= t('common.year_th') %></th>
-              <th><%= t('common.last_th') %></th>
-              <th><%= t('common.status_th') %></th>
-          </tr>
-        </thead>
-        <%= render :partial => 'maps/map', :collection => @unwarped_maps unless @unwarped_maps.nil? %>
-      </table>
-
-      <%= link_to t(".see_maps"), maps_path, :class => "buttonWarper" %>
 
     </div>
 
@@ -137,7 +135,7 @@
         <%= render :partial => 'layers/layer', :collection => @layers unless @layers.nil? %>
       </table>
       <%= link_to t(".view_layers"), layers_path, :class => "buttonWarper" %><br />
-      <%= link_to t(".create_layer"), new_layer_path, :class => "buttonWarper" %>
+      <%# link_to t(".create_layer"), new_layer_path, :class => "buttonWarper" %>
     </div>
 
   </div>
