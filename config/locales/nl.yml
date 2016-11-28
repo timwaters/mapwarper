@@ -130,10 +130,14 @@ nl:
     gcp: gcp
     last_th: Bijgewerkt
     layer: mozaïek
-    layer_count: 
+    layer_count:
+      one: "%{count} laag"
+      other: "%{count} lagen"
     layer_th: Mozaïek
     map: kaart
-    map_count: 
+    map_count:
+      one: "%{count} kaart"
+      other: "%{count} kaarten"
     map_th: Kaart
     my_maps_head: Mijn kaarten
     num_th: Aantal kaarten
@@ -323,7 +327,7 @@ nl:
         remember_me: Onthoud me
   home:
     index:
-      all_maps: Doorzoek alle kaarten
+      all_maps: Alle kaarten
       all_my_maps: Toon al mijn kaarten
       click_news: klik hier om verder te lezen
       create_layer: Maak een nieuw mozaïek
@@ -341,6 +345,7 @@ nl:
       see_maps: Bekijk alle kaarten
       tags: Tags
       title: Home -
+      unrect_maps: Deze kaarten moeten nog gegeorefereerd worden
       upload_map: Upload een kaart!
       view_layers: Bekijk alle mozaïeken
   imports:
@@ -352,6 +357,12 @@ nl:
       flash: Import verwijderd!
     edit:
       header: Wijzig import
+    exports:
+      gcps_csv_file: gcps.csv
+      gcps_csv_header: Exporteer alle controlepunten als CSV
+      header: Exporteer
+      maps_csv_file: kaarten.csv
+      maps_csv_header: Exporteer alle kaarten als CSV
     form:
       layers_label: Kaartlagen om de kaarten aan toe te wijzen
       metadata: CSV metadata bestand
@@ -366,6 +377,7 @@ nl:
       created: Gemaakt
       csv_header: Bulk Ground Control CSV Import
       csv_link: Importeer CSV
+      exports_link: Exporteer
       header: Imports
       id: Id
       layers: Kaartlagen
@@ -491,7 +503,7 @@ nl:
     geosearch:
       button: Zoek Locatie
       description_html: Versleep de kaart of zoom in - de kaart en de lijst worden geüpdatet met gevonden kaartlagen. <br /> Lagen worden getoond als ze een of meer gegeorefereerde kaarten bevatten, en zijn zichtbaar (niet een meta collectie/laag).
-      title: Zoek Mozaïeken op locatie
+      title: Zoek op locatie
     index:
       for: voor
       search: Zoek
@@ -654,7 +666,7 @@ nl:
       make_public: Openbaar maken
       max_size: 'Max afmetingen:'
       optional_hint: "(optioneel)"
-      photo_uuid: 
+      photo_uuid: Fotonummer
       place: 'Plaats van publicatie:'
       projection: 'Projectie:'
       published: 'Publicatiedatum:'
@@ -680,7 +692,9 @@ nl:
       confirm_my: echt deze kaart verwijderen uit uw lijst?
       depicts: Jaar
       gcp: controlepunten
-      gcp_count: 
+      gcp_count:
+        one: "%{count} controlepunt"
+        other: "%{count} controlepunten"
       in: In
       kml: Download KML
       links: Links
@@ -844,19 +858,19 @@ nl:
       about: Over
       add_layer: Maak mozaïek
       add_map: Upload Kaart
-      geosearch_layers: Zoek mozaïeken op locatie
-      geosearch_maps: Zoek kaarten op locatie
+      geosearch_layers: Zoek op locatie
+      geosearch_maps: Zoek op locatie
       help: Help
       home: Home
       layers: Zoek mozaïek
-      maps: Zoek in lijst
+      maps: Zoek een kaart
       rectified_maps: Zoek op kaart
     search:
       all_maps: Alle kaarten
       author: Auteur
       button: Zoek
       description: Beschrijving
-      find_geosearch: Zoek kaart op locatie
+      find_geosearch: Zoek op locatie
       only_rectified: Alleen gegeorefereerde kaarten
       publisher: Gepubliceerd door
       tags: Tags

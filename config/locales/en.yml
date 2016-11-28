@@ -358,11 +358,11 @@ en:
     edit:
       header: Edit Import
     exports:
-      header: Exports
-      maps_csv_header: Export all maps in CSV format
-      maps_csv_file: maps.csv
-      gcps_csv_header: Export all ground control points in CSV format
       gcps_csv_file: gcps.csv
+      gcps_csv_header: Export all ground control points in CSV format
+      header: Exports
+      maps_csv_file: maps.csv
+      maps_csv_header: Export all maps in CSV format
     form:
       layers_label: Layers to assign the maps to
       metadata: CSV Metadata File
