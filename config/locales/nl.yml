@@ -40,8 +40,10 @@ nl:
         one: importeer
         other: importeren
       layer:
-        one: laag
-        other: lagen
+        one: mozaïek
+        other: 'mozaïeken
+
+'
       map:
         one: kaart
         other: kaarten
@@ -52,7 +54,7 @@ nl:
         layer: Mozaïek %{layer_id}
         layers: Mozaïek
         map: Kaart %{map_id}
-        map_layers: Kaartlagen
+        map_layers: 'Mozaïeken '
         maps: Kaarten
         search: Zoek
       error_messages_for:
@@ -131,8 +133,8 @@ nl:
     last_th: Bijgewerkt
     layer: mozaïek
     layer_count:
-      one: "%{count} laag"
-      other: "%{count} lagen"
+      one: "%{count} mozaïek"
+      other: "%{count} mozaïeken"
     layer_th: Mozaïek
     map: kaart
     map_count:
@@ -364,7 +366,7 @@ nl:
       maps_csv_file: kaarten.csv
       maps_csv_header: Exporteer alle kaarten als CSV
     form:
-      layers_label: Kaartlagen om de kaarten aan toe te wijzen
+      layers_label: Mozaïeken om de kaarten aan toe te wijzen
       metadata: CSV metadata bestand
       name_label: Naam (geef een naam aan de import, verplicht)
     import:
@@ -380,7 +382,7 @@ nl:
       exports_link: Exporteer
       header: Imports
       id: Id
-      layers: Kaartlagen
+      layers: 'Mozaïeken '
       maps: kaarten
       maps_header: Importeer nieuwe kaarten
       maps_link: Voeg een nieuwe import toe
@@ -388,8 +390,8 @@ nl:
       status: Status
       user: Gebruiker
     layers:
-      header: Toegewezen aan kaartlagen
-      no_layers: Kaarten zijn niet toegevoegd aan een laag
+      header: 'Toegewezen aan mozaïeken '
+      no_layers: 'Kaarten zijn niet toegevoegd aan een mozaïek '
     maps:
       created: 'Gemaakt op %{created_at} door:'
       header: 'Importeer: %{name} Wijzig kaarten'
@@ -502,7 +504,7 @@ nl:
       source: Bron / Referentie URL
     geosearch:
       button: Zoek Locatie
-      description_html: Versleep de kaart of zoom in - de kaart en de lijst worden geüpdatet met gevonden kaartlagen. <br /> Lagen worden getoond als ze een of meer gegeorefereerde kaarten bevatten, en zijn zichtbaar (niet een meta collectie/laag).
+      description_html: Versleep de kaart of zoom in - de kaart en de lijst worden geüpdatet met gevonden items. <br /> Items worden getoond als ze een of meer gegeorefereerde kaarten bevatten, en zijn zichtbaar (niet een meta collectie/laag).
       title: Zoek op locatie
     index:
       for: voor
@@ -529,8 +531,8 @@ nl:
     merge:
       admin_only: "(alleen admins)"
       confirm: Bent u zeker? Dit kan niet ongedaan worden gemaakt.
-      destination: Bestemmingslaag
-      flash: Het moscaic is samengevoegd aan een nieuwe laag - alle kaarten zijn erheen gekopieerd!
+      destination: Bestemming
+      flash: Het moscaic is samengevoegd aan een nieuwe - alle kaarten zijn erheen gekopieerd!
       header: Mozaïek samenvoegen
       help_html: Voeg dit mozaïek samen met een andere. <br /> Verwijder de verwijzingen naar %{count_maps} kaarten van het mozaïek %{layer_id} en verplaatst ze naar de opgegeven bestemmings mozaïek. <br /> Dit kan niet ongedaan worden gemaakt!
       merge_button: Voeg mozaïek samen!
@@ -650,7 +652,7 @@ nl:
       wms: WMS
       wms_link: WMS Capabilities URL
     form:
-      are_visible: Kaarten zijn standaard voor alle gebruikers zichtbaar.
+      are_visible: Kaarten zijn voor alle gebruikers zichtbaar.
       author: 'Auteur(s):'
       call: Telefoonnummer
       depicted: 'Datum:'
@@ -683,7 +685,7 @@ nl:
       upload_url: 'Upload via een URL:'
     geosearch:
       button: Zoek Locatie
-      description: Beweeg de kaart of zoom in - zowel de kaart als de lijst worden geüpdatet met gevonden kaarten.
+      description: Beweeg de kaart, of zoom in/uit. Zowel de kaart als de lijst worden geüpdatet met de gevonden resultaten.
       title: Zoek op kaart
     index:
       results: 'Gezocht naar:'
@@ -764,12 +766,12 @@ nl:
       flash: Het updaten van de kaart is gelukt.
     warp:
       add_manually_button: Voeg handmatig controlepunt toe
-      advanced_options: Uitgebreide mogelijkheiden
+      advanced_options: Uitgebreide mogelijkheden
       apply_mask_html: Gebruik <a href='%{href}'>uitsnede </a> bij het georefereren?
       auto_method: Auto - gebaseerd op het aantal controlepunten (standaard)
       bilinear: Bilinear
       click_button: Voeg controlepunt toe
-      click_text_btm: Doe dit voor tenminste drie punten.Via Controlepunt in het Controlepaneel, kunt u punten verwijderen of handmatig plaatsen.
+      click_text_btm: Doe dit voor tenminste drie punten. Via 'Bekijk de controlepunten' in het Controlepaneel, kunt u punten verwijderen of handmatig plaatsen.
       click_text_top: Markeer een locatie op beide kaarten met een controlepunt. Klik dan op
       close_popup: Sluit popup
       cubic: Cubic
@@ -785,7 +787,7 @@ nl:
       gcp_upload_label: CSV bestand met controlepunten
       gcp_x: Afbeelding X
       gcp_y: Afbeelding Y
-      gcps_link: Controlepunt
+      gcps_link: Bekijk de controlepunten
       lanczos: Lanczos
       method_label: 'Georefereer methode:'
       near: Nearest Neighbour, snelste (standaard)
@@ -799,7 +801,7 @@ nl:
       title: Georefereer kaart
       tps_method: Thin Plate Spline (veel punten, erg verspreid)
       unmasked_question_html: Deze kaart is nog niet uitgesneden. Wilt u <a href='%{href}'>een uitsnede toevoegen of wijzigen</a>?
-      warp_button: Warp afbeelding! &rarr;
+      warp_button: Georefereer de kaart! &rarr;
     warp_aligned:
       no_destination: 'Sorry, de bestemmings kaart is niet beschikbaar voor het alignen. '
       success: Kaart is aligned. Nu kunt u hem georefereren!
@@ -838,7 +840,7 @@ nl:
       add_map: Kaart toevoegen
       help: Help
       home: Home
-      supported_by_html: Mede mogelijk gemaakt door <a href='https://www.erfgoedleiden.nl'>Erfgoed Leiden en Omstreken</a>, <a href='http://maps.nypl.org'>New York Public Library</a>  en <a href='http://topomancy.com'>Topomancy LLC</a>
+      supported_by_html: Mede mogelijk gemaakt door <a href='https://www.erfgoedleiden.nl'>Erfgoed Leiden en Omstreken</a>
     header:
       admin_users: Admin gebruikers
       all_activity: Alle activiteiten

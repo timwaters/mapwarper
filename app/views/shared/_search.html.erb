@@ -1,5 +1,5 @@
 <%= form_tag url_for(:controller => "maps"), :id=>"searchform",:name=> "searchform", :method => :get do -%>
-  Search  
+  <%= t('.search') %>  
   <select id="field" name="field">
     <%= options_for_select([ [t('.title'), "title"], 
             [t('.description'), "description"], 
@@ -7,7 +7,7 @@
         [t('.author'), "authors"],
         [t('.tags'), "tags"]], @field)-%>
   </select>
-  for 
+  <%= t('.for') %> 
   <%= text_field_tag 'query', @query -%>
   <input type="hidden" id="from" />
   <input type="hidden" id="to"/>

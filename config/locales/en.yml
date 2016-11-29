@@ -871,9 +871,11 @@ en:
       button: Search
       description: Description
       find_geosearch: Find Rectified Maps by Location
+      for: for
       only_rectified: Rectified maps only
       publisher: Publisher
       tags: Tags
+      search: Search
       title: Title
   user_mailer:
     disabled_change_password:
