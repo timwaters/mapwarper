@@ -558,8 +558,8 @@ class Map < ActiveRecord::Base
     #copy over orig to a new unmasked file
     FileUtils.copy(unwarped_filename, masked_src_filename)
     
-    
-    command = "#{GDAL_PATH}gdal_rasterize -i  -burn 17 -b 1 -b 2 -b 3 #{masking_file} -l #{layer} #{masked_src_filename}"
+    gdal_rasterize_path = APP_CONFIG['gdal_rasterize_path'] || ''
+    command = "#{gdal_rasterize_path}gdal_rasterize -i  -burn 17 -b 1 -b 2 -b 3 #{masking_file} -l #{layer} #{masked_src_filename}"
     r_stdout, r_stderr = Open3.capture3( command )
     logger.info command
     
