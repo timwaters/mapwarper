@@ -973,7 +973,7 @@ class MapsController < ApplicationController
       :source_uri, :call_number, :publisher, :publication_place, :authors, :date_depicted, :scale,
       :metadata_projection, :metadata_lat, :metadata_lon, :public,
       "published_date(3i)", "published_date(2i)", "published_date(1i)", "reprint_date(3i)", 
-      "reprint_date(2i)", "reprint_date(1i)", :upload_url, :upload, :issue_year ) 
+      "reprint_date(2i)", "reprint_date(1i)", :upload_url, :upload, :issue_year, :photo_uuid ) 
   end
   
   def choose_layout_if_ajax
