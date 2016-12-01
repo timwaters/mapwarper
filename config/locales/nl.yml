@@ -41,9 +41,7 @@ nl:
         other: importeren
       layer:
         one: mozaïek
-        other: 'mozaïeken
-
-'
+        other: 'mozaïeken'
       map:
         one: kaart
         other: kaarten
@@ -341,7 +339,7 @@ nl:
       overview_header: Welkom
       overview_p1: Map Warper is een tool voor het georefereren (op de juiste geografische locatie leggen) van historische kaarten. U bent van harte welkom om de kaarten te bekijken, te downloaden, maar ook om te helpen bij het georefereren. Het is ook mogelijk om zelf rechtenvrije kaarten te uploaden. Bekijk de video hierboven en leer hoe u mee kunt doen!
       overview_p2: In het tabblad 'Help' vindt u meer informatie over de werking en mogelijkheden van Map Warper.
-      overview_p3: ""
+      overview_p3: 
       recent_layers: Recente mozaïeken
       rect_maps: Recent gegeorefereerde kaarten
       see_maps: Bekijk alle kaarten
