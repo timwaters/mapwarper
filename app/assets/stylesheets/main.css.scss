@@ -1497,9 +1497,10 @@ font-size: smaller;
 
 
 /* OPENLAYERS spechul stilz */
+
 .olPopupCloseBox {
-    background: transparent asset_url("close.gif") no-repeat scroll 0% 0%;
-        margin-right: -3px;
+    background: asset_url("close.gif") no-repeat scroll 0% 0%;
+    margin-right: -3px;
     }
 
 div.olControlMousePosition
