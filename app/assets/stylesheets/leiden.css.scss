@@ -294,3 +294,23 @@ input[type="submit"]:hover, .submitStyle:hover  {
   background: #fe8933;
 }
 
+.addPointHighlighted{
+  border: 2px solid #44a140;
+}
+
+#gcp input.gcp_button_highlighted {
+  border: 2px solid #44a140;
+}
+
+fieldset#control_panel_fieldset {
+    border: 1px solid #44a140;
+}
+.highlighted {
+    border: 2px solid #44a140;
+}
+
+#Export a, #Export a:link, #Export a:visited, #clipping_mask_buttons a, #clipping_mask_buttons a:link,
+#clipping_mask_buttons a:visited, #map_table a, #map_table a:link,
+#map_table a:visited, #Activity a, #Activity a:link, #Activity a:visited {
+    text-decoration: underline;
+}
