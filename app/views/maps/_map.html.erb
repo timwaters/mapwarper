@@ -15,11 +15,6 @@
         <%end %>
       </span>
 
-      <span class="map_year">
-        <% if map.depicts_year -%>
-          <%= t('.depicts') %>: <%= map.depicts_year -%>
-        <% end -%>
-      </span>
       <% if !map.public? %><span class="publicprivate">(<%= t('.private') %>)</span><% end-%>
     </div>
     <div class="map_links_bigger">

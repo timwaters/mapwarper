@@ -11,9 +11,6 @@
       <%= layer.description %>
       <%- if layer.user -%><%= t('.made_by') %> <%= link_to(layer.user.login, user_path(layer.user)) -%>.<%-end-%>
     </span>
-    <span class="layer_year">
-      <%if layer.depicts_year%><%= t('.depicts') %>: <%= layer.depicts_year %> <%end%>
-    </span>
     <span class="map_links">
       <%- if layer.source_uri -%>
         <%= t('.links') %>: <%= link_to t('.source'),layer.source_uri  %>
