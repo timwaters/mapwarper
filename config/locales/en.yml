@@ -706,6 +706,7 @@ en:
       save_my: Save to My Maps
       source: Source / Biblio Ref
       unwarped: Unrectified
+      view_map: View Map
       warp_map: Rectify Map
     map_detail:
       last_modified: Last modified
@@ -874,8 +875,8 @@ en:
       for: for
       only_rectified: Rectified maps only
       publisher: Publisher
-      tags: Tags
       search: Search
+      tags: Tags
       title: Title
   user_mailer:
     disabled_change_password:

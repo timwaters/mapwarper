@@ -23,7 +23,7 @@
       <% if !map.public? %><span class="publicprivate">(<%= t('.private') %>)</span><% end-%>
     </div>
     <div class="map_links_bigger">
-      <%= link_to("View Map",map) -%>
+      <%= link_to(t('.view_map'),map) -%>
       |
       <% if !admin_authorized? && map.published? %>
         <strong title ="<%= t('.published_warn') %>"><%= t('.published') %></strong>
