@@ -259,6 +259,7 @@ nl:
         new_unlock_instructions: Geen deblokkeer instructies ontvangen?
         openstreetmap: OpenStreetMap
         sign_up: Registreren
+        social_sign_in: "Alternatively, %{action} with:"
         twitter: Twitter
         wikimedia: Wikimedia Commons
     unlocks:
@@ -976,6 +977,7 @@ nl:
         single_page_html:
           one: Toon <b>1</b> %{model}
           other: Toon <b>all&nbsp;%{count}</b> %{model}
+    next_label: "Volgende &#8594;"
     page_entries_info:
       multi_page: Toon %{model} %{from} - %{to} van %{count} in totaal
       multi_page_html: Toon %{model} <b>%{from}&nbsp;-&nbsp;%{to}</b> van <b>%{count}</b> in totaal
@@ -985,3 +987,5 @@ nl:
       single_page_html:
         one: Toon <b>1</b> %{model}
         other: Toon <b>all&nbsp;%{count}</b> %{model}
+    page_gap: "&hellip;"
+    previous_label: "&#8592; Vorige"

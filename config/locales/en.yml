@@ -259,6 +259,7 @@ en:
         new_unlock_instructions: Didn't receive unlock instructions?
         openstreetmap: OpenStreetMap
         sign_up: Sign up
+        social_sign_in: "Alternatively, %{action} with:"
         twitter: Twitter
         wikimedia: Wikimedia Commons
     unlocks:
@@ -978,6 +979,7 @@ en:
           one: Displaying <b>1</b> %{model}
           other: Displaying <b>all&nbsp;%{count}</b> %{model}
           zero: No %{model} found
+    next_label: "Next &#8594;"
     page_entries_info:
       multi_page: Displaying %{model} %{from} - %{to} of %{count} in total
       multi_page_html: Displaying %{model} <b>%{from}&nbsp;-&nbsp;%{to}</b> of <b>%{count}</b> in total
@@ -989,3 +991,5 @@ en:
         one: Displaying <b>1</b> %{model}
         other: Displaying <b>all&nbsp;%{count}</b> %{model}
         zero: No %{model} found
+    page_gap: "&hellip;"
+    previous_label: "&#8592; Previous"

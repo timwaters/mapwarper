@@ -26,7 +26,7 @@
 %>
      
 <div class="omniauth_links">
-  Alternatively, <%= sign_action %> with: <br /> 
+  <%= t('.social_sign_in', :action => sign_action) %> <br /> 
   <span class="facebook">
     <%= link_to "#{image_tag("facebook_logo.png", width: '25', height: '25')} #{t('.facebook')}".html_safe, omniauth_authorize_path(resource_name, "facebook"), :class=>"facebook" %>
   </span>
