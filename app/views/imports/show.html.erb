@@ -33,7 +33,7 @@
       <%= t('.count_files') %>  <%= @import.file_count  %>
     </div>
 
-    <%= link_to(t('start_button'), start_import_path(@import), :data => {:confirm => t('.start_confirm')}, :class=>"buttonWarper") %>
+    <%= link_to(t('.start_button'), start_import_path(@import), :data => {:confirm => t('.start_confirm')}, :class=>"buttonWarper") %>
 
   <% else %>
 
