@@ -291,8 +291,13 @@ input[type="submit"]:hover, .submitStyle:hover  {
 }
 
 .ui-state-hover, .ui-widget-content .ui-state-hover, .ui-state-focus, .ui-widget-content .ui-state-focus {
-  background: #fe8933;
+  background: #f76b00;
 }
+
+.ui-widget-content .ui-state-active {
+  background-color: #fe8933;
+}
+
 
 .addPointHighlighted{
   border: 2px solid #44a140;
