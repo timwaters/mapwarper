@@ -187,10 +187,10 @@
       <div id ="clipping_mask_buttons">
 
         <% if @map.mask_status.nil? || @map.mask_status == :unmasked -%>
-          <%= t('.unmasked_question_html', :href => url_for(map_path(:id =>@map, :anchor=>"Crop_tab"))) %>
+          <%= t('.unmasked_question_html', :href => url_for(map_path(:id =>@map, :anchor=>"#{t('layouts.tabs.crop')}_tab"))) %>
           <br />
         <% end %>
-          <%= t('.apply_mask_html', :href=> url_for(map_path(:id =>@map, :anchor=>"Crop_tab"))) %>
+          <%= t('.apply_mask_html', :href=> url_for(map_path(:id =>@map, :anchor=>"#{t('layouts.tabs.crop')}_tab"))) %>
         <label for="use_mask1">
           <input <% if @map.mask_status == :masked -%>checked<%end-%> id="use_mask1" type="radio" name="use_mask" value="true" />Yes
         </label>

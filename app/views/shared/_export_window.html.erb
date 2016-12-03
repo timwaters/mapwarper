@@ -53,7 +53,7 @@
             <% else -%>
               <li> Log in for</li>
             <% end -%>
-            <li> <%= link_to_if(user_signed_in?, t('.more'), map_path(:id=> @map,:anchor=>"Export_tab")) -%> </li>
+            <li> <%= link_to_if(user_signed_in?, t('.more'), map_path(:id=> @map,:anchor=>"#{t('layouts.tabs.export')}_tab")) -%> </li>
           </ul>
         <% else  -%>
   <%#layer%>
@@ -67,7 +67,7 @@
             <% unless user_signed_in? -%>
               <li> Log in for</li>
             <% end -%>
-            <li> <%= link_to_if(user_signed_in?, t('.more'), layer_path(:id=> @layer,:anchor=>"Export_tab")) -%> </li>
+            <li> <%= link_to_if(user_signed_in?, t('.more'), layer_path(:id=> @layer,:anchor=>"#{t('layouts.tabs.export')}_tab")) -%> </li>
 
           </ul>
 

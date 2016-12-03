@@ -714,9 +714,9 @@ class LayersController < ApplicationController
   def store_location
     case request.parameters[:action]
     when "metadata"
-      anchor = "Metadata_tab"
+      anchor = "#{t('layouts.tabs.metadata')}_tab" 
     when "export"
-      anchor = "Export_tab"
+      anchor = "#{t('layouts.tabs.export')}_tab"
     else
       anchor = ""
     end

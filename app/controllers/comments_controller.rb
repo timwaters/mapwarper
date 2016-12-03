@@ -31,7 +31,7 @@ class CommentsController < ApplicationController
         flash.now[:notice] = t('.error')
       end
     end
-    redirect_to polymorphic_path(commentable, :anchor => "Comments_tab")
+    redirect_to polymorphic_path(commentable, :anchor => "#{t('layouts.tabs.comments')}_tab")
   end
 
   def create
@@ -48,7 +48,7 @@ class CommentsController < ApplicationController
     # Add the comment
     commentable.comments << comment
     
-    redirect_to polymorphic_path(commentable, :anchor => "Comments_tab")
+    redirect_to polymorphic_path(commentable, :anchor => "#{t('layouts.tabs.comments')}_tab")
   end
 
   private
