@@ -4,13 +4,13 @@
 }
 
 h1 {
-	background: asset_url('leiden_header_logo.png') 0 50% scroll no-repeat; 
+  background: asset_url('leiden_header_logo.png') 0 50% scroll no-repeat; 
 }
 
 .headerDiv {
-	background: #e2dedb asset_url('leiden_header_bg.jpg') 0 -30px scroll; 
+  background: #e2dedb asset_url('leiden_header_bg.jpg') 0 -30px scroll; 
 }
- 
+
 /*responsive nav tabs*/
 
 
@@ -267,8 +267,8 @@ input[type="submit"]:hover, .submitStyle:hover  {
   color: white;
 }
 .omniauth_links a:hover { 
-	background: #fe8933;
-	color: white ;
+  background: #fe8933;
+  color: white ;
 }
 
 
@@ -303,14 +303,35 @@ input[type="submit"]:hover, .submitStyle:hover  {
 }
 
 fieldset#control_panel_fieldset {
-    border: 1px solid #44a140;
+  border: 1px solid #44a140;
 }
 .highlighted {
-    border: 2px solid #44a140;
+  border: 2px solid #44a140;
 }
 
-#Export a, #Export a:link, #Export a:visited, #clipping_mask_buttons a, #clipping_mask_buttons a:link,
-#clipping_mask_buttons a:visited, #map_table a, #map_table a:link,
-#map_table a:visited, #Activity a, #Activity a:link, #Activity a:visited {
+#Export a, #Export a:link, #Export a:visited, 
+#clipping_mask_buttons a, #clipping_mask_buttons a:link, #clipping_mask_buttons a:visited, 
+#map_table a, #map_table a:link, #map_table a:visited, 
+#layer_table a, #layer_table a:link, #layer_table a:visited, 
+#Activity a, #Activity a:link, #Activity a:visited{
+  text-decoration: underline;
+}
+
+#layer_table, #map_table {
+  th a{
+     text-decoration: none !important;
+  }
+}
+
+.maplist_title, .layer_title  {
+  a:link,  a:visited,  a:link {
+    text-decoration: none !important;
+  }
+}
+
+.home-help, .export-tab-container, #video-intro {
+  a:link,  a:visited,  a:link {
     text-decoration: underline;
+  }
+  
 }

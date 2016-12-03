@@ -969,11 +969,15 @@ nl:
   will_paginate:
     layer:
       page_entries_info:
+        multi_page: Toon %{model} %{from} - %{to} van %{count} in totaal
+        multi_page_html: Toon %{model} <b>%{from}&nbsp;-&nbsp;%{to}</b> van <b>%{count}</b> in totaal
         single_page_html:
           one: Toon <b>1</b> %{model}
           other: Toon <b>all&nbsp;%{count}</b> %{model}
     map:
       page_entries_info:
+        multi_page: Toon %{model} %{from} - %{to} van %{count} in totaal
+        multi_page_html: Toon %{model} <b>%{from}&nbsp;-&nbsp;%{to}</b> van <b>%{count}</b> in totaal
         single_page_html:
           one: Toon <b>1</b> %{model}
           other: Toon <b>all&nbsp;%{count}</b> %{model}
