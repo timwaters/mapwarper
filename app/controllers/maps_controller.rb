@@ -988,15 +988,15 @@ class MapsController < ApplicationController
   def store_location
     case request.parameters[:action]
     when "warp"
-      anchor = "Rectify_tab"
+      anchor = "#{t('layouts.tabs.rectify')}_tab"
     when "clip"
-      anchor = "Crop_tab"
+      anchor = "#{t('layouts.tabs.crop')}_tab"
     when "align"
-      anchor = "Align_tab"
+      anchor = "#{t('layouts.tabs.align')}_tab"
     when "export"
-      anchor = "Export_tab"
+      anchor = "#{t('layouts.tabs.export')}_tab"
     when "comments"
-      anchor = "Comments_tab"
+      anchor = "#{t('layouts.tabs.comments')}_tab"
     else
       anchor = ""
     end

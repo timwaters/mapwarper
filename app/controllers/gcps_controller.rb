@@ -181,7 +181,7 @@ class GcpsController < ApplicationController
       gcps = Gcp.add_many_from_file(params[:file], params[:mapid])
     end
     
-    redirect_to  map_path(:id => params[:mapid], :anchor => "Rectify_tab"), :notice => t('.notice')
+    redirect_to  map_path(:id => params[:mapid], :anchor => "#{t('layouts.tabs.rectify')}_tab"), :notice => t('.notice')
   end
   
   def index

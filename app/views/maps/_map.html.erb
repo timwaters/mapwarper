@@ -23,7 +23,7 @@
       <% if !admin_authorized? && map.published? %>
         <strong title ="<%= t('.published_warn') %>"><%= t('.published') %></strong>
       <%  else %>
-        <%= link_to(t('.warp_map'), map_path(:id=> map.id,:anchor=>"Rectify_tab")) -%>
+        <%= link_to(t('.warp_map'), map_path(:id=> map.id,:anchor=>"#{t('layouts.tabs.rectify')}_tab")) -%>
       <% end %>
       <% if user_signed_in? -%>
         <% current_user_maps = current_user.maps %>

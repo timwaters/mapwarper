@@ -40,7 +40,7 @@
          |
       <% end  %>
       <% if user_signed_in? && (admin_authorized? or current_user.own_this_layer?(layer.id)) -%>
-        <%= link_to t('.edit'), layer_path(:id=>layer, :anchor=>"Edit_tab") -%> |
+        <%= link_to t('.edit'), layer_path(:id=>layer, :anchor=>"#{t('layouts.tabs.edit')}_tab") -%> |
       <% end -%>
       <% if admin_authorized? -%>
         <%= link_to(t('.merge'), :controller => "layers", :action=> "merge", :id => layer) %> |
