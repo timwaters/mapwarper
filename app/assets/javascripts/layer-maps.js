@@ -135,7 +135,7 @@ function onFeatureSelect(feature) {
     "<div class='layermap-popup'> Map "+
       feature.mapId + "<br /> <a href='" + mapBaseURL + "/"+ feature.mapId + "' target='_blank'>"+feature.mapTitle+"</a><br />"+
       "<img src='"+mapThumbBaseURL+feature.mapId+"' height='80'>"+
-      "<br /> <a href='"+mapBaseURL+"/"+feature.mapId+"#Rectify_tab' target='_blank'>"+I18n['layers']['edit_map']+"</a>"+
+      "<br /> <a href='"+mapBaseURL+"/"+feature.mapId+"#Georefereer_tab' target='_blank'>"+I18n['layers']['edit_map']+"</a>"+
       "</div>",
     null, true, onPopupClose);
   popup.minSize = new OpenLayers.Size(180,150);
