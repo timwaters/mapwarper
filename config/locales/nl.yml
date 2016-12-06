@@ -156,20 +156,11 @@ nl:
         resend_button: Bevestigingsinstructies opnieuw verzenden
       send_instructions: U ontvangt binnen een paar minuten een e-mail met instructies voor het bevestigen van uw account.
       send_paranoid_instructions: Als uw e-mailadres al in onze database voorkomt, ontvangt u binnen een paar minuten een e-mail met instructies voor het bevestigen van uw account.
-    errors:
-      messages:
-        already_confirmed: is al bevestigd, probeer alstublieft in te loggen
-        confirmation_period_expired: moet bevestigd worden binnen %{period}, vraag alstublieft een nieuwe aan
-        expired: is verlopen, vraag alstublieft een nieuwe aan
-        not_found: niet gevonden
-        not_locked: is niet vergrendeld
-        not_saved:
-          one: '1 fout verhinderde dat deze %{resource} kon worden opgeslagen:'
-          other: "%{count} fouten verhinderden dat deze %{resource} kon worden opgeslagen:"
     failure:
       already_authenticated: U bent al ingelogd.
       inactive: Uw account is nog niet geactiveerd.
       invalid: Het e-mailadres of wachtwoord is ongeldig.
+      invalid_token: Ongeldig authenticiteit token.
       last_attempt: U heeft nog een poging voordat uw account geblokkeerd wordt.
       locked: Uw account is geblokkeerd.
       not_found_in_database: 'Het e-mailadres of wachtwoord is ongeldig. '
@@ -242,6 +233,7 @@ nl:
       update_needs_confirmation: Het updaten van uw account is gelukt, maar u moet uw nieuwe e-mailadres bevestigen. U ontvangt een bevestigingslink per e-mail, waarmee u uw nieuwe adres kan bevestigen.
       updated: Het updaten van uw account is gelukt.
     sessions:
+      already_signed_out: Uitloggen is gelukt.
       new:
         header: Log in
         login_button: Log in
@@ -271,6 +263,16 @@ nl:
     users_registrations:
       user:
         signed_up: Welkom! Het aanmelden is gelukt.
+  errors:
+    messages:
+      already_confirmed: is al bevestigd, probeer alstublieft in te loggen
+      confirmation_period_expired: moet bevestigd worden binnen %{period}, vraag alstublieft een nieuwe aan
+      expired: is verlopen, vraag alstublieft een nieuwe aan
+      not_found: niet gevonden
+      not_locked: is niet vergrendeld
+      not_saved:
+        one: '1 fout verhinderde dat deze %{resource} kon worden opgeslagen:'
+        other: "%{count} fouten verhinderden dat deze %{resource} kon worden opgeslagen:"
   gcps:
     add:
       new_gcp_notice: Nieuw controlepunt toegevoegd.

@@ -158,20 +158,11 @@ en:
         resend_button: Resend confirmation instructions
       send_instructions: You will receive an email with instructions about how to confirm your account in a few minutes.
       send_paranoid_instructions: If your email address exists in our database, you will receive an email with instructions about how to confirm your account in a few minutes.
-    errors:
-      messages:
-        already_confirmed: was already confirmed, please try signing in
-        confirmation_period_expired: needs to be confirmed within %{period}, please request a new one
-        expired: has expired, please request a new one
-        not_found: not found
-        not_locked: was not locked
-        not_saved:
-          one: '1 error prohibited this %{resource} from being saved:'
-          other: "%{count} errors prohibited this %{resource} from being saved:"
     failure:
       already_authenticated: You are already signed in.
       inactive: Your account is not activated yet.
       invalid: Invalid email or password.
+      invalid_token: Invalid authentication token
       last_attempt: You have one more attempt before your account will be locked.
       locked: Your account is locked.
       not_found_in_database: Invalid email or password.
@@ -243,6 +234,7 @@ en:
       update_needs_confirmation: You updated your account successfully, but we need to verify your new email address. Please check your email and click on the confirm link to finalize confirming your new email address.
       updated: You updated your account successfully.
     sessions:
+      already_signed_out: Signed out successfully.
       new:
         header: Log in
         login_button: Log in
@@ -272,6 +264,16 @@ en:
     users_registrations:
       user:
         signed_up: Welcome! You have signed up successfully.
+  errors:
+    messages:
+      already_confirmed: was already confirmed, please try signing in
+      confirmation_period_expired: needs to be confirmed within %{period}, please request a new one
+      expired: has expired, please request a new one
+      not_found: not found
+      not_locked: was not locked
+      not_saved:
+        one: '1 error prohibited this %{resource} from being saved:'
+        other: "%{count} errors prohibited this %{resource} from being saved:"
   gcps:
     add:
       new_gcp_notice: New control point added.
