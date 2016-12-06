@@ -180,7 +180,6 @@ nl:
       confirmation_instructions:
         about_site: |-
           %{site_name} is een crowd source site, waar u kaarten kunt ontdekken, georefereren en uploaden. U kunt de gegeorefereerde kaarten downloaden in een aantal bestandsformaten, waaronder KML, WMS en Tiles.
-          a participatory site where you can discover, georeference and upload your own maps and imagery. You can georectify or warp the map to base map to be able to use the map in new ways. You can download the georeferenced image in a number of formats including KML, WMS, and Tiles.
         click_the_link: 'U kunt uw e-mail adres bevestigen met de link hieronder:'
         confirm_button: Bevestig mijn account
         greeting: 'Welkom, '
