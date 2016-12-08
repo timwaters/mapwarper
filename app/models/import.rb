@@ -166,7 +166,7 @@ class Import < ActiveRecord::Base
   #counts number of files in the directory 
   def dir_file_count
     directory = APP_CONFIG['import_maps_sftp_path']
-    Dir[File.join(directory, '**', '*')].count { |file| File.file?(file) }
+    Dir[File.join(directory, '**')].count { |file| File.file?(file) }
   end
   
   protected

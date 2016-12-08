@@ -1,5 +1,6 @@
 <script type="text/javascript">
   var keepOnPolling = true;
+  var progressbar;
   function pollServer() {
     if (keepOnPolling) {
       jQuery.ajax({
@@ -14,6 +15,7 @@
             jQuery('#spinner').hide();
           }
           jQuery('#updateMe').html("<%= t('.status')  %>: "+ json.status + " <%= t('.imported_count')  %>: " + json.count );
+          progressbar.progressbar( "value", json.count );
         },
         error: function() {
           keepOnPolling = false;
@@ -29,7 +31,12 @@
   jQuery(document).ready(function() {
     jQuery('#afterImport').hide();
     jQuery('#spinner').show();
+    
     var myvar = setInterval(pollServer, 4000);
+    progressbar = jQuery( "#prog" ).progressbar({
+      value: 0,
+      max: <%= @import.file_count %>
+    });
 
   });
 
@@ -39,6 +46,7 @@
 
 <span id="spinner" style="display:none;"><%= image_tag 'spinner-horiz.gif' %></span>
 <%= t('.progress') %><br />
+<div id="prog"><div class="progress-label"></div></div>
 <div id="updateMe">
   <%= t('.importing') %>
 </div>
