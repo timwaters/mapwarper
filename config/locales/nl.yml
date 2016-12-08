@@ -156,6 +156,16 @@ nl:
         resend_button: Bevestigingsinstructies opnieuw verzenden
       send_instructions: U ontvangt binnen een paar minuten een e-mail met instructies voor het bevestigen van uw account.
       send_paranoid_instructions: Als uw e-mailadres al in onze database voorkomt, ontvangt u binnen een paar minuten een e-mail met instructies voor het bevestigen van uw account.
+    errors:
+      messages:
+        already_confirmed: is al bevestigd, probeer alstublieft in te loggen
+        confirmation_period_expired: moet bevestigd worden binnen %{period}, vraag alstublieft een nieuwe aan
+        expired: is verlopen, vraag alstublieft een nieuwe aan
+        not_found: niet gevonden
+        not_locked: is niet vergrendeld
+        not_saved:
+          one: '1 fout verhinderde dat deze %{resource} kon worden opgeslagen:'
+          other: "%{count} fouten verhinderden dat deze %{resource} kon worden opgeslagen:"
     failure:
       already_authenticated: U bent al ingelogd.
       inactive: Uw account is nog niet geactiveerd.
@@ -169,8 +179,7 @@ nl:
       unconfirmed: Bevestig uw account om verder te kunnen.
     mailer:
       confirmation_instructions:
-        about_site: |-
-          %{site_name} is een crowd source site, waar u kaarten kunt ontdekken, georefereren en uploaden. U kunt de gegeorefereerde kaarten downloaden in een aantal bestandsformaten, waaronder KML, WMS en Tiles.
+        about_site: "%{site_name} is een crowd source site, waar u kaarten kunt ontdekken, georefereren en uploaden. U kunt de gegeorefereerde kaarten downloaden in een aantal bestandsformaten, waaronder KML, WMS en Tiles."
         click_the_link: 'U kunt uw e-mail adres bevestigen met de link hieronder:'
         confirm_button: Bevestig mijn account
         greeting: 'Welkom, '
@@ -339,9 +348,9 @@ nl:
       more: lees meer
       news: Nieuws
       overview_header: Welkom
-      overview_p1: Map Warper is een tool voor het georefereren (op de juiste geografische locatie leggen) van historische kaarten. U bent van harte welkom om de kaarten te bekijken, te downloaden, maar ook om te helpen bij het georefereren. Het is ook mogelijk om zelf rechtenvrije kaarten te uploaden. Bekijk de video hierboven en leer hoe u mee kunt doen!
-      overview_p2: In het tabblad 'Help' vindt u meer informatie over de werking en mogelijkheden van Map Warper.
-      overview_p3: 
+      overview_p1: 'Map Warper is een tool om historische kaarten op de digitale kaart van nu te leggen.Dit heet georefereren. Door minimaal 3 markeringspunten op de historische kaart, en op dezelfde locatie op de moderne kaart te plaatsen, bepaalt u de ligging van de historisch kaart op de kaart van nu. '
+      overview_p2: 'Help nu mee het verleden van Leiden en Omstreken zichtbaar te maken in het digitale tijdperk. Bekijk de video hierboven en leer hoe u mee kunt doen. Of upload zelf historische (rechtenvrije) kaarten en plaats deze op de kaart van nu. '
+      overview_p3: 'Lees meer over de werking van de tool onder het tabblad ‘Help’ . '
       recent_layers: Recente mozaïeken
       rect_maps: Recent gegeorefereerde kaarten
       see_maps: Bekijk alle kaarten
