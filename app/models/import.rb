@@ -104,7 +104,7 @@ class Import < ActiveRecord::Base
         description = description +  " Overige vervaardigers: " + map_row[:overige_vervaardigersnaamnaam]
       end
       unless map_row[:rechthebbendenaam].blank?
-        description = description +  " Rechtehbbende: " + map_row[:rechthebbendenaam]
+        description = description +  " Rechthebbende: " + map_row[:rechthebbendenaam]
       end
       tags = nil
       tags = map_row[:techniek] unless map_row[:techniek].blank?
