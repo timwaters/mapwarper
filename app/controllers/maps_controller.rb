@@ -159,7 +159,7 @@ class MapsController < ApplicationController
       
       @year_min = Map.minimum(:issue_year).to_i - 1
       @year_max = Map.maximum(:issue_year).to_i + 1
-      @year_min = 1600 if @year_min == -1
+      @year_min = 1500 if @year_min == -1
       @year_max = Time.now.year if @year_max == 1
     
       year_conditions = nil
@@ -312,7 +312,7 @@ class MapsController < ApplicationController
 
     @year_min = Map.minimum(:issue_year).to_i - 1 
     @year_max = Map.maximum(:issue_year).to_i + 1
-    @year_min = 1600 if @year_min == -1
+    @year_min = 1500 if @year_min == -1
     @year_max = Time.now.year if @year_max == 1
 
     year_conditions = nil

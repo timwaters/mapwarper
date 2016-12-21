@@ -80,12 +80,12 @@
 
     <p>
       <b><%= t('maps.form.published') %></b><span class="tiny-text"> <%= t('maps.form.optional_hint') %></span><br />
-      <%= f.date_select(:published_date, :include_blank => true, :order => [:day, :month, :year ], :start_year => 1600, :end_year =>Time.now.year)  %>
+      <%= f.date_select(:published_date, :include_blank => true, :order => [:day, :month, :year ], :start_year => 1500, :end_year =>Time.now.year)  %>
     </p>
 
     <p>
       <b><%= t('maps.form.reprint') %> </b><span class="tiny-text"> <%= t('maps.form.optional_hint') %></span><br />
-      <%= f.date_select(:reprint_date, :include_blank => true, :order => [:day, :month, :year ], :start_year => 1600, :end_year =>Time.now.year)  %>
+      <%= f.date_select(:reprint_date, :include_blank => true, :order => [:day, :month, :year ], :start_year => 1500, :end_year =>Time.now.year)  %>
     </p>
     
     <p>
