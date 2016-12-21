@@ -16,9 +16,8 @@
 
     </p>
     <p>
-
       <b><%= f.label :description %></b><br />
-      <%= f.text_area :description %>
+      <%= f.text_area :description, :cols => 30, :rows => 12%>
     </p>
     <p>
       <b><%= t('layers.form.source') %></b><br />
@@ -33,7 +32,7 @@
       <%= f.text_field :depicts_year %>
     </p>
   </div>
-  <div class="column span-12 last">
+  <div class="column span-12 last layer-maps-col">
     <h3><%= t('layers.form.select_map_head') %></h3>
 
     <% if @maps.length == 0 %>
@@ -44,13 +43,27 @@
           <tr>
             <% cl = cycle('table0', 'table1') %>
             <td class="<%= cl %>">
-              <input type="checkbox" name="map_ids[]" id="<%= map.id%>" value="<%=map.id%>" <%- if @layer.maps.include? map
+              <input class="layer-map-check" type="checkbox" name="map_ids[]" id="<%= map.id%>" value="<%=map.id%>" <%- if @layer.maps.include? map
                        -%> checked="checked"<%-end-%> />
             </td>
             <td class="<%= cl %>">
               <label for ="<%= map.id%>">
-                <%=  image_tag(map.upload.url(:thumb)) -%>
+                <%=  image_tag(map_thumb_url(map)) -%>
+              </label>
+            </td>
+            <td class="<%= cl %>">
+              <label for ="<%= map.id%>">
+                <div class="maplist_title">
                 <%=  h(map.title) -%>
+                </div>
+                <div class="map_description">
+                  <span><%= strip_brackets(snippet(map.description, 15)) -%></span>
+                  <% if map.depicts_year -%>
+                    <br />
+                    <%= t('maps.map.depicts') %>: <%= map.depicts_year -%>
+                  <% end -%>
+                </div>
+
               </label>
             </td>
             <td class="<%= cl %>">
@@ -62,7 +75,7 @@
       <p><%= link_to t('home.index.all_my_maps'), my_maps_path(current_user) %> </p>
     <% end %>
   </div>
-  <div class="column span-24">
+  <div class="column span-12">
     <%= f.submit((defined?(page) && page =~ /new/) ? t('common.create_button') : t('common.update_button') )%>
 
   <%end%>

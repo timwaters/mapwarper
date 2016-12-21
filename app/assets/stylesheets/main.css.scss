@@ -1766,3 +1766,28 @@ fieldset#control_panel_fieldset a {
   transition: width 0.5s;
   -webkit-transition: width 0.5s;
 }
+
+div.span-12 input{
+  width: 215px;
+}
+
+
+div.layer-maps-col {
+  width: 500px;
+
+  input.layer-map-check {
+    width: 24px;
+  }
+  .maplist_title{
+    padding: 0px 2px 0px 2px;
+
+    font-size:smaller;
+  }
+
+  .map_description{
+    padding: 0px 2px 0px 2px;
+    margin-top: 0px;
+    font-size:smaller;
+  }
+
+}
