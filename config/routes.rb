@@ -50,7 +50,7 @@ Rails.application.routes.draw do
     end
     collection do
         get 'geosearch'
-        get 'tag'
+        #get 'tag'
         get 'csv'
     end
     resources :layers

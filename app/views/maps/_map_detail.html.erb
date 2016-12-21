@@ -33,15 +33,6 @@
       <%end-%>
     </span>
     <br />
-    <% if map.tags.count > 0 -%>
-      <span class="map_summary"><%= t('.tags') %></span>
-      <span class="tags">
-        <% map.tags.each do | tag | -%>
-          <%= link_to tag.name, { :controller=> :maps, :action => :tag, :id => tag.name } %>
-        <% end %>
-      </span>
-      <br />
-    <% end -%>
 
     <span class="map_links">
       <% if user_signed_in? %>

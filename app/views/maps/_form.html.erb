@@ -18,10 +18,6 @@
       <%= f.text_field :issue_year %>
     </p>
     <p>
-      <b><%= t('.tags') %></b><span class="tiny-text"> <%= t('.tags_hint') %></span> <br />
-      <%= f.text_field :tag_list %>
-    </p>
-    <p>
       <br />
       <%= f.select(:map_type, Map.map_type_hash, :selected=>:is_map) -%>
     </p>

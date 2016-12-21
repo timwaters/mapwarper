@@ -4,8 +4,7 @@
     <%= options_for_select([ [t('.title'), "title"], 
             [t('.description'), "description"], 
         [t('.publisher'), "publisher"],
-        [t('.author'), "authors"],
-        [t('.tags'), "tags"]], @field)-%>
+        [t('.author'), "authors"]], @field)-%>
   </select>
   <%= t('.for') %> 
   <%= text_field_tag 'query', @query -%>

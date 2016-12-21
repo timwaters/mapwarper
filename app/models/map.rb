@@ -791,13 +791,13 @@ class Map < ActiveRecord::Base
   
   def self.to_csv
     CSV.generate(:col_sep => ";") do |csv|
-      csv <<  ["id", "title", "description", "authors", "bbox", "bbox_centroid", "tag_list", "call_number", "created_at", "updated_at", 
+      csv <<  ["id", "title", "description", "authors", "bbox", "bbox_centroid", "call_number", "created_at", "updated_at", 
         "date_depicted",  "filename", "import_id", "issue_year", "map_type", "mask_status", "owner_id", "photo_uuid", "public", 
         "metadata_lat", "metadata_lon", "metadata_projection",
         "publication_place", "published_date", "publisher", "rectified_at", "reprint_date", "scale", "source_uri", "status", 
         "subject_area",  "unique_id",  "upload_content_type",  "upload_file_name", "upload_file_size", "height", "width"] ## Header values of CSV
       all.each do |m |
-        csv << [m.id, m.title, m.description, m.authors, m.bbox, m.bbox_centroid, m.tag_list, m.call_number, m.created_at, m.updated_at,
+        csv << [m.id, m.title, m.description, m.authors, m.bbox, m.bbox_centroid, m.call_number, m.created_at, m.updated_at,
           m.date_depicted, m.filename, m.import_id, m.issue_year, m.map_type, m.mask_status, m.owner_id, m.photo_uuid, m.public,
           m.metadata_lat, m.metadata_lon, m.metadata_projection,
           m.publication_place, m.published_date, m.publisher, m.rectified_at, m.reprint_date, m.scale, m.source_uri, m.status,
