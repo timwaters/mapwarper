@@ -703,6 +703,7 @@ en:
       title: Browse Maps
     map:
       confirm_my: really remove this map from your list?
+      delete: Delete
       depicts: Depicts
       gcp: control point
       gcp_count:

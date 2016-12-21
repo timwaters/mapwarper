@@ -68,6 +68,11 @@
       <%= t('.unwarped') %>
     <%end-%>
   </td>
-
+  
+  <%- if defined?(page) && (page =~ /import/) -%> 
+    <td>
+      <%= button_to t('.delete'), map_path(@map, :redirect_back => "import"), :method=> :delete, :href => '#' %>
+    </td>
+  <%- end -%>
 
 </tr>

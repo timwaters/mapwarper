@@ -123,7 +123,11 @@ class MapsController < ApplicationController
       flash[:notice] = t('.error')
     end
     respond_to do |format|
-      format.html { redirect_to(maps_url) }
+      if params[:redirect_back] 
+        format.html { redirect_to :back}
+      else
+        format.html { redirect_to(maps_url) }
+      end
       format.xml  { head :ok }
     end
   end

@@ -17,11 +17,12 @@
         <th><%= t('common.year_th') %></th>
         <th><%= t('common.last_th') %></th>
         <th><%= t('common.status_th') %></th>
+        <th><%= t('imports.index.actions') %></th>
       </tr>
     </thead>
 
     <tbody id="results">
-      <%= render :partial => 'maps/map', :collection => @maps unless @maps.nil? %>
+      <%= render :partial => 'maps/map', :locals => {:page => "import"}, :collection => @maps unless @maps.nil? %>
     </tbody>
   </table>
   <div class="warper_pagination">

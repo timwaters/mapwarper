@@ -701,6 +701,7 @@ nl:
       title: Bekijk kaarten
     map:
       confirm_my: echt deze kaart verwijderen uit uw lijst?
+      delete: Verwijderen
       depicts: Jaar
       gcp: controlepunten
       gcp_count:
