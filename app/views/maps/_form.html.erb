@@ -69,12 +69,12 @@
 
     <p>
       <b><%= t('.published') %></b><span class="tiny-text"> <%= t('.optional_hint') %></span><br />
-      <%= f.date_select(:published_date, :include_blank => true, :order => [:day, :month, :year ], :start_year => 1600, :end_year =>Time.now.year)  %>
+      <%= f.date_select(:published_date, :include_blank => true, :order => [:day, :month, :year ], :start_year => 1500, :end_year =>Time.now.year)  %>
     </p>
 
     <p>
       <b><%= t('.reprint') %> </b><span class="tiny-text"> <%= t('.optional_hint') %></span><br />
-      <%= f.date_select(:reprint_date, :include_blank => true, :order => [:day, :month, :year ], :start_year => 1600, :end_year =>Time.now.year)  %>
+      <%= f.date_select(:reprint_date, :include_blank => true, :order => [:day, :month, :year ], :start_year => 1500, :end_year =>Time.now.year)  %>
     </p>
     
     <p>
