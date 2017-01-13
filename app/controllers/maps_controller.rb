@@ -5,7 +5,7 @@ class MapsController < ApplicationController
  :warp_align, :mask_map, :delete_mask, :save_mask, :save_mask_and_warp, :set_rough_state, :set_rough_centroid ]
   before_filter :check_administrator_role, :only => [:publish]
   before_filter :find_map_if_available,
-    :except => [:show, :index, :wms, :tile, :mapserver_wms, :warp_aligned, :status, :new, :create, :update, :edit, :tag, :geosearch]
+    :except => [:show, :index, :wms, :tile, :mapserver_wms, :warp_aligned, :status, :new, :create, :update, :edit, :tag, :geosearch, :warped, :metadata, :export]
 
   before_filter :check_link_back, :only => [:show, :warp, :clip, :align, :warped, :export, :activity]
   before_filter :check_if_map_is_editable, :only => [:edit, :update]
@@ -185,7 +185,9 @@ class MapsController < ApplicationController
   end
 
   def export
-    @current_tab = "export"
+  
+    @map = Map.find(params[:id])
+  @current_tab = "export"
     @selected_tab = 6
     @html_title = "Export Map" + @map.id.to_s
     unless @map.warped_or_published? && @map.map_type == :is_map
@@ -490,7 +492,7 @@ class MapsController < ApplicationController
       format.kml {render :action => "show_kml", :layout => false}
       format.xml {render :xml => @map.to_xml(:except => [:content_type, :size, :bbox_geom, :uuid, :parent_uuid, :filename, :parent_id,  :map, :thumbnail, :rough_centroid])
       }
-      format.json {render :json =>{:stat => "ok", :items => @map.to_a}.to_json(:except => [:content_type, :size, :bbox_geom, :uuid, :parent_uuid, :filename, :parent_id,  :map, :thumbnail, :rough_centroid]), :callback => params[:callback] }
+      format.json {render :json =>{:stat => "ok", :items => [@map]}.to_json(:except => [:content_type, :size, :bbox_geom, :uuid, :parent_uuid, :filename, :parent_id,  :map, :thumbnail, :rough_centroid]), :callback => params[:callback] }
     end
   end
 
@@ -567,7 +569,9 @@ class MapsController < ApplicationController
   end
 
   def warped
-    @current_tab = "warped"
+  
+    @map = Map.find(params[:id])
+   @current_tab = "warped"
     @selected_tab = 5
     @html_title = "Viewing Rectfied Map "+ @map.id.to_s
     if @map.warped_or_published? && @map.gcps.hard.size > 2
@@ -655,7 +659,9 @@ class MapsController < ApplicationController
 
 
   def metadata
-    choose_layout_if_ajax
+  @map = Map.find(params[:id])
+  
+  choose_layout_if_ajax
   end
 #################################################
 #MAPSERVER methods.
