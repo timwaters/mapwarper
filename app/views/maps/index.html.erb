@@ -7,7 +7,7 @@ New: <%= link_to 'Find Rectified Maps by Location',  url_for(:controller => 'map
 <div class="browse">
 
   <h2>Browse Maps
-    <%if @query && @query.length > 0 %>&mdash; Searched for "<%=@query%>"
+    <%if @query && @query.length > 0 %>&mdash; Searched for "<%= h @query%>"
     <%end-%>
   </h2>
 

@@ -23,7 +23,7 @@
   </div>
 
   <h2><%= @html_title -%>
-    <%if @query && @query.length > 0 %>&mdash; Searched for "<%=@query%>"
+    <%if @query && @query.length > 0 %>&mdash; Searched for "<%= h @query%>"
     <%end-%>
   </h2>
 
