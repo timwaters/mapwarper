@@ -123,19 +123,19 @@ function init() {
         {displayClass: 'olControlEditingToolbar'}
         );
     var dragMarker = new OpenLayers.Control.DragFeature(to_vectors,
-        {displayClass: 'olControlDragFeature', title:'Move Control Point'});
+        {displayClass: 'olControlDragFeature', title:'Move Control Point (2,d)'});
     dragMarker.onComplete = function(feature) {
       saveDraggedMarker(feature);
     };
 
     var drawFeatureTo = new OpenLayers.Control.DrawFeature(active_to_vectors, OpenLayers.Handler.Point ,
-        {displayClass: 'olControlDrawFeaturePoint', title: 'Add Control Point', handlerOptions: {style: active_style}});
+        {displayClass: 'olControlDrawFeaturePoint', title: 'Add Control Point (1,p)', handlerOptions: {style: active_style}});
     drawFeatureTo.featureAdded = function(feature) {
       newaddGCPto(feature);
     };
 
     var drawFeatureFrom = new OpenLayers.Control.DrawFeature(active_from_vectors, OpenLayers.Handler.Point ,
-        {displayClass: 'olControlDrawFeaturePoint', title: 'Add Control Point', handlerOptions: {style: active_style}});
+        {displayClass: 'olControlDrawFeaturePoint', title: 'Add Control Point (1,p)', handlerOptions: {style: active_style}});
     drawFeatureFrom.featureAdded = function(feature) {
       newaddGCPfrom(feature);
     };
@@ -144,13 +144,13 @@ function init() {
         {displayClass: 'olControlEditingToolbar'}
         );
     var dragMarkerFrom = new OpenLayers.Control.DragFeature(from_vectors,
-        {displayClass: 'olControlDragFeature', title:'Move Control Point'});
+        {displayClass: 'olControlDragFeature', title:'Move Control Point (2,d)'});
     dragMarkerFrom.onComplete = function(feature) {
       saveDraggedMarker(feature);
     };
 
-    navig = new OpenLayers.Control.Navigation({title: "Move Around Map"});
-    navigFrom = new OpenLayers.Control.Navigation({title: "Move Around Map"});
+    navig = new OpenLayers.Control.Navigation({title: "Move Around Map (3,m)"});
+    navigFrom = new OpenLayers.Control.Navigation({title: "Move Around Map (3,m)"});
 
     to_panel.addControls([navig, dragMarker, drawFeatureTo]);
     to_map.addControl(to_panel);
@@ -186,9 +186,49 @@ function init() {
             jQuery("#warped-slider").hide();
           }
     });
+    
+  //control for keyboard shortcuts for map control    
+  var barControl = new OpenLayers.Control();
+  var barCallbacks = {
+    keydown: function(evt) {
+      var key = evt.keyCode;
+      if (key == 80 || key == 49) {
+        // 1, p = (place point)
+        navig.deactivate();
+        dragMarker.deactivate();
+        drawFeatureFrom.activate();
+      } else if (key == 68 || key == 50) {
+        // 2, d (drag point)
+        navig.deactivate();
+        dragMarker.activate()
+        drawFeatureTo.deactivate();
+      } else if (key == 77 || key == 51) {
+        //3, m (move point)
+        drawFeatureFrom.deactivate();
+        dragMarker.deactivate();
+        navig.activate();
+      }
+    }
+  };
+  var barHandler = new OpenLayers.Handler.Keyboard(barControl, barCallbacks, {});
+  barHandler.activate();
+  
+  //control for saving a new gcp by pressing shift-s
+  var saveControl = new OpenLayers.Control();
+  var saveCallbacks = {
+    keydown: function(evt) {
+      if (evt.keyCode == 83){
+        set_gcp();
+      }
+    }
+  };
+  var saveHandler = new OpenLayers.Handler.Keyboard(saveControl, saveCallbacks, {keyMask: OpenLayers.Handler.MOD_SHIFT});
+  saveHandler.activate();
+  
 
 
     }
+
 
 function joinControls(first, second){
   first.events.register("activate", first, function(){second.activate();});
