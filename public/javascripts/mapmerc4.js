@@ -217,12 +217,15 @@ function init() {
   var saveControl = new OpenLayers.Control();
   var saveCallbacks = {
     keydown: function(evt) {
-      if (evt.keyCode == 83){
-        set_gcp();
+      if (evt.keyCode == 13){
+        check_if_gcp_ready();
+        if ( temp_gcp_status ) {
+          set_gcp();
+        }
       }
     }
   };
-  var saveHandler = new OpenLayers.Handler.Keyboard(saveControl, saveCallbacks, {keyMask: OpenLayers.Handler.MOD_SHIFT});
+  var saveHandler = new OpenLayers.Handler.Keyboard(saveControl, saveCallbacks, {});
   saveHandler.activate();
   
 
