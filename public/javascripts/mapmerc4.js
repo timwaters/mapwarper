@@ -187,12 +187,41 @@ function init() {
           }
     });
     
+    var toPosition;
+    var fromPosition;
+    var mapUnderMouse = "";
+    to_map.events.register("mousemove", to_map, function(e){ 
+      toPosition = this.events.getMousePosition(e);  
+      mapUnderMouse = "to_map";
+    })
+    from_map.events.register("mousemove", from_map, function(e){
+       fromPosition = this.events.getMousePosition(e);
+       mapUnderMouse = "from_map";  
+     })
+    
   //control for keyboard shortcuts for map control    
   var barControl = new OpenLayers.Control();
   var barCallbacks = {
     keydown: function(evt) {
       var key = evt.keyCode;
-      if (key == 80 || key == 49) {
+      if (key == 81){
+        // q key - quick add point - any mode control
+        //  console.log("Q pressed",  mapUnderMouse, toPosition, fromPosition);
+        if (mapUnderMouse == "to_map") {
+          var point = to_map.getLonLatFromPixel(toPosition);
+          var thisVector = new OpenLayers.Geometry.Point(point.lon, point.lat);
+          var pointFeature = new OpenLayers.Feature.Vector(thisVector, null, null);
+          active_to_vectors.addFeatures([pointFeature]);
+          newaddGCPto(pointFeature);
+        }else if (mapUnderMouse == "from_map"){          
+          var point = from_map.getLonLatFromPixel(fromPosition);
+          var thisVector = new OpenLayers.Geometry.Point(point.lon, point.lat);
+          var pointFeature = new OpenLayers.Feature.Vector(thisVector, null, null);
+          active_from_vectors.addFeatures([pointFeature]);
+          newaddGCPfrom(pointFeature);
+        }
+      
+      }else if (key == 80 || key == 49) {
         // 1, p = (place point)
         navig.deactivate();
         dragMarker.deactivate();
