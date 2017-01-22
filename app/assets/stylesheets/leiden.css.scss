@@ -17,10 +17,10 @@ h1 {
 @media screen and (max-width: 1445px) {
   #nav  #nav-list li.responsive_wide{ display:none;}
 }
-@media screen and (max-width: 885px) {
+@media screen and (max-width: 920px) {
   #nav #nav-list li.responsive_narrow{ display:none;}
 }
-@media screen and (max-width: 600px) {
+@media screen and (max-width: 640px) {
   #nav #nav-list li.responsive{ display:none;}
   #nav #nav-list li {  
     font-size: 13px; 
@@ -36,6 +36,11 @@ h1 {
   }
 
 
+}
+@media screen and (max-width: 410px) {
+  #year-slider-container {
+    width: 100px;
+  }
 }
 
 #nav #nav-list { 
@@ -261,6 +266,9 @@ input[type="submit"]:hover, .submitStyle:hover  {
   background:#f3f3f5 
 }
 
+#right-col #search-form {
+  min-width: 350px;
+}
 
 .omniauth_links a {
   background: #f76b00;
