@@ -61,6 +61,19 @@ function addMapToMapLayer(mapitem) {
 
 function onFeatureSelect(feature) {
   selectedFeature = feature;
+
+  var img = new Image();
+  img.src = mapThumbBaseURL + feature.mapId;
+  img.onload = function(){
+    var width = img.width;
+    var height = img.height;
+    var thumbHeight = 80;
+    var thumbWidth = (thumbHeight / height) * width;
+    var thumbWidth = Math.round(thumbWidth);
+    jQuery(".searchmap-popup img").attr("height",thumbHeight)
+    jQuery(".searchmap-popup img").attr("width",thumbWidth)
+  }
+
   popup = new OpenLayers.Popup.FramedCloud("cheese",
           feature.geometry.getBounds().getCenterLonLat(),
           null,
