@@ -44,7 +44,8 @@ class LayersController < ApplicationController
     sort_init 'updated_at'
     sort_update
 
-    extents = [-74.1710,40.5883,-73.4809,40.8485] #NYC
+    #extents = [-74.1710,40.5883,-73.4809,40.8485] #NYC
+    extents = [4.4105, 52.092, 4.554, 52.229] #leiden
 
     #TODO change to straight javascript call.
     if params[:place] && !params[:place].blank?
