@@ -468,8 +468,14 @@ en:
     warp:
       add_gcp: Add Control Point
       best_guess_message: 'Map zoomed to best guess:'
+      custom_custom_type: Custom
       custom_layer: Custom basemap
+      custom_layer_add_layer_button: Add Layer
+      custom_layer_cancel_button: Cancel
       custom_layer_title: Add Custom Basemap
+      custom_layer_type: Mosaic
+      custom_layer_year: Year
+      custom_map_type: Map
       gcp_adding: Adding...
       gcp_failed: Had trouble updating that point with the server. Try again?
       gcp_premature_alert: You have to add a new control point on each map before pressing this button.
@@ -791,7 +797,7 @@ en:
       close_popup: Close popup
       cubic: Cubic
       cubicspline: Cubic Spline , slower but best quality
-      custom_layer_instructions_html: Search for a Map or Layer. <br />Or paste in a tile URL template (Z/X/Y ordered scheme only) <br /> E.g. <code>https://example.com/osm/{z}/{x}/{y}.png</code>
+      custom_layer_instructions_html: Search for a Map or Mosaic. <br />Or paste in a tile URL template (Z/X/Y ordered scheme only) <br /> E.g. <code>https://example.com/osm/{z}/{x}/{y}.png</code>
       custom_layer_placeholder: Search for Maps and Layers
       download_gcps: Download points as CSV
       gcp_error: Error

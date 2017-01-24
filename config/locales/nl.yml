@@ -466,8 +466,14 @@ nl:
     warp:
       add_gcp: Voeg controlepunt toe
       best_guess_message: 'Kaart ingezoomd op:'
+      custom_custom_type: Eigen basiskaart
       custom_layer: Eigen basiskaart
+      custom_layer_add_layer_button: Voeg kaart toe
+      custom_layer_cancel_button: Cancel
       custom_layer_title: Voeg eigen basiskaart toe
+      custom_layer_type: Mozaïek
+      custom_layer_year: Jaar
+      custom_map_type: Kaart
       gcp_adding: Toevoegen...
       gcp_failed: Er waren problemen bij het updaten van dit punt. Opnieuw proberen?
       gcp_premature_alert: U moet een nieuw controlepunt op elke kaart toevoegen voordat u op deze knop drukt.
@@ -789,7 +795,7 @@ nl:
       close_popup: Sluit popup
       cubic: Cubic
       cubicspline: Cubic Spline, langzamer maar de hoogste kwaliteit
-      custom_layer_instructions_html: Voer een file URL template, of een file URL in, met een Z/X/Y geordend schema <br /> Bijvoorbeeld <code>https://maps.wikimedia.org/osm/{z}/{x}/{y}.png</code> <br /> of <code>https://maps.wikimedia.org/osm/10/507/329.png</code>
+      custom_layer_instructions_html: Zoek een kaart uit Map Warper mbv trefwoorden uit de titel. Of Voer een URL in met een Z/X/Y geordend schema.
       custom_layer_placeholder: Zoek kaarten en kaartlagen
       download_gcps: Download punten als CSV
       gcp_error: Foutmelding

@@ -161,21 +161,25 @@ function init() {
       modal: true,
       hide: 'slow',
       title: I18n["warp"]["custom_layer_title"],
-      buttons: {
-        "Add Layer": function () {
-          var selected = jQuery('.layer-select').select2("data")[0];
-          if (selected.tiles) {
-            var layer = {"title": selected.title, "type": selected.type, "template": selected.tiles};
-            addCustomLayer(layer);
+      buttons: [{
+          text: I18n["warp"]["custom_layer_add_layer_button"],
+          click: function () {
+            var selected = jQuery('.layer-select').select2("data")[0];
+            if (selected.tiles) {
+              var layer = {"title": selected.title, "type": selected.type, "template": selected.tiles};
+              addCustomLayer(layer);
+            }
+            dialog.dialog("close");
+            form[ 0 ].reset();
           }
-          dialog.dialog("close");
-          form[ 0 ].reset();
         },
-        Cancel: function () {
-          form[ 0 ].reset();
-          dialog.dialog("close");
-        }
-      },
+        {
+          text: I18n["warp"]["custom_layer_cancel_button"],
+          click: function () {
+            form[ 0 ].reset();
+            dialog.dialog("close");
+          }
+        }],
       close: function () {
         form[ 0 ].reset();
       }
@@ -905,14 +909,15 @@ function setupLayerSelect() {
   function formatItems(item) {
     if (item.loading)
       return item.title;
-
+    
+    var itemType = getItemType(item);
     var markup = "<div class='select2-result-item clearfix'>" +
             "<div class='select2-result-item__thumb'><img src='" + item.thumb + "' /></div>" +
             "<div class='select2-result-item__meta'>" +
-            "<div class='select2-result-item__title'><span class='select2-result-item__type'>" + item.type + ":</span> " + item.title + "</div>";
+            "<div class='select2-result-item__title'><span class='select2-result-item__type'>" + itemType + ":</span> " + item.title + "</div>";
 
     if (item.year) {
-      markup += "<div class='select2-result-item__year'>Year: " + item.year + "</div>";
+      markup += "<div class='select2-result-item__year'>"+ I18n['warp']['custom_layer_year'] +": " + item.year + "</div>";
     }
 
     markup += "</div></div>";
@@ -921,11 +926,25 @@ function setupLayerSelect() {
   }
 
   function formatItemSelection(item) {
+    var itemType = getItemType(item); 
     if (item.id === "") {
       return item.text; //placeholder text
     } else {
-      return item.type + ": " + item.title;
+      return itemType + ": " + item.title;
     }
+  }
+  
+  function getItemType(item){
+    var itemType = "";
+    if (item.type === "Map"){
+      itemType = I18n['warp']['custom_map_type'];
+    } else if (item.type === "Layer") {
+      itemType = I18n['warp']['custom_layer_type'];
+    } else {
+      itemType = I18n['warp']['custom_custom_type']
+    }
+    
+    return itemType;
   }
 
 
