@@ -311,8 +311,23 @@ input[type="submit"]:hover, .submitStyle:hover  {
   border: 2px solid #44a140;
 }
 
-#gcp input.gcp_button_highlighted {
-  border: 2px solid #44a140;
+#gcp input:disabled.gcp_button {
+  background: #888;
+  
+}
+#gcp input:disabled.gcp_button:hover {
+  box-shadow:none;
+  cursor:default;
+}
+#gcp input.gcp_button {
+  margin-top: 10px;
+  background: #f76b00;
+  color: white;
+  cursor:pointer;
+}
+#gcp input.gcp_button_highlighted:hover {
+  box-shadow:1px 2px 4px 2px rgba(0,0,0,0.2), inset 1px 2px 4px rgba(255,255,255,0.4);;
+
 }
 
 fieldset#control_panel_fieldset {
