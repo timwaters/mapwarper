@@ -208,7 +208,7 @@ nl:
         submit_button: Wijzig mijn wachtwoord
       new:
         header: Wachtwoord vergeten?
-        send_instructions_button: Stuur met instructies om mijn wachtwoord te resetten.
+        send_instructions_button: Reset Wachtwoord
       no_token: U kunt deze pagina alleen bezoeken vanuit een wachtwoord reset e-mail. Als u vanuit een wachtwoord reset e-mail komt, zorgt u er dan voor dat u de volledige URL gebruikt.
       send_instructions: 'U ontvangt binnen een paar minuten een e-mail met instructies voor het resetten van uw wachtwoord. '
       send_paranoid_instructions: Als uw e-mailadres al voorkomt in onze database, ontvangt u binnen een paar minuten een e-mail met een link voor het herstellen van uw wachtwoord.
@@ -234,7 +234,7 @@ nl:
         header: Registreren
         name_label: Naam
         sign_up_button: Registreren
-        sign_up_help: U kunt zich registreren met een e-mailadres of wachtwoord, of via een andere service, met behulp van de links hieronder.
+        sign_up_help: U kunt zich registreren met uw e-mailadres, of met uw Facebook- of Twitter-account.
       signed_up: Welkom! Het registreren is gelukt.
       signed_up_but_inactive: Het registreren is gelukt. Helaas konden we u nog niet aanmelden omdat uw account nog niet is geactiveerd.
       signed_up_but_locked: 'Het registreren is gelukt. Helaas konden we u nog niet aanmelden omdat uw account is geblokkeerd. '
@@ -259,7 +259,7 @@ nl:
         new_unlock_instructions: Geen deblokkeer instructies ontvangen?
         openstreetmap: OpenStreetMap
         sign_up: Registreren
-        social_sign_in: 'Alternatively, %{action} with:'
+        social_sign_in: 'Of, %{action} met:'
         twitter: Twitter
         wikimedia: Wikimedia Commons
     unlocks:
