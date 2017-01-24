@@ -693,6 +693,7 @@ en:
       title: Title
       unique_id: Metadata Unique ID
       upload_file: 'Upload An Image File:'
+      upload_or_url: OR
       upload_url: 'Upload from a URL:'
     geosearch:
       button: Find Location

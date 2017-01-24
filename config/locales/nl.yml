@@ -691,6 +691,7 @@ nl:
       title: 'Titel:'
       unique_id: Uniek ID
       upload_file: 'Afbeelding uploaden:'
+      upload_or_url: Of
       upload_url: 'Upload via een URL:'
     geosearch:
       button: Zoek Locatie
