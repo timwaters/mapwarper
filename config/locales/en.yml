@@ -442,6 +442,7 @@ en:
       not_enough_maps_alert: Sorry, but there should be at least two maps selected
       wrong_align_alert: Sorry, only horizontal and vertical alignment are available at the moment
     clip:
+      clip_popup_title: Clipping...
       confirm_delete_tool: Really delete this?
       delete_tool_title: Delete a polygon
       draw_tool_title: Draw new polygon to mask

@@ -441,6 +441,7 @@ nl:
       wrong_align_alert: Sorry, alleen horizontale en verticale alignment zijn momenteel beschikbaar.
     clip:
       confirm_delete_tool: Wilt u dit echt verwijderen?
+      clip_popup_title: Uitsnijden...
       delete_tool_title: Verwijder een polygoon.
       draw_tool_title: Teken een nieuwe polygoon om het gebied dat u wilt behouden
       move_tool_title: Verplaats de kaart
