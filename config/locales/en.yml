@@ -804,6 +804,7 @@ en:
       lanczos: Lanczos
       method_label: 'Rectify Method:'
       near: Nearest Neighbour, fastest (default)
+      no_mask: No
       p1_method: 1st Order Polynomial (min 3 points)
       p2_method: 2nd Order Polynomial (min 6 points)
       p3_method: 3rd Order Polynomial (min 10 points)
@@ -815,6 +816,7 @@ en:
       tps_method: Thin Plate Spline (many points widely spread)
       unmasked_question_html: This map is not currently masked. Do you want to <a href='%{href}'>add or edit a mask now</a>?
       warp_button: Warp Image! &rarr;
+      yes_mask: Yes
     warp_aligned:
       no_destination: Sorry the destination map is not available to be aligned.
       success: Map aligned. You can now rectify it!

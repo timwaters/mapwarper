@@ -192,10 +192,10 @@
         <% end %>
           <%= t('.apply_mask_html', :href=> url_for(map_path(:id =>@map, :anchor=>"#{t('layouts.tabs.crop')}_tab"))) %>
         <label for="use_mask1">
-          <input <% if @map.mask_status == :masked -%>checked<%end-%> id="use_mask1" type="radio" name="use_mask" value="true" />Yes
+          <input <% if @map.mask_status == :masked -%>checked<%end-%> id="use_mask1" type="radio" name="use_mask" value="true" /><%= t('.yes_mask') %>
         </label>
         <label for="use_mask2">
-          <input <% if @map.mask_status == :unmasked -%>checked<%end-%> name="use_mask" id="use_mask2" type="radio" value="false" />No
+          <input <% if @map.mask_status == :unmasked -%>checked<%end-%> name="use_mask" id="use_mask2" type="radio" value="false" /><%= t('.no_mask') %>
         </label>
       </div>
 

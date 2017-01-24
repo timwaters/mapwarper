@@ -802,6 +802,7 @@ nl:
       lanczos: Lanczos
       method_label: 'Georefereer methode:'
       near: Nearest Neighbour, snelste (standaard)
+      no_mask: Nee
       p1_method: 1st Order Polynomial (min 3 punten)
       p2_method: 2nd Order Polynomial (min 6 punten)
       p3_method: 3rd Order Polynomial (min 10 punten)
@@ -813,6 +814,7 @@ nl:
       tps_method: Thin Plate Spline (veel punten, erg verspreid)
       unmasked_question_html: Deze kaart is nog niet uitgesneden. Wilt u <a href='%{href}'>een uitsnede toevoegen of wijzigen</a>?
       warp_button: Georefereer de kaart! &rarr;
+      yes_mask: Ja
     warp_aligned:
       no_destination: 'Sorry, de bestemmings kaart is niet beschikbaar voor het alignen. '
       success: Kaart is aligned. Nu kunt u hem georefereren!
