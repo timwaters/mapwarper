@@ -25,8 +25,8 @@ defaults: &defaults
   mapbox_access_token: ""
   localeapp_api_key: ""
   import_maps_sftp_path: "/home/sftpuser/maps"
-  #gdal_rasterize_path: "/home/fwtools/bin_safe/"
-  gdal_rasterize_path: ""
+  #gdal_path: "/home/fwtools/bin_safe/"
+  gdal_path: ""
 
 development:
   <<: *defaults
