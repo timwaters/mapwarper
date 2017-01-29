@@ -826,65 +826,75 @@ class Map < ActiveRecord::Base
     end
   end
 
-
+  #uses geocode.xyz geoparse api
   def find_bestguess_places
-    yql = Yql::Client.new
-    query = Yql::QueryBuilder.new 'geo.placemaker'
-
-    query.conditions = {:documentContent => ERB::Util.h(self.title.to_s) + " "+ ERB::Util.h(self.description.to_s), :documentType => "text/plain", :appid => APP_CONFIG['yahoo_app_id'] }
-    yql.query = query
-    yql.format = "json"
+    return  {:status => "fail", :code => "geoparse disabled"} if APP_CONFIG["geoparse_enable"] == false 
+    
+    uri = URI("https://geocode.xyz")
+    scantext = ERB::Util.h(self.title.to_s) + " "+ ERB::Util.h(self.description.to_s)
+    
     begin
-      resp = yql.get
-      data = resp.show.to_s
-
-      results = JSON.parse(data)
-
-      places = Array.new
-      if results["query"]["results"] && results["query"]["results"]["matches"]
-        found_places = results["query"]["results"]["matches"]["match"]
+     
+      form_data = {'scantext' => scantext, 'geojson' => '1'}
+      if !APP_CONFIG["geoparse_region"].blank?
+        form_data = form_data.merge({"region"=> APP_CONFIG["geoparse_region"]})
+      end
+      if !APP_CONFIG["geoparse_geocodexyz_key"].blank?
+        form_data = form_data.merge({"auth" => APP_CONFIG["geoparse_geocodexyz_key"]})
+      end
+           
+      req = Net::HTTP::Post.new(uri)
+      req.set_form_data(form_data)
+      
+      res = Net::HTTP.start(uri.hostname, uri.port, :use_ssl => true, :read_timeout => 2) do |http|
+        http.request(req)
+      end
+      
+      results = JSON.parse(res.body)
+      if results["properties"]["matches"].to_i > 0
+        places = Array.new
+        found_places  = results["features"]
         max_lat, max_lon, min_lat, min_lon = -90.0, -180.0, -90.0, 180.0
-        found_places = [found_places] if found_places.is_a?(Hash)
         found_places.each do | found_place |
-          place = found_place["place"]
           place_hash = Hash.new
-          place_hash[:name] = place['name']
-          lon =  place['centroid']['longitude']
-          lat =  place['centroid']['latitude']
-          place_hash[:lon] = lon
-          place_hash[:lat] = lat
+          place_hash[:name] = found_place["properties"]["location"]
+          lon = place_hash[:lon] = found_place["geometry"]["coordinates"][0]
+          lat = place_hash[:lat] = found_place["geometry"]["coordinates"][1]
           places << place_hash
-
+          
           max_lat = lat.to_f if lat.to_f > max_lat
           min_lat = lat.to_f if lat.to_f < min_lat
           max_lon = lon.to_f if lon.to_f > max_lon
           min_lon = lon.to_f if lon.to_f < min_lon
         end
-
+        
         extents =  [min_lon, min_lat, max_lon, max_lat].join(',')
-
         if !self.layers.visible.empty? && !self.layers.visible.first.maps.warped.empty?
           sibling_extent = self.layers.visible.first.maps.warped.last.bbox
         else
           sibling_extent = nil
         end
-
+        
         placemaker_result = {:status => "ok", :map_id => self.id, :extents => extents, :count => places.size, :places => places, :sibling_extent=> sibling_extent}
-
+          
       else
         placemaker_result = {:status => "fail", :code => "no results"}
       end
-
+      
+    rescue Net::ReadTimeout => e
+      logger.error "timeout in find bestguess places, probably throttled " + e.to_s
+      placemaker_result = {:status => "fail", :code => "timeout"}
+    rescue Net::HTTPBadResponse => e
+      logger.error "http bad response in find bestguess places " + e.to_s
+      placemaker_result = {:status => "fail", :code => "badResponse"}
     rescue SocketError => e
-      logger.error "Socket error in find bestguess places" + e.to_s
+      logger.error "Socket error in find bestguess places " + e.to_s
       placemaker_result = {:status => "fail", :code => "socketError"}
-    rescue Yql::Error => e
-      logger.error "YQL error in find bestguess places" + e.to_s
-      placemaker_result = {:status => "fail", :code => "yqlError"}
     end
     
-    placemaker_result
+    return placemaker_result
   end
+  
 
   def clear_cache
     Rails.cache.delete_matched ".*/maps/wms/#{self.id}.png\?status=warped.*"

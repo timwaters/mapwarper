@@ -7,6 +7,9 @@ defaults: &defaults
   src_maps_dir: 
   dst_maps_dir: 
   yahoo_app_id: "ascas"
+  geoparse_geocodexyz_key: ""
+  geoparse_region: ""
+  geoparse_enable: false
   host: "localhost:3000"
   site_name: "MapWarper"
   omniauth_osm_key: "ABC"
