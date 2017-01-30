@@ -1090,15 +1090,15 @@ Uses GML to mask a portion of the map. This essentially crops the map. Masking i
 
 | Method        | Definition | 
 | ------------- | ---------  | 
-| GET           |  http://mapwarper.net/shared/masks/{:map_id}.gml.ol |
+| GET           |  http://mapwarper.net/mapimages/masks/{:map_id}.gml.ol |
 
 Gets a GML string containing coordinates for the polygon(s) to mask over.
 
 **Examples**
 
-http://mapwarper.net/shared/masks/7449.gml.ol or
+http://mapwarper.net/mapimages/masks/7449.gml.ol or
 
-http://mapwarper.net/shared/masks/7449.gml.ol?1274110931 (with a timestamp to assist in browser cache busting)
+http://mapwarper.net/mapimages/masks/7449.gml.ol?1274110931 (with a timestamp to assist in browser cache busting)
 
 **Response Example**
 
