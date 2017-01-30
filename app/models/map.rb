@@ -619,10 +619,10 @@ class Map < ActiveRecord::Base
     end
     
     logger.info "gdal translate"
-  
+   
     command = "#{GDAL_PATH}gdal_translate -a_srs '+init=epsg:4326' -of VRT #{src_filename} #{temp_filename}.vrt #{gcp_string}"
     t_stdout, t_stderr = Open3.capture3( command )
-    
+        
     logger.info command
     
     t_out  = t_stdout
@@ -636,13 +636,14 @@ class Map < ActiveRecord::Base
       t_out = "Okay, translate command ran fine! <div id = 'scriptout'>" + t_out + "</div>"
     end
     trans_output = t_out
-    
-    memory_limit =  (defined?(GDAL_MEMORY_LIMIT)) ? "-wm "+GDAL_MEMORY_LIMIT.to_s :  ""
-    
-    #check for colorinterop=pal ? -disnodata 255 or -dstalpha
-    command = "#{GDAL_PATH}gdalwarp #{memory_limit}  #{transform_option}  #{resample_option} -dstalpha #{mask_options} -s_srs 'EPSG:4326' #{temp_filename}.vrt #{dest_filename} -co TILED=YES -co COMPRESS=LZW"
-    w_stdout, w_stderr = Open3.capture3( command )
+     
+    memory_limit = APP_CONFIG["gdal_memory_limit"].blank? ? "" : "-wm #{APP_CONFIG['gdal_memory_limit']}"
+    output_size = transform_option.include?("tps") ? "-ts #{width} #{height}" : ""
+  
+    command = "#{GDAL_PATH}gdalwarp #{memory_limit} #{output_size} #{transform_option}  #{resample_option} -dstalpha #{mask_options} -s_srs 'EPSG:4326' #{temp_filename}.vrt #{dest_filename} -co TILED=YES -co COMPRESS=LZW"
     logger.info command
+   
+    w_stdout, w_stderr = Open3.capture3( command )
     
     w_out = w_stdout
     w_err = w_stderr
