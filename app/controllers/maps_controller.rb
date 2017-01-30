@@ -905,7 +905,7 @@ class MapsController < ApplicationController
         # @map.users << current_user
       end
       
-      @output = @map.warp! transform_option, resample_option, use_mask #,masking_option
+      @output = @map.warp! resample_option, transform_option, use_mask #,masking_option
       
       @map.clear_cache
 
