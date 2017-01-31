@@ -246,7 +246,7 @@ function init() {
   var saveControl = new OpenLayers.Control();
   var saveCallbacks = {
     keydown: function(evt) {
-      if (evt.keyCode == 13){
+      if (evt.keyCode == 13 || evt.keyCode == 69){
         check_if_gcp_ready();
         if ( temp_gcp_status ) {
           set_gcp();
