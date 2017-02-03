@@ -638,9 +638,8 @@ class Map < ActiveRecord::Base
     trans_output = t_out
      
     memory_limit = APP_CONFIG["gdal_memory_limit"].blank? ? "" : "-wm #{APP_CONFIG['gdal_memory_limit']}"
-    output_size = transform_option.include?("tps") ? "-ts #{width} #{height}" : ""
   
-    command = "#{GDAL_PATH}gdalwarp #{memory_limit} #{output_size} #{transform_option}  #{resample_option} -dstalpha #{mask_options} -s_srs 'EPSG:4326' #{temp_filename}.vrt #{dest_filename} -co TILED=YES -co COMPRESS=LZW"
+    command = "#{GDAL_PATH}gdalwarp #{memory_limit}  #{transform_option}  #{resample_option} -dstalpha #{mask_options} -s_srs 'EPSG:4326' #{temp_filename}.vrt #{dest_filename} -co TILED=YES -co COMPRESS=LZW"
     logger.info command
    
     w_stdout, w_stderr = Open3.capture3( command )
