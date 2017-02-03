@@ -881,7 +881,9 @@ class Map < ActiveRecord::Base
       else
         placemaker_result = {:status => "fail", :code => "no results"}
       end
-      
+    rescue JSON::ParserError => e
+      logger.error "JSON ParserError in find bestguess places " + e.to_s
+      placemaker_result = {:status => "fail", :code => "jsonError"}
     rescue Net::ReadTimeout => e
       logger.error "timeout in find bestguess places, probably throttled " + e.to_s
       placemaker_result = {:status => "fail", :code => "timeout"}
@@ -891,6 +893,9 @@ class Map < ActiveRecord::Base
     rescue SocketError => e
       logger.error "Socket error in find bestguess places " + e.to_s
       placemaker_result = {:status => "fail", :code => "socketError"}
+    rescue StandardError => e
+      logger.error "StandardError " + e.to_s
+      placemaker_result = {:status => "fail", :code => "StandardError"}
     end
     
     return placemaker_result
