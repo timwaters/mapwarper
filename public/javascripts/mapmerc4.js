@@ -9,6 +9,8 @@ var to_vectors;
 var from_vectors;
 var active_to_vectors;
 var active_from_vectors;
+var autoEnabled = false;
+var transformation = new ol.transform.Helmert();
 
 ///////////////////////////////////////////////////////////////////////////////////////////
 //
@@ -132,12 +134,16 @@ function init() {
         {displayClass: 'olControlDrawFeaturePoint', title: 'Add Control Point (1,p)', handlerOptions: {style: active_style}});
     drawFeatureTo.featureAdded = function(feature) {
       newaddGCPto(feature);
+      
+      if (autoEnabled) addAutoFromPoint(feature); 
     };
 
     var drawFeatureFrom = new OpenLayers.Control.DrawFeature(active_from_vectors, OpenLayers.Handler.Point ,
         {displayClass: 'olControlDrawFeaturePoint', title: 'Add Control Point (1,p)', handlerOptions: {style: active_style}});
     drawFeatureFrom.featureAdded = function(feature) {
       newaddGCPfrom(feature);
+      
+      if (autoEnabled) addAutoToPoint(feature); 
     };
 
     var from_panel = new OpenLayers.Control.Panel (
@@ -257,10 +263,53 @@ function init() {
   var saveHandler = new OpenLayers.Handler.Keyboard(saveControl, saveCallbacks, {});
   saveHandler.activate();
   
-
+  //shift-A to disable and enable auto placement / transformation
+  var autoControl = new OpenLayers.Control();
+  var autoCallbacks = {
+    keydown: function(evt){
+      if (evt.keyCode == 65){ autoEnabled = !autoEnabled; }
+      }
+  };
+  var autoHandler = new OpenLayers.Handler.Keyboard(autoControl, autoCallbacks, {keyMask: OpenLayers.Handler.MOD_SHIFT});
+  autoHandler.activate();
 
     }
 
+//set points for transformation
+function setTransformPoints(){
+  xy = [];
+  XY = [];
+  for (var i=0; i< from_vectors.features.length; i++){
+    xy.push([from_vectors.features[i].geometry.x,from_vectors.features[i].geometry.y]);
+    XY.push([to_vectors.features[i].geometry.x,to_vectors.features[i].geometry.y]);
+  }
+  transformation.setControlPoints(xy,XY); 
+}
+    
+function transform(xy){
+  var pt = transformation.transform(xy);
+}
+function reverseTransform(xy){
+  var pt = transformation.revers(xy);
+}
+
+function addAutoFromPoint(feature){
+  setTransformPoints();
+  var from_auto_pt = transformation.revers([feature.geometry.x, feature.geometry.y]);
+  var thisVector = new OpenLayers.Geometry.Point(from_auto_pt[0], from_auto_pt[1]);
+  var pointFeature = new OpenLayers.Feature.Vector(thisVector, null, null);
+  active_from_vectors.addFeatures([pointFeature]);
+  newaddGCPfrom(pointFeature);
+}
+
+function addAutoToPoint(feature){
+  setTransformPoints();
+  var to_auto_pt = transformation.transform([feature.geometry.x, feature.geometry.y]);
+  var thisVector = new OpenLayers.Geometry.Point(to_auto_pt[0], to_auto_pt[1]);
+  var pointFeature = new OpenLayers.Feature.Vector(thisVector, null, null);
+  active_to_vectors.addFeatures([pointFeature]);
+  newaddGCPto(pointFeature);
+}
 
 function joinControls(first, second){
   first.events.register("activate", first, function(){second.activate();});
