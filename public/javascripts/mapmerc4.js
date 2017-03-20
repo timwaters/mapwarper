@@ -219,12 +219,14 @@ function init() {
           var pointFeature = new OpenLayers.Feature.Vector(thisVector, null, null);
           active_to_vectors.addFeatures([pointFeature]);
           newaddGCPto(pointFeature);
+          if (autoEnabled) addAutoFromPoint(pointFeature); 
         }else if (mapUnderMouse == "from_map"){          
           var point = from_map.getLonLatFromPixel(fromPosition);
           var thisVector = new OpenLayers.Geometry.Point(point.lon, point.lat);
           var pointFeature = new OpenLayers.Feature.Vector(thisVector, null, null);
           active_from_vectors.addFeatures([pointFeature]);
           newaddGCPfrom(pointFeature);
+          if (autoEnabled) addAutoToPoint(pointFeature); 
         }
       
       }else if (key == 80 || key == 49) {
