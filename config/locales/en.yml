@@ -16,6 +16,9 @@ en:
     errors:
       models:
         import:
+          attributes:
+            metadata:
+              no_file_uploaded: file is not uploaded
           blank_layer_title: is blank
           layer_error: does not exist, or has not been specified properly
           no_files_error: has no files within the directory
@@ -33,6 +36,9 @@ en:
             user_id:
               not_unique: Map has already been saved.
     models:
+      import:
+        one: import
+        other: imports
       layer:
         one: layer
         other: layers
@@ -126,8 +132,14 @@ en:
     gcp: gcp
     last_th: Last Updated
     layer: mosaic
+    layer_count:
+      one: "%{count} layer"
+      other: "%{count} layers"
     layer_th: Mosaic
     map: map
+    map_count:
+      one: "%{count} map"
+      other: "%{count} maps"
     map_th: Map
     my_maps_head: My Maps
     num_th: Number of Maps
@@ -160,6 +172,7 @@ en:
       already_authenticated: You are already signed in.
       inactive: Your account is not activated yet.
       invalid: Invalid email or password.
+      invalid_token: Invalid authentication token
       last_attempt: You have one more attempt before your account will be locked.
       locked: Your account is locked.
       not_found_in_database: Invalid email or password.
@@ -231,6 +244,7 @@ en:
       update_needs_confirmation: You updated your account successfully, but we need to verify your new email address. Please check your email and click on the confirm link to finalize confirming your new email address.
       updated: You updated your account successfully.
     sessions:
+      already_signed_out: Signed out successfully.
       new:
         header: Log in
         login_button: Log in
@@ -247,6 +261,7 @@ en:
         new_unlock_instructions: Didn't receive unlock instructions?
         openstreetmap: OpenStreetMap
         sign_up: Sign up
+        social_sign_in: 'Alternatively, %{action} with:'
         twitter: Twitter
         wikimedia: Wikimedia Commons
     unlocks:
@@ -259,6 +274,16 @@ en:
     users_registrations:
       user:
         signed_up: Welcome! You have signed up successfully.
+  errors:
+    messages:
+      already_confirmed: was already confirmed, please try signing in
+      confirmation_period_expired: needs to be confirmed within %{period}, please request a new one
+      expired: has expired, please request a new one
+      not_found: not found
+      not_locked: was not locked
+      not_saved:
+        one: '1 error prohibited this %{resource} from being saved:'
+        other: "%{count} errors prohibited this %{resource} from being saved:"
   gcps:
     add:
       new_gcp_notice: New control point added.
@@ -333,6 +358,7 @@ en:
       see_maps: See all maps
       tags: Tags
       title: 'Home - '
+      unrect_maps: New Unrectified Maps
       upload_map: Upload Map!
       view_layers: View all Mosaics
   imports:
@@ -344,37 +370,68 @@ en:
       flash: Import deleted!
     edit:
       header: Edit Import
+    exports:
+      gcps_csv_file: gcps.csv
+      gcps_csv_header: Export all ground control points in CSV format
+      header: Exports
+      maps_csv_file: maps.csv
+      maps_csv_header: Export all maps in CSV format
+    form:
+      layers_label: Layers to assign the maps to
+      metadata: CSV Metadata File
+      name_label: Name (give a name to the import, required)
     import:
       edit: edit
       edit_maps: edit maps
       imported: "(Imported: %{count})"
+      view_maps: view maps
     index:
       actions: Actions
       created: Created
       csv_header: Bulk Ground Control CSV Import
       csv_link: Import CSV
+      exports_link: Exports
       header: Imports
       id: Id
-      maps: maps
+      layers: Layers
+      maps: Maps
       maps_header: New Maps Import
       maps_link: Add new import
       name: Name
       status: Status
       user: User
+    layers:
+      header: Assigned to Layers
+      no_layers: Maps not added to any Layers
     maps:
+      created: 'Created at %{created_at} by: '
       header: 'Import: %{name} Edit Maps'
     new:
       header: New import
     show:
+      count_files: Count of files in directory
+      delete: Delete this import (Does not delete maps)
+      delete_confirm: Are you sure?
+      edit: Edit this import
+      header: 'Import: %{import_name}'
+      import_is_running: This import is still running, depending on the number of maps it may take some time.
+      imported_count: Imported Count
       not_found: Import not found
+      start_button: START IMPORT
+      start_confirm: Ready to Start this import?
+      view_log_file: View Log File
+      view_running_status: View Running Status
     start:
       already_imported_error: Sorry, can't be done, this import has already been imported.
       edit_maps_link: click here to edit the maps
       error: Something went wrong with the request to the server
       finished_notice: All done!
       header: Importing...
+      imported_count: Imported Count
       importing: Importing....
       progress: 'Progress:'
+      status: Status
+      view: View Import
     update:
       error: Something went wrong updating the import
       flash: Successfully updated import.
@@ -385,6 +442,7 @@ en:
       not_enough_maps_alert: Sorry, but there should be at least two maps selected
       wrong_align_alert: Sorry, only horizontal and vertical alignment are available at the moment
     clip:
+      clip_popup_title: Clipping...
       confirm_delete_tool: Really delete this?
       delete_tool_title: Delete a polygon
       draw_tool_title: Draw new polygon to mask
@@ -410,8 +468,14 @@ en:
     warp:
       add_gcp: Add Control Point
       best_guess_message: 'Map zoomed to best guess:'
+      custom_custom_type: Custom
       custom_layer: Custom basemap
+      custom_layer_add_layer_button: Add Layer
+      custom_layer_cancel_button: Cancel
       custom_layer_title: Add Custom Basemap
+      custom_layer_type: Mosaic
+      custom_layer_year: Year
+      custom_map_type: Map
       gcp_adding: Adding...
       gcp_failed: Had trouble updating that point with the server. Try again?
       gcp_premature_alert: You have to add a new control point on each map before pressing this button.
@@ -622,6 +686,7 @@ en:
       make_public: Make Public
       max_size: 'Max size:'
       optional_hint: "(optional)"
+      photo_uuid: Photo Number
       place: Place of Publication
       projection: Metadata Projection
       published: Published Date
@@ -635,6 +700,7 @@ en:
       title: Title
       unique_id: Metadata Unique ID
       upload_file: 'Upload An Image File:'
+      upload_or_url: OR
       upload_url: 'Upload from a URL:'
     geosearch:
       button: Find Location
@@ -645,8 +711,12 @@ en:
       title: Browse Maps
     map:
       confirm_my: really remove this map from your list?
+      delete: Delete
       depicts: Depicts
       gcp: control point
+      gcp_count:
+        one: "%{count} control point"
+        other: "%{count} control points"
       in: In
       kml: Download KML
       links: Links
@@ -658,6 +728,7 @@ en:
       save_my: Save to My Maps
       source: Source / Biblio Ref
       unwarped: Unrectified
+      view_map: View Map
       warp_map: Rectify Map
     map_detail:
       last_modified: Last modified
@@ -726,7 +797,7 @@ en:
       close_popup: Close popup
       cubic: Cubic
       cubicspline: Cubic Spline , slower but best quality
-      custom_layer_instructions_html: Search for a Map or Layer. <br />Or paste in a tile URL template (Z/X/Y ordered scheme only) <br /> E.g. <code>https://example.com/osm/{z}/{x}/{y}.png</code>
+      custom_layer_instructions_html: Search for a Map or Mosaic. <br />Or paste in a tile URL template (Z/X/Y ordered scheme only) <br /> E.g. <code>https://example.com/osm/{z}/{x}/{y}.png</code>
       custom_layer_placeholder: Search for Maps and Layers
       download_gcps: Download points as CSV
       gcp_error: Error
@@ -741,6 +812,7 @@ en:
       lanczos: Lanczos
       method_label: 'Rectify Method:'
       near: Nearest Neighbour, fastest (default)
+      no_mask: No
       p1_method: 1st Order Polynomial (min 3 points)
       p2_method: 2nd Order Polynomial (min 6 points)
       p3_method: 3rd Order Polynomial (min 10 points)
@@ -752,6 +824,7 @@ en:
       tps_method: Thin Plate Spline (many points widely spread)
       unmasked_question_html: This map is not currently masked. Do you want to <a href='%{href}'>add or edit a mask now</a>?
       warp_button: Warp Image! &rarr;
+      yes_mask: Yes
     warp_aligned:
       no_destination: Sorry the destination map is not available to be aligned.
       success: Map aligned. You can now rectify it!
@@ -823,8 +896,10 @@ en:
       button: Search
       description: Description
       find_geosearch: Find Rectified Maps by Location
+      for: for
       only_rectified: Rectified maps only
       publisher: Publisher
+      search: Search
       tags: Tags
       title: Title
   user_mailer:
@@ -917,16 +992,21 @@ en:
   will_paginate:
     layer:
       page_entries_info:
+        multi_page: Displaying %{model} %{from} - %{to} of %{count} in total
+        multi_page_html: Displaying %{model} <b>%{from}&nbsp;-&nbsp;%{to}</b> of <b>%{count}</b> in total
         single_page_html:
           one: Displaying <b>1</b> %{model}
           other: Displaying <b>all&nbsp;%{count}</b> %{model}
           zero: No %{model} found
     map:
       page_entries_info:
+        multi_page: Displaying %{model} %{from} - %{to} of %{count} in total
+        multi_page_html: Displaying %{model} <b>%{from}&nbsp;-&nbsp;%{to}</b> of <b>%{count}</b> in total
         single_page_html:
           one: Displaying <b>1</b> %{model}
           other: Displaying <b>all&nbsp;%{count}</b> %{model}
           zero: No %{model} found
+    next_label: Next &#8594;
     page_entries_info:
       multi_page: Displaying %{model} %{from} - %{to} of %{count} in total
       multi_page_html: Displaying %{model} <b>%{from}&nbsp;-&nbsp;%{to}</b> of <b>%{count}</b> in total
@@ -938,3 +1018,5 @@ en:
         one: Displaying <b>1</b> %{model}
         other: Displaying <b>all&nbsp;%{count}</b> %{model}
         zero: No %{model} found
+    page_gap: "&hellip;"
+    previous_label: "&#8592; Previous"
