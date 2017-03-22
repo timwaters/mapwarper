@@ -14,7 +14,6 @@
 //= require jquery_ujs
 //= require jquery.ui.all
 
-//= require jquery-bramus-progressbar/jquery-bramus-progressbar
 //= require general
 //= require jquery.history
 //= require i18n-translations

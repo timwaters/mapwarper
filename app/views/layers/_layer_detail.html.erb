@@ -5,7 +5,7 @@
   </td>
   <td >
     <span class="layer_title">
-      <%= link_to h(layer.name),  layer_path(layer) -%>
+      <%= link_to layer.name,  layer_path(layer) -%>
     </span>
     <br />
     <span class="layer_description">
@@ -18,14 +18,14 @@
       <%if admin_authorized? %>&nbsp;<a href="#" id="edit-year-link-top"><%= t('.edit_year') %></a><%end-%>
     </span>
     <span class="layer_summary">
-      <%- if layer.source_uri -%>
+      <%- if !layer.source_uri.blank? -%>
         <%= t('layers.layer.links') %>: <%= link_to t('layers.layer.source') ,layer.source_uri  %>
       <%- end -%>
     </span>
     <br />
     <span class="layer_mapcount">
-      <%= pluralize layer.maps_count, t('common.map')  -%>
-      (<%= pluralize layer.rectified_maps_count, t('common.map') -%> rectified <%=number_to_percentage(layer.rectified_percent, :precision=>0)-%>)
+      <%= t('common.map_count', count: layer.maps_count) -%>
+      (<%= t('common.map_count', count: layer.rectified_maps_count) -%> rectified <%=number_to_percentage(layer.rectified_percent, :precision=>0)-%>)
     </span><br />
     <% if admin_authorized? -%>
       <span class="layer_visibility">

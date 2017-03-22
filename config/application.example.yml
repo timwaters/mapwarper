@@ -6,7 +6,11 @@ defaults: &defaults
   google_analytics_cookie_path:  ""
   src_maps_dir: 
   dst_maps_dir: 
-  yahoo_app_id: "ascas"
+  mapzen_key: "ABC"
+  geocode_country: ""
+  geoparse_geocodexyz_key: ""
+  geoparse_region: ""
+  geoparse_enable: false
   host: "localhost:3000"
   site_name: "MapWarper"
   omniauth_osm_key: "ABC"
@@ -24,7 +28,10 @@ defaults: &defaults
   id_secret: ""
   mapbox_access_token: ""
   localeapp_api_key: ""
-  
+  import_maps_sftp_path: "/home/sftpuser/maps"
+  #gdal_path: "/home/fwtools/bin_safe/"
+  gdal_path: ""
+  gdal_memory_limit: ""
 
 development:
   <<: *defaults

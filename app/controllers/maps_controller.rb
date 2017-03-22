@@ -6,10 +6,10 @@ class MapsController < ApplicationController
   
   before_filter :authenticate_user!, :only => [:new, :create, :edit, :update, :destroy, :delete, :warp, :rectify, :clip, :align, :warp_align, :mask_map, :delete_mask, :save_mask, :save_mask_and_warp, :set_rough_state, :set_rough_centroid, :publish, :trace, :id, :map_type]
  
-  before_filter :check_administrator_role, :only => [:publish]
+  before_filter :check_administrator_role, :only => [:publish, :csv]
  
   before_filter :find_map_if_available,
-    :except => [:show, :index, :wms, :tile, :mapserver_wms, :warp_aligned, :status, :new, :create, :update, :edit, :tag, :geosearch]
+    :except => [:show, :index, :wms, :tile, :mapserver_wms, :warp_aligned, :status, :new, :create, :update, :edit, :tag, :geosearch, :csv]
 
   before_filter :check_link_back, :only => [:show, :warp, :clip, :align, :warped, :export, :activity]
   before_filter :check_if_map_is_editable, :only => [:edit, :update, :map_type]
@@ -123,7 +123,11 @@ class MapsController < ApplicationController
       flash[:notice] = t('.error')
     end
     respond_to do |format|
-      format.html { redirect_to(maps_url) }
+      if params[:redirect_back] 
+        format.html { redirect_to :back}
+      else
+        format.html { redirect_to(maps_url) }
+      end
       format.xml  { head :ok }
     end
   end
@@ -239,29 +243,48 @@ class MapsController < ApplicationController
   
     
   def geosearch
-    require 'geoplanet'
     sort_init 'updated_at'
     sort_update
-
+    
     extents = [-74.1710,40.5883,-73.4809,40.8485] #NYC
-
-    #TODO change to straight javascript call.
+    #4.4105738830595, bottom: 52.092504698694, right: 4.5544261169405, top: 52.229400905666,
+    #extents = [4.4105, 52.092, 4.554, 52.229] #leiden
+    
     if params[:place] && !params[:place].blank?
-      place_query = params[:place]
-      GeoPlanet.appid = APP_CONFIG['yahoo_app_id']
+      api_key = APP_CONFIG["mapzen_key"]
       
-      geoplanet_result = GeoPlanet::Place.search(place_query, :count => 2)
+      uri = URI('https://search.mapzen.com/v1/search')
+      query_params = { :text => params[:place], :api_key => api_key, :size => 2, :sources => "wof,geonames", :layers => "coarse"}
       
-      if geoplanet_result && geoplanet_result[0]
-        g_bbox =  geoplanet_result[0].bounding_box.map!{|x| x.reverse}
-        extents = g_bbox[1] + g_bbox[0]
-        render :json => extents.to_json
-        return
-      else
+      if !APP_CONFIG["geocode_country"].blank?
+        query_params = query_params.merge({"boundary.country" => APP_CONFIG["geocode_country"]})
+      end
+      
+      uri.query = URI.encode_www_form(query_params)
+      begin
+        res = Net::HTTP.get_response(uri)
+        if res.kind_of? Net::HTTPSuccess
+          results = JSON.parse(res.body)
+          if results["features"].size > 0
+            extents = results["features"][0]["bbox"]
+          else
+            logger.error "http not successful in geosearch place" 
+          end
+        end
+        
+      rescue Net::ReadTimeout => e
+        logger.error "timeout in geosearch place" + e.to_s
+      rescue Net::HTTPBadResponse => e
+        logger.error "http bad response in geosearch place " + e.to_s
+      rescue SocketError => e
+        logger.error "Socket error in geosearch place " + e.to_s
+      ensure
         render :json => extents.to_json
         return
       end
+      
     end
+    
 
     if params[:bbox] && params[:bbox].split(',').size == 4
       begin
@@ -337,6 +360,11 @@ class MapsController < ApplicationController
         :total_pages => @maps.total_pages,
         :items => @maps.to_a}.to_json(:methods => :depicts_year) , :callback => params[:callback]}
     end
+  end
+  
+  #admin only sends all maps as CSV format
+  def csv
+    send_data(Map.to_csv, {:filename => "maps.csv" })
   end
   
   
@@ -877,7 +905,7 @@ class MapsController < ApplicationController
         # @map.users << current_user
       end
       
-      @output = @map.warp! transform_option, resample_option, use_mask #,masking_option
+      @output = @map.warp! resample_option, transform_option, use_mask #,masking_option
       
       @map.clear_cache
 

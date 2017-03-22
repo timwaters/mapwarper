@@ -1,5 +1,6 @@
 require "open3"
 require "error_calculator"
+require 'csv'
 include ErrorCalculator
 class Map < ActiveRecord::Base
   
@@ -15,13 +16,14 @@ class Map < ActiveRecord::Base
     :default_url => "missing.png"
   validates_attachment_size(:upload, :less_than => MAX_ATTACHMENT_SIZE) if defined?(MAX_ATTACHMENT_SIZE)
   #attr_protected :upload_file_name, :upload_content_type, :upload_size
-  validates_attachment_content_type :upload, :content_type => ["image/jpg", "image/jpeg", "image/png", "image/gif", "image/tiff"]
+  validates_attachment_content_type :upload, :content_type => ["image/jp2","image/jpg", "image/jpeg", "image/png", "image/gif", "image/tiff"]
   
   validates_presence_of :title
   validates_numericality_of :rough_lat, :rough_lon, :rough_zoom, :allow_nil => true
   validates_numericality_of :metadata_lat, :metadata_lon, :allow_nil => true
   validates_length_of :issue_year, :maximum => 4,:allow_nil => true, :allow_blank => true
   validates_numericality_of :issue_year, :if => Proc.new {|c| not c.issue_year.blank?}
+  validates_uniqueness_of :unique_id, :allow_nil => true, :allow_blank => true
 
   acts_as_taggable
   acts_as_commentable
@@ -94,7 +96,7 @@ class Map < ActiveRecord::Base
   end
    
   def save_dimensions
-    if ["image/jpeg", "image/tiff", "image/png", "image/gif", "image/bmp"].include?(upload.content_type.to_s)      
+    if ["image/jp2","image/jpeg", "image/tiff", "image/png", "image/gif", "image/bmp"].include?(upload.content_type.to_s)      
       tempfile = upload.queued_for_write[:original]
       unless tempfile.nil?
         geometry = Paperclip::Geometry.from_file(tempfile)
@@ -190,6 +192,10 @@ class Map < ActiveRecord::Base
     if File.exists?(warped_filename)
       logger.info "Deleted Map warped"
       File.delete(warped_filename)
+    end
+    if File.exists?(warped_overviews_filename)
+      logger.info "Deleted external warped overviews file"
+      File.delete(warped_overviews_filename)
     end
     if File.exists?(warped_png_filename)
       logger.info "deleted warped png"
@@ -291,6 +297,10 @@ class Map < ActiveRecord::Base
 
   def warped_filename
     File.join(warped_dir, id.to_s) + ".tif"
+  end
+  
+  def warped_overviews_filename
+    File.join(warped_dir, id.to_s) + ".aux"
   end
 
   def warped_png_dir
@@ -441,6 +451,12 @@ class Map < ActiveRecord::Base
     cbounds.join(",")
   end
   
+  def bbox_centroid
+    centroid =  bbox_geom.nil? ? nil : "#{bbox_geom.centroid.x},#{bbox_geom.centroid.x}"
+    
+    return centroid
+  end
+  
   #attempts to align based on the extent and offset of the
   #reference map's warped image
   #results it nicer gcps to edit with later
@@ -550,7 +566,6 @@ class Map < ActiveRecord::Base
     #copy over orig to a new unmasked file
     FileUtils.copy(unwarped_filename, masked_src_filename)
     
-    
     command = "#{GDAL_PATH}gdal_rasterize -i  -burn 17 -b 1 -b 2 -b 3 #{masking_file} -l #{layer} #{masked_src_filename}"
     r_stdout, r_stderr = Open3.capture3( command )
     logger.info command
@@ -612,10 +627,10 @@ class Map < ActiveRecord::Base
     end
     
     logger.info "gdal translate"
-  
+   
     command = "#{GDAL_PATH}gdal_translate -a_srs '+init=epsg:4326' -of VRT #{src_filename} #{temp_filename}.vrt #{gcp_string}"
     t_stdout, t_stderr = Open3.capture3( command )
-    
+        
     logger.info command
     
     t_out  = t_stdout
@@ -629,13 +644,13 @@ class Map < ActiveRecord::Base
       t_out = "Okay, translate command ran fine! <div id = 'scriptout'>" + t_out + "</div>"
     end
     trans_output = t_out
-    
-    memory_limit =  (defined?(GDAL_MEMORY_LIMIT)) ? "-wm "+GDAL_MEMORY_LIMIT.to_s :  ""
-    
-    #check for colorinterop=pal ? -disnodata 255 or -dstalpha
+     
+    memory_limit = APP_CONFIG["gdal_memory_limit"].blank? ? "" : "-wm #{APP_CONFIG['gdal_memory_limit']}"
+  
     command = "#{GDAL_PATH}gdalwarp #{memory_limit}  #{transform_option}  #{resample_option} -dstalpha #{mask_options} -s_srs 'EPSG:4326' #{temp_filename}.vrt #{dest_filename} -co TILED=YES -co COMPRESS=LZW"
-    w_stdout, w_stderr = Open3.capture3( command )
     logger.info command
+   
+    w_stdout, w_stderr = Open3.capture3( command )
     
     w_out = w_stdout
     w_err = w_stderr
@@ -780,6 +795,24 @@ class Map < ActiveRecord::Base
     message = I18n.t('maps.model.gml_mask_saved')
   end
   
+  
+  def self.to_csv
+    CSV.generate(:col_sep => ";") do |csv|
+      csv <<  ["id", "title", "description", "authors", "bbox", "bbox_centroid", "call_number", "created_at", "updated_at", 
+        "date_depicted",  "filename", "import_id", "issue_year", "map_type", "mask_status", "owner_id", "public", 
+        "metadata_lat", "metadata_lon", "metadata_projection",
+        "publication_place", "published_date", "publisher", "rectified_at", "reprint_date", "scale", "source_uri", "status", 
+        "subject_area",  "unique_id",  "upload_content_type",  "upload_file_name", "upload_file_size", "height", "width"] ## Header values of CSV
+      all.each do |m |
+        csv << [m.id, m.title, m.description, m.authors, m.bbox, m.bbox_centroid, m.call_number, m.created_at, m.updated_at,
+          m.date_depicted, m.filename, m.import_id, m.issue_year, m.map_type, m.mask_status, m.owner_id, m.public,
+          m.metadata_lat, m.metadata_lon, m.metadata_projection,
+          m.publication_place, m.published_date, m.publisher, m.rectified_at, m.reprint_date, m.scale, m.source_uri, m.status,
+          m.subject_area, m.unique_id, m.upload_content_type, m.upload_file_name, m.upload_file_size, m.height, m.width          
+        ] ##Row values of CSV
+      end
+    end
+  end  
  
   ############
   #PRIVATE
@@ -799,66 +832,81 @@ class Map < ActiveRecord::Base
     end
   end
 
-
+  #uses geocode.xyz geoparse api
   def find_bestguess_places
-    yql = Yql::Client.new
-    query = Yql::QueryBuilder.new 'geo.placemaker'
-
-    query.conditions = {:documentContent => ERB::Util.h(self.title.to_s) + " "+ ERB::Util.h(self.description.to_s), :documentType => "text/plain", :appid => APP_CONFIG['yahoo_app_id'] }
-    yql.query = query
-    yql.format = "json"
+    return  {:status => "fail", :code => "geoparse disabled"} if APP_CONFIG["geoparse_enable"] == false 
+    
+    uri = URI("https://geocode.xyz")
+    scantext = ERB::Util.h(self.title.to_s) + " "+ ERB::Util.h(self.description.to_s)
+    
     begin
-      resp = yql.get
-      data = resp.show.to_s
-
-      results = JSON.parse(data)
-
-      places = Array.new
-      if results["query"]["results"] && results["query"]["results"]["matches"]
-        found_places = results["query"]["results"]["matches"]["match"]
+     
+      form_data = {'scantext' => scantext, 'geojson' => '1'}
+      if !APP_CONFIG["geoparse_region"].blank?
+        form_data = form_data.merge({"region"=> APP_CONFIG["geoparse_region"]})
+      end
+      if !APP_CONFIG["geoparse_geocodexyz_key"].blank?
+        form_data = form_data.merge({"auth" => APP_CONFIG["geoparse_geocodexyz_key"]})
+      end
+           
+      req = Net::HTTP::Post.new(uri)
+      req.set_form_data(form_data)
+      
+      res = Net::HTTP.start(uri.hostname, uri.port, :use_ssl => true, :read_timeout => 2) do |http|
+        http.request(req)
+      end
+      
+      results = JSON.parse(res.body)
+      
+      if results["properties"]["matches"].to_i > 0
+        places = Array.new
+        found_places  = results["features"]
         max_lat, max_lon, min_lat, min_lon = -90.0, -180.0, -90.0, 180.0
-        found_places = [found_places] if found_places.is_a?(Hash)
         found_places.each do | found_place |
-          place = found_place["place"]
           place_hash = Hash.new
-          place_hash[:name] = place['name']
-          lon =  place['centroid']['longitude']
-          lat =  place['centroid']['latitude']
-          place_hash[:lon] = lon
-          place_hash[:lat] = lat
+          place_hash[:name] = found_place["properties"]["location"]
+          lon = place_hash[:lon] = found_place["geometry"]["coordinates"][0]
+          lat = place_hash[:lat] = found_place["geometry"]["coordinates"][1]
           places << place_hash
-
+          
           max_lat = lat.to_f if lat.to_f > max_lat
           min_lat = lat.to_f if lat.to_f < min_lat
           max_lon = lon.to_f if lon.to_f > max_lon
           min_lon = lon.to_f if lon.to_f < min_lon
         end
-
+        
         extents =  [min_lon, min_lat, max_lon, max_lat].join(',')
-
         if !self.layers.visible.empty? && !self.layers.visible.first.maps.warped.empty?
           sibling_extent = self.layers.visible.first.maps.warped.last.bbox
         else
           sibling_extent = nil
         end
-
+        
         placemaker_result = {:status => "ok", :map_id => self.id, :extents => extents, :count => places.size, :places => places, :sibling_extent=> sibling_extent}
-
+          
       else
         placemaker_result = {:status => "fail", :code => "no results"}
       end
-
+    rescue JSON::ParserError => e
+      logger.error "JSON ParserError in find bestguess places " + e.to_s
+      placemaker_result = {:status => "fail", :code => "jsonError"}
+    rescue Net::ReadTimeout => e
+      logger.error "timeout in find bestguess places, probably throttled " + e.to_s
+      placemaker_result = {:status => "fail", :code => "timeout"}
+    rescue Net::HTTPBadResponse => e
+      logger.error "http bad response in find bestguess places " + e.to_s
+      placemaker_result = {:status => "fail", :code => "badResponse"}
     rescue SocketError => e
-      logger.error "Socket error in find bestguess places" + e.to_s
+      logger.error "Socket error in find bestguess places " + e.to_s
       placemaker_result = {:status => "fail", :code => "socketError"}
-    rescue Yql::Error => e
-      logger.error "YQL error in find bestguess places" + e.to_s
-      placemaker_result = {:status => "fail", :code => "yqlError"}
+    rescue StandardError => e
+      logger.error "StandardError " + e.to_s
+      placemaker_result = {:status => "fail", :code => "StandardError"}
     end
     
-    placemaker_result
+    return placemaker_result
   end
-
+  
   def clear_cache
     Rails.cache.delete_matched ".*/maps/wms/#{self.id}.png\?status=warped.*"
     Rails.cache.delete_matched "*/maps/tile/#{self.id}/*"

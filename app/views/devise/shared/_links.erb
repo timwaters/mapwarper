@@ -1,40 +1,40 @@
 <%- if controller_name != 'sessions' %>
-  <%= link_to t('.login'), new_session_path(resource_name) %><br />
+  <%= link_to t('.login'), new_session_path(resource_name), :class=>"devise-link" %><br />
 <% end -%>
 
-<%- if devise_mapping.registerable? && controller_name != 'users_registrations' %>
-  <%= link_to t('.sign_up'), new_registration_path(resource_name) %><br />
+<%- if devise_mapping.registerable? && controller_name != 'registrations' %>
+  <%= link_to t('.sign_up'), new_registration_path(resource_name), :class=>"devise-link" %><br />
 <% end -%>
 
-<%- if devise_mapping.recoverable? && controller_name != 'passwords' && controller_name != 'users_registrations' %>
-  <%= link_to t('.forgot_password'), new_password_path(resource_name) %><br />
+<%- if devise_mapping.recoverable? && controller_name != 'passwords' && controller_name != 'registrations' %>
+  <%= link_to t('.forgot_password'), new_password_path(resource_name), :class=>"devise-link" %><br />
 <% end -%>
 
 <%- if devise_mapping.confirmable? && controller_name != 'confirmations' %>
-  <%= link_to t('.new_confirmation_instructions'), new_confirmation_path(resource_name) %><br />
+  <%= link_to t('.new_confirmation_instructions'), new_confirmation_path(resource_name), :class=>"devise-link" %><br />
 <% end -%>
 
 <%- if devise_mapping.lockable? && resource_class.unlock_strategy_enabled?(:email) && controller_name != 'unlocks' %>
-  <%= link_to t('.new_unlock_instructions'), new_unlock_path(resource_name) %><br />
+  <%= link_to t('.new_unlock_instructions'), new_unlock_path(resource_name), :class=>"devise-link"%><br />
 <% end -%>
 
 <%- if devise_mapping.omniauthable? %>
-<%- sign_action = "log in"
-    if controller_name == "users_registrations"
-      sign_action = "sign up"
+<%- sign_action = t('.login').downcase
+    if controller_name == "registrations"
+      sign_action = t('.sign_up').downcase
      end 
 %>
      
 <div class="omniauth_links">
-  Alternatively, <%= sign_action %> with: <br /> 
+  <%= t('.social_sign_in', :action => sign_action) %> <br /> 
   <span class="osm">
     <%= link_to "#{image_tag("osm_logo.png", width: '25', height: '25')} #{t('.openstreetmap')}".html_safe, omniauth_authorize_path(resource_name, "osm"), :class=>"osm" %>
   </span>
   <span class="github">
     <%= link_to "#{image_tag("github_logo.png", width: '25', height: '25')} #{t('.github')}".html_safe, omniauth_authorize_path(resource_name, "github"), :class=>"github" %>
   </span>
-  <span class="commons">
-    <%= link_to "#{image_tag("commons_logo.png", width: '25', height: '25')} #{t('.wikimedia')}".html_safe, omniauth_authorize_path(resource_name, "mediawiki"), :class=>"osm" %>
+  <span class="facebook">
+    <%= link_to "#{image_tag("facebook_logo.png", width: '25', height: '25')} #{t('.facebook')}".html_safe, omniauth_authorize_path(resource_name, "facebook"), :class=>"facebook" %>
   </span>
 </div>
 <% end -%>

@@ -10,7 +10,7 @@
   else
   errorclass = "blue"
   end -%>
-<tr id="gcp<%= gcp.id %>">
+<tr id="gcp<%= gcp.id %>" class="<%= cycle('gcp-table0', 'gcp-table1') -%>">
   <td id="gcp_id_tr<%=gcp.id%>"><span class="marker_number">&nbsp;</span>
     <input id="gcp_id<%=gcp.id%>" type="hidden" value="<%= gcp.id %>" class="gcp_id" />
   </td>

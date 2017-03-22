@@ -42,7 +42,7 @@ class HomeController < ApplicationController
   def get_news_feeds
     cache("news_feeds", :expires_in => 1.day.from_now) do 
       @feeds = RssParser.run("https://thinkwhere.wordpress.com/tag/mapwarper/feed/")
-      @feeds = @feeds[:items][0..1]
+      @feeds = @feeds[:items][0..2]
     end
   end
 

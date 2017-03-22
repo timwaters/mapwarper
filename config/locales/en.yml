@@ -346,7 +346,7 @@ en:
       create_layer: Create a new mosaic
       info_contact: Mail me at tim@geothings.net for more information!
       info_header: What is it?
-      info_paragraph_html: It's a free to use, open source map warper / map georectifier, and image georeferencer tool. This project is supported by <a  href='http://topomancy.com'>Topomancy LLC</a> and the <a href='http://maps.nypl.org'>New York Public Library</a>.
+      info_paragraph_html: It's a free to use, open source map warper / map georectifier, and image georeferencer tool. Developed, hosted and maintained by Tim Waters, this project is supported by <a  href='http://topomancy.com'>Topomancy LLC</a> and the <a href='http://maps.nypl.org'>New York Public Library</a>.
       more: read more
       news: News
       overview_header: Overview
@@ -805,7 +805,7 @@ en:
       gcp_lon: Lon
       gcp_point: Point
       gcp_upload_button: Upload CSV!
-      gcp_upload_label: CSV File with Control Points
+      gcp_upload_label: Add Control Points from CSV
       gcp_x: Image X
       gcp_y: Image Y
       gcps_link: Control Points
@@ -990,6 +990,10 @@ en:
       u_no: 'no'
       u_yes: 'yes'
   will_paginate:
+    entry:
+      page_entries_info:
+        single_page_html:
+          zero: Nothing found
     layer:
       page_entries_info:
         multi_page: Displaying %{model} %{from} - %{to} of %{count} in total

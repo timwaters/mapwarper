@@ -14,7 +14,7 @@ GDAL_PATH = APP_CONFIG['gdal_path'] || ""
 # Uncomment and populate the config file if you want to enable:
 # MAX_DIMENSION = will reduce the dimensions of the image when uploaded
 # MAX_ATTACHMENT_SIZE = will reject files that are bigger than this
-# GDAL_MEMORY_LIMIT = limit the amount of memory available to gdal 
+# APP_CONFIG['gdal_memory_limit'] = limit the amount of memory available to gdal 
 #
 #MAX_DIMENSION = APP_CONFIG['max_dimension']
 #MAX_ATTACHMENT_SIZE = APP_CONFIG['max_attachment_size']

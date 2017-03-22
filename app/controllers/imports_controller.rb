@@ -3,10 +3,13 @@ class ImportsController < ApplicationController
   before_filter :authenticate_user!
   before_filter :check_administrator_role
 
-  before_filter :find_import, :except => [:index, :new, :create]
+  before_filter :find_import, :except => [:index, :new, :create, :exports]
   before_filter :check_imported, :only => [:start]
 
   rescue_from ActiveRecord::RecordNotFound, :with => :bad_record
+  
+  helper :sort
+  include SortHelper
 
   def index
     @imports = Import.order("updated_at DESC").paginate(:page => params[:page],:per_page => 30)
@@ -20,7 +23,8 @@ class ImportsController < ApplicationController
   def create
     @import = Import.new(import_params)
     @import.user = current_user
-    @import.state = "ready"
+    @import.status = :ready
+    @import.file_count = @import.dir_file_count
     if @import.save
       flash[:notice] = t('.flash')
       redirect_to import_url(@import)
@@ -57,25 +61,38 @@ class ImportsController < ApplicationController
   end
 
   def start
-    Spawnling.new do
-      @import.start_importing
+    if @import.status == :ready
+      @import.prepare_run
+      Spawnling.new do
+        @import.import!({:async => true})
+      end
     end
   end
 
   def status
-    render :text => @import.status
+    #render :text => @import.status
+    render :json => {:status => @import.status, :count => @import.imported_count}
   end
 
   def maps
-    @upload_user = User.find(@import.uploader_user_id)
-    if @import.layer_id == -99
-      @layer = @import.maps.first.layers.first
-    elsif @import.layer_id != nil
-      @layer = Layer.find(@import.layer_id)
+    sort_init('created_at', {:default_order => "desc"})
+    sort_update
+    if params[:sort_order] && params[:sort_order] == "desc"
+      sort_nulls = " NULLS LAST"
+    else
+      sort_nulls = " NULLS FIRST"
     end
+    order_options = sort_clause + sort_nulls
     
-
-    #show finished import, or alter show?
+    @maps = @import.maps.order(order_options).paginate(:page => params[:page],:per_page => 50)
+  end
+  
+  def log
+    send_file @import.log_path, :disposition => :inline, :type => 'text/plain'
+  end
+  
+  def exports
+    
   end
 
   private
@@ -85,7 +102,7 @@ class ImportsController < ApplicationController
   end
 
   def check_imported
-    if @import.state == "imported"
+    if @import.status == :finished
       flash[:notice] = t('imports.start.already_imported_error')
       redirect_to imports_path
     end

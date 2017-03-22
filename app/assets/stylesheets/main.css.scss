@@ -1267,7 +1267,7 @@ font-style:italic;
   {     margin-left: 2px;
         position: relative;
         z-index: 22;
-	height:500px;
+	height:600px;
 	border:1px solid #999999;
 }
 
@@ -1395,7 +1395,8 @@ font-size:80%;
 }
 
 table#gcp_table td {
-
+  vertical-align: bottom;
+  padding-bottom: 2px;
 }
 table#gcp_table th {
 text-align: left;
@@ -1415,25 +1416,38 @@ table#gcp_table input {
 	width:10em;
 }
 
-table#gcp_table input.red {
-color: #ff6a51;
-}
-table#gcp_table input.orange {
-color: #ffd201;
+table#gcp_table {
+  input.red {
+    color: #ff6a51;
+  }
+  input.orange {
+    color: #ffd201;
+  }
+
+  input.green {
+    color: #00e400;
+  }
+  input.blue {
+    color: #00aeff; 
+  }
 }
 
-table#gcp_table input.green {
-color: #00e400;
+table#gcp_table {
+  tr.gcp-table0
+  {
+    background:#EAEAD7 none repeat scroll 0;
+  }
+  tr.gcp-table1
+  {
+  }
 }
-table#gcp_table input.blue {
-color: #00aeff; 
-}
+
 
 #from_map,#to_map
 {
   position: relative;
   z-index: 2;
-  height:420px;
+  height:600px;
   cursor: crosshair;
 }
 .map-off {
@@ -1491,11 +1505,16 @@ font-size: smaller;
 .clearfix:before, .clearfix:after { content: " "; display: table; }
 .clearfix:after { clear: both; }
 
+#import_layer_ids {
+  width: 450px;
+}
+
 
 /* OPENLAYERS spechul stilz */
+
 .olPopupCloseBox {
-    background: transparent asset_url("close.gif") no-repeat scroll 0% 0%;
-        margin-right: -3px;
+    background: asset_url("close.gif") no-repeat scroll 0% 0%;
+    margin-right: -3px;
     }
 
 div.olControlMousePosition

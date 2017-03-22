@@ -1,6 +1,6 @@
 <h2><%= t('.header') %><span class="admin-only"><%= t('.admin_only') %></span></h2>
 <p>
-<%= t('.help_html', :count_maps => pluralize(@layer.maps_count, t('common.map')), :layer_id => @layer.id ) %>
+<%= t('.help_html', :count_maps => t('common.map_count', count: @layer.maps_count), :layer_id => @layer.id ) %>
 </p>
 <table>
   <tr>
@@ -10,7 +10,7 @@
   </tr>
 </table>
 
-<%= t('.move_all', :count_maps => pluralize(@layer.maps_count, t('common.map')) ) %>
+<%= t('.move_all', :count_maps => t('common.map_count', count: @layer.maps_count))  %>
 
 <%= form_for :layer, :url=> { :action=>"merge"},
   :html => {:method => :put } do |f| %>
