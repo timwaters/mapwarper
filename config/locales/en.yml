@@ -346,7 +346,7 @@ en:
       create_layer: Create a new mosaic
       info_contact: Mail me at tim@geothings.net for more information!
       info_header: What is it?
-      info_paragraph_html: It's a free to use, open source map warper / map georectifier, and image georeferencer tool. Developed, hosted and maintained by Tim Waters, this project is supported by <a  href='http://topomancy.com'>Topomancy LLC</a> and the <a href='http://maps.nypl.org'>New York Public Library</a>.
+      info_paragraph_html: It's a free to use, open source map warper / map georectifier, and image georeferencer tool. Developed, hosted and maintained by <a href='https://twitter.com/tim_waters'>Tim Waters</a>, this project is supported by <a  href='http://topomancy.com'>Topomancy LLC</a> and the <a href='http://maps.nypl.org'>New York Public Library</a>.
       more: read more
       news: News
       overview_header: Overview
@@ -466,7 +466,7 @@ en:
       mbox_satellite_attribution: <a href="https://www.mapbox.com/about/maps/" target="_blank">&copy; Mapbox</a> <a href="https://openstreetmap.org/about/" target="_blank">&copy; OpenStreetMap</a> <a class="mapbox-improve-map" href="https://www.mapbox.com/map-feedback/" target="_blank">Improve this map</a> <a href="https://www.digitalglobe.com/" target="_blank">&copy; DigitalGlobe</a>
       osm_attribution: '&copy <a href="http://www.openstreetmap.org/">OpenStreetMap</a> contributors'
     warp:
-      add_gcp: Add Control Point
+      add_gcp: Add Control Point (1,p)
       best_guess_message: 'Map zoomed to best guess:'
       custom_custom_type: Custom
       custom_layer: Custom basemap
@@ -481,8 +481,8 @@ en:
       gcp_premature_alert: You have to add a new control point on each map before pressing this button.
       gcp_updated: Control Point updated!
       gcp_updating: Updating...
-      move_gcp: Move Control Point
-      move_map: Move Around Map
+      move_gcp: Move Control Point (2,d)
+      move_map: Move Around Map (3,m)
       other_places: 'Other places:'
       rms_error_prefix: Error
       warp_popup_title: Rectifier is Working...
