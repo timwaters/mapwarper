@@ -28,9 +28,6 @@ class Gcp < ActiveRecord::Base
         if new_gcp[:mapid]
           map = Map.find new_gcp[:mapid]
           mapid = map.id
-        elsif new_gcp[:pageid]
-          map = Map.find_by_page_id!(new_gcp[:pageid].to_s)
-          mapid = map.id
         else
           next 
         end

@@ -1,4 +1,4 @@
-if defined?(Rails) && !Rails.env.production?
+if defined?(Rails) && Rails.env.development?
     require 'localeapp/rails'
 
     if defined? APP_CONFIG['localeapp_api_key'] 
