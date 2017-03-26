@@ -1549,7 +1549,7 @@ No authentication required.
 
 **Example**
 
-[http://wikimaps.mapwarper.net/api/v1/gcps/2](http://wikimaps.mapwarper.net/api/v1/gcps/2)
+[http://mapwarper.net/api/v1/gcps/2](http://mapwarper.net/api/v1/gcps/2)
 
 **Response**
 
@@ -1714,7 +1714,7 @@ Requires authentication.
 In this example, we are changing the value of x and y.
 
 ```
-curl -H "Content-Type: application/json" -H 'Accept: application/json' -X PUT -d '{"data":{"type":"gcps","attributes":{"x":22,"y":55,"map_id":2}}}' http://wikimaps.mapwarper.net/api/v1/gcps/21 -b cookie
+curl -H "Content-Type: application/json" -H 'Accept: application/json' -X PUT -d '{"data":{"type":"gcps","attributes":{"x":22,"y":55,"map_id":2}}}' http://mapwarper.net/api/v1/gcps/21 -b cookie
 ```
 
 **Response**
@@ -1762,7 +1762,7 @@ Example:
 **curl example**
 
 ```
-curl -H "Content-Type: application/json" -H 'Accept: application/json' -X DELETE http://wikimaps.mapwarper.net/api/v1/gcps/21 -b cookie
+curl -H "Content-Type: application/json" -H 'Accept: application/json' -X DELETE http://mapwarper.net/api/v1/gcps/21 -b cookie
 ```
 
 **Response**
@@ -1828,7 +1828,7 @@ Requires authentication.
 
 ```
 {{{
-curl -X POST -d "format=json" -d 'output=<wfs:FeatureCollection xmlns:wfs="http://www.opengis.net/wfs"><gml:featureMember xmlns:gml="http://www.opengis.net/gml"><feature:features xmlns:feature="http://mapserver.gis.umn.edu/mapserver" fid="OpenLayers.Feature.Vector_207"><feature:geometry><gml:Polygon><gml:outerBoundaryIs><gml:LinearRing><gml:coordinates decimal="." cs="," ts=" ">1490.0376070686068,5380.396178794179 3342.4880893970894,5380.214910602912 3582.659,5126.446 3555.463,4813.692 3637.051,4487.34 4276.157,3753.048 4575.313,3113.942 4546.465124740124,1412.519663201663 2417.4615530145525,1317.354124740125 1431.415054054054,1294.9324823284824 1447.7525384615387,2187.807392931393 1434.5375363825372,5034.563750519751 1490.0376070686068,5380.396178794179</gml:coordinates></gml:LinearRing></gml:outerBoundaryIs></gml:Polygon></feature:geometry></feature:features></gml:featureMember></wfs:FeatureCollection>' http://wikimaps.mapwarper.net/api/v1/maps/2/mask -b cookie
+curl -X POST -d "format=json" -d 'output=<wfs:FeatureCollection xmlns:wfs="http://www.opengis.net/wfs"><gml:featureMember xmlns:gml="http://www.opengis.net/gml"><feature:features xmlns:feature="http://mapserver.gis.umn.edu/mapserver" fid="OpenLayers.Feature.Vector_207"><feature:geometry><gml:Polygon><gml:outerBoundaryIs><gml:LinearRing><gml:coordinates decimal="." cs="," ts=" ">1490.0376070686068,5380.396178794179 3342.4880893970894,5380.214910602912 3582.659,5126.446 3555.463,4813.692 3637.051,4487.34 4276.157,3753.048 4575.313,3113.942 4546.465124740124,1412.519663201663 2417.4615530145525,1317.354124740125 1431.415054054054,1294.9324823284824 1447.7525384615387,2187.807392931393 1434.5375363825372,5034.563750519751 1490.0376070686068,5380.396178794179</gml:coordinates></gml:LinearRing></gml:outerBoundaryIs></gml:Polygon></feature:geometry></feature:features></gml:featureMember></wfs:FeatureCollection>' http://mapwarper.net/api/v1/maps/2/mask -b cookie
 }}}
 ```
 
@@ -1871,7 +1871,7 @@ Applies the clipping mask to a map, but does not warp it. A clipping mask should
 **Example**
 
 ```
-curl -H "Content-Type: application/json" -H 'Accept: application/json' -X PATCH http://wikimaps.mapwarper.net/api/v1/maps/2/crop -b cookie
+curl -H "Content-Type: application/json" -H 'Accept: application/json' -X PATCH http://mapwarper.net/api/v1/maps/2/crop -b cookie
 ```
 
 **Response**
@@ -1913,7 +1913,7 @@ Requires authentication.
 
 ```
 {{{
-curl -X POST -d "format=json" -d 'output=<wfs:FeatureCollection xmlns:wfs="http://www.opengis.net/wfs"><gml:featureMember xmlns:gml="http://www.opengis.net/gml"><feature:features xmlns:feature="http://mapserver.gis.umn.edu/mapserver" fid="OpenLayers.Feature.Vector_207"><feature:geometry><gml:Polygon><gml:outerBoundaryIs><gml:LinearRing><gml:coordinates decimal="." cs="," ts=" ">1490.0376070686068,5380.396178794179 3342.4880893970894,5380.214910602912 3582.659,5126.446 3555.463,4813.692 3637.051,4487.34 4276.157,3753.048 4575.313,3113.942 4546.465124740124,1412.519663201663 2417.4615530145525,1317.354124740125 1431.415054054054,1294.9324823284824 1447.7525384615387,2187.807392931393 1434.5375363825372,5034.563750519751 1490.0376070686068,5380.396178794179</gml:coordinates></gml:LinearRing></gml:outerBoundaryIs></gml:Polygon></feature:geometry></feature:features></gml:featureMember></wfs:FeatureCollection>' http://wikimaps.mapwarper.net/api/v1/maps/2/mask_crop_rectify -b cookie
+curl -X POST -d "format=json" -d 'output=<wfs:FeatureCollection xmlns:wfs="http://www.opengis.net/wfs"><gml:featureMember xmlns:gml="http://www.opengis.net/gml"><feature:features xmlns:feature="http://mapserver.gis.umn.edu/mapserver" fid="OpenLayers.Feature.Vector_207"><feature:geometry><gml:Polygon><gml:outerBoundaryIs><gml:LinearRing><gml:coordinates decimal="." cs="," ts=" ">1490.0376070686068,5380.396178794179 3342.4880893970894,5380.214910602912 3582.659,5126.446 3555.463,4813.692 3637.051,4487.34 4276.157,3753.048 4575.313,3113.942 4546.465124740124,1412.519663201663 2417.4615530145525,1317.354124740125 1431.415054054054,1294.9324823284824 1447.7525384615387,2187.807392931393 1434.5375363825372,5034.563750519751 1490.0376070686068,5380.396178794179</gml:coordinates></gml:LinearRing></gml:outerBoundaryIs></gml:Polygon></feature:geometry></feature:features></gml:featureMember></wfs:FeatureCollection>' http://mapwarper.net/api/v1/maps/2/mask_crop_rectify -b cookie
 }}}
 ```
 
@@ -2619,7 +2619,7 @@ Administrator authorized users will also see attributes for email and the roles 
 
 **Example**
 
-[http://wikimaps.mapwarper.net/api/v1/users/3](http://wikimaps.mapwarper.net/api/v1/users/3)
+[http://mapwarper.net/api/v1/users/3](http://mapwarper.net/api/v1/users/3)
 
 **Response**
 
@@ -2906,7 +2906,7 @@ Editor authorized users only.
 
 **Example**
 
-[http://wikimaps.mapwarper.net/api/v1/imports/3](http://wikimaps.mapwarper.net/api/v1/imports/3)
+[http://mapwarper.net/api/v1/imports/3](http://mapwarper.net/api/v1/imports/3)
 
 **Response**
 
