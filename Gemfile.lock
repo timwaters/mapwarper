@@ -275,6 +275,7 @@ GEM
       thor (>= 0.18.1, < 2.0)
     rake (11.3.0)
     rdoc (4.2.0)
+    redcarpet (3.4.0)
     redis (3.3.1)
     redis-actionpack (4.0.1)
       actionpack (~> 4)
@@ -407,6 +408,7 @@ DEPENDENCIES
   rails (= 4.2.7.1)
   rails-api
   rails-i18n
+  redcarpet
   redis-rails (~> 4)
   rvm1-capistrano3
   sass-rails (~> 4.0.3)

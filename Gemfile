@@ -69,6 +69,7 @@ gem 'rails-api'
 gem 'active_model_serializers', github: 'rails-api/active_model_serializers', tag: 'v0.10.5'
 gem 'simple_token_authentication', '~> 1.0'
 gem 'rack-cors', :require => 'rack/cors'
+gem 'redcarpet'
 
 group :development do
    gem 'web-console', '~> 2.0'
