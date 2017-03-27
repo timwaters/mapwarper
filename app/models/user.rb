@@ -155,6 +155,19 @@ class User < ActiveRecord::Base
     
     user
   end
+  
+  alias :devise_valid_password? :valid_password?
+
+  def valid_password?(password)
+    begin
+      super(password)
+    rescue BCrypt::Errors::InvalidHash
+      return false unless Devise::Encryptable::Encryptors::LegacyRestfulauthentication.digest(password, nil,nil,nil) == encrypted_password
+      logger.info "User #{email} is using the old password hashing method, updating password to bcrypt."
+      self.password = password
+      true
+    end
+  end
 
   
   protected
