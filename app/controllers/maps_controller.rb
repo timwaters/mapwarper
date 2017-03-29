@@ -899,10 +899,7 @@ class MapsController < ApplicationController
     else
       if user_signed_in?
         um  = current_user.my_maps.new(:map => @map)
-        um.save
-
-        # two ways of creating the relationship
-        # @map.users << current_user
+        um.save if um.valid?
       end
       
       @output = @map.warp! resample_option, transform_option, use_mask #,masking_option

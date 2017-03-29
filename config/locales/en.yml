@@ -34,7 +34,9 @@ en:
         my_map:
           attributes:
             user_id:
-              not_unique: Map has already been saved.
+              not_unique: Map has already been saved to the user.
+            map_id:
+              not_unique: Map has already been saved to the user.
     models:
       import:
         one: import

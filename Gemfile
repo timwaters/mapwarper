@@ -80,7 +80,7 @@ group :development do
    gem 'capistrano-bundler',  :require => false
    gem 'rvm1-capistrano3',    :require => false
    gem 'i18n-tasks', '~> 0.9.6'
-   gem 'localeapp'
+  # gem 'localeapp'
 end
 
 group :test do
