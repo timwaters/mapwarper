@@ -403,8 +403,10 @@ function addAutoFromPoint(feature) {
   var from_auto_pt = transformation.revers([feature.geometry.x, feature.geometry.y]);
   var thisVector = new OpenLayers.Geometry.Point(from_auto_pt[0], from_auto_pt[1]);
   var pointFeature = new OpenLayers.Feature.Vector(thisVector, null, null);
-  active_from_vectors.addFeatures([pointFeature]);
-  newaddGCPfrom(pointFeature);
+  if (active_from_vectors.features.length === 0) {
+    active_from_vectors.addFeatures([pointFeature]);
+    newaddGCPfrom(pointFeature);
+  }
 }
 
 function addAutoToPoint(feature) {
@@ -412,8 +414,10 @@ function addAutoToPoint(feature) {
   var to_auto_pt = transformation.transform([feature.geometry.x, feature.geometry.y]);
   var thisVector = new OpenLayers.Geometry.Point(to_auto_pt[0], to_auto_pt[1]);
   var pointFeature = new OpenLayers.Feature.Vector(thisVector, null, null);
-  active_to_vectors.addFeatures([pointFeature]);
-  newaddGCPto(pointFeature);
+  if (active_to_vectors.features.length === 0) {
+    active_to_vectors.addFeatures([pointFeature]);
+    newaddGCPto(pointFeature);
+  }
 }
 
 function joinControls(first, second) {
