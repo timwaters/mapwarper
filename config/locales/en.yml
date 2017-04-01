@@ -143,7 +143,7 @@ en:
       one: "%{count} map"
       other: "%{count} maps"
     map_th: Map
-    my_maps_head: My Maps
+    my_maps_head: Favourites
     num_th: Number of Maps
     per_page: per page
     percent_th: Percentage Complete
@@ -343,7 +343,7 @@ en:
   home:
     index:
       all_maps: browse all maps
-      all_my_maps: See all of My Maps
+      all_my_maps: See all Favourites
       click_news: click here to read this story
       create_layer: Create a new mosaic
       info_contact: Mail me at tim@geothings.net for more information!
@@ -518,9 +518,9 @@ en:
       depicts_hint: "(year, optional)"
       depicts_hint_2: Used to display layers by year.
       detail: detail
-      my_maps: my maps
+      my_maps: favourites
       no_maps: You have no warped
-      select_map_head: Choose from "My Maps"
+      select_map_head: Choose from your Favourites
       source: Source / Bibliographic Ref URL
     geosearch:
       button: Find Location
@@ -712,7 +712,7 @@ en:
       results: 'Searched for '
       title: Browse Maps
     map:
-      confirm_my: really remove this map from your list?
+      confirm_my: really remove this map from your favourites?
       delete: Delete
       depicts: Depicts
       gcp: control point
@@ -726,8 +726,8 @@ en:
       published: Published
       published_warn: This map has been published by an admin and no further editing is possible
       remove_from_layer: remove map from this mosaic
-      remove_my: Remove from My Maps
-      save_my: Save to My Maps
+      remove_my: Unfavourite
+      save_my: Add Favourite
       source: Source / Biblio Ref
       unwarped: Unrectified
       view_map: View Map
@@ -842,14 +842,14 @@ en:
       unwarped_notice: Sorry, you'll have to rectify a map before you can view it.
   my_maps:
     create:
-      flash: Map saved to My Maps
-      others_error: You cannot add a map to another user!
+      flash: Map saved to Favourites
+      others_error: You cannot favourite a map to another user!
     destroy:
-      error: Map coudn't be removed from list
-      flash: Map removed from list!
-      not_your_own: Sorry, you cannot remove maps you have uploaded, from the list
+      error: Map coudn't be removed from favourites
+      flash: Map removed from favourites!
+      not_your_own: Sorry, you cannot unfavourite maps you have uploaded, from the list
     list:
-      header: My Maps for %{username}
+      header: Favourites for %{username}
       help: Showing list of maps saved or edited by a user.
   roles:
     index:
@@ -881,7 +881,7 @@ en:
       log_out: Log Out
       logged_in_as: 'Logged in as:'
       my_activity: My Activity
-      my_maps: My Maps
+      my_maps: Favourites
       settings: Settings
       sign_up: Create Account
       user_stats: User Stats
