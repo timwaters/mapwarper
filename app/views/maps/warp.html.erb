@@ -72,6 +72,32 @@
       jQuery("#upload_csv_form").append(jQuery("#file").clone()).hide();
       jQuery("#upload_csv_form").submit();
     }
+    
+    function showShortcuts(){
+      var dialog = jQuery("#keyboard_shortcuts").dialog({
+      bgiframe: true,
+      height: 420,
+      width: 480,
+      resizable: false,
+      draggable: false,
+      modal: true,
+      hide: 'slow',
+      title: '<%= t('.shortcuts_title') %>',
+      buttons: [{
+          text: '<%= t('.close_popup') %>',
+          click: function () {
+            dialog.dialog("close");
+          }
+        }],
+        open: function(){
+          dialogOpen = true;
+        },
+        close: function () {
+          dialogOpen = false;
+        }
+      });
+    }
+    
   </script>
 
 <% end -%>
@@ -82,8 +108,15 @@
   <div id="from_map" class="map-off"></div>
   <span class="tie_button"></span>
 </div>
+  
+<div id="between-maps-container">
 <div id="link-map-button" class="link-map-button-off"
-     onclick="toggleJoinLinks();" title="Pan/zoom lock" ></div>
+     onclick="toggleJoinLinks();" title="<%= t('.pan_lock') %>" ></div>
+  
+  <div id="keyboard-icon-div" onclick="showShortcuts();" >
+    <%= image_tag("icons/keyboard.png", :width => 25, :height => 25, :title => t('.shortcuts_link')) %>
+  </div>
+</div>
 
 <div id = "to_map_block">
   <div id="to_map_notification" class="hidden"><div id="to_map_notify_close"><a href="#" title="<%= t('.close_popup') %>">X</a></div><div id="to_map_notification_inner"></div> </div>
@@ -92,6 +125,9 @@
 </div>
 <div id="popoverNotice" class="hidden-at-start"><%= image_tag "spinner.gif" %><span id="noticeMessage"></span></div>
 
+<div id="keyboard_shortcuts" style="display:none;">
+  <%= t('.shortcuts_html') %>
+</div>
 
 <div id="add_custom_layer" style="display:none;">
   <%= t('.custom_layer_instructions_html') %>

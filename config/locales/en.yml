@@ -818,9 +818,13 @@ en:
       p1_method: 1st Order Polynomial (min 3 points)
       p2_method: 2nd Order Polynomial (min 6 points)
       p3_method: 3rd Order Polynomial (min 10 points)
+      pan_lock: "Pan/zoom lock"
       panel_title: Control Panel
       rectifying_notice: Rectifying.....
       resample_label: 'Resampling Method:'
+      shortcuts_link: Keyboard Shortcuts
+      shortcuts_html: "1,p: Switch to add point control <br /> 2,d: Switch to move control point control <br /> 3,m: Switch to move around map control <br /><br />q: Quickly add point over mouse position <br /> a: Quickly add point over mouse position and automatically adds a point on the opposite map <span class='small-gray'>(needs at least 2 points already saved)</span> <br /> <br /> [enter],e: Save pairs of points"
+      shortcuts_title: Keyboard Shortcuts
       server_error: Sorry, there appears to be an error sending the request to the server, try again?...
       title: 'Rectifying Map '
       tps_method: Thin Plate Spline (many points widely spread)

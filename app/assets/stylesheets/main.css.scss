@@ -600,6 +600,17 @@ select {
  text-align:center;
 }
 
+#between-maps-container{
+  width: 26px;
+  height: 26px;
+  float: left;
+  margin-left: 15px;
+}
+#keyboard-icon-div{
+  width: 25px;
+  heigh: 25px;
+}
+
 #link-map-button{
  width:20px;
  height:20px;
@@ -1805,4 +1816,9 @@ div.layer-maps-col {
     font-size:smaller;
   }
 
+}
+
+.small-gray {
+  font-size: smaller;
+  color: gray;
 }

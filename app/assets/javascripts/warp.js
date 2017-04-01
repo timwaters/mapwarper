@@ -9,7 +9,6 @@ var to_vectors;
 var from_vectors;
 var active_to_vectors;
 var active_from_vectors;
-var autoEnabled = false;
 var transformation = new ol.transform.Helmert();
 var dialogOpen = false;
 
@@ -101,8 +100,8 @@ function init() {
   active_style.graphicOpacity = 1;
   active_style.graphicWidth = 14;
   active_style.graphicHeight = 22;
-  active_style.graphicXOffset = -(active_style.graphicWidth / 2);
-  active_style.graphicYOffset = -active_style.graphicHeight;
+  active_style.graphicXOffset = -(active_style.graphicWidth / 2) - 2;
+  active_style.graphicYOffset = -active_style.graphicHeight - 2;
   active_style.externalGraphic = icon_imgPath + "AQUA.png";
 
   to_vectors = new OpenLayers.Layer.Vector("To vector markers");
@@ -133,14 +132,12 @@ function init() {
           {displayClass: 'olControlDrawFeaturePoint', title: I18n["warp"]["add_gcp"], handlerOptions: {style: active_style}});
   drawFeatureTo.featureAdded = function(feature) {
     newaddGCPto(feature);
-    if (autoEnabled) addAutoFromPoint(feature); 
   };
-
+  
   var drawFeatureFrom = new OpenLayers.Control.DrawFeature(active_from_vectors, OpenLayers.Handler.Point,
           {displayClass: 'olControlDrawFeaturePoint', title: I18n["warp"]["add_gcp"], handlerOptions: {style: active_style}});
   drawFeatureFrom.featureAdded = function(feature) {
     newaddGCPfrom(feature);
-    if (autoEnabled) addAutoToPoint(feature); 
   };
 
   var from_panel = new OpenLayers.Control.Panel(
@@ -302,25 +299,23 @@ function init() {
     keydown: function (evt) {
       if (dialogOpen === true) return true;
       var key = evt.keyCode;
-      if (key == 81) {
+      if (key == 81 || key == 65) {
         // q key - quick add point - any mode control
-        //  console.log("Q pressed",  mapUnderMouse, toPosition, fromPosition);
+        // a key - quick point but with auto placement
         if (mapUnderMouse == "to_map") {
           var point = to_map.getLonLatFromPixel(toPosition);
           var thisVector = new OpenLayers.Geometry.Point(point.lon, point.lat);
           var pointFeature = new OpenLayers.Feature.Vector(thisVector, null, null);
           active_to_vectors.addFeatures([pointFeature]);
           newaddGCPto(pointFeature);
-          if (autoEnabled)
-            addAutoFromPoint(pointFeature);
+          if (key == 65) addAutoFromPoint(pointFeature);
         } else if (mapUnderMouse == "from_map") {
           var point = from_map.getLonLatFromPixel(fromPosition);
           var thisVector = new OpenLayers.Geometry.Point(point.lon, point.lat);
           var pointFeature = new OpenLayers.Feature.Vector(thisVector, null, null);
           active_from_vectors.addFeatures([pointFeature]);
           newaddGCPfrom(pointFeature);
-          if (autoEnabled)
-            addAutoToPoint(pointFeature);
+          if (key == 65) addAutoToPoint(pointFeature);
         }
 
       } else if (key == 80 || key == 49) {
@@ -360,20 +355,7 @@ function init() {
   var saveHandler = new OpenLayers.Handler.Keyboard(saveControl, saveCallbacks, {});
   saveHandler.activate();
 
-  //shift-A to disable and enable auto placement / transformation
-  var autoControl = new OpenLayers.Control();
-  var autoCallbacks = {
-    keydown: function (evt) {
-      if (dialogOpen === true) return true;
-      if (evt.keyCode == 65) {
-        autoEnabled = !autoEnabled;
-      }
-    }
-  };
-  var autoHandler = new OpenLayers.Handler.Keyboard(autoControl, autoCallbacks, {keyMask: OpenLayers.Handler.MOD_SHIFT});
-  autoHandler.activate();
 
-    
 }
 
 
@@ -403,10 +385,12 @@ function addAutoFromPoint(feature) {
   var from_auto_pt = transformation.revers([feature.geometry.x, feature.geometry.y]);
   var thisVector = new OpenLayers.Geometry.Point(from_auto_pt[0], from_auto_pt[1]);
   var pointFeature = new OpenLayers.Feature.Vector(thisVector, null, null);
-  if (active_from_vectors.features.length === 0) {
+ // if (active_from_vectors.features.length === 0) {
     active_from_vectors.addFeatures([pointFeature]);
     newaddGCPfrom(pointFeature);
-  }
+    var center = new OpenLayers.LonLat(thisVector.x,thisVector.y);
+    from_map.setCenter(center);
+  //}
 }
 
 function addAutoToPoint(feature) {
@@ -414,10 +398,12 @@ function addAutoToPoint(feature) {
   var to_auto_pt = transformation.transform([feature.geometry.x, feature.geometry.y]);
   var thisVector = new OpenLayers.Geometry.Point(to_auto_pt[0], to_auto_pt[1]);
   var pointFeature = new OpenLayers.Feature.Vector(thisVector, null, null);
-  if (active_to_vectors.features.length === 0) {
+ // if (active_to_vectors.features.length === 0) {
     active_to_vectors.addFeatures([pointFeature]);
     newaddGCPto(pointFeature);
-  }
+    var center2 = new OpenLayers.LonLat(thisVector.x, thisVector.y);   
+    to_map.setCenter(center2);
+ // }
 }
 
 function joinControls(first, second) {
