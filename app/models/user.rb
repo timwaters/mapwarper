@@ -55,9 +55,9 @@ class User < ActiveRecord::Base
   
   def provider_name
     if provider && provider == "mediawiki"
-      t('devise.shared.links.wikimedia')
+      I18n.t('devise.shared.links.wikimedia')
     elsif provider && provider == "osm"
-      t('devise.shared.links.openstreetmap')
+      I18n.t('devise.shared.links.openstreetmap')
     else
       provider
     end
