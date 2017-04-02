@@ -231,9 +231,16 @@ class MapsController < ApplicationController
     @tags = params[:id] || params[:query]
     @query = @tags
     @html_title =  t('.title', :tags => @tags)
-    @maps = Map.are_public.order(sort_clause).tagged_with(@tags).paginate(
-      :page => params[:page],
-      :per_page => 20)
+    if @tags.blank?
+      @maps = Map.are_public.where("cached_tag_list <> '' ").order(sort_clause).paginate(
+        :page => params[:page],
+        :per_page => 50)
+    else
+      @maps = Map.are_public.order(sort_clause).tagged_with(@tags).paginate(
+        :page => params[:page],
+        :per_page => 50)
+    end
+    
     respond_to do |format|
       format.html { render :layout =>'application' }  # index.html.erb
       format.xml  { render :xml => @maps }

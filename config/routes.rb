@@ -56,6 +56,8 @@ Rails.application.routes.draw do
     resources :layers
   end
   
+  get '/maps/tag/:query' => 'maps#tag', :as => "map_tag"
+  
   get '/mapimages/:id.gml.ol' => 'maps#get_mask', :as => "masking_map"
   get '/maps/thumb/:id' => 'maps#thumb', :as =>'thumb_map'
   get '/maps/thumb' => 'maps#thumb', :as => 'map_thumb_base'
