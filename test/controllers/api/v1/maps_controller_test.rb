@@ -6,7 +6,7 @@ class MapsControllerTest < ActionController::TestCase
   
   setup do
     @map = FactoryGirl.create(:available_map)
-    @warped_map = FactoryGirl.create(:warped_map)
+    @warped_map = FactoryGirl.create(:warped_map, :upload_file_name => "different.png")
   end
   
   class SingleMapTest < MapsControllerTest

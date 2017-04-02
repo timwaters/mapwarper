@@ -34,8 +34,13 @@ class MapTest < ActiveSupport::TestCase
     assert_equal :warped, @map.status
     assert File.exists?(@map.warped_filename)
   end
-
   
+  test "cannot have two maps with the same filename" do
+    assert_raise ActiveRecord::RecordInvalid do
+      @copymap = FactoryGirl.create(:available_map, :title =>"copied")   
+    end
+  end
+
   private 
   
   def delete_created_images(map)

@@ -16,6 +16,19 @@ FactoryGirl.define do
     sequence :description do | n|
       "description #{n}"
     end
+    
+    sequence :upload_file_name do |n |
+      "100x70map_#{n}.png"
+    end 
+    
+     after(:build) { | map |
+      map.stubs(:setup_image).returns(true)
+      map.stubs(:save_dimensions).returns(:available)
+    
+      map.filename = "100x70map.png.tif" # set during setup_image
+      map.width = 100 # set during save_dims
+      map.height = 70 # set during save_dims
+    }
   
   end
   
@@ -46,6 +59,23 @@ FactoryGirl.define do
   
   factory :available_map, :parent => :inited_map do
     status :available
+  end
+  
+  factory :another_available_map, :parent => :inited_map do
+
+    upload_file_name { '100x70map_0.png' }
+    upload_content_type { 'image/png' }
+    upload_file_size { 12811 }
+    status :available
+
+    after(:build) { | map |
+      map.stubs(:setup_image).returns(true)
+      map.stubs(:save_dimensions).returns(:available)
+    
+      map.filename = "100x70map_0.png.tif" # set during setup_image
+      map.width = 100 # set during save_dims
+      map.height = 70 # set during save_dims
+    }
   end
   
   factory :warped_map, :parent => :inited_map do

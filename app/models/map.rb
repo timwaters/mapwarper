@@ -24,7 +24,8 @@ class Map < ActiveRecord::Base
   validates_length_of :issue_year, :maximum => 4,:allow_nil => true, :allow_blank => true
   validates_numericality_of :issue_year, :if => Proc.new {|c| not c.issue_year.blank?}
   validates_uniqueness_of :unique_id, :allow_nil => true, :allow_blank => true
-
+  validate :unique_filename, :on => :create
+  
   acts_as_taggable
   acts_as_commentable
   acts_as_enum :map_type, [:index, :is_map, :not_map ]
@@ -53,7 +54,7 @@ class Map < ActiveRecord::Base
   after_save :update_counter_cache
   
   ##################
-  # CALLBACKS
+  # CALLBACKS / Validations
   ###################
   
   def default_values
@@ -61,6 +62,10 @@ class Map < ActiveRecord::Base
     self.mask_status  ||= :unmasked  
     self.map_type  ||= :is_map  
     self.rough_state ||= :step_1  
+  end
+  
+  def unique_filename
+    errors.add(:filename, :filename_not_unique) if Map.find_by_upload_file_name(upload.original_filename)
   end
   
   def upload_url_provided?
@@ -74,9 +79,10 @@ class Map < ActiveRecord::Base
       return false
     end
     self.upload = img_upload
-    self.source_uri = source_uri || upload_url
+ 
+    self.source_uri  = source_uri.blank? ? upload_url : source_uri
     
-    if Map.find_by_upload_file_name(upload.original_filename)
+    if Map.find_by_source_uri(upload_url)
       errors.add(:filename, :filename_not_unique)
       return false
     end
@@ -86,7 +92,17 @@ class Map < ActiveRecord::Base
   def do_download_remote_image
     begin
       io = open(URI.parse(upload_url))
-      def io.original_filename; base_uri.path.split('/').last; end
+      def io.original_filename
+        filename =  base_uri.path.split('/').last
+        
+        if  !filename.blank?
+          basename = File.basename(filename,File.extname(filename)) + '_'+('a'..'z').to_a.shuffle[0,8].join
+          extname = File.extname(filename)
+          filename = basename + extname
+        end
+        
+        filename
+      end
       io.original_filename.blank? ? nil : io
     rescue => e
       logger.debug "Error with URL upload"

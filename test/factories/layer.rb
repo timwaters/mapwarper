@@ -8,7 +8,7 @@ FactoryGirl.define do
     factory :layer_with_maps do
        
       after(:create) do |layer|
-        map1 =  FactoryGirl.create(:available_map)
+        map1 =  FactoryGirl.create(:another_available_map)
         layer.maps << map1
       end
         
