@@ -158,7 +158,7 @@ class Map < ActiveRecord::Base
       #for those greyscale or lack and white images with one band
       bands  = ""
       if raster_bands_count(self.upload.path) == 1
-        bands = "-b 1 -b 1 -b 1"
+        bands = "-expand rgb"
       end
       
       #transparent pngs may cause issues, so let's remove the alpha band
