@@ -23,6 +23,8 @@ class Map < ActiveRecord::Base
   validates_numericality_of :metadata_lat, :metadata_lon, :allow_nil => true
   validates_length_of :issue_year, :maximum => 4,:allow_nil => true, :allow_blank => true
   validates_numericality_of :issue_year, :if => Proc.new {|c| not c.issue_year.blank?}
+  validates_length_of :date_depicted, :maximum => 4,:allow_nil => true, :allow_blank => true
+  validates_numericality_of :date_depicted, :if => Proc.new {|c| not c.date_depicted.blank?}
   validates_uniqueness_of :unique_id, :allow_nil => true, :allow_blank => true
   validate :unique_filename, :on => :create
   
