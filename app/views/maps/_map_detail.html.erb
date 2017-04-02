@@ -37,7 +37,7 @@
       <span class="map_summary"><%= t('.tags') %></span>
       <span class="tags">
         <% map.tags.each do | tag | -%>
-          <%= link_to tag.name, { :controller=> :maps, :action => :tag, :id => tag.name } %>
+          <%= link_to tag.name, { :controller=> :maps, :action => :tag, :query => tag.name } %>
         <% end %>
       </span>
       <br />
