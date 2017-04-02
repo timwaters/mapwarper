@@ -435,7 +435,7 @@ class Map < ActiveRecord::Base
       x_array = []
       y_array = []
       self.gcps.hard.each do |gcp|
-        #logger.info "GCP lat #{gcp[:lat]} , lon #{gcp[:lon]} "
+        next unless gcp[:lat].is_a? Numeric and gcp[:lon].is_a? Numeric
         x_array << gcp[:lat]
         y_array << gcp[:lon]
       end
