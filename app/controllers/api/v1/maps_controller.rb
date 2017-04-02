@@ -1,14 +1,13 @@
 class Api::V1::MapsController < Api::V1::ApiController
   before_filter :authenticate_user!,       :except=>[:show, :index, :status, :gcps] 
   before_filter :check_administrator_role, :only => [:publish, :unpublish]
-  before_filter :check_editor_role,        :only => [:update, :destroy]
   before_filter :find_map, :only => [:show, :update, :destroy, :gcps, :rectify, :mask, :delete_mask, :crop, :mask_crop_rectify, :publish, :unpublish, :status ]
+  before_filter :can_edit_map,             :only => [:update, :destroy]
   
   before_filter :validate_jsonapi_type,:only => [:create, :update]
   
   rescue_from ActiveRecord::RecordNotFound, :with => :not_found
   rescue_from ActionController::ParameterMissing, with: :missing_param_error
-
   
   def show
     if request.format == "geojson"
@@ -19,9 +18,7 @@ class Api::V1::MapsController < Api::V1::ApiController
   end
 
   def create
-    if !map_params[:title].blank?
-      @map = Map.new(map_params)
-    end
+    @map = Map.new(map_params)
 
     if user_signed_in?
       @map.owner = current_user
@@ -37,6 +34,8 @@ class Api::V1::MapsController < Api::V1::ApiController
   end
 
   def update
+    update_params = map_params.extract!(:upload, :upload_url)
+
     if @map.update_attributes(map_params)
       render :json => @map
     else
@@ -285,9 +284,14 @@ class Api::V1::MapsController < Api::V1::ApiController
 
   private
   def map_params
-    params.require(:data).require(:attributes).permit(:title, :description)
-  end
+    params.require(:data).require(:attributes).permit(:title, :description, :tag_list, :map_type, :subject_area, :unique_id, 
+      :source_uri, :call_number, :publisher, :publication_place, :authors, :date_depicted, :scale,
+      :metadata_projection, :metadata_lat, :metadata_lon, :public,
+      "published_date(3i)", "published_date(2i)", "published_date(1i)", "reprint_date(3i)", 
+      "reprint_date(2i)", "reprint_date(1i)", :upload_url, :upload, :issue_year )
 
+  end
+  
   def index_params
     params.permit(:page, :per_page, :query, :field, :sort_key, :sort_order,  :show_warped, :bbox, :operation, :format, :layer_id, :id)
   end
@@ -295,6 +299,12 @@ class Api::V1::MapsController < Api::V1::ApiController
   def find_map
     @map = Map.find(params[:id])
   end
-
+  
+  def can_edit_map
+    unless user_signed_in? and ((current_user == @map.owner) or current_user.has_role?("editor"))
+      permission_denied
+    end    
+  end
+  
 
 end

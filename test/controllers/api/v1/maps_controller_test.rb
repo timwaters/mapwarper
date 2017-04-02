@@ -82,29 +82,83 @@ class MapsControllerTest < ActionController::TestCase
     
     class LoggedIn < SingleMapTest
       setup do
-        normal_user_sign_in
+        @user = FactoryGirl.create(:user)
+        request.env["devise.mapping"] = Devise.mappings[:user]
+        sign_in @user
+        @warped_map = FactoryGirl.create(:warped_map, :upload_file_name => "different2.png", :owner_id => @user.id)
       end
       
-      test "update map when not pemitted" do
+      #editor or owner role needed
+      test "update map when they own it" do
+        params = {:id => @warped_map.id, :format => :json, 'data' => {'type' => "maps", "attributes"=>{"title"=>"foojson"}} }
+        patch 'update', params
+        body = JSON.parse(response.body)
+        assert_equal body["data"]["attributes"]["title"], "foojson"
+      end
+      
+      test "not be allowed to update map when they dont own it" do
         params = {:id => @map.id, :format => :json, 'data' => {'type' => "maps", "attributes"=>{"title"=>"foojson"}} }
         patch 'update', params
         body = JSON.parse(response.body)
+        assert_response :unauthorized
         assert body["errors"][0]["title"].include?("Unauthorized")
       end
+      
+     test "not create map basic without a title " do
 
-      test "create map" do
+        assert_difference('Map.count', 0) do
+          post 'create', :format => :json, 'data' => {'type' => "maps", "attributes"=>{"description"=>"foo", "wrong"=>"new map"}}
+        end
+        assert_response :unprocessable_entity
+        body = JSON.parse(response.body)
+        
+        assert body["errors"][0]["source"]["pointer"].include?("title")
+        assert body["errors"][0]["detail"].include?("blank")
+      end
+
+      test "create map basic" do
 
         assert_difference('Map.count', 1) do
-          post 'create', :format => :json, 'data' => {'type' => "maps", "attributes"=>{"desc"=>"poo", "title"=>"new map"}}
-          #puts response.body.inspect
+          post 'create', :format => :json, 'data' => {'type' => "maps", "attributes"=>{"description"=>"foo", "title"=>"new map"}}
         end
         assert_response :created
         body = JSON.parse(response.body)
         #puts body.inspect
         assert_equal "new map", body["data"]["attributes"]["title"]
       end
+      
+      test "create map from file upload" do
+        image_data = Base64.encode64(File.open(File.join(Rails.root, "/test/fixtures/data/100x70map.png"), "rb").read)
+        upload = "data:image/png;base64,#{image_data}"
 
-
+        assert_difference('Map.count', 1) do
+          post 'create', :format => :json, 'data' => {'type' => "maps", "attributes"=>{"description"=>"poo", "title"=>"new map", "upload" => upload}}
+        end
+        assert_response :created
+        body = JSON.parse(response.body)
+      
+        assert_equal "new map", body["data"]["attributes"]["title"]
+        assert_equal 100, body["data"]["attributes"]["width"]
+      end
+      
+      test "create map from URL" do
+        
+        stub_request(:get, "http://example.com/100x70map.png")
+        .to_return(
+          status: 200,
+          body:  File.read(File.join(Rails.root, "/test/fixtures/data/100x70map.png")),
+          headers: {"Content-Type" => 'image/png'}
+        )
+        assert_difference('Map.count', 1) do
+          post 'create', :format => :json, 'data' => {'type' => "maps", "attributes"=>{"description"=>"poo", "title"=>"new map", "upload_url" => "http://example.com/100x70map.png"}}
+        end
+        assert_response :created
+        body = JSON.parse(response.body)
+        assert_equal "new map", body["data"]["attributes"]["title"]
+        assert_equal 100, body["data"]["attributes"]["width"]
+      end
+      
+      
     
       test "rectify no gcps" do
         patch :rectify, :id => @warped_map.id, :format => :json, :warp => 1
@@ -209,7 +263,7 @@ class MapsControllerTest < ActionController::TestCase
         editor_user_sign_in
       end
       test "update map" do
-        params = {:id => @map.id, :format => :json, 'data' => {'type' => "maps", "attributes"=>{"title"=>"foojson"}} }
+        params = {:id => @map.id, :format => :json, 'data' => {'type' => "maps", "attributes"=>{"title"=>"foojson"}} }  
         patch 'update', params
         assert_response :success
         body = JSON.parse(response.body)
