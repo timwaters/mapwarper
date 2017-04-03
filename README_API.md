@@ -376,13 +376,11 @@ No authentication required.
 |             | publisher   | string  | the publisher                                                           | optional |                                                   |
 |             | author      | string  | the author of the map                                                   | optional |                                                   |
 |             | status      | string  | the status                                                              | optional |                                                   |
-|             | page_id     | string  | the wiki page_id                                                        | optional | exact match only, page_ids are numbers            |
 | sort_key    |             |         | the field that should be used to sort the results                       | optional | default is updated_at                             |
 |             | title       | string  | the title of the map                                                    | optional |                                                   |
 |             | updated_at  | string  | when the map was last updated                                           | optional | default                                           |
 |             | created_at  | string  | when the map was created                                                | optional |                                                   |
 |             | status      | string  | the status of the map                                                   | optional | ordered by integer (see below)                    |
-|             | page_id     | string  | the wiki page_id                                                        | optional |                                                   |
 | sort_order  |             | string  | the order in which the results should appear                            | optional | default is desc                                   |
 |             | asc         |         | ascending order                                                         | optional |                                                   |
 |             | desc        |         | descending order                                                        | optional | default                                           |
@@ -400,7 +398,7 @@ No authentication required.
 |             | within      | string	| uses a PostGIS ST_Within operation to retrieve warped maps that fall entirely within the extent of the bbox parameter  | optional      |  |
  
 
-Notes: Enter optional text for the query, based on the search field chosen. The query text is case insensitive. This is a simple exact string text search. For example, a search for "city New York" returns no results, but a search for "city of New York" returns 22. However, a query for page_id is exact. bbox format is y.min(lon min),x.min(lat min),y.max(lon max), x.max(lat max)
+Notes: Enter optional text for the query, based on the search field chosen. The query text is case insensitive. This is a simple exact string text search. For example, a search for "city New York" returns no results, but a search for "city of New York" returns 22.  bbox format is y.min(lon min),x.min(lat min),y.max(lon max), x.max(lat max)
 
 
 
@@ -437,7 +435,6 @@ JSON API Format
 			"map_type": "is_map",
 			"source_uri": "http://commons.wikimedia.beta.wmflabs.org/wiki/File:Tartu_turismiskeem.png",
 			"unique_id": "Tartu_turismiskeem.png",
-			"page_id": "52021",
 			"date_depicted": "",
 			"image_url": "http://upload.beta.wmflabs.org/wikipedia/commons/4/44/Tartu_turismiskeem.png",
 			"thumb_url": "http://upload.beta.wmflabs.org/wikipedia/commons/thumb/4/44/Tartu_turismiskeem.png/100px-Tartu_turismiskeem.png"
@@ -596,7 +593,6 @@ indicates that 50 results have been found over 2 pages.
 |               |          | masked    | the map has been masked                                            |                    |   
 | source_uri    | string   |           | the URI to the source map page                                     | e.g. the wiki page |   
 | unique_id     | string   |           | the image filename taken from the source image                     |                    |   
-| page_id       | integer  |           | The Wiki PAGEID for the source                                     |                    |   
 | date_depicted | string   |           | string representation of the date that the map depicts             |                    |   
 | image_url     | string   |           | URL to the original full size image                                |                    |   
 | thumb_url     | string   |           | URL to the thumbnail                                               | 100px dimension    |   
@@ -626,8 +622,7 @@ curl -H 'Content-Type: application/json' -H 'Accept: application/json' -X GET 'h
 		"status": "warped",
 		"created_at": "2016-02-07T17:52:19.479Z",
 		"bbox": "26.66587052714201,58.33686848133336,26.806590271771057,58.407077366797424",
-		"thumb_url": "http://upload.beta.wmflabs.org/wikipedia/commons/thumb/4/44/Tartu_turismiskeem.png/100px-Tartu_turismiskeem.png",
-		"page_id": "52021"
+		"thumb_url": "http://upload.beta.wmflabs.org/wikipedia/commons/thumb/4/44/Tartu_turismiskeem.png/100px-Tartu_turismiskeem.png"
 	},
 	"geometry": {
 		"type": "Polygon",
@@ -681,7 +676,6 @@ The response will be be in the following format.
 			"map_type": "is_map",
 			"source_uri": "http://commons.wikimedia.beta.wmflabs.org/wiki/File:Lawrence-h-slaughter-collection-of-english-maps-england.jpeg",
 			"unique_id": "Lawrence-h-slaughter-collection-of-english-maps-england.jpeg",
-			"page_id": "51038",
 			"date_depicted": "",
 			"image_url": "http://upload.beta.wmflabs.org/wikipedia/commons/2/29/Lawrence-h-slaughter-collection-of-english-maps-england.jpeg",
 			"thumb_url": "http://upload.beta.wmflabs.org/wikipedia/commons/thumb/2/29/Lawrence-h-slaughter-collection-of-english-maps-england.jpeg/100px-Lawrence-h-slaughter-collection-of-english-maps-england.jpeg"
@@ -741,7 +735,6 @@ GeoJSON Format
 		"created_at": "2015-10-20T17:17:58.300Z",
 		"bbox": "-7.706061311682345,49.02738371829112,3.420945210059412,56.46163780182066",
 		"thumb_url": "http://upload.beta.wmflabs.org/wikipedia/commons/thumb/2/29/Lawrence-h-slaughter-collection-of-english-maps-england.jpeg/100px-Lawrence-h-slaughter-collection-of-english-maps-england.jpeg",
-		"page_id": "51038"
 	},
 	"geometry": {
 		"type": "Polygon",
@@ -805,7 +798,6 @@ GeoJSON Format
 |               |          | masked    | the map has been masked                                            |                    |   
 | source_uri    | string   |           | the URI to the source map page                                     | e.g. the wiki page |   
 | unique_id     | string   |           | the image filename taken from the source image                     |                    |   
-| page_id       | integer  |           | The Wiki PAGEID for the source                                     |                    |   
 | date_depicted | string   |           | string representation of the date that the map depicts             |                    |   
 | image_url     | string   |           | URL to the original full size image                                |                    |   
 | thumb_url     | string   |           | URL to the thumbnail                                               | 100px dimension    |   
@@ -2041,13 +2033,13 @@ If successful, the response should return the created map in json format
 
 ***Errors***
 
-Status 422 and message for example if the page_id is not a number:
+Status 422 and message for example if the issue_year is not a number:
 
 ```
 {
 	"errors": [{
 		"source": {
-			"pointer": "/data/attributes/page_id"
+			"pointer": "/data/attributes/issue_year"
 		},
 		"detail": "is not a number"
 	}]
