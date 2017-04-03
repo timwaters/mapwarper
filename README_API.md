@@ -4,9 +4,9 @@
 
 Welcome to the documentation for the Warper API! MapWarper is a free application that assigns the proper geographic coordinates to scanned maps in image formats. Users can upload images, then assign ground control points to match them up with a base map. Once MapWarper warps or stretches the image to match the corresponding extent of the base map, it can be aligned and displayed with other maps, and used for digital geographic analysis. You can access all of the functionality through the API. 
 
-##Table of Contents
+# Table of Contents
 
-[API Endpoint](#api-endpoint)    
+- [API Endpoint](#api-endpoint)    
 [Format](#format)  
 [Authentication](#authentication)  
 [Search for Maps](#search-for-maps)   
@@ -61,7 +61,7 @@ Welcome to the documentation for the Warper API! MapWarper is a free application
 [User Statistics](#user-statistics)  
 
 
-##Api-Endpoint
+## Api-Endpoint
 
 `/api/v1`
 
