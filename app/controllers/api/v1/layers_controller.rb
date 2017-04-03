@@ -1,8 +1,8 @@
 class Api::V1::LayersController < Api::V1::ApiController
   before_filter :authenticate_user!,       :except => [:show, :index]
-  before_filter :check_administrator_role, :except => [:show, :index]
+  before_filter :check_administrator_role, :only => [:toggle_visibility, :merge]
   before_filter :find_layer,               :only =>   [:show, :update, :destroy, :toggle_visibility, :remove_map, :merge]
-  
+  before_filter :can_edit_layer, :only => [:update, :destroy, :remove_map]
   before_filter :validate_jsonapi_type,:only => [:create, :update]
   
   rescue_from ActiveRecord::RecordNotFound, :with => :not_found
@@ -204,7 +204,12 @@ end
 def find_layer
   @layer = Layer.find(params[:id])
 end
-  
+
+def can_edit_layer
+  unless user_signed_in? and ((current_user == @layer.user) or current_user.has_role?("editor"))
+    permission_denied
+  end
+end
 
 
 end

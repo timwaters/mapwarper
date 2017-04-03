@@ -5,7 +5,9 @@ class LayersControllerTest < ActionController::TestCase
   tests  Api::V1::LayersController
   
   setup do
-    @layer = FactoryGirl.create(:layer_with_maps)
+    @layer_user = FactoryGirl.create(:user)
+    @layer = FactoryGirl.create(:layer_with_maps, :user_id => @layer_user.id)
+    request.env["devise.mapping"] = Devise.mappings[:user]
   end
   
   teardown do
@@ -113,7 +115,104 @@ class LayersControllerTest < ActionController::TestCase
     end
   
   end
+
+  class NormalUserTest < LayersControllerTest
+    setup do
+      sign_in @layer_user
+    end
+
+    test "update" do
+      patch 'update', :id => @layer.id, 'data' => {'type' => "layers", "attributes"=>{:name => "updated layer"}}
+      assert_response :ok
+      body = JSON.parse(response.body)
+      assert_equal "updated layer", body["data"]["attributes"]["name"]
+    end
+
+    test "update with maps" do
+      warped_map = FactoryGirl.create(:warped_map)
+      before_count = @layer.maps.count
+    
+      patch 'update', :id => @layer.id,  'data' => {'type' => "layers", "attributes"=>{:name => "updated layer"}, :map_ids => [warped_map.id]}
+      after_count = @layer.reload.maps.count
+      
+      assert_response :ok
+      body = JSON.parse(response.body)
+      assert_equal "updated layer", body["data"]["attributes"]["name"]
+      assert_equal 1, after_count - before_count 
+      assert_equal warped_map.title, @layer.maps.first.title
+    end
+
+    test "delete" do
+      assert_difference('Layer.count', -1) do
+        delete 'destroy',:id => @layer.id
+      end
+      assert_response :success
+    end
+
+    test "remove map" do
+      map_id = @layer.maps.first.id
+      patch "remove_map", :id => @layer.id, :map_id => map_id
+      assert_equal 0, @layer.maps.count
+    end
+
+    #create
+    test "create" do
+      assert_difference('Layer.count', 1) do
+       post 'create', 'data' => {'type' => "layers", "attributes"=>{:name => "new layer", :description => "bar"}} 
+      end
+      assert_response :created
+      
+      body = JSON.parse(response.body)
+      assert_equal "new layer", body["data"]["attributes"]["name"]
+      id = body["data"]["id"]
+      Layer.find(id).send(:delete_tileindex)#cleanup
+    end
+
   
+  end
+  
+  class EditorTest < LayersControllerTest
+    setup do
+      editor_user_sign_in
+    end
+    
+    test "update" do
+      patch 'update', :id => @layer.id, 'data' => {'type' => "layers", "attributes"=>{:name => "updated layer"}}
+      assert_response :ok
+      body = JSON.parse(response.body)
+      assert_equal "updated layer", body["data"]["attributes"]["name"]
+    end
+
+    test "update with maps" do
+      warped_map = FactoryGirl.create(:warped_map)
+      before_count = @layer.maps.count
+    
+      patch 'update', :id => @layer.id,  'data' => {'type' => "layers", "attributes"=>{:name => "updated layer"}, :map_ids => [warped_map.id]}
+      after_count = @layer.reload.maps.count
+      
+      assert_response :ok
+      body = JSON.parse(response.body)
+      assert_equal "updated layer", body["data"]["attributes"]["name"]
+      assert_equal 1, after_count - before_count 
+      assert_equal warped_map.title, @layer.maps.first.title
+    end
+    
+    test "delete" do
+      assert_difference('Layer.count', -1) do
+        delete 'destroy',:id => @layer.id
+      end
+      assert_response :success
+    end
+
+    test "remove map" do
+      map_id = @layer.maps.first.id
+      patch "remove_map", :id => @layer.id, :map_id => map_id
+      assert_equal 0, @layer.maps.count
+    end
+  
+  end
+
+
   class MemberTest < LayersControllerTest
     
     setup do 
@@ -158,34 +257,8 @@ class LayersControllerTest < ActionController::TestCase
       
       Layer.find(id).send(:delete_tileindex)  #cleanup
     end
+
     
-    test "update" do
-      patch 'update', :id => @layer.id, 'data' => {'type' => "layers", "attributes"=>{:name => "updated layer"}}
-      assert_response :ok
-      body = JSON.parse(response.body)
-      assert_equal "updated layer", body["data"]["attributes"]["name"]
-    end
-    
-    test "update with maps" do
-      warped_map = FactoryGirl.create(:warped_map)
-      before_count = @layer.maps.count
-    
-      patch 'update', :id => @layer.id,  'data' => {'type' => "layers", "attributes"=>{:name => "updated layer"}, :map_ids => [warped_map.id]}
-      after_count = @layer.reload.maps.count
-      
-      assert_response :ok
-      body = JSON.parse(response.body)
-      assert_equal "updated layer", body["data"]["attributes"]["name"]
-      assert_equal 1, after_count - before_count 
-      assert_equal warped_map.title, @layer.maps.first.title
-    end
-    
-    test "delete" do
-      assert_difference('Layer.count', -1) do
-        delete 'destroy',:id => @layer.id
-      end
-      assert_response :success
-    end
   
     #visibility (patch)
     test "visible" do
@@ -195,11 +268,7 @@ class LayersControllerTest < ActionController::TestCase
       assert_equal false, body["data"]["attributes"]["is_visible"]
     end
     
-    test "remove map" do
-      map_id = @layer.maps.first.id
-      patch "remove_map", :id => @layer.id, :map_id => map_id
-      assert_equal 0, @layer.maps.count
-    end
+ 
     
     test "merge" do
       dest_layer = FactoryGirl.create(:layer_with_warped_maps)
