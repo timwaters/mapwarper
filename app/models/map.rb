@@ -37,7 +37,7 @@ class Map < ActiveRecord::Base
   audited :allow_mass_assignment => true
   
   include PgSearch
-  multisearchable :against => [:title, :description], :if => :warped?
+  multisearchable :against => [:title, :description], :if => :warped_published_and_public?
   
   scope :warped,    -> { where({ :status => [Map.status(:warped), Map.status(:published)], :map_type => Map.map_type(:is_map)  }) }
   scope :published, -> { where({:status => Map.status(:published), :map_type => Map.map_type(:is_map)})}
@@ -394,6 +394,10 @@ class Map < ActiveRecord::Base
 
   def warped_or_published?
     return [:warped, :published].include?(status)
+  end
+
+  def warped_published_and_public?
+    return [:warped, :published].include?(status) && public?
   end
   
   def update_map_type(map_type)
