@@ -71,7 +71,7 @@ Welcome to the documentation for the Warper API! MapWarper is a free application
 
 <!-- /TOC -->
 
-## Api-Endpoint
+## Api-Endpoint2
 
 `/api/v1`
 
@@ -1405,7 +1405,7 @@ curl -H "Content-Type: application/json" -H 'Accept: application/json' -X DELETE
 
 If successful, the response should return the deleted layer in json api format
 
-
+<!---
 ### Toggle Layer Visibility
 
 Toggles the visibility of a layer. This turns off the layer from being mosaiced together, and having WMS and Tile export options.
@@ -1437,6 +1437,7 @@ curl -H "Content-Type: application/json" -H 'Accept: application/json' -X PATCH 
 
 If successful, the response should return the layer in json api format (with the visibility attribute).
 
+-->
 
 ### Remove Map From Layer
 
@@ -1482,7 +1483,7 @@ If error, the following will be returned (with 422 status)
 }
 ```
 
-
+<!---
 ### Merge Layers
 
 Merges the maps of two layers together. The destination layer gets the maps from the original layer. The original layer is not deleted.
@@ -1524,6 +1525,7 @@ If error, the following will be returned (with 422 status)
 }
 ```
 
+--->
 
 ------------------------------
 
@@ -2546,6 +2548,7 @@ If successful, the response should return the created map in json format
 
 Status 422 and message with errors.
 
+<!---
 ### Publish Map
 
 Publishes a map. This stops the map from being edited further. Maps should be warped before publishing.
@@ -2656,6 +2659,7 @@ Other error
 }
 ```
 
+-->
 
 ## Get a User
 
@@ -2666,7 +2670,9 @@ Other error
 
 Returns a specified user by ID.
 Authentication required. 
+<!---
 Administrator authorized users will also see attributes for email and the roles the specified user has.
+-->
 
 **Parameters**
 | Name |   | Type    | Description                        | Required | Notes |
@@ -2699,7 +2705,7 @@ A response of a user with normal user authorizion
 	}
 }
 ```
-
+<!---
 A response of a user with admin user authorizion 
 
 ```
@@ -2751,6 +2757,8 @@ A response of a user with admin user authorizion
 }
 ```
 
+-->
+
 **Response Elements**
 
 ***Data***
@@ -2760,8 +2768,10 @@ A response of a user with admin user authorizion
 | id            |       | The id for the user            |                                               | 
 | type          | users | the type of resource           |                                               | 
 | attributes    |       | Attributes of the user         | see table for more detail                     | 
+<!---
 | relationships |       | Showing the roles the user has | only admins can view the roles of other users | 
 | included      |       | Giving more detail about role  | only admins can view the include roles        |
+-->
 
 ***Attributes***
 
@@ -2770,8 +2780,9 @@ A response of a user with admin user authorizion
 | login    | string  | the name of the user                               |                                                    |
 | enabled  | boolean | whether the user is enabled or not                 |                                                    |
 | provider | string  | if the user is from github, mediawiki, twitter etc |                                                    |
+<!---
 | email    | string  | email                                              | Only admin users can view the email of other users |  
-
+--->
 
 If the user is not found, the request will return the following response:
 
@@ -2779,8 +2790,10 @@ If the user is not found, the request will return the following response:
 | ------------- | -------- | 
 | 404	(not found) | ```{"errors":[{"title":"Not found","detail":"Couldn't find User with 'id'=2222"}]}```    |
 
-
+<!---
 ## List Users
+
+Administrator authorized users
 
 | Method       | Definition | 
 | ------------ | -------    | 
@@ -2930,12 +2943,13 @@ indicates that 50 results have been found over 2 pages.
 | provider | string  | if the user is from github, mediawiki, twitter etc |                                                    |
 | email    | string  | email                                              | Only admin users can view the email of other users |  
 
+-->
 
 -------------
 
 
 ## Imports
-
+<!---
 *** Imports are disabled on mapwarper.net. These docs below relate to the Wikimaps Warper ***
 
 Imports of maps can be added from a wiki Category and optionally to a mosaic/layer. First the import is created, then run.
@@ -3355,6 +3369,7 @@ curl -H "Content-Type: application/json" -X DELETE  http://mapwarper.net/api/v1/
 **Response**
 
 If successful, the response will be the deleted import (see above)
+-->
 
 ---------
 
@@ -3688,7 +3703,7 @@ Useful in pagination. Will show the total number of results, for example if the 
   "total_pages": 2
 }
 ```
-
+<!---
 ### User Statistics
 
 Returns statistics of all users based on combined activity.
@@ -3787,3 +3802,4 @@ Useful in pagination. Will show the total number of results, for example if the 
   "total_pages": 2
 }
 ```
+-->
