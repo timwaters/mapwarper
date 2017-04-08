@@ -2670,6 +2670,7 @@ Other error
 
 Returns a specified user by ID.
 Authentication required. 
+
 <!---
 Administrator authorized users will also see attributes for email and the roles the specified user has.
 -->
