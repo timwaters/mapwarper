@@ -1,65 +1,75 @@
 #Warper API Documentation
 
-
-
 Welcome to the documentation for the Warper API! MapWarper is a free application that assigns the proper geographic coordinates to scanned maps in image formats. Users can upload images, then assign ground control points to match them up with a base map. Once MapWarper warps or stretches the image to match the corresponding extent of the base map, it can be aligned and displayed with other maps, and used for digital geographic analysis. You can access all of the functionality through the API. 
 
 # Table of Contents
+<!-- TOC depthFrom:2 depthTo:6 withLinks:1 updateOnSave:1 orderedList:0 -->
 
-- [API Endpoint](#api-endpoint)    
-[Format](#format)  
-[Authentication](#authentication)  
-[Search for Maps](#search-for-maps)   
-[Get a Map](#get-a-map)  
-[Get a Map's Status](#get-a-maps-status)   
-[Layers](#layers)  
-[Query or List Layers](#query-or-list-layers)  
-[Get a Map's Layers](#get-a-maps-layers)  
-[Get Layer](#get-layer)  
-[Get a Layer's Maps](#get-a-layers-maps)  
-[Map and Layer Web Map Services](#map-and-layer-web-map-services)  
-[Ground Control Points](#ground-control-points)  
-[List and Sort Control Points](#list-and-sort-control-points)  
-[Get a Map's Ground Control Points](#get-a-maps-ground-control-points)    
-[Get a Single Ground Control Point](#get-a-single-ground-control-point)    
-[Add Ground Control Points](#add-ground-control-points)    
-[Update a GCP](#update-a-gcp)  
-[Delete a GCP](#delete-a-gcp)  
-[Masking](#masking)  
-[Get Mask](#get-mask)  
-[Save Mask](#save-mask)  
-[Delete Mask](#delete-mask)  
-[Mask Map](#mask-map)  
-[Save, Mask, and Warp Map](#save-mask-and-warp-map)  
-[Warping](#warping)  
-[Create Map](#create-map)  
-[Update Map](#update-map)  
-[Destroy Map](#destroy-map)  
-[Publish Map](#publish-map)  
-[Unpublish Map](#unpublish-map)  
-[Add Many GCPs](#add-many-gcps)  
-[Create Layer](#create-layer)  
-[Update Layer](#update-layer)  
-[Destroy Layer](#update-layer)  
-[Toggle Layer Visibility](#toggle-layer-visibility)  
-[Remove Map From Layer](#remove-map-from-layer)  
-[Merge Layers](#merge-layers)  
-[Get User](#get-user)  
-[List Users](#list-users)  
-[Imports](#imports)  
-[Show Import](#show-import)  
-[List Import Maps](#list-import-maps)  
-[List Imports](#list-imports)  
-[Create Import](#create-import)  
-[Update Import](#update-import)  
-[Destroy Import](#destroy-import)  
-[Activity & Stats](#activity)  
-[List Activity](#list-activity)  
-[List All Maps Activity](#list-maps-activity)  
-[List Map Activity](#list-map-activity)  
-[List User Activity](#list-user-activity)  
-[User Statistics](#user-statistics)  
+- [Api-Endpoint](#api-endpoint)
+- [Protocol](#protocol)
+- [Format](#format)
+	- [JSON format](#json-format)
+- [Authentication](#authentication)
+	- [Authentication Token](#authentication-token)
+	- [Sign out](#sign-out)
+	- [Validate Token](#validate-token)
+- [Using the authentication token](#using-the-authentication-token)
+	- [Oauth Authenticaton and Authentication Token](#oauth-authenticaton-and-authentication-token)
+	- [Cookie Authentication](#cookie-authentication)
+- [Search for Maps](#search-for-maps)
+	- [Get a Map](#get-a-map)
+	- [Get a Map's Status](#get-a-maps-status)
+- [Layers](#layers)
+	- [Query or List Layers](#query-or-list-layers)
+	- [Get Layer](#get-layer)
+	- [GeoJSON format](#geojson-format)
+	- [Get a Map's Layers](#get-a-maps-layers)
+	- [Get a Layer's Maps](#get-a-layers-maps)
+	- [Map and Layer Web Map Services](#map-and-layer-web-map-services)
+	- [Create Layer](#create-layer)
+	- [Update Layer](#update-layer)
+	- [Destroy Layer](#destroy-layer)
+	- [Toggle Layer Visibility](#toggle-layer-visibility)
+	- [Remove Map From Layer](#remove-map-from-layer)
+	- [Merge Layers](#merge-layers)
+- [Ground Control Points](#ground-control-points)
+	- [List and Sort Control Points](#list-and-sort-control-points)
+	- [Get a Map's Ground Control Points](#get-a-maps-ground-control-points)
+	- [Get a Single Ground Control Point](#get-a-single-ground-control-point)
+	- [Add Ground Control Point](#add-ground-control-point)
+	- [Update a GCP](#update-a-gcp)
+	- [Delete a GCP](#delete-a-gcp)
+	- [Add Many GCPs](#add-many-gcps)
+- [Masking](#masking)
+	- [Get Mask](#get-mask)
+	- [Save Mask](#save-mask)
+	- [Delete Mask](#delete-mask)
+	- [Crop / Mask Map](#crop-mask-map)
+	- [Save, Mask, and Warp Map](#save-mask-and-warp-map)
+- [Warping](#warping)
+- [Maps](#maps)
+	- [Create Map](#create-map)
+	- [Update Map](#update-map)
+	- [Destroy Map](#destroy-map)
+	- [Publish Map](#publish-map)
+	- [Unpublish Map](#unpublish-map)
+- [Get a User](#get-a-user)
+- [List Users](#list-users)
+- [Imports](#imports)
+	- [Show Import](#show-import)
+	- [List Imports](#list-imports)
+	- [List Import Maps](#list-import-maps)
+	- [Create Import](#create-import)
+	- [Update Import](#update-import)
+	- [Destroy Import](#destroy-import)
+- [Activity & Stats](#activity-stats)
+	- [List Activity](#list-activity)
+	- [List Maps Activity](#list-maps-activity)
+	- [List Map Activity](#list-map-activity)
+	- [List User Activity](#list-user-activity)
+	- [User Statistics](#user-statistics)
 
+<!-- /TOC -->
 
 ## Api-Endpoint
 
@@ -1263,6 +1273,258 @@ See [Search for Maps](#search-for-maps)
 
 The WMS and Tile services are available and are now shown in the standard JSON responses
 
+###Create Layer
+
+Creates a new layer and adding several existing maps to it at the same time.
+Authentication required.
+
+
+| Method       | Definition | 
+| ------------ | -------    | 
+| POST         |  /api/v1/layers |
+ 
+
+**Parameters**
+
+The body of the request should be in JSON-API format. ```data``` may also have ```map_ids``  - an array of existing map ids to add to the layer.
+
+| Name       |             | Type   | Description                          | Notes    |
+|------------|-------------|--------|--------------------------------------|----------|
+| data       |             |        |                                      |          |
+|            | type        | string | "layers"                             | required |
+|            | map_ids     | array  | array of integers of the maps to add | optional |
+| attributes |             |        |                                      |          |
+|            | name        | string | the name of the layer                | required |
+|            | description | string | the description of the layer         | optional |
+
+
+Example:
+
+```
+{
+	"data": {
+		"type": "layers",
+		"attributes": {
+			"name": "a new layer",
+			"description": "new description"
+		},
+    "map_ids":[123,553,224]
+	}
+}
+```
+
+**cURL Example**
+
+```
+curl -H "Content-Type: application/json" -H 'Accept: application/json' -X POST -d '{"data":{"type":"layers","attributes":{"name":"a new layer","description":"new description"},"map_ids":[123,553,224]}}' http://mapwarper.net/api/v1/layers -b cookie
+```
+
+**Response**
+
+If successful, the response should return the new layer in json api format
+
+
+###Update Layer
+
+Updates a new layer and adding several existing maps to it at the same time. This could be used to add many maps at the same time to a layer.
+Authentication required.
+Only the owner of the layer or an editor is authorized. 
+
+
+| Method       | Definition | 
+| ------------ | -------    | 
+| PATCH         |  /api/v1/layers/{:id} |
+ 
+
+**Parameters**
+
+| Name |   | Type    | Description                         | Required | Notes |   |
+|------|---|---------|-------------------------------------|----------|-------|---|
+| id   |   | integer | the unique identifier for the layer | required |       |   |
+
+The body of the request should be in JSON-API format. ```data``` may also have ```map_ids``  - an array of existing map ids to add to the layer.
+
+| Name       |             | Type   | Description                          | Notes    |
+|------------|-------------|--------|--------------------------------------|----------|
+| data       |             |        |                                      |          |
+|            | type        | string | "layers"                             | required |
+|            | map_ids     | array  | array of integers of the maps to add | optional |
+| attributes |             |        |                                      |          |
+|            | name        | string | the name of the layer                | optional |
+|            | description | string | the description of the layer         | optional |
+
+
+Example:
+
+```
+{
+	"data": {
+		"type": "layers",
+		"attributes": {
+			"name": "a different name"
+		},
+    "map_ids":[4423,22]
+	}
+}
+```
+
+**cURL Example**
+
+```
+curl -H "Content-Type: application/json" -H 'Accept: application/json' -X PATCH -d '{"data":{"type":"layers","attributes":{"name":"a different name"},"map_ids":[4423,22]}}' http://mapwarper.net/api/v1/layers -b cookie
+```
+
+**Response**
+
+If successful, the response should return the updated layer in json api format
+
+###Destroy Layer
+
+Destroys a layer.
+Authentication required.
+Only the owner of the layer or an editor is authorized.
+
+| Method       | Definition          | 
+|--------------|---------------------|
+| DELETE       | /api/v1/layers{:id} |
+
+**Parameters**
+
+| Name |   | Type    | Description                         | Required | Notes |   |
+|------|---|---------|-------------------------------------|----------|-------|---|
+| id   |   | integer | the unique identifier for the layer | required |       |   |
+
+
+**cURL Example**
+
+```
+curl -H "Content-Type: application/json" -H 'Accept: application/json' -X DELETE -d http://mapwarper.net/api/v1/layers/12 -b cookie
+```
+
+**Response**
+
+If successful, the response should return the deleted layer in json api format
+
+
+###Toggle Layer Visibility
+
+Toggles the visibility of a layer. This turns off the layer from being mosaiced together, and having WMS and Tile export options.
+It is useful for layers which represent meta groups of maps, or layers of layers. 
+Authentication required.
+Administrator authorized only.
+
+
+| Method       | Definition | 
+| ------------ | -------    | 
+| PATCH         |  /api/v1/layers/{:id}/toggle_visibility |
+ 
+
+**Parameters**
+
+| Name |   | Type    | Description                         | Required | Notes |   |
+|------|---|---------|-------------------------------------|----------|-------|---|
+| id   |   | integer | the unique identifier for the layer | required |       |   |
+
+
+
+**cURL Example**
+
+```
+curl -H "Content-Type: application/json" -H 'Accept: application/json' -X PATCH  http://mapwarper.net/api/v1/layers/2/toggle_visibility -b cookie
+```
+
+**Response**
+
+If successful, the response should return the layer in json api format (with the visibility attribute).
+
+
+###Remove Map From Layer
+
+Removes a single map from a layer.
+Authentication required.
+Only the owner of the layer or an editor is authorized.
+
+
+| Method       | Definition | 
+| ------------ | -------    | 
+| PATCH         |  /api/v1/layers/{:id}/remove_map |
+ 
+
+**Parameters**
+
+It takes a single parameter, map_id containing the id of the map to be removed.
+
+| Name |   | Type    | Description                         | Required | Notes |   |
+|------|---|---------|-------------------------------------|----------|-------|---|
+| id   |   | integer | the unique identifier for the layer | required |       |   |
+| map_id     |             |  integer |   unique id of the map to be removed        |     required     |
+
+
+
+**cURL Example**
+
+```
+curl -H "Content-Type: application/json" -H 'Accept: application/json' -X PATCH -d '{"map_id":123}' http://mapwarper.net/api/v1/layers/2/remove_map -b cookie
+```
+
+**Response**
+
+If successful, the response should return the updated layer in json api format
+
+If error, the following will be returned (with 422 status)
+
+```
+{
+	"errors": [{
+		"title": "Layer error",
+		"detail": "Error removing map."
+	}]
+}
+```
+
+
+###Merge Layers
+
+Merges the maps of two layers together. The destination layer gets the maps from the original layer. The original layer is not deleted.
+Authentication required.
+Administrator authorized only.
+
+
+| Method       | Definition | 
+| ------------ | -------    | 
+| PATCH         |  /api/v1/layers/{:id}/remove_map |
+ 
+
+**Parameters**
+
+| Name    |   | Type    | Description                         | Required | Notes | 
+|---------|---|---------|-------------------------------------|----------|-------|
+| id      |   | integer | the unique identifier for the layer to be merged | required |       |  
+| dest_id |   | integer | the unique identifier for the destination layer | required |       | 
+
+
+**cURL Example**
+
+```
+curl -H "Content-Type: application/json" -H 'Accept: application/json' -X PATCH -d '{"dest_id":3}' http://mapwarper.net/api/v1/layers/2/merge -b cookie
+```
+
+**Response**
+
+If successful, the response should return the destination layer in json format
+
+If error, the following will be returned (with 422 status)
+
+```
+{
+	"errors": [{
+		"title": "Layer error",
+		"detail": "Error merging layers"
+	}]
+}
+```
+
+
 ------------------------------
 
 
@@ -1765,6 +2027,101 @@ If the GCP is not found, the request will return the following response:
 
 
 
+###Add Many GCPs
+
+Adds many Ground Control Point at once to one or more maps
+Authentication required.
+Editor role authorized only.
+
+
+| Method       | Definition | 
+| ------------ | -------    | 
+| POST         |  /api/v1/gcps/add_many  |
+ 
+
+**Parameters**
+
+
+| Name      	    |  Type      | Description  |  Required | 
+| -------------   | ---------- | ------------ |  -------- | 
+|   gcps     		  | array      | an array of control points   | required |
+
+Each gcp should have a ```mapid```  attribute to be able to add the control point to the correct map.
+Points cannot be added twice. 
+
+```
+{
+	"gcps": [{
+		"mapid": 123,
+		"x": 2,
+		"y": 3,
+		"lat": "52.56",
+		"lon": "-4.65"
+	}, {
+		"mapid": 123,
+		"x": 12,
+		"y": 23,
+		"lat": "32.56",
+		"lon": "-2.65"
+	}]
+}
+```
+
+**cURL Example**
+
+```
+curl -H "Content-Type: application/json" -H 'Accept: application/json' -X POST -d '{"gcps":[{"mapid":123,"x":2,"y":3,"lat":"52.56","lon":"-4.65"},{"mapid":123,"x":12,"y":23,"lat":"32.56","lon":"-2.65"}]}' http://mapwarper.net/api/v1/gcps/add_many -b cookie
+```
+
+**Response**
+
+If successful, the response should return the newly added gcps
+
+```
+{
+  "data": [
+    {
+      "id": "228",
+      "type": "gcps",
+      "attributes": {
+        "map_id": 123,
+        "x": 2.0,
+        "y": 3.0,
+        "lat": "52.56",
+        "lon": "-4.65",
+        "created_at": "2016-06-11T16:29:32.948Z",
+        "updated_at": "2016-06-11T16:29:32.948Z",
+        "error": null
+      }
+    },
+    {
+      "id": "228",
+      "type": "gcps",
+      "attributes": {
+        "map_id": 542,
+        "x": 2.0,
+        "y": 3.0,
+        "lat": "52.56",
+        "lon": "-4.65",
+        "created_at": "2016-06-11T16:29:32.948Z",
+        "updated_at": "2016-06-11T16:29:32.948Z",
+        "error": null
+      }
+    }
+  ]
+}
+```
+
+***Errors***
+
+If a map cannot be found
+
+```
+{"errors":[{"title":"Not found","detail":"Couldn't find Map with 'id'=123"}]}
+```
+
+
+
 ##Masking
 
 Uses GML to mask a portion of the map. This essentially crops the map. Masking is used to delete the borders around the map images to make a seamless layer of contiguous maps. 
@@ -1984,8 +2341,9 @@ Map currently being rectified
 ```
 
 --------
+##Maps
 
-##Create Map
+###Create Map
 
 | Method       | Definition | 
 | ------------ | -------    | 
@@ -2081,7 +2439,7 @@ Status 422 and message for example if the issue_year is not a number:
 }
 ```
 
-##Update Map
+###Update Map
 
 
 | Method       | Definition | 
@@ -2154,7 +2512,7 @@ If successful, the response should return the created map in json format
 Status 422 and message with errors.
 
 
-##Destroy Map
+###Destroy Map
 
 | Method       | Definition | 
 | ------------ | -------    | 
@@ -2188,7 +2546,7 @@ If successful, the response should return the created map in json format
 
 Status 422 and message with errors.
 
-##Publish Map
+###Publish Map
 
 Publishes a map. This stops the map from being edited further. Maps should be warped before publishing.
 Authentication required.
@@ -2243,7 +2601,7 @@ Other error
 }
 ```
 
-##Unpublish Map
+###Unpublish Map
 
 Unpublishes a map. This allows the map to be edited. Maps should be published before unpublishing.
 Authentication required.
@@ -2298,351 +2656,6 @@ Other error
 }
 ```
 
-##Add Many GCPs
-
-Adds many Ground Control Point at once to one or more maps
-Authentication required.
-Editor role authorized only.
-
-
-| Method       | Definition | 
-| ------------ | -------    | 
-| POST         |  /api/v1/gcps/add_many  |
- 
-
-**Parameters**
-
-
-| Name      	    |  Type      | Description  |  Required | 
-| -------------   | ---------- | ------------ |  -------- | 
-|   gcps     		  | array      | an array of control points   | required |
-
-Each gcp should have a ```mapid```  attribute to be able to add the control point to the correct map.
-Points cannot be added twice. 
-
-```
-{
-	"gcps": [{
-		"mapid": 123,
-		"x": 2,
-		"y": 3,
-		"lat": "52.56",
-		"lon": "-4.65"
-	}, {
-		"mapid": 123,
-		"x": 12,
-		"y": 23,
-		"lat": "32.56",
-		"lon": "-2.65"
-	}]
-}
-```
-
-**cURL Example**
-
-```
-curl -H "Content-Type: application/json" -H 'Accept: application/json' -X POST -d '{"gcps":[{"mapid":123,"x":2,"y":3,"lat":"52.56","lon":"-4.65"},{"mapid":123,"x":12,"y":23,"lat":"32.56","lon":"-2.65"}]}' http://mapwarper.net/api/v1/gcps/add_many -b cookie
-```
-
-**Response**
-
-If successful, the response should return the newly added gcps
-
-```
-{
-  "data": [
-    {
-      "id": "228",
-      "type": "gcps",
-      "attributes": {
-        "map_id": 123,
-        "x": 2.0,
-        "y": 3.0,
-        "lat": "52.56",
-        "lon": "-4.65",
-        "created_at": "2016-06-11T16:29:32.948Z",
-        "updated_at": "2016-06-11T16:29:32.948Z",
-        "error": null
-      }
-    },
-    {
-      "id": "228",
-      "type": "gcps",
-      "attributes": {
-        "map_id": 542,
-        "x": 2.0,
-        "y": 3.0,
-        "lat": "52.56",
-        "lon": "-4.65",
-        "created_at": "2016-06-11T16:29:32.948Z",
-        "updated_at": "2016-06-11T16:29:32.948Z",
-        "error": null
-      }
-    }
-  ]
-}
-```
-
-***Errors***
-
-If a map cannot be found
-
-```
-{"errors":[{"title":"Not found","detail":"Couldn't find Map with 'id'=123"}]}
-```
-
-
-
-##Create Layer
-
-Creates a new layer and adding several existing maps to it at the same time.
-Authentication required.
-
-
-| Method       | Definition | 
-| ------------ | -------    | 
-| POST         |  /api/v1/layers |
- 
-
-**Parameters**
-
-The body of the request should be in JSON-API format. ```data``` may also have ```map_ids``  - an array of existing map ids to add to the layer.
-
-| Name       |             | Type   | Description                          | Notes    |
-|------------|-------------|--------|--------------------------------------|----------|
-| data       |             |        |                                      |          |
-|            | type        | string | "layers"                             | required |
-|            | map_ids     | array  | array of integers of the maps to add | optional |
-| attributes |             |        |                                      |          |
-|            | name        | string | the name of the layer                | required |
-|            | description | string | the description of the layer         | optional |
-
-
-Example:
-
-```
-{
-	"data": {
-		"type": "layers",
-		"attributes": {
-			"name": "a new layer",
-			"description": "new description"
-		},
-    "map_ids":[123,553,224]
-	}
-}
-```
-
-**cURL Example**
-
-```
-curl -H "Content-Type: application/json" -H 'Accept: application/json' -X POST -d '{"data":{"type":"layers","attributes":{"name":"a new layer","description":"new description"},"map_ids":[123,553,224]}}' http://mapwarper.net/api/v1/layers -b cookie
-```
-
-**Response**
-
-If successful, the response should return the new layer in json api format
-
-
-##Update Layer
-
-Updates a new layer and adding several existing maps to it at the same time. This could be used to add many maps at the same time to a layer.
-Authentication required.
-Only the owner of the layer or an editor is authorized. 
-
-
-| Method       | Definition | 
-| ------------ | -------    | 
-| PATCH         |  /api/v1/layers/{:id} |
- 
-
-**Parameters**
-
-| Name |   | Type    | Description                         | Required | Notes |   |
-|------|---|---------|-------------------------------------|----------|-------|---|
-| id   |   | integer | the unique identifier for the layer | required |       |   |
-
-The body of the request should be in JSON-API format. ```data``` may also have ```map_ids``  - an array of existing map ids to add to the layer.
-
-| Name       |             | Type   | Description                          | Notes    |
-|------------|-------------|--------|--------------------------------------|----------|
-| data       |             |        |                                      |          |
-|            | type        | string | "layers"                             | required |
-|            | map_ids     | array  | array of integers of the maps to add | optional |
-| attributes |             |        |                                      |          |
-|            | name        | string | the name of the layer                | optional |
-|            | description | string | the description of the layer         | optional |
-
-
-Example:
-
-```
-{
-	"data": {
-		"type": "layers",
-		"attributes": {
-			"name": "a different name"
-		},
-    "map_ids":[4423,22]
-	}
-}
-```
-
-**cURL Example**
-
-```
-curl -H "Content-Type: application/json" -H 'Accept: application/json' -X PATCH -d '{"data":{"type":"layers","attributes":{"name":"a different name"},"map_ids":[4423,22]}}' http://mapwarper.net/api/v1/layers -b cookie
-```
-
-**Response**
-
-If successful, the response should return the updated layer in json api format
-
-##Destroy Layer
-
-Destroys a layer.
-Authentication required.
-Only the owner of the layer or an editor is authorized.
-
-| Method       | Definition          | 
-|--------------|---------------------|
-| DELETE       | /api/v1/layers{:id} |
-
-**Parameters**
-
-| Name |   | Type    | Description                         | Required | Notes |   |
-|------|---|---------|-------------------------------------|----------|-------|---|
-| id   |   | integer | the unique identifier for the layer | required |       |   |
-
-
-**cURL Example**
-
-```
-curl -H "Content-Type: application/json" -H 'Accept: application/json' -X DELETE -d http://mapwarper.net/api/v1/layers/12 -b cookie
-```
-
-**Response**
-
-If successful, the response should return the deleted layer in json api format
-
-
-##Toggle Layer Visibility
-
-Toggles the visibility of a layer. This turns off the layer from being mosaiced together, and having WMS and Tile export options.
-It is useful for layers which represent meta groups of maps, or layers of layers. 
-Authentication required.
-Administrator authorized only.
-
-
-| Method       | Definition | 
-| ------------ | -------    | 
-| PATCH         |  /api/v1/layers/{:id}/toggle_visibility |
- 
-
-**Parameters**
-
-| Name |   | Type    | Description                         | Required | Notes |   |
-|------|---|---------|-------------------------------------|----------|-------|---|
-| id   |   | integer | the unique identifier for the layer | required |       |   |
-
-
-
-**cURL Example**
-
-```
-curl -H "Content-Type: application/json" -H 'Accept: application/json' -X PATCH  http://mapwarper.net/api/v1/layers/2/toggle_visibility -b cookie
-```
-
-**Response**
-
-If successful, the response should return the layer in json api format (with the visibility attribute).
-
-
-##Remove Map From Layer
-
-Removes a single map from a layer.
-Authentication required.
-Only the owner of the layer or an editor is authorized.
-
-
-| Method       | Definition | 
-| ------------ | -------    | 
-| PATCH         |  /api/v1/layers/{:id}/remove_map |
- 
-
-**Parameters**
-
-It takes a single parameter, map_id containing the id of the map to be removed.
-
-| Name |   | Type    | Description                         | Required | Notes |   |
-|------|---|---------|-------------------------------------|----------|-------|---|
-| id   |   | integer | the unique identifier for the layer | required |       |   |
-| map_id     |             |  integer |   unique id of the map to be removed        |     required     |
-
-
-
-**cURL Example**
-
-```
-curl -H "Content-Type: application/json" -H 'Accept: application/json' -X PATCH -d '{"map_id":123}' http://mapwarper.net/api/v1/layers/2/remove_map -b cookie
-```
-
-**Response**
-
-If successful, the response should return the updated layer in json api format
-
-If error, the following will be returned (with 422 status)
-
-```
-{
-	"errors": [{
-		"title": "Layer error",
-		"detail": "Error removing map."
-	}]
-}
-```
-
-
-##Merge Layers
-
-Merges the maps of two layers together. The destination layer gets the maps from the original layer. The original layer is not deleted.
-Authentication required.
-Administrator authorized only.
-
-
-| Method       | Definition | 
-| ------------ | -------    | 
-| PATCH         |  /api/v1/layers/{:id}/remove_map |
- 
-
-**Parameters**
-
-| Name    |   | Type    | Description                         | Required | Notes | 
-|---------|---|---------|-------------------------------------|----------|-------|
-| id      |   | integer | the unique identifier for the layer to be merged | required |       |  
-| dest_id |   | integer | the unique identifier for the destination layer | required |       | 
-
-
-**cURL Example**
-
-```
-curl -H "Content-Type: application/json" -H 'Accept: application/json' -X PATCH -d '{"dest_id":3}' http://mapwarper.net/api/v1/layers/2/merge -b cookie
-```
-
-**Response**
-
-If successful, the response should return the destination layer in json format
-
-If error, the following will be returned (with 422 status)
-
-```
-{
-	"errors": [{
-		"title": "Layer error",
-		"detail": "Error merging layers"
-	}]
-}
-```
 
 ##Get a User
 
