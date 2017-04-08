@@ -75,11 +75,11 @@ Welcome to the documentation for the Warper API! MapWarper is a free application
 
 `/api/v1`
 
-##Protocol
+## Protocol
 
 Both http and https calls work. If you call a https resource, then links within the JSON response should also have https protocols, if you call it via http then the links should be in http. Note that OAuth authentication is configured for https only.
 
-##Format
+## Format
 
 Where possible most output formats are in json-api format. Some creation and updating requests also require the json to be in this format. 
 
@@ -91,7 +91,7 @@ Things to watch out for (compared to the previous warper API) the JSON API has `
 
 The GeoJSON is different in structure and also in that it encodes the geometry of features in GeoJSON format. It does not include relations or links or pagination information. For more information about the GeoJSON format see the GeoJSON site. [http://geojson.org/](http://geojson.org/)
 
-##Authentication
+## Authentication
 
 Some calls do not require authentication. Some do, and some require the user to have the correct authorization.
 
@@ -99,7 +99,7 @@ Authentication for the MapWarper API is via an authentication token passed in a 
 
 Alternatively the API can work via cookie also.
 
-###Authentication Token
+### Authentication Token
 
 To authenticate using an email and password to retrieve an authentication token.
 
@@ -150,7 +150,7 @@ if unauthorized returns a 401 status with
 {"error":"Invalid email or password."}
 ```
 
-###Sign out
+### Sign out
 
 To sign out which deletes the authentication token.
 Authentication is required.
@@ -173,7 +173,7 @@ A successful response returns a 200 OK status and an empty hash `{}`
 An unsuccessful response returns a 422 unprocessable entity status and an empty hash `{}`
 
 
-###Validate Token
+### Validate Token
 
 This is a call to check if an authentication token is still valid. (Signing in and out both reset tokens)
 
@@ -225,7 +225,7 @@ if unauthorized returns a 401 status with
 {"error":"Invalid email or password."}
 ```
 
-##Using the authentication token
+## Using the authentication token
 
 You can authentication via the token in two ways
 
@@ -242,7 +242,7 @@ curl  -X GET http://mapwarper.net/api/v1/users/2.json?user_id=2&user_token=longt
 
 ```
 
-###Oauth Authenticaton and Authentication Token
+### Oauth Authenticaton and Authentication Token
 
 Instead of using an email and password, a user can login via OUath with Github, twitter, google, and Wikimedia Commons for example. 
 This is the way a third party JavaScript application can work with OAuth and the warper
@@ -319,7 +319,7 @@ function requestCredentials() {
 Then, using the id and the email from the message, API response can be crafted. See https://github.com/timwaters/warper_oauth_token_auth_demo  for an example app.
 
 
-###Cookie Authentication
+### Cookie Authentication
 
 The API can also be authenticated with cookies (for example a user logged into the warper in the browser can call the API GET requests in the browser).
 
@@ -366,7 +366,7 @@ Unauthorized calls may return
 | 402	(unauthorized) | `{"errors":[{"title":"Unauthorized","detail":"Unauthorized Request"}]}`   |
 
 
-##Search for Maps
+## Search for Maps
 
 | Method        | Definition |
 | ------------- | ---------  |
@@ -640,7 +640,7 @@ curl -H 'Content-Type: application/json' -H 'Accept: application/json' -X GET 'h
 ```
 
 
-###Get a Map
+### Get a Map
 
 | Method        | Definition    |
 | ------------- | ------------- |
@@ -820,7 +820,7 @@ If the map is not found, the request will return the following response.
 | ------------- |----------| 
 | 404	(not found)| ```{"errors":[{"title":"Not found","detail":"Couldn't find Map with 'id'=2222"}]}```    |
 
-###Get a Map's Status
+### Get a Map's Status
 
 | Method       | Definition | 
 | ------------ | -------    | 
@@ -857,14 +857,14 @@ This request returns text. If a map has no status (i.e., has not been transferre
 
 ------------------------------
 
-##Layers
+## Layers
 
 A layer is a mosaic in which the component maps are stitched together and displayed as one seamless map. Layers are often comprised of contiguous maps from the facing pages of a scanned book. For examples of layers, see the [Plan of the town of Paramaribo, capital of Surinam](http://maps.nypl.org/warper/layers/1450) or the map of New York City and Vicinity at [http://maps.nypl.org/warper/layers/1404](http://maps.nypl.org/warper/layers/1404).
 No authentication required.
 
 > ** Note: in the mapwarper application Layers are often called "Mosaics"
 
-###Query or List Layers
+### Query or List Layers
 
 | Method       | Definition | 
 | ------------ | -------    | 
@@ -1029,7 +1029,7 @@ indicates that 50 results have been found over 2 pages.
 | updated_at         | date, time, & time zone  | when the layer was last updated |  |
 
 
-###Get Layer
+### Get Layer
 
 | Method       | Definition | 
 | ------------ | -------    | 
@@ -1141,7 +1141,7 @@ If the layer is not found, the request will return the following response.
 
 
 
-###GeoJSON format
+### GeoJSON format
 [http://mapwarper.net/api/v1/layers/2.geojson](http://mapwarper.net/api/v1/layers/2.geojson) 
 
 ```
@@ -1165,7 +1165,7 @@ If the layer is not found, the request will return the following response.
 }
 ```
 
-###Get a Map's Layers
+### Get a Map's Layers
 
 | Method       | Definition | 
 | ------------ | ---------  | 
@@ -1214,7 +1214,7 @@ Alternatively, the URL can be constructed by passing in the map_id as a paramter
 Same response format as for listing and querying layers.
 See [Query or List Layers](#query-or-list-layers) 
 
-###Get a Layer's Maps
+### Get a Layer's Maps
 
 | Method       | Definition | 
 | ------------ | -------    | 
@@ -1269,11 +1269,11 @@ Same response as for listing and querying layers.
 See [Search for Maps](#search-for-maps) 
 
 
-###Map and Layer Web Map Services
+### Map and Layer Web Map Services
 
 The WMS and Tile services are available and are now shown in the standard JSON responses
 
-###Create Layer
+### Create Layer
 
 Creates a new layer and adding several existing maps to it at the same time.
 Authentication required.
@@ -1324,7 +1324,7 @@ curl -H "Content-Type: application/json" -H 'Accept: application/json' -X POST -
 If successful, the response should return the new layer in json api format
 
 
-###Update Layer
+### Update Layer
 
 Updates a new layer and adding several existing maps to it at the same time. This could be used to add many maps at the same time to a layer.
 Authentication required.
@@ -1378,7 +1378,7 @@ curl -H "Content-Type: application/json" -H 'Accept: application/json' -X PATCH 
 
 If successful, the response should return the updated layer in json api format
 
-###Destroy Layer
+### Destroy Layer
 
 Destroys a layer.
 Authentication required.
@@ -1406,7 +1406,7 @@ curl -H "Content-Type: application/json" -H 'Accept: application/json' -X DELETE
 If successful, the response should return the deleted layer in json api format
 
 
-###Toggle Layer Visibility
+### Toggle Layer Visibility
 
 Toggles the visibility of a layer. This turns off the layer from being mosaiced together, and having WMS and Tile export options.
 It is useful for layers which represent meta groups of maps, or layers of layers. 
@@ -1438,7 +1438,7 @@ curl -H "Content-Type: application/json" -H 'Accept: application/json' -X PATCH 
 If successful, the response should return the layer in json api format (with the visibility attribute).
 
 
-###Remove Map From Layer
+### Remove Map From Layer
 
 Removes a single map from a layer.
 Authentication required.
@@ -1483,7 +1483,7 @@ If error, the following will be returned (with 422 status)
 ```
 
 
-###Merge Layers
+### Merge Layers
 
 Merges the maps of two layers together. The destination layer gets the maps from the original layer. The original layer is not deleted.
 Authentication required.
@@ -1528,11 +1528,11 @@ If error, the following will be returned (with 422 status)
 ------------------------------
 
 
-##Ground Control Points
+## Ground Control Points
 
 Ground control points are the user-selected locations used to warp an image.
 
-###List and Sort Control Points
+### List and Sort Control Points
 
 | Method        | Definition    |
 | ------------- | ------------- |
@@ -1675,7 +1675,7 @@ indicates that 50 results have been found over 2 pages.
 | updated_at    | date, time, & time zone | the date and time when the ground control point was last updated   | |
 
 
-###Get a Map's Ground Control Points
+### Get a Map's Ground Control Points
 
 There are two different ways to get the control points of a map:
 
@@ -1781,7 +1781,7 @@ Contains details about the combined error for the control points for the entire 
 
 
 
-###Get a Single Ground Control Point
+### Get a Single Ground Control Point
 
 | Method       | Definition | 
 | ------------ | ---------- | 
@@ -1854,7 +1854,7 @@ If the GCP is not found, the request will return the following response:
 | ------------- | -------- | 
 | 404	(not found) | ```{"errors":[{"title":"Not found","detail":"Couldn't find Gcp with 'id'=2222"}]}```    |
 
-###Add Ground Control Point
+### Add Ground Control Point
 
 | Method       | Definition | 
 | ------------ | -------    | 
@@ -1939,7 +1939,7 @@ An error will return something similar to the following message.
 }
 ```
 
-###Update a GCP
+### Update a GCP
 
 | Method       | Definition | 
 | ------------ | -------    | 
@@ -1992,7 +1992,7 @@ Example:
 }
 ```
 
-###Delete a GCP
+### Delete a GCP
 
 | Method        | Definition | 
 | ------------- | ---------  | 
@@ -2027,7 +2027,7 @@ If the GCP is not found, the request will return the following response:
 
 
 
-###Add Many GCPs
+### Add Many GCPs
 
 Adds many Ground Control Point at once to one or more maps
 Authentication required.
@@ -2122,11 +2122,11 @@ If a map cannot be found
 
 
 
-##Masking
+## Masking
 
 Uses GML to mask a portion of the map. This essentially crops the map. Masking is used to delete the borders around the map images to make a seamless layer of contiguous maps. 
 
-###Get Mask
+### Get Mask
 
 | Method        | Definition | 
 | ------------- | ---------  | 
@@ -2153,7 +2153,7 @@ http://mapwarper.net/shared/masks/7449.gml.ol
 }}}
 ```
 
-###Save Mask
+### Save Mask
 
 | Method        | Definition | 
 | ------------- | -------    | 
@@ -2184,7 +2184,7 @@ A successful call will return the applicable map in json-api format.
 
 
 
-###Delete Mask
+### Delete Mask
 
 | Method        | Definition | 
 | ------------- | -------    | 
@@ -2237,7 +2237,7 @@ If there is no mask saved, the following error will be returned (Error Status 42
 ```
 
 
-###Save, Mask, and Warp Map
+### Save, Mask, and Warp Map
 
 | Method       | Definition | 
 | ------------ | --------   | 
@@ -2268,7 +2268,7 @@ As rectify call.
 
 --------
 
-##Warping
+## Warping
 
 | Method       | Definition | 
 | ------------ | -------    | 
@@ -2341,9 +2341,9 @@ Map currently being rectified
 ```
 
 --------
-##Maps
+## Maps
 
-###Create Map
+### Create Map
 
 | Method       | Definition | 
 | ------------ | -------    | 
@@ -2439,7 +2439,7 @@ Status 422 and message for example if the issue_year is not a number:
 }
 ```
 
-###Update Map
+### Update Map
 
 
 | Method       | Definition | 
@@ -2512,7 +2512,7 @@ If successful, the response should return the created map in json format
 Status 422 and message with errors.
 
 
-###Destroy Map
+### Destroy Map
 
 | Method       | Definition | 
 | ------------ | -------    | 
@@ -2546,7 +2546,7 @@ If successful, the response should return the created map in json format
 
 Status 422 and message with errors.
 
-###Publish Map
+### Publish Map
 
 Publishes a map. This stops the map from being edited further. Maps should be warped before publishing.
 Authentication required.
@@ -2601,7 +2601,7 @@ Other error
 }
 ```
 
-###Unpublish Map
+### Unpublish Map
 
 Unpublishes a map. This allows the map to be edited. Maps should be published before unpublishing.
 Authentication required.
@@ -2657,7 +2657,7 @@ Other error
 ```
 
 
-##Get a User
+## Get a User
 
 
 | Method       | Definition | 
@@ -2780,7 +2780,7 @@ If the user is not found, the request will return the following response:
 | 404	(not found) | ```{"errors":[{"title":"Not found","detail":"Couldn't find User with 'id'=2222"}]}```    |
 
 
-##List Users
+## List Users
 
 | Method       | Definition | 
 | ------------ | -------    | 
@@ -2934,7 +2934,7 @@ indicates that 50 results have been found over 2 pages.
 -------------
 
 
-##Imports
+## Imports
 
 *** Imports are disabled on mapwarper.net. These docs below relate to the Wikimaps Warper ***
 
@@ -2944,7 +2944,7 @@ The Wiki Category should just contain images of maps, and these maps should have
 
 All require authentication and are restricted to users with the editor role.
 
-###Show Import
+### Show Import
 
 | Method       | Definition | 
 | ------------ | ---------- | 
@@ -3076,7 +3076,7 @@ If the import is not found, the request will return the following response:
 
 
 
-###List Imports
+### List Imports
 
 | Method       | Definition | 
 | ------------ | -------    | 
@@ -3158,7 +3158,7 @@ If the import is not found, the request will return the following response:
 | last |  the last page in the sequence of pages |
 
 
-###List Import Maps
+### List Import Maps
 
 | Method       | Definition | 
 | ------------ | -------    | 
@@ -3197,7 +3197,7 @@ Response where there are no maps (Import has not run, is "ready")
 {"data":[],"links":{}}
 ```
 
-###Create Import
+### Create Import
 
 
 | Method       | Definition | 
@@ -3276,7 +3276,7 @@ If successful, the response should return the created import with the "ready" st
 
 
 
-###Update Import
+### Update Import
 
 | Method       | Definition | 
 | ------------ | -------    | 
@@ -3326,7 +3326,7 @@ curl -H "Content-Type: application/json" -H 'Accept: application/json'  -X PATCH
 If successful, the response will be the updated import (see above)
 
 
-###Destroy Import
+### Destroy Import
 
 
 | Method       | Definition | 
@@ -3358,13 +3358,13 @@ If successful, the response will be the deleted import (see above)
 
 ---------
 
-##Activity & Stats
+## Activity & Stats
 
 Gets the activity of users actions over maps and control points, and a report on user statistics.
 Requires authentication.
 Most calls do not require special authorisation (except the user stats call).
 
-###List Activity
+### List Activity
 
 Lists all activity across maps and control points, ordered by created_at desc
 Authentication required.
@@ -3445,7 +3445,7 @@ Useful in pagination. Will show the total number of results, for example if the 
 
 
 
-###List Maps Activity
+### List Maps Activity
 
 Lists all activity across just maps, ordered by created_at desc
 Authentication required.
@@ -3528,7 +3528,7 @@ Useful in pagination. Will show the total number of results, for example if the 
 }
 ```
 
-###List Map Activity
+### List Map Activity
 
 Lists all activity across one specified map, ordered by created_at desc
 Authentication required.
@@ -3609,7 +3609,7 @@ Useful in pagination. Will show the total number of results, for example if the 
 ```
 
 
-###List User Activity
+### List User Activity
 
 Lists all activity for one user, ordered by created_at desc
 Authentication required.
@@ -3689,7 +3689,7 @@ Useful in pagination. Will show the total number of results, for example if the 
 }
 ```
 
-###User Statistics
+### User Statistics
 
 Returns statistics of all users based on combined activity.
 Authentication required.
