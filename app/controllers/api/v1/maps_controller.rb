@@ -286,9 +286,8 @@ class Api::V1::MapsController < Api::V1::ApiController
   def map_params
     params.require(:data).require(:attributes).permit(:title, :description, :tag_list, :map_type, :subject_area, :unique_id, 
       :source_uri, :call_number, :publisher, :publication_place, :authors, :date_depicted, :scale,
-      :metadata_projection, :metadata_lat, :metadata_lon, :public,
-      "published_date(3i)", "published_date(2i)", "published_date(1i)", "reprint_date(3i)", 
-      "reprint_date(2i)", "reprint_date(1i)", :upload_url, :upload, :issue_year )
+      :metadata_projection, :metadata_lat, :metadata_lon,
+      :upload_url, :upload, :issue_year ,:upload_file_name )
 
   end
   

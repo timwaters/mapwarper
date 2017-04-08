@@ -132,7 +132,7 @@ class MapsControllerTest < ActionController::TestCase
         upload = "data:image/png;base64,#{image_data}"
 
         assert_difference('Map.count', 1) do
-          post 'create', :format => :json, 'data' => {'type' => "maps", "attributes"=>{"description"=>"poo", "title"=>"new map", "upload" => upload}}
+          post 'create', :format => :json, 'data' => {'type' => "maps", "attributes"=>{"description"=>"poo", "title"=>"new map", "upload" => upload, "upload_file_name" => "100x70map2.png"}}
         end
         assert_response :created
         body = JSON.parse(response.body)
@@ -159,7 +159,7 @@ class MapsControllerTest < ActionController::TestCase
       end
       
       
-    
+      
       test "rectify no gcps" do
         patch :rectify, :id => @warped_map.id, :format => :json, :warp => 1
         assert_response :unprocessable_entity

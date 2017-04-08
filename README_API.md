@@ -435,9 +435,7 @@ JSON API Format
 			"map_type": "is_map",
 			"source_uri": "http://commons.wikimedia.beta.wmflabs.org/wiki/File:Tartu_turismiskeem.png",
 			"unique_id": "Tartu_turismiskeem.png",
-			"date_depicted": "",
-			"image_url": "http://upload.beta.wmflabs.org/wikipedia/commons/4/44/Tartu_turismiskeem.png",
-			"thumb_url": "http://upload.beta.wmflabs.org/wikipedia/commons/thumb/4/44/Tartu_turismiskeem.png/100px-Tartu_turismiskeem.png"
+			"date_depicted": ""
 		},
 		"relationships": {
 			"layers": {
@@ -465,7 +463,8 @@ JSON API Format
 			"aux_xml": "http://mapwarper.net/maps/260/export.aux_xml",
 			"kml": "http://mapwarper.net/maps/260.kml",
 			"tiles": "http://mapwarper.net/maps/tile/260/{z}/{x}/{y}.png",
-			"wms": "http://mapwarper.net/maps/wms/260?request=GetCapabilities\u0026service=WMS\u0026version=1.1.1"
+			"wms": "http://mapwarper.net/maps/wms/260?request=GetCapabilities\u0026service=WMS\u0026version=1.1.1",
+      "thumb": "/uploads/40/thumb/Screenshot_2017-03-31_15-30-47.png"
 		}
 	}],
 	"included": [{
@@ -564,6 +563,7 @@ indicates that 50 results have been found over 2 pages.
 | kml | The export KML url |
 | tiles | The Tiles template |
 | wms | The WMS getCapabilities endpoint |  
+| thumb | The path to the thumbnail image |
 
  
 ***Attributes***
@@ -594,8 +594,6 @@ indicates that 50 results have been found over 2 pages.
 | source_uri    | string   |           | the URI to the source map page                                     | e.g. the wiki page |   
 | unique_id     | string   |           | the image filename taken from the source image                     |                    |   
 | date_depicted | string   |           | string representation of the date that the map depicts             |                    |   
-| image_url     | string   |           | URL to the original full size image                                |                    |   
-| thumb_url     | string   |           | URL to the thumbnail                                               | 100px dimension    |   
 | bbox	        | comma-separated string of lat & lon coords |  | a rectangle delineating the geographic area to which the search should be limited |  |  
 
 
@@ -622,7 +620,7 @@ curl -H 'Content-Type: application/json' -H 'Accept: application/json' -X GET 'h
 		"status": "warped",
 		"created_at": "2016-02-07T17:52:19.479Z",
 		"bbox": "26.66587052714201,58.33686848133336,26.806590271771057,58.407077366797424",
-		"thumb_url": "http://upload.beta.wmflabs.org/wikipedia/commons/thumb/4/44/Tartu_turismiskeem.png/100px-Tartu_turismiskeem.png"
+  	"thumb_url": "/uploads/37/thumb/map-8.png"
 	},
 	"geometry": {
 		"type": "Polygon",
@@ -676,9 +674,7 @@ The response will be be in the following format.
 			"map_type": "is_map",
 			"source_uri": "http://commons.wikimedia.beta.wmflabs.org/wiki/File:Lawrence-h-slaughter-collection-of-english-maps-england.jpeg",
 			"unique_id": "Lawrence-h-slaughter-collection-of-english-maps-england.jpeg",
-			"date_depicted": "",
-			"image_url": "http://upload.beta.wmflabs.org/wikipedia/commons/2/29/Lawrence-h-slaughter-collection-of-english-maps-england.jpeg",
-			"thumb_url": "http://upload.beta.wmflabs.org/wikipedia/commons/thumb/2/29/Lawrence-h-slaughter-collection-of-english-maps-england.jpeg/100px-Lawrence-h-slaughter-collection-of-english-maps-england.jpeg"
+			"date_depicted": ""
 		},
 		"relationships": {
 			"layers": {
@@ -703,7 +699,8 @@ The response will be be in the following format.
 			"aux_xml": "http://mapwarper.net/maps/2/export.aux_xml",
 			"kml": "http://mapwarper.net/maps/2.kml",
 			"tiles": "http://mapwarper.net/maps/tile/2/{z}/{x}/{y}.png",
-			"wms": "http://mapwarper.net/maps/wms/2?request=GetCapabilities\u0026service=WMS\u0026version=1.1.1"
+			"wms": "http://mapwarper.net/maps/wms/2?request=GetCapabilities\u0026service=WMS\u0026version=1.1.1",
+      "thumb": "/uploads/2/thumb/Screenshot_2017-03-31_15-30-47.png"
 		}
 	},
 	"included": [{
@@ -734,7 +731,7 @@ GeoJSON Format
 		"status": "warped",
 		"created_at": "2015-10-20T17:17:58.300Z",
 		"bbox": "-7.706061311682345,49.02738371829112,3.420945210059412,56.46163780182066",
-		"thumb_url": "http://upload.beta.wmflabs.org/wikipedia/commons/thumb/2/29/Lawrence-h-slaughter-collection-of-english-maps-england.jpeg/100px-Lawrence-h-slaughter-collection-of-english-maps-england.jpeg",
+		"thumb_url": "/uploads/2/thumb/filename.png"
 	},
 	"geometry": {
 		"type": "Polygon",
@@ -769,7 +766,8 @@ GeoJSON Format
 | aux_xml | The export PNG XML url |
 | kml | The export KML url |
 | tiles | The Tiles template |
-| wms | The WMS getCapabilities endpoint |  
+| wms | The WMS getCapabilities endpoint | 
+| thumb | The path to the thumbnail for the map | 
 
 ***Attributes***
 
@@ -799,8 +797,6 @@ GeoJSON Format
 | source_uri    | string   |           | the URI to the source map page                                     | e.g. the wiki page |   
 | unique_id     | string   |           | the image filename taken from the source image                     |                    |   
 | date_depicted | string   |           | string representation of the date that the map depicts             |                    |   
-| image_url     | string   |           | URL to the original full size image                                |                    |   
-| thumb_url     | string   |           | URL to the thumbnail                                               | 100px dimension    |   
 | bbox	        | comma-separated string of lat & lon coords |  | a rectangle delineating the geographic area to which the search should be limited |  |  
 
 
@@ -2002,20 +1998,59 @@ Requires authentication.
 
 The body of the request should be in JSON-API format with the following attribute. 
 
-| Name    | Type    | Description                | Notes                                                 |
-|---------|---------|----------------------------|-------------------------------------------------------|                                       |
-| title   | string  | the title of the map       | required, but will be overwritten from wiki page      | 
+|        Name         |       Type        |                  Description                   |                         Notes                          |                    |
+| ------------------- | ----------------- | ---------------------------------------------- | ------------------------------------------------------ | ------------------ |
+| title               | string            | the title of the map                           | required                                               |                    |
+| description         | string            | the title of the map                           |                                                        |                    |
+| source_uri          | string            | the URI to the source map page                 | e.g. the wiki page                                     |                    |
+| unique_id           | string            | the image filename taken from the source image |                                                        |                    |
+| date_depicted       | integer or string | Date the map is depicted                       | numeric, max 4 characters long. Used in search by date |                    |
+| map_type            | string            | string                                         | one of  "is_map", "index", "not_map"                   | defaults to is_map |
+| unique_id           | string            | a unique id for the map                        | needs to be unique                                     |                    |
+| issue_year          | integer or string | Date of issue                                  | numeric,  max 4 characters long. (e.g. 1923)           |                    |
+| tag_list            | string            | comma separated string of tags to add          | e.g. "new york, foo, bar"                              |                    |
+| subject_area        | string            |                                                |                                                        |                    |
+| call_number         | string            |                                                |                                                        |                    |
+| publisher           | string            |                                                |                                                        |                    |
+| publication_place   | string            |                                                |                                                        |                    |
+| authors             | string            |                                                |                                                        |                    |
+| scale               | string            |                                                |                                                        |                    |
+| metadata_projection | string            |                                                |                                                        |                    |
+| metadata_lat        | integer or string |                                                | numeric                                                |                    |
+| metadata_lon        | integer or string |                                                | numeric                                                |                    |
 
-The PAGEID is the unique number given to all mediawiki pages. 
+Then either:
+
+|    Name    |  Type  |      Description      |               Notes               |     |
+| ---------- | ------ | --------------------- | --------------------------------- | --- |
+| upload_url | string | URL to a remote image | e.g. "http://example.com/map.jpg" |     |
+
+OR
+
+|       Name       |  Type  |          Description           |   Notes   |     |
+| ---------------- | ------ | ------------------------------ | --------- | --- |
+| upload           | string | encoded string                 | see below |     |
+| upload_file_name | string | filename with the base64 image |           |     |
+
+Creation of base64 encoded image:
+
+image_data = Base64.encode64(File.open("map.jpg", "rb").read)
+upload = "data:image/png;base64,#{image_data}"
+'data' => {'type' => "maps", "attributes"=>{"description"=>"desc", "title"=>"new map", "upload" => upload, "upload_file_name" => "map.jpg"}}
+
+
 
 Example:
+
+A basic example, please add more metadata attributes when you are adding maps!
 
 ```
 {
 	"data": {
 		"type": "maps",
 		"attributes": {
-      "title": "initial title"
+      "title": "initial title",
+      "upload_url": "http://example.com/map.jpg"
 		}
 	}
 }
@@ -2055,7 +2090,7 @@ Status 422 and message for example if the issue_year is not a number:
  
 Updates a  map. Allows an editor to change title and description.
 Requires authentication.
-Editor role only authorized. 
+Only the owner of the map or an editor is authorized. 
 
 **Parameters**
 
@@ -2065,12 +2100,30 @@ Editor role only authorized.
 |   id     		  | integer    | the unique identifier for the map   | required |
 
 
-The body of the request should be in JSON-API format with the following attributes 
+The body of the request should be in JSON-API format with optional attributes 
 
-| Name        | Type | Description | Notes                      |          |
-|-------------|------|-------------|----------------------------|----------|
-| title       |      | string      | the title of the map       | optional |
-| description |      | string      | the description of the map | optional |
+|        Name         |       Type        |                  Description                   |                         Notes                          |                    |
+| ------------------- | ----------------- | ---------------------------------------------- | ------------------------------------------------------ | ------------------ |
+| title               | string            | the title of the map                           |                                                |                    |
+| description         | string            | the title of the map                           |                                                        |                    |
+| source_uri          | string            | the URI to the source map page                 | e.g. the wiki page                                     |                    |
+| unique_id           | string            | the image filename taken from the source image |                                                        |                    |
+| date_depicted       | integer or string | Date the map is depicted                       | numeric, max 4 characters long. Used in search by date |                    |
+| map_type            | string            | string                                         | one of  "is_map", "index", "not_map"                   | defaults to is_map |
+| unique_id           | string            | a unique id for the map                        | needs to be unique                                     |                    |
+| issue_year          | integer or string | Date of issue                                  | numeric,  max 4 characters long. (e.g. 1923)           |                    |
+| tag_list            | string            | comma separated string of tags to add          | e.g. "new york, foo, bar"                              |                    |
+| subject_area        | string            |                                                |                                                        |                    |
+| call_number         | string            |                                                |                                                        |                    |
+| publisher           | string            |                                                |                                                        |                    |
+| publication_place   | string            |                                                |                                                        |                    |
+| authors             | string            |                                                |                                                        |                    |
+| scale               | string            |                                                |                                                        |                    |
+| metadata_projection | string            |                                                |                                                        |                    |
+| metadata_lat        | integer or string |                                                | numeric                                                |                    |
+| metadata_lon        | integer or string |                                                | numeric                                                |                    |
+
+Note that you cannot re-upload an image by updating it.
 
 Example:
 
@@ -2109,7 +2162,7 @@ Status 422 and message with errors.
  
 Deletes a map. Allows an editor to delete a specific map.
 Requires authentication.
-Editor role only authorized. 
+Only the owner of the map or an editor is authorized. 
 
 **Parameters**
 
@@ -2344,7 +2397,6 @@ If a map cannot be found
 
 Creates a new layer and adding several existing maps to it at the same time.
 Authentication required.
-Administrator authorized only.
 
 
 | Method       | Definition | 
@@ -2396,7 +2448,7 @@ If successful, the response should return the new layer in json api format
 
 Updates a new layer and adding several existing maps to it at the same time. This could be used to add many maps at the same time to a layer.
 Authentication required.
-Administrator authorized only.
+Only the owner of the layer or an editor is authorized. 
 
 
 | Method       | Definition | 
@@ -2450,7 +2502,7 @@ If successful, the response should return the updated layer in json api format
 
 Destroys a layer.
 Authentication required.
-Administrator authorized only.
+Only the owner of the layer or an editor is authorized.
 
 | Method       | Definition          | 
 |--------------|---------------------|
@@ -2510,7 +2562,7 @@ If successful, the response should return the layer in json api format (with the
 
 Removes a single map from a layer.
 Authentication required.
-Administrator authorized only.
+Only the owner of the layer or an editor is authorized.
 
 
 | Method       | Definition | 

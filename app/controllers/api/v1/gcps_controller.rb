@@ -75,15 +75,10 @@ class Api::V1::GcpsController < Api::V1::ApiController
     
   # Adds Many GCPS to Multiple Maps
   # Editor only
-  # Expects a CSV file or a JSON strong
-  #POST with mapid
-  #csv header: mapid,pageid,x,y,lon,lat
-  #it can find maps via pageid if mapid is not provided, 
-  #json format: {"gcps":[{"mapid":26,"x":1.2,"y":2.2, "lat":11.1, "lon":21.1},{"pageid":1234,"x":1.2,"y":2.2, "lat":11.1, "lon":21.1}....
-  #  curl -X POST http://localhost:3000/gcps/add_many.json -H "Content-Type: application/json" -d '{"gcps":[{"mapid":26,"x":1.2,"y":2.2},{"mapid":21,"x":1.2,"y":2.2}]}' --user email@example.com:pass
-  #
-  #curl -X POST http://localhost:3000/gcps/add_many.json -F "file=@gcps_many_maps.csv" --user email@example.com:pass
- #
+  # Expects a JSON strong
+  # POST with mapid
+  # json format: {"gcps":[{"mapid":26,"x":1.2,"y":2.2, "lat":11.1, "lon":21.1},{"mapid":1234,"x":1.2,"y":2.2, "lat":11.1, "lon":21.1}....
+  # curl -X POST http://localhost:3000/gcps/add_many.json -H "Content-Type: application/json" -d '{"gcps":[{"mapid":26,"x":1.2,"y":2.2},{"mapid":21,"x":1.2,"y":2.2}]}' --user email@example.com:pass
  def add_many
     gcps = nil
     
@@ -94,7 +89,7 @@ class Api::V1::GcpsController < Api::V1::ApiController
     render :json => gcps
   end
   
-  
+ 
   private
   
   def gcp_params
