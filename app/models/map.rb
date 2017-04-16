@@ -16,7 +16,7 @@ class Map < ActiveRecord::Base
     :default_url => "missing.png"
   validates_attachment_size(:upload, :less_than => MAX_ATTACHMENT_SIZE) if defined?(MAX_ATTACHMENT_SIZE)
   #attr_protected :upload_file_name, :upload_content_type, :upload_size
-  validates_attachment_content_type :upload, :content_type => ["image/jp2","image/jpg", "image/jpeg", "image/png", "image/gif", "image/tiff"]
+  validates_attachment_content_type :upload, :content_type => ["image/jpg", "image/jpeg","image/pjpeg", "image/png","image/x-png", "image/gif", "image/tiff"]
   
   validates_presence_of :title
   validates_numericality_of :rough_lat, :rough_lon, :rough_zoom, :allow_nil => true
