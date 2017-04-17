@@ -67,7 +67,9 @@ class Map < ActiveRecord::Base
   end
   
   def unique_filename
-    errors.add(:filename, :filename_not_unique) if Map.find_by_upload_file_name(upload.original_filename)
+    if upload.original_filename
+      errors.add(:filename, :filename_not_unique) if Map.find_by_upload_file_name(upload.original_filename)
+    end
   end
   
   def upload_url_provided?
