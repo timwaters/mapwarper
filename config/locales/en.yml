@@ -286,6 +286,7 @@ en:
       not_saved:
         one: '1 error prohibited this %{resource} from being saved:'
         other: "%{count} errors prohibited this %{resource} from being saved:"
+      spoofed_media_type: "may not be in the correct image format. Try again with a jpeg, png or gif."
   gcps:
     add:
       new_gcp_notice: New control point added.
