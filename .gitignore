@@ -14,6 +14,7 @@
 # Ignore all logfiles and tempfiles.
 /log/*.log
 /log/localeapp.yml
+/log/imports/*.log
 /tmp
 
 # Ignore the database config
@@ -34,6 +35,9 @@ public/mapimages/*
 
 #ignore tileindex files
 db/maptileindex/*
+
+#ignore import csv files
+db/imports/*
 
 #vagrant local
 .vagrant

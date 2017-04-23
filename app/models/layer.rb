@@ -78,6 +78,8 @@ class Layer < ActiveRecord::Base
     self.reload #possibly not needed
     dest_layer.reload #possibly not needed
     dest_layer.update_layer
+    
+    return true
   end
 
   #removes map from a layer

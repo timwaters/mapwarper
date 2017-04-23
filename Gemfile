@@ -2,7 +2,7 @@ source 'https://rubygems.org'
 
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '4.2.7.1'
+gem 'rails', '4.2.8'
 # Use sqlite3 as the database for Active Record
 #gem 'sqlite3'
 # Use SCSS for stylesheets
@@ -47,7 +47,7 @@ gem 'pg'
 gem 'activerecord-postgis-adapter', '~>3.0'
 
 gem 'acts-as-taggable-on', '~> 3.5.0'
-gem 'paperclip', '~> 4.3.7'
+gem 'paperclip', '~> 5.1.0'
 gem 'acts_as_commentable'
 gem 'will_paginate', '~> 3.0'
 gem 'spawnling', '~>2.1'
@@ -57,8 +57,6 @@ gem 'audited-activerecord', github: 'timwaters/audited', branch: 'rails4'
 
 gem 'gdal'
 gem 'georuby'
-gem 'geoplanet'
-gem 'yql', '0.0.2'
 
 gem 'actionpack-action_caching', github: 'timwaters/actionpack-action_caching', branch: 'feature/take_format_from_request'
 gem 'redis-rails', '~> 4'
@@ -66,6 +64,12 @@ gem 'redis-rails', '~> 4'
 gem "rails-i18n"
 
 gem 'pg_search'
+
+gem 'rails-api'
+gem 'active_model_serializers', github: 'rails-api/active_model_serializers', tag: 'v0.10.5'
+gem 'simple_token_authentication', '~> 1.0'
+gem 'rack-cors', :require => 'rack/cors'
+gem 'redcarpet'
 
 group :development do
    gem 'web-console', '~> 2.0'
@@ -76,7 +80,7 @@ group :development do
    gem 'capistrano-bundler',  :require => false
    gem 'rvm1-capistrano3',    :require => false
    gem 'i18n-tasks', '~> 0.9.6'
-   gem 'localeapp'
+  # gem 'localeapp'
 end
 
 group :test do

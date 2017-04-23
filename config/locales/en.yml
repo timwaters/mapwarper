@@ -16,6 +16,9 @@ en:
     errors:
       models:
         import:
+          attributes:
+            metadata:
+              no_file_uploaded: file is not uploaded
           blank_layer_title: is blank
           layer_error: does not exist, or has not been specified properly
           no_files_error: has no files within the directory
@@ -31,8 +34,13 @@ en:
         my_map:
           attributes:
             user_id:
-              not_unique: Map has already been saved.
+              not_unique: Map has already been saved to the user.
+            map_id:
+              not_unique: Map has already been saved to the user.
     models:
+      import:
+        one: import
+        other: imports
       layer:
         one: layer
         other: layers
@@ -126,10 +134,16 @@ en:
     gcp: gcp
     last_th: Last Updated
     layer: mosaic
+    layer_count:
+      one: "%{count} layer"
+      other: "%{count} layers"
     layer_th: Mosaic
     map: map
+    map_count:
+      one: "%{count} map"
+      other: "%{count} maps"
     map_th: Map
-    my_maps_head: My Maps
+    my_maps_head: Favourites
     num_th: Number of Maps
     per_page: per page
     percent_th: Percentage Complete
@@ -160,6 +174,7 @@ en:
       already_authenticated: You are already signed in.
       inactive: Your account is not activated yet.
       invalid: Invalid email or password.
+      invalid_token: Invalid authentication token
       last_attempt: You have one more attempt before your account will be locked.
       locked: Your account is locked.
       not_found_in_database: Invalid email or password.
@@ -178,7 +193,7 @@ en:
         greeting: Hello
         intro: Someone has requested a link to change your password. You can do this through the link below.
         link: Change my password
-        please_ignore: If you didn't request this, please ignore this email. Your password won't change until you access the link above and create a new one.
+        please_ignore: If you are not expecting this, please ignore this email. Your password won't change until you access the link above and create a new one.
         subject: Map Warper Reset password instructions
       unlock_instructions:
         click_the_link: 'Click the link below to unlock your account:'
@@ -231,6 +246,7 @@ en:
       update_needs_confirmation: You updated your account successfully, but we need to verify your new email address. Please check your email and click on the confirm link to finalize confirming your new email address.
       updated: You updated your account successfully.
     sessions:
+      already_signed_out: Signed out successfully.
       new:
         header: Log in
         login_button: Log in
@@ -247,6 +263,7 @@ en:
         new_unlock_instructions: Didn't receive unlock instructions?
         openstreetmap: OpenStreetMap
         sign_up: Sign up
+        social_sign_in: 'Alternatively, %{action} with:'
         twitter: Twitter
         wikimedia: Wikimedia Commons
     unlocks:
@@ -259,6 +276,17 @@ en:
     users_registrations:
       user:
         signed_up: Welcome! You have signed up successfully.
+  errors:
+    messages:
+      already_confirmed: was already confirmed, please try signing in
+      confirmation_period_expired: needs to be confirmed within %{period}, please request a new one
+      expired: has expired, please request a new one
+      not_found: not found
+      not_locked: was not locked
+      not_saved:
+        one: '1 error prohibited this %{resource} from being saved:'
+        other: "%{count} errors prohibited this %{resource} from being saved:"
+      spoofed_media_type: "may not be in the correct image format. Try again with a jpeg, png or gif."
   gcps:
     add:
       new_gcp_notice: New control point added.
@@ -316,12 +344,12 @@ en:
   home:
     index:
       all_maps: browse all maps
-      all_my_maps: See all of My Maps
+      all_my_maps: See all Favourites
       click_news: click here to read this story
       create_layer: Create a new mosaic
       info_contact: Mail me at tim@geothings.net for more information!
       info_header: What is it?
-      info_paragraph_html: It's a free to use, open source map warper / map georectifier, and image georeferencer tool. This project is supported by <a  href='http://topomancy.com'>Topomancy LLC</a> and the <a href='http://maps.nypl.org'>New York Public Library</a>.
+      info_paragraph_html: It's a free to use, open source map warper / map georectifier, and image georeferencer tool. Developed, hosted and maintained by <a href='https://twitter.com/tim_waters'>Tim Waters</a>, this project is supported by <a  href='http://topomancy.com'>Topomancy LLC</a> and the <a href='http://maps.nypl.org'>New York Public Library</a>.
       more: read more
       news: News
       overview_header: Overview
@@ -333,6 +361,7 @@ en:
       see_maps: See all maps
       tags: Tags
       title: 'Home - '
+      unrect_maps: New Unrectified Maps
       upload_map: Upload Map!
       view_layers: View all Mosaics
   imports:
@@ -344,37 +373,68 @@ en:
       flash: Import deleted!
     edit:
       header: Edit Import
+    exports:
+      gcps_csv_file: gcps.csv
+      gcps_csv_header: Export all ground control points in CSV format
+      header: Exports
+      maps_csv_file: maps.csv
+      maps_csv_header: Export all maps in CSV format
+    form:
+      layers_label: Layers to assign the maps to
+      metadata: CSV Metadata File
+      name_label: Name (give a name to the import, required)
     import:
       edit: edit
       edit_maps: edit maps
       imported: "(Imported: %{count})"
+      view_maps: view maps
     index:
       actions: Actions
       created: Created
       csv_header: Bulk Ground Control CSV Import
       csv_link: Import CSV
+      exports_link: Exports
       header: Imports
       id: Id
-      maps: maps
+      layers: Layers
+      maps: Maps
       maps_header: New Maps Import
       maps_link: Add new import
       name: Name
       status: Status
       user: User
+    layers:
+      header: Assigned to Layers
+      no_layers: Maps not added to any Layers
     maps:
+      created: 'Created at %{created_at} by: '
       header: 'Import: %{name} Edit Maps'
     new:
       header: New import
     show:
+      count_files: Count of files in directory
+      delete: Delete this import (Does not delete maps)
+      delete_confirm: Are you sure?
+      edit: Edit this import
+      header: 'Import: %{import_name}'
+      import_is_running: This import is still running, depending on the number of maps it may take some time.
+      imported_count: Imported Count
       not_found: Import not found
+      start_button: START IMPORT
+      start_confirm: Ready to Start this import?
+      view_log_file: View Log File
+      view_running_status: View Running Status
     start:
       already_imported_error: Sorry, can't be done, this import has already been imported.
       edit_maps_link: click here to edit the maps
       error: Something went wrong with the request to the server
       finished_notice: All done!
       header: Importing...
+      imported_count: Imported Count
       importing: Importing....
       progress: 'Progress:'
+      status: Status
+      view: View Import
     update:
       error: Something went wrong updating the import
       flash: Successfully updated import.
@@ -385,6 +445,7 @@ en:
       not_enough_maps_alert: Sorry, but there should be at least two maps selected
       wrong_align_alert: Sorry, only horizontal and vertical alignment are available at the moment
     clip:
+      clip_popup_title: Clipping...
       confirm_delete_tool: Really delete this?
       delete_tool_title: Delete a polygon
       draw_tool_title: Draw new polygon to mask
@@ -408,17 +469,23 @@ en:
       mbox_satellite_attribution: <a href="https://www.mapbox.com/about/maps/" target="_blank">&copy; Mapbox</a> <a href="https://openstreetmap.org/about/" target="_blank">&copy; OpenStreetMap</a> <a class="mapbox-improve-map" href="https://www.mapbox.com/map-feedback/" target="_blank">Improve this map</a> <a href="https://www.digitalglobe.com/" target="_blank">&copy; DigitalGlobe</a>
       osm_attribution: '&copy <a href="http://www.openstreetmap.org/">OpenStreetMap</a> contributors'
     warp:
-      add_gcp: Add Control Point
+      add_gcp: Add Control Point (1,p)
       best_guess_message: 'Map zoomed to best guess:'
+      custom_custom_type: Custom
       custom_layer: Custom basemap
+      custom_layer_add_layer_button: Add Layer
+      custom_layer_cancel_button: Cancel
       custom_layer_title: Add Custom Basemap
+      custom_layer_type: Mosaic
+      custom_layer_year: Year
+      custom_map_type: Map
       gcp_adding: Adding...
       gcp_failed: Had trouble updating that point with the server. Try again?
       gcp_premature_alert: You have to add a new control point on each map before pressing this button.
       gcp_updated: Control Point updated!
       gcp_updating: Updating...
-      move_gcp: Move Control Point
-      move_map: Move Around Map
+      move_gcp: Move Control Point (2,d)
+      move_map: Move Around Map (3,m)
       other_places: 'Other places:'
       rms_error_prefix: Error
       warp_popup_title: Rectifier is Working...
@@ -452,9 +519,9 @@ en:
       depicts_hint: "(year, optional)"
       depicts_hint_2: Used to display layers by year.
       detail: detail
-      my_maps: my maps
+      my_maps: favourites
       no_maps: You have no warped
-      select_map_head: Choose from "My Maps"
+      select_map_head: Choose from your Favourites
       source: Source / Bibliographic Ref URL
     geosearch:
       button: Find Location
@@ -622,6 +689,7 @@ en:
       make_public: Make Public
       max_size: 'Max size:'
       optional_hint: "(optional)"
+      photo_uuid: Photo Number
       place: Place of Publication
       projection: Metadata Projection
       published: Published Date
@@ -635,6 +703,7 @@ en:
       title: Title
       unique_id: Metadata Unique ID
       upload_file: 'Upload An Image File:'
+      upload_or_url: OR
       upload_url: 'Upload from a URL:'
     geosearch:
       button: Find Location
@@ -644,9 +713,13 @@ en:
       results: 'Searched for '
       title: Browse Maps
     map:
-      confirm_my: really remove this map from your list?
+      confirm_my: really remove this map from your favourites?
+      delete: Delete
       depicts: Depicts
       gcp: control point
+      gcp_count:
+        one: "%{count} control point"
+        other: "%{count} control points"
       in: In
       kml: Download KML
       links: Links
@@ -654,10 +727,11 @@ en:
       published: Published
       published_warn: This map has been published by an admin and no further editing is possible
       remove_from_layer: remove map from this mosaic
-      remove_my: Remove from My Maps
-      save_my: Save to My Maps
+      remove_my: Unfavourite
+      save_my: Add Favourite
       source: Source / Biblio Ref
       unwarped: Unrectified
+      view_map: View Map
       warp_map: Rectify Map
     map_detail:
       last_modified: Last modified
@@ -726,7 +800,7 @@ en:
       close_popup: Close popup
       cubic: Cubic
       cubicspline: Cubic Spline , slower but best quality
-      custom_layer_instructions_html: Search for a Map or Layer. <br />Or paste in a tile URL template (Z/X/Y ordered scheme only) <br /> E.g. <code>https://example.com/osm/{z}/{x}/{y}.png</code>
+      custom_layer_instructions_html: Search for a Map or Mosaic. <br />Or paste in a tile URL template (Z/X/Y ordered scheme only) <br /> E.g. <code>https://example.com/osm/{z}/{x}/{y}.png</code>
       custom_layer_placeholder: Search for Maps and Layers
       download_gcps: Download points as CSV
       gcp_error: Error
@@ -734,24 +808,30 @@ en:
       gcp_lon: Lon
       gcp_point: Point
       gcp_upload_button: Upload CSV!
-      gcp_upload_label: CSV File with Control Points
+      gcp_upload_label: Add Control Points from CSV
       gcp_x: Image X
       gcp_y: Image Y
       gcps_link: Control Points
       lanczos: Lanczos
       method_label: 'Rectify Method:'
       near: Nearest Neighbour, fastest (default)
+      no_mask: No
       p1_method: 1st Order Polynomial (min 3 points)
       p2_method: 2nd Order Polynomial (min 6 points)
       p3_method: 3rd Order Polynomial (min 10 points)
+      pan_lock: "Pan/zoom lock"
       panel_title: Control Panel
       rectifying_notice: Rectifying.....
       resample_label: 'Resampling Method:'
+      shortcuts_link: Keyboard Shortcuts
+      shortcuts_html: "1,p: Switch to add point control <br /> 2,d: Switch to move control point control <br /> 3,m: Switch to move around map control <br /><br />q: Quickly add point over mouse position <br /> a: Quickly add point over mouse position and automatically adds a point on the opposite map <span class='small-gray'>(needs at least 2 points already saved)</span> <br /> <br /> [enter],e: Save pairs of points"
+      shortcuts_title: Keyboard Shortcuts
       server_error: Sorry, there appears to be an error sending the request to the server, try again?...
       title: 'Rectifying Map '
       tps_method: Thin Plate Spline (many points widely spread)
       unmasked_question_html: This map is not currently masked. Do you want to <a href='%{href}'>add or edit a mask now</a>?
       warp_button: Warp Image! &rarr;
+      yes_mask: Yes
     warp_aligned:
       no_destination: Sorry the destination map is not available to be aligned.
       success: Map aligned. You can now rectify it!
@@ -763,14 +843,14 @@ en:
       unwarped_notice: Sorry, you'll have to rectify a map before you can view it.
   my_maps:
     create:
-      flash: Map saved to My Maps
-      others_error: You cannot add a map to another user!
+      flash: Map saved to Favourites
+      others_error: You cannot favourite a map to another user!
     destroy:
-      error: Map coudn't be removed from list
-      flash: Map removed from list!
-      not_your_own: Sorry, you cannot remove maps you have uploaded, from the list
+      error: Map coudn't be removed from favourites
+      flash: Map removed from favourites!
+      not_your_own: Sorry, you cannot unfavourite maps you have uploaded, from the list
     list:
-      header: My Maps for %{username}
+      header: Favourites for %{username}
       help: Showing list of maps saved or edited by a user.
   roles:
     index:
@@ -802,7 +882,7 @@ en:
       log_out: Log Out
       logged_in_as: 'Logged in as:'
       my_activity: My Activity
-      my_maps: My Maps
+      my_maps: Favourites
       settings: Settings
       sign_up: Create Account
       user_stats: User Stats
@@ -823,8 +903,10 @@ en:
       button: Search
       description: Description
       find_geosearch: Find Rectified Maps by Location
+      for: for
       only_rectified: Rectified maps only
       publisher: Publisher
+      search: Search
       tags: Tags
       title: Title
   user_mailer:
@@ -915,18 +997,27 @@ en:
       u_no: 'no'
       u_yes: 'yes'
   will_paginate:
+    entry:
+      page_entries_info:
+        single_page_html:
+          zero: Nothing found
     layer:
       page_entries_info:
+        multi_page: Displaying %{model} %{from} - %{to} of %{count} in total
+        multi_page_html: Displaying %{model} <b>%{from}&nbsp;-&nbsp;%{to}</b> of <b>%{count}</b> in total
         single_page_html:
           one: Displaying <b>1</b> %{model}
           other: Displaying <b>all&nbsp;%{count}</b> %{model}
           zero: No %{model} found
     map:
       page_entries_info:
+        multi_page: Displaying %{model} %{from} - %{to} of %{count} in total
+        multi_page_html: Displaying %{model} <b>%{from}&nbsp;-&nbsp;%{to}</b> of <b>%{count}</b> in total
         single_page_html:
           one: Displaying <b>1</b> %{model}
           other: Displaying <b>all&nbsp;%{count}</b> %{model}
           zero: No %{model} found
+    next_label: Next &#8594;
     page_entries_info:
       multi_page: Displaying %{model} %{from} - %{to} of %{count} in total
       multi_page_html: Displaying %{model} <b>%{from}&nbsp;-&nbsp;%{to}</b> of <b>%{count}</b> in total
@@ -938,3 +1029,5 @@ en:
         one: Displaying <b>1</b> %{model}
         other: Displaying <b>all&nbsp;%{count}</b> %{model}
         zero: No %{model} found
+    page_gap: "&hellip;"
+    previous_label: "&#8592; Previous"

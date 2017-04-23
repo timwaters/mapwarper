@@ -132,6 +132,10 @@ TODO - add production / apache / subdomain benchmarks
 Note that the activerecord postgis adapter is upgraded - as such you may need to change or remove the SRID of any existing maps and layers bbox_geom .
 It should now be 0 where before it may be 4326 This is due to the columns being geometry type as opposed to geographic. SRIDs only really work well for geographic types.
 
+To upgrade geometry columns:
+select UpdateGeometrySRID('public' , 'maps',   'bbox_geom', 0);
+select UpdateGeometrySRID('public' , 'layers', 'bbox_geom', 0);
+select UpdateGeometrySRID('public' , 'maps',   'rough_centroid', 0);
 
 ## Development
 
@@ -154,9 +158,9 @@ to start the server, running on port 3000
 
 ##I18n Locales / Translations
 
-Currently we are using LocaleApp to assist with translations, which is open to all.
+You might want to use LocaleApp to assist with translations.
 
-Edit the translations directly on the [mapwarper](http://www.localeapp.com/projects/public?search=mapwarper) project.
+See the [mapwarper](http://www.localeapp.com/projects/public?search=mapwarper) project.
 
 
 ## Deployment instructions

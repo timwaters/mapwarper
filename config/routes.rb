@@ -51,9 +51,12 @@ Rails.application.routes.draw do
     collection do
         get 'geosearch'
         get 'tag'
+        get 'csv'
     end
     resources :layers
   end
+  
+  get '/maps/tag/:query' => 'maps#tag', :as => "map_tag"
   
   get '/mapimages/:id.gml.ol' => 'maps#get_mask', :as => "masking_map"
   get '/maps/thumb/:id' => 'maps#thumb', :as =>'thumb_map'
@@ -63,8 +66,9 @@ Rails.application.routes.draw do
   get '/layers/thumb/:id' => 'layers#thumb'
  
   
-  get '/gcps/' => 'gcp#index', :as => "gcps"
+  #get '/gcps/' => 'gcps#index', :as => "gcps"
   get '/gcps/bulk_import' => 'gcps#bulk_import', :as => "bulk_import_gcps"
+  get '/gcps/csv' => 'gcps#csv', :as =>'csv_gcps'
   get '/gcps/:id' => 'gcps#show', :as => "gcp"
   delete '/gcps/:id/destroy' => 'gcps#destroy', :as => "destroy_gcp"
   post '/gcps/add/:mapid' => 'gcps#add', :as => "add_gcp"
@@ -145,11 +149,82 @@ Rails.application.routes.draw do
       get 'maps'
       get 'start'
       get 'status'
+      get 'log'
     end
   end
   
+  get 'exports' => 'imports#exports'
+  
   get '/search' => 'home#search', :as => 'search'
    
+  namespace :api do
+    namespace :v1 do
+      get '/' =>  'api#index'
+      constraints defaults: {format: "json"} do
+        resources :maps, :except => [:new] do
+          member do
+            get    'gcps'
+            patch  'rectify'
+            post   'mask'
+            delete 'mask'   => 'maps#delete_mask'
+            patch  'crop'   
+            patch  'mask_crop_rectify'
+            patch  'publish'
+            patch  'unpublish'
+            get    'status'
+          end
+          resources :layers, :only => [:index]
+        end
+  
+        resources :layers, :except => [:new] do
+          member do
+            patch 'toggle_visibility'
+            patch 'remove_map'
+            patch 'merge'
+          end
+          collection do
+          end
+          resources :maps, :only => [:index]
+        end
+        
+      end
+      constraints  defaults: {format: "json"} do
+        
+        resources :gcps, :except => [:new] do
+          collection do
+            post 'add_many'
+          end
+        end
+        
+        resources :users, :only => [:show, :index]
+
+# imports disabled for mapwarper.net (and they need a bit of updating too)
+#        resources :imports, :except => [:new] do
+#          member do
+#            patch 'start'
+#            get   'maps'
+#          end
+#        end
+        
+        #stats and activity
+        get 'stats' =>              'activity#stats'
+        get 'activity' =>           'activity#index'
+        get 'activity/maps' =>      'activity#map_index'
+        get 'activity/users/:id' => 'activity#for_user'
+        get 'activity/maps/:id' =>  'activity#for_map'
+        get 'activity/:id' =>       'activity#show'
+        
+        #token / auth etc
+        #api/v1/auth/sign_in etc
+        devise_scope :user do
+          get    'auth/validate_token' => 'sessions#validate_token'
+          post   'auth/sign_in'        => 'sessions#create'
+          delete 'auth/sign_out'       => 'sessions#destroy'
+        end
+        
+      end
+    end
+  end
   
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

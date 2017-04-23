@@ -40,28 +40,45 @@ class LayersController < ApplicationController
 
   
   def geosearch
-    require 'geoplanet'
     sort_init 'updated_at'
     sort_update
 
     extents = [-74.1710,40.5883,-73.4809,40.8485] #NYC
+    #extents = [4.4105, 52.092, 4.554, 52.229] #leiden
 
-    #TODO change to straight javascript call.
     if params[:place] && !params[:place].blank?
-      place_query = params[:place]
-      GeoPlanet.appid = APP_CONFIG['yahoo_app_id']
+      api_key = APP_CONFIG["mapzen_key"]
       
-      geoplanet_result = GeoPlanet::Place.search(place_query, :count => 2)
+      uri = URI('https://search.mapzen.com/v1/search')
+      query_params = { :text => params[:place], :api_key => api_key, :size => 2, :sources => "wof,geonames", :layers => "coarse"}
       
-      if geoplanet_result && geoplanet_result[0]
-        g_bbox =  geoplanet_result[0].bounding_box.map!{|x| x.reverse}
-        extents = g_bbox[1] + g_bbox[0]
-        render :json => extents.to_json
-        return
-      else
+      if !APP_CONFIG["geocode_country"].blank?
+        query_params = query_params.merge({"boundary.country" => APP_CONFIG["geocode_country"]})
+      end
+      
+      uri.query = URI.encode_www_form(query_params)
+      begin
+        res = Net::HTTP.get_response(uri)
+        if res.kind_of? Net::HTTPSuccess
+          results = JSON.parse(res.body)
+          if results["features"].size > 0
+            extents = results["features"][0]["bbox"]
+          else
+            logger.error "http not successful in geosearch place" 
+          end
+        end
+        
+      rescue Net::ReadTimeout => e
+        logger.error "timeout in geosearch place" + e.to_s
+      rescue Net::HTTPBadResponse => e
+        logger.error "http bad response in geosearch place " + e.to_s
+      rescue SocketError => e
+        logger.error "Socket error in geosearch place " + e.to_s
+      ensure
         render :json => extents.to_json
         return
       end
+      
     end
 
     if params[:bbox] && params[:bbox].split(',').size == 4
@@ -714,9 +731,9 @@ class LayersController < ApplicationController
   def store_location
     case request.parameters[:action]
     when "metadata"
-      anchor = "Metadata_tab"
+      anchor = "#{t('layouts.tabs.metadata')}_tab" 
     when "export"
-      anchor = "Export_tab"
+      anchor = "#{t('layouts.tabs.export')}_tab"
     else
       anchor = ""
     end

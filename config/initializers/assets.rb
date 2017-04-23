@@ -14,3 +14,4 @@ Rails.application.config.assets.precompile += %w( iD/img/*.svg iD/img/*.png iD/i
 Rails.application.config.assets.precompile += %w( iD/img/pattern/*.png )
 Rails.application.config.assets.precompile += %w( iD/locales/*.json )
 Rails.application.config.assets.precompile += %w( select2/select2.min.js select2/select2.min.css select2/i18n/nl.js)
+Rails.application.config.assets.precompile += %w( helmerttransform.js )

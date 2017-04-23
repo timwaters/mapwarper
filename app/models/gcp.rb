@@ -28,9 +28,6 @@ class Gcp < ActiveRecord::Base
         if new_gcp[:mapid]
           map = Map.find new_gcp[:mapid]
           mapid = map.id
-        elsif new_gcp[:pageid]
-          map = Map.find_by_page_id!(new_gcp[:pageid].to_s)
-          mapid = map.id
         else
           next 
         end
@@ -100,6 +97,15 @@ class Gcp < ActiveRecord::Base
       csv << ["x", "y", "lon", "lat"] ## Header values of CSV
       all.each do |g|
         csv << [g.x, g.y, g.lon, g.lat] ##Row values of CSV
+      end
+    end
+  end
+  
+  def self.all_to_csv
+    CSV.generate do |csv|
+      csv << ["id", "map", "created_at", "updated_at", "x", "y", "lon", "lat"] ## Header values of CSV
+      all.each do |g|
+        csv << [g.id, g.map_id, g.created_at, g.updated_at, g.x, g.y, g.lon, g.lat] ##Row values of CSV
       end
     end
   end

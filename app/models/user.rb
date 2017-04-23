@@ -1,9 +1,13 @@
 class User < ActiveRecord::Base
   # Include default devise modules. Others available are:
-  # :confirmable, :lockable, :timeoutable and :omniauthable
+  # :confirmable, :lockable, :timeoutable and :omniauthable 
+  # :encryptable  for custom authentication methods
   devise :database_authenticatable, :registerable, :confirmable,
     :recoverable, :rememberable, :trackable, :validatable,
-    :omniauthable, :omniauth_providers => [ :osm, :mediawiki, :github]
+    :omniauthable, :omniauth_providers => [ :osm, :facebook, :github]
+
+  acts_as_token_authenticatable
+
   has_many :permissions
   has_many :roles, :through => :permissions
   
@@ -51,9 +55,9 @@ class User < ActiveRecord::Base
   
   def provider_name
     if provider && provider == "mediawiki"
-      t('devise.shared.links.wikimedia')
+      I18n.t('devise.shared.links.wikimedia')
     elsif provider && provider == "osm"
-      t('devise.shared.links.openstreetmap')
+      I18n.t('devise.shared.links.openstreetmap')
     else
       provider
     end
@@ -150,6 +154,19 @@ class User < ActiveRecord::Base
     end
     
     user
+  end
+  
+  alias :devise_valid_password? :valid_password?
+
+  def valid_password?(password)
+    begin
+      super(password)
+    rescue BCrypt::Errors::InvalidHash
+      return false unless Devise::Encryptable::Encryptors::LegacyRestfulauthentication.digest(password, nil,nil,nil) == encrypted_password
+      logger.info "User #{email} is using the old password hashing method, updating password to bcrypt."
+      self.password = password
+      true
+    end
   end
 
   

@@ -12,7 +12,7 @@ class HomeController < ApplicationController
 
     @year_min = Map.minimum(:issue_year).to_i - 1
     @year_max = Map.maximum(:issue_year).to_i + 1
-    @year_min = 1600 if @year_min == -1
+    @year_min = 1500 if @year_min == -1
     @year_max = Time.now.year if @year_max == 1
 
     get_news_feeds
@@ -42,7 +42,7 @@ class HomeController < ApplicationController
   def get_news_feeds
     cache("news_feeds", :expires_in => 1.day.from_now) do 
       @feeds = RssParser.run("https://thinkwhere.wordpress.com/tag/mapwarper/feed/")
-      @feeds = @feeds[:items][0..1]
+      @feeds = @feeds[:items][0..2]
     end
   end
 

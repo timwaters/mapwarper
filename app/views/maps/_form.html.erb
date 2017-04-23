@@ -1,4 +1,6 @@
 <%= form_for(@map, :html => {:multipart => true}) do |f| %>
+  <%= render "shared/error_messages", :target => @map %>
+
   <div class="column span-12">
     <p>
       <b> <%= t('.title') %></b><br />
@@ -67,12 +69,12 @@
 
     <p>
       <b><%= t('.published') %></b><span class="tiny-text"> <%= t('.optional_hint') %></span><br />
-      <%= f.date_select(:published_date, :include_blank => true, :order => [:day, :month, :year ], :start_year => 1600, :end_year =>Time.now.year)  %>
+      <%= f.date_select(:published_date, :include_blank => true, :order => [:day, :month, :year ], :start_year => 1500, :end_year =>Time.now.year)  %>
     </p>
 
     <p>
       <b><%= t('.reprint') %> </b><span class="tiny-text"> <%= t('.optional_hint') %></span><br />
-      <%= f.date_select(:reprint_date, :include_blank => true, :order => [:day, :month, :year ], :start_year => 1600, :end_year =>Time.now.year)  %>
+      <%= f.date_select(:reprint_date, :include_blank => true, :order => [:day, :month, :year ], :start_year => 1500, :end_year =>Time.now.year)  %>
     </p>
     
     <p>
@@ -103,7 +105,7 @@
         </label> <br />
         <%= f.file_field :upload %>
       </p>
-      OR
+      <%= t('.upload_or_url') %>
       <p>
         <label for="upload_url"><b><%= t('.upload_url') %></b></label>
         <%= f.text_field :upload_url %>

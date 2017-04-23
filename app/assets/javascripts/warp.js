@@ -9,6 +9,8 @@ var to_vectors;
 var from_vectors;
 var active_to_vectors;
 var active_from_vectors;
+var transformation = new ol.transform.Helmert();
+var dialogOpen = false;
 
 ///////////////////////////////////////////////////////////////////////////////////////////
 //
@@ -98,8 +100,8 @@ function init() {
   active_style.graphicOpacity = 1;
   active_style.graphicWidth = 14;
   active_style.graphicHeight = 22;
-  active_style.graphicXOffset = -(active_style.graphicWidth / 2);
-  active_style.graphicYOffset = -active_style.graphicHeight;
+  active_style.graphicXOffset = -(active_style.graphicWidth / 2) - 2;
+  active_style.graphicYOffset = -active_style.graphicHeight - 2;
   active_style.externalGraphic = icon_imgPath + "AQUA.png";
 
   to_vectors = new OpenLayers.Layer.Vector("To vector markers");
@@ -116,9 +118,7 @@ function init() {
 
   to_map.addLayers([to_vectors, active_to_vectors]);
   from_map.addLayers([from_vectors, active_from_vectors]);
-  //fix for dragging bug
-  //  OpenLayers.Control.DragFeature.prototype.upFeature = function() {};
-  //fix
+
   var to_panel = new OpenLayers.Control.Panel(
           {displayClass: 'toPanel olControlEditingToolbar'}
   );
@@ -133,7 +133,7 @@ function init() {
   drawFeatureTo.featureAdded = function(feature) {
     newaddGCPto(feature);
   };
-
+  
   var drawFeatureFrom = new OpenLayers.Control.DrawFeature(active_from_vectors, OpenLayers.Handler.Point,
           {displayClass: 'olControlDrawFeaturePoint', title: I18n["warp"]["add_gcp"], handlerOptions: {style: active_style}});
   drawFeatureFrom.featureAdded = function(feature) {
@@ -161,22 +161,30 @@ function init() {
       modal: true,
       hide: 'slow',
       title: I18n["warp"]["custom_layer_title"],
-      buttons: {
-        "Add Layer": function () {
-          var selected = jQuery('.layer-select').select2("data")[0];
-          if (selected.tiles) {
-            var layer = {"title": selected.title, "type": selected.type, "template": selected.tiles};
-            addCustomLayer(layer);
+      buttons: [{
+          text: I18n["warp"]["custom_layer_add_layer_button"],
+          click: function () {
+            var selected = jQuery('.layer-select').select2("data")[0];
+            if (selected.tiles) {
+              var layer = {"title": selected.title, "type": selected.type, "template": selected.tiles};
+              addCustomLayer(layer);
+            }
+            dialog.dialog("close");
+            form[ 0 ].reset();
           }
-          dialog.dialog("close");
-          form[ 0 ].reset();
         },
-        Cancel: function () {
-          form[ 0 ].reset();
-          dialog.dialog("close");
-        }
+        {
+          text: I18n["warp"]["custom_layer_cancel_button"],
+          click: function () {
+            form[ 0 ].reset();
+            dialog.dialog("close");
+          }
+        }],
+      open: function(){
+        dialogOpen = true;
       },
       close: function () {
+        dialogOpen = false;
         form[ 0 ].reset();
       }
     });
@@ -272,7 +280,130 @@ function init() {
   });
   
   setupLayerSelect();
-  
+ 
+  var toPosition;
+  var fromPosition;
+  var mapUnderMouse = "";
+  to_map.events.register("mousemove", to_map, function (e) {
+    toPosition = this.events.getMousePosition(e);
+    mapUnderMouse = "to_map";
+  })
+  from_map.events.register("mousemove", from_map, function (e) {
+    fromPosition = this.events.getMousePosition(e);
+    mapUnderMouse = "from_map";
+  })
+
+  //control for keyboard shortcuts for map control    
+  var barControl = new OpenLayers.Control();
+  var barCallbacks = {
+    keydown: function (evt) {
+      if (dialogOpen === true) return true;
+      var key = evt.keyCode;
+      if (key == 81 || key == 65) {
+        // q key - quick add point - any mode control
+        // a key - quick point but with auto placement
+        if (mapUnderMouse == "to_map") {
+          var point = to_map.getLonLatFromPixel(toPosition);
+          var thisVector = new OpenLayers.Geometry.Point(point.lon, point.lat);
+          var pointFeature = new OpenLayers.Feature.Vector(thisVector, null, null);
+          active_to_vectors.addFeatures([pointFeature]);
+          newaddGCPto(pointFeature);
+          if (key == 65) addAutoFromPoint(pointFeature);
+        } else if (mapUnderMouse == "from_map") {
+          var point = from_map.getLonLatFromPixel(fromPosition);
+          var thisVector = new OpenLayers.Geometry.Point(point.lon, point.lat);
+          var pointFeature = new OpenLayers.Feature.Vector(thisVector, null, null);
+          active_from_vectors.addFeatures([pointFeature]);
+          newaddGCPfrom(pointFeature);
+          if (key == 65) addAutoToPoint(pointFeature);
+        }
+
+      } else if (key == 80 || key == 49) {
+        // 1, p = (place point)
+        navig.deactivate();
+        dragMarker.deactivate();
+        drawFeatureFrom.activate();
+      } else if (key == 68 || key == 50) {
+        // 2, d (drag point)
+        navig.deactivate();
+        dragMarker.activate()
+        drawFeatureTo.deactivate();
+      } else if (key == 77 || key == 51) {
+        //3, m (move point)
+        drawFeatureFrom.deactivate();
+        dragMarker.deactivate();
+        navig.activate();
+      }
+    }
+  };
+  var barHandler = new OpenLayers.Handler.Keyboard(barControl, barCallbacks, {});
+  barHandler.activate();
+
+  //control for saving a new gcp by pressing 'ENTER' or 'e' keys
+  var saveControl = new OpenLayers.Control();
+  var saveCallbacks = {
+    keydown: function (evt) {
+      if (dialogOpen === true) return true;
+      if (evt.keyCode == 13 || evt.keyCode == 69) {
+        check_if_gcp_ready();
+        if (temp_gcp_status) {
+          set_gcp();
+        }
+      }
+    }
+  };
+  var saveHandler = new OpenLayers.Handler.Keyboard(saveControl, saveCallbacks, {});
+  saveHandler.activate();
+
+
+}
+
+
+
+//set points for transformation
+function setTransformPoints() {
+  xy = [];
+  XY = [];
+  for (var i = 0; i < from_vectors.features.length; i++) {
+    xy.push([from_vectors.features[i].geometry.x, from_vectors.features[i].geometry.y]);
+    XY.push([to_vectors.features[i].geometry.x, to_vectors.features[i].geometry.y]);
+  }
+  transformation.setControlPoints(xy, XY);
+}
+
+function transform(xy) {
+  var pt = transformation.transform(xy);
+  return pt;
+}
+function reverseTransform(xy) {
+  var pt = transformation.revers(xy);
+  return pt;
+}
+
+function addAutoFromPoint(feature) {
+  setTransformPoints();
+  var from_auto_pt = transformation.revers([feature.geometry.x, feature.geometry.y]);
+  var thisVector = new OpenLayers.Geometry.Point(from_auto_pt[0], from_auto_pt[1]);
+  var pointFeature = new OpenLayers.Feature.Vector(thisVector, null, null);
+ // if (active_from_vectors.features.length === 0) {
+    active_from_vectors.addFeatures([pointFeature]);
+    newaddGCPfrom(pointFeature);
+    var center = new OpenLayers.LonLat(thisVector.x,thisVector.y);
+    from_map.setCenter(center);
+  //}
+}
+
+function addAutoToPoint(feature) {
+  setTransformPoints();
+  var to_auto_pt = transformation.transform([feature.geometry.x, feature.geometry.y]);
+  var thisVector = new OpenLayers.Geometry.Point(to_auto_pt[0], to_auto_pt[1]);
+  var pointFeature = new OpenLayers.Feature.Vector(thisVector, null, null);
+ // if (active_to_vectors.features.length === 0) {
+    active_to_vectors.addFeatures([pointFeature]);
+    newaddGCPto(pointFeature);
+    var center2 = new OpenLayers.LonLat(thisVector.x, thisVector.y);   
+    to_map.setCenter(center2);
+ // }
 }
 
 function joinControls(first, second) {
@@ -856,7 +987,7 @@ var customId = 10000;
 function setupLayerSelect() {
   jQuery('.layer-select').select2({
     ajax: {
-      url: "http://localhost:3000/search.json",
+      url: "/search.json",
       dataType: 'json',
       delay: 250,
       transport: function (params, success, failure) {
@@ -905,14 +1036,15 @@ function setupLayerSelect() {
   function formatItems(item) {
     if (item.loading)
       return item.title;
-
+    
+    var itemType = getItemType(item);
     var markup = "<div class='select2-result-item clearfix'>" +
             "<div class='select2-result-item__thumb'><img src='" + item.thumb + "' /></div>" +
             "<div class='select2-result-item__meta'>" +
-            "<div class='select2-result-item__title'><span class='select2-result-item__type'>" + item.type + ":</span> " + item.title + "</div>";
+            "<div class='select2-result-item__title'><span class='select2-result-item__type'>" + itemType + ":</span> " + item.title + "</div>";
 
     if (item.year) {
-      markup += "<div class='select2-result-item__year'>Year: " + item.year + "</div>";
+      markup += "<div class='select2-result-item__year'>"+ I18n['warp']['custom_layer_year'] +": " + item.year + "</div>";
     }
 
     markup += "</div></div>";
@@ -921,11 +1053,25 @@ function setupLayerSelect() {
   }
 
   function formatItemSelection(item) {
+    var itemType = getItemType(item); 
     if (item.id === "") {
       return item.text; //placeholder text
     } else {
-      return item.type + ": " + item.title;
+      return itemType + ": " + item.title;
     }
+  }
+  
+  function getItemType(item){
+    var itemType = "";
+    if (item.type === "Map"){
+      itemType = I18n['warp']['custom_map_type'];
+    } else if (item.type === "Layer") {
+      itemType = I18n['warp']['custom_layer_type'];
+    } else {
+      itemType = I18n['warp']['custom_custom_type']
+    }
+    
+    return itemType;
   }
 
 

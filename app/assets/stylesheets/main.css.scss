@@ -600,6 +600,17 @@ select {
  text-align:center;
 }
 
+#between-maps-container{
+  width: 2%;
+  height: 26px;
+  float: left;
+  margin-left: 0.3%;
+}
+#keyboard-icon-div{
+  width: 25px;
+  height: 25px;
+}
+
 #link-map-button{
  width:20px;
  height:20px;
@@ -1267,7 +1278,7 @@ font-style:italic;
   {     margin-left: 2px;
         position: relative;
         z-index: 22;
-	height:500px;
+	height:600px;
 	border:1px solid #999999;
 }
 
@@ -1395,7 +1406,8 @@ font-size:80%;
 }
 
 table#gcp_table td {
-
+  vertical-align: bottom;
+  padding-bottom: 2px;
 }
 table#gcp_table th {
 text-align: left;
@@ -1415,25 +1427,38 @@ table#gcp_table input {
 	width:10em;
 }
 
-table#gcp_table input.red {
-color: #ff6a51;
-}
-table#gcp_table input.orange {
-color: #ffd201;
+table#gcp_table {
+  input.red {
+    color: #ff6a51;
+  }
+  input.orange {
+    color: #ffd201;
+  }
+
+  input.green {
+    color: #00e400;
+  }
+  input.blue {
+    color: #00aeff;
+  }
 }
 
-table#gcp_table input.green {
-color: #00e400;
+table#gcp_table {
+  tr.gcp-table0
+  {
+    background:#EAEAD7 none repeat scroll 0;
+  }
+  tr.gcp-table1
+  {
+  }
 }
-table#gcp_table input.blue {
-color: #00aeff;
-}
+
 
 #from_map,#to_map
 {
   position: relative;
   z-index: 2;
-  height:420px;
+  height:600px;
   cursor: crosshair;
 }
 .map-off {
@@ -1491,11 +1516,16 @@ font-size: smaller;
 .clearfix:before, .clearfix:after { content: " "; display: table; }
 .clearfix:after { clear: both; }
 
+#import_layer_ids {
+  width: 450px;
+}
+
 
 /* OPENLAYERS spechul stilz */
+
 .olPopupCloseBox {
-    background: transparent asset_url("close.gif") no-repeat scroll 0% 0%;
-        margin-right: -3px;
+    background: asset_url("close.gif") no-repeat scroll 0% 0%;
+    margin-right: -3px;
     }
 
 div.olControlMousePosition
@@ -1516,7 +1546,8 @@ div.olControlMousePosition
 
 .olControlLayerSwitcher
 {
-	font-size:7pt!important;
+  top: 35px !important;
+  font-size:10pt!important;
 }
 
  .olControlEditingToolbar  {
@@ -1760,4 +1791,34 @@ fieldset#control_panel_fieldset a {
 .ui-progressbar-value {
   transition: width 0.5s;
   -webkit-transition: width 0.5s;
+}
+
+div.span-12 input{
+  width: 215px;
+}
+
+
+div.layer-maps-col {
+  width: 500px;
+
+  input.layer-map-check {
+    width: 24px;
+  }
+  .maplist_title{
+    padding: 0px 2px 0px 2px;
+
+    font-size:smaller;
+  }
+
+  .map_description{
+    padding: 0px 2px 0px 2px;
+    margin-top: 0px;
+    font-size:smaller;
+  }
+
+}
+
+.small-gray {
+  font-size: smaller;
+  color: gray;
 }

@@ -4,18 +4,15 @@
   </td>
   <td >
     <span class="layer_title">
-      <%= link_to h(layer.name),  layer_path(layer) -%>
+      <%= link_to layer.name,  layer_path(layer) -%>
     </span>
     <br />
     <span class="layer_description">
       <%= layer.description %>
       <%- if layer.user -%><%= t('.made_by') %> <%= link_to(layer.user.login, user_path(layer.user)) -%>.<%-end-%>
     </span>
-    <span class="layer_year">
-      <%if layer.depicts_year%><%= t('.depicts') %>: <%= layer.depicts_year %> <%end%>
-    </span>
     <span class="map_links">
-      <%- if layer.source_uri -%>
+      <%- if !layer.source_uri.blank? -%>
         <%= t('.links') %>: <%= link_to t('.source'),layer.source_uri  %>
       <%- end -%>
     </span>
@@ -43,7 +40,7 @@
          |
       <% end  %>
       <% if user_signed_in? && (admin_authorized? or current_user.own_this_layer?(layer.id)) -%>
-        <%= link_to t('.edit'), layer_path(:id=>layer, :anchor=>"Edit_tab") -%> |
+        <%= link_to t('.edit'), layer_path(:id=>layer, :anchor=>"#{t('layouts.tabs.edit')}_tab") -%> |
       <% end -%>
       <% if admin_authorized? -%>
         <%= link_to(t('.merge'), :controller => "layers", :action=> "merge", :id => layer) %> |
@@ -65,11 +62,11 @@
   </td>
   <td>
     <span class="layer_mapcount">
-      <%= pluralize layer.maps_count, t('common.map') -%>
+      <%= t('common.map_count', count: layer.maps_count) -%>
     </span>
   </td>
   <td>
     <%=number_to_percentage(layer.rectified_percent, :precision=>0) %><br />
-    (<%= pluralize layer.rectified_maps_count, t('common.map') -%>)
+    (<%= t('common.map_count', count: layer.rectified_maps_count) -%>)
   </td>
 </tr>
