@@ -6,7 +6,7 @@
     <title> <%= t('common.site_title') %>: <%= h(snippet(@html_title, 40)) || ''-%> </title>
 
     <%= stylesheet_link_tag "application" %>
-    <link href='http://fonts.googleapis.com/css?family=Lato:400,700|Sorts+Mill+Goudy|Vidaloka' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Lato:400,700|Sorts+Mill+Goudy|Vidaloka' rel='stylesheet' type='text/css'>
     <%= javascript_include_tag "openlayers/2.8/OpenLayers-2.8/OpenLayers" %>
     <%= javascript_include_tag "application" %>
     <%= javascript_tag "jQuery.noConflict();" -%>
@@ -58,7 +58,7 @@
             }
           });
         }
-        
+
         });
 
         jQuery("#wooTabs").bind("tabsselect", function(event, ui) {
@@ -116,7 +116,7 @@
 
         // set onlick event for buttons
         jQuery("a[rel='history']").click(function() {
-  
+
           var hash = this.title + tabSuffix;
           jQuery.historyLoad(hash);
         });
@@ -195,7 +195,7 @@
         <%= form_for(@layer, {:html => {:id =>"year-form"} , :url =>update_year_layer_path(@layer.id), :remote => true }) do |f| %>
           <%= f.text_field :depicts_year, :size =>10 %>
           <%= submit_tag t('.year_button') %>
-        <% end %>          
+        <% end %>
 
       </div>
     <% end %>
