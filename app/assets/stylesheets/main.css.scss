@@ -1,4 +1,4 @@
-/* http://meyerweb.com/eric/tools/css/reset/
+/* http://meyerweb.com/eric/tools/css/reset/ 
    v2.0 | 20110126
    License: none (public domain)
 */ /*added by karen*/
@@ -12,8 +12,8 @@ b, u, i, center,
 dl, dt, dd, ol, ul, li,
 fieldset, form, label, legend,
 table, caption, tbody, tfoot, thead, tr, th, td,
-article, aside, canvas, details, embed,
-figure, figcaption, footer, header, hgroup,
+article, aside, canvas, details, embed, 
+figure, figcaption, footer, header, hgroup, 
 menu, nav, output, ruby, section, summary,
 time, mark, audio, video {
 	margin: 0;
@@ -24,7 +24,7 @@ time, mark, audio, video {
 	vertical-align: baseline;
 }
 /* HTML5 display-role reset for older browsers */
-article, aside, details, figcaption, figure,
+article, aside, details, figcaption, figure, 
 footer, header, hgroup, menu, nav, section {
 	display: block;
 }
@@ -127,7 +127,7 @@ div.comment span.comment_metadata {
   font-style: italic;
 }
 
-
+  
 a.buttonWarperBlue{
   padding: 6px 6px 3px 6px;
   margin-left:4px;
@@ -429,15 +429,15 @@ ul.list {
 body
 {
   	background: #fff;
-	font-family:Lato, 'Segoe UI', 'Lucida Grande', 'Century Gothic', Helvetica, Arial, Verdana, sans-serif;
-	line-height:1.5;
+	font-family:Lato, 'Segoe UI', 'Lucida Grande', 'Century Gothic', Helvetica, Arial, Verdana, sans-serif; 
+	line-height:1.5; 
 	font-size:100%;
-	color: #666;
+	color: #666; 
 	font-size:16px;
 }
 
 h1 {
-font-size: 28px;
+font-size: 28px; 	
 }
 
 h2 {
@@ -449,7 +449,7 @@ font-size: 24px;
 }
 
 h1,h2,h3,h4,h5,h6 {
-	color: #222;
+	color: #222; 
 	margin:10px 0;
 }
 
@@ -489,8 +489,8 @@ a:hover {
 
 
 h1 {
-	background: asset_url('header_logo.png') 0 50% scroll no-repeat;
-  padding: 10px 1em;
+	background: asset_url('header_logo.png') 0 50% scroll no-repeat; 
+  padding: 10px 1em; 
 }
 
 h1 a, h1 a:link, h1 a:visited {
@@ -521,7 +521,7 @@ p {
 	background: #191970;
  	color:#e3e3d4;
 	font-weight: 600;
-	padding: 6px 6px 3px 6px;
+	padding: 6px 6px 3px 6px; 
 	border-radius:4px;
 	text-transform:uppercase;
 	font-size:80%;
@@ -555,7 +555,7 @@ p {
 input[type="text"], input[type="password"], select {
 	border-radius:4px;
 	padding:4px 3px;
-}
+} 
 
 input[type="submit"], .submitStyle  {
 	padding:6px 3px 5px 3px;
@@ -571,7 +571,7 @@ select {
 .buttonWarper:hover, .buttonWarperBlue:hover, input[type="submit"]:hover, .headerDiv .user_status a:hover { /*KAREN ADDED*/
   box-shadow:1px 2px 4px 2px rgba(0,0,0,0.2), inset 1px 2px 4px rgba(255,255,255,0.4);;
 	background: #e3e3d4;
-	background:rgba(255,255,255,0.7);
+	background:rgba(255,255,255,0.7); 
 	color:#191970;
 	-moz-transition:all 0.42 ease-in-out;
 	-webkit-transition:all 0.2s ease-in-out;
@@ -635,7 +635,7 @@ font-weight: strong;
 
 .headerDiv {
 	position: relative;
-	background: #e2dedb asset_url('header_bg.jpg') 0 -30px scroll;
+	background: #e2dedb asset_url('header_bg.jpg') 0 -30px scroll; 
 	padding: 2px 10px 0 10px;
 }
 
@@ -773,7 +773,7 @@ div.period span.period{
 	overflow:hidden; /*to clear float*/
 }
 
-#searchform #radio-buttons{
+#searchform #radio-buttons{ 
   display: inline-block;
 }
 #searchform {
@@ -904,7 +904,7 @@ padding: 10px;
 
 #whats_this_all_about
 {
-
+ 
 
 }
 
@@ -946,8 +946,8 @@ padding: 0.5em 0.6em !important;
  display: none;
   }
 
-.unhidden {
-display: block;
+.unhidden { 
+display: block; 
 }
 
 #scriptout{
@@ -1012,7 +1012,7 @@ font-weight: bold;
   background: #191970;
   color:#e3e3d4;
   font-weight: 600;
-  padding: 1px 3px 1px 3px;
+  padding: 1px 3px 1px 3px; 
   border-radius:4px;
   text-transform:uppercase;
   font-size:80%;
@@ -1024,7 +1024,7 @@ font-weight: bold;
 #notice a:hover, #error a:hover {
   box-shadow:1px 2px 4px 2px rgba(0,0,0,0.2), inset 1px 2px 4px rgba(255,255,255,0.4);;
   background: #e3e3d4;
-  background:rgba(255,255,255,0.7);
+  background:rgba(255,255,255,0.7); 
   color:#191970;
   -moz-transition:all 0.42 ease-in-out;
   -webkit-transition:all 0.2s ease-in-out;
@@ -1082,14 +1082,14 @@ font-weight: bold;
 	border-bottom: none;
 	background: #e3e3d4;
 	text-decoration: none;
-	border-radius:4px 4px 0 0;
-	background: #ddd;
-	background:rgba(255,255,255,0.7);
+	border-radius:4px 4px 0 0; 
+	background: #ddd; 
+	background:rgba(255,255,255,0.7); 
 }
 
 
 #navlist li a:hover {
-	background: #191970;
+	background: #191970; 
 	color:#E3E3D4;
 	-moz-transition:all 0.3s ease-in-out;
 	-webkit-transition:all 0.3s ease-in-out;
@@ -1098,18 +1098,18 @@ font-weight: bold;
 }
 
 #navlist li span {
-	background: #191970;
+	background: #191970; 
 	color:#E3E3D4;
 	border-bottom: 1px solid #191970;
 }
 
 @-moz-document url-prefix() {
-  #navlist li a, #navlist li span {
-  padding-bottom: 4.5px;
+  #navlist li a, #navlist li span { 
+  padding-bottom: 4.5px; 
   padding-top: 4px;
   border-bottom: 0px;
-  }
-}
+  } 
+} 
 
 #footer {
 	text-align:center;
@@ -1182,7 +1182,7 @@ font-weight: bold;
 	font-size:90%;
 	text-transform:uppercase;
 }
-
+ 
  #layer_table_detail td, #layer_table_detail th {
 	border-top: 1px solid #ccc;
         background: #ccffcc;
@@ -1315,7 +1315,7 @@ font-style:italic;
 	margin-top:5px;
 	padding:2px;
         /* cursor: pointer; */
-
+        
 }
 
 #gcp input.gcp_button_highlighted
@@ -1326,7 +1326,7 @@ font-style:italic;
 	padding:2px;
         cursor: pointer;
         border: 2px solid #00F2AB;
-
+        
 }
 
 .map {
@@ -1497,13 +1497,13 @@ font-size: smaller;
 .select2-result-item__meta {
   margin-left: 70px;
 }
-.select2-result-item__title {
+.select2-result-item__title { 
   color: black;
   font-weight: bold;
   word-wrap: break-word;
   margin-bottom: 4px;
 }
-.select2-result-item__type {
+.select2-result-item__type { 
   color: #6b6868;;
   font-weight: normal;
   word-wrap: break-word;
@@ -1562,7 +1562,7 @@ div.olControlMousePosition
 .toPanel{
 width: 140px !important;
 }
-.olControlEditingToolbar div {
+.olControlEditingToolbar div { 
   float:right;
   width:  24px;
   height: 24px;
@@ -1577,64 +1577,64 @@ width: 140px !important;
     border:1px solid gray;
 }
 
-.olControlEditingToolbar2 div {
+.olControlEditingToolbar2 div { 
   float:right;
   width:  24px;
   height: 24px;
   margin: 5px;
 }
 
-.olControlEditingToolbar .olControlDrawFeaturePointItemActive {
+.olControlEditingToolbar .olControlDrawFeaturePointItemActive { 
   background-image: asset_url("editing_tool_bar_with_pin2.gif");
   background-repeat: no-repeat;
-  background-position: -128px -23px;
+  background-position: -128px -23px; 
 }
-.olControlEditingToolbar .olControlDrawFeaturePointItemInactive {
+.olControlEditingToolbar .olControlDrawFeaturePointItemInactive { 
   background-image: asset_url("editing_tool_bar_with_pin2.gif");
   background-repeat: no-repeat;
-  background-position: -128px -0px;
-}
-
-.olControlEditingToolbar2 .olControlDrawFeatureItemActive {
-  background-image: asset_url("editing_tool_bar_with_pin2.gif");
-  background-repeat: no-repeat;
-  background-position: -26px -23px;
-}
-.olControlEditingToolbar2 .olControlDrawFeatureItemInactive {
-  background-image: asset_url("editing_tool_bar_with_pin2.gif");
-  background-repeat: no-repeat;
-  background-position: -26px -0px;
-}
-.olControlEditingToolbar2 .olControlModifyFeatureItemActive {
-  background-image: asset_url("editing_tool_bar_with_pin2.gif");
-  background-repeat: no-repeat;
-  background-position: -153px -23px;
-}
-.olControlEditingToolbar2 .olControlModifyFeatureItemInactive {
-  background-image: asset_url("editing_tool_bar_with_pin2.gif");
-  background-repeat: no-repeat;
-  background-position: -153px -0px;
+  background-position: -128px -0px; 
 }
 
-.olControlEditingToolbar .olControlNavigationItemActive {
+.olControlEditingToolbar2 .olControlDrawFeatureItemActive { 
   background-image: asset_url("editing_tool_bar_with_pin2.gif");
   background-repeat: no-repeat;
-  background-position: -103px -23px;
+  background-position: -26px -23px; 
 }
-.olControlEditingToolbar .olControlNavigationItemInactive {
+.olControlEditingToolbar2 .olControlDrawFeatureItemInactive { 
   background-image: asset_url("editing_tool_bar_with_pin2.gif");
   background-repeat: no-repeat;
-  background-position: -103px -0px;
+  background-position: -26px -0px; 
 }
-.olControlEditingToolbar2 .olControlNavigationItemActive {
+.olControlEditingToolbar2 .olControlModifyFeatureItemActive { 
   background-image: asset_url("editing_tool_bar_with_pin2.gif");
   background-repeat: no-repeat;
-  background-position: -103px -23px;
+  background-position: -153px -23px; 
 }
-.olControlEditingToolbar2 .olControlNavigationItemInactive {
+.olControlEditingToolbar2 .olControlModifyFeatureItemInactive { 
   background-image: asset_url("editing_tool_bar_with_pin2.gif");
   background-repeat: no-repeat;
-  background-position: -103px -0px;
+  background-position: -153px -0px; 
+}
+
+.olControlEditingToolbar .olControlNavigationItemActive { 
+  background-image: asset_url("editing_tool_bar_with_pin2.gif");
+  background-repeat: no-repeat;
+  background-position: -103px -23px; 
+}
+.olControlEditingToolbar .olControlNavigationItemInactive { 
+  background-image: asset_url("editing_tool_bar_with_pin2.gif");
+  background-repeat: no-repeat;
+  background-position: -103px -0px; 
+}
+.olControlEditingToolbar2 .olControlNavigationItemActive { 
+  background-image: asset_url("editing_tool_bar_with_pin2.gif");
+  background-repeat: no-repeat;
+  background-position: -103px -23px; 
+}
+.olControlEditingToolbar2 .olControlNavigationItemInactive { 
+  background-image: asset_url("editing_tool_bar_with_pin2.gif");
+  background-repeat: no-repeat;
+  background-position: -103px -0px; 
 }
 
 .olControlEditingToolbar .olControlDragFeatureItemInactive {
@@ -1683,7 +1683,7 @@ width: 140px !important;
 	color: #191970;
 }
 
-fieldset#control_panel_fieldset {
+fieldset#control_panel_fieldset { 
   border:1px solid green;
   padding-left: 0.3em;
   padding-right: 0.3em;
@@ -1698,27 +1698,27 @@ fieldset#control_panel_fieldset legend {
 
 fieldset#control_panel_fieldset a:hover {
   color:#447a05;
-}
+} 
 
 fieldset#control_panel_fieldset a {
   color:#222;
-}
+} 
 
 .omniauth_links a {
 	background: #191970;
  	color:#e3e3d4;
 	font-weight: 600;
-	padding: 6px 6px 3px 6px;
+	padding: 6px 6px 3px 6px; 
 	border-radius:4px;
 	display:inline-block;
 	margin-left:4px;
 	border:none;
 }
 
-.omniauth_links a:hover {
+.omniauth_links a:hover { 
   box-shadow:1px 2px 4px 2px rgba(0,0,0,0.2), inset 1px 2px 4px rgba(255,255,255,0.4);;
 	background: #e3e3d4;
-	background:rgba(255,255,255,0.7);
+	background:rgba(255,255,255,0.7); 
 	color:#191970;
 	-moz-transition:all 0.42 ease-in-out;
 	-webkit-transition:all 0.2s ease-in-out;
@@ -1785,7 +1785,7 @@ fieldset#control_panel_fieldset a {
   position: absolute;
   left: 50%;
   font-weight: bold;
-  text-shadow: 1px 1px 0px #FFF;
+  text-shadow: 1px 1px 0px #FFF; 
 }
 
 .ui-progressbar-value {

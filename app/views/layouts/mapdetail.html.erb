@@ -24,7 +24,7 @@
         });
 
         jQuery("#wooTabs").tabs('option', 'cache', true);
-
+        
         jQuery("#wooTabs").tabs({
           beforeLoad: function( event, ui ) {
             ui.jqXHR.error(function() {
@@ -100,7 +100,7 @@
               select_tab_index = index;
             }
           });
-
+          
           jQuery("#wooTabs").tabs( "option", "active", select_tab_index );
           //jQuery("#wooTabs").tabs("select", hash);
         } else {
