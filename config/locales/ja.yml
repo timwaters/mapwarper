@@ -124,11 +124,11 @@ ja:
 #      html_title_nouser: 'Activity for not found user '
 #      title: 'Recent Activity for User '
 #      title_nouser: 'Recent Activity for not found user '
-      header: ユーザーに関わる変更
+      header: ユーザーによる変更
       html_title: '更新 '
-      html_title_nouser: '未登録ユーザーに関わる更新 '
-      title: 'ユーザーに関わる最近の更新 '
-      title_nouser: '未登録ユーザーに関わる最近の更新 '
+      html_title_nouser: '存在しないユーザーによる更新 '
+      title: 'ユーザーによる最近の更新 '
+      title_nouser: '存在しないユーザーによる最近の更新 '
     helper:
       summary:
 #        available: Map became available
@@ -399,8 +399,7 @@ ja:
         cancel_account_header: "アカウントを削除する"
         cancel_account_instructions: "お気にめしませんでしたか？この操作を行うと、アップロードしたすべての地図と作成したすべてのモザイクが削除されます。"
         cancel_confirm: "本当に削除しますか？"
-        current_password_label: "（変更を承認するために現在のパスワードが必要です）
-"
+        current_password_label: "（変更を承認するために現在のパスワードが必要です）"
         description_label: "簡単なプロフィール （省略可）"
         edit_header: "ユーザーを編集する"
         header: "ユーザー設定"
