@@ -3,14 +3,23 @@ ja:
   activerecord:
     attributes:
       layer:
+#        depicts_year: Depicts year
+#        description: Description
+#        name: Name    
         depicts_year: "作成年"
-        description: "概要"
+        description: "説明"
         name: "名前"
       map:
+#        title: Title
         title: "タイトル"
       user:
+#        current_password: Current password
+#        email: Email
+#        password: password
+#        password_confirmation: Password confirmation
+#        remember_me: Remember me      
         current_password: "現在のパスワード"
-        email: Eメール
+        email: eメール
         password: "パスワード"
         password_confirmation: "パスワードの確認"
         remember_me: "パスワードを記憶させる"
@@ -19,116 +28,200 @@ ja:
         import:
           attributes:
             metadata:
-              no_file_uploaded: file is not uploaded
-          blank_layer_title: is blank
-          layer_error: does not exist, or has not been specified properly
-          no_files_error: has no files within the directory
-          path_not_exist: does not exist
-          user_not_exist: does not exist
+#              no_file_uploaded: file is not uploaded
+#          blank_layer_title: is blank
+#          layer_error: does not exist, or has not been specified properly
+#          no_files_error: has no files within the directory
+#          path_not_exist: does not exist
+#          user_not_exist: does not exist
+              no_file_uploaded: アップロードされたファイルがありません
+          blank_layer_title: が入力されていません
+          layer_error: が存在しない、または正しく指定されていません
+          no_files_error: ディレクトリにファイルがありません
+          path_not_exist: は存在しません
+          user_not_exist: は存在しません
         layers_map:
           attributes:
             layer_id:
-              already_has_map: already has this map
+#              already_has_map: already has this map
+              already_has_map: にはすでにこの地図が存在します
         map:
-          error_url: is invalid or inaccessible
-          filename_not_unique: is already being used
-        my_map:
+#          error_url: is invalid or inaccessible
+          error_url: は無効であるかアクセスできません
+#          filename_not_unique: is already being used
+          filename_not_unique: はすでに使用されています
+          my_map:
           attributes:
             map_id:
-              not_unique: Map has already been saved to the user.
+#              not_unique: Map has already been saved to the user.
+              not_unique: 地図はすでに保存されています。
             user_id:
+#              not_unique: Map has already been saved to the user.
               not_unique: "地図はすでに保存されています。"
     models:
       import:
-        one: import
-        other: imports
+#        one: import
+#       other: imports
+        one: インポート
+        other: インポート
       layer:
-        one: layer
-        other: layers
-        zero: layers
+#        one: layer
+#        other: layers
+#        zero: layers
+        one: レイヤー
+        other: レイヤー
+        zero: レイヤー
       map:
-        one: map
-        other: maps
-        zero: maps
+#        one: map
+#        other: maps
+#        zero: maps
+        one: 地図
+        other: 地図
+        zero: 地図
   application:
     helper:
       breadcrumbs:
+#        home: Home
+#        layer: Mosaic %{layer_id}
+#        layers: Mosaics
+#        map: Map %{map_id}
+#        map_layers: Map Layers
+#        maps: Maps
+#        search: Search
         home: "ホーム"
-        layer: "モザイク %{layer_id}"
+        layer: "モザイク%{layer_id}"
         layers: "モザイク"
-        map: "地図 %{map_id}"
-        map_layers: Map Layers
+        map: "地図%{map_id}"
+        map_layers: 地図のレイヤー
         maps: "地図"
         search: "検索"
       error_messages_for:
-        invalid_fields: "不正なフィールド"
+#        invalid_fields: Invalid Fields
+#        message: Correct the following errors and try again.
+#    permission_denied: Sorry you do not have permission to view that.
+        invalid_fields: "無効なフィールド"
         message: "次のエラーを修正してやり直してください。"
-    permission_denied: "申し訳ありません、これを閲覧する権限がありません"
+    permission_denied: "申し訳ありませんが、閲覧する権限がありません"
   audits:
     audit:
-      further_details: Further details
+#      further_details: Further details
+      further_details: 詳細
     for_map:
-      html_title: 'Activity for Map '
-      title: 'Recent Activity for Map '
+#      html_title: 'Activity for Map '
+#      title: 'Recent Activity for Map '
+      html_title: '地図の更新'
+      title: '最近の地図の更新 '
     for_map_model:
-      header: Changes for all Maps
-      html_title: Activity for All Maps
-      title: Recent Activity for All Maps
+#      header: Changes for all Maps
+#      html_title: Activity for All Maps
+#      title: Recent Activity for All Maps
+      header: すべての地図の変更
+      html_title: すべての地図の更新
+      title: すべての地図の最近の更新
     for_user:
-      header: Changes for user
-      html_title: 'Activity for '
-      html_title_nouser: 'Activity for not found user '
-      title: 'Recent Activity for User '
-      title_nouser: 'Recent Activity for not found user '
+#      header: Changes for user
+#      html_title: 'Activity for '
+#      html_title_nouser: 'Activity for not found user '
+#      title: 'Recent Activity for User '
+#      title_nouser: 'Recent Activity for not found user '
+      header: ユーザーに関わる変更
+      html_title: '更新 '
+      html_title_nouser: '未登録ユーザーに関わる更新 '
+      title: 'ユーザーに関わる最近の更新 '
+      title_nouser: '未登録ユーザーに関わる最近の更新 '
     helper:
       summary:
+#        available: Map became available
+#        loading: Map started loading from library
+#        masked: Map successfully masked
+#        masking: Map started masking process
+#        published: Map successfully published
+#        unloaded: Map was unloaded
+#        unmasked: Map was unmasked
+#        warped: Map successfully rectified
+#        warping: Map started rectification process
         available: "地図が利用可能になりました"
-        loading: Map started loading from library
-        masked: "地図は正常にマスクされました"
-        masking: "地図のマスクが開始されました"
-        published: "地図は正常に公開されました"
-        unloaded: Map was unloaded
-        unmasked: Map was unmasked
-        warped: "地図は正常にRectifyされました"
-        warping: "地図のrectificationが開始されました"
+        loading: ライブラリから地図のロードを開始しました
+        masked: "地図をマスクしました"
+        masking: "地図のマスク処理を開始しました"
+        published: "地図を公開しました"
+        unloaded: ロードした地図を削除しました
+        unmasked: 地図のマスクを解除しました
+        warped: "地図の形を調整しました"
+        warping: "地図の調整処理を開始しました"
     index:
-      action: Action
-      changed: changed
-      feed_description: "最近のアクティビティのフィード"
-      html_title: "最近のアクティビティ"
-      only_maps: Show Just Map Activity
+#      action: Action
+#      changed: changed
+#      feed_description: Feed for recent activity
+#      html_title: Recent Activity
+#      only_maps: Show Just Map Activity
+#      rss_link: RSS Feed
+#      title: Recent Activity For Everything
+      action: アクション
+      changed: 変更しました
+      feed_description: "最近の更新のフィード"
+      html_title: "最近の更新"
+      only_maps: 地図の更新だけを表示する
       rss_link: RSSフィード
-      title: Recent Activity For Everything
+      title: 最近の更新すべて
     show:
-      details_header: Details
-      header: Activity Detail
-      item: Item
-      summary: Activity summary
-      time: Time
+#      details_header: Details
+#      header: Activity Detail
+#      item: Item
+#      summary: Activity summary
+#      time: Time
+#      user: User
+#      value: Value
+#      version: Version
+      details_header: 詳細
+      header: 更新内容詳細
+      item: 項目
+      summary: 更新の概要
+      time: 日時
       user: "ユーザー"
-      value: Value
+      value: 値
       version: "バージョン"
   comments:
     comment:
-      confirm_delete: "本当にこのコメントを削除しますか?"
+#      confirm_delete: Really delete this comment?
+#      delete_link: delete
+      confirm_delete: "本当にこのコメントを削除しますか？"
       delete_link: "削除"
     comment_form:
-      add_comment: "コメントの追加"
-      header: Comment on this
-    destroy:
-      error: "コメントが削除できませんでした。"
-      flash: "コメントは削除されました"
+#      add_comment: Add Comment
+#      header: Comment on this
+      add_comment: "コメントを追加する"
+      header: コメントする
+    destroy: 
+#      error: Comment couldn't be deleted
+#      flash: Comment deleted
+      error: "コメントを削除できませんでした"
+      flash: "コメントを削除しました"
     index:
+#      actions_th: Actions
+#      comment_th: Comment
+#      comment_type: Comment On
+#      created: Created at
+#      header: Comments
+#      title: Browse Comments
+#      user: User
       actions_th: "アクション"
       comment_th: "コメント"
-      comment_type: Comment On
-      created: Created at
+      comment_type: コメントする
+      created: 次の項目に対して行われました：
       header: "コメント"
-      title: "コメントを閲覧する"
+      title: "コメントを見る"
       user: "ユーザー"
     show:
+#      not_found: Comment not found
       not_found: "コメントはありません"
   common:
+#    ago: ago
+#    back_link: Back
+#    create_button: Create
+#    gcp: gcp
+#    last_th: Last Updated
+#    layer: mosaic
     ago: "前"
     back_link: "戻る"
     create_button: "作成"
@@ -136,18 +229,34 @@ ja:
     last_th: "前回のアップロード"
     layer: "モザイク"
     layer_count:
-      one: "%{count} layer"
-      other: "%{count} layers"
+#      one: "%{count} layer"
+#      other: "%{count} layers"
+#    layer_th: Mosaic
+#    map: map
+      one: "%{count}枚のレイヤー"
+      other: "%{count}枚のレイヤー"
     layer_th: "モザイク"
     map: "地図"
     map_count:
-      one: "%{count} map"
-      other: "%{count} maps"
+#      one: "%{count} map"
+#      other: "%{count} maps"
+#    map_th: Map
+#    my_maps_head: Favourites
+#    num_th: Number of Maps
+#    per_page: per page
+#    percent_th: Percentage Complete
+#    site_title: Map Warper
+#    status_th: Status
+#    title_th: Title
+#    update_button: Update
+#    year_th: Year
+      one: "%{count}枚の地図"
+      other: "%{count}枚の地図"
     map_th: "地図"
-    my_maps_head: My Maps
+    my_maps_head: お気に入り
     num_th: "地図の数"
-    per_page: per page
-    percent_th: Percentage Complete
+    per_page: 1ページあたり
+    percent_th: 進捗状況（％）
     site_title: Map Warper
     status_th: "ステータス"
     title_th: "タイトル"
@@ -155,94 +264,170 @@ ja:
     year_th: "年"
   devise:
     confirmations:
-      confirmed: "アカウントが正常に確認されました。"
+#      confirmed: Your account was successfully confirmed.
+      confirmed: "アカウントを確認しました。"
       new:
-        header: "確認メールを再度送信する"
-        resend_button: "確認メールを再度送信する"
-      send_instructions: "アカウントを確認する方法を記載したメールがすぐに送られます。"
-      send_paranoid_instructions: "あなたのメールアドレスがデータベースに存在する場合、アカウントを確認する方法を記載したメールがすぐに送られます。"
+#        header: Resend confirmation instructions
+#        resend_button: Resend confirmation instructions
+#      send_instructions: You will receive an email with instructions about how to confirm your account in a few minutes.
+#      send_paranoid_instructions: If your email address exists in our database, you will receive an email with instructions about how to confirm your account in a few minutes.
+        header: "確認用メールの再送信"
+        resend_button: "確認用メールの再送信"
+      send_instructions: "アカウントの確認方法を記載したメールが数分以内に送られます。"
+      send_paranoid_instructions: "あなたのメールアドレスがデータベースに存在する場合、アカウントの確認方法を記載したメールが数分以内に送られます。"
     errors:
       messages:
-        already_confirmed: was already confirmed, please try signing in
-        confirmation_period_expired: needs to be confirmed within %{period}, please request a new one
-        expired: has expired, please request a new one
-        not_found: not found
-        not_locked: was not locked
+#        already_confirmed: was already confirmed, please try signing in
+#        confirmation_period_expired: needs to be confirmed within %{period}, please request a new one
+#        expired: has expired, please request a new one
+#        not_found: not found
+#        not_locked: was not locked
+        already_confirmed: はすでに確認されています。もう１度サインインしてください
+        confirmation_period_expired: の有効期限は%{period}です。もう１度リクエストを送ってください
+        expired: の有効期限が過ぎています。もう１度リクエストを送ってください
+        not_found: 見つかりません
+        not_locked: はロックされていません
         not_saved:
-          one: '1 error prohibited this %{resource} from being saved:'
-          other: "%{count} errors prohibited this %{resource} from being saved:"
+#          one: '1 error prohibited this %{resource} from being saved:'
+#          other: "%{count} errors prohibited this %{resource} from being saved:"
+          one: '１つのエラーにより%{resource}を保存できませんでした：'
+          other: "%{count}個のエラーにより%{resource}を保存できませんでした："
     failure:
+#      already_authenticated: You are already signed in.
+#      inactive: Your account is not activated yet.
+#      invalid: Invalid email or password.
+#      invalid_token: Invalid authentication token
+#      last_attempt: You have one more attempt before your account will be locked.
+#      locked: Your account is locked.
+#      not_found_in_database: Invalid email or password.
+#      timeout: Your session expired. Please sign in again to continue.
+#      unauthenticated: You need to sign in or sign up before continuing.
+#      unconfirmed: You have to confirm your account before continuing.
       already_authenticated: "すでにサインインしています。"
-      inactive: "アカウントはまだアクティベートされていません。"
-      invalid: "不正なeメールまたはパスワードです。"
-      invalid_token: Invalid authentication token
-      last_attempt: You have one more attempt before your account will be locked.
+      inactive: "アカウントが有効化されていません。"
+      invalid: "無効なeメールまたはパスワード。"
+      invalid_token: 無効なトークン
+      last_attempt: あと１回の試行でアカウントがロックされます。
       locked: "アカウントがロックされています。"
-      not_found_in_database: "不正なeメールまたはパスワードです。"
-      timeout: "セッションの有効期限が切れました。続行するには再度サインインしてください。"
+      not_found_in_database: "無効なeメールまたはパスワード。"
+      timeout: "セッションの有効期限が切れました。続けるにはもう１度サインインしてください。"
       unauthenticated: "続けるにはサインインまたはサインアップが必要です。"
       unconfirmed: "続けるにはアカウントの確認が必要です。"
     mailer:
+#        about_site: "%{site_name} is a participatory site where you can discover, georeference and upload your own maps and imagery. You can georectify or warp the map to base map to be able to use the map in new ways. You can download the georeferenced image in a number of formats including KML, WMS, and Tiles."
+#        click_the_link: 'You can confirm your account email through the link below:'
+#        confirm_button: Confirm my account
+#        greeting: Welcome,
+#        intro: Thanks for signing up to use %{site_name}. Please confirm your email to continue the sign up process.
+#        subject: Map Warper email address confirmation instructions
       confirmation_instructions:
-        about_site: "%{site_name}は、地図や画像を発見したり、ジオリファレンスを付与したり、あなたの地図や画像をアップロードすることができる参加型のサイトです。ベースマップに合わせて地図をgeorectifyしたりワープ処理することで、地図を新しい方法で利用することができます。KML、WMS、タイルなどの様々なフォーマットでジオリファレンスされた地図をダウンロードすることができます。"
-        click_the_link: "以下のリンクであなたのアカウントのeメールを確認できます:"
+        about_site: "%{site_name}は、地図や画像を探したり、ジオリファレンスを行ったり、アップロードしたりすることができる参加型のサイトです。ベースとなるマップの上で地図の形を調整することにより、その地図を新しい方法で利用することができます。KML、WMS、タイルなどの様々なフォーマットでジオリファレンスされた地図をダウンロードすることができます。"
+        click_the_link: "下のリンクであなたのアカウントのeメールを確認できます："
         confirm_button: "アカウントを確認する"
         greeting: "ようこそ、"
-        intro: "%{site_name}へのサインアップとご利用ありがとうございます。サインアップの過程を続けるため、あなたのeメールを確認してください。"
-        subject: Map Warper eメールドレスの確認
+        intro: "%{site_name}へのサインアップとご利用ありがとうございます。サインアップ手続きを進めるため、eメールを確認してください。"
+        subject: Map Warperでeメールアドレスを確認する方法
       reset_password_instructions:
+#        greeting: Hello
+#        intro: Someone has requested a link to change your password. You can do this through the link below.
+#        link: Change my password
+#        please_ignore: If you are not expecting this, please ignore this email. Your password won't change until you access the link above and create a new one.
+#        subject: Map Warper Reset password instructions
         greeting: "こんにちは"
-        intro: "誰かがあなたのパスワードを変更するリンクを要求しました。パスワードは以下のリンクから変更できます。"
+        intro: "あなたのパスワードを変更するためのリンクがリクエストされました。下のリンクからパスワードを変更できます。"
         link: "パスワードを変更する"
-        please_ignore: "もしあなたがこれを要求していないのであれば、このメールは無視してください。上記のリンクにアクセスして新しいパスワードを作成するまで、パスワードは変更されません。"
-        subject: Map Warper パスワードのリセットの方法
+        please_ignore: "パスワードを変更するつもりがなければこのメールは無視してください。上のリンクにアクセスして新しいパスワードを作成するまでパスワードは変更されません。"
+        subject: Map Warperでパスワードをリセットする方法
       unlock_instructions:
-        click_the_link: "下記のリンクをクリックしてアカウントのロックを解除する: "
+#        click_the_link: 'Click the link below to unlock your account:'
+#        greeting: Hello
+#        intro: Your account has been locked due to an excessive number of unsuccessful sign in attempts.
+#        link: Unlock my account
+#        subject: Unlock Instructions
+        click_the_link: "下のリンクをクリックしてアカウントのロックを解除してください："
         greeting: "こんにちは"
         intro: "規定のサインインの試行回数を超えたため、アカウントがロックされています。"
         link: "アカウントのロックを解除する"
-        subject: "アカウントロックの解除方法"
+        subject: "アカウントのロックを解除する方法"
     omniauth_callbacks:
-      failure: "%{kind}から認可されませんでした。理由: %{reason}"
-      success: "%{kind}のアカウントから正常に認可されました。"
+#      failure: Could not authenticate you from %{kind} because "%{reason}".
+#      success: Successfully authenticated from %{kind} account.
+      failure: "%{kind}に認証されませんでした。理由： %{reason}。"
+      success: "%{kind}のアカウントから認証されました。"
     passwords:
       edit:
-        confirm_password: "新しいパスワードの確認"
-        header: "パスワードの変更"
+#        confirm_password: Confirm new password
+#        header: Change your password
+#        new_password: New password
+#        submit_button: Change my password
+        confirm_password: "新しいパスワードを確認する"
+        header: "パスワードを変更する"
         new_password: "新しいパスワード"
         submit_button: "パスワードを変更する"
       new:
+#        header: Forgot your password?
+#        send_instructions_button: Send me reset password instructions
+#      no_token: You can't access this page without coming from a password reset email. If you do come from a password reset email, please make sure you used the full URL provided.
+#      send_instructions: You will receive an email with instructions on how to reset your password in a few minutes.
+#      send_paranoid_instructions: If your email address exists in our database, you will receive a password recovery link at your email address in a few minutes.
+#      updated: Your password was changed successfully. You are now signed in.
+#      updated_not_active: Your password was changed successfully.
         header: "パスワードを忘れましたか？"
         send_instructions_button: "パスワードのリセット方法をメールで送る"
-      no_token: You can't access this page without coming from a password reset email. If you do come from a password reset email, please make sure you used the full URL provided.
-      send_instructions: You will receive an email with instructions on how to reset your password in a few minutes.
-      send_paranoid_instructions: If your email address exists in our database, you will receive a password recovery link at your email address in a few minutes.
-      updated: "パスワードは正常に変更されました。現在サインインしています。"
-      updated_not_active: "パスワードは正常に変更されました。"
+      no_token: このページへはパスワードリセット用のeメールからのみアクセスできます。もしパスワードリセット用のeメールから来たのであれば、URLを省略せずに指定していることを確認してください。
+      send_instructions: パスワードのリセット方法を記載したメールが数分以内に送られます。
+      send_paranoid_instructions: あなたのメールアドレスがデータベースに存在する場合、数分以内にそのメールアドレスに宛ててパスワード復旧用のリンクが送られます。
+      updated: "パスワードを変更しました。現在サインインしています。"
+      updated_not_active: "パスワードを変更しました。"
     registrations:
-      destroyed: "さようなら！あなたのアカウントは正常に削除されました。またお会いできれば幸いです。"
+#      destroyed: Bye! Your account was successfully cancelled. We hope to see you again soon.
+      destroyed: "さようなら！あなたのアカウントを削除しました。すぐにまたお会いできるのをお待ちしています。"
       edit:
+#        cancel_account_button: Cancel my account
+#        cancel_account_header: Cancel my account
+#        cancel_account_instructions: Unhappy? This will delete all the maps you uploaded and mosaics you created.
+#        cancel_confirm: Are you sure?
+#        current_password_label: "(we need your current password to confirm your changes)"
+#        description_label: Short profile description (optional)
+#        edit_header: Edit User
+#        header: User Settings
+#        name_label: Name
+#        no_settings_notice: You are logged in with your %{provider} account, and not a email and password, so there are no settings for you to edit.
+#        password_label: "(leave blank if you don't want to change it)"
+#        waiting_confirmation: Currently waiting confirmation for
         cancel_account_button: "アカウントを削除する"
         cancel_account_header: "アカウントを削除する"
         cancel_account_instructions: "お気にめしませんでしたか？この操作を行うと、アップロードしたすべての地図と作成したすべてのモザイクが削除されます。"
-        cancel_confirm: "よろしいですか？"
-        current_password_label: "(変更を確認するため現在のパスワードが必要です)"
-        description_label: "短いプロフィール (任意)"
-        edit_header: "ユーザーの編集"
+        cancel_confirm: "本当に削除しますか？"
+        current_password_label: "（変更を承認するために現在のパスワードが必要です）
+"
+        description_label: "簡単なプロフィール （省略可）"
+        edit_header: "ユーザーを編集する"
         header: "ユーザー設定"
         name_label: "名前"
-        no_settings_notice: "%{provider}のアカウントでログインしているため、eメールとパスワードは不要です。編集する設定項目はありません。"
-        password_label: "(変更したくない場合は空白のままにしてください)"
-        waiting_confirmation: Currently waiting confirmation for
+        no_settings_notice: "eメールとパスワードを使わずに%{provider}のアカウントでログインしているため、設定を編集することはできません。"
+        password_label: "（変更したくない場合は空白のままにしてください）"
+        waiting_confirmation: 現在、次の項目が確認されるのを待っています：
       new:
-        email_label: Eメール - これの項目でログインします
+#        email_label: Email - you'll log in with this
+#        header: Sign up
+#        name_label: Name
+#        sign_up_button: Sign up
+#        sign_up_help: You can sign up with an email and password, or sign up using another service, using the links below.
+#      signed_up: Welcome! You have signed up successfully.
+#      signed_up_but_inactive: You have signed up successfully. However, we could not sign you in because your account is not yet activated.
+#      signed_up_but_locked: You have signed up successfully. However, we could not sign you in because your account is locked.
+#      signed_up_but_unconfirmed: Thanks! A message with a confirmation link has been sent to your email address. Please open the link to activate your account.
+#      update_needs_confirmation: You updated your account successfully, but we need to verify your new email address. Please check your email and click on the confirm link to finalize confirming your new email address.
+#      updated: You updated your account successfully.
+        email_label: eメール − 次の項目に関して、ここに示す情報のユーザーとしてログインします：
         header: "サインアップ"
         name_label: "名前"
         sign_up_button: "サインアップ"
-        sign_up_help: Eメールとパスワードの組み合わせ、または下記のリンクにある他のサービスでサインアップできます。
-      signed_up: "ようこそ！正常にサインアップしました。"
-      signed_up_but_inactive: "正常にサインアップしました。しかしながら、まだアカウントがアクティベートされていないためサインインできません。"
-      signed_up_but_locked: "正常にサインアップしました。しかしながら、アカウントがロックされているためサインインできません。"
+        sign_up_help: eメールとパスワードを使って、または下のリンクにある他のサービスを使ってサインアップできます。
+      signed_up: "ようこそ！サインアップしました。"
+      signed_up_but_inactive: "サインアップしました。しかし、まだアカウントが有効化されていないためサインインできません。"
+      signed_up_but_locked: "サインアップしました。しかし、アカウントがロックされているためサインインできません。"
       signed_up_but_unconfirmed: "ありがとうございます！確認のためのリンクを含んだメッセージがあなたのメールアドレスに送られました。リンクを開いてあなたのアカウントをアクティベートしてください。"
       update_needs_confirmation: "アカウントは正常に更新されましたが、新しいメールアドレスを確認する必要があります。メールをチェックして確認のためのリンクをクリックし、新しいメールアドレスの確認を完了してください。"
       updated: "アカウントが正常に更新されました。"
@@ -340,7 +525,7 @@ ja:
         name: "名前"
       user:
         current_password: "現在のパスワード"
-        email: Eメール
+        email: eメール
         password: "パスワード"
         password_confirmation: "パスワードの確認"
         remember_me: "パスワードを記憶させる"
@@ -355,7 +540,7 @@ ja:
       info_paragraph_html: "これは無料で利用できるオープンソースのソフトウェアで、地図のワープ処理 / Rectify処理、また、画像へのジオリファレンスの付与を行うツールです。このプロジェクトは、<a  href='http://topomancy.com'>Topomancy LLC</a>と<a href='http://maps.nypl.org'>ニューヨーク公共図書館</a>の助成を受けています。"
       more: "もっと読む"
       news: "ニュース"
-      overview_header: Overview
+      overview_header: 概観
       overview_p1: "アップロード後に実際の地図に対してRectifyされた地図や画像を探しましょう。"
       overview_p2: Rectifyされた地図をダウンロードしたり、あなたのアプリケーションから使うことができます。
       overview_p3: "サインアップするだけで、地図のアップロードとワープ処理を始めることができます！"
@@ -958,7 +1143,7 @@ ja:
       button: " Go "
       confirmed: Confirmed?
       created: "サインアップ日時"
-      email: Eメール
+      email: eメール
       enabled: Enabled?
       for: for
       for_query: "&mdash; Searched for "
