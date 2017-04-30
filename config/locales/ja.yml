@@ -1,7 +1,7 @@
 ---
 ja:
   activerecord:
-    attributes:
+    attributfes:
       layer:
 #        depicts_year: Depicts year
 #        description: Description
@@ -36,7 +36,7 @@ ja:
 #          user_not_exist: does not exist
               no_file_uploaded: アップロードされたファイルがありません
           blank_layer_title: が入力されていません
-          layer_error: が存在しない、または正しく指定されていません
+          layer_error: が存在しないか、または正しく指定されていません
           no_files_error: ディレクトリにファイルがありません
           path_not_exist: は存在しません
           user_not_exist: は存在しません
@@ -47,17 +47,17 @@ ja:
               already_has_map: にはすでにこの地図が存在します
         map:
 #          error_url: is invalid or inaccessible
-          error_url: は無効であるかアクセスできません
+          error_url: は無効であるか、アクセスできません
 #          filename_not_unique: is already being used
           filename_not_unique: はすでに使用されています
           my_map:
           attributes:
-            map_id:
-#              not_unique: Map has already been saved to the user.
-              not_unique: 地図はすでに保存されています。
             user_id:
 #              not_unique: Map has already been saved to the user.
               not_unique: "地図はすでに保存されています。"
+            map_id:
+#              not_unique: Map has already been saved to the user.
+              not_unique: 地図はすでに保存されています。
     models:
       import:
 #        one: import
@@ -92,7 +92,7 @@ ja:
         layer: "モザイク%{layer_id}"
         layers: "モザイク"
         map: "地図%{map_id}"
-        map_layers: 地図のレイヤー
+        map_layers: 地図レイヤー
         maps: "地図"
         search: "検索"
       error_messages_for:
@@ -109,15 +109,15 @@ ja:
     for_map:
 #      html_title: 'Activity for Map '
 #      title: 'Recent Activity for Map '
-      html_title: '地図の更新'
-      title: '最近の地図の更新 '
+      html_title: '地図の更新履歴'
+      title: '最近の地図の更新履歴'
     for_map_model:
 #      header: Changes for all Maps
 #      html_title: Activity for All Maps
 #      title: Recent Activity for All Maps
-      header: すべての地図の変更
-      html_title: すべての地図の更新
-      title: すべての地図の最近の更新
+      header: すべての地図の変更履歴
+      html_title: すべての地図の更新履歴
+      title: すべての地図の最近の更新履歴
     for_user:
 #      header: Changes for user
 #      html_title: 'Activity for '
@@ -126,9 +126,9 @@ ja:
 #      title_nouser: 'Recent Activity for not found user '
       header: ユーザーによる変更
       html_title: '更新 '
-      html_title_nouser: '存在しないユーザーによる更新 '
-      title: 'ユーザーによる最近の更新 '
-      title_nouser: '存在しないユーザーによる最近の更新 '
+      html_title_nouser: '存在しないユーザーによる更新履歴'
+      title: 'ユーザーによる最近の更新履歴'
+      title_nouser: '存在しないユーザーによる最近の更新履歴'
     helper:
       summary:
 #        available: Map became available
@@ -141,14 +141,14 @@ ja:
 #        warped: Map successfully rectified
 #        warping: Map started rectification process
         available: "地図が利用可能になりました"
-        loading: ライブラリから地図のロードを開始しました
+        loading: ライブラリから地図の読み込みを開始しました
         masked: "地図をマスクしました"
-        masking: "地図のマスク処理を開始しました"
+        masking: "地図のマスクを開始しました"
         published: "地図を公開しました"
-        unloaded: ロードした地図を削除しました
+        unloaded: 読み込んだ地図を削除しました
         unmasked: 地図のマスクを解除しました
-        warped: "地図の形を調整しました"
-        warping: "地図の調整処理を開始しました"
+        warped: "地図を整形しました"
+        warping: "地図の整形を開始しました"
     index:
 #      action: Action
 #      changed: changed
@@ -159,11 +159,11 @@ ja:
 #      title: Recent Activity For Everything
       action: アクション
       changed: 変更しました
-      feed_description: "最近の更新のフィード"
-      html_title: "最近の更新"
-      only_maps: 地図の更新だけを表示する
+      feed_description: "最近の更新履歴のフィード"
+      html_title: "最近の更新履歴"
+      only_maps: 地図の更新履歴だけを表示する
       rss_link: RSSフィード
-      title: 最近の更新すべて
+      title: 最近の更新履歴すべて
     show:
 #      details_header: Details
 #      header: Activity Detail
@@ -208,13 +208,13 @@ ja:
       actions_th: "アクション"
       comment_th: "コメント"
       comment_type: コメントする
-      created: 次の項目に対して行われました：
+      created: 対象：
       header: "コメント"
       title: "コメントを見る"
       user: "ユーザー"
     show:
 #      not_found: Comment not found
-      not_found: "コメントはありません"
+      not_found: "コメントが見つかりません"
   common:
 #    ago: ago
 #    back_link: Back
@@ -225,8 +225,8 @@ ja:
     ago: "前"
     back_link: "戻る"
     create_button: "作成"
-    gcp: gcp
-    last_th: "前回のアップロード"
+    gcp: 基準点
+    last_th: "前回の更新"
     layer: "モザイク"
     layer_count:
 #      one: "%{count} layer"
@@ -271,10 +271,10 @@ ja:
 #        resend_button: Resend confirmation instructions
 #      send_instructions: You will receive an email with instructions about how to confirm your account in a few minutes.
 #      send_paranoid_instructions: If your email address exists in our database, you will receive an email with instructions about how to confirm your account in a few minutes.
-        header: "確認用メールの再送信"
-        resend_button: "確認用メールの再送信"
-      send_instructions: "アカウントの確認方法を記載したメールが数分以内に送られます。"
-      send_paranoid_instructions: "あなたのメールアドレスがデータベースに存在する場合、アカウントの確認方法を記載したメールが数分以内に送られます。"
+        header: "確認用eメールの再送信"
+        resend_button: "確認用eメールの再送信"
+      send_instructions: "アカウントの確認方法を記載したeメールが数分以内に届きます。"
+      send_paranoid_instructions: "あなたのeメールアドレスがデータベースに存在する場合、アカウントの確認方法を記載したeメールが数分以内に届きます。"
     errors:
       messages:
 #        already_confirmed: was already confirmed, please try signing in
@@ -282,16 +282,16 @@ ja:
 #        expired: has expired, please request a new one
 #        not_found: not found
 #        not_locked: was not locked
-        already_confirmed: はすでに確認されています。もう１度サインインしてください
-        confirmation_period_expired: の有効期限は%{period}です。もう１度リクエストを送ってください
+        already_confirmed: はすでに確認されています。もう１度サインインを試してください
+        confirmation_period_expired: 確認の有効期限は%{period}です。もう１度リクエストを送ってください
         expired: の有効期限が過ぎています。もう１度リクエストを送ってください
         not_found: 見つかりません
-        not_locked: はロックされていません
+        not_locked: はロックされませんでした
         not_saved:
 #          one: '1 error prohibited this %{resource} from being saved:'
 #          other: "%{count} errors prohibited this %{resource} from being saved:"
-          one: '１つのエラーにより%{resource}を保存できませんでした：'
-          other: "%{count}個のエラーにより%{resource}を保存できませんでした："
+          one: '%{resource}の保存で１つのエラーが発生しました：'
+          other: "%{resource}の保存で%{count}個のエラーが発生しました："
     failure:
 #      already_authenticated: You are already signed in.
 #      inactive: Your account is not activated yet.
@@ -304,7 +304,7 @@ ja:
 #      unauthenticated: You need to sign in or sign up before continuing.
 #      unconfirmed: You have to confirm your account before continuing.
       already_authenticated: "すでにサインインしています。"
-      inactive: "アカウントが有効化されていません。"
+      inactive: "アカウントがアクティブ化されていません。"
       invalid: "無効なeメールまたはパスワード。"
       invalid_token: 無効なトークン
       last_attempt: あと１回の試行でアカウントがロックされます。
@@ -321,11 +321,11 @@ ja:
 #        intro: Thanks for signing up to use %{site_name}. Please confirm your email to continue the sign up process.
 #        subject: Map Warper email address confirmation instructions
       confirmation_instructions:
-        about_site: "%{site_name}は、地図や画像を探したり、ジオリファレンスを行ったり、アップロードしたりすることができる参加型のサイトです。ベースとなるマップの上で地図の形を調整することにより、その地図を新しい方法で利用することができます。KML、WMS、タイルなどの様々なフォーマットでジオリファレンスされた地図をダウンロードすることができます。"
+        about_site: "%{site_name}は、地図や画像の探索、ジオリファレンス、アップロードなどができる参加型のサイトです。ベースとなるマップの上で地図の整形することにより、その地図を新しい方法で利用することができます。KML、WMS、タイルなどの様々なフォーマットでジオリファレンスされた地図をダウンロードすることができます。"
         click_the_link: "下のリンクであなたのアカウントのeメールを確認できます："
         confirm_button: "アカウントを確認する"
         greeting: "ようこそ、"
-        intro: "%{site_name}へのサインアップとご利用ありがとうございます。サインアップ手続きを進めるため、eメールを確認してください。"
+        intro: "%{site_name}へのサインアップおよび当サイトのご利用、ありがとうございます。サインアップ手続きを進めるため、eメールを確認してください。"
         subject: Map Warperでeメールアドレスを確認する方法
       reset_password_instructions:
 #        greeting: Hello
@@ -336,7 +336,7 @@ ja:
         greeting: "こんにちは"
         intro: "あなたのパスワードを変更するためのリンクがリクエストされました。下のリンクからパスワードを変更できます。"
         link: "パスワードを変更する"
-        please_ignore: "パスワードを変更するつもりがなければこのメールは無視してください。上のリンクにアクセスして新しいパスワードを作成するまでパスワードは変更されません。"
+        please_ignore: "パスワードを変更するつもりがなければこのeメールは無視してください。上のリンクにアクセスして新しいパスワードを作成するまでパスワードは変更されません。"
         subject: Map Warperでパスワードをリセットする方法
       unlock_instructions:
 #        click_the_link: 'Click the link below to unlock your account:'
@@ -352,7 +352,7 @@ ja:
     omniauth_callbacks:
 #      failure: Could not authenticate you from %{kind} because "%{reason}".
 #      success: Successfully authenticated from %{kind} account.
-      failure: "%{kind}に認証されませんでした。理由： %{reason}。"
+      failure: "%{kind}に認証されませんでした。理由：%{reason}。"
       success: "%{kind}のアカウントから認証されました。"
     passwords:
       edit:
@@ -373,15 +373,15 @@ ja:
 #      updated: Your password was changed successfully. You are now signed in.
 #      updated_not_active: Your password was changed successfully.
         header: "パスワードを忘れましたか？"
-        send_instructions_button: "パスワードのリセット方法をメールで送る"
+        send_instructions_button: "パスワードのリセット方法をeメールで送る"
       no_token: このページへはパスワードリセット用のeメールからのみアクセスできます。もしパスワードリセット用のeメールから来たのであれば、URLを省略せずに指定していることを確認してください。
-      send_instructions: パスワードのリセット方法を記載したメールが数分以内に送られます。
-      send_paranoid_instructions: あなたのメールアドレスがデータベースに存在する場合、数分以内にそのメールアドレスに宛ててパスワード復旧用のリンクが送られます。
+      send_instructions: パスワードのリセット方法を記載したeメールが数分以内に届きます。
+      send_paranoid_instructions: あなたのeメールアドレスがデータベースに存在する場合、数分以内にそのeメールアドレスに宛ててパスワード復旧用のリンクが届きます。
       updated: "パスワードを変更しました。現在サインインしています。"
       updated_not_active: "パスワードを変更しました。"
     registrations:
 #      destroyed: Bye! Your account was successfully cancelled. We hope to see you again soon.
-      destroyed: "さようなら！あなたのアカウントを削除しました。すぐにまたお会いできるのをお待ちしています。"
+      destroyed: "さようなら！ あなたのアカウントを削除しました。すぐにまたお会いできるのをお待ちしています。"
       edit:
 #        cancel_account_button: Cancel my account
 #        cancel_account_header: Cancel my account
@@ -397,7 +397,7 @@ ja:
 #        waiting_confirmation: Currently waiting confirmation for
         cancel_account_button: "アカウントを削除する"
         cancel_account_header: "アカウントを削除する"
-        cancel_account_instructions: "お気にめしませんでしたか？この操作を行うと、アップロードしたすべての地図と作成したすべてのモザイクが削除されます。"
+        cancel_account_instructions: "お気にめしませんでしたか？　この操作を行うと、アップロードしたすべての地図と作成したすべてのモザイクが削除されます。"
         cancel_confirm: "本当に削除しますか？"
         current_password_label: "（変更を承認するために現在のパスワードが必要です）"
         description_label: "簡単なプロフィール （省略可）"
@@ -419,110 +419,184 @@ ja:
 #      signed_up_but_unconfirmed: Thanks! A message with a confirmation link has been sent to your email address. Please open the link to activate your account.
 #      update_needs_confirmation: You updated your account successfully, but we need to verify your new email address. Please check your email and click on the confirm link to finalize confirming your new email address.
 #      updated: You updated your account successfully.
-        email_label: eメール − 次の項目に関して、ここに示す情報のユーザーとしてログインします：
+        email_label: eメール − 次のユーザーとしてログインします：
         header: "サインアップ"
         name_label: "名前"
         sign_up_button: "サインアップ"
-        sign_up_help: eメールとパスワードを使って、または下のリンクにある他のサービスを使ってサインアップできます。
-      signed_up: "ようこそ！サインアップしました。"
-      signed_up_but_inactive: "サインアップしました。しかし、まだアカウントが有効化されていないためサインインできません。"
-      signed_up_but_locked: "サインアップしました。しかし、アカウントがロックされているためサインインできません。"
-      signed_up_but_unconfirmed: "ありがとうございます！確認のためのリンクを含んだメッセージがあなたのメールアドレスに送られました。リンクを開いてあなたのアカウントをアクティベートしてください。"
-      update_needs_confirmation: "アカウントは正常に更新されましたが、新しいメールアドレスを確認する必要があります。メールをチェックして確認のためのリンクをクリックし、新しいメールアドレスの確認を完了してください。"
-      updated: "アカウントが正常に更新されました。"
+        sign_up_help: eメールとパスワードを設定するか、または下のリンクにある他のサービスを使ってサインアップできます。
+      signed_up: "ようこそ！ サインアップしました。"
+      signed_up_but_inactive: "サインアップしました。ですが、まだアカウントがアクティブ化されていないためサインインできません。"
+      signed_up_but_locked: "サインアップしました。ですが、アカウントがロックされているためサインインできません。"
+      signed_up_but_unconfirmed: "ありがとうございます！ 確認用リンクを含むメッセージをeメールアドレスへ送りました。リンクを開いてアカウントをアクティブ化してください。"
+      update_needs_confirmation: "アカウントを更新しましたが、新しいeメールアドレスを確認させていただく必要があります。eメールをチェックして確認用のリンクをクリックし、新しいeメールアドレスの確認を完了してください。"
+      updated: "アカウントを更新しました。"
     sessions:
-      already_signed_out: Signed out successfully.
+#      already_signed_out: Signed out successfully.
+      already_signed_out: サインアウトしました。
       new:
+#        header: Log in
+#        login_button: Log in
+#      signed_in: Signed in successfully.
+#      signed_out: Signed out successfully.
         header: "ログイン"
         login_button: "ログイン"
-      signed_in: "正常にサインインしました。"
-      signed_out: "正常にサインアウトしました。"
+      signed_in: "サインインしました。"
+      signed_out: "サインアウトしました。"
     shared:
       links:
+#        facebook: Facebook
+#        forgot_password: Forgot Your password?
+#        github: GitHub
+#        google: Google
+#        login: Log in
+#        new_confirmation_instructions: Didn't receive confirmation instructions?
+#        new_unlock_instructions: Didn't receive unlock instructions?
+#        openstreetmap: OpenStreetMap
+#        sign_up: Sign up
+#        social_sign_in: 'Alternatively, %{action} with:'
+#        twitter: Twitter
+#        wikimedia: Wikimedia Commons
+
         facebook: Facebook
         forgot_password: "パスワードを忘れましたか？"
         github: GitHub
         google: Google
         login: "ログイン"
-        new_confirmation_instructions: "確認のメールが届きませんか？"
-        new_unlock_instructions: "アカウントのロック解除の方法のメールが届きませんか？"
+        new_confirmation_instructions: "確認用eメールが届きませんか？"
+        new_unlock_instructions: "アカウントのロックを解除する方法を記載したeメールが届きませんか？"
         openstreetmap: OpenStreetMap
         sign_up: "サインアップ"
-        social_sign_in: 'Alternatively, %{action} with:'
+        # action = .login / .sign_up
+        social_sign_in: '次のサービスで%{action}することもできます：'
         twitter: Twitter
-        wikimedia: Wikimedia Commons
+        wikimedia: ウィキメディア・コモンズ
     unlocks:
       new:
-        button: "ロック解除の方法を再送する"
-        header: "ロック解除の方法を再送する"
-      send_instructions: "アカウントを確認する方法を記載したメールがすぐに送られます。"
-      send_paranoid_instructions: "アカウントが存在する場合、アカウントを確認する方法を記載したメールがすぐに送られます。"
-      unlocked: "アカウントのロックが正常に解除されました。続けるにはサインインしてください。"
+#        button: Resend unlock instructions
+#        header: Resend unlock instructions
+#      send_instructions: You will receive an email with instructions about how to unlock your account in a few minutes.
+#      send_paranoid_instructions: If your account exists, you will receive an email with instructions about how to unlock it in a few minutes.
+#      unlocked: Your account has been unlocked successfully. Please sign in to continue.
+
+        button: "ロックの解除方法を再送する"
+        header: "ロックの解除方法を再送する"
+      send_instructions: "アカウントのロックを解除する方法を記載したeメールが数分以内に届きます。"
+      send_paranoid_instructions: "アカウントが存在する場合、アカウントを確認する方法を記載したeメールが数分以内に届きます。"
+      unlocked: "アカウントのロックを解除しました。続けるにはサインインしてください。"
     users_registrations:
       user:
-        signed_up: "ようこそ! 正常にサインアップしました。"
+#        signed_up: Welcome! You have signed up successfully.
+        signed_up: "ようこそ！ サインアップしました。"
   errors:
     messages:
-      already_confirmed: was already confirmed, please try signing in
-      confirmation_period_expired: needs to be confirmed within %{period}, please request a new one
-      expired: has expired, please request a new one
-      not_found: not found
-      not_locked: was not locked
+#      already_confirmed: was already confirmed, please try signing in
+#      confirmation_period_expired: needs to be confirmed within %{period}, please request a new one
+#      expired: has expired, please request a new one
+#      not_found: not found
+#      not_locked: was not locked
+      already_confirmed: はすでに確認されています。もう１度サインインしてください
+      confirmation_period_expired: 確認の有効期限は%{period}です。もう１度リクエストを送ってください
+      expired: の有効期限が過ぎています。もう１度リクエストを送ってください
+      not_found: 見つかりません
+      not_locked: はロックされませんでした
       not_saved:
-        one: '1 error prohibited this %{resource} from being saved:'
-        other: "%{count} errors prohibited this %{resource} from being saved:"
-      spoofed_media_type: may not be in the correct image format. Try again with a jpeg, png or gif.
+#        one: '1 error prohibited this %{resource} from being saved:'
+#        other: "%{count} errors prohibited this %{resource} from being saved:"
+#      spoofed_media_type: may not be in the correct image format. Try again with a jpeg, png or gif.
+        one: '%{resource}の保存で1つのエラーが発生しました：'
+        other: "%{resource}の保存で%{count}個のエラーが発生しました："
+      spoofed_media_type: の画像のフォーマットが正しくないかもしれません。jpegかpngかgifでもう１度試してください。
     template:
-      header: Header
+#      header: Header
+      header: ヘッダー
   gcps:
     add:
-      new_gcp_notice: "新しい制御点が追加されました。"
+#      new_gcp_notice: New control point added.
+      new_gcp_notice: "新しい基準点が追加されました。"
     add_many:
-      back: "&lt; Back to Main Import Page"
-      gcps_imported: "%{count}個の制御点がインポートされました！"
-      header: Bulk GCP Import Results
+#      back: "&lt; Back to Main Import Page"
+#      gcps_imported: "%{count} Control points imported!"
+#      header: Bulk GCP Import Results
+#      id: id
+#      lat: Lat
+#      lon: Lon
+#      map: Map
+#      not_found: Record not found.
+#      nothing_imported: No control points imported!
+#      x: X
+#      y: Y
+      back: "＜ メインのインポートページへ戻る"
+      gcps_imported: "%{count}個の基準点をインポートしました！"
+      header: 基準点一括インポート結果
       id: id
       lat: "緯度"
-      lon: "軽度"
+      lon: "経度"
       map: "地図"
-      not_found: Record not found.
-      nothing_imported: "制御点はインポートされませんでした！"
+      not_found: 記録が見つかりません。
+      nothing_imported: "基準点はインポートされませんでした！"
       x: X
       y: Y
     add_many_to_map:
-      notice: GCPS saved
+#      notice: GCPS saved
+      notice: 基準点が保存されました
     bulk_import:
-      back: "&lt; Back to Main Import Page"
+#      back: "&lt; Back to Main Import Page"
+#      button: Upload CSV!
+#      csv_file: CSV File to Upload
+#      header: Bulk Control Point CSV Import
+#      help_html: For individual maps instead of using this page you can upload a CSV on the map recitfy view, under the control points table. The csv should have a header <pre><code>x,y,lon,lat</code></pre>
+#      import_help_html: 'Use this page to import many control points for many maps. Upload a CSV, comma separated file with a header row with the following format: <pre><code>mapid,x,y,lon,lat</code></pre> where <code>mapid</code> equals the warper map ID for each map you want to add a control point to. <br /> Points can only be added, not updated. Duplicate control points will not be added if imported again.'
+#      new_import_header: New Bulk Import
+      back: "＜ ドメインのインポートページへ戻る"
       button: CSVをアップロードする！
       csv_file: "アップロードするCSVファイル"
-      header: Bulk Control Point CSV Import
-      help_html: For individual maps instead of using this page you can upload a CSV on the map recitfy view, under the control points table. The csv should have a header <pre><code>x,y,lon,lat</code></pre>
-      import_help_html: 'Use this page to import many control points for many maps. Upload a CSV, comma separated file with a header row with the following format: <pre><code>mapid,x,y,lon,lat</code></pre> where <code>mapid</code> equals the warper map ID for each map you want to add a control point to. <br /> Points can only be added, not updated. Duplicate control points will not be added if imported again.'
-      new_import_header: New Bulk Import
+      header: CSV基準点一括インポート
+      help_html: このページだけでなく地図整形画面でも、それぞれの地図に対してCSVをアップロードすることができます。その際は基準点テーブルの下のツールを使用してください。CSVには<pre><code>x,y,経度,緯度</code></pre>が含まれていなければなりません。
+      import_help_html: '多数の基準点を含む多くの地図をインポートする場合はこのページで行ってください。アップロードするCSVは次のヘッダー行を含むコンマ区切り形式のファイルでなければなりません：<pre><code>mapid,x,y,lon,lat</code></pre>。ここで<code>mapid</code>というのは、基準点を置こうとしているMap Warperの各地図に割り当てられたIDです。<br />基準点は追加するだけで、更新することはできません。もう１度インポートする時には同じ点は追加されません。'
+      new_import_header: 新しい一括インポート
     destroy:
-      deleted_notice: "制御点は正常に削除されました"
+#      deleted_notice: Control Point deleted sucessfully
+      deleted_notice: "基準点を削除しました"
     gcp:
+#      delete_button: delete
+#     delete_confirm: Really delete these points?
+#      deleting: Deleting...
+#      error: Sorry, there seems to be an error with this delete request, try again?
       delete_button: "削除"
-      delete_confirm: "本当にこれらの制御点を削除しますか？"
-      deleting: "削除しています..."
-      error: Sorry, there seems to be an error with this delete request, try again?
+      delete_confirm: "本当にこれらの基準点を削除しますか？"
+      deleting: "削除しています…"
+      error: 申し訳ありませんが、削除のリクエストでエラーがあったようです。もう１度試してください。
     index:
-      back: Back to maps
-      notice: This notice is usually shown if theres an error, if called directly, or if some action with the control points was not called properly.
+#      back: Back to maps
+#      notice: This notice is usually shown if theres an error, if called directly, or if some action with the control points was not called properly.
+      back: 地図へ戻る
+      notice: 通常この通知は、エラーがあった時、直接呼び出された時、または基準点に関わるアクションが正しく呼び出されなかった時に表示されます。
     show:
-      not_found: GCP not found
+#      not_found: GCP not found
+      not_found: 基準点が見つかりません
     update:
-      error: Points couldnt be updated
-      update_notice: Control Point updated
+#      error: Points couldnt be updated
+#      update_notice: Control Point updated
+      error: 基準点を更新できませんでした
+      update_notice: 基準点を更新しました
     update_field:
-      error: Control point couldnt be updated
+#      error: Control point couldnt be updated
+      error: 基準点を更新できませんでした
   helpers:
     label:
       layer:
+#        depicts_year: Depicts Year
+#        description: Description
+#        name: Name
         depicts_year: "作成年"
-        description: "概要"
+        description: "説明"
         name: "名前"
       user:
+#        current_password: Current password
+#        email: Email
+#        password: Password
+#        password_confirmation: Password confirmation
+#        remember_me: Remember Me
         current_password: "現在のパスワード"
         email: eメール
         password: "パスワード"
@@ -530,691 +604,1256 @@ ja:
         remember_me: "パスワードを記憶させる"
   home:
     index:
-      all_maps: "すべての地図の閲覧"
-      all_my_maps: See all of My Maps
-      click_news: click here to read this story
-      create_layer: "新しいモザイクの作成"
-      info_contact: Mail me at tim@geothings.net for more information!
-      info_header: What is it?
-      info_paragraph_html: "これは無料で利用できるオープンソースのソフトウェアで、地図のワープ処理 / Rectify処理、また、画像へのジオリファレンスの付与を行うツールです。このプロジェクトは、<a  href='http://topomancy.com'>Topomancy LLC</a>と<a href='http://maps.nypl.org'>ニューヨーク公共図書館</a>の助成を受けています。"
+#      all_maps: browse all maps
+#      all_my_maps: See all Favourites
+#      click_news: click here to read this story
+#      create_layer: Create a new mosaic
+#      info_contact: Mail me at tim@geothings.net for more information!
+#      info_header: What is it?
+#      info_paragraph_html: It's a free to use, open source map warper / map georectifier, and image georeferencer tool. Developed, hosted and maintained by <a href='https://twitter.com/tim_waters'>Tim Waters</a>, this project is supported by <a  href='http://topomancy.com'>Topomancy LLC</a> and the <a href='http://maps.nypl.org'>New York Public Library</a>.
+#      more: read more
+#      news: News
+#      overview_header: Overview
+#      overview_p1: Find maps and other imagery, upload, and rectify against a real map.
+#      overview_p2: You can then download and use the rectified map in your mapping applications.
+#      overview_p3: Just sign up and you can start uploading and get warping!
+#      recent_layers: Recent Mosaics
+#      rect_maps: Last Rectified Maps
+#      see_maps: See all maps
+#      tags: Tags
+#      title: 'Home - '
+#      unrect_maps: New Unrectified Maps
+#      upload_map: Upload Map!
+#      view_layers: View all Mosaics
+      all_maps: "すべての地図を見る"
+      all_my_maps: すべてのお気に入りを見る
+      click_news: クリックしてこの話を読む
+      create_layer: "新しいモザイクを作成する"
+      info_contact: "お問い合わせは私のeメールアドレス tim@geothings.net まで！"
+      info_header: どういうものなの？
+      info_paragraph_html: "地図の変形・整形や画像のジオレファレンスを行う、無料のオープンソースソフトウェアです。このプロジェクトは<a href='http://topomancy.com'>Topomancy LLC</a>と<a href='http://maps.nypl.org'>ニューヨーク公共図書館</a>の助成を受けて<a href='https://twitter.com/tim_waters'>Tim Waters</a>が開発、ホスト、メンテナンスしています。"
       more: "もっと読む"
       news: "ニュース"
-      overview_header: 概観
-      overview_p1: "アップロード後に実際の地図に対してRectifyされた地図や画像を探しましょう。"
-      overview_p2: Rectifyされた地図をダウンロードしたり、あなたのアプリケーションから使うことができます。
-      overview_p3: "サインアップするだけで、地図のアップロードとワープ処理を始めることができます！"
+      overview_header: 概要
+      overview_p1: "見つけた地図や画像をアップロードして、実際の地図の上で整形してみましょう。"
+      overview_p2: それをダウンロードすればアプリケーションで地図を使用することができます。
+      overview_p3: "サインアップするだけで地図のアップロードや整形ができます！"
       recent_layers: "最近のモザイク"
-      rect_maps: Last Rectified Maps
+      rect_maps: 最近整形された地図
       see_maps: "すべての地図を見る"
       tags: "タグ"
-      title: "ホーム - "
-      unrect_maps: New Unrectified Maps
+      title: "ホーム − "
+      unrect_maps: 新しく整形を解除した地図
       upload_map: "地図をアップロードする！"
       view_layers: "すべてのモザイクを見る"
   imports:
     create:
-      error: Something went wrong creating the import
-      flash: New Import Created!
+#      error: Something went wrong creating the import
+#      flash: New Import Created!
+      error: インポートの作成中に問題が発生しました
+      flash: 新しいインポートを作成しました！
     destroy:
-      error: Import couldn't be deleted.
-      flash: Import deleted!
+#      error: Import couldn't be deleted.
+#      flash: Import deleted!
+      error: インポートを削除できませんでした。
+      flash: インポートを削除しました！
     edit:
-      header: Edit Import
+#      header: Edit Import
+      header: インポートを編集する
     exports:
+#      gcps_csv_file: gcps.csv
+#      gcps_csv_header: Export all ground control points in CSV format
+#      header: Exports
+#      maps_csv_file: maps.csv
+#      maps_csv_header: Export all maps in CSV format
       gcps_csv_file: gcps.csv
-      gcps_csv_header: Export all ground control points in CSV format
-      header: Exports
+      gcps_csv_header: すべての基準点をCSVフォーマットでエクスポートする
+      header: エクスポート
       maps_csv_file: maps.csv
-      maps_csv_header: Export all maps in CSV format
+      maps_csv_header: すべての地図をCSVフォーマットでエクスポートする
     form:
-      layers_label: Layers to assign the maps to
-      metadata: CSV Metadata File
-      name_label: Name (give a name to the import, required)
+#      layers_label: Layers to assign the maps to
+#      metadata: CSV Metadata File
+#      name_label: Name (give a name to the import, required)
+      layers_label: マップを割り当てるレイヤー
+      metadata: CSVメタデータファイル
+      name_label: 名前（名前をつけてください。必須）
     import:
-      edit: edit
-      edit_maps: edit maps
-      imported: "(Imported: %{count})"
-      view_maps: view maps
+#      edit: edit
+#      edit_maps: edit maps
+#      imported: "(Imported: %{count})"
+#      view_maps: view maps
+      edit: 編集
+      edit_maps: 地図を編集する
+      imported: "（インポート数：%{count}）"
+      view_maps: 地図を見る
     index:
-      actions: Actions
-      created: Created
-      csv_header: Bulk Ground Control CSV Import
-      csv_link: CSVのインポート
-      exports_link: Exports
+#      actions: Actions
+#      created: Created
+#      csv_header: Bulk Ground Control CSV Import
+#      csv_link: Import CSV
+#      exports_link: Exports
+#      header: Imports
+#      id: Id
+#      layers: Layers
+#      maps: Maps
+#      maps_header: New Maps Import
+#      maps_link: Add new import
+#      name: Name
+#      status: Status
+#      user: User
+      actions: アクション
+      created: 作成しました
+      csv_header: CSV基準点一括インポート
+      csv_link: CSVをインポートする
+      exports_link: エクスポート
       header: "インポート"
       id: Id
-      layers: Layers
-      maps: maps
-      maps_header: New Maps Import
-      maps_link: "新規のインポートの追加"
+      layers: レイヤー
+      maps: 地図
+      maps_header: 新しい地図のインポート
+      maps_link: "新しいインポートを追加する"
       name: "名前"
-      status: "ステータス"
+      status: "状態"
       user: "ユーザー"
     layers:
-      header: Assigned to Layers
-      no_layers: Maps not added to any Layers
+#      header: Assigned to Layers
+#      no_layers: Maps not added to any Layers
+      header: レイヤーに割り当てました
+      no_layers: 地図をレイヤーに割り当てられませんでした
     maps:
-      created: 'Created at %{created_at} by: '
-      header: 'Import: %{name} Edit Maps'
+#      created: 'Created at %{created_at} by: '
+      created: '次のユーザーによって%{created_at}に作成されました：'
+#      header: 'Import: %{name} Edit Maps'
+      header: 'インポート：%{name}編集地図'
     new:
-      header: "新規のインポート"
+#      header: New import
+      header: "新しいインポート"
     show:
-      count_files: Count of files in directory
-      delete: Delete this import (Does not delete maps)
-      delete_confirm: Are you sure?
-      edit: Edit this import
-      header: 'Import: %{import_name}'
-      import_is_running: This import is still running, depending on the number of maps it may take some time.
-      imported_count: Imported Count
-      not_found: Import not found
-      start_button: START IMPORT
-      start_confirm: Ready to Start this import?
-      view_log_file: View Log File
-      view_running_status: View Running Status
+#      count_files: Count of files in directory
+#      delete: Delete this import (Does not delete maps)
+#      delete_confirm: Are you sure?
+#      edit: Edit this import
+#      header: 'Import: %{import_name}'
+#      import_is_running: This import is still running, depending on the number of maps it may take some time.
+#      imported_count: Imported Count
+#      not_found: Import not found
+#      start_button: START IMPORT
+#      start_confirm: Ready to Start this import?
+#      view_log_file: View Log File
+#      view_running_status: View Running Status
+      count_files: ディレクトリのファイル数
+      delete: このインポートを削除する（地図は削除されません）
+      delete_confirm: 本当に削除しますか？
+      edit: このインポートを編集する
+      header: 'インポート：%{import_name}'
+      import_is_running: インポート中です。地図の数によりしばらく時間がかかることがあります。
+      imported_count: インポートした数
+      not_found: インポートが見つかりません
+      start_button: インポートを開始する
+      start_confirm: インポートする準備はできましたか？
+      view_log_file: ログファイルを見る
+      view_running_status: 進捗状況を見る
     start:
-      already_imported_error: Sorry, can't be done, this import has already been imported.
-      edit_maps_link: click here to edit the maps
-      error: Something went wrong with the request to the server
+#      already_imported_error: Sorry, can't be done, this import has already been imported.
+#      edit_maps_link: click here to edit the maps
+#      error: Something went wrong with the request to the server
+#      finished_notice: All done!
+#      header: Importing...
+#      imported_count: Imported Count
+#      importing: Importing....
+#      progress: 'Progress:'
+#      status: Status
+#      view: View Import
+      already_imported_error: 申し訳ありませんが、すでにインポートされているため実行できません。
+      edit_maps_link: ここをクリックしてマップを編集してください
+      error: サーバーへのリクエストでエラーがありました
       finished_notice: "終了しました！"
-      header: "インポートしています..."
-      imported_count: Imported Count
+      header: "インポートしています…"
+      imported_count: インポートした数
       importing: "インポートしています...."
-      progress: 'Progress:'
-      status: Status
-      view: View Import
+      progress: '進捗：'
+      status: 状況
+      view: インポートを見る
     update:
-      error: Something went wrong updating the import
-      flash: Successfully updated import.
+#      error: Something went wrong updating the import
+#      flash: Successfully updated import.
+      error: インポートの更新でエラーが発生しました
+      flash: インポートを更新しました
   js:
     align:
-      dialog_add_button: Add Map
-      no_map_alert: Sorry, either no map was selected, or the same map number was entered
-      not_enough_maps_alert: Sorry, but there should be at least two maps selected
-      wrong_align_alert: Sorry, only horizontal and vertical alignment are available at the moment
+#      dialog_add_button: Add Map
+#      no_map_alert: Sorry, either no map was selected, or the same map number was entered
+#      not_enough_maps_alert: Sorry, but there should be at least two maps selected
+#      wrong_align_alert: Sorry, only horizontal and vertical alignment are available at the moment
+      dialog_add_button: 地図を追加する
+      no_map_alert: 申し訳ありませんが、地図が選択されていないか、入力した地図の番号が同じです
+      not_enough_maps_alert: 申し訳ありませんが、少なくとも２枚の地図を選択してください
+      wrong_align_alert: 申し訳ありませんが、今のところ水平か垂直の配列にしか対応していません
     clip:
-      clip_popup_title: Clipping...
+#      clip_popup_title: Clipping...
+#      confirm_delete_tool: Really delete this?
+#      delete_tool_title: Delete a polygon
+#      draw_tool_title: Draw new polygon to mask
+#      move_tool_title: Move around Map
+      clip_popup_title: 切り抜いています…
       confirm_delete_tool: "本当に削除しますか？"
-      delete_tool_title: "ポリゴンを削除する"
-      draw_tool_title: "マスク用の新しいポリゴンを描く"
-      move_tool_title: "マップを動かす"
+      delete_tool_title: "選択範囲を削除する"
+      draw_tool_title: "マスクする範囲を新たに選択する"
+      move_tool_title: "地図を動かす"
     geosearch:
-      found: Found
-      found_layers: Layers.
-      found_maps: Maps.
-      more: More
-      open_layer: Open mosaic
-      open_map: Open map
-      outline_layer: Map Outlines
-      prev: Prev
-      search_fail: Sorry, something went wrong with the search
-      showing: Showing
+#      found: Found
+#      found_layers: Layers.
+#      found_maps: Maps.
+#      more: More
+#      open_layer: Open mosaic
+#      open_map: Open map
+#      outline_layer: Map Outlines
+#      prev: Prev
+#      search_fail: Sorry, something went wrong with the search
+#      showing: Showing
+      found: 見つかりました
+      found_layers: レイヤー。
+      found_maps: 地図。
+      more: 続き
+      open_layer: モザイクを開く
+      open_map: 地図を開く
+      outline_layer: 地図の輪郭
+      prev: 前
+      search_fail: 申し訳ありませんが、検索でエラーが発生しました
+      showing: 表示中
     layers:
-      edit_map: Edit this map
-      loading_fail: Sorry, something went wrong loading the items
-      map_outlines_label: Map Outlines
-      map_outlines_toggle: Toggle map outlines on map above
-      mbox_satellite_attribution: <a href="https://www.mapbox.com/about/maps/" target="_blank">&copy; Mapbox</a> <a href="https://openstreetmap.org/about/" target="_blank">&copy; OpenStreetMap</a> <a class="mapbox-improve-map" href="https://www.mapbox.com/map-feedback/" target="_blank">Improve this map</a> <a href="https://www.digitalglobe.com/" target="_blank">&copy; DigitalGlobe</a>
-      osm_attribution: '&copy <a href="http://www.openstreetmap.org/">OpenStreetMap</a> contributors'
+#      edit_map: Edit this map
+#      loading_fail: Sorry, something went wrong loading the items
+#      map_outlines_label: Map Outlines
+#      map_outlines_toggle: Toggle map outlines on map above
+#      mbox_satellite_attribution: <a href="https://www.mapbox.com/about/maps/" target="_blank">&copy; Mapbox</a> <a href="https://openstreetmap.org/about/" target="_blank">&copy; OpenStreetMap</a> <a class="mapbox-improve-map" href="https://www.mapbox.com/map-feedback/" target="_blank">Improve this map</a> <a href="https://www.digitalglobe.com/" target="_blank">&copy; DigitalGlobe</a>
+#      osm_attribution: '&copy <a href="http://www.openstreetmap.org/">OpenStreetMap</a> contributors'
+      edit_map: この地図を編集する
+      loading_fail: 申し訳ありませんが、読み込み中にエラーが発生しました
+      map_outlines_label: 地図の輪郭
+      map_outlines_toggle: 上の地図を切り替える
+      mbox_satellite_attribution: <a href="https://www.mapbox.com/about/maps/" target="_blank">&copy; Mapbox</a> <a href="https://openstreetmap.org/about/" target="_blank">&copy; OpenStreetMap</a> <a class="mapbox-improve-map" href="https://www.mapbox.com/map-feedback/" target="_blank">この地図を改善する</a> <a href="https://www.digitalglobe.com/" target="_blank">&copy; DigitalGlobe</a>
+      osm_attribution: '&copy <a href="http://www.openstreetmap.org/">OpenStreetMap</a> コントリビュータ'
     warp:
-      add_gcp: "制御点の追加"
-      best_guess_message: 'Map zoomed to best guess:'
-      custom_custom_type: Custom
-      custom_layer: Custom basemap
-      custom_layer_add_layer_button: Add Layer
-      custom_layer_cancel_button: Cancel
-      custom_layer_title: Add Custom Basemap
-      custom_layer_type: Mosaic
-      custom_layer_year: Year
-      custom_map_type: Map
-      gcp_adding: Adding...
-      gcp_failed: Had trouble updating that point with the server. Try again?
-      gcp_premature_alert: You have to add a new control point on each map before pressing this button.
-      gcp_updated: Control Point updated!
-      gcp_updating: Updating...
-      move_gcp: Move Control Point
-      move_map: Move Around Map
-      other_places: 'Other places:'
-      rms_error_prefix: Error
-      warp_popup_title: Rectifier is Working...
-      warped_layer: warped map
+#      add_gcp: Add Control Point (1,p)
+#      best_guess_message: 'Map zoomed to best guess:'
+#      custom_custom_type: Custom
+#      custom_layer: Custom basemap
+#      custom_layer_add_layer_button: Add Layer
+#      custom_layer_cancel_button: Cancel
+#      custom_layer_title: Add Custom Basemap
+#      custom_layer_type: Mosaic
+#      custom_layer_year: Year
+#      custom_map_type: Map
+#      gcp_adding: Adding...
+#      gcp_failed: Had trouble updating that point with the server. Try again?
+#      gcp_premature_alert: You have to add a new control point on each map before pressing this button.
+#      gcp_updated: Control Point updated!
+#      gcp_updating: Updating...
+#      move_gcp: Move Control Point (2,d)
+#      move_map: Move Around Map (3,m)
+#      other_places: 'Other places:'
+#      rms_error_prefix: Error
+#      warp_popup_title: Rectifier is Working...
+#      warped_layer: warped map
+      add_gcp: 基準点を追加する（１、p）
+      best_guess_message: 'よく見えるように拡大された地図：'
+      custom_custom_type: カスタマイズ
+      custom_layer: ベースの地図をカスタマイズする
+      custom_layer_add_layer_button: レイヤーを追加する
+      custom_layer_cancel_button: キャンセル
+      custom_layer_title: カスタムマイズしたベース地図を追加する
+      custom_layer_type: モザイク
+      custom_layer_year: 年
+      custom_map_type: 地図
+      gcp_adding: 追加しています…
+      gcp_failed: 基準点の更新でエラーが発生しました。もう１度お願いします。
+      gcp_premature_alert: 各地図に新しい基準点を追加してからこのボタンを押してください。
+      gcp_updated: 基準点を更新しました！
+      gcp_updating: 更新しています…
+      move_gcp: 基準点を移動する（２，d）
+      move_map: 地図を動かす（3、m）
+      other_places: '他の場所：'
+      rms_error_prefix: エラー
+      warp_popup_title: 整形処理中です…
+      warped_layer: 整形済みの地図
     warped:
-      warped_layer: Layer
-      warped_map: warped image
+      warped_layer: レイヤー
+      warped_map: 整形済みの画像
   layers:
     comments:
-      no_comments: "このモザイクにはコメントがありません。コメントを追加してみましょう！"
+#      no_comments: There's no comments for this mosaic, why not add one now!
+      no_comments: "このモザイクにはコメントがありません。何かコメントしてみましょう！"
     create:
-      flash: "モザイクは正常に作成されました。"
+#      flash: Mosaic was successfully
+      flash: "モザイクを作成しました。"
     delete:
+#      header: Really delete the mosaic?
+#      no_button: No, get me out of here!
+#      yes_button: Yes, Delete mosaic!
       header: "本当にこのモザイクを削除しますか？"
-      no_button: No, get me out of here!
-      yes_button: "はい、モザイクを削除します！"
+      no_button: いいえ。なんでそんなことをせにゃならんのですか！
+      yes_button: "はい。モザイクを削除します！"
     destroy:
-      error: "モザイクは削除されませんでした。"
-      flash: "モザイクは削除されました！"
-      not_others: Sorry, you cannot delete other people's mosaics!
+#      error: Mosaic wasnt deleted
+#      flash: Mosaic deleted!
+#      not_others: Sorry, you cannot delete other people's mosaics!
+      error: "モザイクは削除されませんでした"
+      flash: "モザイクを削除しました！"
+      not_others: 申し訳ありませんが、他のユーザーのモザイクは削除できません！
     edit:
-      cannot_edit_others: Sorry, you cannot edit another person's Mosaic
-      delete_link: Delete this mosaic.
-      header: "モザイクの編集"
-      help_html: 'Note: All Mosaics are public, you can add your private maps to them, they won''t be listed<br /> but they will be seen on the final map image.'
-      title: Editing Mosaic %{layer_id} on
+#      cannot_edit_others: Sorry, you cannot edit another person's Mosaic
+#      delete_link: Delete this mosaic.
+#      header: Edit Mosaic
+#      help_html: 'Note: All Mosaics are public, you can add your private maps to them, they won''t be listed<br /> but they will be seen on the final map image.'
+#      title: Editing Mosaic %{layer_id} on
+      cannot_edit_others: 申し訳ありませんが、他のユーザーのモザイクは編集できません
+      delete_link: このモザイクを削除する。
+      header: "モザイクを編集する"
+      help_html: '注意：モザイクはすべて公開されます。自分用のプライベートな地図をモザイクに加えた場合、リストには現れませんが、最終的な地図の画像の上に表示されます。'
+      title: 次を対象にモザイク%{layer_id}を編集する：
     export:
-      header: "モザイクのエクスポート"
-      title: "モザイク %{mosaic_id}をエクスポート"
+#      header: Export Mosaic
+#      title: Export Mosaic %{mosaic_id}
+      header: "モザイクをエクスポートする"
+      title: "モザイク%{mosaic_id}をエクスポートする"
     form:
-      depicts_hint: "(year, optional)"
-      depicts_hint_2: Used to display layers by year.
-      detail: detail
-      my_maps: favourites
-      no_maps: You have no warped
-      select_map_head: Choose from your Favourites
-      source: Source / Bibliographic Ref URL
+#      depicts_hint: "(year, optional)"
+#      depicts_hint_2: Used to display layers by year.
+#      detail: detail
+#      my_maps: favourites
+#      no_maps: You have no warped
+#      select_map_head: Choose from your Favourites
+#      source: Source / Bibliographic Ref URL
+      depicts_hint: "（作成年、省略可）"
+      depicts_hint_2: 作成年順にレイヤーを表示するときに使用されます。
+      detail: 詳細
+      my_maps: お気に入り
+      no_maps: 整形済みのものがありません
+      select_map_head: お気に入りから選ぶ
+      source: 出所・参照情報のURL
     geosearch:
-      button: Find Location
-      description_html: Move or zoom map - both the map and list will be updated with found layers. <br /> Layers are shown if they have one or more rectified maps within them, and are visible (not a meta collection/layer).
-      title: "位置でモザイクを探す"
+#      button: Find Location
+#      description_html: Move or zoom map - both the map and list will be updated with found layers. <br /> Layers are shown if they have one or more rectified maps within them, and are visible (not a meta collection/layer).
+#      title: Find Mosaics by Location
+      button: 場所を探す
+      description_html: 地図を動かしたり、拡大してみてください − 表示されるレイヤーに応じた地図とリストが表示されます。<br />最低１枚の地図を含み、それが表示されている場合にレイヤーが表示されます。（メタデータだけのレイヤーは表示されません）。
+      title: "場所からモザイクを探す"
     index:
-      for: for
+#      for: for
+#      search: Search
+#      title: Browse Mosaic List
+#      title_for_map: Mosaic List for Map %{map_id}
+      for: ""
       search: "検索"
-      title: Browse Mosaic List
-      title_for_map: Mosaic List for Map %{map_id}
+      title: モザイクのリストを見る
+      title_for_map: 地図%{map_id}のモザイクのリスト
     layer:
-      depicts: Depicts
-      edit: "モザイクの編集"
-      hidden: Not Visible
-      kml: KMLのダウンロード
-      links: Links
-      made_by: Compiled by
+#      depicts: Depicts
+#      edit: Edit Mosaic
+#      hidden: Not Visible
+#      kml: Download KML
+#      links: Links
+#      made_by: Compiled by
+#      merge: Merge
+#      publish: Publish
+#      source: Source / Biblio Ref
+#      toggle: Toggle Visibility
+#      visible: Visible
+      depicts: 作成
+      edit: "モザイクを編集する"
+      hidden: 非表示
+      kml: KMLをダウンロードする
+      links: リンク
+      made_by: 編集したユーザー：
       merge: "結合"
-      publish: Publish
-      source: Source / Biblio Ref
-      toggle: Toggle Visibility
-      visible: Visible
+      publish: 公開
+      source: 出所・参照情報
+      toggle: 表示・非表示を切り替える
+      visible: 非表示
     layer_detail:
-      edit_year: Add/Edit Year
-      last_modified: Last modified
+#      edit_year: Add/Edit Year
+#      last_modified: Last modified
+      edit_year: 年を追加・編集する
+      last_modified: 最終更新日時
     layermap:
+#      transparency: 'Transparency:'
       transparency: "透過度:"
     merge:
-      admin_only: "(管理者のみ)"
+#      admin_only: "(admins only)"
+#      confirm: Are you sure, this cannot be undone?
+#      destination: Destination Layer
+#      flash: Mosaic has been merged into new layer - all maps copied across!
+#      header: Merge Mosaic
+#      help_html: Merge this mosaic with another. <br /> Deletes the reference of %{count_maps} from Mosaic %{layer_id} and moves them onto the specified destination mosaic. <br /> This cannot be undone!
+#      merge_button: Merge Mosaic!
+#      move_all: 'Move all %{count_maps} to this mosaic:'
+      admin_only: "（管理者のみ）"
       confirm: "この操作は取り消せません。よろしいですか？"
-      destination: Destination Layer
-      flash: Mosaic has been merged into new layer - all maps copied across!
+      destination: 結合先のレイヤー
+      flash: モザイクを新しいレイヤーに結合しました − 地図はすべてコピーされました！
       header: "モザイクを結合する"
-      help_html: Merge this mosaic with another. <br /> Deletes the reference of %{count_maps} from Mosaic %{layer_id} and moves them onto the specified destination mosaic. <br /> This cannot be undone!
+      help_html: このモザイクを別のモザイクと結合する。<br />モザイク%{layer_id}から%{count_maps}枚の地図のジオレフファレンスを削除してそれを結合先のモザイクへ移行します。<br />この操作は取り消せません！
       merge_button: "モザイクを結合する！"
-      move_all: 'Move all %{count_maps} to this mosaic:'
+      move_all: '%{count_maps}枚の地図をすべてこのモザイクへ移す。'
     metadata:
+#      depicts_year: Depicts Year
+#      description: Description
+#      header: Metadata
+#      name: Name
       depicts_year: "作成年"
-      description: "概要"
-      header: "メタ情報"
+      description: "説明"
+      header: "メタデータ"
       name: "名前"
     new:
+#      header: New Mosaic
+#      help: 'Note: All Mosaics are public, you can add unlisted maps to them they won''t be listed<br /> but they would be seen on the final map image.'
+#      title: Make new mosaic -
       header: "新しいモザイク"
-      help: 'Note: All Mosaics are public, you can add unlisted maps to them they won''t be listed<br /> but they would be seen on the final map image.'
-      title: Make new mosaic -
+      help: '注意：モザイクはすべて公開されます。リストにない地図を追加した場合、リストには表示されませんが<br />最終的な地図の画像の上に表示されます。'
+      title: 新しいモザイクを作る −
     publish:
-      flash: Mosaic will be published
-      not_all_maps_ready: Mosaic has less than 100% of its maps rectified
+#      flash: Mosaic will be published
+#      not_all_maps_ready: Mosaic has less than 100% of its maps rectified
+      flash: モザイクは公開されます
+      not_all_maps_ready: 未整形の地図がモザイクに含まれています。
     remove_map:
-      flash: "地図がモザイクから削除されました"
+#      flash: Map removed from this mosaic
+      flash: "地図をモザイクから削除しました"
     show:
-      loading: "読み込んでいます....."
+#      loading: Loading.....
+#      maps: Maps
+#      new_link: Create New Mosaic
+#      not_found: Mosaic not found
+#      title: Mosaic %{layer_id} %{layer_name}
+      loading: "読み込んでいます……"
       maps: "地図"
       new_link: "新しいモザイクを作成する"
       not_found: "モザイクが見つかりません"
       title: "モザイク %{layer_id} %{layer_name}"
     update:
-      error: "モザイクが更新できません。"
-      flash: "モザイクは正常に更新されました。"
+#      error: The mosaic was not able to be updated
+#      flash: Mosaic was successfully updated.
+      error: "モザイクを更新できません。"
+      flash: "モザイクを更新しました。"
     update_year:
-      message: 'Depicts :'
+#      message: 'Depicts :'
+      message: '作成：'
   layouts:
     layerdetail:
+#      year_button: Save
+#      year_dialog_label: 'Add / edit year that this mosaic depicts:'
+#      year_dialog_title: Depicts Year (admin only)
+#      year_fail_alert: Sorry, something went wrong trying to save this
       year_button: "保存"
-      year_dialog_label: 'Add / edit year that this mosaic depicts:'
-      year_dialog_title: "作成年 (管理者のみ)"
-      year_fail_alert: Sorry, something went wrong trying to save this
+      year_dialog_label: 'モザイクの作成年を追加・編集する：'
+      year_dialog_title: "作成年（管理者のみ）"
+      year_fail_alert: 申し訳ありませんが、保存中にエラーが発生しました
     tabs:
-      activity: "アクティビティ"
+#      activity: Activity
+#      align: Align
+#      comments: Comments
+#      crop: Crop
+#      edit: Edit
+#      export: Export
+#      fail_html: Something went wrong with this. Sorry! Please try again, or try logging in first.
+#      metadata: Metadata
+#      preview: Preview
+#      rectify: Rectify
+#      show: Show
+#      unaccessible_html: Sorry. The site is currently in read only mode and some features are disabled. Please try again later.
+#      unauthorized_html: Sorry. You may need to <a class='unauthorized' href='%{href}'>Log In</a> to view this.
+      activity: "更新履歴"
       align: "整列"
       comments: "コメント"
       crop: "切り抜き"
       edit: "編集"
       export: "エクスポート"
-      fail_html: "申し訳ありません、何かがおかしいです！再度操作を行ってみるか、まずはログインを試してみてください。"
+      fail_html: "エラーが発生しました。申し訳ありません！ もう１度同じ操作を試すか、ログインし直してください。"
       metadata: "メタデータ"
       preview: "プレビュー"
-      rectify: Rectify
+      rectify: 整形
       show: "閲覧"
-      unaccessible_html: "申し訳ありません。現在このサイトは閲覧モードになっており、幾つかの機能が使用できません。また後ほどお試しください。"
-      unauthorized_html: "申し訳ありません。このコンテンツを見るには<a class='unauthorized' href='%{href}'>ログイン</a>が必要なようです。"
+      unaccessible_html: "申し訳ありません。現在このサイトは閲覧しかできない状態になっていて使用できない機能があります。後でもう１度試してください。"
+      unauthorized_html: "申し訳ありません。これを見るには<a class='unauthorized' href='%{href}'>ログイン</a>が必要かもしれません。"
   maps:
     align:
-      add_map_title: "ここをクリックして地図を追加"
+#      add_map_title: Click to add map here
+#      align_button: align map!
+#      append_no: false
+#      append_yes: true
+#      form_title: Control Panel
+#      instructions_html: If this map belongs to a mosaic with other maps, you can copy the control points from an adjacent map that has already been rectified to this one.<br /> Click + and choose a map, then drag and drop to choose the alignment.
+#      manual_instructions: Add map number manually
+#      map: Map
+#      no_layers_message: Sorry, but there are no mosaics containing rectifed maps to choose from.
+#      original_type: Using original map? (nicer fit, trickier to edit later)
+#      overwrite_label: Overwrite any existing control points?
+#      ref_button: Use
+#      ref_instructions: Choose a rectified map to copy the control points from the same mosaics
+#      ref_title: Add Reference Map
+#      title: 'Align Maps '
+#      type_label: Type of align
+#      warped_type: Using rectified map? (worse fit, easier to edit later)
+      add_map_title: "クリックしてここへ地図を追加する"
       align_button: "地図を整列させる！"
       append_no: false
       append_yes: true
       form_title: "コントロールパネル"
-      instructions_html: If this map belongs to a mosaic with other maps, you can copy the control points from an adjacent map that has already been rectified to this one.<br /> Click + and choose a map, then drag and drop to choose the alignment.
-      manual_instructions: Add map number manually
+      instructions_html: この地図が別の地図と一緒に特定のモザイクに含まれる場合、整形済みの隣り合う地図からこの地図へ基準点をコピーすることができます。<br />＋をクリックして地図を選び、ドラッグアンドドロップで配列を決めてください。
+      manual_instructions: 地図番号を直接入力する
       map: "地図"
-      no_layers_message: Sorry, but there are no mosaics containing rectifed maps to choose from.
-      original_type: "オリジナルの地図を使いますか？ (よくフィットしますが、後からの編集はよりトリッキーになります)"
-      overwrite_label: "現在の制御点をすべて上書きしますか？"
-      ref_button: Use
-      ref_instructions: Choose a rectified map to copy the control points from the same mosaics
-      ref_title: Add Reference Map
-      title: 'Align Maps '
+      no_layers_message: 申し訳ございませんが、整形済みの地図を含む選択可能なモザイクがありません。
+      original_type: "オリジナルの地図を使いますか？ (合わせやすいですが、後からの編集するのがやや複雑になります)"
+      overwrite_label: "現在の基準点をすべて上書きしますか？"
+      ref_button: 使用
+      ref_instructions: 基準点のコピー元となる整形済みの地図を同じモザイクから選択してください
+      ref_title: 参照用の地図を追加する
+      title: '地図を整列させる'
       type_label: "整列の方法"
-      warped_type: rectifiedされた地図を使いますか？ (あまりよくフィットしませんが、後から編集が容易です)
+      warped_type: 整形済みの地図を使いますか？(合わせにくいですが、後から編集しやすいです)
     clip:
       clip_button: "地図をマスクする！"
-      clipping_wait_msg_html: "<br />マスクを保存しています...<br />地図を切り抜いています..."
+      clipping_wait_msg_html: "<br />マスクを保存しています…<br />地図を切り抜いています…"
       confirm_delete: "本当にマスクを削除して最初からやり直しますか？"
       delete: "マスクを削除する。"
-      delete_alert: that didnt work as expected, sorry
-      instructions_html: "<p>1. 保存したい領域をポリゴンで囲ってください。</p><p>2.「地図をマスクする！」をクリックし、マスクを地図に適用します。 </p>"
-      title: 'Cropping Map '
+      delete_alert: エラーが発生しました。申し訳ありません。
+      instructions_html: "<p>1．残したい領域を線で囲ってください。</p><p>2．「地図をマスクする！」をクリックしてマスクを地図に適用してください。 </p>"
+      title: '地図の切り抜き'
     comments:
+#      header: Comments
+#      login: Log in to add a comment
+#      no_comments: There's no comments for this map, why not add one now!
       header: "コメント"
       login: "ログインしてコメントする"
-      no_comments: "この地図にはコメントがありません。コメントを追加してみましょう！"
+      no_comments: "この地図にはコメントがありません。何かコメントしてみましょう！"
     create:
-      flash: "地図は正常に作成されました。"
+#      flash: Map was successfully created.
+      flash: "地図を作成しました。"
     delete:
+#      header: Really delete the map?
+#      help_text_html: All images, uploaded and rectified will be deleted.<br /> All control points deleted. <br /> All WMS, KML and export options will be unavailable for users.<br />
+#      no_button: No, get me out of here!
+#      yes_button: Yes, Delete map!
       header: "本当にこの地図を削除しますか？"
-      help_text_html: "アップロードしたもの、Rectifyしたものを含めて、すべての地図が削除されます。<br />すべての制御点が削除されます。<br />すべてのWMS、KML及びその他のエクスポートオプションが利用できなくなります。<br />"
-      no_button: No, get me out of here!
-      yes_button: "はい、地図を削除します！"
+      help_text_html: "アップロード、整形した地図をすべて削除します。<br />基準点をすべて削除します。<br />ユーザーは、WMS、KMLを含むどのフォーマットでもエクスポートすることができなくなります。<br />"
+      no_button: いいえ。なんでそんなことをせにゃならんのですか！
+      yes_button: "はい。地図を削除します！"
     destroy:
-      cannot_delete_others: "申し訳ありません、他のユーザーの地図は削除できません。"
+#      cannot_delete_others: Sorry, you cannot delete other people's maps!
+#      error: Map wasnt deleted
+#      flash: Map deleted!
+      cannot_delete_others: "申し訳ありませんが、他のユーザーの地図は削除できません。"
       error: "地図は削除されませんでした"
       flash: "地図を削除しました！"
     edit:
-      cannot_edit_others: "申し訳ありません、他のユーザーの地図は編集できません。"
+#      cannot_edit_others: Sorry, you cannot edit other people's maps
+#      delete_link: Delete this map.
+#      header: Editing Map Attributes
+#      title: Editing Map %{map_title} on
+      cannot_edit_others: "申し訳ありませんが、他のユーザーの地図は編集できません。"
       delete_link: "この地図を削除する。"
-      header: "地図の属性を編集する。"
-      title: Editing Map %{map_title} on
+      header: "地図の情報を編集する。"
+      title: 次を対象に地図 %{map_title} を編集する。
     export:
-      bibliographic: Biliographic
-      bibliographic_header: 'Biliographic Links:'
+#      bibliographic: Biliographic
+#      bibliographic_header: 'Biliographic Links:'
+#      gcp_csv: CSV
+#      gcp_csv_link: Download control points as CSV
+#      gcp_header: Ground Control Points
+#      geotiff: GeoTiff
+#      geotiff_link: Download rectified GeoTiff
+#      header: Export
+#      images_header: Images
+#      josm_link: for JOSM OpenStreetMap Editor
+#      kml: KML
+#      kml_hint: "(for use in Google Earth, etc)"
+#      kml_link: Download KML file
+#      missing_file_flash: File Not Found. Perhaps the map has not been rectified yet?
+#      png: PNG
+#      png_aux: and associated .aux.xml file
+#      png_link: Download rectified PNG
+#      services_header: Map Services
+#      tiles: Tiles (Google/OSM scheme)
+#      wms: WMS
+#      wms_link: WMS Capabilities URL
+
+      bibliographic: 参照
+      bibliographic_header: '参照リンク：'
       gcp_csv: CSV
-      gcp_csv_link: "制御点をCSVとしてダウンロード"
-      gcp_header: "地表の制御点"
-      geotiff: GeoTiff
-      geotiff_link: rectifiedされたGeoTiffをダウンロード
+      gcp_csv_link: "基準点をCSVでダウンロードする"
+      gcp_header: "基準点"
+      geotiff: GeoTIFF
+      geotiff_link: 整形済みのGeoTIFFをダウンロードする
       header: "エクスポート"
       images_header: "画像"
-      josm_link: JOSM OpenStreetMap エディター用
+      josm_link: JOSM OpenStreetMap エディター
       kml: KML
-      kml_hint: "(Google Earthなどで利用できます)"
-      kml_link: KMLファイルのダウンロード
-      missing_file_flash: "ファイルが見つかりません。おそらくまだ地図をRectifiedしていない可能性があります。"
+      kml_hint: "（Google Earthなどで使用できます）"
+      kml_link: KMLファイルをダウンロードする
+      missing_file_flash: "ファイルが見つかりません。地図がまだ整形されていないのかもしません。"
       png: PNG
-      png_aux: and associated .aux.xml file
-      png_link: rectifiedされたPNGのダウンロード
-      services_header: Map Services
-      tiles: Tiles (Google/OSM scheme)
+      png_aux: および、それに関連づけられた.aux.xmlファイル
+      png_link: 整形済みのPNGをダウンロードする
+      services_header: 地図のフォーマット
+      tiles: タイル（Google・OSMのフォーマット）
       wms: WMS
-      wms_link: WMS Capabilities URL
+      wms_link: WMS CapabilitiesのURL
     form:
-      are_visible: Map visibility. Maps are by default visible to all users.
-      author: "著者"
+#      are_visible: Map visibility. Maps are by default visible to all users.
+#      author: Author(s)
+#      call: Call Number
+#      depicted: Date Depicted
+#      depicted_hint: "(year, optional)"
+#      desc: Description
+#      desc_hint: "(max 256 chars)"
+#      issue: Issue Year
+#      issue_hint: "(year, optional)"
+#      issue_hint_2: Used to display maps by year.
+#      lat: 'Lat:'
+#      location: Metadata Locations
+#      lon: 'Lon:'
+#      make_public: Make Public
+#      max_size: 'Max size:'
+#      optional_hint: "(optional)"
+#      photo_uuid: Photo Number
+#      place: Place of Publication
+#      projection: Metadata Projection
+#      published: Published Date
+#      publisher: Publisher
+#      reprint: Reprint Date
+#      scale: Scale
+#      source: Source / Bibliographic Ref URL
+#      subject: Subject Area
+#      tags: Tags
+#      tags_hint: "(comma separated)"
+#      title: Title
+#      unique_id: Metadata Unique ID
+#      upload_file: 'Upload An Image File:'
+#      upload_or_url: OR
+#      upload_url: 'Upload from a URL:'
+      are_visible: 地図の表示。デフォルトでは地図はすべてのユーザーに表示されます。
+      author: "作成者"
       call: "電話番号"
-      depicted: Date Depicted
-      depicted_hint: "(年、任意)"
-      desc: "概要"
-      desc_hint: "(最大256文字)"
-      issue: Issue Year
-      issue_hint: "(年、任意)"
-      issue_hint_2: Used to display maps by year.
-      lat: "緯度:"
-      location: Metadata Locations
-      lon: "経度:"
-      make_public: Make Public
-      max_size: 'Max size:'
-      optional_hint: "(任意)"
-      photo_uuid: Photo Number
+      depicted: 作成年
+      depicted_hint: "（年、省略可）"
+      desc: "説明"
+      desc_hint: "（最大256文字）"
+      issue: 出版年
+      issue_hint: "（年、省略可）"
+      issue_hint_2: 出版年順にマップを表示するときに使われます。
+      lat: "緯度："
+      location: 地点（メタデータ）
+      lon: "経度："
+      make_public: 公開
+      max_size: '最大サイズ'
+      optional_hint: "（省略可）"
+      photo_uuid: 写真番号
       place: "出版された場所"
-      projection: Metadata Projection
+      projection: 立体地図（メタデータ）
       published: "出版年月日"
       publisher: "出版者"
-      reprint: "再販年月日"
+      reprint: "再版年月日"
       scale: "縮尺"
-      source: "出所 / 参考文献のURL"
-      subject: Subject Area
+      source: "出所・参照情報のURL"
+      subject: 対象地
       tags: "タグ"
-      tags_hint: "(コンマ区切り)"
+      tags_hint: "（コンマ区切り）"
       title: "タイトル"
-      unique_id: "メタ情報の一意なID"
-      upload_file: "新しいイメージのアップロード:"
-      upload_or_url: OR
-      upload_url: 'URLからのアップロード:'
+      unique_id: "一意なID（メタデータ）"
+      upload_file: "画像ファイルをアップロードする："
+      upload_or_url: または
+      upload_url: 'URLからアップロードする：'
     geosearch:
-      button: Find Location
-      description: Move or zoom map - both the map and list will be updated with found maps.
-      title: Rectifiedされた地図を探す。
+#      button: Find Location
+#      description: Move or zoom map - both the map and list will be updated with found maps.
+#      title: Find Rectified Maps.
+      button: 場所を探す
+      description: 地図を動かしたり、拡大してみてください − 表示領域に応じた地図とリストが表示されます。
+      title: 整形済みの地図を探す。
     index:
-      results: 'Searched for '
-      title: "地図の閲覧"
+#      results: 'Searched for '
+#      title: Browse Maps
+      results: '検索結果：'
+      title: "地図を見る"
     map:
-      confirm_my: "本当にこの地図をリストから削除しますか？"
-      delete: Delete
-      depicts: Depicts
-      gcp: "制御点"
+#      confirm_my: really remove this map from your favourites?
+#      delete: Delete
+#      depicts: Depicts
+#      gcp: control point
+      confirm_my: "本当にこの地図をお気に入りから削除しますか？"
+      delete: 削除
+      depicts: 作成
+      gcp: "基準点"
       gcp_count:
-        one: "%{count} control point"
-        other: "%{count} control points"
-      in: In
-      kml: KMLのダウンロード
+#        one: "%{count} control point"
+#        other: "%{count} control points"
+        one: "%{count}個の基準点"
+        other: "%{count}個の基準点"
+#      in: In
+#      kml: Download KML
+#      links: Links
+#      private: Not listed
+#      published: Published
+#      published_warn: This map has been published by an admin and no further editing is possible
+#      remove_from_layer: remove map from this mosaic
+#      remove_my: Unfavourite
+#      save_my: Add Favourite
+#      source: Source / Biblio Ref
+#      unwarped: Unrectified
+#      view_map: View Map
+#      warp_map: Rectify Map
+      in: ""
+      kml: KMLをダウンロードする
       links: "リンク"
       private: "リストにありません"
       published: "公開済み"
-      published_warn: "この地図は管理者によって公開されており、これ以上の編集を行うことはできません"
+      published_warn: "この地図は管理者によって公開されているため編集できません"
       remove_from_layer: "地図をモザイクから削除する"
-      remove_my: Remove from My Maps
-      save_my: Save to My Maps
-      source: Source / Biblio Ref
-      unwarped: Unrectified
-      view_map: View Map
-      warp_map: Rectify Map
+      remove_my: お気に入りから外す
+      save_my: お気に入りに加える
+      source: 出所・参照情報
+      unwarped: 整形を解除する
+      view_map: 地図を見る
+      warp_map: 地図を整形する
     map_detail:
-      last_modified: Last modified
-      map_user_label: Uploaded by
-      publish: Publish
-      publish_confirm: Really publish this map? This will mean that no further editing can be done
-      tags: Tags
-      unpublish: UnPublish
-      unpublish_confirm: Really un publish this map? This will mean that the map can be edited now
+#      last_modified: Last modified
+#      map_user_label: Uploaded by
+#      publish: Publish
+#      publish_confirm: Really publish this map? This will mean that no further editing can be done
+#      tags: Tags
+#      unpublish: UnPublish
+#      unpublish_confirm: Really un publish this map? This will mean that the map can be edited now
+      last_modified: 最終更新日時
+      map_user_label: アップロード者：
+      publish: 公開
+      publish_confirm: 本当にこの地図を公開しますか？　公開後は編集できなくなります。
+      tags: タグ
+      unpublish: 公開を取り消す
+      unpublish_confirm: 本当にこの地図の公開を取り消しますか？　公開取り消し後は編集が可能になります。
     map_type:
-      flash: 'Map has changed. Map type: %{map_type}'
+#      flash: 'Map has changed. Map type: %{map_type}'
+      flash: '地図を更新しました。地図のタイプ：%{map_type}'
     mask_map:
-      not_found: Mask file not found
+#      not_found: Mask file not found
+      not_found: マスクファイルが見つかりません
     metadata:
-      header: Metadata
+#      header: Metadata
+      header: メタデータ
     model:
-      delete_mask_success: mask deleted
-      gml_mask_saved: Map clipping mask saved (gml)
+#      delete_mask_success: mask deleted
+#      gml_mask_saved: Map clipping mask saved (gml)
+      delete_mask_success: マスクを削除しました
+      gml_mask_saved: 地図の切り抜きマスクを保存しました（gml）
       map_type:
-        index: Index/Overview
-        map: Is a map
-        not_map: Not a map
-      unknown_mask_format: Mask format unknown
+#        index: Index/Overview
+#        map: Is a map
+#        not_map: Not a map
+#      unknown_mask_format: Mask format unknown
+        index: 索引地図／一般地図
+        map: これは地図です
+        not_map: 地図ではありません
+      unknown_mask_format: マスクのフォーマットが分かりません。
     new:
-      header: "新しい地図のアップロード"
-      may_resize: It may resize the image if it's too large
-      permission_notice: "画像をウェブサイトにアップロードすることで、あなたには画像をアップロードする権限がありまた他の者に対して画像の閲覧や使用を許諾したものとみなされます。このことには、地図の制御点の変更を含みます。"
-      title: 'Upload a new map to '
+#      header: Upload a new map
+#      may_resize: It may resize the image if it's too large
+#      permission_notice: By uploading images to the website, you agree that you have permission to do so, and accept that anyone else can potentially view and use them, including changing control points.
+#      title: 'Upload a new map to '
+      header: "新しい地図をアップロードする"
+      may_resize: 画像が大きいとサイズが変更される場合があります。
+      permission_notice: "画像をこのウェブサイトにアップロードすると、画像をアップロードする権限が自分にあることを認め、基準点の変更を含めて他者による画像の閲覧と使用を許諾したことになります。"
+      title: '新しい地図を次の場所へアップロードする：'
     publish:
-      flash: "地図が更新されました。新規ステータス: "
+#      flash: 'Map changed. New Status: '
+      flash: "地図を更新しました。現在の状態："
     rectify_main:
-      being_rectified_error: "申し訳ありません、この地図は現在別の場所でRectifyされています。また後でおためしください。"
-      not_enough_points: "申し訳ありません、この地図をRectifyするためには少なくとも3つの制御点が必要です。"
-      rectified_success: "地図がrectifiedされました。"
+#      being_rectified_error: Sorry, the map is currently being rectified somewhere else, please try again later.
+#      not_enough_points: Sorry, the map needs at least three control points to be able to rectify it
+#      rectified_success: Map rectified.
+      being_rectified_error: "申し訳ありませんが、この地図は現在別の場所で整形されています。後でもう１度お願いします。"
+      not_enough_points: "申し訳ありませんが、この地図を整形するためには少なくとも3つの基準点が必要です。"
+      rectified_success: "地図を整形しました。"
     save_mask_and_warp:
-      masked_needs_more_points: Map masked, but it needs more control points to rectify. Click the Rectify tab to add some.
-      masked_warp_failed: Mask saved, but not applied as the map is currently being rectified somewhere else, please try again later.
-      masked_warped: Map masked and rectified.
+#      masked_needs_more_points: Map masked, but it needs more control points to rectify. Click the Rectify tab to add some.
+#      masked_warp_failed: Mask saved, but not applied as the map is currently being rectified somewhere else, please try again later.
+#      masked_warped: Map masked and rectified.
+      masked_needs_more_points: 地図をマスクしましたが、この地図を整形するためには基準点を追加する必要があります。整形タブをクリックして基準点を増やしてください。
+      masked_warp_failed: マスクを保存しましたが、この地図は現在別の場所で整形されているため適用できません。後でもう１度お願いします。
+      masked_warped: 地図のマスクと整形が完了しました。
     show:
-      loaded_html: "地図は正常に読み込まれました。ページは数秒後に自動的に切り替わります。切り替わらない場合は<a href='%{href}'>ここ</a>をクリックしてください。"
-      loading: "地図を読み込んでいます..."
-      login_notice: You may need to %s to start editing the map
+#      loaded_html: Map has successfully loaded, page will automatically refresh in a couple of seconds <a href='%{href}'>Click here</a> if you don't want to wait.
+#      loading: Loading map...
+#      login_notice: You may need to %s to start editing the map
+#      login_notice_link: log in
+#      not_found: Map not found
+#      requesting: requesting
+#      title: Viewing Map %{map_id}
+#      unloaded: The map did not load properly, please refresh the page and try again. If it does not load properly a second time, please choose another map, and try again another day.
+      loaded_html: "地図を読み込みました。ページは数秒で自動的に更新されます。更新されない場合は<a href='%{href}'>ここ</a>をクリックしてください。"
+      loading: "地図を読み込んでいます…"
+      login_notice: 地図を編集するために %s しなければならない場合があります
       login_notice_link: "ログイン"
-      not_found: "マップが見つかりません"
-      requesting: requesting
-      title: Viewing Ma %{map_id}
-      unloaded: "マップが正しく読み込まれなかったようです。ページを更新して再度読み込みを行ってみてください。2度目でも正しく読み込まれなかった場合、他の地図を選択して、また別の日に試してみてください。"
+      not_found: "地図が見つかりません"
+      requesting: リクエストしています
+      title: 地図%{map_id}を見る
+      unloaded: "マップを正しく読み込めませんでした。ページを更新してもう１度お願いします。それでも正しく読み込まれない場合は、他の地図を選択し、日を改めて試してください。"
     tag:
-      feed_description: 'Maps tagged with '
-      feed_title: 'Feed of Warper Maps tagged with '
-      for: Tags for
+#      feed_description: 'Maps tagged with '
+#      feed_title: 'Feed of Warper Maps tagged with '
+#      for: Tags for
+#      rss: RSS Feed
+#      title: 'Maps tagged with %{tags} on '
+      feed_description: '地図のタグ：'
+      feed_title: '次のタグがついたMap Warperの地図のフィード：'
+      for: タグ
       rss: RSSフィード
-      title: 'Maps tagged with %{tags} on '
+      title: '%{tags}のタグがついた地図：'
     update:
-      error: "地図の更新にエラーが発生しました"
-      flash: "地図は正常に更新されました。"
+#      error: There was an error updating the map
+#      flash: Map was successfully updated.
+      error: "地図の更新でエラーが発生しました"
+      flash: "地図を更新しました。"
     warp:
-      add_manually_button: "制御点を入力する"
-      advanced_options: "高度なオプション"
-      apply_mask_html: Apply <a href='%{href}'>clipping mask </a> when rectifying?
-      auto_method: "自動 - 制御点の数に基づく (デフォルト)"
+#      add_manually_button: Add Control Point Manually
+#      advanced_options: Advanced options
+#      apply_mask_html: Apply <a href='%{href}'>clipping mask </a> when rectifying?
+#      auto_method: Auto - based on number of control points (default)
+#      bilinear: Bilinear
+#      click_button: Add Control Point
+#      click_text_btm: Do this for at least three points.
+#      click_text_top: Double-click on both maps, then click
+#      close_popup: Close popup
+#      cubic: Cubic
+#      cubicspline: Cubic Spline , slower but best quality
+#      custom_layer_instructions_html: Search for a Map or Mosaic. <br />Or paste in a tile URL template (Z/X/Y ordered scheme only) <br /> E.g. <code>https://example.com/osm/{z}/{x}/{y}.png</code>
+#      custom_layer_placeholder: Search for Maps and Layers
+#      download_gcps: Download points as CSV
+#      gcp_error: Error
+#      gcp_lat: Lat
+#      gcp_lon: Lon
+#      gcp_point: Point
+#      gcp_upload_button: Upload CSV!
+#      gcp_upload_label: Add Control Points from CSV
+#      gcp_x: Image X
+#      gcp_y: Image Y
+#      gcps_link: Control Points
+#      lanczos: Lanczos
+#      method_label: 'Rectify Method:'
+#      near: Nearest Neighbour, fastest (default)
+#      no_mask: false
+#      p1_method: 1st Order Polynomial (min 3 points)
+#      p2_method: 2nd Order Polynomial (min 6 points)
+#      p3_method: 3rd Order Polynomial (min 10 points)
+#      pan_lock: Pan/zoom lock
+#      panel_title: Control Panel
+#      rectifying_notice: Rectifying.....
+#      resample_label: 'Resampling Method:'
+#      server_error: Sorry, there appears to be an error sending the request to the server, try again?...
+#      shortcuts_html: '1,p: Switch to add point control <br /> 2,d: Switch to move control point control <br /> 3,m: Switch to move around map control <br /><br />q: Quickly add point over mouse position <br /> a: Quickly add point over mouse position and automatically adds a point on the opposite map <span class=''small-gray''>(needs at least 2 points already saved)</span> <br /> <br /> [enter],e: Save pairs of points'
+#      shortcuts_link: Keyboard Shortcuts
+#      shortcuts_title: Keyboard Shortcuts
+#      title: 'Rectifying Map '
+#      tps_method: Thin Plate Spline (many points widely spread)
+#      unmasked_question_html: This map is not currently masked. Do you want to <a href='%{href}'>add or edit a mask now</a>?
+#      warp_button: Warp Image! &rarr;
+#      yes_mask: true
+      add_manually_button: "基準点を追加する"
+      advanced_options: "高度な機能"
+      apply_mask_html: 整形中に<a href='%{href}'>切り抜きマスク</a>を適用しますか？
+      auto_method: "自動 - 基準点の数に基づきます (デフォルト)"
       bilinear: "バイリニア"
-      click_button: "制御点を追加"
+      click_button: "基準点を追加"
       click_text_btm: "この操作を少なくとも3点分行ってください。"
-      click_text_top: "両方の地図をダブルクリックし、then click"
+      click_text_top: "両方の地図をダブルクリックしてからクリックしてください"
       close_popup: "ポップアップを閉じる"
-      cubic: 3次
-      cubicspline: 3次スプライン、遅いですが、最も高いクオィティが得られます
-      custom_layer_instructions_html: "地図やモザイクを探す。<br />Or paste in a tile URL template (Z/X/Y ordered scheme only) <br /> E.g. <code>https://example.com/osm/{z}/{x}/{y}.png</code>"
-      custom_layer_placeholder: "地図とモザイクを探す"
-      download_gcps: "制御点をCSVとしてダウンロード"
-      gcp_error: "誤差"
+      cubic: キュービック
+      cubicspline: 3次スプライン。遅いが最も高品質です
+      custom_layer_instructions_html: "地図・モザイクを探す。<br />またはタイルURLのテンプレート（Z/X/Yの順番の様式のもののみ）に貼りつけてください<br />例：<code>https://example.com/osm/{z}/{x}/{y}.png</code>"
+      custom_layer_placeholder: "地図・モザイクを探す"
+      download_gcps: "基準点をCSVでダウンロードする"
+      gcp_error: "エラー"
       gcp_lat: "緯度"
       gcp_lon: "経度"
-      gcp_point: "制御点"
-      gcp_upload_button: Upload CSV!
-      gcp_upload_label: CSV File with Control Points
+      gcp_point: "基準点"
+      gcp_upload_button: CSVをアップロードする！
+      gcp_upload_label: CSVから基準点を追加する
       gcp_x: "画像のX座標"
       gcp_y: "画像のY座標"
-      gcps_link: "制御点"
-      lanczos: "ランチョス"
-      method_label: 'Rectifyの方法: '
-      near: "近傍法、もっとも早い方法です (デフォルト)"
-      no_mask: No mask
-      p1_method: 1次多項式 (最小3点)
-      p2_method: 2次多項式 (最小6点)
-      p3_method: 3次多項式 (最小10点)
-      pan_lock: Pan/zoom lock
+      gcps_link: "基準点"
+      lanczos: "ランチョス法"
+      method_label: '整形の方法：'
+      near: "近傍法。最も速い方法です（デフォルト）"
+      no_mask: false
+      p1_method: 1次多項式（少なくとも3点）
+      p2_method: 2次多項式（少なくとも6点）
+      p3_method: 3次多項式（少なくとも10点）
+      pan_lock: パン・拡大 ロック
       panel_title: "コントロールパネル"
-      rectifying_notice: Rectifyしています.....
-      resample_label: "リサンプリングの方法: "
-      server_error: Sorry, there appears to be an error sending the request to the server, try again?...
-      shortcuts_html: '1,p: Switch to add point control <br /> 2,d: Switch to move control point control <br /> 3,m: Switch to move around map control <br /><br />q: Quickly add point over mouse position <br /> a: Quickly add point over mouse position and automatically adds a point on the opposite map <span class=''small-gray''>(needs at least 2 points already saved)</span> <br /> <br /> [enter],e: Save pairs of points'
-      shortcuts_link: Keyboard Shortcuts
-      shortcuts_title: Keyboard Shortcuts
-      title: 'Rectifying Map '
-      tps_method: Thin Plate Spline (many points widely spread)
-      unmasked_question_html: This map is not currently masked. Do you want to <a href='%{href}'>add or edit a mask now</a>?
-      warp_button: "イメージをワープ処理する！ &rarr;"
-      yes_mask: 'true'
+      rectifying_notice: 整形しています……
+      resample_label: "リサンプリングの方法："
+      server_error: 申し訳ありませんが、サーバーへのリクエスト送信でエラーがあったようです。もう１度お願いします。…
+      shortcuts_html: '１、p：基準点追加機能へ切り替える<br />２、d：基準点移動機能へ切り替える<br />３、m：地図の移動機能へ切り替える<br /><br />q：マウスカーソルの位置へ基準点をすばやく追加する<br />a：マウスカーソルの位置へ基準点をすばやく追加し、自動的にもう一方の地図にも基準点を追加する<span class=''small-gray''>（最低２つの基準点をあらかじめ保存しておく必要があります）</span><br /><br />［enter］、e：基準点のペアを保存する'
+      shortcuts_link: キーボード・ショートカット
+      shortcuts_title: キーボード・ショートカット
+      title: '地図の整形'
+      tps_method: 薄板スプライン法（多くの点を広く配置する）
+      unmasked_question_html: この地図は現在マスクされていません。<a href='%{href}'>今すぐマスクを追加・編集しますか</a>?
+      warp_button: "イメージを整形する！ →"
+      yes_mask: true
     warp_aligned:
-      no_destination: Sorry the destination map is not available to be aligned.
-      success: "地図を整列しました。Rectifyできます！"
-      unknown_alignment: Sorry, only horizontal and vertical alignment are available at the moment.
+#      no_destination: Sorry the destination map is not available to be aligned.
+#      success: Map aligned. You can now rectify it!
+#      unknown_alignment: Sorry, only horizontal and vertical alignment are available at the moment.
+      no_destination: 申し訳ありませんが、対象地図を整列させることができません。
+      success: "地図を整列させました。整形できます！"
+      unknown_alignment: 申し訳ありませんが、今のところ水平か垂直の配列にしか対応していません
     warped:
-      needs_warping: Whoops, the map needs to be rectified before you can view it"
-      title: 'Viewing Rectfied Map '
+#      needs_warping: Whoops, the map needs to be rectified before you can view it"
+#      title: 'Viewing Rectfied Map '
+#      transparency: Transparency
+#      unwarped_notice: Sorry, you'll have to rectify a map before you can view it.
+      needs_warping: おぉっと、地図を見るためには先に整形しておく必要がありますよ
+      title: '整形済みの地図を見る'
       transparency: "透過度"
-      unwarped_notice: Sorry, you'll have to rectify a map before you can view it.
+      unwarped_notice: 申し訳ありませんが、地図を見るためには先に整形しておく必要があります。
   my_maps:
     create:
-      flash: Map saved to My Maps
-      others_error: You cannot add a map to another user!
+#      flash: Map saved to Favourites
+#      others_error: You cannot favourite a map to another user!
+      flash: 地図をお気に入りに保存しました
+      others_error: 地図を他のユーザーのお気に入りに加えることはできません！
     destroy:
-      error: Map coudn't be removed from list
-      flash: Map removed from list!
-      not_your_own: Sorry, you cannot remove maps you have uploaded, from the list
+#      error: Map coudn't be removed from favourites
+#      flash: Map removed from favourites!
+#      not_your_own: Sorry, you cannot unfavourite maps you have uploaded, from the list
+      error: 地図をお気に入りから外せませんでした。
+      flash: 地図をお気に入りから外しました！
+      not_your_own: 申し訳ありませんが、アップロード済みの地図をお気に入りのリストから外すことはできません
     list:
-      header: My Maps for %{username}
-      help: "ユーザーが保存や編集を行った地図のリストを表示しています"
+#      header: Favourites for %{username}
+#      help: Showing list of maps saved or edited by
+      header: "%{username}さんのお気に入り"
+      help: "次のユーザーが保存・編集した地図のリストを表示しています："
   roles:
     index:
-      assigned: 'Roles assigned:'
-      available: 'Roles available:'
-      header: Roles for %{username}
+#      assigned: 'Roles assigned:'
+#      available: 'Roles available:'
+#      header: Roles for %{username}
+      assigned: '割り当てられたロール：'
+      available: '選択可能なロール：'
+      header: "%{username}さんのロール"
     role:
-      assign: assign role
-      remove: "権限の削除"
+#      assign: assign role
+#      remove: remove role
+      assign: ロールを割り当てる
+      remove: ロールを削除する
   shared:
     export_window:
+#      header: Export
+#      links: Export Links
+#      more: More export options
       header: "エクスポート"
-      links: "リンクのエクスポート"
+      links: "リンクをエクスポートする"
       more: "他のエクスポートオプション"
     footer:
-      about: About
-      add_map: "地図の追加"
+#      about: About
+#      add_map: Add Map
+#      help: Help
+#      home: Home
+#      supported_by_html: Supported by <a href='http://maps.nypl.org'>New York Public Library</a> and <a href='http://topomancy.com'>Topomancy LLC</a>
+      about: Map Waperについて
+      add_map: "地図を追加する"
       help: "ヘルプ"
       home: "ホーム"
-      supported_by_html: "<a href='http://maps.nypl.org'>ニューヨーク公共図書館</a>と<a href='http://topomancy.com'>Topomancy LLC</a>の助成を受けています"
+      supported_by_html: <a href='http://maps.nypl.org'>New York Public Library</a>と<a href='http://topomancy.com'>Topomancy LLC</a>の助成を受けています。
     header:
+#      admin_users: Administer Users
+#      all_activity: All Activity
+#      all_comments: All Comments
+#      all_layers: All Mosaics
+#      all_maps: All Maps
+#      imports: Imports
+#      log_in: Log In
+#      log_out: Log Out
+#      logged_in_as: 'Logged in as:'
+#      my_activity: My Activity
+#      my_maps: Favourites
+#      settings: Settings
+#      sign_up: Create Account
+#      user_stats: User Stats
       admin_users: "管理者ユーザー"
-      all_activity: "すべてのアクティビティ"
+      all_activity: "すべての更新履歴"
       all_comments: "すべてのコメント"
       all_layers: "すべてのモザイク"
       all_maps: "すべての地図"
       imports: "インポート"
       log_in: "ログイン"
       log_out: "ログアウト"
-      logged_in_as: 'Logged in as:'
-      my_activity: My Activity
-      my_maps: My Maps
+      logged_in_as: '次のユーザーとしてログイン中：'
+      my_activity: 自分の更新履歴
+      my_maps: お気に入り
       settings: "設定"
       sign_up: "アカウント作成"
-      user_stats: User Stats
+      user_stats: ユーザー統計
     nav:
-      about: About
+#      about: About
+#      add_layer: Add Mosaic
+#      add_map: Upload Map
+#      geosearch_layers: Find Mosaics by Location
+#      geosearch_maps: Find Maps by Location
+#      help: Help
+#      home: Home
+#      layers: Browse All Mosaics
+#      maps: Browse All Maps
+#      rectified_maps: Browse Rectified Maps
+      about: Map Warperについて
       add_layer: "モザイクを追加する"
       add_map: "地図をアップロードする"
-      geosearch_layers: "位置でモザイクを探す"
-      geosearch_maps: "位置で地図を探す"
+      geosearch_layers: "場所からモザイクを探す"
+      geosearch_maps: "場所から地図を探す"
       help: "ヘルプ"
       home: "ホーム"
       layers: "すべてのモザイクを見る"
       maps: "すべての地図を見る"
-      rectified_maps: Rectifiedされた地図を見る
+      rectified_maps: 整形済みの地図を見る
     search:
+#      all_maps: All maps
+#      author: Author
+#      button: Search
+#      description: Description
+#      find_geosearch: Find Rectified Maps by Location
+#      for: for
+#      only_rectified: Rectified maps only
+#      publisher: Publisher
+#      search: Search
+#      tags: Tags
+#      title: Title
       all_maps: "すべての地図"
-      author: "著者"
+      author: "作成者"
       button: "検索"
-      description: "概要"
-      find_geosearch: "位置でRectifiedされた地図を探す"
-      for: for
-      only_rectified: Rectifiedされた地図のみ
+      description: "説明"
+      find_geosearch: "場所から整形済みの地図を探す"
+      for: ""
+      only_rectified: 整形済みの地図のみ
       publisher: "出版者"
-      search: Search
+      search: 検索
       tags: "タグ"
       title: "タイトル"
   user_mailer:
-    disabled_change_password:
-      end: You should get an additional email with the link to do this within it.
-      greeting: Hi
-      intro: 'Your account using %{email} email has been disabled by an admin, and you will need to change your password in order to re-enble it. '
-      subject: "%{site_name} Your account is disabled until you change your password"
+#    disabled_change_password:
+#      end: You should get an additional email with the link to do this within it.
+#      greeting: Hi
+#      intro: 'Your account using %{email} email has been disabled by an admin, and you will need to change your password in order to re-enble it. '
+#      subject: "%{site_name} Your account is disabled until you change your password"
+    disabled_change_passwords:
+      end: そのためのリンクを記載したeメールを追加で受け取る必要があります。
+      greeting: こんにちは
+      intro: '%{email}のeメールを使っているあなたのアカウントは管理者によって無効化されました。再度有効化するためにはパスワードを変えてください。'
+      subject: "%あなたの{site_name}のアカウントはパスワードを変更するまで無効です。"
+#      click_the_link: 'Your account has been created and you can log in using the email: %{email} at:'
+#      intro: Thanks for signing up to use %{site_name}.
+#      subject: Welcome to %{site_name} %{user_name}
     new_registration:
-      click_the_link: 'Your account has been created and you can log in using the email: %{email} at:'
-      intro: Thanks for signing up to use %{site_name}.
-      subject: "%{site_name}にようこそ、%{user_name}"
+      click_the_link: 'アカウントを作成しました。%{email} のeメールを使って次のサイトにログインできます：'
+      intro: "%{site_name}へのサインアップおよび当サイトのご利用、ありがとうございます。"
+      subject: "%{user_name}さん、%{site_name}へようこそ"
   users:
     admin_tools:
-      confirm: Manually confirm
-      confirm_hint: Force confirmation of user, cannot be changed.
-      delete_confirm: Are you sure?
-      delete_hint: This cannot be undone. Removes all their data.
-      delete_user: Delete User
-      enable_hint: the user's account - changeable by admin
-      reset_hint: This changes the password of the users account, and sends link via email to user to create a new password. Until a password is changed, the user cannot login.
-      reset_password: Change and reset password
-      roles_hint: Change roles that the user belongs to
+#      confirm: Manually confirm
+#      confirm_hint: Force confirmation of user, cannot be changed.
+#      delete_confirm: Are you sure?
+#      delete_hint: This cannot be undone. Removes all their data.
+#      delete_user: Delete User
+#      enable_hint: the user's account - changeable by admin
+#      reset_hint: This changes the password of the users account, and sends link via email to user to create a new password. Until a password is changed, the user cannot login.
+#      reset_password: Change and reset password
+#      roles_hint: Change roles that the user belongs to
+      confirm: 手動で確認する
+      confirm_hint: ユーザーの確認は必ず行わなければならず、このやり方を変更することはできません。
+      delete_confirm: 本当によろしいですか？
+      delete_hint: この操作は取り消せません。対象者のデータはすべて削除されます。
+      delete_user: ユーザーを削除する
+      enable_hint: ユーザーのアカウント − 管理者が変更できます
+      reset_hint: この操作によってユーザーのアカウントのパスワードが変更され、新しいパスワードを作成するためのリンクが対象ユーザーにeメールで送られます。パスワードを変更するまでそのユーザーはログインできません。
+      reset_password: パスワードを変更・リセットする
+      roles_hint: ユーザーのロールを変更する
     destroy:
-      admins_cannot_be_destroyed: "管理者は破棄できません"
+#      admins_cannot_be_destroyed: Admins cannot be destroyed
+#      error: User could not be deleted
+#      flash: User successfully deleted
+      admins_cannot_be_destroyed: "管理者を破棄することはできません"
       error: "ユーザーを削除できませんでした"
-      flash: "ユーザーは正常に削除されました"
+      flash: "ユーザーを削除しました"
     disable:
-      error: There was a problem disabling this user.
-      flash: User disabled
+#      error: There was a problem disabling this user.
+#      flash: User disabled
+      error: ユーザーの無効化でエラー発生しました。
+      flash: ユーザーを無効化しました
     disable_and_reset:
-      admins_cannot_be_disabled: Admins cannot be disabled and reset, sorry
-      error: Sorry, there was a problem changing this user
-      flash: User changed and an email sent with password reset link
-      providers_cannot: Sorry, users from other providers are not able to be reset
+#      admins_cannot_be_disabled: Admins cannot be disabled and reset, sorry
+#      error: Sorry, there was a problem changing this user
+#      flash: User changed and an email sent with password reset link
+#      providers_cannot: Sorry, users from other providers are not able to be reset
+      admins_cannot_be_disabled: 管理者を無効化・リセットすることはできません。申し訳ありません
+      error: 申し訳ありませんが、ユーザーの変更でエラーが発生しました
+      flash: ユーザーを変更し、パスワードリセット用のリンクを含むeメールを送りました
+      providers_cannot: 申し訳ありませんが、他のプロバイダによって認証されるユーザーはリセットできません
     edit:
+#      title: Edit User Setttings
       title: "ユーザー設定を編集"
     enable:
-      error: There was a problem enabling this user.
-      flash: User enabled
+#      error: There was a problem enabling this user.
+#      flash: User enabled
+      error: ユーザーの有効化でエラーが発生しました。
+      flash: ユーザーを有効化しました。
     force_confirm:
-      already_confirmed: User already confirmed
-      error: There was a problem confirming this user.
-      flash: User confirmed
+#      already_confirmed: User already confirmed
+#      error: There was a problem confirming this user.
+#      flash: User confirmed
+      already_confirmed: ユーザーはすでに確認されています
+      error: ユーザーの確認でエラーが発生しました。
+      flash: ユーザーを確認しました。
     index:
+#      button: " Go "
+#      confirmed: Confirmed?
+#      created: Signed Up
+#      email: Email
+#      enabled: Enabled?
+#      for: for
+#      for_query: "&mdash; Searched for "
+#      header: Users
+#      login: Username
+#      name: Name
+#      provider: OAuth Provider
+#      roles: Roles
+#      search: User Search
+#      title: Users
       button: " Go "
-      confirmed: Confirmed?
-      created: "サインアップ日時"
+      confirmed: 確認しましたか？
+      created: "サインアップ"
       email: eメール
-      enabled: Enabled?
-      for: for
-      for_query: "&mdash; Searched for "
+      enabled: 有効化しましたか?
+      for: ""
+      for_query: "−検索結果："
       header: "ユーザー"
-      login: "ユーザー名前"
+      login: "ユーザー名"
       name: "名前"
       provider: OAuthプロバイダ
-      roles: "権限"
+      roles: "ロール"
       search: "ユーザーを検索"
       title: "ユーザー"
     show:
-      activity: User Activity
-      back_to_maps: "&lt; Browse Maps"
-      joined: Joined on
-      not_found: User not found
-      profile: 'Profile Description:'
-      provider_user_html: A %{provider_thumb} %{provider_name} User
-      title: Showing User %{user_name}
-      user: User
-      user_maps: User Maps
+#      activity: User Activity
+#      back_to_maps: "&lt; Browse Maps"
+#      joined: Joined on
+#      not_found: User not found
+#      profile: 'Profile Description:'
+#      provider_user_html: A %{provider_thumb} %{provider_name} User
+#      title: Showing User %{user_name}
+#      user: User
+#      user_maps: User Maps
+      activity: ユーザーによる更新
+      back_to_maps: "＜ 地図を見る"
+      joined: 参加日：
+      not_found: ユーザーが見つかりません
+      profile: 'プロフィール:'
+      provider_user_html: "%{provider_thumb} %{provider_name} ユーザー"
+      title: ユーザー %{user_name} さんを表示しています
+      user: ユーザー
+      user_maps: ユーザー地図
     stats:
-      details: Further Details
-      gcp_count: Total Points Changes
-      gcp_create_count: Created Points
-      gcp_destroy_count: Deleted Points
-      gcp_update_count: Updated Points
-      header: User Statistics
-      map_count: Total Map Changes
-      title: Users Stats
-      total_count: Total
-      unknown: Unknown
+#      details: Further Details
+#      gcp_count: Total Points Changes
+#      gcp_create_count: Created Points
+#      gcp_destroy_count: Deleted Points
+#      gcp_update_count: Updated Points
+#      header: User Statistics
+#      map_count: Total Map Changes
+#      title: Users Stats
+#      total_count: Total
+#      unknown: Unknown
+      details: 詳細
+      gcp_count: 基準点変更回数合計
+      gcp_create_count: 作成した基準点
+      gcp_destroy_count: 削除した基準点
+      gcp_update_count: 更新した基準点
+      header: ユーザー統計
+      map_count: 地図変更回数計
+      title: ユーザー統計
+      total_count: 合計
+      unknown: 不明
     update:
-      flash: User updated
+#      flash: User updated
+      flash: ユーザーを更新しました
     user:
-      activate: activate
-      disable: disable
-      edit_roles: "権限の編集"
-      enable: enable
-      u_no: 'no'
-      u_yes: 'yes'
+#      activate: activate
+#      disable: disable
+#      edit_roles: edit roles
+#      enable: enable
+#      u_no: 'no'
+#      u_yes: 'yes'
+      activate: アクティブ化
+      disable: 無効化
+      edit_roles: ロールを編集する
+      enable: 有効化
+      u_no: 'いいえ'
+      u_yes: 'はい'
   will_paginate:
     entry:
       page_entries_info:
         single_page_html:
-          zero: Nothing found
+#          zero: Nothing found
+          zero: 何も見つかりません
     layer:
       page_entries_info:
-        multi_page: Displaying %{model} %{from} - %{to} of %{count} in total
-        multi_page_html: Displaying %{model} <b>%{from}&nbsp;-&nbsp;%{to}</b> of <b>%{count}</b> in total
+#        multi_page: Displaying %{model} %{from} - %{to} of %{count} in total
+#        multi_page_html: Displaying %{model} <b>%{from}&nbsp;-&nbsp;%{to}</b> of <b>%{count}</b> in total
+        multi_page: 合計%{count}件の%{model}のうち%{from} − %{to}を表示しています
+        multi_page_html: 合計<b>%{count}</b>件の%{model}のうち<b>%{from}&nbsp;−&nbsp;%{to}</b>を表示しています
         single_page_html:
-          one: Displaying <b>1</b> %{model}
-          other: Displaying <b>all&nbsp;%{count}</b> %{model}
-          zero: No %{model} found
+#          one: Displaying <b>1</b> %{model}
+#          other: Displaying <b>all&nbsp;%{count}</b> %{model}
+#          zero: No %{model} found
+          one: <b>1</b>件の%{model}を表示しています
+          other: <b>&nbsp;%{count}件すべて</b>の%{model}を表示しています
+          zero: "%{model}は見つかりませんでした"
     map:
       page_entries_info:
-        multi_page: Displaying %{model} %{from} - %{to} of %{count} in total
-        multi_page_html: Displaying %{model} <b>%{from}&nbsp;-&nbsp;%{to}</b> of <b>%{count}</b> in total
+#        multi_page: Displaying %{model} %{from} - %{to} of %{count} in total
+#        multi_page_html: Displaying %{model} <b>%{from}&nbsp;-&nbsp;%{to}</b> of <b>%{count}</b> in total
+        multi_page: 合計%{count}件の%{model}のうち%{from} − %{to}を表示しています
+        multi_page_html: 合計<b>%{count}</b>件の%{model}のうち<b>%{from}&nbsp;−&nbsp;%{to}</b>を表示しています
         single_page_html:
-          one: Displaying <b>1</b> %{model}
-          other: Displaying <b>all&nbsp;%{count}</b> %{model}
-          zero: No %{model} found
-    next_label: Next &#8594;
+#          one: Displaying <b>1</b> %{model}
+#          other: Displaying <b>all&nbsp;%{count}</b> %{model}
+#          zero: No %{model} found
+#    next_label: Next &#8594;
+          one: <b>1</b>件の%{model}を表示しています
+          other: <b>&nbsp;%{count}件すべて</b>の%{model}を表示しています
+          zero: "%{model}はみつかりませんでした"
+    next_label: 次 →;
     page_entries_info:
-      multi_page: Displaying %{model} %{from} - %{to} of %{count} in total
-      multi_page_html: Displaying %{model} <b>%{from}&nbsp;-&nbsp;%{to}</b> of <b>%{count}</b> in total
+#      multi_page: Displaying %{model} %{from} - %{to} of %{count} in total
+#      multi_page_html: Displaying %{model} <b>%{from}&nbsp;-&nbsp;%{to}</b> of <b>%{count}</b> in total
+      multi_page: 合計%{count}件の%{model}のうち%{from} − %{to}を表示しています
+      multi_page_html: 合計<b>%{count}</b>件の%{model}のうち<b>%{from}&nbsp;−&nbsp;%{to}</b>を表示しています
       single_page:
-        one: Displaying 1 %{model}
-        other: Displaying all %{count} %{model}
-        zero: No %{model} found
+#        one: Displaying 1 %{model}
+#        other: Displaying all %{count} %{model}
+#        zero: No %{model} found
+        one: 1件の%{model}を表示しています
+        other: "%{count}件すべての%{model}を表示しています"
+        zero: "%{model}は見つかりませんでした"
       single_page_html:
-        one: Displaying <b>1</b> %{model}
-        other: Displaying <b>all&nbsp;%{count}</b> %{model}
-        zero: No %{model} found
-    page_gap: "&hellip;"
-    previous_label: "&#8592; Previous"
+#        one: Displaying <b>1</b> %{model}
+#        other: Displaying <b>all&nbsp;%{count}</b> %{model}
+#        zero: No %{model} found
+#    page_gap: "&hellip;"
+#    previous_label: "&#8592; Previous"
+        one: <b>1</b>件の%{model}を表示しています
+        other: <b>&nbsp;%{count}件すべて</b>の%{model}を表示しています
+        zero: "%{model}は見つかりませんでした"
+    page_gap: "…"
+    previous_label: "← 前"
+
