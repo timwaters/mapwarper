@@ -1,4 +1,3 @@
----
 ja:
   activerecord:
     attributes:
@@ -115,7 +114,7 @@ ja:
     comment_form:
       add_comment: "コメントを追加する"
       header: コメントする
-    destroy: 
+    destroy:
       error: "コメントを削除できませんでした"
       flash: "コメントを削除しました"
     index:
@@ -224,7 +223,7 @@ ja:
       edit:
         cancel_account_button: "アカウントを削除する"
         cancel_account_header: "アカウントを削除する"
-        cancel_account_instructions: "お気にめしませんでしたか？　この操作を行うと、アップロードしたすべての地図と作成したすべてのモザイクが削除されます。"
+        cancel_account_instructions: "お気にめしませんでしたか？ この操作を行うと、アップロードしたすべての地図と作成したすべてのモザイクが削除されます。"
         cancel_confirm: "本当に削除しますか？"
         current_password_label: "（変更を承認するために現在のパスワードが必要です）"
         description_label: "簡単なプロフィール （省略可）"
@@ -743,10 +742,10 @@ ja:
       last_modified: 最終更新日時
       map_user_label: アップロード者：
       publish: 公開
-      publish_confirm: 本当にこの地図を公開しますか？　公開後は編集できなくなります。
+      publish_confirm: 本当にこの地図を公開しますか？ 公開後は編集できなくなります。
       tags: タグ
       unpublish: 公開を取り消す
-      unpublish_confirm: 本当にこの地図の公開を取り消しますか？　公開取り消し後は編集が可能になります。
+      unpublish_confirm: 本当にこの地図の公開を取り消しますか？ 公開取り消し後は編集が可能になります。
     map_type:
       flash: '地図を更新しました。地図のタイプ：%{map_type}'
     mask_map:
@@ -1037,4 +1036,3 @@ ja:
         zero: "%{model}は見つかりませんでした"
     page_gap: "…"
     previous_label: "← 前"
-
