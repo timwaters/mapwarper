@@ -1,7 +1,7 @@
 ---
 ja:
   activerecord:
-    attributfes:
+    attributes:
       layer:
 #        depicts_year: Depicts year
 #        description: Description
@@ -552,7 +552,7 @@ ja:
       csv_file: "アップロードするCSVファイル"
       header: CSV基準点一括インポート
       help_html: このページだけでなく地図整形画面でも、それぞれの地図に対してCSVをアップロードすることができます。その際は基準点テーブルの下のツールを使用してください。CSVには<pre><code>x,y,経度,緯度</code></pre>が含まれていなければなりません。
-      import_help_html: '多数の基準点を含む多くの地図をインポートする場合はこのページで行ってください。アップロードするCSVは次のヘッダー行を含むコンマ区切り形式のファイルでなければなりません：<pre><code>mapid,x,y,lon,lat</code></pre>。ここで<code>mapid</code>というのは、基準点を置こうとしているMap Warperの各地図に割り当てられたIDです。<br />基準点は追加するだけで、更新することはできません。もう１度インポートする時には同じ点は追加されません。'
+      import_help_html: '多数の基準点を含む多くの地図をインポートする場合はこのページで行ってください。アップロードするCSVは次のヘッダー行を含むカンマ区切り形式のファイルでなければなりません：<pre><code>mapid,x,y,lon,lat</code></pre>。ここで<code>mapid</code>というのは、基準点を置こうとしているMap Warperの各地図に割り当てられたIDです。<br />基準点は追加するだけで、更新することはできません。もう１度インポートする時には同じ点は追加されません。'
       new_import_header: 新しい一括インポート
     destroy:
 #      deleted_notice: Control Point deleted sucessfully
@@ -812,8 +812,8 @@ ja:
 #      prev: Prev
 #      search_fail: Sorry, something went wrong with the search
 #      showing: Showing
-      found: 見つかりました
-      found_layers: レイヤー。
+      found: 見つかった
+      found_layers: レイヤーを
       found_maps: 地図。
       more: 続き
       open_layer: モザイクを開く
@@ -872,7 +872,7 @@ ja:
       gcp_premature_alert: 各地図に新しい基準点を追加してからこのボタンを押してください。
       gcp_updated: 基準点を更新しました！
       gcp_updating: 更新しています…
-      move_gcp: 基準点を移動する（２，d）
+      move_gcp: 基準点を移動する（２、d）
       move_map: 地図を動かす（3、m）
       other_places: '他の場所：'
       rms_error_prefix: エラー
@@ -893,7 +893,7 @@ ja:
 #      no_button: No, get me out of here!
 #      yes_button: Yes, Delete mosaic!
       header: "本当にこのモザイクを削除しますか？"
-      no_button: いいえ。なんでそんなことをせにゃならんのですか！
+      no_button: いいえ。とんでもない！
       yes_button: "はい。モザイクを削除します！"
     destroy:
 #      error: Mosaic wasnt deleted
@@ -1105,7 +1105,7 @@ ja:
       manual_instructions: 地図番号を直接入力する
       map: "地図"
       no_layers_message: 申し訳ございませんが、整形済みの地図を含む選択可能なモザイクがありません。
-      original_type: "オリジナルの地図を使いますか？ (合わせやすいですが、後からの編集するのがやや複雑になります)"
+      original_type: "オリジナルの地図を使いますか？ (合わせやすいですが、後から編集するのがやや複雑になります)"
       overwrite_label: "現在の基準点をすべて上書きしますか？"
       ref_button: 使用
       ref_instructions: 基準点のコピー元となる整形済みの地図を同じモザイクから選択してください
@@ -1138,7 +1138,7 @@ ja:
 #      yes_button: Yes, Delete map!
       header: "本当にこの地図を削除しますか？"
       help_text_html: "アップロード、整形した地図をすべて削除します。<br />基準点をすべて削除します。<br />ユーザーは、WMS、KMLを含むどのフォーマットでもエクスポートすることができなくなります。<br />"
-      no_button: いいえ。なんでそんなことをせにゃならんのですか！
+      no_button: いいえ。とんでもない！
       yes_button: "はい。地図を削除します！"
     destroy:
 #      cannot_delete_others: Sorry, you cannot delete other people's maps!
@@ -1251,7 +1251,7 @@ ja:
       optional_hint: "（省略可）"
       photo_uuid: 写真番号
       place: "出版された場所"
-      projection: 立体地図（メタデータ）
+      projection: 投影法（メタデータ）
       published: "出版年月日"
       publisher: "出版者"
       reprint: "再版年月日"
@@ -1259,7 +1259,7 @@ ja:
       source: "出所・参照情報のURL"
       subject: 対象地
       tags: "タグ"
-      tags_hint: "（コンマ区切り）"
+      tags_hint: "（カンマ区切り）"
       title: "タイトル"
       unique_id: "一意なID（メタデータ）"
       upload_file: "画像ファイルをアップロードする："
