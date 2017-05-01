@@ -875,7 +875,7 @@ ja:
       add_map: "地図を追加する"
       help: "ヘルプ"
       home: "ホーム"
-      supported_by_html: <a href='http://maps.nypl.org'>New York Public Library</a>と<a href='http://topomancy.com'>Topomancy LLC</a>の助成を受けています。
+      supported_by_html: <a href='http://maps.nypl.org'>ニューヨーク公共図書館</a>と<a href='http://topomancy.com'>Topomancy LLC</a>の助成を受けています。
     header:
       admin_users: "管理者ユーザー"
       all_activity: "すべての更新履歴"
