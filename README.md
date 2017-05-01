@@ -33,14 +33,18 @@ Groups of maps can be made into "mosaics" that will stictch together the composi
 * Login via Github / Twitter / OpenStreetMap / Wikimedia Commons
 * OR signup with email and password
 * Export as GeoTiff, PNG, WMS, Tile, KML etc
-* Preview in Google Earth and Google Maps
+* Preview in Google Earth
 * User Groups
 * Map Favourites
 * Social media sharing
 * Bibliographic metatadata creation and export support
 * Multiple georectfication options
-* Control point from files import
+* Keyboard shortcuts for map controls (save point etc)
+* Automagic placement of points based on transform
+* Import CSV of Control points to a map
+* Download CSV of control points
 * API
+  * JSON API Specifications
 * Admin tools include
   * User statistics
   * Activity monitoring
@@ -49,6 +53,9 @@ Groups of maps can be made into "mosaics" that will stictch together the composi
   * Batch Imports
 * Caching of WMS and Tile via Redis
 * i18n support
+  * English
+  * Dutch
+  * Japanese
 
 ## Ruby & Rails
 
