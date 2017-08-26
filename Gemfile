@@ -53,12 +53,12 @@ gem 'will_paginate', '~> 3.0'
 gem 'spawnling', '~>2.1'
 
 #Rails 4 support for the audited (acts_as_audited gem) is not quite rails4 worthy - see #https://github.com/collectiveidea/audited/pull/166
-gem 'audited-activerecord', github: 'timwaters/audited', branch: 'rails4'
+gem 'audited-activerecord', git: 'https://github.com/timwaters/audited.git', branch: 'rails4'
 
 gem 'gdal'
 gem 'georuby'
 
-gem 'actionpack-action_caching', github: 'timwaters/actionpack-action_caching', branch: 'feature/take_format_from_request'
+gem 'actionpack-action_caching', git: 'https://github.com/timwaters/actionpack-action_caching.git', branch: 'feature/take_format_from_request'
 gem 'redis-rails', '~> 4'
 
 gem "rails-i18n"
@@ -66,7 +66,7 @@ gem "rails-i18n"
 gem 'pg_search'
 
 gem 'rails-api'
-gem 'active_model_serializers', github: 'rails-api/active_model_serializers', tag: 'v0.10.5'
+gem 'active_model_serializers', git: 'https://github.com/rails-api/active_model_serializers.git', tag: 'v0.10.5'
 gem 'simple_token_authentication', '~> 1.0'
 gem 'rack-cors', :require => 'rack/cors'
 gem 'redcarpet'
