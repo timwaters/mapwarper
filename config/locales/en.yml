@@ -1031,3 +1031,7 @@ en:
         zero: No %{model} found
     page_gap: "&hellip;"
     previous_label: "&#8592; Previous"
+  locales:
+    en: English
+    nl: Dutch
+    ja: Japanese
