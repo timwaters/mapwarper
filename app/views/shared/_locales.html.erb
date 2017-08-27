@@ -1,0 +1,15 @@
+<% if I18n.available_locales.length > 1 %>
+  <div class="locale-switcher">
+    <span class="selected-locale"><%= t('locales.' + I18n.locale.to_s) + ' (' + I18n.locale.to_s + ')' %></span>
+    <ul class="selecticve-locale-items">
+      <% url_base = request.url.split('?').first %>
+      <% selective_locales = I18n.available_locales.select { |locale| locale != I18n.locale }  %>
+      <% for locale in selective_locales do %>
+        <li class="locale-item">
+          <% url = I18n.default_locale == locale ? url_base : url_base + '?locale=' + locale.to_s %>
+          <%= link_to t('locales.' + locale.to_s, locale: locale) + ' (' + locale.to_s + ')', url, class: 'selective-locale' %>
+        </li>
+      <% end %>
+    </ul>
+  </div>
+<% end %>
