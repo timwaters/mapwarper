@@ -155,11 +155,11 @@ to get and install the virtual machine - this will also install the libraries an
 After that runs, type vagrant ssh to login and then you can
 
     cd /srv/mapwarper
-    rails c
+    bundle exec rails c
 
 Create a user in the console, as shown above and then exit
 
-    rails s -b 0.0.0.0 -p 3000
+    bundle exec rails s -b 0.0.0.0 -p 3000
 
 to start the server, running on port 3000
 
