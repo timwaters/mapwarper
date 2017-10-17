@@ -60,7 +60,7 @@ Groups of maps can be made into "mosaics" that will stictch together the composi
 ## Ruby & Rails
 
 * Rails 4
-* Ruby 2
+* Ruby 2.4
 
 ## Database
 
@@ -69,7 +69,7 @@ Groups of maps can be made into "mosaics" that will stictch together the composi
 
 ## Installation Dependencies
 
-Check out the Vagrant section lower down in the readme if you want to get started quickly.
+Check out the Vagrant section lower down in the readme if you want to get started quickly. Also view the lib/vagrant/provision.sh file to see what needs to get installed.
 
 on Ubuntu 14.04 LTS
 
@@ -81,15 +81,15 @@ Then install the gem files using bundler
 
 ```bundle install```
 
-### on Ubuntu 16.04 LTS
+### Ubuntu 16.04 LTS
 
 Mapwarper should work on Ubuntu 16.04 - however there are issues with the Ubuntu package of GDAL and potentially with Mapserver (if not using package Ruby, e.g. RVM)
 
-GDAL needs to be compiled from source to ensure the gdal_rasterize bug is fixed. It should be installed locally and can exist with the package maintainers version.
+GDAL needs to be compiled from source to ensure the gdal_rasterize bug is fixed. It should be installed locally and can exist with the package maintainers version. Then point to this newly compiled path in the application.yml file.
 
-If rvm is being used, ruby mapscript for mapserver should be compiled from source, and then linked or installed into the path.  
+If rvm is being used, ruby mapscript for mapserver should be compiled from source, and then linked or installed into the path.  You can use the ubuntu package rubymapscript along with the system rub (2.3.1) without worrying about this.
 
-See ubuntu16_installnotes for some hints as to what to do.
+See ubuntu16_installnotes for some hints as to what to do. The vagrant file and provisioning scripts should be altered, ideally.
 
 ## Configuration
 
@@ -139,20 +139,6 @@ Creating a new user
 To enable caching, install Redis and enable caching in the environment file. You may want to configure the redis.conf as appropriate to your server.
 For example turning off saving to disk and setting a memory value for LRU  "maxmemory 2000mb" "maxmemory-policy allkeys-lru" keeps the redis server having 2gig and expires keys based on a least used algorithm.
 
-## Benchmarks
-
-TODO - add production / apache / subdomain benchmarks
-
-
-## Upgrading
-
-Note that the activerecord postgis adapter is upgraded - as such you may need to change or remove the SRID of any existing maps and layers bbox_geom .
-It should now be 0 where before it may be 4326 This is due to the columns being geometry type as opposed to geographic. SRIDs only really work well for geographic types.
-
-To upgrade geometry columns:
-select UpdateGeometrySRID('public' , 'maps',   'bbox_geom', 0);
-select UpdateGeometrySRID('public' , 'layers', 'bbox_geom', 0);
-select UpdateGeometrySRID('public' , 'maps',   'rough_centroid', 0);
 
 ## Development
 
@@ -173,16 +159,14 @@ Create a user in the console, as shown above and then exit
 
 to start the server, running on port 3000
 
+Note that there may be some hoops to jump through if you choose to use the ubuntu 16 vagrant option.
+
 ##I18n Locales / Translations
 
 You might want to use LocaleApp to assist with translations.
 
 See the [mapwarper](http://www.localeapp.com/projects/public?search=mapwarper) project.
 
-
-## Deployment instructions
-
-The system can use capistrano for deployment
 
 ## API
 
