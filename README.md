@@ -60,7 +60,7 @@ Groups of maps can be made into "mosaics" that will stictch together the composi
 ## Ruby & Rails
 
 * Rails 4
-* Ruby 2.2
+* Ruby 2
 
 ## Database
 
@@ -80,6 +80,16 @@ Due to a bug with the gdal gem, you _may_ need to disable a few flags from your 
 Then install the gem files using bundler
 
 ```bundle install```
+
+### on Ubuntu 16.04 LTS
+
+Mapwarper should work on Ubuntu 16.04 - however there are issues with the Ubuntu package of GDAL and potentially with Mapserver (if not using package Ruby, e.g. RVM)
+
+GDAL needs to be compiled from source to ensure the gdal_rasterize bug is fixed. It should be installed locally and can exist with the package maintainers version.
+
+If rvm is being used, ruby mapscript for mapserver should be compiled from source, and then linked or installed into the path.  
+
+See ubuntu16_installnotes for some hints as to what to do.
 
 ## Configuration
 
