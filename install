@@ -1,0 +1,81 @@
+
+ubuntu 16 Install Notes
+
+#Compile and install gdal
+
+#Install rvm
+
+#Compile and install mapserver and ruby mapscript 
+
+GDAL utilities
+git clone https://github.com/OSGeo/gdal.git
+
+git checkout tags/2.2.2
+
+./configure --prefix=/home/vagrant/gdal/install --disable-shared --enable-static --with-libtiff --with-geotiff --with-jpeg --with-geos
+make
+./configure --prefix=/home/tim/work/warper/ubuntu16/gdal/install22 --disable-shared --enable-static --with-libtiff --with-geotiff --with-jpeg --with-geos --without-pg --without-mysql --without-netcdf --without-pcidsk --without-python --without-php --without-java --without-sde --without-spatialite 
+make install
+
+cd /home/vagrant/gdal/install
+./bin/gdalinfo --version
+
+----
+
+##rvm for ruby
+#install ruby via RVM
+
+gpg --keyserver hkp://keys.gnupg.net --recv-keys 409B6B1796C275462A1703113804BB82D39DC0E3 7D2BAF1CF37B13E2069D6956105BD0E739499BDB
+#
+
+curl -sSL https://get.rvm.io | sudo bash -s stable
+add vagrant to rvm group
+sud:o usermod -a -G rvm vagrant
+
+install ruby 
+vagrant@vagrant:~$ cd /srv/mapwarper/
+vagrant@vagrant:/srv/mapwarper$ rvm install 2.2.1
+#lets use 2.4.1 and 2.4.0
+rvm install 2.4.1 -enable-shared
+rvm install 2.4.1 -enable-shared
+
+#so, next we compiule mapserver using the ruby
+
+
+#install dependencies
+
+probably easiest to use build-dep 
+
+firstly enable sources
+
+deb http://archive.ubuntu.com/ubuntu/ xenial universe
+deb-src http://archive.ubuntu.com/ubuntu/ xenial universe
+
+sudo apt-get update
+sudo apt-get build-dep libmapserver2
+
+# rvm enable-shared
+rvm reinstall 2.4.0 --enable-shared  (or rvm install if not done already)
+
+source /etc/profile.d/rvm.sh
+
+git clone https://github.com/timwaters/mapserver.git
+git checkout tags/rel-7-0-0
+cd mapserver
+mkdir build/
+cd build/
+
+cmake .. -DWITH_THREAD_SAFETY=1 -DWITH_FCGI=0 -DWITH_RUBY=1 -DCMAKE_INSTALL_PREFIX=/home/vagrant/mapserver_install -DWITH_GIF=0
+ make
+ldd mapscript/ruby/mapscript.so
+cp mapscript/ruby/mapscript.so  /usr/local/rvm/rubies/ruby-2.4.0/lib/ruby/vendor_ruby/2.4.0/x86_64-linux/
+
+then make install or..
+
+/mapserver/build$ cp mapscript/ruby/mapscript.so  /usr/local/rvm/rubies/ruby-2.4.0/lib/ruby/vendor_ruby/2.4.0/x86_64-linux/
+
+
+
+
+
+

@@ -1,32 +1,17 @@
-#!/usr/bin/env bash
 
 # make sure we have up-to-date packages
 apt-get update
 
-## vagrant grub-pc fix from: https://gist.github.com/jrnickell/6289943
-# parameters
-echo "grub-pc grub-pc/kopt_extracted boolean true" | debconf-set-selections
-echo "grub-pc grub2/linux_cmdline string" | debconf-set-selections
-echo "grub-pc grub-pc/install_devices multiselect /dev/sda" | debconf-set-selections
-echo "grub-pc grub-pc/install_devices_failed_upgrade boolean true" | debconf-set-selections
-echo "grub-pc grub-pc/install_devices_disks_changed multiselect /dev/sda" | debconf-set-selections
-# vagrant grub fix
-dpkg-reconfigure -f noninteractive grub-pc
-
 # upgrade all packages
-#apt-get upgrade -y
+apt-get upgrade -y
 
 # install packages as explained in INSTALL.md
-apt-get install -y ruby1.9.1 libruby1.9.1 ruby1.9.1-dev ri1.9.1 \
-    postgresql-9.3-postgis-2.1 postgresql-server-dev-all postgresql-contrib \
+apt-get install -y ruby libruby ruby-dev \
+    postgresql-9.5-postgis-2.2  postgresql-server-dev-all postgresql-contrib \
     build-essential git-core \
-    libxml2-dev libxslt-dev imagemagick libmapserver1 gdal-bin libgdal-dev ruby-mapscript nodejs
-
-
-#ruby gdal needs the build Werror=format-security removed currently
-sed -i 's/-Werror=format-security//g' /usr/lib/ruby/1.9.1/x86_64-linux/rbconfig.rb
+    libxml2-dev libxslt-dev imagemagick libmapserver2 gdal-bin libgdal-dev ruby-mapscript nodejs
  
-gem1.9.1 install bundle
+gem install bundler
 
 ## install the bundle necessary for mapwarper
 pushd /srv/mapwarper
