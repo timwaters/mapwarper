@@ -85,7 +85,7 @@ function init(){
 
   loadMapFeatures();
 
-  jQuery("#view-maps-index-link").append("(<a href='javascript:toggleMapIndexLayer();'>I18n['layers']['map_outlines_toggle']</a>)");
+  jQuery("#view-maps-index-link").append("(<a href='javascript:toggleMapIndexLayer();'>"+I18n['layers']['map_outlines_toggle']+"</a>)");
 }
 
 function toggleMapIndexLayer(){
