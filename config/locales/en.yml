@@ -349,7 +349,7 @@ en:
       create_layer: Create a new mosaic
       info_contact: Mail me at tim@geothings.net for more information!
       info_header: What is it?
-      info_paragraph_html: It's a free to use, open source map warper / map georectifier, and image georeferencer tool. Developed, hosted and maintained by <a href='https://twitter.com/tim_waters'>Tim Waters</a>, this project is supported by <a  href='http://topomancy.com'>Topomancy LLC</a> and the <a href='http://maps.nypl.org'>New York Public Library</a>.
+      info_paragraph_html: "It's a free to use, open source map warper / map georectifier, and image georeferencer tool for individuals and small groups. Developed, hosted and maintained by <a href='https://thinkwhere.wordpress.com'>Tim Waters</a>. If you like this project, please consider <a href='https://www.paypal.me/timdevelops'>donating</a> to keep the project going."
       more: read more
       news: News
       overview_header: Overview
@@ -870,7 +870,7 @@ en:
       add_map: Add Map
       help: Help
       home: Home
-      supported_by_html: Supported by <a href='http://maps.nypl.org'>New York Public Library</a> and <a href='http://topomancy.com'>Topomancy LLC</a>
+      supported_by_html: "Hosted, developed and maintained by Tim Waters | <a href='https://www.paypal.me/timdevelops'>Donate</a>"
     header:
       admin_users: Administer Users
       all_activity: All Activity
