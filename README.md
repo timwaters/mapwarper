@@ -19,7 +19,7 @@ The application runs as a Ruby on Rails application using a number of open sourc
 
 The resulting maps can be exported as a PNG, GeoTIFF, WMS, Tiles, and KML for use in many different applications.
 
-Groups of maps can be made into "mosaics" that will stictch together the composite map images.
+Groups of maps can be made into "mosaics" that will stitch together the composite map images.
 
 ## Features
 
