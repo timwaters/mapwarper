@@ -1,7 +1,10 @@
 #!/usr/bin/env bash
+set -eu
 
+# constants
 VAGRANT_HOME=/home/vagrant
 RUBY_VERSION=2.2.1
+RVM=/usr/local/rvm/bin/rvm
 
 # make sure we have up-to-date packages
 apt-get update
@@ -24,29 +27,33 @@ apt-get install -y postgresql-9.3-postgis-2.1 postgresql-server-dev-all postgres
     build-essential git-core \
     libxml2-dev libxslt-dev imagemagick libmapserver1 gdal-bin libgdal-dev ruby-mapscript nodejs
 
-
 #ruby gdal needs the build Werror=format-security removed currently
 sed -i 's/-Werror=format-security//g' /usr/lib/ruby/1.9.1/x86_64-linux/rbconfig.rb
 
-# install and enable rvm
+# install RVM https://rvm.io/
+gpg --keyserver hkp://keys.gnupg.net --recv-keys 409B6B1796C275462A1703113804BB82D39DC0E3 7D2BAF1CF37B13E2069D6956105BD0E739499BDB
 curl -sSL https://get.rvm.io | bash -s stable
 
-RVM=/usr/local/rvm/bin/rvm
 
-# get and switch ruby version
-sudo -u vagrant -H $RVM install $RUBY_VERSION
-sudo -u vagrant -H $RVM use $RUBY_VERSION --default
+# TODO: sudoでするか、vagrantユーザーでやるか、わからない
+
+sudo -u vagrant -H $RVM install 2.2.1 --bin $VAGRANT_HOME/.rvm
+
+sudo su vagrant
+
+$RVM install $RUBY_VERSION
+sudo -u vagrant -H $RVM use 
 
 which ruby
+which gem
 
 # link depended modules from global into local
-sudo -u vagrant ln -s \
-  /usr/lib/x86_64-linux-gnu/ruby/vendor_ruby/2.0.0/mapscript.so \
-  $VAGRANT_HOME/.rvm/versions/$RUBY_VERSION/lib/ruby/vendor_ruby/2.2.0/x86_64-linux/mapscript.so
-
+ln -s \
+  "/usr/lib/x86_64-linux-gnu/ruby/vendor_ruby/2.0.0/mapscript.so" \
+  "/usr/local/rvm/rubies/ruby-$RUBY_VERSION/lib/ruby/vendor_ruby/2.2.0/x86_64-linux/mapscript.so"
+  
 # install module management package
-# gem1.9.1 install bundle
-sudo -u vagrant -H gem install bundler
+sudo -u vagrant -H $GEM install bundler
 
 ## install the bundle necessary for mapwarper
 pushd /srv/mapwarper
