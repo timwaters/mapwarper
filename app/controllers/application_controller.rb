@@ -5,6 +5,7 @@ class ApplicationController < ActionController::Base
 
   before_filter :configure_permitted_parameters, if: :devise_controller?
 
+  before_filter :set_locale
     
   def check_super_user_role
     check_role('super user')
@@ -34,6 +35,14 @@ class ApplicationController < ActionController::Base
     end
   end
 
+  def default_url_options(options={})
+    I18n.locale == I18n.default_locale ? {} : { :locale => I18n.locale }
+  end
+
+  def set_locale
+    I18n.locale = params[:locale] || I18n.default_locale
+  end
+  
   def check_role(role)
     unless user_signed_in? && @current_user.has_role?(role)
       permission_denied
@@ -47,5 +56,3 @@ class ApplicationController < ActionController::Base
 
 
 end
-
-

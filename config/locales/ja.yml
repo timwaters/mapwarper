@@ -1036,3 +1036,7 @@ ja:
         zero: "%{model}は見つかりませんでした"
     page_gap: "…"
     previous_label: "← 前"
+  locales:
+    en: 英語
+    nl: オランダ語
+    ja: 日本語
