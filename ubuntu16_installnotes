@@ -30,7 +30,7 @@ gpg --keyserver hkp://keys.gnupg.net --recv-keys 409B6B1796C275462A1703113804BB8
 
 curl -sSL https://get.rvm.io | sudo bash -s stable
 add vagrant to rvm group
-sud:o usermod -a -G rvm vagrant
+sudo usermod -a -G rvm vagrant
 
 install ruby 
 vagrant@vagrant:~$ cd /srv/mapwarper/
@@ -60,15 +60,14 @@ rvm reinstall 2.4.0 --enable-shared  (or rvm install if not done already)
 source /etc/profile.d/rvm.sh
 
 git clone https://github.com/timwaters/mapserver.git
-git checkout tags/rel-7-0-0
 cd mapserver
-mkdir build/
-cd build/
+git checkout tags/rel-7-0-0
+mkdir build
+cd build
 
 cmake .. -DWITH_THREAD_SAFETY=1 -DWITH_FCGI=0 -DWITH_RUBY=1 -DCMAKE_INSTALL_PREFIX=/home/vagrant/mapserver_install -DWITH_GIF=0
- make
+make
 ldd mapscript/ruby/mapscript.so
-cp mapscript/ruby/mapscript.so  /usr/local/rvm/rubies/ruby-2.4.0/lib/ruby/vendor_ruby/2.4.0/x86_64-linux/
 
 then make install which should put the mapscript file in the correct place or..
 
