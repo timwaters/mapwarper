@@ -1,5 +1,5 @@
 <div id="nav">
-  <ul id="navlist">
+  <ul id="navlist" class="<%= I18n.locale %>">
     <li><%= link_to_unless_current(t('.home'), root_path) { "<span>#{t('.home')}</span>".html_safe } %></li>
     <li class=""><%= link_to_unless((current_page?(maps_url) && !current_page?(maps_url(:show_warped =>1))),t('.maps'), maps_url) { "<span>#{t('.maps')}</span>".html_safe } %></li>
     <li class="responsive responsive_narrow"><%= link_to_unless_current(t('.rectified_maps'), maps_url(:show_warped =>1)) { "<span>#{t('.rectified_maps')}</span>".html_safe } %></li>    

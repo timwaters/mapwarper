@@ -1115,6 +1115,19 @@ font-weight: bold;
 @media screen and (max-width: 580px) {
   #navlist li.responsive{ display:none;}
 }
+
+/* responsive nav tabs for Japanese locale */
+@media screen and (max-width: 1780px) {
+  #navlist.ja li.responsive_wide{ display:none;}
+}
+@media screen and (max-width: 1378px) {
+  #navlist.ja li.responsive_narrow{ display:none;}
+}
+
+@media screen and (max-width: 730px) {
+  #navlist.ja li.responsive{ display:none;}
+}
+
 #navlist {
 	padding: 3px 0 0 1em;
 	border-bottom: 1px solid #999;

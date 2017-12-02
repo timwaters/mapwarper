@@ -344,7 +344,7 @@ nl:
       create_layer: Maak een nieuw mozaïek
       info_contact: Mail me op tim@geothings.net voor meer informatie!
       info_header: Wat is het?
-      info_paragraph_html: Map Warper is een gratis, open source tool om kaarten te georefereren. Dit project is mogelijk gemaakt door <a  href='http://topomancy.com'>Topomancy LLC</a>, de <a href='http://maps.nypl.org'>New York Public Library</a> en <a  href='https://www.erfgoedleiden.nl'>Erfgoed Leiden en Omstreken</a>.
+      info_paragraph_html: "Het is een gratis te gebruiken, open source map warper / map georectifier en image georeferencer tool voor individuen en kleine groepen. Ontwikkeld, gehost en onderhouden door <a href='https://thinkwhere.wordpress.com'>Tim Waters</a>. Als je dit project leuk vindt, overweeg dan om te <a href='https://www.paypal.me/timdevelops'>doneren</a> om het project gaande te houden."
       more: lees meer
       news: Nieuws
       overview_header: Welkom
@@ -861,7 +861,8 @@ nl:
       add_map: Kaart toevoegen
       help: Help
       home: Home
-      supported_by_html: Mede mogelijk gemaakt door <a href='https://www.erfgoedleiden.nl'>Erfgoed Leiden en Omstreken</a>
+      supported_by_html:  "Hosted, developed and maintained by Tim Waters | <a href='https://www.paypal.me/timdevelops'>Donate</a>"
+
     header:
       admin_users: Admin gebruikers
       all_activity: Alle activiteiten
