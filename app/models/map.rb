@@ -51,8 +51,10 @@ class Map < ActiveRecord::Base
   before_create :download_remote_image, :if => :upload_url_provided?
   before_create :save_dimensions
   after_create :setup_image
+  after_create :update_user_counts
   after_destroy :delete_images
   after_destroy :delete_map, :update_counter_cache, :update_layers
+  after_destroy :update_user_counts
   after_save :update_counter_cache
   
   ##################
@@ -238,7 +240,7 @@ class Map < ActiveRecord::Base
   end
   
   def update_layers
-    logger.info "updating (visible) layers"
+    logger.debug "updating (visible) layers"
     unless self.layers.visible.empty?
       self.layers.visible.each  do |layer|
         layer.update_layer
@@ -247,7 +249,7 @@ class Map < ActiveRecord::Base
   end
   
   def update_counter_cache
-    logger.info "update_counter_cache"
+    logger.debug "update_counter_cache"
     unless self.layers.empty?
       self.layers.each do |layer|
         layer.update_counts
@@ -257,6 +259,13 @@ class Map < ActiveRecord::Base
   
   def update_gcp_touched_at
     self.touch(:gcp_touched_at)
+  end
+
+  def update_user_counts
+    logger.debug "updating owner map counts"
+    if self.owner
+      self.owner.update_map_counts
+    end
   end
   
   #method to publish the map

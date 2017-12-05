@@ -966,6 +966,8 @@ en:
       roles: Roles
       search: User Search
       title: Users
+      uploads_count: Uploads
+      uploads_size: Uploads size
     show:
       activity: User Activity
       back_to_maps: "&lt; Browse Maps"

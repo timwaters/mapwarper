@@ -169,7 +169,19 @@ class User < ActiveRecord::Base
     end
   end
 
-  
+  def update_own_maps_count
+    self.update_attribute(:own_maps_count, self.own_maps.count)
+  end
+
+  def update_upload_filesize_sum
+    self.update_attribute(:upload_filesize_sum, self.own_maps.sum(:upload_file_size)) 
+  end
+ 
+  def update_map_counts
+    update_own_maps_count
+    update_upload_filesize_sum
+  end
+
   protected
 
   #called after the user has been destroyed

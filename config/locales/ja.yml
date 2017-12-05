@@ -971,6 +971,8 @@ ja:
       roles: "ロール"
       search: "ユーザーを検索"
       title: "ユーザー"
+      uploads_count: Uploads
+      uploads_size: Uploads size
     show:
       activity: ユーザーによる更新
       back_to_maps: "＜ 地図を見る"

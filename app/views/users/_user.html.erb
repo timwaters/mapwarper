@@ -1,7 +1,9 @@
 <tr class="<%= cycle('table0', 'table1') -%>">
   <td><%= time_ago_in_words(user.created_at) -%> ago.</td>
   <td><%= link_to(( user.login), user_path(user.id), :method => :get)  -%></td>
+  <td><%= user.own_maps_count %></td>
   <% if admin_authorized? %>
+    <td><%= number_to_human_size(user.upload_filesize_sum)  %></td>
     <td><%=h user.provider -%></td>
     <td><%=h user.email -%></td>
     <td><%= user.enabled ? t('.u_yes') : t('.u_no') -%>&nbsp;
@@ -11,7 +13,6 @@
         <% else -%>
           <%= link_to(t('.enable'), enable_user_path(user.id), :method => :put) -%>
         <% end -%>
-
       <% end -%>
       &nbsp;
     </td>

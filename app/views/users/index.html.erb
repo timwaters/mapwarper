@@ -22,7 +22,9 @@
     <tr>
       <%= sort_header_tag('created_at', :title => t('.created')) %>
       <%= sort_header_tag('login', :title => t('.login')) %>
-      <% if admin_authorized? %>
+      <%= sort_header_tag('own_maps_count', :title => t('.uploads_count')) %>
+      <% if admin_authorized? %>  
+        <%= sort_header_tag('upload_filesize_sum', :title => t('.uploads_size')) %>
         <%= sort_header_tag('provider', :title => t('.provider')) %>
         <%= sort_header_tag('email', :title => t('.email')) %>
         <%= sort_header_tag('enabled', :title => t('.enabled')) %>

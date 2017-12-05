@@ -958,6 +958,8 @@ nl:
       roles: Rollen
       search: Zoek
       title: Gebruikers
+      uploads_count: Uploads
+      uploads_size: Uploads size
     show:
       activity: Gebruikersactiviteiten
       back_to_maps: "&lt; Zoek kaarten"
