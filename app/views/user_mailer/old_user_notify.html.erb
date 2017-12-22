@@ -12,7 +12,7 @@
 
 <p>
   <ul>
-  <% @user.maps.each do | map | %>
+  <% @user.own_maps.each do | map | %>
     <li> <%= link_to map.title,  map %> </li>
   <% end %>
   </ul>
