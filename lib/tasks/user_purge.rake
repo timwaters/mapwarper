@@ -89,11 +89,11 @@ namespace :warper do
 
        warning =  UserWarning.new(:category =>"purge_notify", :status =>"open", :note => notes, :user => user)
 
-     #  if warning.save
+       if warning.save
          UserMailer.old_user_notify(user).deliver_now
-    #   else
-    #     puts "Already notified. #{warning.errors.messages}" 
-    #   end
+       else
+         puts "Already notified. #{warning.errors.messages}" 
+       end
 
       end
 
