@@ -38,7 +38,7 @@ namespace :warper do
         next if user.own_maps.published.count > 0
         next unless user.roles.empty?
         file_size_sum += user.upload_filesize_sum
-        eligable_users_size += 1
+        eligable_users_size + 1
         puts "#{user.login}, #{user.email}, #{user.updated_at.strftime("%F")}, #{user.created_at.strftime("%F")}, #{user.own_maps_count}, #{number_to_human_size(user.upload_filesize_sum)}"
       end
 
