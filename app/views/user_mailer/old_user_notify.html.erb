@@ -7,7 +7,7 @@
 </p>
 
 <p>
-  <%= t('.body', :site_name => APP_CONFIG['full_site_name'], :created => @user.created_at.strftime("%F"), :updated => @user.updated_at.strftime("%F"),  :map_count => @user.own_maps_count) %> 
+  <%= t('.body', :site_name => APP_CONFIG['full_site_name'], :created => @user.created_at.strftime("%F"), :updated => @user.updated_at.strftime("%F"),  :map_count => @user.own_maps_count).html_safe %> 
 </p>
 
 <p>
@@ -21,6 +21,9 @@
 <p>
   <%= t('.forgot_password') %> <br />
   <%= link_to t('.forgot_password_link'), new_password_url(User), :class=>"devise-link" %>  
+</p>
 
+<p>
+  <%= t('.thanks') %>
 </p>
 

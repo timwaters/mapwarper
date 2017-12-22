@@ -918,6 +918,7 @@ nl:
       greeting: Hi
       intro: "Way back in %{created} you signed up to <a href='%{root_url}'>%{site_name}</a>. %{site_name} is a free service to upload and georeference maps and images. Unfortunately the server is running out of disk space and so your account, uploaded maps and created mosaics are set to be deleted in the future to free up space. You don't need to do anything if you are okay with this. You can stop this simply by logging in." 
       subject: "Your account and %{map_count} maps on %{site_name} might be deleted in the future."
+      thanks: "Many thanks and regards, Tim"
   users:
     admin_tools:
       confirm: Bevestig
