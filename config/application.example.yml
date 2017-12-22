@@ -13,6 +13,8 @@ defaults: &defaults
   geoparse_enable: false
   host: "localhost:3000"
   site_name: "MapWarper"
+  full_site_name: "MapWarper.net"
+  reply_to: "example@example.com"
   omniauth_osm_key: "ABC"
   omniauth_osm_secret: "ABC"
   omniauth_twitter_key: "ABC"

@@ -17,6 +17,7 @@ class User < ActiveRecord::Base
   has_many :layers, :dependent => :destroy
   has_many :memberships, :dependent => :destroy
   has_many :groups, :through => :memberships
+  has_many :user_warnings
   
   validates_presence_of    :login
   validates_length_of      :login,    :within => 3..40

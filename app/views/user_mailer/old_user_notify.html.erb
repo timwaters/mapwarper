@@ -1,0 +1,26 @@
+<p>
+  <%= t('.greeting') %> <%= @user.login %>
+</p>
+
+<p>
+  <%= t('.intro', :site_name => APP_CONFIG['full_site_name'],   :created => @user.created_at.strftime("%F"), :root_url => root_url).html_safe %> 
+</p>
+
+<p>
+  <%= t('.body', :site_name => APP_CONFIG['full_site_name'], :created => @user.created_at.strftime("%F"), :updated => @user.updated_at.strftime("%F"),  :map_count => @user.own_maps_count) %> 
+</p>
+
+<p>
+  <ul>
+  <% @user.maps.each do | map | %>
+    <li> <%= link_to map.title,  map %> </li>
+  <% end %>
+  </ul>
+</p>
+
+<p>
+  <%= t('.forgot_password') %> <br />
+  <%= link_to t('.forgot_password_link'), new_password_url(User), :class=>"devise-link" %>  
+
+</p>
+

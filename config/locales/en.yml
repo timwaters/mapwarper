@@ -919,6 +919,13 @@ en:
       click_the_link: 'Your account has been created and you can log in using the email: %{email} at:'
       intro: Thanks for signing up to use %{site_name}.
       subject: Welcome to %{site_name} %{user_name}
+    old_user_notify:
+      body: "%{site_name} is run and operated by me, Tim Waters, out of my own pocket on a bare metal server. As users upload more maps, the disks fill up quickly. It recently was upgraded to run on a newer server with 4TB drives, but even these are almost close to being full! So, without changing %{site_name} into a paid service, I've decided that it's fairer if older accounts, mosaics and maps get removed first. This will not happen for at least a week and at most until the disks get full. I'll try to keep the number cleared as low as possible, but I thought you'd like to be notified about this. If you don't want this, you can stop this simply by logging in. You might find that some of the older maps need to be re-rectified if you want to view them. You last logged in on %{updated}. <br /> If you are an institution or large organisation you should think about having your own instance of this open source software - feel free to contact me. <br />Once logged in you can delete individual maps by clicking on the 'edit' tab of a map and clicking on the 'delete this map' link. <br />You have uploaded %{map_count} map(s). The maps you uploaded are:"
+      forgot_password: "You might have forgotten your password, you can reset your password here:"
+      forgot_password_link: "Forgot Password"
+      greeting: Hi
+      intro: "Way back in %{created} you signed up to <a href='%{root_url}'>%{site_name}</a>. %{site_name} is a free service to upload and georeference maps and images. Unfortunately the server is running out of disk space and so your account, uploaded maps and created mosaics are set to be deleted in the future to free up space. You don't need to do anything if you are okay with this. You can stop this simply by logging in." 
+      subject: "Your account and %{map_count} maps on %{site_name} might be deleted in the future."
   users:
     admin_tools:
       confirm: Manually confirm

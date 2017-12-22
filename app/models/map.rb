@@ -41,9 +41,11 @@ class Map < ActiveRecord::Base
   
   scope :warped,    -> { where({ :status => [Map.status(:warped), Map.status(:published)], :map_type => Map.map_type(:is_map)  }) }
   scope :published, -> { where({:status => Map.status(:published), :map_type => Map.map_type(:is_map)})}
+  scope :unpublished, -> { where.not(:status => Map.status(:published)) }
   scope :are_public, -> { where(public: true) }
   scope :real_maps, -> { where({:map_type => Map.map_type(:is_map)})}
-  
+  scope :unprotected,  -> { unpublished.where(protect: false) }
+
   attr_accessor :error
   attr_accessor :upload_url
 

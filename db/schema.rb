@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171205133057) do
+ActiveRecord::Schema.define(version: 20171209155036) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -202,6 +202,7 @@ ActiveRecord::Schema.define(version: 20171205133057) do
     t.datetime "rectified_at"
     t.datetime "gcp_touched_at"
     t.integer  "issue_year"
+    t.boolean  "protect",                                                                                  default: false
   end
 
   add_index "maps", ["bbox_geom"], name: "index_maps_on_bbox_geom", using: :gist
@@ -293,6 +294,17 @@ ActiveRecord::Schema.define(version: 20171205133057) do
     t.string  "name"
     t.integer "taggings_count", default: 0
   end
+
+  create_table "user_warnings", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer  "user_id"
+    t.string   "category"
+    t.string   "status"
+    t.text     "note"
+  end
+
+  add_index "user_warnings", ["user_id"], name: "index_user_warnings_on_user_id", using: :btree
 
   create_table "users", force: :cascade do |t|
     t.string   "login"
