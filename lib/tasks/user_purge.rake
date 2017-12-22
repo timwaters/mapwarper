@@ -4,30 +4,30 @@ namespace :warper do
     desc "Returns details of old users to help plan removal of older users in system"
       ## call this like this: (note single quotes around the task name and args) rake 'warper:old_users:plan_purge[10, 2006-01-01]'
 
-    task :plan_purge, [:limit, :updated_at] => :environment do | t, args | 
+    task :plan_purge, [:limit, :created_at] => :environment do | t, args | 
 
       include ActiveSupport::NumberHelper
 
       puts "\nPlanning Old User Purge....\n"
       puts "Args were: #{args.to_hash}"
-      usage = "::::::USAGE::::::\nrake warper:old_users:plan_purge['limit (int) REQUIRED', updated_at (YYYY-MM-DD) REQUIRED \n\nEXAMPLE   warper:old_users:plan_purge[50,'2004-01-01'] "
+      usage = "::::::USAGE::::::\nrake warper:old_users:plan_purge['limit (int) REQUIRED', created_at (YYYY-MM-DD) REQUIRED \n\nEXAMPLE   warper:old_users:plan_purge[50,'2004-01-01'] "
      
        #check to make sure the args are filled in properly
-      unless args.has_key?(:limit) &&  args.has_key?(:updated_at)
-        puts "no limit or updated_at passed in as args"
+      unless args.has_key?(:limit) &&  args.has_key?(:created_at)
+        puts "no limit or created_at passed in as args"
         puts usage
         break
       end
 
-      unless Date.strptime(args.updated_at,'%Y-%m-%d')  #this should error out anyhow before we get to our check
-        puts "updated at not parsed"  
+      unless Date.strptime(args.created_at,'%Y-%m-%d')  #this should error out anyhow before we get to our check
+        puts "created_at at not parsed"  
         puts usage
         break
       end
 
-      before_updated_at = Date.strptime(args.updated_at,'%Y-%m-%d')
+      before_created_at = Date.strptime(args.created_at,'%Y-%m-%d')
 
-      users = User.where('own_maps_count > 0').order('own_maps_count DESC NULLS LAST').where('updated_at < ?', before_updated_at).limit(args.limit)
+      users = User.where('own_maps_count > 0').order('own_maps_count DESC NULLS LAST').where('created_at < ?', before_created_at).limit(args.limit)
       
       eligable_users_size = 0
       file_size_sum = 0
@@ -50,20 +50,20 @@ namespace :warper do
 
     desc "Notifies old users about upcoming purge from the system. Sends email allowing users to log in an stop purge."
 
-    task :notify_purge, [:limit, :updated_at] => :environment do | t, args | 
+    task :notify_purge, [:limit, :created_at] => :environment do | t, args | 
 
       include ActiveSupport::NumberHelper
 
-      usage = "::::::USAGE::::::\nrake 'warper:old_users:notify_purge[limit (int) REQUIRED, updated_at (YYYY-MM-DD) REQUIRED]'"
+      usage = "::::::USAGE::::::\nrake 'warper:old_users:notify_purge[limit (int) REQUIRED, created_at (YYYY-MM-DD) REQUIRED]'"
       
-      unless args.has_key?(:limit) &&  args.has_key?(:updated_at) 
-        puts "no limit or updated_at  passed in as args"
+      unless args.has_key?(:limit) &&  args.has_key?(:created_at) 
+        puts "no limit or created_at  passed in as args"
         puts usage
         break
       end
 
-      unless Date.strptime(args.updated_at,'%Y-%m-%d')  #this should error out anyhow before we get to our check
-        puts "updated at not parsed"  
+      unless Date.strptime(args.created_at,'%Y-%m-%d')  #this should error out anyhow before we get to our check
+        puts "created_at not parsed"  
         puts usage
         break
       end
@@ -72,9 +72,9 @@ namespace :warper do
       break unless STDIN.gets.match(/^y$/i)
 
 
-      before_updated_at = Date.strptime(args.updated_at,'%Y-%m-%d')
+      before_created_at = Date.strptime(args.created_at,'%Y-%m-%d')
       
-      users = User.where('own_maps_count > 0').order(:own_maps_count).where('updated_at > ?', before_updated_at).limit(args.limit)
+      users = User.where('own_maps_count > 0').order(:own_maps_count).where('created_at < ?', before_created_at).limit(args.limit)
       
       file_size_sum = 0
       puts "login, email, updated_at,  created_at,  map count, filesize"
