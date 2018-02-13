@@ -171,11 +171,11 @@ class User < ActiveRecord::Base
   end
 
   def update_own_maps_count
-    self.update_attribute(:own_maps_count, self.own_maps.count)
+    update_column(:own_maps_count, own_maps.count)
   end
 
   def update_upload_filesize_sum
-    self.update_attribute(:upload_filesize_sum, self.own_maps.sum(:upload_file_size)) 
+    update_column(:upload_filesize_sum, own_maps.sum(:upload_file_size)) 
   end
  
   def update_map_counts
