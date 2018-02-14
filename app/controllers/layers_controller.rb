@@ -43,26 +43,35 @@ class LayersController < ApplicationController
     sort_init 'updated_at'
     sort_update
 
-    extents = [-74.1710,40.5883,-73.4809,40.8485] #NYC
-    #extents = [4.4105, 52.092, 4.554, 52.229] #leiden
+    extents = [-165,-55,179,73] #world
 
     if params[:place] && !params[:place].blank?
-      api_key = APP_CONFIG["mapzen_key"]
       
-      uri = URI('https://search.mapzen.com/v1/search')
-      query_params = { :text => params[:place], :api_key => api_key, :size => 2, :sources => "wof,geonames", :layers => "coarse"}
-      
+      uri = URI('https://nominatim.openstreetmap.org/search')
+      query_params = { :q => params[:place], :limit => 1, :format => "json"}
+
+      #APP_CONFIG["geocode_country"ISO 3166-1alpha2 code, e.g. gb for the United Kingdom, de for Germany, etc.
       if !APP_CONFIG["geocode_country"].blank?
-        query_params = query_params.merge({"boundary.country" => APP_CONFIG["geocode_country"]})
+        query_params = query_params.merge({"countrycodes" => APP_CONFIG["geocode_country"]})
       end
       
       uri.query = URI.encode_www_form(query_params)
+
       begin
-        res = Net::HTTP.get_response(uri)
+
+        req = Net::HTTP::Get.new(uri)
+        user_agent = "Mapwarper Geosearch At #{request.host}"
+        req.add_field('User-Agent', user_agent)
+
+        res = Net::HTTP.start(uri.hostname, uri.port, :use_ssl => true, :read_timeout => 2) do |http|
+          http.request(req)
+        end
+
         if res.kind_of? Net::HTTPSuccess
           results = JSON.parse(res.body)
-          if results["features"].size > 0
-            extents = results["features"][0]["bbox"]
+          if results.size > 0
+            bb = results[0]["boundingbox"]
+            extents = [bb[2],bb[0],bb[3],bb[1]]
           else
             logger.error "http not successful in geosearch place" 
           end
