@@ -3,6 +3,7 @@
     <%= t('users.index.email') %> : <%= @user.email -%>  <br />
     <%= t('users.index.enabled') %> : <%= @user.enabled ? 'Yes' : 'No' -%> <br />
     <%= t('users.index.confirmed') %> : <%= @user.confirmed? ? 'Yes' : 'No' -%> <br />
+    <%= t('users.index.updated') %>: <%= @user.updated_at.to_s(:long) %>
     <br />
     <%= link_to(t('.delete_user'), user_path(@user.id), :method => :delete, :data => {:confirm => t('.delete_confirm')} ) -%> <%= t('.delete_hint') %> <br />
      

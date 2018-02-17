@@ -974,6 +974,7 @@ en:
       roles: Roles
       search: User Search
       title: Users
+      updated: Updated
       uploads_count: Uploads
       uploads_size: Uploads size
     show:
@@ -984,6 +985,7 @@ en:
       profile: 'Profile Description:'
       provider_user_html: A %{provider_thumb} %{provider_name} User
       title: Showing User %{user_name}
+      updated: Updated
       user: User
       user_maps: User Maps
     stats:

@@ -966,6 +966,7 @@ nl:
       roles: Rollen
       search: Zoek
       title: Gebruikers
+      updated: Updated
       uploads_count: Uploads
       uploads_size: Uploads size
     show:
@@ -976,6 +977,7 @@ nl:
       profile: 'Profiel beschrijving:'
       provider_user_html: Een %{provider_thumb} %{provider_name} gebruiker
       title: Toon gebruiker %{user_name}
+      updated: Updated
       user: Gebruiker
       user_maps: Gebruiker kaarten
     stats:

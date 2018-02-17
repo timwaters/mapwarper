@@ -21,6 +21,7 @@
   <thead>
     <tr>
       <%= sort_header_tag('created_at', :title => t('.created')) %>
+      <%= sort_header_tag('updated_at', :title => t('.updated')) %>
       <%= sort_header_tag('login', :title => t('.login')) %>
       <%= sort_header_tag('own_maps_count', :title => t('.uploads_count')) %>
       <% if admin_authorized? %>  

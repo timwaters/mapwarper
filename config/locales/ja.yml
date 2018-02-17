@@ -979,6 +979,7 @@ ja:
       roles: "ロール"
       search: "ユーザーを検索"
       title: "ユーザー"
+      updated: Updated
       uploads_count: Uploads
       uploads_size: Uploads size
     show:
@@ -989,6 +990,7 @@ ja:
       profile: 'プロフィール:'
       provider_user_html: "%{provider_thumb} %{provider_name} ユーザー"
       title: ユーザー %{user_name} さんを表示しています
+      updated: Updated
       user: ユーザー
       user_maps: ユーザー地図
     stats:
