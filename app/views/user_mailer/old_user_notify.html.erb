@@ -11,14 +11,6 @@
 </p>
 
 <p>
-  <ul>
-  <% @user.own_maps.each do | map | %>
-    <li> <%= link_to map.title,  map %> </li>
-  <% end %>
-  </ul>
-</p>
-
-<p>
   <%= t('.forgot_password') %> <br />
   <%= link_to t('.forgot_password_link'), new_password_url(User), :class=>"devise-link" %>  
 </p>
