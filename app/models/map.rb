@@ -229,6 +229,10 @@ class Map < ActiveRecord::Base
       logger.info "deleting unwarped"
       File.delete unwarped_filename
     end
+    if File.exists?(masked_src_filename)
+      logger.info "deleting unwarped masked file"
+      File.delete masked_src_filename
+    end
   end
   
   def delete_map
