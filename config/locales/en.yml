@@ -963,6 +963,7 @@ en:
       button: " Go "
       confirmed: Confirmed?
       created: Signed Up
+      disk_usage: Disk Usage
       email: Email
       enabled: Enabled?
       for: for

@@ -26,6 +26,7 @@
       <%= sort_header_tag('own_maps_count', :title => t('.uploads_count')) %>
       <% if admin_authorized? %>  
         <%= sort_header_tag('upload_filesize_sum', :title => t('.uploads_size')) %>
+        <%= sort_header_tag('disk_usage', :title => t('.disk_usage')) %>
         <%= sort_header_tag('provider', :title => t('.provider')) %>
         <%= sort_header_tag('email', :title => t('.email')) %>
         <%= sort_header_tag('enabled', :title => t('.enabled')) %>

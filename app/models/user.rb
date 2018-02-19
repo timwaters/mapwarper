@@ -174,6 +174,7 @@ class User < ActiveRecord::Base
     update_column(:own_maps_count, own_maps.count)
   end
 
+  #upload_file_size is in bytes
   def update_upload_filesize_sum
     update_column(:upload_filesize_sum, own_maps.sum(:upload_file_size)) 
   end
@@ -181,6 +182,27 @@ class User < ActiveRecord::Base
   def update_map_counts
     update_own_maps_count
     update_upload_filesize_sum
+  end
+
+  def update_disk_usage
+    update_column(:disk_usage, calculate_disk_usage)
+  end
+
+  #returns tiffed disk usage in units of 1024 bytes
+  def calculate_disk_usage
+    user_own_maps = self.own_maps  #saves 4 calls
+
+    files = user_own_maps.map{|m| m.unwarped_filename if File.exist? m.unwarped_filename} + user_own_maps.map{| m | m.masked_src_filename if File.exist? m.masked_src_filename} + user_own_maps.map{|m | m.warped_filename if File.exist? m.warped_filename} + user_own_maps.map{|m| m.warped_png_filename if File.exist? m.warped_png_filename}
+    files.compact!
+    files_string = files.join("' '")
+
+    command = "du -c '#{files_string}'"
+  
+    logger.debug "Calculate disk usage size for user:#{self.id}  #{command}"
+
+    total_size = `#{command}`.split("\n").last.split("\t").first
+
+    return total_size
   end
 
   protected

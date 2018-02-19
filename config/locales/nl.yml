@@ -955,6 +955,7 @@ nl:
       button: Ga
       confirmed: Bevestigd?
       created: Aangemeld
+      disk_usage: Disk Usage
       email: E-mail
       enabled: Ingeschakeld?
       for: voor

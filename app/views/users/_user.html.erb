@@ -5,6 +5,7 @@
   <td><%= user.own_maps_count %></td>
   <% if admin_authorized? %>
     <td><%= number_to_human_size(user.upload_filesize_sum)  %></td>
+    <td><%= number_to_human_size(user.disk_usage * 1024) if user.disk_usage && user.disk_usage > 0  %></td>
     <td><%=h user.provider -%></td>
     <td><%=h user.email -%></td>
     <td><%= user.enabled ? t('.u_yes') : t('.u_no') -%>&nbsp;

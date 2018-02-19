@@ -968,6 +968,7 @@ ja:
       button: " Go "
       confirmed: 確認しましたか？
       created: "サインアップ"
+      disk_usage: Disk Usage
       email: eメール
       enabled: 有効化しましたか?
       for: ""

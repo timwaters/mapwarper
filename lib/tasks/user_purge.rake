@@ -31,18 +31,20 @@ namespace :warper do
       
       eligable_users_size = 0
       file_size_sum = 0
-      puts "login, email, updated_at,  created_at,  map count, filesize"
+      disk_usage_sum = 0
+      puts "login, email, updated_at,  created_at,  map count, uploadfilesize, diskusage"
 
       users.each do | user |
         next if user.own_maps.where(protect: true).count > 0
         next if user.own_maps.published.count > 0
         next unless user.roles.empty?
         file_size_sum += user.upload_filesize_sum
+        disk_usage_sum += user.disk_usage if user.disk_usage
         eligable_users_size += 1
-        puts "#{user.login}, #{user.email}, #{user.updated_at.strftime("%F")}, #{user.created_at.strftime("%F")}, #{user.own_maps_count}, #{number_to_human_size(user.upload_filesize_sum)}"
+        puts "#{user.login}, #{user.email}, #{user.updated_at.strftime("%F")}, #{user.created_at.strftime("%F")}, #{user.own_maps_count}, #{number_to_human_size(user.upload_filesize_sum)}, #{number_to_human_size(user.disk_usage * 1024) if user.disk_usage && user.disk_usage > 0 } "
       end
 
-      puts "Eligable user count: #{eligable_users_size}, total file size = ", number_to_human_size(file_size_sum)
+      puts "Eligable user count: #{eligable_users_size}, upload_file_size =  #{number_to_human_size(file_size_sum)} , disk_usage_sum = #{number_to_human_size(disk_usage_sum * 1024)} "
 
     end
 
