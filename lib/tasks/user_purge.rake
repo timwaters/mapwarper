@@ -76,7 +76,7 @@ namespace :warper do
 
       before_updated_at = Date.strptime(args.updated_at,'%Y-%m-%d')
       
-      users = User.where('own_maps_count > 0').order(:own_maps_count).where('updated_at < ?', before_updated_at).limit(args.limit)
+      users = User.where('own_maps_count > 0').order('own_maps_count DESC NULLS LAST').where('updated_at < ?', before_updated_at).limit(args.limit)
       
       file_size_sum = 0
       puts "login, email, updated_at,  created_at,  map count, filesize"
