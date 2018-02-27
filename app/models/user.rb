@@ -195,12 +195,19 @@ class User < ActiveRecord::Base
     files = user_own_maps.map{|m| m.unwarped_filename if File.exist? m.unwarped_filename} + user_own_maps.map{| m | m.masked_src_filename if File.exist? m.masked_src_filename} + user_own_maps.map{|m | m.warped_filename if File.exist? m.warped_filename} + user_own_maps.map{|m| m.warped_png_filename if File.exist? m.warped_png_filename}
     files.compact!
     files_string = files.join("' '")
+    files_stdin = files.join("\0")
 
-    command = "du -c '#{files_string}'"
-  
-    logger.debug "Calculate disk usage size for user:#{self.id}  #{command}"
+    debug_command = "du -c '#{files_string}'"
+    command = "du -c --files0-from=- "
 
-    total_size = `#{command}`.split("\n").last.split("\t").first
+    stdin, stdout, stderr, wait_thr = Open3.popen3(command)
+    stdin.print(files_stdin)
+
+    stdin.close
+    
+    total_size = stdout.gets.split("\n").last.split("\t").first
+    stdout.close
+    logger.debug "Calculate disk usage size for user:#{self.id}  #{debug_command}"
 
     return total_size
   end
