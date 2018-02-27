@@ -500,10 +500,15 @@ class LayersController < ApplicationController
   def wms()
     begin
       @layer = Layer.find(params[:id])
+
+      if params["REQUEST"] == "GetLegendGraphic" || params["request"] == "GetLegendGraphic"
+        thumb
+        return false
+      end
+
       ows = Mapscript::OWSRequest.new
 
       ok_params = Hash.new
-      # params.each {|k,v| k.upcase! } frozen string error
 
       params.each {|k,v| ok_params[k.upcase] = v }
 

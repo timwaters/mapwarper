@@ -775,6 +775,8 @@ class MapsController < ApplicationController
      
   end
 
+
+
   require 'mapscript'
   include Mapscript
 
@@ -783,11 +785,18 @@ class MapsController < ApplicationController
     @map = Map.find(params[:id])
     #status is additional query param to show the unwarped wms
     status = params["STATUS"].to_s.downcase || "unwarped"
+
+    if params["REQUEST"] == "GetLegendGraphic" || params["request"] == "GetLegendGraphic"
+      thumb
+      return false
+    end
+
     ows = Mapscript::OWSRequest.new
     
     ok_params = Hash.new
     # params.each {|k,v| k.upcase! } frozen string error
     params.each {|k,v| ok_params[k.upcase] = v }
+
     [:request, :version, :transparency, :service, :srs, :width, :height, :bbox, :format, :srs].each do |key|
       ows.setParameter(key.to_s, ok_params[key.to_s.upcase]) unless ok_params[key.to_s.upcase].nil?
     end
