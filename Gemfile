@@ -42,7 +42,7 @@ gem 'omniauth-github'
 gem 'omniauth-mediawiki'
 gem 'omniauth-facebook'
 
-gem 'pg'
+gem 'pg', '~>0.21'
 
 gem 'activerecord-postgis-adapter', '~>3.0'
 

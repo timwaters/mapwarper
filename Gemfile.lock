@@ -384,7 +384,7 @@ DEPENDENCIES
   omniauth-osm
   omniauth-twitter
   paperclip (~> 5.2.1)
-  pg
+  pg (~> 0.21)
   pg_search
   rack-cors
   rails (= 4.2.10)
