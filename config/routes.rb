@@ -2,6 +2,7 @@ Rails.application.routes.draw do
   root 'home#index'
   get '/about' => 'home#about', :as => 'about'
   get '/help' => 'home#help', :as => 'help'
+  get '/terms' => 'home#terms', :as => 'terms'
   
   devise_for :users, :path => 'u',:controllers => { :sessions => "sessions", :omniauth_callbacks => "omniauth_callbacks" }
   

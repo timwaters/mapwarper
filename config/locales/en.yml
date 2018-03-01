@@ -759,6 +759,7 @@ en:
     new:
       header: Upload a new map
       may_resize: It may resize the image if it's too large
+      permission_link:  By uploading images to the website, you agree to the <a href='%{href}'>WorldMap Terms and Conditions</a>.
       permission_notice: By uploading images to the website, you agree that you have permission to do so, and accept that anyone else can potentially view and use them, including changing control points.
       title: 'Upload a new map to '
     publish:
@@ -872,6 +873,7 @@ en:
       help: Help
       home: Home
       supported_by_html: "Hosted, developed and maintained by Tim Waters | <a href='https://www.paypal.me/timdevelops'>Donate</a>"
+      terms: Terms
     header:
       admin_users: Administer Users
       all_activity: All Activity

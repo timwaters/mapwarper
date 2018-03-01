@@ -765,6 +765,7 @@ ja:
       header: "新しい地図をアップロードする"
       may_resize: 画像が大きいとサイズが変更される場合があります。
       permission_notice: "画像をこのウェブサイトにアップロードすると、画像をアップロードする権限が自分にあることを認め、基準点の変更を含めて他者による画像の閲覧と使用を許諾したことになります。"
+      permission_link:  By uploading images to the website, you agree to the <a href='%{href}'>WorldMap Terms and Conditions</a>.
       title: '新しい地図を次の場所へアップロードする：'
     publish:
       flash: "地図を更新しました。現在の状態："
@@ -877,6 +878,7 @@ ja:
       help: "ヘルプ"
       home: "ホーム"
       supported_by_html: <a href='http://maps.nypl.org'>ニューヨーク公共図書館</a>と<a href='http://topomancy.com'>Topomancy LLC</a>の助成を受けています。
+      terms: Terms
     header:
       admin_users: "管理者ユーザー"
       all_activity: "すべての更新履歴"

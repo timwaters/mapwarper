@@ -755,6 +755,7 @@ nl:
       header: Upload een nieuwe kaart
       may_resize: Het kan de afmetingen van de afbeelding aanpassen, als deze te groot is.
       permission_notice: Vul de informatievelden in, kies het gewenste bestand en klik op 'Publiceer'.
+      permission_link:  By uploading images to the website, you agree to the <a href='%{href}'>WorldMap Terms and Conditions</a>.
       title: Upload een nieuwe kaart naar
     publish:
       flash: 'Kaart gewijzigd. Nieuwe status:'
@@ -863,7 +864,7 @@ nl:
       help: Help
       home: Home
       supported_by_html:  "Hosted, developed and maintained by Tim Waters | <a href='https://www.paypal.me/timdevelops'>Donate</a>"
-
+      terms: Terms
     header:
       admin_users: Admin gebruikers
       all_activity: Alle activiteiten
