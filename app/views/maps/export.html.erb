@@ -3,6 +3,11 @@
 <h3><%= t('.images_header') %></h3>
 <ul>
   <li>
+    <%= t('.original') %>: <%= link_to   @map.upload.original_filename, @map.upload.url %>
+  </li>
+</ul>
+<ul>
+  <li>
     <%= t('.geotiff') %>: <%= link_to  t('.geotiff_link'), export_map_url(:id => @map, :format => :tif) %>
   </li>
   <li>

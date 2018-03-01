@@ -660,6 +660,7 @@ nl:
       kml_hint: "(om te gebruiken in Google Earth, etc.)"
       kml_link: Download KML file
       missing_file_flash: File niet gevonden. Misschien is de kaart nog niet gegeorefereerd?
+      original: Original File
       png: PNG
       png_aux: en bijbehorende .aux.xml bestand
       png_link: Download gegeorefereerde PNG

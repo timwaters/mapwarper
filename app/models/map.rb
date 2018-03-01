@@ -194,11 +194,11 @@ class Map < ActiveRecord::Base
       self.filename = tiffed_filename
       
       #now delete the original
-      logger.debug "Deleting uploaded file, now it's a usable tif"
-      if File.exists?(self.upload.path)
-        logger.debug "deleted uploaded file"
-        File.delete(self.upload.path)
-      end
+      #logger.debug "Deleting uploaded file, now it's a usable tif"
+      #if File.exists?(self.upload.path)
+      #  logger.debug "deleted uploaded file"
+      # File.delete(self.upload.path)
+      #end
       
     end
     self.map_type = :is_map

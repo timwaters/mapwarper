@@ -670,6 +670,7 @@ ja:
       kml_hint: "（Google Earthなどで使用できます）"
       kml_link: KMLファイルをダウンロードする
       missing_file_flash: "ファイルが見つかりません。地図がまだ整形されていないのかもしません。"
+      original: Original File
       png: PNG
       png_aux: および、それに関連づけられた.aux.xmlファイル
       png_link: 整形済みのPNGをダウンロードする

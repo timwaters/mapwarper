@@ -665,6 +665,7 @@ en:
       kml_hint: "(for use in Google Earth, etc)"
       kml_link: Download KML file
       missing_file_flash: File Not Found. Perhaps the map has not been rectified yet?
+      original: Original File
       png: PNG
       png_aux: and associated .aux.xml file
       png_link: Download rectified PNG
