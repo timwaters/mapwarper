@@ -353,9 +353,9 @@ en:
       more: read more
       news: News
       overview_header: Overview
-      overview_p1: Find maps and other imagery, upload, and rectify against a real map.
-      overview_p2: You can then download and use the rectified map in your mapping applications.
-      overview_p3: Just sign up and you can start uploading and get warping!
+      overview_p1: Welcome to WorldMap WARP, a tool based on the <a href="https://github.com/timwaters/mapwarper">MapWarper</a> platform being developed by <a href='https://thinkwhere.wordpress.com'>Tim Waters</a>.
+      overview_p2: The tool is for digitally aligning (geo-rectifying) scanned historical maps to match today’s precise maps.  Visitors can browse maps others have geo-rectified or upload their own to rectify.
+      overview_p3: Any map which has been rectified here can be brought into WorldMap by following the instructions under Section 3.9.1 in <a href="http://worldmap.harvard.edu/static/docs/WorldMap_Help_en.pdf">WorldMap Help</a>.
       recent_layers: Recent Mosaics
       rect_maps: Last Rectified Maps
       see_maps: See all maps
@@ -870,7 +870,7 @@ en:
     footer:
       about: About
       add_map: Add Map
-      help: Help
+      help: Need Help?
       home: Home
       supported_by_html: "Hosted, developed and maintained by Tim Waters | <a href='https://www.paypal.me/timdevelops'>Donate</a>"
       terms: Terms

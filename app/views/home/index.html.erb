@@ -3,19 +3,14 @@
   <div id="left-col">
     <div id="video-intro" class="paraMargin">
       <h2><%= t('.overview_header') %></h2>
-      <p><%= t('.overview_p1') %></p>
-      <p><%= t('.overview_p2') %></p>
-      <p><%= t('.overview_p3') %></p>
+      <p><%= t('.overview_p1').html_safe %></p>
+      <p><%= t('.overview_p2').html_safe %></p>
+      <p><%= t('.overview_p3').html_safe %></p>
 
       <%= link_to t('.upload_map'), new_map_path , :class => "buttonWarper"-%>
 
     </div>
 
-    <div class="paraMargin">
-      <h2><%= t('.info_header') %></h2>
-      <p><%= t('.info_paragraph_html') %></p>
-      <p><%= t('.info_contact') %></p>
-    </div>
 
     <div id="tag-cloud" class="paraMargin">
       <h3><%= t('.tags') %></h3>

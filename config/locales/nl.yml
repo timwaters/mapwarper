@@ -348,9 +348,9 @@ nl:
       more: lees meer
       news: Nieuws
       overview_header: Welkom
-      overview_p1: 'Map Warper is een tool om historische kaarten op de digitale kaart van nu te leggen.Dit heet georefereren. Door minimaal 3 markeringspunten op de historische kaart, en op dezelfde locatie op de moderne kaart te plaatsen, bepaalt u de ligging van de historisch kaart op de kaart van nu. '
-      overview_p2: U kunt de kaarten ook downloaden, en bijvoorbeeld in uw kaartapplicaties gebruiken.
-      overview_p3: 'Lees meer over de werking van de tool onder het tabblad ‘Help’ . '
+      overview_p1: Welcome to WorldMap WARP, a tool based on the <a href="https://github.com/timwaters/mapwarper">MapWarper</a> platform being developed by <a href='https://thinkwhere.wordpress.com'>Tim Waters</a>.
+      overview_p2: The tool is for digitally aligning (geo-rectifying) scanned historical maps to match today’s precise maps.  Visitors can browse maps others have geo-rectified or upload their own to rectify.
+      overview_p3: Any map which has been rectified here can be brought into WorldMap by following the instructions under Section 3.9.1 in <a href="http://worldmap.harvard.edu/static/docs/WorldMap_Help_en.pdf">WorldMap Help</a>.
       recent_layers: Recente mozaïeken
       rect_maps: Recent gegeorefereerde kaarten
       see_maps: Bekijk alle kaarten

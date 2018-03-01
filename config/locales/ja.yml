@@ -357,9 +357,9 @@ ja:
       more: "もっと読む"
       news: "ニュース"
       overview_header: 概要
-      overview_p1: "見つけた地図や画像をアップロードして、実際の地図の上で整形してみましょう。"
-      overview_p2: それをダウンロードすればアプリケーションで地図を使用することができます。
-      overview_p3: "サインアップするだけで地図のアップロードや整形ができます！"
+      overview_p1: Welcome to WorldMap WARP, a tool based on the <a href="https://github.com/timwaters/mapwarper">MapWarper</a> platform being developed by <a href='https://thinkwhere.wordpress.com'>Tim Waters</a>.
+      overview_p2: The tool is for digitally aligning (geo-rectifying) scanned historical maps to match today’s precise maps.  Visitors can browse maps others have geo-rectified or upload their own to rectify.
+      overview_p3: Any map which has been rectified here can be brought into WorldMap by following the instructions under Section 3.9.1 in <a href="http://worldmap.harvard.edu/static/docs/WorldMap_Help_en.pdf">WorldMap Help</a>.
       recent_layers: "最近のモザイク"
       rect_maps: 最近整形された地図
       see_maps: "すべての地図を見る"
