@@ -1730,11 +1730,12 @@ width: 140px !important;
 }
 
 .headerDiv h1 {
-	font-size:36px; /*change later*/
-
-	margin-left:20px;
-	line-height: 1;
-    padding: 8px 0 7px 60px !important;
+  font-size: 24px;
+  margin-left: 20px;
+  line-height: 1;
+  text-transform: uppercase;
+  padding: 9px 0px 4px 145px !important;
+  font-weight: bold;
 }
 
 .breadCrumb {
