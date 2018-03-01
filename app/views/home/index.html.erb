@@ -26,30 +26,6 @@
       </p>
     </div>
 
-    <div id="news" class="paraMargin">
-
-      <h3><%= t('.news') %></h3>
-      <% cache "news_feeds" do %>
-        <table>
-          <% @feeds.each do |feed| %>
-            <tr valign="top" class="<%= cycle('list-line-odd', 'list-line-even') %>">
-              <td class="list-item">
-                <p>
-                  <%= link_to(feed[:title], feed[:link], :title => t('.click_news'), :target => "_blank") %>
-                  <br />
-                  <span class="news-description">
-                    <%= snippet(feed[:description], 30).html_safe %>
-                    <%= link_to(t('.more'), feed[:link], :title => t(".more"), :target => "_blank", :class => "readMore") %>
-                  </span>
-                </p>
-              </td>
-            </tr>
-          <% end unless @feeds.nil?%>
-        </table>
-      <% end %>
-
-    </div>
-
   </div>
   <div id="right-col">
     <div id="search-form">

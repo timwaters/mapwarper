@@ -15,7 +15,7 @@ class HomeController < ApplicationController
     @year_min = 1500 if @year_min == -1
     @year_max = Time.now.year if @year_max == 1
 
-    get_news_feeds
+    #get_news_feeds
     
     if user_signed_in?
       @my_maps = current_user.maps.order(:updated_at => :desc).limit(3)
