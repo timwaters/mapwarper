@@ -9,8 +9,9 @@ ubuntu 16 Install Notes
 
 GDAL utilities
 git clone https://github.com/OSGeo/gdal.git
-
+cd gdal
 git checkout tags/2.2.2
+cd gdal
 
 ./configure --prefix=/home/vagrant/gdal/install --disable-shared --enable-static --with-libtiff --with-geotiff --with-jpeg --with-geos
 make
