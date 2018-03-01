@@ -6,8 +6,10 @@
     <li class="responsive responsive_wide"><%= link_to_unless_current(t('.geosearch_maps'), geosearch_maps_url(:show_warped =>1)) { "<span>#{t('.geosearch_maps')}</span>".html_safe } %></li>    
     <li class="responsive"><%= link_to_unless_current(t('.add_map'), new_map_path) { "<span>#{t('.add_map')}</span>".html_safe } %></li>
     <li class="responsive"><%= link_to_unless_current(t('.layers'),  layers_path) { "<span>#{t('.layers')}</span>".html_safe } %></li>
-    <li class="responsive responsive_wide"><%= link_to_unless_current(t('.geosearch_layers'),  geosearch_layers_url) { "<span>#{t('.geosearch_layers')}</span>".html_safe } %></li>    
-    <li class="responsive responsive_narrow"><%= link_to_unless_current(t('.add_layer'), new_layer_path) { "<span>#{t('.add_layer')}</span>".html_safe } %></li>
+    <li class="responsive responsive_wide"><%= link_to_unless_current(t('.geosearch_layers'),  geosearch_layers_url) { "<span>#{t('.geosearch_layers')}</span>".html_safe } %></li> 
+    <% if admin_authorized? %>   
+      <li class="responsive responsive_narrow"><%= link_to_unless_current(t('.add_layer'), new_layer_path) { "<span>#{t('.add_layer')}</span>".html_safe } %></li>
+    <% end %>
     <li class="responsive responsive_narrow"><%= link_to_unless_current(t('.about'), about_path) { "<span>#{t('.about')}</span>".html_safe } %></li>
     <li class="responsive responsive_narrow"><%= link_to_unless_current(t('.help'), "http://worldmap.harvard.edu/static/docs/WorldMap_Help.pdf") { "<span>#{t('.help')}</span>".html_safe } %></li>
   </ul>
