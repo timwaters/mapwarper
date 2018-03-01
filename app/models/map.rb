@@ -180,7 +180,7 @@ class Map < ActiveRecord::Base
       logger.info ti_stdout.readlines.to_s
       logger.info ti_stderr.readlines.to_s
       
-      command = "#{GDAL_PATH}gdaladdo -r average #{tiffed_file_path} 2 4 8 16 32 64"
+      command = "#{GDAL_PATH}gdaladdo -r cubic #{tiffed_file_path} 2 4 8 16 32 64"
       o_stdin, o_stdout, o_stderr = Open3::popen3(command)
       logger.info command
       
@@ -703,7 +703,7 @@ class Map < ActiveRecord::Base
     warp_output = w_out
     
     # gdaladdo
-    command = "#{GDAL_PATH}gdaladdo -r average #{dest_filename} 2 4 8 16 32 64"
+    command = "#{GDAL_PATH}gdaladdo -r cubic #{dest_filename} 2 4 8 16 32 64"
     o_stdout, o_stderr = Open3.capture3( command )
     logger.info command
     
