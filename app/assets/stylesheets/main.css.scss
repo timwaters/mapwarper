@@ -686,7 +686,9 @@ font-weight: strong;
 .headerDiv {
 	position: relative;
 	background: #e2dedb asset_url('header_bg.jpg') 0 -30px scroll; 
-	padding: 2px 10px 0 10px;
+  padding: 2px 10px 0 10px;
+  background: #FFF;
+
 }
 
 h1 span {
