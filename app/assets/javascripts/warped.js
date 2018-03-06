@@ -58,6 +58,11 @@ function warpedinit() {
     clipmap_bounds_merc = warped_bounds.transform(warpedmap.displayProjection, warpedmap.projection);
 
     warpedmap.zoomToExtent(clipmap_bounds_merc);
+    var mbox = satellite.clone();
+    var gms1 = new OpenLayers.Layer.Google( "Google Satellite", {type: G_SATELLITE_MAP, 'sphericalMercator': true}); 
+    var gmr1 = new OpenLayers.Layer.Google( "Google Streets", { 'sphericalMercator': true});
+    var gmh1 = new OpenLayers.Layer.Google("Google Hybrid", {type: G_HYBRID_MAP, 'sphericalMercator': true});
+    warpedmap.addLayers([mbox, gmr1,gms1,gmh1]);
 
     //set up slider
     jQuery("#slider").slider({

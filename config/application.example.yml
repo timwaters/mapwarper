@@ -35,6 +35,7 @@ defaults: &defaults
   gdal_path: ""
   gdal_memory_limit: ""
   disabled_site: false
+  google_maps_key: foo
 
 development:
   <<: *defaults

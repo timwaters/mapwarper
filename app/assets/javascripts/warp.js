@@ -82,6 +82,10 @@ function init() {
 
   satellite.setVisibility(false);
   to_map.addLayer(satellite);
+  var gms = new OpenLayers.Layer.Google( "Google Satellite", {type: G_SATELLITE_MAP, 'sphericalMercator': true}); 
+  var gmr = new OpenLayers.Layer.Google( "Google Streets", { 'sphericalMercator': true});
+  var gmh = new OpenLayers.Layer.Google("Google Hybrid", {type: G_HYBRID_MAP, 'sphericalMercator': true});
+  to_map.addLayers([gmr,gms,gmh]);
 
   if (map_has_bounds) {
     map_bounds_merc = new OpenLayers.Bounds();
