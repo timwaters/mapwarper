@@ -152,7 +152,7 @@ en:
     title_th: Title
     update_button: Update
     year_th: Year
-  devise:
+  devise: 
     confirmations:
       confirmed: Your account was successfully confirmed.
       new:
@@ -177,6 +177,7 @@ en:
       invalid_token: Invalid authentication token
       last_attempt: You have one more attempt before your account will be locked.
       locked: Your account is locked.
+      not_allowed_in: Site is disabled, so you are not allowed to log in. WorldMap Warp is no longer funded so the system cannot accept further uploads and edits
       not_found_in_database: Invalid email or password.
       timeout: Your session expired. Please sign in again to continue.
       unauthenticated: You need to sign in or sign up before continuing.
@@ -863,6 +864,9 @@ en:
       assign: assign role
       remove: remove role
   shared:
+    disabled_site:
+      close: Okay
+      message_html: "<strong style='color:red;font-weight:normal;'>NOTICE: WorldMap Warp is no longer funded so the system cannot accept further uploads and edits.  We apologize for the inconvenience.  A great substitute is the <a href='http://mapwarper.net'>MapWarper</a> application developed and managed by Tim Waters.  As with layers on WorldMap Warp, content in MapWarper is discoverable and usable within the <a  href='http://worldmap.harvard.edu'>WorldMap</a> platform.</strong>"
     export_window:
       header: Export
       links: Export Links

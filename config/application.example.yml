@@ -34,6 +34,7 @@ defaults: &defaults
   #gdal_path: "/home/fwtools/bin_safe/"
   gdal_path: ""
   gdal_memory_limit: ""
+  disabled_site: false
 
 development:
   <<: *defaults

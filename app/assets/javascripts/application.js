@@ -23,6 +23,7 @@
 //= require SelectFeatureNoClick
 //= require querystring
 //= require jquery.nouislider.all.min
+//= require cookies_helper
 
 var querystring = require('querystring-component');
 
