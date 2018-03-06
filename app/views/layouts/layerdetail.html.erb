@@ -62,8 +62,8 @@
         });
 
         jQuery("#wooTabs").bind("tabsselect", function(event, ui) {
-          if (typeof (pageTracker) !== 'undefined') {
-            pageTracker._trackEvent("Layer", ui.tab.title, '<%=@layer.id%>');
+          if (typeof (ga) !== 'undefined') {
+            ga('send', 'event', 'Layer', 'select', ui.tab.title, <%=@layer.id%>);
           }
         });
         jQuery("#wooTabs").bind("tabsshow", function(event, ui) {

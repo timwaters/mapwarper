@@ -18,8 +18,8 @@
       jQuery(function() {
         jQuery("#wooTabs").tabs({selected:<%=@selected_tab||0 %>});
         jQuery("#wooTabs").bind("tabsselect", function(event, ui) {
-          if (typeof (pageTracker) !== 'undefined') {
-            pageTracker._trackEvent("Map", ui.tab.title, '<%=@map.id%>');
+          if (typeof (ga) !== 'undefined') {
+            ga('send', 'event', 'Map', 'select', ui.tab.title, <%=@map.id%>);
           }
         });
 
