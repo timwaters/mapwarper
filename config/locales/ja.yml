@@ -243,6 +243,7 @@ ja:
       signed_up: "ようこそ！ サインアップしました。"
       signed_up_but_inactive: "サインアップしました。ですが、まだアカウントがアクティブ化されていないためサインインできません。"
       signed_up_but_locked: "サインアップしました。ですが、アカウントがロックされているためサインインできません。"
+      signed_up_but_not_allowed_in: "ありがとうございます！ 確認用リンクを含むメッセージをeメールアドレスへ送りました。リンクを開いてアカウントをアクティブ化してください。However please be aware that logins are disabled currently as WorldMap Warp is no longer funded so the system cannot accept further uploads and edits."
       signed_up_but_unconfirmed: "ありがとうございます！ 確認用リンクを含むメッセージをeメールアドレスへ送りました。リンクを開いてアカウントをアクティブ化してください。"
       update_needs_confirmation: "アカウントを更新しましたが、新しいeメールアドレスを確認させていただく必要があります。eメールをチェックして確認用のリンクをクリックし、新しいeメールアドレスの確認を完了してください。"
       updated: "アカウントを更新しました。"
