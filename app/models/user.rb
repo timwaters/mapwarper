@@ -212,7 +212,7 @@ class User < ActiveRecord::Base
   protected
 
   def is_allowed_in?
-    APP_CONFIG["disabled_site"] != true || has_role?("administrator")
+    APP_CONFIG["disabled_site"] != true || (has_role?("administrator") || has_role?("trusted"))
   end
 
   #called after the user has been destroyed
