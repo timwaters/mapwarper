@@ -2,7 +2,7 @@ defaults: &defaults
   email: example_user@example.com
   addthis_twitter_user: example_user@example.com
   addthis_user: example_user
-  google_analytics_code: 123
+  google_analytics_code:
   google_analytics_cookie_path:  ""
   src_maps_dir: 
   dst_maps_dir: 
