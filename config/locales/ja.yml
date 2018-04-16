@@ -31,7 +31,7 @@ ja:
         map:
           error_url: は無効であるか、アクセスできません
           filename_not_unique: はすでに使用されています
-          my_map:
+        my_map:
           attributes:
             user_id:
               not_unique: "地図はすでに保存されています。"
@@ -655,7 +655,6 @@ ja:
       header: "地図の情報を編集する。"
       title: 次を対象に地図 %{map_title} を編集する。
     export:
-
       bibliographic: 参照
       bibliographic_header: '参照リンク：'
       gcp_csv: CSV
@@ -670,6 +669,7 @@ ja:
       kml_hint: "（Google Earthなどで使用できます）"
       kml_link: KMLファイルをダウンロードする
       missing_file_flash: "ファイルが見つかりません。地図がまだ整形されていないのかもしません。"
+      original: Original File
       png: PNG
       png_aux: および、それに関連づけられた.aux.xmlファイル
       png_link: 整形済みのPNGをダウンロードする
@@ -875,7 +875,8 @@ ja:
       add_map: "地図を追加する"
       help: "ヘルプ"
       home: "ホーム"
-      supported_by_html: <a href='http://maps.nypl.org'>ニューヨーク公共図書館</a>と<a href='http://topomancy.com'>Topomancy LLC</a>の助成を受けています。
+      privacy: Privacy
+      supported_by_html: "Hosted, developed and maintained by Tim Waters | <a href='https://www.paypal.me/timdevelops'>Donate</a>"
     header:
       admin_users: "管理者ユーザー"
       all_activity: "すべての更新履歴"
@@ -915,7 +916,7 @@ ja:
       tags: "タグ"
       title: "タイトル"
   user_mailer:
-    disabled_change_passwords:
+    disabled_change_password:
       end: そのためのリンクを記載したeメールを追加で受け取る必要があります。
       greeting: こんにちは
       intro: '%{email}のeメールを使っているあなたのアカウントは管理者によって無効化されました。再度有効化するためにはパスワードを変えてください。'

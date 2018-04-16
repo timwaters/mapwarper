@@ -1,4 +1,4 @@
-en:
+en:  
   activerecord:
     attributes:
       layer:
@@ -287,6 +287,10 @@ en:
         one: '1 error prohibited this %{resource} from being saved:'
         other: "%{count} errors prohibited this %{resource} from being saved:"
       spoofed_media_type: "may not be in the correct image format. Try again with a jpeg, png or gif."
+    template:
+      header:
+        one: "1 error stopped this %{model} from being saved"
+        other: "%{count} errors stopped this %{model} from being saved"
   gcps:
     add:
       new_gcp_notice: New control point added.
@@ -665,6 +669,7 @@ en:
       kml_hint: "(for use in Google Earth, etc)"
       kml_link: Download KML file
       missing_file_flash: File Not Found. Perhaps the map has not been rectified yet?
+      original: Original File
       png: PNG
       png_aux: and associated .aux.xml file
       png_link: Download rectified PNG
@@ -870,6 +875,7 @@ en:
       add_map: Add Map
       help: Help
       home: Home
+      privacy: Privacy
       supported_by_html: "Hosted, developed and maintained by Tim Waters | <a href='https://www.paypal.me/timdevelops'>Donate</a>"
     header:
       admin_users: Administer Users
@@ -1013,6 +1019,8 @@ en:
     entry:
       page_entries_info:
         single_page_html:
+          one: Displaying <b>1</b> %{model}
+          other: Displaying <b>all&nbsp;%{count}</b> %{model}
           zero: Nothing found
     layer:
       page_entries_info:

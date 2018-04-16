@@ -35,6 +35,8 @@ nl:
           attributes:
             user_id:
               not_unique: Kaart is al opgeslagen
+            map_id:
+              not_unique: Kaart is al opgeslagen
     models:
       import:
         one: importeer
@@ -42,9 +44,11 @@ nl:
       layer:
         one: mozaïek
         other: mozaïeken
+        zero: mozaïek
       map:
         one: kaart
         other: kaarten
+        zero: kaart
   application:
     helper:
       breadcrumbs:
@@ -282,6 +286,11 @@ nl:
       not_saved:
         one: '1 fout verhinderde dat deze %{resource} kon worden opgeslagen:'
         other: "%{count} fouten verhinderden dat deze %{resource} kon worden opgeslagen:"
+      spoofed_media_type: "may not be in the correct image format. Try again with a jpeg, png or gif."
+    template:
+      header:
+        one: "1 error stopped this %{model} from being saved"
+        other: "%{count} errors stopped this %{model} from being saved"
   gcps:
     add:
       new_gcp_notice: Nieuw controlepunt toegevoegd.
@@ -660,6 +669,7 @@ nl:
       kml_hint: "(om te gebruiken in Google Earth, etc.)"
       kml_link: Download KML file
       missing_file_flash: File niet gevonden. Misschien is de kaart nog niet gegeorefereerd?
+      original: Original File
       png: PNG
       png_aux: en bijbehorende .aux.xml bestand
       png_link: Download gegeorefereerde PNG
@@ -814,9 +824,13 @@ nl:
       p1_method: 1st Order Polynomial (min 3 punten)
       p2_method: 2nd Order Polynomial (min 6 punten)
       p3_method: 3rd Order Polynomial (min 10 punten)
+      pan_lock: "Pan/zoom lock"
       panel_title: Controlepaneel
       rectifying_notice: Georefereren...
       resample_label: 'Methode:'
+      shortcuts_link: Keyboard Shortcuts
+      shortcuts_html: "1,p: Switch to add point control <br /> 2,d: Switch to move control point control <br /> 3,m: Switch to move around map control <br /><br />q: Quickly add point over mouse position <br /> a: Quickly add point over mouse position and automatically adds a point on the opposite map <span class='small-gray'>(needs at least 2 points already saved)</span> <br /> <br /> [enter],e: Save pairs of points"
+      shortcuts_title: Keyboard Shortcuts
       server_error: Sorry, maar er lijkt zich een fout voor te doen bij het versturen van het verzoek naar de server. Opnieuw proberen?
       title: Georefereer kaart
       tps_method: Thin Plate Spline (veel punten, erg verspreid)
@@ -861,6 +875,7 @@ nl:
       add_map: Kaart toevoegen
       help: Help
       home: Home
+      privacy: Privacy
       supported_by_html:  "Hosted, developed and maintained by Tim Waters | <a href='https://www.paypal.me/timdevelops'>Donate</a>"
 
     header:
@@ -1002,6 +1017,10 @@ nl:
       u_no: nee
       u_yes: ja
   will_paginate:
+    entry:
+      page_entries_info:
+        single_page_html:
+          zero: Nothing found
     layer:
       page_entries_info:
         multi_page: Toon %{model} %{from} - %{to} van %{count} in totaal
@@ -1009,6 +1028,7 @@ nl:
         single_page_html:
           one: Toon <b>1</b> %{model}
           other: Toon <b>all&nbsp;%{count}</b> %{model}
+          zero: No %{model} found
     map:
       page_entries_info:
         multi_page: Toon %{model} %{from} - %{to} van %{count} in totaal
@@ -1016,6 +1036,7 @@ nl:
         single_page_html:
           one: Toon <b>1</b> %{model}
           other: Toon <b>all&nbsp;%{count}</b> %{model}
+          zero: No %{model} found
     next_label: Volgende &#8594;
     page_entries_info:
       multi_page: Toon %{model} %{from} - %{to} van %{count} in totaal
@@ -1023,9 +1044,11 @@ nl:
       single_page:
         one: Toon 1 %{model}
         other: Toon alle %{count} %{model}
+        zero: No %{model} found
       single_page_html:
         one: Toon <b>1</b> %{model}
         other: Toon <b>all&nbsp;%{count}</b> %{model}
+        zero: No %{model} found
     page_gap: "&hellip;"
     previous_label: "&#8592; Vorige"
   locales:

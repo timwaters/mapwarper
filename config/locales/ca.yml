@@ -1,0 +1,1084 @@
+ca:
+  activerecord:
+    attributes:
+      layer:
+        depicts_year: Mostra l'any
+        description: Descripció
+        name: Nom
+      map:
+        title: Títol
+      user:
+        current_password: Contrasenya actual
+        email: Email
+        password: contrasenya
+        password_confirmation: Confirmació de contrasenya
+        remember_me: Recorda'm
+    errors:
+      models:
+        import:
+          attributes:
+            metadata:
+              no_file_uploaded: l'arxiu no ha pujat
+          blank_layer_title: "és buit"
+          layer_error: no existeix, o no s'ha especificat correctament
+          no_files_error: no hi ha arxius en el directori
+          path_not_exist: no existeix
+          user_not_exist: no existeix
+        layers_map:
+          attributes:
+            layer_id:
+              already_has_map: ja té aquest mapa
+        map:
+          attributes:
+            map_id:
+              not_unique: Clic per introduir text / traducció
+            user_id:
+              not_unique: Clic per introduir text / traducció
+          error_url: "és invàlid o inaccessible"
+          filename_not_unique: ja s'està utilitzant
+          my_map: Clic per introduir text / traducció
+        my_map:
+          attributes:
+            map_id:
+              not_unique: El mapa ja s'ha desat per a l'usuari
+            user_id:
+              not_unique: El mapa ja s'ha desat per a l'usuari
+    models:
+      import:
+        one: importació
+        other: importacions
+      layer:
+        one: capa
+        other: capes
+        zero: capa
+      map:
+        one: mapa
+        other: mapes
+        zero: mapa
+  application:
+    helper:
+      breadcrumbs:
+        home: Inici
+        layer: Mosaic %{layer_id}
+        layers: Mosaics
+        map: Mapa %{map_id}
+        map_layers: Capes del mapa
+        maps: Mapes
+        search: Cerca
+      error_messages_for:
+        invalid_fields: Camps invàlids
+        message: Corregeix els errors següents i torna-ho a provar
+    permission_denied: Disculpes, no tens permisos per veure-ho
+  audits:
+    audit:
+      further_details: Més detalls
+    for_map:
+      html_title: Activitat del Mapa
+      title: Activitat recent del Mapa
+    for_map_model:
+      header: Canvis a tots els Mapes
+      html_title: Activitat de tots els Mapes
+      title: Activitat recent de tots els Mapes
+    for_user:
+      header: Canvis de l'usuari
+      html_title: 'Activitat de '
+      html_title_nouser: Activitat per a l'usuari no trobat
+      title: Activitat recent per a l'usuari
+      title_nouser: Activitat recent per a l'usuari no trobat
+    helper:
+      summary:
+        available: El mapa és disponible
+        loading: El mapa s'ha començat a carregar des de la biblioteca
+        masked: El mapa s'ha emmascarat correctament
+        masking: El mapa ha començat el procés d'emmascarament
+        published: El mapa s'ha publicat amb éxit
+        unloaded: El mapa s'ha descarregat
+        unmasked: El mapa s'ha desenmascarat
+        warped: El mapa s'ha rectificat correctament
+        warping: El mapa ha començat el procés de rectificació
+    index:
+      action: Acció
+      changed: canviat
+      feed_description: Canal de l'activitat recent
+      html_title: Activitat recent
+      only_maps: Mostra només l'activitat del mapa
+      rss_link: Canal RSS
+      title: Activitat recent de tot
+    show:
+      details_header: Detalls
+      header: Detalls de l'activitat
+      item: Objecte
+      summary: Resum de l'activitat
+      time: Temps
+      user: Usuari
+      value: Valor
+      version: Versió
+  comments:
+    comment:
+      confirm_delete: Segur que esborrem el comentari?
+      delete_link: esborrar
+    comment_form:
+      add_comment: Afegir comentari
+      header: Comentar això
+    destroy:
+      error: El comentari no s'ha pogut esborrar
+      flash: Comentari esborrat
+    index:
+      actions_th: Accions
+      comment_th: Comentari
+      comment_type: Comentar sobre
+      created: Creat el
+      header: Comentaris
+      title: Veure comentaris
+      user: Usuari
+    show:
+      not_found: Comentari no trobat
+  common:
+    ago: abans
+    back_link: Enrere
+    create_button: Crear
+    gcp: GCP
+    last_th: Darrera actualització
+    layer: mosaic
+    layer_count:
+      one: "%{count} capa"
+      other: "%{count} capes"
+    layer_th: Mosaic
+    map: mapa
+    map_count:
+      one: "%{count} mapa"
+      other: "%{count} mapes"
+    map_th: Mapa
+    my_maps_head: Preferits
+    num_th: Número de mapes
+    per_page: per pàgina
+    percent_th: Percentatge complet
+    site_title: Transforma
+    status_th: Estat
+    title_th: Títol
+    update_button: Actualitza
+    year_th: Any
+  devise:
+    confirmations:
+      confirmed: El teu compte s'ha confirmat correctament
+      new:
+        header: Envia de nou les instruccions de confirmació
+        resend_button: Envia de nou les instruccions de confirmació
+      send_instructions: Rebràs un correu amb instruccions de com confirmar el teu compte en uns minuts
+      send_paranoid_instructions: Si la teva adreça de correu electrònic existeix a la base de dades rebràs un correu amb instruccions de com confirmar el teu compte en uns minuts
+    errors:
+      messages:
+        already_confirmed: ja ha estat confirmat, si us plau inicia la sessió
+        confirmation_period_expired: s'ha de confirmar en el termini %{period}, si us plau demana'n una de nova
+        expired: ha expirat, si us plau demana'n una de nova
+        not_found: no s'ha trobat
+        not_locked: no està bloquejat
+        not_saved:
+          one: '1 un error ha impedit esborrar aquest %{resource} :'
+          other: "%{count} errors han impedit esborrar aquest %{resource} :"
+    failure:
+      already_authenticated: Ja has iniciat sessió.
+      inactive: El teu compte encara no s'ha activat.
+      invalid: Email o contrasenya incorrectes.
+      invalid_token: Token d'autenticació no vàlid
+      last_attempt: Tens un darrer intent abans que el vostre compte es bloquegi
+      locked: El vostre compte s'ha bloquejat
+      not_allowed_in: El lloc està desactivat, de manera que no podeu iniciar la sessió. WorldMap Warp ja no està finançat, i per tant el sistema no pot acceptar càrregues ni modificacions addicionals
+      not_found_in_database: Email o contrasenya incorrectes
+      timeout: La sessió ha expirat. Toreneu a inciar sessió per continuar
+      unauthenticated: Abans de continuar has d'iniciar sessió o registrar un nou compte
+      unconfirmed: Has de confirmar el teu compte abans de continuar
+    mailer:
+      confirmation_instructions:
+        about_site: "%{site_name} és un lloc participatiu on pots descobrir, georeferenciar i carregar els teus propis mapes i imatges. Pots georectificar o transformar el mapa sobre un mapa base per tal que puguis emprar el mapa d'altres maneres. Pots descarregar el mapa en diversos formats inclosos  KML, WMS, i tessel·les."
+        click_the_link: 'Pots confirmar el correu electrònic del teu compte amb l''enllaç següent:'
+        confirm_button: Confirma el teu compte
+        greeting: 'Benvingut, '
+        intro: 'Gràcies per donar-te d''alta per emprar %{site_name}. Si us plau confirma el teu correu electrìnic per continuar el procés de registre. '
+        subject: Instruccions de confirmació de l'adreça de correu electrònic per Map Warper
+      reset_password_instructions:
+        greeting: Hola
+        intro: Algú ha demanat un enllaç per canviar la teva contrasenya. Pots fer-ho seguint aquest enllaç.
+        link: Canvia la meva contrasenya
+        please_ignore: Si no l'has demanat, pots ignorar aquest correu. La teva contrasenya no canviarà fins que no segueixis aquest enllaç i en generis una de nova.
+        subject: Instruccions per reiniciar la contrasenya de Map Warper
+      unlock_instructions:
+        click_the_link: 'Fec clic en aquest enllaç per desbloquejar el teu compte:'
+        greeting: Hola
+        intro: El teu compte s'ha bloquejat a causa d'un nombre excessiu d'intents d'inici de sessió no reeixits.
+        link: Desbloqueja el meu compte
+        subject: Instruccions de desbloqueig
+    omniauth_callbacks:
+      failure: Impossible autenticar-vos des de %{kind} per "%{reason}".
+      success: Autentificació exitosa des del compte %{kind}.
+    passwords:
+      edit:
+        confirm_password: Confirma la nova contrasenya
+        header: Canvia la teva contrasenya
+        new_password: Nova contrasenya
+        submit_button: Canvia la meva contrasenya
+      new:
+        header: Has oblidat la contrasenya?
+        send_instructions_button: Envia'm les instruccions de reinici de la contrasenya
+      no_token: No pots accedir a aquesta pàgina si no arribes des d'un correu electrònic de restabliment de contrasenya. Si vens d'un correu electrònic de restabliment de contrasenya, assegura't que utilitzes l'enllaç complet proporcionat.
+      send_instructions: Rebràs un correu amb instruccions per restablir la contrasenya en uns minuts,
+      send_paranoid_instructions: Si la teva adreça de correu electrònic existeix a la nostra base de dades, rebràs un enllaç de recuperació de la contrasenya en el teu email en pocs minuts.
+      updated: La teva contrasenya s'ha canviat amb éxit. Ja has iniciat sessió.
+      updated_not_active: La teva contrasenya s'ha canviat amb éxit.
+    registrations:
+      destroyed: Adéu! El teu compte s'ha cancel·lat. Esperem veure't de nou ben aviat.
+      edit:
+        cancel_account_button: Cancel·la el meu compte
+        cancel_account_header: Cancel·la el meu compte
+        cancel_account_instructions: Descontent? Això eliminarà tots els mapes que has carregat i els mosaics que has creat.
+        cancel_confirm: Estàs segur?
+        current_password_label: "(necessitem la teva contrasenya actual per confirmar els canvis)"
+        description_label: Descripció curta del perfil (opcional)
+        edit_header: Editar Usuari
+        header: Configuració d'Usuari
+        name_label: Nom
+        no_settings_notice: Has iniciat la sessió amb el teu compte %{provider} i no un correu electrònic i contrasenya, de manera que no hi ha cap configuració per editar.
+        password_label: "(deixa-ho en blanc si no ho vols canviar)"
+        waiting_confirmation: 'Esperant la confirmació per '
+      new:
+        email_label: 'Correu electrònic - necessari per iniciar sessió '
+        header: Registra't
+        name_label: Nom
+        sign_up_button: Registra't
+        sign_up_help: Pots registrar-te amb un correu electrònic i contrasenya, o bé mitjançant un altre servei, utilitzant els enllaços a continuació.
+      signed_up: Benvingut! T'has registrat correctament.
+      signed_up_but_inactive: T'has registrat correctament. No obstant no hem pogut iniciar la teva sessió per que el teu compte encara no està activat.
+      signed_up_but_locked: T'has registrat correctament. No obstant no hem pogut inciar la teva sessió per que el teu compte està bloquejat.
+      signed_up_but_not_allowed_in: Gràcies! S'ha enviat un missatge amb un enllaç de confirmació a la teva adreça de correu electrònic. Obre l'enllaç per activar el teu compte. Tingues en compte que els inicis de sessió estan desactivats actualment ja que WorldMap Warp ja no està finançat, de manera que el sistema no pot acceptar càrregues ni modificacions addicionals.
+      signed_up_but_unconfirmed: Gràcies! S'ha enviat un missatge amb un enllaç de confirmació a la teva adreça de correu electrònic. Obre l'enllaç per activar el teu compte.
+      update_needs_confirmation: Has actualitzat el teu compte amb èxit, però hem de verificar la teva nova adreça electrònica. Comprovau el correu electrònic i fes clic a l'enllaç de confirmació per confirmar la teva nova adreça de correu electrònic.
+      updated: Has actualitzat el teu compte correctament.
+    sessions:
+      already_signed_out: Has tancat la sessió correctament.
+      new:
+        header: Entrar
+        login_button: Iniciar sessió
+      signed_in: Has iniciat sessió correctament.
+      signed_out: Has tancat la sessió correctament.
+    shared:
+      links:
+        facebook: Facebook
+        forgot_password: Has oblidat la contrasenya?
+        github: GitHub
+        google: Google
+        login: Iniciar sessió
+        new_confirmation_instructions: No has rebut les instruccions de confirmació?
+        new_unlock_instructions: No has rebut les instruccions de desbloqueig?
+        openstreetmap: OpenStreetMap
+        sign_up: Registra't
+        social_sign_in: 'Alternativament, %{action} amb:'
+        twitter: Twitter
+        wikimedia: Wikimedia Commons
+    unlocks:
+      new:
+        button: Reenvia les instruccions de desbloqueig
+        header: Reenvia les instruccions de desbloqueig
+      send_instructions: Rebràs un correu amb instruccions per desblqouejar el teu compte en uns minuts.
+      send_paranoid_instructions: Si el teu compte existeix rebràs un correu amb instruccions per desblqouejar el teu compte en uns minuts.
+      unlocked: El teu compte ha estat desbloquejat correctament. Si us plau inicia la sessió per continuar.
+    users_registrations:
+      user:
+        signed_up: Benvingut! T'has registrat correctament.
+  errors:
+    messages:
+      already_confirmed: ja ha esta confirmat, prova a iniciar sessió
+      confirmation_period_expired: s'ha de confirmar en %{period}, si us plau demana'n un de nou
+      expired: ha expirat, si us plau demana'n un de nou
+      not_found: no s'ha trobat
+      not_locked: no estava bloquejat
+      not_saved:
+        one: '1 error ha impedit desar aquest %{resource} :'
+        other: "%{count} errors han impedit desar aquest %{resource} :"
+      spoofed_media_type: no és el format d'imatge correcte. Prova-ho de nou amb jpeg, png o gif.
+    template:
+      header: en blanc?
+  gcps:
+    add:
+      new_gcp_notice: S'ha afegit un nou punt de control
+    add_many:
+      back: "&lt; tornar a la pàgina principal d'importar"
+      gcps_imported:
+        one: "%{count} punt de control importat!"
+        other: "%{count} punts de control importats!"
+      header: Resultat de la importació massiva de GCP
+      id: identificador
+      lat: Lat
+      lon: Lon
+      map: Mapa
+      not_found: Registre no trobat.
+      nothing_imported: No s'ha importat punts de control!
+      x: X
+      y: Y
+    add_many_to_map:
+      notice: GCP desats
+    bulk_import:
+      back: "&lt; torna a la pàgina principal d'importacions"
+      button: Carregar CSV!
+      csv_file: Arxiu CSV per carregar
+      header: Importació massiva de CSV de punts de control
+      help_html: Per als mapes individuals, en lloc d'utilitzar aquesta pàgina pots carregar un CSV a la vista del rectificació del mapa, sota la taula de punts de control. El CSV ha de tenir una capçalera <pre> <code> x, y, lon, lat </ code> </ pre>
+      import_help_html: 'Utilitza aquesta pàgina per importar molts punts de control per a molts mapes. Carrega un CSV, separat per comes, amb una fila de capçalera amb el següent format: <pre> <code> mapid, x, y, lon, lat </ code> </ pre> on <code> mapid </ code> és igual a l''identificador del mapa per cada mapa al qual vols afegir un punt de control. <br /> Només es poden afegir punts, no actualitzar-ne. Els punts de control duplicats no s''afegiran si es tornen a importar.'
+      new_import_header: Nova importació massiva
+    destroy:
+      deleted_notice: Punt de control esborrat correctament
+    gcp:
+      delete_button: esborrar
+      delete_confirm: Realment vols esborrar aquests punts?
+      deleting: Esborrant...
+      error: Ho sentim, sembla que hi ha un error amb aquesta sol·licitud d'eliminació, provem de nou?
+    index:
+      back: Enrera cap a mapes
+      notice: Normalment aquest avís es mostra si hi ha un error, si es crida directament o si alguna acció amb els punts de control no s'ha cridat correctament.
+    show:
+      not_found: No s'ha trobat GCP
+    update:
+      error: No s'ha pogut actualitzar els punts
+      update_notice: Punt de control actualitzat
+    update_field:
+      error: No s'ha pogut actualitzar el punt de control
+  helpers:
+    label:
+      layer:
+        depicts_year: Mostra l'any
+        description: Descripció
+        name: Nom
+      user:
+        current_password: Contrasenya actual
+        email: Email
+        password: Contrasenya
+        password_confirmation: Confirmació de contrasenya
+        remember_me: Recorda'm
+  home:
+    index:
+      all_maps: Visualitza tots els mapes
+      all_my_maps: Veure tots els preferits
+      click_news: fes clic per llegir aquesta història
+      create_layer: Crear un nou mosaic
+      info_contact: Envia'm un correu a tim@geothings.net si vols més informació!
+      info_header: Què és?
+      info_paragraph_html: "És una eina gratuïta de codi obert per rectificar i georeferenciar mapes i imatges per a particulars i grups reduïts. Desenvolupat, hostatjat i mantingut per <a href='https://thinkwhere.wordpress.com'> Tim Waters </a>. Si t'agrada aquest projecte, si us plau, considera <a href='https://www.paypal.me/timdevelops'> fer una donació </ a> per mantenir el projecte en marxa."
+      more: llegir més
+      news: Novetats
+      overview_header: Resum
+      overview_p1: 'Benvingut a WorldMap WARP, una eina basada en la plataforma <a href="https://github.com/timwaters/mapwarper"> MapWarper </a> desenvolupada per <a href = ''https: //thinkwhere.wordpress. com ''> Tim Waters </ a>.'
+      overview_p2: Es una eina és per alinear digitalment (georectificació) mapes històrics escanejats que coincideixin amb els mapes precisos d'avui. Els visitants poden explorar mapes que altri ha georectificat o afegir els propis per rectificar.
+      overview_p3: Qualsevol mapa que s'hagi rectificat aquí es pot portar a WorldMap seguint les instruccions de la Secció 3.9.1 de <a href="http://worldmap.harvard.edu/static/docs/WorldMap_Help_en.pdf">  l'ajuda de WorldMap</ a>.
+      recent_layers: Mosaics recents
+      rect_maps: Darrers mapes rectificats
+      see_maps: Veure tots els mapes
+      tags: Etiquetes
+      title: 'Inici - '
+      unrect_maps: Nous mapes sense rectificar
+      upload_map: Afegeix un mapa!
+      view_layers: Veure tots els mosaics
+  imports:
+    create:
+      error: Alguna cosa ha fallat en importar
+      flash: Nova importació!
+    destroy:
+      error: No s'ha pogut esborrar la importació.
+      flash: S'ha esborrat la importació!
+    edit:
+      header: Editar la importació
+    exports:
+      gcps_csv_file: gcps.csv
+      gcps_csv_header: Exportar tots els punts de control en format CSV
+      header: Exportacions
+      maps_csv_file: maps.csv
+      maps_csv_header: Exportar tots els mapes en format CSV
+    form:
+      layers_label: Capes on s'ha d'assginar els mapes
+      metadata: Arxiu CSV de metadades
+      name_label: Nom (cal donar un nom a la importació, obligatori)
+    import:
+      edit: editar
+      edit_maps: editar mapes
+      imported:
+        one: "(importat: %{count})"
+        other: "(importats: %{count})"
+      view_maps: veure mapes
+    index:
+      actions: Accions
+      created: Creat
+      csv_header: Importació massiva de punts de control CSV
+      csv_link: Importar CSV
+      exports_link: Exportacions
+      header: Importacions
+      id: Id
+      layers: Capes
+      maps: Mapes
+      maps_header: Importar nous mapes
+      maps_link: Afegir nova importació
+      name: Nom
+      status: Estat
+      user: Usuari
+    layers:
+      header: Assignat a les capes
+      no_layers: Mapes no afegits a cap capa
+    maps:
+      created: 'Creat el %{created_at} per:'
+      header: 'Importació: %{name} editar mapes'
+    new:
+      header: Nova importació
+    show:
+      count_files: Número d'arxius al directori
+      delete: Esborrar aquesta importació (no esborra els mapes)
+      delete_confirm: N'estàs segur?
+      edit: Editar aquesta importació
+      header: 'Importar: %{import_name}'
+      import_is_running: La importació s'està processant, depenent del número de mapes pot trigar una estona.
+      imported_count: Recompte importacions
+      not_found: No s'ha trobat la importació
+      start_button: COMENÇAR IMPORTACIÓ
+      start_confirm: A punt per començar aquesta importació?
+      view_log_file: Veure arxiu de registre
+      view_running_status: Veure l'estat d'execució
+    start:
+      already_imported_error: Disculpes, no es pot fer, aquesta importació ja s'ha processat.
+      edit_maps_link: fes clic per editar els mapes
+      error: Alguna cosa ha fallat en la petició al servidor
+      finished_notice: Tot llest!
+      header: important...
+      imported_count: Recompte d'importació
+      importing: Important...
+      progress: 'Progrés:'
+      status: Estat
+      view: Veure importació
+    update:
+      error: Algua cosa ha fallat en actualitzar la importació
+      flash: Importació actualitzada correctament.
+  js:
+    align:
+      dialog_add_button: Afegir mapa
+      no_map_alert: Disculpes, o no s'ha triat cap mapa, o s'ha emprat un número de mapa duplicat
+      not_enough_maps_alert: Disculpes, almenys s'hauria de seleccionar dos mapes
+      wrong_align_alert: Disculpes, només es poden fer alineacions horitzontals o verticals de moment
+    clip:
+      clip_popup_title: Retallant...
+      confirm_delete_tool: Realment vols esborrar això?
+      delete_tool_title: Esborrar un polígon
+      draw_tool_title: Dibuixa un nou polígon de màscara
+      move_tool_title: Moure's pel mapa
+    geosearch:
+      found: Trobat
+      found_layers: Capes.
+      found_maps: Mapes.
+      more: Més
+      open_layer: Obrir mosaic
+      open_map: Obrir mapa
+      outline_layer: Contorns del mapa
+      prev: Previ
+      search_fail: Disculpes, alguna cosa ha fallat a la cerca
+      showing: Mostrant
+    layers:
+      edit_map: Editar aquest mapa
+      loading_fail: Disculpes, alguna cosa ha fallat en carregar els objectes
+      map_outlines_label: Contorns del mapa
+      map_outlines_toggle: 'Commuta els contorns per al mapa '
+      mbox_satellite_attribution: <a href="https://www.mapbox.com/about/maps/" target="_blank">&copy; Mapbox</a> <a href="https://openstreetmap.org/about/" target="_blank">&copy; OpenStreetMap</a> <a class="mapbox-improve-map" href="https://www.mapbox.com/map-feedback/" target="_blank">Millora aquest mapa</a> <a href="https://www.digitalglobe.com/" target="_blank">&copy; DigitalGlobe</a>
+      osm_attribution: '&copy <a href="http://www.openstreetmap.org/">OpenStreetMap</a> contributors'
+    warp:
+      add_gcp: Afegeix punt de control (1,p)
+      best_guess_message: Mapa ampliat segons millor conjectura
+      custom_custom_type: Personalitzat
+      custom_layer: Mapa base personalitzat
+      custom_layer_add_layer_button: Afegir capa
+      custom_layer_cancel_button: Cancel·lar
+      custom_layer_title: Afegeix mapa base personalitzat
+      custom_layer_type: Mosaic
+      custom_layer_year: Any
+      custom_map_type: Mapa
+      gcp_adding: Afegint...
+      gcp_failed: Problemes per actualitzar aquest punt amb el servidor. Vols provar de nou?
+      gcp_premature_alert: Has d'afegir un nou punt de control a cada mapa abans de prémer aquest botó.
+      gcp_updated: Punt de control actualitzat!
+      gcp_updating: Actualitzant...
+      move_gcp: Moure punt de control (2,d)
+      move_map: Moure's pel mapa (3,m)
+      other_places: 'Altres llocs:'
+      rms_error_prefix: Error
+      warp_popup_title: El rectificador està treballant....
+      warped_layer: mapa distorsionat
+    warped:
+      warped_layer: Capa
+      warped_map: imatge deformada
+  layers:
+    comments:
+      no_comments: No hi ha comentaris per aquest mosaic, afegeix-ne un!
+    create:
+      flash: El mosaic s'ha creat correctament.
+    delete:
+      header: De veritat vols esborrar aquest mosaic?
+      no_button: No, treu-me d'aquí!
+      yes_button: Si, esborra el mosaic!
+    destroy:
+      error: El mosaic no s'ha esborrat
+      flash: Mosaic esborrat!
+      not_others: Disculpes, no pots esborrar els mosaics d'algú altre!
+    edit:
+      cannot_edit_others: Disculpes, no pots editar els mosaics d'algú altre
+      delete_link: Esborra aquest mosaic.
+      header: Editar el mosaic
+      help_html: 'Nota: tots els mosaics són públics, pots afegir-hi els teus mapes privats, no es mostraran <br />, però es veuran a la imatge del mapa final.'
+      title: Editant %{layer_id} del mosaic
+    export:
+      header: Exportar mosaic
+      title: Exportar mosaic %{mosaic_id}
+    form:
+      depicts_hint: "(any, opcional)"
+      depicts_hint_2: S'utilitza per mostrar capes per any.
+      detail: detall
+      my_maps: preferits
+      no_maps: No tens cap rectificat
+      select_map_head: Escull dels teus preferits
+      source: URL de referència font / bibliogràfica
+    geosearch:
+      button: Troba el lloc
+      description_html: 'Moure o ampliar mapa: tant el mapa com la llista s''actualitzaran amb les capes trobades. <br /> Les capes es mostren si contenen un o més mapes rectificats, i són visibles (no una meta col·lecció/capa).'
+      title: Troba mosaics per lloc
+    index:
+      for: per
+      search: Cerca
+      title: Explora la llista de mosaics
+      title_for_map: Llista de mosaics del mapa %{map_id}
+    layer:
+      depicts: Mostra
+      edit: Editar mosaic
+      hidden: No visible
+      kml: Descarregar KML
+      links: Enllaços
+      made_by: 'Compilat per '
+      merge: Barrejar
+      publish: Publicar
+      source: Ref font/biblio
+      toggle: Commutar visibilitat
+      visible: Visible
+    layer_detail:
+      edit_year: Afegir/editar any
+      last_modified: Darrera modificació
+    layermap:
+      transparency: 'Transparència:'
+    merge:
+      admin_only: "(només administradors)"
+      confirm: N'estàs segur, això no es pot desfer?
+      destination: Capa destinació
+      flash: 'S''ha fusionat el mosaic en una nova capa: tots els mapes copiats!'
+      header: Fusionar mosaic
+      help_html: Fusionar aquest mosaic amb un altre. <br /> Suprimeix la referència de %{count_maps} del Mosaic %{layer_id} i els mou al mosaic de destinació especificat. <br /> Això no es pot desfer!
+      merge_button: Fusionar mosaic!
+      move_all: 'Moure tots els %{count_maps} a aquest mosaic:'
+    metadata:
+      depicts_year: Mostra l'any
+      description: Descripció
+      header: Metadades
+      name: Nom
+    new:
+      header: Mosaic nou
+      help: 'Nota: tots els mosaics són públics, hi podeu afegir mapes no llistats que no es veuran a la llista<br />, però es veuran a la imatge del mapa final.'
+      title: 'Crear mosaic nou - '
+    publish:
+      flash: Es publicarà el mosaic
+      not_all_maps_ready: El mosaic té menys del 100% de mapes rectificats
+    remove_map:
+      flash: Mapa eliminat d'aquest mosaic
+    show:
+      loading: Carregant....
+      maps: Mapes
+      new_link: Crear nou mosaic
+      not_found: No s'ha trobat el mosaic
+      title: Mosaic %{layer_id} %{layer_name}
+    update:
+      error: No s'ha pogut actualitzar el mosaic
+      flash: Mosaic actualitzat correctament.
+    update_year:
+      message: 'Mostra:'
+  layouts:
+    layerdetail:
+      year_button: Desar
+      year_dialog_label: 'Afegir/editar l''any que mostra aquest mosaic:'
+      year_dialog_title: Mostra any (només admin)
+      year_fail_alert: Disculpes, alguna cosa ha fallat en desar això
+    tabs:
+      activity: Activitat
+      align: Alinear
+      comments: Comentaris
+      crop: Tallar
+      edit: editar
+      export: Exportar
+      fail_html: Alguna cosa ha fallat. Disculpes! Torna-ho a provar o prova d'iniciar sessió primer.
+      metadata: Metadades
+      preview: Previsualització
+      rectify: Rectificar
+      show: Mostra
+      unaccessible_html: Disculpes. Actualment el lloc està en mode de només lectura i algunes funcions estan deshabilitades. Siusplau, intenta-ho més tard.
+      unauthorized_html: Disculpes. Has de <a class='unauthorized' href='%{href}'>Iniciar sessió</a> per veure això.
+  locales:
+    en: Anglès
+    ca: Català
+    ja: Japonès
+    nl: Holandès
+  maps:
+    align:
+      add_map_title: Fes clic per afegir un mapa aquí
+      align_button: alinear el mapa!
+      append_no: false
+      append_yes: true
+      form_title: Panell de control
+      instructions_html: Si aquest mapa pertany a un mosaic amb altres mapes, podeu copiar els punts de control des d'un mapa adjunt que ja s'ha rectificat a aquest.<br /> Feu clic + trieu un mapa i a continuació arrossegueu i deixeu anar per seleccionar l'alineació.
+      manual_instructions: Afegir número de mapa manualment
+      map: Mapa
+      no_layers_message: Disculpes, però no hi ha cap mosaic que contingui mapes rectificats per triar.
+      original_type: Utilitzes el mapa original? (millor ajust, més complicat d'editar més endavant)
+      overwrite_label: Vols sobreescriure els punts de control existents?
+      ref_button: Utilitza
+      ref_instructions: Tria un mapa rectificat per copiar els punts de control dels mateixos mosaics
+      ref_title: Afegeix mapa de referència
+      title: Alinea mapes
+      type_label: Tipus d'alineació
+      warped_type: Utilitzes mapa rectificat? (pitjor encaix, més fácil d'editar després)
+    clip:
+      clip_button: Emmascara el mapa!
+      clipping_wait_msg_html: "<br />Desant la màscara...<br />Tallant el mapa..."
+      confirm_delete: De veritat vols esborrar la màscara i començar de nou?
+      delete: Esborrar màscara
+      delete_alert: no ha anat com s'esperava, disculpes
+      instructions_html: <p>1. Dibuixa al voltant de l'àrea que vols conservar.  </p><p>2. Per aplicar la màscara al mapa fes clic a "Emmascara el mapa" </p>
+      title: Retalla el mapa
+    comments:
+      header: Comentaris
+      login: Inicia sessió per afegir comentari
+      no_comments: No hi ha comentris per aquest mapa, afegeix-ne un ara!
+    create:
+      flash: El mapa s'ha creat correctament.
+    delete:
+      header: De veritat vols esborrar el mapa?
+      help_text_html: S'esborrarà totes les imatges, carregades i rectificades. <br /> Tots els punts de control esborrats. <br /> Cap dels WMS, KML i les opcions per exportar no estaran disponibles per als usuaris.<br />
+      no_button: No, treu-me d'aquí!
+      yes_button: Si, esborra el mapa!
+    destroy:
+      cannot_delete_others: Disculpes, no pots esborrar els mapes d'altri!
+      error: El mapa no s'ha esborrat
+      flash: Mapa esborrat!
+    edit:
+      cannot_edit_others: Disculpes, no pots editar els mapes d'altri
+      delete_link: Esborra aquest mapa.
+      header: Editar atributs del mapa
+      title: Editar mapa %{map_title} activat
+    export:
+      bibliographic: Bibliogràfic
+      bibliographic_header: 'Enllaços bibliogràfics:'
+      gcp_csv: CSV
+      gcp_csv_link: Descarrega els punts de control com CSV
+      gcp_header: Punt de control del terreny
+      geotiff: GeoTiff
+      geotiff_link: Descarrega GeoTiff rectificat
+      header: Exportar
+      images_header: Imatges
+      josm_link: per a l'editor JOSM d'OpenStreeMap
+      kml: KML
+      kml_hint: "(per utilitzar a Google Eart, etc)"
+      kml_link: Descarrega arxiu KML
+      missing_file_flash: Arxiu no trobat. Potser el mapa encara no s'ha rectificat?
+      original: Arxiu original
+      png: PNG
+      png_aux: i l'arxiu associat .aux.xml
+      png_link: Descarrega PNG rectificat
+      services_header: Serveis de mapa
+      tiles: Tessel·les (esquema Google/OSM)
+      wms: WMS
+      wms_link: URL de WMS Capabilities
+    form:
+      are_visible: Visibilitat del mapa. Per defecte els mapes són visibles per a tots els usuaris.
+      author: Autor(s)
+      call: Call number
+      depicted: Data mostrada
+      depicted_hint: "(any, opcional)"
+      desc: Descripció
+      desc_hint: "(màx 256 caracters)"
+      issue: Any d'emissió
+      issue_hint: "(any, opcional)"
+      issue_hint_2: Utilitzat per mostrar els mapes per any.
+      lat: 'Lat:'
+      location: Localitzacions de metadades
+      lon: 'Lon:'
+      make_public: Fer públic
+      max_size: 'Mida màxima:'
+      optional_hint: "(opcional)"
+      photo_uuid: Número de fotografia
+      place: Lloc de publicació
+      projection: Metadades de projecció
+      published: Data de publicació
+      publisher: Editor
+      reprint: Data de reimpressió
+      scale: Escala
+      source: URL de referència font/bibliogràfica
+      subject: "Àrea temàtica"
+      tags: Etiquetes
+      tags_hint: "(separat per comes)"
+      title: Títol
+      unique_id: Identificador únic de metadada
+      upload_file: 'Carrega un arxiu d''imatge:'
+      upload_or_url: O
+      upload_url: 'Carrega des d''una URL:'
+    geosearch:
+      button: Troba el lloc
+      description: 'Moure o ampliar mapa: tant el mapa com la llista s''actualitzaran amb els mapes trobats.'
+      title: Troba mapes rectificats.
+    index:
+      results: Has cercat
+      title: Navega pels mapes
+    map:
+      confirm_my: de veritat vols eliminar aquest mapa dels teus preferits?
+      delete: Esborrar
+      depicts: Mostrar
+      gcp: punt de control
+      gcp_count:
+        one: "%{count} punt de control"
+        other: "%{count} punts de control"
+      in: A
+      kml: Descarrega KML
+      links: Enllaços
+      private: No apareix
+      published: Publicat
+      published_warn: Aquest mapa ha estat publicat per un admin i no es pot editar més
+      remove_from_layer: eliminar mapa d'aquest mosaic
+      remove_my: No preferit
+      save_my: Afegir preferit
+      source: Ref font/biblio
+      unwarped: No rectificat
+      view_map: Veure mapa
+      warp_map: Rectificar mapa
+    map_detail:
+      last_modified: Darrera modificació
+      map_user_label: Afegit per
+      publish: Publicar
+      publish_confirm: De veritat vols publicar aquest mapa? Això vol dir que no es podrà continuar editant
+      tags: Etiquetes
+      unpublish: Despublicat
+      unpublish_confirm: De veritat vols despublicar aquest mapa? Això vol dir que el mapa ara es podrà editar
+    map_type:
+      flash: 'El mapa ha canviat. Tipus de mapa: %{map_type}'
+    mask_map:
+      not_found: Arxiu de màscara no trobat
+    metadata:
+      header: Metadades
+    model:
+      delete_mask_success: màscara esborrada
+      gml_mask_saved: S'ha desat la màscara de retall del mapa (gml)
+      map_type:
+        index: "Índex/Visió general"
+        map: Es un mapa
+        not_map: No és mapa
+      unknown_mask_format: Format de màscara desconegut
+    new:
+      header: Afegeix un nou mapa
+      may_resize: Es pot canviar la mida de la imatge si és massa gran
+      permission_notice: En afegir imatges al lloc web acceptes que tens permís per fer-ho, i acceptes que qualsevol altra persona pugui visualitzar-los i utilitzar-los, inclòs el canvi de punts de control.
+      title: Afegir un nou mapa a
+    publish:
+      flash: 'Mapa canviat. Nou estat:'
+    rectify_main:
+      being_rectified_error: Disculpes, el mapa ja s'està rectificant, torna-ho a provar més tard.
+      not_enough_points: Ho sentim, fa falta com a mínim tres punts de control per poder rectificar el mapa
+      rectified_success: Mapa rectificat
+    save_mask_and_warp:
+      masked_needs_more_points: Mapa emmascarat, però fa falta més punts de contro per rectificar. Fes clic a la pestanya Rectificar per afegir-ne.
+      masked_warp_failed: Màscara desada, però no s'ha aplicat al mapa ja que ja s'està rectificant, torna a provar-ho més tard.
+      masked_warped: Mapa emmascarat i rectificat.
+    show:
+      loaded_html: El mapa s'ha carregat correctament, la pàgina es refrescarà en un parell de segons <a href='%{href}'>Fes clic</a> si no vols esperar.
+      loading: Carregant mapa...
+      login_notice: Potser has de %s per començar a editar el mapa
+      login_notice_link: inicia sessió
+      not_found: No s'ha trobat el mapa
+      requesting: demanant
+      title: Veient el mapa %{map_id}
+      unloaded: El mapa no s'ha carregat correctament, actualitzeu la pàgina i torna-ho a provar. Si no es carrega correctament per segona vegada, tria un altre mapa i torna-ho a provar un altre dia.
+    tag:
+      feed_description: Mapes etiquetats amb
+      feed_title: 'Canal dels Warper Maps etiquetats amb '
+      for: Etiquetes per
+      rss: Canal RSS
+      title: Mapes etiquetats amb %{tags} activat
+    update:
+      error: S'ha produït un error en actualitzar el mapa
+      flash: El mapa s'ha actualitzat correctament.
+    warp:
+      add_manually_button: Afegir un punt de control manualment
+      advanced_options: Opcions avançades
+      apply_mask_html: Aplicar la <a href='%{href}'>màscara de tall</a> quan es rectifiqui?
+      auto_method: Auto - basat en el número de punts de control (defecte)
+      bilinear: Bilineal
+      click_button: Afegeix punt de control
+      click_text_btm: Fes-ho per almenys tres punts.
+      click_text_top: Doble-clic a tots dos mapes, i llavors clic
+      close_popup: Tanca la finestra emergent
+      cubic: Cubic
+      cubicspline: Cubic Spline, més lent però millor qualitat
+      custom_layer_instructions_html: Cerca un mapa o un mosaic. <br />O enganxa una URL de tessel·les (només endreçades Z/X/Y) <br />Pex <code> https://example.com/osm/{z}/{x}/{y}.png</ code>
+      custom_layer_placeholder: Cerca mapes i capes
+      download_gcps: Descarrega punts com CSV
+      gcp_error: Error
+      gcp_lat: Lat
+      gcp_lon: Lon
+      gcp_point: Punt
+      gcp_upload_button: Afegir CSV!
+      gcp_upload_label: Afegir punts de control des d'un CSV
+      gcp_x: Imatge X
+      gcp_y: Imatge Y
+      gcps_link: Punts de control
+      lanczos: Lanczos
+      method_label: 'Mètode de rectificació:'
+      near: Nearest Neighbour, la més ràpida (per defecte)
+      no_mask: fals
+      p1_method: Polinomi de 1r grau (mínim 3 punts)
+      p2_method: Polinomi de 2n grau (mínim 6 punts)
+      p3_method: Polinomi de 3r grau (mínim 10 punts)
+      pan_lock: Bloqueig de desplaçar/apropar
+      panel_title: Panell de control
+      rectifying_notice: Rectificant...
+      resample_label: 'Mètode de remostreig:'
+      server_error: Disculpes, sembla que hi ha algun problema en enviar la petició al servidor, vols provar-ho de nou?
+      shortcuts_html: '1,p: Canvia per afegir punt de control <br /> 2,d: Canvia per moure el control del punt de control <br /> 3,m: Canvia per moure el control del mapa <br /><br />q: Afegeix ràpidament un punt a la posició del ratolí <br /> a: Afegeix ràpidament un punt a la posició del ratolí i afegeix automàticament un punt al mapa oposat <span class = ''small-gray''> (necessita almenys 2 punts ja desats)</ span> <br / > <br /> [enter],e: Desar parells de punts'
+      shortcuts_link: Dreceres de teclat
+      shortcuts_title: Dreceres de teclat
+      title: Rectificar mapa
+      tps_method: Thin Plate Spline (molts punts àmpliament separats)
+      unmasked_question_html: Aquest mapa no té màscara. Vols <a href='%{href}'>afegir o editar una màscara ara</a>?
+      warp_button: Rectifica imatge! &rarr;
+      yes_mask: cert
+    warp_aligned:
+      no_destination: Disculpes, el mapa que has triat no està disponible per alinear.
+      success: Mapa alineat. Ja el pots rectificar!
+      unknown_alignment: Disculpes, només es pot alinear hortizontalment o verticalment ara per ara.
+    warped:
+      needs_warping: S'ha de rectificar el mapa abans que el puguis veure"
+      title: Veure mapa rectificat
+      transparency: Transparència
+      unwarped_notice: Disculpes, has de rectificar el mapa abans per poder-lo veure.
+  my_maps:
+    create:
+      flash: Mapa desat a Preferits
+      others_error: No pots preferir un mapa per a un altre usuari
+    destroy:
+      error: El mapa no s'ha pogut eliminar dels preferits
+      flash: Mapa eliminat dels preferits!
+      not_your_own: Disculpes, no pots treure de preferit un mapa que has afegit, de la llista
+    list:
+      header: Preferits de %{username}
+      help: Mostrant la llista de mapes desats o editats per un usuari.
+  roles:
+    index:
+      assigned: 'Funcions assignades:'
+      available: 'Funcions disponibles:'
+      header: Funcions per a %{username}
+    role:
+      assign: assignar funció
+      remove: eliminar funció
+  shared:
+    disabled_site:
+      close: D'acord
+      message_html: "<strong style = 'color: red; font-weight: normal;'> AVÍS: WorldMap Warp ja no està finançat, de manera que el sistema no pot acceptar càrregues i modificacions addicionals. Demanem disculpes per les molèsties. Un gran substitut és l'aplicació <a href='http://mapwarper.net'> MapWarper</a> desenvolupada i gestionada per Tim Waters. Igual que amb les capes de WorldMap Warp, el contingut de MapWarper es pot descobrir i utilitzar a la plataforma <a href='http://worldmap.harvard.edu'> WorldMap</a>.</ Strong>"
+    export_window:
+      header: Exportar
+      links: Exportar enllaços
+      more: Més opcions d'exportació
+    footer:
+      about: Quant a
+      add_map: Afegir mapa
+      help: Necessites ajuda?
+      home: Inici
+      privacy: Privacy
+      supported_by_html: Hostatjat, desenvolupat i mantingut per Tim Waters | <a href='https://www.paypal.me/timdevelops'>Donar</a>
+    header:
+      admin_users: Administrar usuaris
+      all_activity: Tota l'activitat
+      all_comments: Tots els comentaris
+      all_layers: Tots els mosaics
+      all_maps: Tots els mapes
+      imports: Importacions
+      log_in: Iniciar sessió
+      log_out: Tancar sessió
+      logged_in_as: 'Has iniciat sessió com:'
+      my_activity: La meva activitat
+      my_maps: Preferits
+      settings: Configuració
+      sign_up: Crear compte
+      user_stats: Estadístiques d'usuari
+    nav:
+      about: Quant a
+      add_layer: Afegir mosaic
+      add_map: Carregar mapa
+      geosearch_layers: Troba mosaics per lloc
+      geosearch_maps: Troba mapes per lloc
+      help: Ajuda
+      home: Inici
+      layers: Veure tots els mosaics
+      maps: Veure tots els mapes
+      rectified_maps: Veure mapes rectificats
+    search:
+      all_maps: Tots els mapes
+      author: Autor
+      button: Cerca
+      description: Descripció
+      find_geosearch: Troba mapes rectificats per lloc
+      for: per
+      only_rectified: Només mapes rectificats
+      publisher: Editor
+      search: Cerca
+      tags: Etiquetes
+      title: Títol
+  user_mailer:
+    disabled_change_password:
+      end: Hauries de rebre un mail addicional que conté l'enllaç per fer-ho
+      greeting: Hola
+      intro: El teu compte associat al correu %{email} ha estat desactivat per un administrador, i has de canviar la contrasenya per tornar-lo a activar
+      subject: "%{site_name} El teu compte estarà desactivat fins que canviis la contrasenya"
+    new_registration:
+      click_the_link: 'El teu compte ha estat creat i pots iniciar sessió amb el correu %{email} a:'
+      intro: Gràcies per registrar-te per utilitzar %{site_name}.
+      subject: Benvingut a %{site_name} %{user_name}
+    old_user_notify:
+      body: MapWarper.net és executat i operat per mi, Tim Waters, de la meva butxaca en un servidor bàsic. A mesura que els usuaris carreguen més mapes, els discs s'omplen ràpidament. Ja fa uns set anys que està funcionant! Recentment s'ha actualitzat per executar-se en un servidor més nou amb unitats de 4TB, però fins i tot aquestes estan gairebé a punt d'omplir-se. Per tant, per no canviar MapWarper.net a un servei de pagament, he decidit que és més just eliminar primer els comptes més antics i els seus mapes. Això no passarà durant almenys una setmana o dues i només quan els discs s'ompli. Intentaré mantenir el nombre purgat el més baix possible. Em va semblar que us agradaria saber-ho. Si no t'agrada, ho pots endarrerir simplement iniciant sessió en el lloc web. És possible que trobis que alguns dels mapes anteriors necessiten ser reorientats si els vols veure. <br /> Si ets una institució o una organització gran, hauries de pensar en tenir la teva pròpia instància d'aquest programari. <br /> Una vegada que hagis iniciat la sessió, pots suprimir mapes individuals fent clic a la pestanya "Edita" d'un mapa i fent clic a l'enllaç "Suprimeix aquest mapa". <br /> Heu afegit %{map_count} mapes.
+      forgot_password: 'Potser has oblidat la contrasenya, la pots reinciar aquí:'
+      forgot_password_link: Contrasenya oblidada
+      greeting: Hola
+      intro: Fa temps, el %{created}, et vas registrar a <a href='%{root_url}'>%{site_name}</ a>. %{site_name} que és un servei gratuït per pujar i georeferenciar mapes i imatges. Malauradament el servidor s'està quedant sense espai a disc i, per tant, el teu compte, els mapes carregats i els mosaics creats s'esborraran en el futur per alliberar espai. No cal que facis res si hi estàs d'acord. Pots endarrerir-ho simplement iniciant sessió per mantenir actiu el compte.
+      subject: El teu compte i els %{map_count} mapes a MapWarper.net poden ser esborrats en el futur.
+      thanks: Moltes gràcies i records, Tim
+  users:
+    admin_tools:
+      confirm: Confirma manualment
+      confirm_hint: Confirmació forçada de l'usuari, no es pot canviar.
+      delete_confirm: N'estàs segur?
+      delete_hint: Això no es pot desfer. Elimina totes les dades.
+      delete_user: Esborrar usuari
+      enable_hint: el compte d'usuari - modificable per admin
+      reset_hint: Això canvia la contrasenya del compte de l'usuari, i envia un enllaç per mail a l'usuari per crear una nova contrasenya. Fins que no es canvii la contrasenya l'usuari no pot iniciar sessió.
+      reset_password: Canvia i reinicia la contrasenya
+      roles_hint: Canvia les funcions de l'usuari
+    destroy:
+      admins_cannot_be_destroyed: Els administradors no es poden destruir
+      error: L'usuari no s'ha pogut esborrar
+      flash: Usuari esborrat correctament
+    disable:
+      error: Hi ha hagut un problema en desactivar l'usuari.
+      flash: Usuari desactivat
+    disable_and_reset:
+      admins_cannot_be_disabled: Els administradors no es poden desactivar ni reinciar, disculpes
+      error: Disculpes, hi ha hagut un problema en canviar l'usuari
+      flash: Usuari canviat i correu enviat amb l'enllaç per reiniciar la contrasenya
+      providers_cannot: Disculpes, els usuaris de proveïdors diferents no es poden reiniciar
+    edit:
+      title: Editar la configuració de l'usuari
+    enable:
+      error: Hi ha hagut un problema activant aquest usuari.
+      flash: Usuari activat
+    force_confirm:
+      already_confirmed: L'usuari ja ha estat confirmat
+      error: Hi ha hagut un problema confirmant aquest usuari.
+      flash: Usuari confirmat
+    index:
+      button: Endavant
+      confirmed: Confirmat?
+      created: Registrat
+      disk_usage: Utilització de disc
+      email: Correu
+      enabled: Activat?
+      for: per
+      for_query: "&mdash; Cerca per"
+      header: Usuaris
+      login: Nom d'usuari
+      name: Nom
+      provider: Proveïdor OAuth
+      roles: Funcions
+      search: Cerca usuari
+      title: Usuaris
+      updated: Actualitzat
+      uploads_count: Pujades
+      uploads_size: Mida de les pujades
+    show:
+      activity: Activitat de l'usuari
+      back_to_maps: "&lt; Veure mapes"
+      joined: " A bord des de "
+      not_found: No s'ha trobat l'usuari
+      profile: 'Descripció del perfil:'
+      provider_user_html: Usuari de %{provider_thumb} %{provider_name}
+      title: Mostratn l'usuari %{user_name}
+      updated: Actualitzat
+      user: Usuari
+      user_maps: Mapes de l'usuari
+    stats:
+      details: Més detalls
+      gcp_count: Total de canvis als punts
+      gcp_create_count: Punts creats
+      gcp_destroy_count: Punts esborrats
+      gcp_update_count: Punts actualitzats
+      header: Estadístiques de l'usuari
+      map_count: Total de mapes canviats
+      title: Estadístiques de l'usuari
+      total_count: Total
+      unknown: Desconegut
+    update:
+      flash: Usuari actualitzat
+    user:
+      activate: activar
+      disable: desactivar
+      edit_roles: editar funcions
+      enable: habilitar
+      u_no: 'no'
+      u_yes: si
+  will_paginate:
+    entry:
+      page_entries_info:
+        single_page_html:
+          one: Mostrant <b>1</b> %{model}
+          other: Mostrant <b>tots&nbsp;%{count}</b> %{model}
+          zero: Nothing found
+    layer:
+      page_entries_info:
+        multi_page:
+          one: ''
+          other: Mostrant %{model} %{from} - %{to} de %{count} en total
+        multi_page_html:
+          one: ''
+          other: Mostrant %{model} <b>%{from}&nbsp;-&nbsp;%{to}</b> de <b>%{count}</b> en total
+        single_page_html:
+          one: Mostrant <b>1</b> %{model}
+          other: Mostrant <b>tots&nbsp;%{count}</b> %{model}
+          zero: No %{model} found
+    map:
+      page_entries_info:
+        multi_page:
+          one: ''
+          other: Mostrant %{model} %{from} - %{to} de %{count} en total
+        multi_page_html:
+          one: ''
+          other: Mostrant %{model} <b>%{from}&nbsp;-&nbsp;%{to}</b> de <b>%{count}</b> en total
+        single_page_html:
+          one: Mostrant <b>1</b> %{model}
+          other: Mostrant <b>tots&nbsp;%{count}</b> %{model}
+          zero: No %{model} found
+    next_label: Següent &#8594;
+    page_entries_info:
+      multi_page:
+        one: ''
+        other: Mostrant %{model} %{from} - %{to} de %{count} en total
+      multi_page_html:
+        one: ''
+        other: Mostrant %{model} <b>%{from}&nbsp;-&nbsp;%{to}</b> de <b>%{count}</b> en total
+      single_page:
+        one: Mostrant 1 %{model}
+        other: Mostrant tots %{count} %{model}
+        zero: No %{model} found
+      single_page_html:
+        one: Mostrant <b>1</b> %{model}
+        other: Mostrant <b>tots&nbsp;%{count}</b> %{model}
+        zero: No %{model} found
+    page_gap: "&hellip;"
+    previous_label: "&#8592; Anterior"
