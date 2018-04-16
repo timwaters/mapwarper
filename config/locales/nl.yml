@@ -1020,6 +1020,8 @@ nl:
     entry:
       page_entries_info:
         single_page_html:
+          one: Toon <b>1</b> %{model}
+          other: Toon <b>all&nbsp;%{count}</b> %{model}
           zero: Nothing found
     layer:
       page_entries_info:

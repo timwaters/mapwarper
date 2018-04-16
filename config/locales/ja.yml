@@ -1019,6 +1019,8 @@ ja:
     entry:
       page_entries_info:
         single_page_html:
+          one: <b>1</b>件の%{model}を表示しています
+          other: <b>&nbsp;%{count}件すべて</b>の%{model}を表示しています
           zero: 何も見つかりません
     layer:
       page_entries_info:
