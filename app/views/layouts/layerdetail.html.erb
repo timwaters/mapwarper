@@ -156,7 +156,7 @@
             <% @current_tab_divname = tab[:divname] -%>
           <% end -%>
           <% unless @disabled_tabs && @disabled_tabs.include?(tab[:name]) -%>
-            <li><a rel="history" href="<%=tab[:path]%>" title="<%=tab[:label]%>"><span><%=tab[:label]%><% if tab[:count] -%> (<%=tab[:count]-%>)<%end-%> </span></a></li>
+            <li><a rel="history" href="<%=tab[:path]%>"  title="<%=tab[:divname]%>"><span><%=tab[:label]%><% if tab[:count] -%> (<%=tab[:count]-%>)<%end-%> </span></a></li>
           <% end -%>
         <% end -%>
       </ul>
