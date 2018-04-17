@@ -29,14 +29,8 @@ ca:
             layer_id:
               already_has_map: ja té aquest mapa
         map:
-          attributes:
-            map_id:
-              not_unique: Clic per introduir text / traducció
-            user_id:
-              not_unique: Clic per introduir text / traducció
           error_url: "és invàlid o inaccessible"
           filename_not_unique: ja s'està utilitzant
-          my_map: Clic per introduir text / traducció
         my_map:
           attributes:
             map_id:
