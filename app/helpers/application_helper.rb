@@ -8,7 +8,7 @@ module ApplicationHelper
     user_signed_in? && current_user.has_role?('editor')
   end
   
-  FLASH_NOTICE_KEYS = [:error, :notice, :warning]
+  FLASH_NOTICE_KEYS = [:error, :notice, :warning, :alert]
   def flash_messages
     return unless messages = flash.keys.select{|k| FLASH_NOTICE_KEYS.include?(k.to_sym)}
     formatted_messages = messages.map do |type|      
@@ -78,6 +78,10 @@ module ApplicationHelper
   
   def map_thumb_url(map)
     map.upload.url(:thumb)
+  end
+
+  def disabled_site?
+    APP_CONFIG["disabled_site"] == true
   end
   
 end

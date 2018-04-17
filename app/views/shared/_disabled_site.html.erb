@@ -1,0 +1,6 @@
+<% if disabled_site? %>
+  <div id="disabled_site_message">
+    <%= t('.message_html') -%>
+    <a class="closebtn" href="#"><%= t('.close') -%></a>
+  </div>
+<%- end -%>

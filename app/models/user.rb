@@ -67,7 +67,11 @@ class User < ActiveRecord::Base
   #Called by Devise 
   #Method checks to see if the user is enabled (it will therefore not allow a user who is disabled to log in)
   def active_for_authentication?
-    super and self.enabled?
+    super && self.enabled? && self.is_allowed_in?
+  end
+
+  def inactive_message
+    self.is_allowed_in? ? super : :not_allowed_in
   end
   
   def self.find_for_twitter_oauth(auth, signed_in_resource=nil)
@@ -206,6 +210,10 @@ class User < ActiveRecord::Base
   end
 
   protected
+
+  def is_allowed_in?
+    APP_CONFIG["disabled_site"] != true || (has_role?("administrator") || has_role?("trusted"))
+  end
 
   #called after the user has been destroyed
   #delete all user maps

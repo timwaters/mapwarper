@@ -177,7 +177,7 @@ ca:
       invalid_token: Token d'autenticació no vàlid
       last_attempt: Tens un darrer intent abans que el vostre compte es bloquegi
       locked: El vostre compte s'ha bloquejat
-      not_allowed_in: El lloc està desactivat, de manera que no podeu iniciar la sessió. WorldMap Warp ja no està finançat, i per tant el sistema no pot acceptar càrregues ni modificacions addicionals
+      not_allowed_in: El lloc està desactivat, de manera que no podeu iniciar la sessió. The site is in read only mode.
       not_found_in_database: Email o contrasenya incorrectes
       timeout: La sessió ha expirat. Toreneu a inciar sessió per continuar
       unauthenticated: Abans de continuar has d'iniciar sessió o registrar un nou compte
@@ -243,7 +243,7 @@ ca:
       signed_up: Benvingut! T'has registrat correctament.
       signed_up_but_inactive: T'has registrat correctament. No obstant no hem pogut iniciar la teva sessió per que el teu compte encara no està activat.
       signed_up_but_locked: T'has registrat correctament. No obstant no hem pogut inciar la teva sessió per que el teu compte està bloquejat.
-      signed_up_but_not_allowed_in: Gràcies! S'ha enviat un missatge amb un enllaç de confirmació a la teva adreça de correu electrònic. Obre l'enllaç per activar el teu compte. Tingues en compte que els inicis de sessió estan desactivats actualment ja que WorldMap Warp ja no està finançat, de manera que el sistema no pot acceptar càrregues ni modificacions addicionals.
+      signed_up_but_not_allowed_in: Gràcies! S'ha enviat un missatge amb un enllaç de confirmació a la teva adreça de correu electrònic. Obre l'enllaç per activar el teu compte. However please be aware that logins are disabled currently as Mapwarper is in read only mode. 
       signed_up_but_unconfirmed: Gràcies! S'ha enviat un missatge amb un enllaç de confirmació a la teva adreça de correu electrònic. Obre l'enllaç per activar el teu compte.
       update_needs_confirmation: Has actualitzat el teu compte amb èxit, però hem de verificar la teva nova adreça electrònica. Comprovau el correu electrònic i fes clic a l'enllaç de confirmació per confirmar la teva nova adreça de correu electrònic.
       updated: Has actualitzat el teu compte correctament.
@@ -877,7 +877,7 @@ ca:
   shared:
     disabled_site:
       close: D'acord
-      message_html: "<strong style = 'color: red; font-weight: normal;'> AVÍS: WorldMap Warp ja no està finançat, de manera que el sistema no pot acceptar càrregues i modificacions addicionals. Demanem disculpes per les molèsties. Un gran substitut és l'aplicació <a href='http://mapwarper.net'> MapWarper</a> desenvolupada i gestionada per Tim Waters. Igual que amb les capes de WorldMap Warp, el contingut de MapWarper es pot descobrir i utilitzar a la plataforma <a href='http://worldmap.harvard.edu'> WorldMap</a>.</ Strong>"
+      message_html: "<strong style='color:red;font-weight:normal;'>NOTICE: Mapwarper.net is currently in read only mode so the system cannot accept further uploads and edits.  We apologize for the inconvenience.</strong>"
     export_window:
       header: Exportar
       links: Exportar enllaços

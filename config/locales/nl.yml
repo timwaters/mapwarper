@@ -177,6 +177,7 @@ nl:
       invalid_token: Ongeldig authenticiteit token.
       last_attempt: U heeft nog een poging voordat uw account geblokkeerd wordt.
       locked: Uw account is geblokkeerd.
+      not_allowed_in: Site is disabled, so you are not allowed to log in. Mapwarper.net is in read only mode, so cannot accept further uploads and edits
       not_found_in_database: 'Het e-mailadres of wachtwoord is ongeldig. '
       timeout: Uw sessie is verlopen. Als u opnieuw inlogt, kunt u verder gaan.
       unauthenticated: U moet inloggen of een account aanmaken voordat u verder kunt.
@@ -242,6 +243,7 @@ nl:
       signed_up: Welkom! Het registreren is gelukt.
       signed_up_but_inactive: Het registreren is gelukt. Helaas konden we u nog niet aanmelden omdat uw account nog niet is geactiveerd.
       signed_up_but_locked: 'Het registreren is gelukt. Helaas konden we u nog niet aanmelden omdat uw account is geblokkeerd. '
+      signed_up_but_not_allowed_in: Bedankt! U ontvangt een bevestigingslink per e-mail, waarmee u uw account kan activeren. However please be aware that logins are disabled currently as Mapwarper.net is in read only mode.
       signed_up_but_unconfirmed: Bedankt! U ontvangt een bevestigingslink per e-mail, waarmee u uw account kan activeren.
       update_needs_confirmation: Het updaten van uw account is gelukt, maar u moet uw nieuwe e-mailadres bevestigen. U ontvangt een bevestigingslink per e-mail, waarmee u uw nieuwe adres kan bevestigen.
       updated: Het updaten van uw account is gelukt.
@@ -866,6 +868,9 @@ nl:
       assign: Wijs rol toe
       remove: verwijder rol
   shared:
+    disabled_site:
+      close: Okay
+      message_html: "<strong style='color:red;font-weight:normal;'>NOTICE: Mapwarper.net is currently in read only mode so the system cannot accept further uploads and edits.  We apologize for the inconvenience.</strong>"
     export_window:
       header: Exporteer
       links: Exporteer links

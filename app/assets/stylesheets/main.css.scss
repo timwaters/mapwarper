@@ -1081,7 +1081,7 @@ font-weight: bold;
   transition:all 0.2s ease-in-out;
 }
 
-#error
+#error, #alert
 {
   border: 3px solid #eec;
   margin-left: auto;
@@ -1885,3 +1885,22 @@ div.layer-maps-col {
   font-size: smaller;
   color: gray;
 }
+.closebtn{
+  font-weight: 900;
+  padding: 5px 3px 5px 3px;
+  background: lightblue;
+  margin: 10px auto 0;
+  border-radius: 5px;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  box-shadow: 2px 2px lightgrey;
+}
+
+#disabled_site_message {
+  background: white;
+  margin-right: -10px;
+  margin-left: -10px;
+  padding-left: 10px;
+  padding-top: 10px;
+}
+
