@@ -44,7 +44,7 @@ namespace :warper do
         puts "#{user.login}, #{user.email}, #{user.updated_at.strftime("%F")}, #{user.created_at.strftime("%F")}, #{user.own_maps_count}, #{number_to_human_size(user.upload_filesize_sum)}, #{number_to_human_size(user.disk_usage * 1024) if user.disk_usage && user.disk_usage > 0 } "
       end
 
-      puts "Eligable user count: #{eligable_users_size}, upload_file_size =  #{number_to_human_size(file_size_sum)} , disk_usage_sum = #{number_to_human_size(disk_usage_sum * 1024)} "
+      puts "Eligable user count: #{eligable_users_size}, upload_file_size =  #{number_to_human_size(file_size_sum)} , disk_usage_sum = #{number_to_human_size(disk_usage_sum)} "
 
     end
 

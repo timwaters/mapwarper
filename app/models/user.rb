@@ -192,19 +192,14 @@ class User < ActiveRecord::Base
     update_column(:disk_usage, calculate_disk_usage)
   end
 
-  #returns tiffed disk usage in units of 1024 bytes
+  #returns tiffed disk usage in units of bytes
   def calculate_disk_usage
     user_own_maps = self.own_maps  #saves 4 calls
 
     files = user_own_maps.map{|m| m.unwarped_filename if File.exist? m.unwarped_filename} + user_own_maps.map{| m | m.masked_src_filename if File.exist? m.masked_src_filename} + user_own_maps.map{|m | m.warped_filename if File.exist? m.warped_filename} + user_own_maps.map{|m| m.warped_png_filename if File.exist? m.warped_png_filename}
     files.compact!
-    files_string = files.join("' '")
 
-    command = "du -c '#{files_string}'"
-  
-    logger.debug "Calculate disk usage size for user:#{self.id}  #{command}"
-
-    total_size = `#{command}`.split("\n").last.split("\t").first
+    total_size = files.inject(0) {| result, file | result + File.size(file) }
 
     return total_size
   end
