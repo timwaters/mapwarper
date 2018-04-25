@@ -20,7 +20,7 @@ module Rails4Mapwarper
     # config.i18n.load_path += Dir[Rails.root.join('my', 'locales', '*.{rb,yml}').to_s]
     config.i18n.load_path += Dir[Rails.root.join('config', 'locales', '**', '*.{rb,yml}')]
     config.i18n.default_locale = :en
-    config.i18n.available_locales = [:en, :nl, :ja]
+    config.i18n.available_locales = [:en, :nl, :ja, :ca]
     I18n.config.enforce_available_locales = true
 
     config.filter_parameters += [:password, :password_confirmation]

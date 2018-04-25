@@ -147,7 +147,7 @@ ca:
     num_th: Número de mapes
     per_page: per pàgina
     percent_th: Percentatge complet
-    site_title: Transforma
+    site_title: Map Warper
     status_th: Estat
     title_th: Títol
     update_button: Actualitza
@@ -168,7 +168,7 @@ ca:
         not_found: no s'ha trobat
         not_locked: no està bloquejat
         not_saved:
-          one: '1 un error ha impedit esborrar aquest %{resource} :'
+          one: 'un error ha impedit esborrar aquest %{resource} :'
           other: "%{count} errors han impedit esborrar aquest %{resource} :"
     failure:
       already_authenticated: Ja has iniciat sessió.
@@ -177,7 +177,7 @@ ca:
       invalid_token: Token d'autenticació no vàlid
       last_attempt: Tens un darrer intent abans que el vostre compte es bloquegi
       locked: El vostre compte s'ha bloquejat
-      not_allowed_in: El lloc està desactivat, de manera que no podeu iniciar la sessió. The site is in read only mode.
+      not_allowed_in: Aquest lloc està desactivat, de manera que no podeu iniciar la sessió. El lloc està en mode de només lectura.
       not_found_in_database: Email o contrasenya incorrectes
       timeout: La sessió ha expirat. Toreneu a inciar sessió per continuar
       unauthenticated: Abans de continuar has d'iniciar sessió o registrar un nou compte
@@ -243,7 +243,7 @@ ca:
       signed_up: Benvingut! T'has registrat correctament.
       signed_up_but_inactive: T'has registrat correctament. No obstant no hem pogut iniciar la teva sessió per que el teu compte encara no està activat.
       signed_up_but_locked: T'has registrat correctament. No obstant no hem pogut inciar la teva sessió per que el teu compte està bloquejat.
-      signed_up_but_not_allowed_in: Gràcies! S'ha enviat un missatge amb un enllaç de confirmació a la teva adreça de correu electrònic. Obre l'enllaç per activar el teu compte. However please be aware that logins are disabled currently as Mapwarper is in read only mode. 
+      signed_up_but_not_allowed_in: Gràcies! Hem enviat un missatge amb un enllaç de confirmació a la teva adreça de correu electrònic. Obre l'enllaç per activar el teu compte. No obstant això, tingues en compte que l'inici de sessió està desactivat actualment ja que Mapwarper està en mode de només lectura.
       signed_up_but_unconfirmed: Gràcies! S'ha enviat un missatge amb un enllaç de confirmació a la teva adreça de correu electrònic. Obre l'enllaç per activar el teu compte.
       update_needs_confirmation: Has actualitzat el teu compte amb èxit, però hem de verificar la teva nova adreça electrònica. Comprovau el correu electrònic i fes clic a l'enllaç de confirmació per confirmar la teva nova adreça de correu electrònic.
       updated: Has actualitzat el teu compte correctament.
@@ -286,11 +286,13 @@ ca:
       not_found: no s'ha trobat
       not_locked: no estava bloquejat
       not_saved:
-        one: '1 error ha impedit desar aquest %{resource} :'
+        one: 'un error ha impedit desar aquest %{resource} :'
         other: "%{count} errors han impedit desar aquest %{resource} :"
       spoofed_media_type: no és el format d'imatge correcte. Prova-ho de nou amb jpeg, png o gif.
     template:
-      header: en blanc?
+      header:
+        one: 'un error ha impedit desar aquest %{model} '
+        other: "%{count} errors han impedit desar aquest %{model}"
   gcps:
     add:
       new_gcp_notice: S'ha afegit un nou punt de control
@@ -359,9 +361,9 @@ ca:
       more: llegir més
       news: Novetats
       overview_header: Resum
-      overview_p1: 'Benvingut a WorldMap WARP, una eina basada en la plataforma <a href="https://github.com/timwaters/mapwarper"> MapWarper </a> desenvolupada per <a href = ''https: //thinkwhere.wordpress. com ''> Tim Waters </ a>.'
-      overview_p2: Es una eina és per alinear digitalment (georectificació) mapes històrics escanejats que coincideixin amb els mapes precisos d'avui. Els visitants poden explorar mapes que altri ha georectificat o afegir els propis per rectificar.
-      overview_p3: Qualsevol mapa que s'hagi rectificat aquí es pot portar a WorldMap seguint les instruccions de la Secció 3.9.1 de <a href="http://worldmap.harvard.edu/static/docs/WorldMap_Help_en.pdf">  l'ajuda de WorldMap</ a>.
+      overview_p1: Troba mapes i altres imatges, carrega'n i corregeix-les amb un mapa real.
+      overview_p2: Després pots descarregar i utilitzar el mapa georeferenciat en les teves aplicacions de mapes.
+      overview_p3: Només t'has de registrar i ja podràs carregar imatges i començar a corregir-les!
       recent_layers: Mosaics recents
       rect_maps: Darrers mapes rectificats
       see_maps: Veure tots els mapes
@@ -497,10 +499,10 @@ ca:
       other_places: 'Altres llocs:'
       rms_error_prefix: Error
       warp_popup_title: El rectificador està treballant....
-      warped_layer: mapa distorsionat
+      warped_layer: mapa ajustat
     warped:
       warped_layer: Capa
-      warped_map: imatge deformada
+      warped_map: imatge ajustada
   layers:
     comments:
       no_comments: No hi ha comentaris per aquest mosaic, afegeix-ne un!
@@ -528,7 +530,7 @@ ca:
       depicts_hint_2: S'utilitza per mostrar capes per any.
       detail: detall
       my_maps: preferits
-      no_maps: No tens cap rectificat
+      no_maps: No tens cap ajustat
       select_map_head: Escull dels teus preferits
       source: URL de referència font / bibliogràfica
     geosearch:
@@ -596,7 +598,7 @@ ca:
       year_button: Desar
       year_dialog_label: 'Afegir/editar l''any que mostra aquest mosaic:'
       year_dialog_title: Mostra any (només admin)
-      year_fail_alert: Disculpes, alguna cosa ha fallat en desar això
+      year_fail_alert: Disculpes, alguna cosa ha fallat en desar-ho
     tabs:
       activity: Activitat
       align: Alinear
@@ -610,10 +612,10 @@ ca:
       rectify: Rectificar
       show: Mostra
       unaccessible_html: Disculpes. Actualment el lloc està en mode de només lectura i algunes funcions estan deshabilitades. Siusplau, intenta-ho més tard.
-      unauthorized_html: Disculpes. Has de <a class='unauthorized' href='%{href}'>Iniciar sessió</a> per veure això.
+      unauthorized_html: Disculpes. Has de <a class='unauthorized' href='%{href}'>Iniciar sessió</a> per veure-ho.
   locales:
-    en: Anglès
     ca: Català
+    en: Anglès
     ja: Japonès
     nl: Holandès
   maps:
@@ -642,7 +644,7 @@ ca:
       delete: Esborrar màscara
       delete_alert: no ha anat com s'esperava, disculpes
       instructions_html: <p>1. Dibuixa al voltant de l'àrea que vols conservar.  </p><p>2. Per aplicar la màscara al mapa fes clic a "Emmascara el mapa" </p>
-      title: Retalla el mapa
+      title: Retallant el mapa
     comments:
       header: Comentaris
       login: Inicia sessió per afegir comentari
@@ -877,7 +879,7 @@ ca:
   shared:
     disabled_site:
       close: D'acord
-      message_html: "<strong style='color:red;font-weight:normal;'>NOTICE: Mapwarper.net is currently in read only mode so the system cannot accept further uploads and edits.  We apologize for the inconvenience.</strong>"
+      message_html: "<strong style='color:red;font-weight:normal;'>AVÍS: Mapwarper.net està en mode de només lectura i per tant el sistema no pot acceptar càrregues i edicions addicionals. Disculpeu les molèsties.</strong>"
     export_window:
       header: Exportar
       links: Exportar enllaços
@@ -885,9 +887,9 @@ ca:
     footer:
       about: Quant a
       add_map: Afegir mapa
-      help: Necessites ajuda?
+      help: Ajuda
       home: Inici
-      privacy: Privacy
+      privacy: Privacitat
       supported_by_html: Hostatjat, desenvolupat i mantingut per Tim Waters | <a href='https://www.paypal.me/timdevelops'>Donar</a>
     header:
       admin_users: Administrar usuaris
@@ -1031,9 +1033,8 @@ ca:
     entry:
       page_entries_info:
         single_page_html:
-          one: Mostrant <b>1</b> %{model}
+          one: 'one: Mostrant <b>1</b> %{model}'
           other: Mostrant <b>tots&nbsp;%{count}</b> %{model}
-          zero: Nothing found
     layer:
       page_entries_info:
         multi_page:

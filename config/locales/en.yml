@@ -33,9 +33,9 @@ en:
           filename_not_unique: is already being used
         my_map:
           attributes:
-            user_id:
-              not_unique: Map has already been saved to the user.
             map_id:
+              not_unique: Map has already been saved to the user.
+            user_id:
               not_unique: Map has already been saved to the user.
     models:
       import:
@@ -288,10 +288,10 @@ en:
       not_saved:
         one: '1 error prohibited this %{resource} from being saved:'
         other: "%{count} errors prohibited this %{resource} from being saved:"
-      spoofed_media_type: "may not be in the correct image format. Try again with a jpeg, png or gif."
+      spoofed_media_type: may not be in the correct image format. Try again with a jpeg, png or gif.
     template:
       header:
-        one: "1 error stopped this %{model} from being saved"
+        one: 1 error stopped this %{model} from being saved
         other: "%{count} errors stopped this %{model} from being saved"
   gcps:
     add:
@@ -355,7 +355,7 @@ en:
       create_layer: Create a new mosaic
       info_contact: Mail me at tim@geothings.net for more information!
       info_header: What is it?
-      info_paragraph_html: "It's a free to use, open source map warper / map georectifier, and image georeferencer tool for individuals and small groups. Developed, hosted and maintained by <a href='https://thinkwhere.wordpress.com'>Tim Waters</a>. If you like this project, please consider <a href='https://www.paypal.me/timdevelops'>donating</a> to keep the project going."
+      info_paragraph_html: It's a free to use, open source map warper / map georectifier, and image georeferencer tool for individuals and small groups. Developed, hosted and maintained by <a href='https://thinkwhere.wordpress.com'>Tim Waters</a>. If you like this project, please consider <a href='https://www.paypal.me/timdevelops'>donating</a> to keep the project going.
       more: read more
       news: News
       overview_header: Overview
@@ -609,6 +609,11 @@ en:
       show: Show
       unaccessible_html: Sorry. The site is currently in read only mode and some features are disabled. Please try again later.
       unauthorized_html: Sorry. You may need to <a class='unauthorized' href='%{href}'>Log In</a> to view this.
+  locales:
+    ca: Catalan
+    en: English
+    ja: Japanese
+    nl: Dutch
   maps:
     align:
       add_map_title: Click to add map here
@@ -826,14 +831,14 @@ en:
       p1_method: 1st Order Polynomial (min 3 points)
       p2_method: 2nd Order Polynomial (min 6 points)
       p3_method: 3rd Order Polynomial (min 10 points)
-      pan_lock: "Pan/zoom lock"
+      pan_lock: Pan/zoom lock
       panel_title: Control Panel
       rectifying_notice: Rectifying.....
       resample_label: 'Resampling Method:'
-      shortcuts_link: Keyboard Shortcuts
-      shortcuts_html: "1,p: Switch to add point control <br /> 2,d: Switch to move control point control <br /> 3,m: Switch to move around map control <br /><br />q: Quickly add point over mouse position <br /> a: Quickly add point over mouse position and automatically adds a point on the opposite map <span class='small-gray'>(needs at least 2 points already saved)</span> <br /> <br /> [enter],e: Save pairs of points"
-      shortcuts_title: Keyboard Shortcuts
       server_error: Sorry, there appears to be an error sending the request to the server, try again?...
+      shortcuts_html: '1,p: Switch to add point control <br /> 2,d: Switch to move control point control <br /> 3,m: Switch to move around map control <br /><br />q: Quickly add point over mouse position <br /> a: Quickly add point over mouse position and automatically adds a point on the opposite map <span class=''small-gray''>(needs at least 2 points already saved)</span> <br /> <br /> [enter],e: Save pairs of points'
+      shortcuts_link: Keyboard Shortcuts
+      shortcuts_title: Keyboard Shortcuts
       title: 'Rectifying Map '
       tps_method: Thin Plate Spline (many points widely spread)
       unmasked_question_html: This map is not currently masked. Do you want to <a href='%{href}'>add or edit a mask now</a>?
@@ -881,7 +886,7 @@ en:
       help: Help
       home: Home
       privacy: Privacy
-      supported_by_html: "Hosted, developed and maintained by Tim Waters | <a href='https://www.paypal.me/timdevelops'>Donate</a>"
+      supported_by_html: Hosted, developed and maintained by Tim Waters | <a href='https://www.paypal.me/timdevelops'>Donate</a>
     header:
       admin_users: Administer Users
       all_activity: All Activity
@@ -931,13 +936,13 @@ en:
       intro: Thanks for signing up to use %{site_name}.
       subject: Welcome to %{site_name} %{user_name}
     old_user_notify:
-      body: "MapWarper.net is run and operated by me, Tim Waters, out of my own pocket on a bare metal server. As users upload more maps, the disks fill up quickly. It's been running for around seven years now! It recently was upgraded to run on a newer server with 4TB drives, but even these are almost close to being full! So, without changing MapWarper.net into a paid service, I've decided that it's fairer if older accounts and their maps get removed first. This will not happen for at least a week or two and then only when the disks get full. I'll try to keep the number cleared as low as possible. I thought you'd like to be notified about this. If you don't want this, you can delay this simply by logging in an using the site. You might find that some of the older maps need to be re-rectified if you want to view them.  <br /> If you are an institution or large organisation you should think about having your own instance of this software. <br />Once logged in you can delete individual maps by clicking on the 'edit' tab of a map and clicking on the 'delete this map' link. <br />You have uploaded %{map_count} map(s)."
-      forgot_password: "You might have forgotten your password, you can reset your password here:"
-      forgot_password_link: "Forgot Password"
+      body: MapWarper.net is run and operated by me, Tim Waters, out of my own pocket on a bare metal server. As users upload more maps, the disks fill up quickly. It's been running for around seven years now! It recently was upgraded to run on a newer server with 4TB drives, but even these are almost close to being full! So, without changing MapWarper.net into a paid service, I've decided that it's fairer if older accounts and their maps get removed first. This will not happen for at least a week or two and then only when the disks get full. I'll try to keep the number cleared as low as possible. I thought you'd like to be notified about this. If you don't want this, you can delay this simply by logging in an using the site. You might find that some of the older maps need to be re-rectified if you want to view them.  <br /> If you are an institution or large organisation you should think about having your own instance of this software. <br />Once logged in you can delete individual maps by clicking on the 'edit' tab of a map and clicking on the 'delete this map' link. <br />You have uploaded %{map_count} map(s).
+      forgot_password: 'You might have forgotten your password, you can reset your password here:'
+      forgot_password_link: Forgot Password
       greeting: Hi
-      intro: "Way back in %{created} you signed up to <a href='%{root_url}'>%{site_name}</a>. %{site_name} is a free service to upload and georeference maps and images. Unfortunately the server is running out of disk space and so your account, uploaded maps and created mosaics are set to be deleted in the future to free up space. You don't need to do anything if you are okay with this. You can delay this simply by logging in and keeping active." 
-      subject: "Your account and %{map_count} maps on MapWarper.net might be deleted in the future."
-      thanks: "Many thanks and regards, Tim"
+      intro: Way back in %{created} you signed up to <a href='%{root_url}'>%{site_name}</a>. %{site_name} is a free service to upload and georeference maps and images. Unfortunately the server is running out of disk space and so your account, uploaded maps and created mosaics are set to be deleted in the future to free up space. You don't need to do anything if you are okay with this. You can delay this simply by logging in and keeping active.
+      subject: Your account and %{map_count} maps on MapWarper.net might be deleted in the future.
+      thanks: Many thanks and regards, Tim
   users:
     admin_tools:
       confirm: Manually confirm
@@ -1057,7 +1062,3 @@ en:
         zero: No %{model} found
     page_gap: "&hellip;"
     previous_label: "&#8592; Previous"
-  locales:
-    en: English
-    nl: Dutch
-    ja: Japanese
