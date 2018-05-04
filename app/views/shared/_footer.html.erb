@@ -1,9 +1,9 @@
 <div id="nav">
-  <a href="/"><%= t('.home') %></a> |
+  <%= link_to t('.home'), :root %> |
   <%= link_to t('.add_map'), new_map_path %> |
-  <a href="/about.htm"><%= t('.about') %></a> |
-  <a href="/help.htm"><%= t('.help') %></a> |
-  <a href="/privacy.htm"><%= t('.privacy') %></a> |
+  <%= link_to t('.about'), about_path %> | 
+  <%= link_to t('.help'), help_path %> | 
+  <%= link_to t('.privacy'), privacy_path %> | 
   <%= t('.supported_by_html') %>
 </div>
 
