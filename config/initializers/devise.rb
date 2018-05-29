@@ -234,7 +234,7 @@ Devise.setup do |config|
   # config.omniauth :github, 'APP_ID', 'APP_SECRET', scope: 'user,public_repo'
   config.omniauth :twitter,  APP_CONFIG["omniauth_twitter_key"], APP_CONFIG["omniauth_twitter_secret"]
   
-  config.omniauth :osm, APP_CONFIG["omniauth_osm_key"], APP_CONFIG["omniauth_osm_secret"]
+  config.omniauth :osm, APP_CONFIG["omniauth_osm_key"], APP_CONFIG["omniauth_osm_secret"], {:client_options => {:site => "https://www.openstreetmap.org"}}
   
   config.omniauth :mediawiki,  APP_CONFIG["omniauth_mediawiki_key"], APP_CONFIG["omniauth_mediawiki_secret"], {:client_options => {:site => APP_CONFIG["omniauth_mediawiki_site"] }}
   
