@@ -5,10 +5,12 @@
   <li>
     <%= t('.geotiff') %>: <%= link_to  t('.geotiff_link'), export_map_url(:id => @map, :format => :tif) %>
   </li>
-  <li>
-    <%= t('.png') %>: <%= link_to  t('.png_link'), export_map_url(:id => @map, :format => :png) %>
-    (<%= t('.png_aux') %> <%= link_to ".aux.xml", export_map_url(:id => @map, :format => :aux_xml) %>)
-  </li>
+  <% if user_signed_in? -%>
+    <li>
+      <%= t('.png') %>: <%= link_to  t('.png_link'), export_map_url(:id => @map, :format => :png) %>
+      (<%= t('.png_aux') %> <%= link_to ".aux.xml", export_map_url(:id => @map, :format => :aux_xml) %>)
+    </li>
+  <% end -%>
 </ul>
 <h3><%= t('.services_header') %></h3>
 <ul>
