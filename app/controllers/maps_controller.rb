@@ -24,9 +24,6 @@ class MapsController < ApplicationController
   
   require 'digest/sha1'
   caches_action :wms, 
-    :if => Proc.new {|c|
-      c.params["status"]  == "warped" || c.params["STATUS"] == "warped"
-    },
     :cache_path => Proc.new { |c| 
       string =  c.params.to_s
       {:status => c.params["status"] || c.params["STATUS"], :tag => Digest::SHA1.hexdigest(string)}
