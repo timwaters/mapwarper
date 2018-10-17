@@ -1051,7 +1051,11 @@ class MapsController < ApplicationController
   end
   
   def set_wms_format
-    request.format = "png"
-  end
+    if params["request"] == "GetCapabilities" 
+      request.format = "text/xml"
+    else
+      request.format = "png"
+    end
+  end  
   
 end
