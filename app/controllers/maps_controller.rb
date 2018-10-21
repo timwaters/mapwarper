@@ -24,6 +24,7 @@ class MapsController < ApplicationController
   
   require 'digest/sha1'
   caches_action :wms, 
+     unless: -> { request.params["request"] == "GetCapabilities" },
     :cache_path => Proc.new { |c| 
       string =  c.params.to_s
       {:status => c.params["status"] || c.params["STATUS"], :tag => Digest::SHA1.hexdigest(string)}
@@ -1051,11 +1052,7 @@ class MapsController < ApplicationController
   end
   
   def set_wms_format
-    if params["request"] == "GetCapabilities" 
-      request.format = "text/xml"
-    else
-      request.format = "png"
-    end
+    request.format = "png"
   end  
   
 end
