@@ -592,7 +592,7 @@ class Map < ActiveRecord::Base
     FileUtils.copy(unwarped_filename, masked_src_filename)
     
     
-    command = "#{GDAL_PATH}gdal_rasterize -i  -burn 17 -b 1 -b 2 -b 3 #{masking_file} -l #{layer} #{masked_src_filename}"
+    command = "#{GDAL_PATH}gdal_rasterize -i -b 1 -b 2 -b 3 -burn 17 -burn 17 -burn 17  #{masking_file} -l #{layer} #{masked_src_filename}"
     r_stdout, r_stderr = Open3.capture3( command )
     logger.info command
     
@@ -674,7 +674,7 @@ class Map < ActiveRecord::Base
     memory_limit =  (defined?(GDAL_MEMORY_LIMIT)) ? "-wm "+GDAL_MEMORY_LIMIT.to_s :  ""
     
     #check for colorinterop=pal ? -disnodata 255 or -dstalpha
-    command = "#{GDAL_PATH}gdalwarp #{memory_limit}  #{transform_option}  #{resample_option} -dstalpha #{mask_options} -s_srs 'EPSG:4326' #{temp_filename}.vrt #{dest_filename} -co TILED=YES -co COMPRESS=LZW"
+    command = "#{GDAL_PATH}gdalwarp #{memory_limit}  #{transform_option}  #{resample_option} -dstalpha #{mask_options} -dstnodata none -s_srs 'EPSG:4326' #{temp_filename}.vrt #{dest_filename} -co TILED=YES -co COMPRESS=LZW"
     w_stdout, w_stderr = Open3.capture3( command )
     logger.info command
     

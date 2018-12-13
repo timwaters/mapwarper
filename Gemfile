@@ -2,7 +2,7 @@ source 'https://rubygems.org'
 
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '4.1.15'
+gem 'rails', '4.2.11'
 # Use sqlite3 as the database for Active Record
 #gem 'sqlite3'
 # Use SCSS for stylesheets
@@ -33,7 +33,7 @@ gem 'sdoc', '~> 0.4.0',          group: :doc
 # Use debugger
 # gem 'debugger', group: [:development, :test]
 
-gem 'devise'
+gem 'devise', '~> 3'
 gem 'devise-encryptable'
 
 gem 'omniauth-oauth2'#, "~> 1.2.0" #prev 1.2.0
@@ -42,7 +42,7 @@ gem 'omniauth-osm'
 gem 'omniauth-github'
 gem "omniauth-mediawiki", github: 'timwaters/omniauth-mediawiki', branch: 'raw_info_before' 
 
-gem 'pg'
+gem 'pg', '~>0.21'
 gem 'activerecord-postgis-adapter'
 
 gem 'acts-as-taggable-on', '~> 3.3.0'
@@ -54,7 +54,6 @@ gem 'spawnling', '~>2.1'
 #Rails 4 support for the audited (acts_as_audited gem) is not quite rails4 worthy - see #https://github.com/collectiveidea/audited/pull/166
 gem 'audited-activerecord', github: 'timwaters/audited', branch: 'rails4'  
 
-gem 'gdal'
 gem 'georuby'
 gem 'geoplanet'
 gem 'yql', '0.0.2'

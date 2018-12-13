@@ -13,6 +13,10 @@
 
 ActiveRecord::Schema.define(version: 20160530155705) do
 
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
+  enable_extension "postgis"
+
   create_table "audits", force: true do |t|
     t.integer  "auditable_id"
     t.string   "auditable_type"
@@ -29,9 +33,9 @@ ActiveRecord::Schema.define(version: 20160530155705) do
     t.string   "association_type"
   end
 
-  add_index "audits", ["auditable_id", "auditable_type"], :name => "auditable_index"
-  add_index "audits", ["created_at"], :name => "index_audits_on_created_at"
-  add_index "audits", ["user_id", "user_type"], :name => "user_index"
+  add_index "audits", ["auditable_id", "auditable_type"], name: "auditable_index"
+  add_index "audits", ["created_at"], name: "index_audits_on_created_at"
+  add_index "audits", ["user_id", "user_type"], name: "user_index"
 
   create_table "client_applications", force: true do |t|
     t.string   "name"
@@ -45,7 +49,7 @@ ActiveRecord::Schema.define(version: 20160530155705) do
     t.datetime "updated_at"
   end
 
-  add_index "client_applications", ["key"], :name => "index_client_applications_on_key", :unique => true
+  add_index "client_applications", ["key"], name: "index_client_applications_on_key", unique: true
 
   create_table "comments", force: true do |t|
     t.string   "title",            limit: 50, default: ""
@@ -57,9 +61,9 @@ ActiveRecord::Schema.define(version: 20160530155705) do
     t.datetime "updated_at"
   end
 
-  add_index "comments", ["commentable_id"], :name => "index_comments_on_commentable_id"
-  add_index "comments", ["commentable_type"], :name => "index_comments_on_commentable_type"
-  add_index "comments", ["user_id"], :name => "index_comments_on_user_id"
+  add_index "comments", ["commentable_id"], name: "index_comments_on_commentable_id"
+  add_index "comments", ["commentable_type"], name: "index_comments_on_commentable_type"
+  add_index "comments", ["user_id"], name: "index_comments_on_user_id"
 
   create_table "gcps", force: true do |t|
     t.integer  "map_id"
@@ -73,7 +77,7 @@ ActiveRecord::Schema.define(version: 20160530155705) do
     t.string   "name"
   end
 
-  add_index "gcps", ["soft"], :name => "index_gcps_on_soft"
+  add_index "gcps", ["soft"], name: "index_gcps_on_soft"
 
   create_table "groups", force: true do |t|
     t.string   "name"
@@ -90,8 +94,8 @@ ActiveRecord::Schema.define(version: 20160530155705) do
     t.datetime "updated_at"
   end
 
-  add_index "groups_maps", ["map_id", "group_id"], :name => "index_groups_maps_on_map_id_and_group_id", :unique => true
-  add_index "groups_maps", ["map_id"], :name => "index_groups_maps_on_map_id"
+  add_index "groups_maps", ["map_id", "group_id"], name: "index_groups_maps_on_map_id_and_group_id", unique: true
+  add_index "groups_maps", ["map_id"], name: "index_groups_maps_on_map_id"
 
   create_table "imports", force: true do |t|
     t.string   "path"
@@ -124,15 +128,15 @@ ActiveRecord::Schema.define(version: 20160530155705) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "user_id"
-    t.string   "depicts_year",         limit: 4,                             default: ""
-    t.integer  "maps_count",                                                 default: 0
-    t.integer  "rectified_maps_count",                                       default: 0
-    t.boolean  "is_visible",                                                 default: true
+    t.string   "depicts_year",         limit: 4,                               default: ""
+    t.integer  "maps_count",                                                   default: 0
+    t.integer  "rectified_maps_count",                                         default: 0
+    t.boolean  "is_visible",                                                   default: true
     t.string   "source_uri"
-    t.spatial  "bbox_geom",            limit: {:srid=>-1, :type=>"polygon"}
+    t.spatial  "bbox_geom",            limit: {:srid=>4326, :type=>"polygon"}
   end
 
-  add_index "layers", ["bbox_geom"], :name => "index_layers_on_bbox_geom", :spatial => true
+  add_index "layers", ["bbox_geom"], name: "index_layers_on_bbox_geom", using: true
 
   create_table "layers_maps", force: true do |t|
     t.integer  "layer_id"
@@ -141,8 +145,8 @@ ActiveRecord::Schema.define(version: 20160530155705) do
     t.datetime "updated_at"
   end
 
-  add_index "layers_maps", ["layer_id"], :name => "index_layers_maps_on_layer_id"
-  add_index "layers_maps", ["map_id"], :name => "index_layers_maps_on_map_id"
+  add_index "layers_maps", ["layer_id"], name: "index_layers_maps_on_layer_id"
+  add_index "layers_maps", ["map_id"], name: "index_layers_maps_on_map_id"
 
   create_table "maps", force: true do |t|
     t.string   "title"
@@ -165,16 +169,15 @@ ActiveRecord::Schema.define(version: 20160530155705) do
     t.datetime "published_date"
     t.datetime "reprint_date"
     t.integer  "owner_id"
-    t.boolean  "public",                                                                                 default: true
-    t.boolean  "downloadable",                                                                           default: true
+    t.boolean  "public",                                                                                   default: true
+    t.boolean  "downloadable",                                                                             default: true
     t.string   "cached_tag_list"
-    t.integer  "map_type"
+    t.integer  "map_type",                                                                                 default: 1
     t.text     "source_uri"
-    t.spatial  "bbox_geom",              limit: {:srid=>-1, :type=>"polygon"}
-    t.integer  "placing_state"
-    t.decimal  "rough_lat",                                                    precision: 15, scale: 10
-    t.decimal  "rough_lon",                                                    precision: 15, scale: 10
-    t.spatial  "rough_centroid",         limit: {:srid=>-1, :type=>"point"}
+    t.spatial  "bbox_geom",              limit: {:srid=>4236, :type=>"polygon"}
+    t.decimal  "rough_lat",                                                      precision: 15, scale: 10
+    t.decimal  "rough_lon",                                                      precision: 15, scale: 10
+    t.spatial  "rough_centroid",         limit: {:srid=>4326, :type=>"point"}
     t.integer  "rough_zoom"
     t.integer  "rough_state"
     t.integer  "import_id"
@@ -182,9 +185,9 @@ ActiveRecord::Schema.define(version: 20160530155705) do
     t.string   "subject_area"
     t.string   "unique_id"
     t.string   "metadata_projection"
-    t.decimal  "metadata_lat",                                                 precision: 15, scale: 10
-    t.decimal  "metadata_lon",                                                 precision: 15, scale: 10
-    t.string   "date_depicted",          limit: 4,                                                       default: ""
+    t.decimal  "metadata_lat",                                                   precision: 15, scale: 10
+    t.decimal  "metadata_lon",                                                   precision: 15, scale: 10
+    t.string   "date_depicted",          limit: 4,                                                         default: ""
     t.string   "call_number"
     t.datetime "rectified_at"
     t.datetime "gcp_touched_at"
@@ -193,9 +196,9 @@ ActiveRecord::Schema.define(version: 20160530155705) do
     t.text     "thumb_url"
   end
 
-  add_index "maps", ["bbox_geom"], :name => "index_maps_on_bbox_geom", :spatial => true
-  add_index "maps", ["page_id"], :name => "index_maps_on_page_id", :unique => true
-  add_index "maps", ["rough_centroid"], :name => "index_maps_on_rough_centroid", :spatial => true
+  add_index "maps", ["bbox_geom"], name: "index_maps_on_bbox_geom", using: true
+  add_index "maps", ["page_id"], name: "index_maps_on_page_id", unique: true
+  add_index "maps", ["rough_centroid"], name: "index_maps_on_rough_centroid", using: true
 
   create_table "memberships", force: true do |t|
     t.integer  "user_id"
@@ -204,8 +207,8 @@ ActiveRecord::Schema.define(version: 20160530155705) do
     t.datetime "updated_at"
   end
 
-  add_index "memberships", ["user_id", "group_id"], :name => "index_memberships_on_user_id_and_group_id", :unique => true
-  add_index "memberships", ["user_id"], :name => "index_memberships_on_user_id"
+  add_index "memberships", ["user_id", "group_id"], name: "index_memberships_on_user_id_and_group_id", unique: true
+  add_index "memberships", ["user_id"], name: "index_memberships_on_user_id"
 
   create_table "my_maps", force: true do |t|
     t.integer  "map_id"
@@ -214,8 +217,8 @@ ActiveRecord::Schema.define(version: 20160530155705) do
     t.datetime "updated_at"
   end
 
-  add_index "my_maps", ["map_id", "user_id"], :name => "index_my_maps_on_map_id_and_user_id", :unique => true
-  add_index "my_maps", ["map_id"], :name => "index_my_maps_on_map_id"
+  add_index "my_maps", ["map_id", "user_id"], name: "index_my_maps_on_map_id_and_user_id", unique: true
+  add_index "my_maps", ["map_id"], name: "index_my_maps_on_map_id"
 
   create_table "oauth_nonces", force: true do |t|
     t.string   "nonce"
@@ -224,7 +227,7 @@ ActiveRecord::Schema.define(version: 20160530155705) do
     t.datetime "updated_at"
   end
 
-  add_index "oauth_nonces", ["nonce", "timestamp"], :name => "index_oauth_nonces_on_nonce_and_timestamp", :unique => true
+  add_index "oauth_nonces", ["nonce", "timestamp"], name: "index_oauth_nonces_on_nonce_and_timestamp", unique: true
 
   create_table "oauth_tokens", force: true do |t|
     t.integer  "user_id"
@@ -240,7 +243,7 @@ ActiveRecord::Schema.define(version: 20160530155705) do
     t.datetime "updated_at"
   end
 
-  add_index "oauth_tokens", ["token"], :name => "index_oauth_tokens_on_token", :unique => true
+  add_index "oauth_tokens", ["token"], name: "index_oauth_tokens_on_token", unique: true
 
   create_table "permissions", force: true do |t|
     t.integer  "role_id",    null: false
@@ -266,8 +269,8 @@ ActiveRecord::Schema.define(version: 20160530155705) do
     t.string   "tagger_type"
   end
 
-  add_index "taggings", ["tag_id", "taggable_id", "taggable_type", "context", "tagger_id", "tagger_type"], :name => "taggings_idx", :unique => true
-  add_index "taggings", ["taggable_id", "taggable_type"], :name => "index_taggings_on_taggable_id_and_taggable_type"
+  add_index "taggings", ["tag_id", "taggable_id", "taggable_type", "context", "tagger_id", "tagger_type"], name: "taggings_idx", unique: true
+  add_index "taggings", ["taggable_id", "taggable_type"], name: "index_taggings_on_taggable_id_and_taggable_type"
 
   create_table "tags", force: true do |t|
     t.string  "name"
@@ -304,6 +307,6 @@ ActiveRecord::Schema.define(version: 20160530155705) do
     t.string   "authentication_token",      limit: 30
   end
 
-  add_index "users", ["authentication_token"], :name => "index_users_on_authentication_token", :unique => true
+  add_index "users", ["authentication_token"], name: "index_users_on_authentication_token", unique: true
 
 end
