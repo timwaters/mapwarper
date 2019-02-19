@@ -2,7 +2,15 @@ ENV['RAILS_ENV'] ||= 'test'
 require File.expand_path('../../config/environment', __FILE__)
 require 'rails/test_help'
 require 'webmock/minitest'
-require "mocha/test_unit"
+#require "mocha/test_unit"
+require 'mocha/minitest'
+
+FileUtils.cp(Dir[File.join(Rails.root, "/test/fixtures/data/*.tif")].select {|f| test ?f, f}, File.join(Rails.root, "/test/fixtures/data/src/"))
+
+Minitest.after_run do
+  FileUtils.rm(Dir.glob(File.join(Rails.root, "/test/fixtures/data/src/*")))
+  FileUtils.rm(Dir.glob(File.join(Rails.root, "/test/fixtures/data/tileindex/*")))
+end
 
 class ActiveSupport::TestCase
   include FactoryGirl::Syntax::Methods 
@@ -13,15 +21,17 @@ class ActiveSupport::TestCase
   Gcp.auditing_enabled = false
 
   Object.send(:remove_const, :SRC_MAPS_DIR)
-  Object.const_set("SRC_MAPS_DIR", File.join(Rails.root, "/test/fixtures/data/"))
+  Object.const_set("SRC_MAPS_DIR", File.join(Rails.root, "/test/fixtures/data/src/"))
   Object.send(:remove_const, :DST_MAPS_DIR)
-  Object.const_set("DST_MAPS_DIR", File.join(Rails.root, "/test/fixtures/data/"))
+  Object.const_set("DST_MAPS_DIR", File.join(Rails.root, "/test/fixtures/data/dst/"))
   
   Object.send(:remove_const, :TILEINDEX_DIR)
-  Object.const_set("TILEINDEX_DIR", File.join(Rails.root, "/test/fixtures/data/"))
+  Object.const_set("TILEINDEX_DIR", File.join(Rails.root, "/test/fixtures/data/tileindex/"))
 
   Paperclip::Attachment.default_options[:path] = "#{Rails.root}/test/test_files/:class/:id_partition/:style.:extension"
   
+
+
   def admin_sign_in
     admin_user = FactoryGirl.create(:admin)
     request.env["devise.mapping"] = Devise.mappings[:admin]

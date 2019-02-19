@@ -2,7 +2,7 @@ require 'test_helper'
 
 #note auditing is disabled for tests, so we just test basics
 class ActivityControllerTest < ActionController::TestCase
-  include Devise::TestHelpers
+  include Devise::Test::ControllerHelpers
   tests  Api::V1::ActivityController
   setup do
     admin_sign_in

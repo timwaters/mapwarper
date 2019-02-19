@@ -1,7 +1,7 @@
 require 'test_helper'
 
 class LayersControllerTest < ActionController::TestCase
-  include Devise::TestHelpers
+  include Devise::Test::ControllerHelpers
   tests  Api::V1::LayersController
   
   setup do

@@ -1,13 +1,17 @@
 require 'test_helper'
 
 class MapsControllerTest < ActionController::TestCase
-  include Devise::TestHelpers
+  include Devise::Test::ControllerHelpers
   tests  Api::V1::MapsController
+
+  Paperclip::DataUriAdapter.register #enable this in the test environment as we use that to mock tests
   
   setup do
     @map = FactoryGirl.create(:available_map)
     @warped_map = FactoryGirl.create(:warped_map, :upload_file_name => "different.png")
   end
+
+
   
   class SingleMapTest < MapsControllerTest
     

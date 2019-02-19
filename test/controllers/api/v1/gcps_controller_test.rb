@@ -1,7 +1,7 @@
 require 'test_helper'
 
 class GcpsControllerTest < ActionController::TestCase
-  include Devise::TestHelpers
+  include Devise::Test::ControllerHelpers
   tests  Api::V1::GcpsController
   
   setup do
