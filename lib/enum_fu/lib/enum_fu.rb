@@ -48,7 +48,7 @@ module EnumFu
           #write_attribute name.to_s, self.class.const_get(const_name).index(sym.to_sym)
           
           # After patch by Georg Ledermann (Now it's possible to set as null Ex: c.status = nil )
-          if sym.class == Fixnum
+          if sym.class == Integer
             write_attribute name.to_s, (sym.blank? ? nil : sym)
           else
             write_attribute name.to_s, (sym.blank? ? nil : self.class.const_get(const_name).index(sym.to_sym))
