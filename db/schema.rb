@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180310171004) do
+ActiveRecord::Schema.define(version: 20190219154007) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -25,16 +25,19 @@ ActiveRecord::Schema.define(version: 20180310171004) do
     t.string   "username"
     t.string   "action"
     t.text     "audited_changes"
-    t.integer  "version",          default: 0
+    t.integer  "version",         default: 0
     t.datetime "created_at"
     t.string   "comment"
     t.string   "remote_address"
-    t.integer  "association_id"
-    t.string   "association_type"
+    t.integer  "associated_id"
+    t.string   "associated_type"
+    t.string   "request_uuid"
   end
 
+  add_index "audits", ["associated_id", "associated_type"], name: "associated_index", using: :btree
   add_index "audits", ["auditable_id", "auditable_type"], name: "auditable_index", using: :btree
   add_index "audits", ["created_at"], name: "index_audits_on_created_at", using: :btree
+  add_index "audits", ["request_uuid"], name: "index_audits_on_request_uuid", using: :btree
   add_index "audits", ["user_id", "user_type"], name: "user_index", using: :btree
 
   create_table "client_applications", force: :cascade do |t|
