@@ -1,0 +1,23 @@
+Notes to install on 18.04
+
+Without rvm
+
+Installing rubygems via bundler to ~./gem
+
+
+sudo apt install postgresql-10-postgis-2.4 postgresql-server-dev-all libxml2-dev ruby-dev imagemagick gdal-bin ruby-mapscript
+
+sudo gem install bundler
+sudo gem update --system --no-user-install
+
+bundle install --path ~/.gem
+
+
+install nodejs too for production
+
+gdal is gdalinfo --version
+GDAL 2.2.3
+so no need to compile!
+
+
+
