@@ -130,7 +130,6 @@ GEM
       railties (>= 3.0.0)
     faraday (0.12.2)
       multipart-post (>= 1.2, < 3)
-    gdal (1.0.0)
     georuby (2.5.2)
     globalid (0.4.0)
       activesupport (>= 4.2.0)
@@ -371,7 +370,6 @@ DEPENDENCIES
   devise
   devise-encryptable
   factory_girl_rails
-  gdal
   georuby
   i18n-tasks (~> 0.9.6)
   jbuilder (~> 2.0)
@@ -405,4 +403,4 @@ DEPENDENCIES
   will_paginate (~> 3.0)
 
 BUNDLED WITH
-   1.16.0
+   1.17.3
