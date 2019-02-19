@@ -17,17 +17,6 @@ GIT
     actionpack-action_caching (1.1.0)
       actionpack (>= 4.0.0, < 5.0)
 
-GIT
-  remote: git://github.com/timwaters/audited.git
-  revision: 5d945c1b3fa5bf99a2a9df512d1a58a90c67e5cd
-  branch: rails4
-  specs:
-    audited (3.0.0)
-      rails-observers (~> 0.1.2)
-    audited-activerecord (3.0.0)
-      activerecord (~> 4.0)
-      audited (= 3.0.0)
-
 GEM
   remote: https://rubygems.org/
   specs:
@@ -75,6 +64,11 @@ GEM
       public_suffix (>= 2.0.2, < 4.0)
     arel (6.0.4)
     ast (2.4.0)
+    audited (4.2.2)
+      rails-observers (~> 0.1.2)
+    audited-activerecord (4.2.2)
+      activerecord (~> 4.0)
+      audited (= 4.2.2)
     bcrypt (3.1.12)
     binding_of_caller (0.8.0)
       debug_inspector (>= 0.0.1)
@@ -355,7 +349,7 @@ DEPENDENCIES
   activerecord-postgis-adapter (~> 3.0)
   acts-as-taggable-on (~> 3.5.0)
   acts_as_commentable
-  audited-activerecord!
+  audited-activerecord (~> 4)
   capistrano (~> 3.2.1)
   capistrano-bundler
   capistrano-rails
