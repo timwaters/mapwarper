@@ -1,49 +1,33 @@
 <h2><%= t('.header', :name => @import.name ) %></h2>
-<p>Created: <%= @import.created_at.to_s(:long) %> by <%= link_to(( h @import.user.login), user_path(@import.user.id), :method => :get)  -%></p>
-<p>From: <%= @import.path %> Found <%= @import.file_count.to_s %> files in directory. Imported <%= @import.imported_count %> Maps.
-</p>
-<% if @layer %>
-  <p>Mosaic: <%=link_to(@layer.name, layer_path(@layer))%></p>
-<% else %>
-  Maps not added to a Mosaic
-<% end %>
-<p>Assigned user to own the maps: <%= link_to(@upload_user.login, user_path(@upload_user)) -%></p>
-<h3>Maps</h3>
-<%= form_for @import do |import_form| %>
-  <table>
-    <% @import.maps.each do | map | %>
-      <tr class="<%= cycle('table0', 'table1')%> import-maps " >
-        <%= import_form.fields_for :maps, map do |map_form| %>
-          <td>
-            <%= image_tag(map.upload.url(:thumb)) %><br />
-            <%=  link_to "View in Warper", map_path(map) %>
-          </td>
-          <td>
-            <%= map_form.label "Filename" %> <span class="import-span-map"><%= map.upload_file_name %></span> <br />
-            <%= map_form.label :title %>
-            <%= map_form.text_field :title , { :class => 'import-textfield-map' } %><br />
-            <%= map_form.label :description %>
-            <%= map_form.text_area :description , { :class => 'import-textarea-map' } %><br />
-            <%= map_form.label :publisher %>
-            <%= map_form.text_field :publisher, { :class => 'import-textfield-map' }  %><br />
-            <%= map_form.label :authors%>
-            <%= map_form.text_field :authors , { :class => 'import-textfield-map' } %><br /><br />
-            <%= map_form.label :source_uri%>
-            <%= map_form.text_field :source_uri , { :class => 'import-textfield-map' } %><br /><br />
 
-          </td>
-          <td>
+<p>
+  <%= t('.created', :created_at => @import.created_at.to_s(:long)) %>
+  
+  <%= link_to(( @import.user.login), user_path(@import.user.id), :method => :get)  -%></p>
 
-            <% unless map_form.object.new_record? %>
-              <%= map_form.check_box '_destroy' %>
-              <%= map_form.label '_destroy', 'Delete Map', { :class => 'import-delete-map' } %>
-            <% end %>
+<%= render :partial => 'layers' %>
 
-          </td>
-        </tr>
-      <% end %>
-    <% end  %>
+<h3><%= t('imports.index.maps') %></h3>
+<div id="map_table_div">
+  <table cellpadding="3" id="map_table">
+    <thead>
+      <tr>
+        <th><%= t('common.map_th') %></th>
+        <th><%= t('common.title_th') %></th>
+        <th><%= t('common.year_th') %></th>
+        <th><%= t('common.last_th') %></th>
+        <th><%= t('common.status_th') %></th>
+        <th><%= t('imports.index.actions') %></th>
+      </tr>
+    </thead>
+
+    <tbody id="results">
+      <%= render :partial => 'maps/map', :locals => {:page => "import"}, :collection => @maps unless @maps.nil? %>
+    </tbody>
   </table>
-  <%= submit_tag %>
-<% end %>
-
+  <div class="warper_pagination">
+    <div id="search-pagination-bottom">
+      <%= will_paginate @maps %>
+    </div>
+  </div>
+</div>

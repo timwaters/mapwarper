@@ -389,6 +389,8 @@ en:
       layers_label: Layers to assign the maps to
       metadata: CSV Metadata File
       name_label: Name (give a name to the import, required)
+      metadata_hint: Metadata file format documentation
+      create_hint: Once you have created the import, it will not be run automatically and you can edit it.
     import:
       edit: edit
       edit_maps: edit maps

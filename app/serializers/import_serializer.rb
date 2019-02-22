@@ -1,5 +1,5 @@
 class ImportSerializer < ActiveModel::Serializer
-  attributes :category, :status, :save_layer, :created_at, :finished_at, :updated_at
+  attributes :name, :status, :created_at, :finished_at, :updated_at
   attribute :file_count, :if => :status_is_ready?
   has_many :maps
   belongs_to :user

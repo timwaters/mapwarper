@@ -1,19 +1,21 @@
 <script type="text/javascript">
   var keepOnPolling = true;
+  var progressbar;
   function pollServer() {
     if (keepOnPolling) {
       jQuery.ajax({
         method: 'get',
         url: '<%= status_import_path(@import)%>',
-        dataType: 'text',
-        success: function(text) {
-          console.log(text);
-          if (text.indexOf("Finished") != -1) {
+        dataType: 'json',
+        success: function(json) {
+          
+          if (json.status == "finished") {
             keepOnPolling = false;
             jQuery('#afterImport').show();
             jQuery('#spinner').hide();
           }
-          jQuery('#updateMe').html(text);
+          jQuery('#updateMe').html("<%= t('.status')  %>: "+ json.status + " <%= t('.imported_count')  %>: " + json.count );
+          progressbar.progressbar( "value", json.count );
         },
         error: function() {
           keepOnPolling = false;
@@ -26,13 +28,15 @@
     }
   }
 
-
-
-
   jQuery(document).ready(function() {
     jQuery('#afterImport').hide();
     jQuery('#spinner').show();
+    
     var myvar = setInterval(pollServer, 4000);
+    progressbar = jQuery( "#prog" ).progressbar({
+      value: 0,
+      max: <%= @import.file_count %>
+    });
 
   });
 
@@ -42,10 +46,16 @@
 
 <span id="spinner" style="display:none;"><%= image_tag 'spinner-horiz.gif' %></span>
 <%= t('.progress') %><br />
+<div id="prog"><div class="progress-label"></div></div>
 <div id="updateMe">
   <%= t('.importing') %>
 </div>
+
+<div class="log">
+  <%= t('imports.show.view_log_file') %> <%= link_to(@import.log_filename, log_import_path(@import), :target => :new)  %>      
+</div>
+
 <div id="afterImport">
   <h3><%= t('.finished_notice') %></h3>
-  <%= link_to t('.edit_maps_link'), maps_import_path(@import) %>
+ <%= t('.view') %>: <%= link_to(( h @import.name), import_path(@import.id)) %>
 </div>

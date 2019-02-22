@@ -1,15 +1,16 @@
 <tr class="<%= cycle('table0', 'table1') -%>">
   <td><%= link_to(import.id.to_s, import_path(import.id)) %> </td>
   <td><%= link_to(( h import.name), import_path(import.id), :method => :get)  -%></td>
-  <td><%= link_to(pluralize(import.maps.count, t('common.map')), maps_import_path(import.id)) %> <%= t('.imported', :count => import.imported_count ) %></td>
+  <td><%= link_to_if(import.status == :finished, t('common.map_count', count: import.maps.count), maps_import_path(import.id)) %> <%= t('.imported', :count => import.imported_count ) %></td>
+  <td><%= import.layers.count %> </td>
   <td><%= link_to(( h import.user.login), user_path(import.user.id), :method => :get)  -%></td>
   <td><%=h time_ago_in_words(import.created_at) -%> ago</td>
-  <td><%= import.state  %> </td>
+  <td><%= import.status  %> </td>
   <td><% if admin_authorized? -%>
-      <%  if import.state == "ready" -%>
+      <%  if import.status == :ready -%>
         <%= link_to(t('.edit'), edit_import_path(import)) -%>
-      <%  elsif import.state == "imported" -%>
-        <%= link_to(t('.edit_maps'), maps_import_path(import)) -%>
+      <%  elsif import.status == :finished -%>
+        <%= link_to(t('.view_maps'), maps_import_path(import)) -%>
       <% end  %>
     <%  end %> </td>
 </tr>

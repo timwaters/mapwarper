@@ -2950,14 +2950,24 @@ indicates that 50 results have been found over 2 pages.
 
 
 ## Imports
-<!---
-*** Imports are disabled on mapwarper.net. These docs below relate to the Wikimaps Warper ***
 
-Imports of maps can be added from a wiki Category and optionally to a mosaic/layer. First the import is created, then run.
+Imports of maps can be performed by adding image files to a specified directory and uploading a csv file with the metadata. First the import is created, then run.
 Afterwards the maps of the import can be viewed. Deleted imports do not delete either the maps or the layer.
-The Wiki Category should just contain images of maps, and these maps should have the {{Map}} template in each file page. E.g. https://commons.wikimedia.org/wiki/Category:Old_maps_of_Helsinki
+All the maps within an import can be assigned to one or more layers.
 
-All require authentication and are restricted to users with the editor role.
+All require authentication and are restricted to administrators
+
+### CSV Metadata Format
+
+Headers on first line. Comma separated, quote character is double quotes
+```
+uuid,filename,title,description,date_depicted,source_uri,tag_list
+12304,100x70map.png,"old's Map","Description, with comma",1932,https://example.com/23,"old,maps,demo"
+```
+Additional field names include:
+
+ published_date, issue_year, subject_area, publisher, authors, scale, published_date, reprint_date, publication_place, metadata_projection, lat, lon, call_number, issue_year
+
 
 ### Show Import
 
@@ -2967,7 +2977,7 @@ All require authentication and are restricted to users with the editor role.
 
 Returns a specified import by ID.
 Authentication required. 
-Editor authorized users only.
+Administrator authorized users only.
 
 **Parameters**
 
@@ -2990,9 +3000,8 @@ Example of a finished Import
 		"id": "87",
 		"type": "imports",
 		"attributes": {
-			"category": "Category:Old maps of Merikarvia",
+			"name": "Maps Of Tartu",
 			"status": "finished",
-			"save_layer": true,
 			"created_at": "2015-09-29T16:34:55.057Z",
 			"finished_at": "2015-09-29T16:35:02.718Z",
 			"updated_at": "2015-09-29T16:35:02.824Z"
@@ -3032,9 +3041,8 @@ Example of a ready Import
 		"id": "121",
 		"type": "imports",
 		"attributes": {
-			"category": "Category:Maps Of Tartu",
+			"name": "Maps Of Tartu",
 			"status": "ready",
-			"save_layer": true,
 			"created_at": "2016-06-12T13:54:42.170Z",
 			"finished_at": null,
 			"updated_at": "2016-06-12T13:54:42.170Z",
@@ -3074,9 +3082,8 @@ Example of a ready Import
 
 | Name        | Type     | Description                                         | Notes                                            |
 |-------------|----------|-----------------------------------------------------|--------------------------------------------------|
-| category    | string   | The Wiki Category for the Import                    |                                                  |
+| name        | string   | The name                                            |                                                  |
 | status      | string   | status of the import                                | one of: "ready", "running", "finished", "failed" |
-| save_layer  | boolean  | if maps are added to a new or existing layer/mosaic |                                                  |
 | finished_at | datetime | when the import was finished                        |                                                  |
 | updated_at  | datetime | when the import was last updated                    |                                                  |
 | created_at  | datetime | when the import for first created                   |                                                  |
@@ -3088,7 +3095,6 @@ If the import is not found, the request will return the following response:
 | Status        | Response |
 | ------------- | -------- | 
 | 404	(not found) | ```{"errors":[{"title":"Not found","detail":"Couldn't find Import with 'id'=2222"}]}```    |
-
 
 
 ### List Imports
@@ -3103,7 +3109,7 @@ If the import is not found, the request will return the following response:
 |------------|-------------|---------|-------------------------------------------------------------------------|----------|-----------------------|
 | sort_key   |             |         | the field that should be used to sort the results                       | optional | default is updated_at |
 |            | id          | string  | the id of the import                                                    | optional |                       |
-|            | category    | string  | the category of the import                                              | optional |                       |
+|            | name        | string  | the name  of the import                                              | optional |                       |
 |            | user_id     | string  | the user_id of the user who creared the import                          | optional |                       |
 |            | status      | string  | the status of the import                                                | optional |                       |
 |            | finished_at | string  | when the import was finished                                            | optional |                       |
@@ -3130,9 +3136,8 @@ If the import is not found, the request will return the following response:
 			"id": "118",
 			"type": "imports",
 			"attributes": {
-				"category": "Category:Tartu Maps",
+				"name": "Tartu Map",
 				"status": "finished",
-				"save_layer": true,
 				"created_at": "2016-02-09T13:26:52.323Z",
 				"finished_at": "2016-02-09T13:27:04.085Z",
 				"updated_at": "2016-02-09T13:27:04.169Z"
@@ -3221,7 +3226,7 @@ Response where there are no maps (Import has not run, is "ready")
 
 Adds the import passing in JSON-API for the GCP.
 Requires authentication.
-Editor user only authorized.
+Admin user only authorized.
 
 **Parameters**
 
@@ -3229,19 +3234,20 @@ The body of the request should be in JSON-API format with the following attribut
 
 | Name        | Type     | Description                                         | Notes                                            |
 |-------------|----------|-----------------------------------------------------|--------------------------------------------------|
-| category    | string   | The Wiki Category for the Import                    |      required                                    |
-| save_layer  | boolean  | if maps are added to a new or existing layer/mosaic |      required                                    |
-
+| name        | string   | Name of the Import                                  |      required                                    |
+| layer_ids   | array    | ids of layers to add the maps to                    |      optional                                    |
+| metadata    | csv file | CSV                                                 |      required                                    |
+ 
 
 Example:
 
 ```
 {
 	"data": {
-		"type": "gcps",
+		"type": "import",
 		"attributes": {
-      "category":"Category:Tartu Maps",
-      "save_layer":true
+      "name":"Tartu Map",
+      "layer_ids":nil
 		}
 	}
 }
@@ -3250,7 +3256,7 @@ Example:
 **cURL Example**
 
 ```
-curl -H "Content-Type: application/json" -H 'Accept: application/json' -X POST -d '{"data":{"type":"gcps","attributes":{"category":"Category:Tartu Maps","save_layer":true}}}' http://mapwarper.net/api/v1/imports -b cookie
+curl -H "Content-Type: application/json" -H 'Accept: application/json' -X POST -d '{"data":{"type":"import","attributes":{"name":"Tartu Map"}}}' http://mapwarper.net/api/v1/imports -b cookie
 ```
 
 **Response**
@@ -3263,9 +3269,8 @@ If successful, the response should return the created import with the "ready" st
 		"id": "121",
 		"type": "imports",
 		"attributes": {
-			"category": "Category:Maps Of Tartu",
+			"name": "Maps Of Tartu",
 			"status": "ready",
-			"save_layer": true,
 			"created_at": "2016-06-12T13:54:42.170Z",
 			"finished_at": null,
 			"updated_at": "2016-06-12T13:54:42.170Z",
@@ -3297,9 +3302,9 @@ If successful, the response should return the created import with the "ready" st
 | ------------ | -------    | 
 | PATCH         |  /api/v1/imports/{:id} |
 
-Updated the import passing in JSON-API for the GCP.
+Updated the import passing in JSON-API for the import.
 Requires authentication.
-Editor user only authorized.
+Admin user only authorized.
 
 **Parameters**
 
@@ -3312,8 +3317,8 @@ The body of the request should be in JSON-API format with the following attribut
 
 | Name        | Type     | Description                                         | Notes                                            |
 |-------------|----------|-----------------------------------------------------|--------------------------------------------------|
-| category    | string   | The Wiki Category for the Import                    | optional                                         |
-| save_layer  | boolean  | if maps are added to a new or existing layer/mosaic | optional                                         |
+| name        | string   | The new name                                        | optional                                         |
+| layer_ids   | array    | array of ids for layers to add the maps to          | optional                                         |
 
 
 Example:
@@ -3323,8 +3328,8 @@ Example:
 	"data": {
 		"type": "gcps",
 		"attributes": {
-      "category":"Category:Tartu Maps",
-      "save_layer":true
+      "name":"New map for the import",
+      "layer_ids": "1,2"
 		}
 	}
 }
@@ -3333,7 +3338,7 @@ Example:
 **cURL Example**
 
 ```
-curl -H "Content-Type: application/json" -H 'Accept: application/json'  -X PATCH -d '{"data":{"type":"gcps","attributes":{"category":"Category:Maps of Tartu"}}}' http://mapwarper.net/api/v1/imports/12 -b cookie
+curl -H "Content-Type: application/json" -H 'Accept: application/json'  -X PATCH -d '{"data":{"type":"gcps","attributes":{"name":"New name for import"}}}' http://mapwarper.net/api/v1/imports/12 -b cookie
 ```
 
 **Response**
@@ -3350,7 +3355,7 @@ If successful, the response will be the updated import (see above)
 
 Deletes an import.
 Requires authentication.
-Editor user only authorized.
+Admin user only authorized.
 
 > ** Note: imported maps and any created mosaic / layers will not be deleted when an import is deleted.
 
@@ -3370,7 +3375,6 @@ curl -H "Content-Type: application/json" -X DELETE  http://mapwarper.net/api/v1/
 **Response**
 
 If successful, the response will be the deleted import (see above)
--->
 
 ---------
 

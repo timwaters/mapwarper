@@ -199,13 +199,12 @@ Rails.application.routes.draw do
         
         resources :users, :only => [:show, :index]
 
-# imports disabled for mapwarper.net (and they need a bit of updating too)
-#        resources :imports, :except => [:new] do
-#          member do
-#            patch 'start'
-#            get   'maps'
-#          end
-#        end
+        resources :imports, :except => [:new] do
+          member do
+            patch 'start'
+            get   'maps'
+          end
+        end
         
         #stats and activity
         get 'stats' =>              'activity#stats'

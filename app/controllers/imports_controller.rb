@@ -17,14 +17,11 @@ class ImportsController < ApplicationController
 
   def new
     @import = Import.new
-    @import.uploader_user_id = current_user.id
   end
 
   def create
     @import = Import.new(import_params)
     @import.user = current_user
-    @import.status = :ready
-    @import.file_count = @import.dir_file_count
     if @import.save
       flash[:notice] = t('.flash')
       redirect_to import_url(@import)
@@ -52,6 +49,7 @@ class ImportsController < ApplicationController
  
   def update
     if @import.update_attributes(import_params)
+      @import.file_count = @import.dir_file_count
       flash[:notice] = t('.flash')
       redirect_to import_url(@import)
     else
@@ -70,7 +68,6 @@ class ImportsController < ApplicationController
   end
 
   def status
-    #render :text => @import.status
     render :json => {:status => @import.status, :count => @import.imported_count}
   end
 
@@ -119,8 +116,7 @@ class ImportsController < ApplicationController
   end
   
   def import_params
-      params.require(:import).permit(:name,:path, :map_title_suffix, :map_description, :map_publisher, :map_author, :layer_id, :layer_title,  :uploader_user_id, 
-        :maps_attributes => [:title, :description, :publisher, :authors, :source_uri, :id, "_destroy"] )
+    params.require(:import).permit(:name, :metadata, :layer_ids => [])
   end
 
 end
