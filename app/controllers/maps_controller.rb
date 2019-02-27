@@ -154,6 +154,7 @@ class MapsController < ApplicationController
       
       #we'll use POSIX regular expression for searches    ~*'( |^)robinson([^A-z]|$)' and to strip out brakets etc  ~*'(:punct:|^|)plate 6([^A-z]|$)';
       if @query && @query.strip.length > 0 && @field
+        @query = @query.gsub(/\W/, ' ')
         conditions = ["#{@field}  ~* ?", '(:punct:|^|)'+@query+'([^A-z]|$)']
       else
         conditions = nil

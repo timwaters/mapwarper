@@ -133,6 +133,7 @@ def index
   field = field || "name"
   query_conditions = nil
   if query && query.strip.length > 0
+    query = query.gsub(/\W/, ' ')
     query_conditions =   ["#{field}  ~* ?", '(:punct:|^|)'+query+'([^A-z]|$)']
   end
     
