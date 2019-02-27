@@ -13,3 +13,13 @@ def raster_bands_count(filename)
 
   bands.size
 end
+
+def has_palette_colortable?(filename)
+  stdin, stdout, sterr = Open3::popen3("#{GDAL_PATH}gdalinfo", "#{filename}")
+  info = stdout.readlines
+  bands = info.select{|line| line.encode("utf-8", replace: nil).match(/^Band\s\d/) }
+  first_band = bands.first
+
+  first_band.include?("ColorInterp=Palette")
+end
+

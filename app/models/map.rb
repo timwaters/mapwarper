@@ -163,10 +163,26 @@ class Map < ActiveRecord::Base
       
       logger.info "We convert to tiff"
 
-      #for those greyscale or lack and white images with one band
+      #for those greyscale or black and white images with one band
       bands  = ""
       if raster_bands_count(self.upload.path) == 1
-        bands = "-expand rgb"
+        if has_palette_colortable?(self.upload.path)
+          bands = "-expand rgb"
+        else
+        #if it has one band and grey scale, we need to convert e.g convert grey1band.jpg -type TrueColor  rgb3band.jpg
+
+          command = "mogrify -type TrueColor #{self.upload.path} "
+          logger.info command
+          c_stdin, c_stdout, c_stderr = Open3::popen3(command)
+      
+          c_out = c_stdout.readlines.to_s
+          c_err = c_stderr.readlines.to_s
+          if c_stderr.readlines.empty? && c_err.size > 0
+            logger.error "Error with convert one band script "+ c_err.inspect
+            logger.error "output = "+c_out
+          end
+
+        end
       end
       
       #transparent pngs may cause issues, so let's remove the alpha band
