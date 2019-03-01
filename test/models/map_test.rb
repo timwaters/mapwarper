@@ -48,7 +48,18 @@ class MapTest < ActiveSupport::TestCase
 
     assert_not_nil @map.mask_geojson
     json = JSON.parse(@map.mask_geojson)
-    assert "FeatureCollection", json["type"]
+    assert_equal "FeatureCollection", json["type"]
+  end
+
+  test "Paperclip cleans filenames" do
+    @file = Tempfile.new(["filename","png"])
+    @file.stubs(:original_filename).returns("Dublin-P;ettigr ew_Oul'[ton_(ca1850).png")
+    map = Map.new
+    map.upload = @file
+ 
+    assert_equal "Dublin-P_ettigr_ew_Oul__ton__ca1850_.png", map.upload.original_filename
+ 
+    @file.unlink
   end
 
   private 

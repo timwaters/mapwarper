@@ -9,7 +9,8 @@ class Import < ActiveRecord::Base
   has_attached_file :metadata,
     path: ":rails_root/db/:class/:attachment/:id_partition/:filename", 
     url:  ":rails_root/db/:class/:attachment/:id_partition/:filename",
-    preserve_files: false
+    preserve_files: false,
+    restricted_characters: /[&$+,\/:;=?@<>\[\]\{\}\)\(\'\"\|\\\^~%# ]/
   
   validates_attachment_content_type :metadata, content_type: ["text/csv", "text/plain"]
   validates_presence_of :metadata, :message => :no_file_uploaded
