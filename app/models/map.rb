@@ -170,11 +170,10 @@ class Map < ActiveRecord::Base
         if has_palette_colortable?(self.upload.path)
           bands = "-expand rgb"
         else
-        #if it has one band and grey scale, we need to convert e.g convert grey1band.jpg -type TrueColor  rgb3band.jpg
-
-          command = "mogrify -type TrueColor #{self.upload.path} "
+          #if it has one band and grey scale, we need to convert e.g convert grey1band.jpg -type TrueColor  rgb3band.jpg
+          command = ["mogrify" , "-type",  "TrueColor", self.upload.path ]
           logger.info command
-          c_stdin, c_stdout, c_stderr = Open3::popen3(command)
+          c_stdin, c_stdout, c_stderr = Open3::popen3(*command)
       
           c_out = c_stdout.readlines.to_s
           c_err = c_stderr.readlines.to_s
@@ -191,14 +190,15 @@ class Map < ActiveRecord::Base
         bands = "-b 1 -b 2 -b 3"
       end
       
-      command  = "#{GDAL_PATH}gdal_translate #{self.upload.path} #{outsize} #{bands} -co COMPRESS=DEFLATE -co PHOTOMETRIC=RGB -co PROFILE=BASELINE #{tiffed_file_path}"
+      command  = ["#{GDAL_PATH}gdal_translate", self.upload.path, outsize, bands, "-co", "COMPRESS=DEFLATE", "-co",  "PHOTOMETRIC=RGB", "-co", "PROFILE=BASELINE", tiffed_file_path].reject(&:empty?)
       logger.info command
-      ti_stdin, ti_stdout, ti_stderr =  Open3::popen3( command )
+      ti_stdin, ti_stdout, ti_stderr =  Open3::popen3( *command )
       logger.info ti_stdout.readlines.to_s
       logger.info ti_stderr.readlines.to_s
       
-      command = "#{GDAL_PATH}gdaladdo -r average #{tiffed_file_path} 2 4 8 16 32 64"
-      o_stdin, o_stdout, o_stderr = Open3::popen3(command)
+
+      command = ["#{GDAL_PATH}gdaladdo", "-r", "average", tiffed_file_path, "2", "4", "8", "16", "32", "64" ]
+      o_stdin, o_stdout, o_stderr = Open3::popen3(*command)
       logger.info command
       
       o_out = o_stdout.readlines.to_s
@@ -459,7 +459,7 @@ class Map < ActiveRecord::Base
   end
   
   def save_bbox
-    stdin, stdout, stderr = Open3::popen3("#{GDAL_PATH}gdalinfo #{warped_filename}")
+    stdin, stdout, stderr = Open3::popen3("#{GDAL_PATH}gdalinfo",  warped_filename)
     unless stderr.readlines.to_s.size > 0
       info = stdout.readlines.to_s
       string,west,south = info.match(/Lower Left\s+\(\s*([-.\d]+),\s+([-.\d]+)/).to_a
@@ -524,7 +524,7 @@ class Map < ActiveRecord::Base
     self.gcps.hard.destroy_all unless append == true
 
     #extent of source from gdalinfo
-    stdin, stdout, sterr = Open3::popen3("#{GDAL_PATH}gdalinfo #{srcmap.warped_filename}")
+    stdin, stdout, sterr = Open3::popen3("#{GDAL_PATH}gdalinfo",  srcmap.warped_filename)
     info = stdout.readlines.to_s
     stringLW,west,south = info.match(/Lower Left\s+\(\s*([-.\d]+),\s+([-.\d]+)/).to_a
     stringUR,east,north = info.match(/Upper Right\s+\(\s*([-.\d]+),\s+([-.\d]+)/).to_a
@@ -624,8 +624,8 @@ class Map < ActiveRecord::Base
     #copy over orig to a new unmasked file
     FileUtils.copy(unwarped_filename, masked_src_filename)
     
-    command = "#{GDAL_PATH}gdal_rasterize -i  -b 1 -b 2 -b 3 -burn 17 -burn 17 -burn 17  #{masking_file} -l #{layer} #{masked_src_filename}"
-    r_stdout, r_stderr = Open3.capture3( command )
+    command = ["#{GDAL_PATH}gdal_rasterize", "-i", "-b", "1", "-b", "2", "-b", "3", "-burn", "17", "-burn", "17", "-burn", "17", masking_file, "-l", layer, masked_src_filename]
+    r_stdout, r_stderr = Open3.capture3( *command )
     logger.info command
     
     r_out  = r_stdout
@@ -661,16 +661,16 @@ class Map < ActiveRecord::Base
     
     gcp_array = self.gcps.hard
     
-    gcp_string = ""
-    
+    gdal_gcp_array = []
     gcp_array.each do |gcp|
-      gcp_string = gcp_string + gcp.gdal_string
+      gdal_gcp_array << gcp.gdal_array
     end
-    
-    mask_options = ""
+    gdal_gcp_array.flatten!
+
+    mask_options_array = []
     if use_mask == "true" && self.mask_status == :masked
       src_filename = self.masked_src_filename
-      mask_options = " -srcnodata '17 17 17' "
+      mask_options_array = ["-srcnodata", "17 17 17"]
 
       self.mask_geojson = convert_mask_to_geojson  if self.mask_geojson.blank?
     else
@@ -688,11 +688,10 @@ class Map < ActiveRecord::Base
     
     logger.info "gdal translate"
    
-    command = "#{GDAL_PATH}gdal_translate -a_srs '+init=epsg:4326' -of VRT #{src_filename} #{temp_filename}.vrt #{gcp_string}"
-    t_stdout, t_stderr = Open3.capture3( command )
-        
+    command = ["#{GDAL_PATH}gdal_translate", "-a_srs", "+init=epsg:4326", "-of", "VRT", src_filename, "#{temp_filename}.vrt", gdal_gcp_array].flatten
     logger.info command
-    
+    t_stdout, t_stderr = Open3.capture3( *command )
+        
     t_out  = t_stdout
     t_err = t_stderr
     
@@ -707,10 +706,10 @@ class Map < ActiveRecord::Base
      
     memory_limit = APP_CONFIG["gdal_memory_limit"].blank? ? "" : "-wm #{APP_CONFIG['gdal_memory_limit']}"
   
-    command = "#{GDAL_PATH}gdalwarp #{memory_limit}  #{transform_option}  #{resample_option} -dstalpha #{mask_options}  -dstnodata none -s_srs 'EPSG:4326' #{temp_filename}.vrt #{dest_filename} -co TILED=YES -co COMPRESS=LZW"
+    command = ["#{GDAL_PATH}gdalwarp", memory_limit, transform_option.strip, resample_option.strip, "-dstalpha", mask_options_array, "-dstnodata", "none", "-s_srs", "EPSG:4326", "#{temp_filename}.vrt", dest_filename, "-co", "TILED=YES", "-co", "COMPRESS=LZW"].reject(&:empty?).flatten
     logger.info command
    
-    w_stdout, w_stderr = Open3.capture3( command )
+    w_stdout, w_stderr = Open3.capture3( *command )
     
     w_out = w_stdout
     w_err = w_stderr
@@ -724,8 +723,8 @@ class Map < ActiveRecord::Base
     warp_output = w_out
     
     # gdaladdo
-    command = "#{GDAL_PATH}gdaladdo -r average #{dest_filename} 2 4 8 16 32 64"
-    o_stdout, o_stderr = Open3.capture3( command )
+    command = ["#{GDAL_PATH}gdaladdo", "-r", "average", dest_filename, "2", "4", "8", "16", "32", "64" ]
+    o_stdout, o_stderr = Open3.capture3( *command )
     logger.info command
     
     o_out = o_stdout
@@ -880,8 +879,8 @@ class Map < ActiveRecord::Base
   
   def convert_to_png
     logger.info "start convert to png ->  #{warped_png_filename}"
-    ext_command = "#{GDAL_PATH}gdal_translate -of png #{warped_filename} #{warped_png_filename}"
-    stdout, stderr = Open3.capture3( ext_command )
+    ext_command = ["#{GDAL_PATH}gdal_translate", "-of", "png", warped_filename, warped_png_filename]
+    stdout, stderr = Open3.capture3( *ext_command )
     logger.debug ext_command
     if !stderr.blank?
       logger.error "ERROR convert png #{warped_filename} -> #{warped_png_filename}"
@@ -978,14 +977,16 @@ class Map < ActiveRecord::Base
       return nil;
     else
       gcp_array = self.gcps.hard
-      gcp_string = ""
-      gcp_array.each do |gcp|
-        gcp_string = gcp_string + gcp.gdal_string
-      end
 
-      command = "ogr2ogr -f 'geojson' -s_srs 'epsg:4326' -t_srs 'epsg:3857' #{gcp_string} /dev/stdout  #{self.masking_file_gml}"
+      gdal_gcp_array = []
+      gcp_array.each do |gcp|
+        gdal_gcp_array << gcp.gdal_array
+      end
+      gdal_gcp_array.flatten!
+
+      command = ["ogr2ogr", "-f", "geojson", "-s_srs", "epsg:4326", "-t_srs", "epsg:3857", gdal_gcp_array, "/dev/stdout",  self.masking_file_gml].flatten
       logger.info command
-      o_out, o_err = Open3.capture3( command )
+      o_out, o_err = Open3.capture3( *command )
 
       if !o_err.blank? 
         logger.error "Error ogr2ogr script" + o_err
