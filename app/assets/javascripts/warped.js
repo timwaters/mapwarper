@@ -66,7 +66,16 @@ function warpedinit() {
 
     clipmap_bounds_merc = warped_bounds.transform(warpedmap.displayProjection, warpedmap.projection);
 
-    warpedmap.zoomToExtent(clipmap_bounds_merc);
+    if (mask_geojson) {
+      var vector = new OpenLayers.Layer.Vector("GeoJSON", {
+        projection: "EPSG:4326"
+      });
+      var gformat = new OpenLayers.Format.GeoJSON();
+      vector.addFeatures(gformat.read(mask_geojson));
+      warpedmap.zoomToExtent(vector.getDataExtent());
+    } else {
+      warpedmap.zoomToExtent(clipmap_bounds_merc);
+    }
 
     //set up slider
     jQuery("#slider").slider({

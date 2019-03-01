@@ -612,6 +612,8 @@ class Map < ActiveRecord::Base
     else
       return "no masking file matching specified format found."
     end
+
+    self.mask_geojson = convert_mask_to_geojson
     
     masked_src_filename = self.masked_src_filename
     if File.exists?(masked_src_filename)
@@ -668,6 +670,8 @@ class Map < ActiveRecord::Base
     if use_mask == "true" && self.mask_status == :masked
       src_filename = self.masked_src_filename
       mask_options = " -srcnodata '17 17 17' "
+
+      self.mask_geojson = convert_mask_to_geojson  if self.mask_geojson.blank?
     else
       src_filename = self.unwarped_filename
     end
@@ -965,6 +969,32 @@ class Map < ActiveRecord::Base
   def clear_cache
     Rails.cache.delete_matched ".*/maps/wms/#{self.id}.png\?status=warped.*"
     Rails.cache.delete_matched "*/maps/tile/#{self.id}/*"
+  end
+
+  #takes in the clipping mask file, transforms it to geo and converts to geojson, returning the geojson
+  def convert_mask_to_geojson
+    if self.gcps.hard.size < 3
+      return nil;
+    else
+      gcp_array = self.gcps.hard
+      gcp_string = ""
+      gcp_array.each do |gcp|
+        gcp_string = gcp_string + gcp.gdal_string
+      end
+
+      command = "ogr2ogr -f 'geojson' -s_srs 'epsg:4326' -t_srs 'epsg:3857' #{gcp_string} /dev/stdout  #{self.masking_file_gml}"
+      logger.info command
+      o_out, o_err = Open3.capture3( command )
+
+      if !o_err.blank? 
+        logger.error "Error ogr2ogr script" + o_err
+        logger.error "output = "+o_out
+        return nil;
+      end
+
+
+      return o_out
+    end
   end
   
   

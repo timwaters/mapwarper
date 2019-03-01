@@ -41,6 +41,16 @@ class MapTest < ActiveSupport::TestCase
     end
   end
 
+  test "converts mask to geojson" do
+    test_gml = File.join(Rails.root, "/test/fixtures/data/test.gml")
+    Map.any_instance.stubs(:masking_file_gml).returns(test_gml)
+    @map.mask!
+
+    assert_not_nil @map.mask_geojson
+    json = JSON.parse(@map.mask_geojson)
+    assert "FeatureCollection", json["type"]
+  end
+
   private 
   
   def delete_created_images(map)
