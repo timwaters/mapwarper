@@ -12,7 +12,7 @@ class ImportsControllerTest < ActionController::TestCase
     @import.save
   end
  
-  test "create" do
+  test "create import" do
   
     assert_difference('Import.count', 1) do
       import_one_file = fixture_file_upload("data/imports/import_one.csv", "text/csv")
@@ -25,21 +25,21 @@ class ImportsControllerTest < ActionController::TestCase
     assert 1, import.file_count
   end
 
-  test "udpate" do
+  test "udpate import" do
     patch :update, {id: @import.id, import: {name:"changed name"}}
    
     assert_redirected_to @import
     assert "changed name", @import.name    
   end
   
-  test "show" do
+  test "show import" do
 
     get :show, :id => @import.id
     assert_response :ok
     assert_select 'h2', 'Import: test import' 
   end
   
-  test "index" do
+  test "index import" do
     get :index
     assert_response :ok
     
@@ -47,14 +47,14 @@ class ImportsControllerTest < ActionController::TestCase
     assert_select 'a[href=?]', import_path(@import), { text: @import.name }
   end
   
-  test "start" do
+  test "start import" do
     Import.any_instance.stubs(:import!).returns(true)
     patch :start , :id => @import.id
     assert_response :ok
     assert_select "h2", "Importing..."
   end
 
-  test "delete" do
+  test "delete import"  do
     assert_difference('Import.count', -1) do
       delete :destroy, :id => @import.id
     end
@@ -62,7 +62,7 @@ class ImportsControllerTest < ActionController::TestCase
     assert_equal 'Import deleted!', flash[:notice]
   end
 
-  test "maps" do
+  test "maps of import" do
     map = FactoryGirl.create(:basic_map)
     map2 = FactoryGirl.create(:unstubbed_map)
     @import.maps << [map, map2]
