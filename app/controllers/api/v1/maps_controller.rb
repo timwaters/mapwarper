@@ -104,15 +104,6 @@ class Api::V1::MapsController < Api::V1::ApiController
     
     @map.clear_cache
     
-    if user_signed_in?
-      begin
-        @map.update_commons_page(current_user)
-      rescue => e
-        logger.error "ERROR with update commons page Map:#{@map.id}"
-        logger.error e.inspect
-      end
-    end
-    
     render :json => @map
   end
 
