@@ -152,9 +152,9 @@ class Map < ActiveRecord::Base
         self.width = dest_width
         self.height = dest_height
         save!
-        outsize = "-outsize #{dest_width.to_i} #{dest_height.to_i}"
+        outsize = ["-outsize", dest_width.to_i, dest_height.to_i]
       else
-        outsize = ""
+        outsize = []
       end
       
       orig_ext = File.extname(self.upload_file_name).to_s.downcase
@@ -165,10 +165,10 @@ class Map < ActiveRecord::Base
       logger.info "We convert to tiff"
 
       #for those greyscale or black and white images with one band
-      bands  = ""
+      bands  = []
       if raster_bands_count(self.upload.path) == 1
         if has_palette_colortable?(self.upload.path)
-          bands = "-expand rgb"
+          bands = ["-expand", "rgb"]
         else
           #if it has one band and grey scale, we need to convert e.g convert grey1band.jpg -type TrueColor  rgb3band.jpg
           command = ["mogrify" , "-type",  "TrueColor", self.upload.path ]
@@ -187,10 +187,10 @@ class Map < ActiveRecord::Base
       
       #transparent pngs may cause issues, so let's remove the alpha band
       if raster_bands_count(self.upload.path) == 4 && orig_ext == ".png"
-        bands = "-b 1 -b 2 -b 3"
+        bands = ["-b", "1", "-b", "2", "-b", "3"]
       end
       
-      command  = ["#{GDAL_PATH}gdal_translate", self.upload.path, outsize, bands, "-co", "COMPRESS=DEFLATE", "-co",  "PHOTOMETRIC=RGB", "-co", "PROFILE=BASELINE", tiffed_file_path].reject(&:empty?)
+      command  = ["#{GDAL_PATH}gdal_translate", self.upload.path, outsize, bands, "-co", "COMPRESS=DEFLATE", "-co",  "PHOTOMETRIC=RGB", "-co", "PROFILE=BASELINE", tiffed_file_path].reject(&:empty?).flatten
       logger.info command
       ti_stdin, ti_stdout, ti_stderr =  Open3::popen3( *command )
       logger.info ti_stdout.readlines.to_s
@@ -704,8 +704,8 @@ class Map < ActiveRecord::Base
     end
     trans_output = t_out
      
-    memory_limit = APP_CONFIG["gdal_memory_limit"].blank? ? "" : "-wm #{APP_CONFIG['gdal_memory_limit']}"
-  
+    memory_limit = APP_CONFIG["gdal_memory_limit"].blank? ? [] : ["-wm",  APP_CONFIG['gdal_memory_limit'] ]
+
     command = ["#{GDAL_PATH}gdalwarp", memory_limit, transform_option.strip, resample_option.strip, "-dstalpha", mask_options_array, "-dstnodata", "none", "-s_srs", "EPSG:4326", "#{temp_filename}.vrt", dest_filename, "-co", "TILED=YES", "-co", "COMPRESS=LZW"].reject(&:empty?).flatten
     logger.info command
    
