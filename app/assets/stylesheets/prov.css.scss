@@ -1,0 +1,227 @@
+body {
+ 
+  
+}
+
+
+#footer {
+  text-align : initial;
+  font-size : initial;
+  text-transform : initial;
+  clear : initial;
+  padding : initial;
+  margin : initial;
+  box-sizing : border-box;
+  font-size : 100.01%;
+  }
+  #footer .holder {
+  position : relative;
+  padding : 39px 9px 28px 0;
+  }
+  #footer .holder:before {
+  content : "";
+  background : #000;
+  position : absolute;
+  top : 0;
+  bottom : 0;
+  left : -9999px;
+  right : -9999px;
+  z-index : -1;
+  }
+  *:before, *:after {
+  box-sizing : border-box;
+  }
+  .footer-block1 {
+  margin-bottom : 55px;
+  }
+  .footer-block2 {
+  margin-bottom : 45px;
+  }
+  #footer .big-col {
+  float : left;
+  width : 63%;
+  }
+  #footer .additional-link {
+  margin : 6px 57px 0 -5px;
+  max-width : 500px;
+  }
+  .additional-link {
+  font-size : 14px;
+  line-height : 18px;
+  }
+  .pull-left {
+  float : left !important ;
+  }
+  .list-inline {
+  padding-left : 0;
+  list-style : none;
+  margin-left : -5px;
+  }
+  .pull-right {
+  float : right !important ;
+  }
+  .additional-link li {
+  margin : 0 19px 5px 0;
+  }
+  .list-inline > li {
+  display : inline-block;
+  padding-left : 5px;
+  padding-right : 5px;
+  }
+  .additional-link a {
+  color : #fff;
+  }
+  #footer a {
+  text-decoration : none;
+  transition : color 0.3s ease;
+  background-color : transparent;
+  }
+  #footer .social-networks {
+  float : left;
+  max-width : 100px;
+  }
+  #footer .small-col {
+  float : right;
+  width : 32.4%;
+  }
+  .footer-block2:after {
+  content : "";
+  clear : both;
+  display : table;
+  }
+  .visually-hidden {
+  position : absolute !important ;
+  clip : rect(1px,1px,1px,1px);
+  overflow : hidden;
+  height : 1px;
+  width : 1px;
+  overflow-wrap : normal;
+  }
+  .questions {
+  font-size : 14px;
+  line-height : 18px;
+  padding : 5px 0 0;
+  }
+  .questions li {
+  margin : 0 0 4px;
+  }
+  .questions a {
+  color : #fff;
+  }
+  .footer-multi-links {
+  margin : 0 0 73px;
+  }
+  .footer-multi-links .col {
+  float : left;
+  width : 16.9%;
+  padding : 0 10px 0 0;
+  }
+  .footer-multi-links .title {
+  font-size : 14px;
+  line-height : 17px;
+  color : #fff;
+  margin : 0 0 30px;
+  }
+  .footer-links {
+  font-size : 12px;
+  line-height : 14px;
+  font-weight : 300;
+  }
+  .footer-links li {
+  margin : 0 0 7px;
+  }
+  .footer-links a {
+  color : #949494;
+  }
+  .footer-links a:hover {
+    color: #fff;
+     transition : color 0.3s ease;
+}
+  .footer-multi-links .title {
+  font-size : 14px;
+  line-height : 17px;
+  color : #fff;
+  margin : 0 0 30px;
+  }
+  .footer-info {
+  font-size : 14px;
+  line-height : 17px;
+  color : #fff;
+  padding : 0 0 0 9px;
+  }
+  .footer-info p {
+  display : inline-block;
+  }
+  .footer-multi-links:after {
+  content : "";
+  clear : both;
+  display : table;
+  }
+  .footer-info address {
+  margin : 0;
+  display : inline-block;
+  vertical-align : top;
+  margin : -2px 0 0 2px;
+  }
+  address {
+  margin-bottom : 24px;
+  font-style : normal;
+  line-height : 1.4705;
+  }
+  footer {
+  font-size : 12px;
+  line-height : 16px;
+  overflow : hidden;
+  padding : 23px 12px 23px 0;
+  }
+  footer .copyright {
+  float : left;
+  margin : 0 19px 0 0;
+  max-width : 140px;
+  }
+  footer .additional-link2 {
+  max-width : 560px;
+  }
+  .additional-link2 li {
+  float : left;
+  margin : 0 19px 5px 0;
+  }
+  .additional-link2 a {
+  color : #000;
+  }
+  .additional-link2 {
+  float : left;
+  }
+  footer .footer-holder {
+  float : left;
+  padding : 5px 0 0;
+  }
+  footer .logo-holder {
+  overflow : hidden;
+  max-width : 340px;
+  margin : 0;
+  }
+  footer .logo-holder li {
+  display : inline-block;
+  vertical-align : middle;
+  margin : 0 0 10px 32px;
+  }
+  .container-fluid {
+  max-width : 1115px;
+  }
+  .container-fluid {
+  margin-right : auto;
+  margin-left : auto;
+  padding-left : 15px;
+  padding-right : 15px;
+  }
+  .container-fluid:before, .container-fluid:after {
+  content : " ";
+  display : table;
+  }
+  .container-fluid:after {
+  clear : both;
+  }
+  
+
+  

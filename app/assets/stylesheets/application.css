@@ -14,5 +14,6 @@
  *= require openlayers/theme/default/style
  *= require custom-theme/jquery-ui-1.7.custom
  *= require main
+ *= require prov
  *= require jquery.nouislider.min
  */
