@@ -26,10 +26,13 @@
     var layer_baseurl = '<%= url_for(wms_layer_base_path) %>';
     var layers_array = [<%=@other_layers.join(",")-%>];
     var map_bounds = new OpenLayers.Bounds();
+    var map_center = false;
   <% if @map.gcps.hard.size > 0 %>
       map_bounds = new OpenLayers.Bounds(<%=@map.bounds-%>);
       map_has_bounds = true;
-      map_center = map_bounds.getCenterLonLat();
+      //map_center = map_bounds.getCenterLonLat();
+  <% elsif @map.has_metadata_location? %>
+      map_center = new OpenLayers.LonLat(<%="#{@map.metadata_lon},#{@map.metadata_lat}" %>);
   <% end %>
     //set up jquery for the hidden tables
     jQuery(document).ready(function() {

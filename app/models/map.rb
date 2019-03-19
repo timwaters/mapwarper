@@ -872,6 +872,10 @@ class Map < ActiveRecord::Base
       end
     end
   end  
+
+  def has_metadata_location?
+    !metadata_lat.blank? && !metadata_lon.blank?
+  end
  
   ############
   #PRIVATE
