@@ -128,6 +128,7 @@
     <%else-%>
     <body>
     <%end%>
+    <%= render :partial => 'shared/prov_stripe' %>
     <%= render :partial => 'shared/analyticstop' %>
     <div id="headerDiv" class="headerDiv">
       <h1><%= link_to t('common.site_title'), root_path %></h1>

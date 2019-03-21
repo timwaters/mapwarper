@@ -1,0 +1,16 @@
+<div id="prov_bar">
+
+<%= link_to "#{image_tag('prov_logo_white.svg', width: '186', height: '31', class: 'prov-logo')}".html_safe, "https://prov.vic.gov.au" %>
+  <form>
+    <select onchange="window.open(this.options[this.selectedIndex].value,'_top')">
+      <option value="">Explore others!</option>
+      <option value="https://prov.vic.gov.au/">PROV</option>
+      <option value=" https://prov.vic.gov.au/explore-collection/online-galleries-and-exhibitions">Exhibitions</option>
+      <option value="https://prov.vic.gov.au/about-us/our-blog">Blogs</option>
+      <option value="https://www.facebook.com/PublicRecordOfficeVictoria/">On Facebook</option>
+
+      <option value="https://twitter.com/PRO_Vic">On Twitter</option>
+
+    </select>
+  </form>
+</div>

@@ -2,6 +2,9 @@
 
   <div id="left-col">
     <div id="video-intro" class="paraMargin">
+    <div id="video-container">
+      <iframe width="320" height="180" src="https://www.youtube.com/embed/Y7dpJ0oseIA" frameborder="0" allowfullscreen></iframe>
+    </div>
       <h2><%= t('.overview_header') %></h2>
       <p><%= t('.overview_p1') %></p>
       <p><%= t('.overview_p2') %></p>
@@ -10,13 +13,13 @@
       <%= link_to t('.upload_map'), new_map_path , :class => "buttonWarper"-%>
 
     </div>
-
+<!--
     <div class="paraMargin">
       <h2><%= t('.info_header') %></h2>
       <p><%= t('.info_paragraph_html') %></p>
       <p><%= t('.info_contact') %></p>
     </div>
-
+-->
     <div id="tag-cloud" class="paraMargin">
       <h3><%= t('.tags') %></h3>
       <p class="tagCloudLink">
@@ -25,7 +28,7 @@
         <% end %>
       </p>
     </div>
-
+   <% if false #commented out %>
     <div id="news" class="paraMargin">
 
       <h3><%= t('.news') %></h3>
@@ -49,7 +52,7 @@
       <% end %>
 
     </div>
-
+  <% end %>
   </div>
   <div id="right-col">
     <div id="search-form">
@@ -119,6 +122,12 @@
       </table>
       <%= link_to t(".view_layers"), layers_path, :class => "buttonWarper" %><br />
       <%= link_to t(".create_layer"), new_layer_path, :class => "buttonWarper" %>
+
+      <div class="license">
+      There are no known Australian copyright maps available through PROV Map Warper. <br />
+PROV is distributing these images under a <strong><a href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International</a></strong> license.
+      </div>
+
     </div>
 
   </div>

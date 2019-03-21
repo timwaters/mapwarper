@@ -17,6 +17,8 @@
   <%else-%>
     <body>
   <%end%>
+    <%= render :partial => 'shared/prov_stripe' %>
+    
     <div id="headerDiv" class="headerDiv">
       <h1><%= link_to t('common.site_title'), root_path %></h1>
       <%= render :partial => 'shared/header' %>
@@ -29,6 +31,7 @@
       <%= flash_messages %>
 
       <%= yield %>
+      
     </div>
 
     <div id="footer">

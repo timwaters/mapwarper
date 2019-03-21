@@ -147,7 +147,7 @@ en:
     num_th: Number of Maps
     per_page: per page
     percent_th: Percentage Complete
-    site_title: Map Warper
+    site_title: PROV Map Warper
     status_th: Status
     title_th: Title
     update_button: Update
@@ -358,10 +358,10 @@ en:
       info_paragraph_html: It's a free to use, open source map warper / map georectifier, and image georeferencer tool for individuals and small groups. Developed, hosted and maintained by <a href='https://thinkwhere.wordpress.com'>Tim Waters</a>. If you like this project, please consider <a href='https://www.paypal.me/timdevelops'>donating</a> to keep the project going.
       more: read more
       news: News
-      overview_header: Overview
-      overview_p1: Find maps and other imagery, upload, and rectify against a real map.
-      overview_p2: You can then download and use the rectified map in your mapping applications.
-      overview_p3: Just sign up and you can start uploading and get warping!
+      overview_header: How to use this tool
+      overview_p1: "The PROV Map Warper is a tool for digitally aligning ('rectifying') historical maps and plans from the PROV's collections to match today's precise maps. Visitors can browse already rectified maps or assist PROV by aligning a map. Play the video above to tour the site and learn how to rectify a map yourself."
+      overview_p2: Everyone is welcome to participate!
+      overview_p3: ""
       recent_layers: Recent Mosaics
       rect_maps: Last Rectified Maps
       see_maps: See all maps
