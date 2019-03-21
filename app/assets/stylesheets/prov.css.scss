@@ -211,6 +211,12 @@ footer {
   line-height: 16px;
   overflow: hidden;
   padding: 23px 12px 23px 0;
+  max-width: 1115px;
+
+  margin-left: auto;
+  
+  margin-right: auto;
+
 }
 
 footer .copyright {
@@ -273,6 +279,18 @@ footer .logo-holder li {
 .container-fluid:after {
   clear: both;
 }
+
+.black-bar{
+  background: black;
+}
+
+.black-holder {
+  max-width: 1115px;
+margin-left: auto;
+margin-right: auto;
+padding: 39px 9px 28px 0;
+}
+
 
 #prov_bar {
   background-color: #000000;
