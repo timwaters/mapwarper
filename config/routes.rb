@@ -4,8 +4,9 @@ Rails.application.routes.draw do
   get '/help' => 'home#help', :as => 'help'
   get '/privacy' => 'home#privacy', :as => 'privacy'
   
-  devise_for :users, :path => 'u',:controllers => { :sessions => "sessions", :omniauth_callbacks => "omniauth_callbacks" }
-  
+  devise_for :users, :path => 'u',:controllers => { :sessions => "sessions" }
+  #devise_for :users, :path => 'u',:controllers => { :sessions => "sessions", :omniauth_callbacks => "omniauth_callbacks" }
+
   resources :users do
     member do
       put 'enable'
