@@ -326,6 +326,7 @@ h1 {
   margin-left: 5px;
   line-height: 1;
   padding: 8px 0 7px 10px !important;
+  font-weight: bold;
 }
 
 .license {
@@ -385,6 +386,15 @@ h1 {
   }
 
 }
+#map_table.card, #layer_table.card {
+
+  td {
+    background: none;
+  }
+
+
+} 
+
 
 
 #warper-maindiv .buttonWarper {
