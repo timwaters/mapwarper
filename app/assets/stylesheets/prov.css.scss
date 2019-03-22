@@ -2,7 +2,7 @@ body {
   color: black;
 }
 
-$yellow-prov: rgb(249, 229, 60);
+$yellow-prov: rgb(180, 174, 122);
 $light-yellow-prov: rgb(253, 245, 177);
 
 #footer {
@@ -340,27 +340,52 @@ h1 {
   background: $light-yellow-prov;
 }
 
-#map_table tr:nth-of-type(odd),
-#layer_table tr:nth-of-type(odd) {
-  background: $yellow-prov;
+#map_table tbody tr:nth-of-type(odd),
+#layer_table tr:nth-of-type(odd),
+#map_table tbody tr:nth-of-type(even),
+#layer_table tr:nth-of-type(even) {
+  background: white;
+  border-left:8px solid #f9e53c;
+  margin-bottom: 15px;
+  border-bottom: 5px solid #ddd;
 }
 
-#map_table tr:nth-of-type(even),
-#layer_table tr:nth-of-type(even) {
-  background: $light-yellow-prov;
-}
 
 #map_table td,
 #map_table th,
 #layer_table td,
 #layer_table th {
   border-top: 0px solid #ddd;
+
 }
+
+
 
 #map_table th,
 #layer_table th {
   background: black !important;
 }
+
+#map_table thead tr,
+#layer_table thead tr {
+  border-left:8px solid black !important;
+}
+
+
+
+#map_table, #layer_table {
+  border-top:0px;
+  -webkit-box-shadow:2px 2px 4px  0 rgba(0,0,0,0.3);
+  -moz-box-shadow: 2px 2px 4px  0 rgba(0,0,0,0.3);
+   box-shadow: 2px 2px 4px  0 rgba(0,0,0,0.3);
+
+  tr:last-child
+  {
+    border-bottom: none !important;
+  }
+
+}
+
 
 #warper-maindiv .buttonWarper {
   background: $yellow-prov;
