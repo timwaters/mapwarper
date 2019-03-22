@@ -19,7 +19,7 @@
     </p>
     <p>
       <b><%= t('.tags') %></b><span class="tiny-text"> <%= t('.tags_hint') %></span> <br />
-      <%= f.text_field :tag_list %>
+      <%= f.text_field :tag_list, value: f.object.tag_list.to_s %> 
     </p>
     <p>
       <br />
