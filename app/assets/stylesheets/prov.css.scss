@@ -396,3 +396,26 @@ input[type="submit"],
   background: $yellow-prov;
   color: black;
 }
+
+
+@media screen and (max-width: 1590px) {
+  #navlist li.responsive_wide{ display:none;}
+}
+@media screen and (max-width: 1168px) {
+  #navlist li.responsive_narrow{ display:none;}
+}
+@media screen and (max-width: 680px) {
+  #navlist li.responsive{ display:none;}
+}
+
+/* responsive nav tabs for Japanese locale */
+@media screen and (max-width: 1780px) {
+  #navlist.ja li.responsive_wide{ display:none;}
+}
+@media screen and (max-width: 1378px) {
+  #navlist.ja li.responsive_narrow{ display:none;}
+}
+
+@media screen and (max-width: 730px) {
+  #navlist.ja li.responsive{ display:none;}
+}
