@@ -59,6 +59,7 @@ class Map < ActiveRecord::Base
   after_destroy :delete_map, :update_counter_cache, :update_layers
   after_destroy :update_user_counts
   after_save :update_counter_cache
+  before_save :add_place_name_to_tags
   
   ##################
   # CALLBACKS / Validations
@@ -1001,6 +1002,10 @@ class Map < ActiveRecord::Base
 
       return o_out
     end
+  end
+
+  def add_place_name_to_tags
+    self.tag_list.add(self.place_name)
   end
   
   

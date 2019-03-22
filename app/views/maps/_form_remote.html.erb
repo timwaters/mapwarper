@@ -25,7 +25,7 @@
     </p>
     <p>
       <b><%= t('maps.form.tags') %></b><span class="tiny-text"> <%= t('maps.form.tags_hint') %></span> <br />
-      <%= f.text_field :tag_list %>
+      <%= f.text_field :tag_list, value: f.object.tag_list.to_s %> 
     </p>
     <p>
       <br />
