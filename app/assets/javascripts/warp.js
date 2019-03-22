@@ -89,6 +89,8 @@ function init() {
 
     to_map.zoomToExtent(map_bounds_merc);
 
+  } else if (map_center){
+    to_map.setCenter(lonLatToMercator(map_center), 15);
   } else {
     //set to the world
     to_map.setCenter(lonLatToMercator(new OpenLayers.LonLat(0.0, 0.0)), 3);
