@@ -167,11 +167,18 @@ class LayersController < ApplicationController
     session[@sort_name] = nil  #remove the session sort as we have percent
     sort_update
     @query = params[:query]
-    @field = %w(name description).detect{|f| f== (params[:field])}
+    @field = %w(name description text).detect{|f| f== (params[:field])}
     @field = "name" if @field.nil?
+
+    where_col = @field
+    
+    if @field == "text"
+      where_col  = "(name || ' ' || description)"
+    end
+
     if @query && @query != "null" #null will be set by pagless js if theres no query
       @query = @query.gsub(/\W/, ' ')
-      conditions =   ["#{@field}  ~* ?", '(:punct:|^|)'+@query+'([^A-z]|$)']
+      conditions =   ["#{where_col}  ~* ?", '(:punct:|^|)'+@query+'([^A-z]|$)']
     else
       conditions = nil
     end

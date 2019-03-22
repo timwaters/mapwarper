@@ -42,12 +42,12 @@
       <b><%= t('.source') %></b><span class="tiny-text"> <%= t('.optional_hint') %></span><br />
       <%= f.text_field :source_uri %>
     </p>
-
+<!-- 
     <p>
       <b><%= t('.call') %> </b><span class="tiny-text"> <%= t('.optional_hint') %></span><br />
       <%= f.text_field :call_number %>
     </p>
-
+-->
     <p>
       <b><%= t('.publisher') %></b><span class="tiny-text"> <%= t('.optional_hint') %></span><br />
       <%= f.text_field :publisher %>
@@ -90,6 +90,10 @@
       <b><%= t('.location') %></b><span class="tiny-text"> <%= t('.optional_hint') %></span><br />
       <b><%= t('.lat') %> </b> <%= f.text_field :metadata_lat %><br />
       <b><%= t('.lon') %> </b> <%= f.text_field :metadata_lon %>
+    </p>
+    <p>
+      <b><%= t('.place_name') %></b><span class="tiny-text"> <%= t('.optional_hint') %> </span><br />
+      <%= f.text_field :place_name %>
     </p>
 
   </div>

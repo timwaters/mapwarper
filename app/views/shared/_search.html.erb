@@ -1,10 +1,8 @@
 <%= form_tag url_for(:controller => "maps"), :id=>"searchform",:name=> "searchform", :method => :get do -%>
   <%= t('.search') %>  
   <select id="field" name="field">
-    <%= options_for_select([ [t('.title'), "title"], 
-            [t('.description'), "description"], 
-        [t('.publisher'), "publisher"],
-        [t('.author'), "authors"],
+    <%= options_for_select([ [t('.text'), "text"], 
+            [t('.place_name'), "place_name"],
         [t('.tags'), "tags"]], @field)-%>
   </select>
   <%= t('.for') %> 

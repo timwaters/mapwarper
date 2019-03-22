@@ -10,11 +10,7 @@
 
     <%= form_tag url_for(:controller => "layers"), :id=>"searchform",:name=> "searchform", :method => :get do -%>
       <%= t('.search') %>
-      <select id="field" name="field">
-        <%= options_for_select([ [t('shared.search.title'), "name"],
-            [t('shared.search.description'), "description"]], @field)-%>
-      </select>
-      <%= t('.for') %>
+      <input type="hidden" id="field" name="field" value="text" />
       <%= text_field_tag 'query', @query -%>
       <input type="hidden" id="from" />
       <input type="hidden" id="to"/>

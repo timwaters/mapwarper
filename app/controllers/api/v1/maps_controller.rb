@@ -279,7 +279,7 @@ class Api::V1::MapsController < Api::V1::ApiController
     params.require(:data).require(:attributes).permit(:title, :description, :tag_list, :map_type, :subject_area, :unique_id, 
       :source_uri, :call_number, :publisher, :publication_place, :authors, :date_depicted, :scale,
       :metadata_projection, :metadata_lat, :metadata_lon,
-      :upload_url, :upload, :issue_year ,:upload_file_name )
+      :upload_url, :upload, :issue_year ,:upload_file_name, :place_name )
 
   end
   

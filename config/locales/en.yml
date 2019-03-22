@@ -705,6 +705,7 @@ en:
       optional_hint: "(optional)"
       photo_uuid: Photo Number
       place: Place of Publication
+      place_name: Place Name
       projection: Metadata Projection
       published: Published Date
       publisher: Publisher
@@ -924,8 +925,10 @@ en:
       for: for
       only_rectified: Rectified maps only
       publisher: Publisher
+      place_name: Place Name
       search: Search
       tags: Tags
+      text: Text
       title: Title
   user_mailer:
     disabled_change_password:

@@ -146,16 +146,22 @@ class MapsController < ApplicationController
     
     @query = params[:query]
     
-    @field = %w(tags title description status publisher authors).detect{|f| f == (params[:field])}
+    @field = %w(tags title description status publisher authors place_name text).detect{|f| f == (params[:field])}
     
     unless @field == "tags"
       
       @field = "title" if @field.nil?
+
+      where_col = @field
+    
+      if @field == "text"
+        where_col  = "(title || ' ' || description)"
+      end
       
       #we'll use POSIX regular expression for searches    ~*'( |^)robinson([^A-z]|$)' and to strip out brakets etc  ~*'(:punct:|^|)plate 6([^A-z]|$)';
       if @query && @query.strip.length > 0 && @field
         @query = @query.gsub(/\W/, ' ')
-        conditions = ["#{@field}  ~* ?", '(:punct:|^|)'+@query+'([^A-z]|$)']
+        conditions = ["#{where_col}  ~* ?", '(:punct:|^|)'+@query+'([^A-z]|$)']
       else
         conditions = nil
       end
@@ -1014,7 +1020,7 @@ class MapsController < ApplicationController
       :source_uri, :call_number, :publisher, :publication_place, :authors, :date_depicted, :scale,
       :metadata_projection, :metadata_lat, :metadata_lon, :public,
       "published_date(3i)", "published_date(2i)", "published_date(1i)", "reprint_date(3i)", 
-      "reprint_date(2i)", "reprint_date(1i)", :upload_url, :upload, :issue_year ) 
+      "reprint_date(2i)", "reprint_date(1i)", :upload_url, :upload, :issue_year, :place_name  ) 
   end
   
   def choose_layout_if_ajax

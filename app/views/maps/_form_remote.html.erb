@@ -48,12 +48,12 @@
       <b><%= t('maps.form.source') %></b><span class="tiny-text"> <%= t('maps.form.optional_hint') %></span><br />
       <%= f.text_field :source_uri %>
     </p>
-
+<!-- 
     <p>
       <b><%= t('maps.form.call') %> </b><span class="tiny-text"> <%= t('maps.form.optional_hint') %></span><br />
       <%= f.text_field :call_number %>
     </p>
-
+-->
     <p>
       <b><%= t('maps.form.publisher') %></b><span class="tiny-text"> <%= t('maps.form.optional_hint') %></span><br />
       <%= f.text_field :publisher %>
@@ -96,6 +96,10 @@
       <b><%= t('maps.form.location') %></b><span class="tiny-text"> <%= t('maps.form.optional_hint') %></span><br />
       <b><%= t('maps.form.lat') %> </b> <%= f.text_field :metadata_lat %><br />
       <b><%= t('maps.form.lon') %> </b> <%= f.text_field :metadata_lon %>
+    </p>
+    <p>
+      <b><%= t('maps.form.place_name') %></b><span class="tiny-text"> <%= t('maps.form.optional_hint') %> </span><br />
+      <%= f.text_field :place_name %>
     </p>
 
   </div>
