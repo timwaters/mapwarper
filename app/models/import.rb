@@ -12,7 +12,7 @@ class Import < ActiveRecord::Base
     preserve_files: false,
     restricted_characters: /[&$+,\/:;=?@<>\[\]\{\}\)\(\'\"\|\\\^~%# ]/
   
-  validates_attachment_content_type :metadata, content_type: ["text/csv", "text/plain"]
+  validates_attachment_content_type :metadata, content_type: ["text/plain", "text/csv", "application/vnd.ms-excel", "application/octet-stream"]
   validates_presence_of :metadata, :message => :no_file_uploaded
   
   acts_as_enum :status, [:ready, :running, :finished, :failed]
@@ -76,19 +76,33 @@ class Import < ActiveRecord::Base
   end
   
   def import_maps
-    data = open(self.metadata.path)
+    data = IO::read(self.metadata.path).scrub  #scrub converts to utf8 encoding
     map_data = CSV.parse(data, :headers => true, :header_converters => :symbol, :col_sep => "," , :quote_char => '"', :liberal_parsing => true)
     map_data.by_row!
     map_data.each do  | map_row |
       uuid = map_row[:uuid]
-      if Map.exists?(unique_id: uuid)
+      if uuid && Map.exists?(unique_id: uuid)
         map = Map.find_by_unique_id(uuid)
         map.import_id = self.id
         log_info "Map already exists. Adding it to the import" + map.inspect
         map.save
         next
       end
-      filename = map_row[:filename]
+
+      filename = map_row[:image_filename]
+      unless filename
+        log_info "no filename in record, skipping #{map_row} "
+        next
+      end
+
+      if Map.exists?(:upload_file_name => filename)
+        map = Map.find_by_upload_file_name(filename)
+        map.import_id = self.id
+        log_info "Map already exists. Adding it to the import" + map.inspect
+        map.save
+        next
+      end
+
       file_base =  APP_CONFIG['import_maps_sftp_path']+"/"+filename
       next if Dir.glob(file_base).empty?
       upload_filename = Dir.glob(file_base).first
@@ -111,6 +125,11 @@ class Import < ActiveRecord::Base
       #unless map_row[:additional_information].blank?
        # description = description +  " Additional Information: " + map_row[:additional_information]
       #end
+      title = map_row[:title]
+      unless title
+        log_info "no title in record skipping #{map_row} "
+        next
+      end
 
 
       tag_list = map_row[:tag_list]
@@ -123,12 +142,14 @@ class Import < ActiveRecord::Base
       reprint_date = map_row[:reprint_date]
       publication_place = map_row[:publication_place]
       metadata_projection = map_row[:metadata_projection]
-      metadata_lat = map_row[:lat]
-      metadata_lon = map_row[:lon]
+      metadata_lat = map_row[:latitude]
+      metadata_lon = map_row[:longitude]
       call_number = map_row[:call_number]
 
+      place_name = map_row[:location_name]
+
       map = {
-        title: map_row[:title],
+        title: title,
         description: description,
         date_depicted: date_depicted,
         issue_year: issue_year,
@@ -145,6 +166,7 @@ class Import < ActiveRecord::Base
         metadata_lat: metadata_lat,
         metadata_lon: metadata_lon, 
         call_number: call_number,
+        place_name: place_name,
         unique_id: uuid,
         status: :unloaded,
         map_type: 'is_map',
