@@ -20,9 +20,13 @@
         (<%= t('maps.map.in') %> <%=link_to(t('common.layer_count', count: map.layers.count), map_layers_path(map.id)) -%>)
       <%-  end -%>
       <span class="map_year">
+      <span id="depicts-year-span-top">
         <% if map.depicts_year -%>
           <%= t('maps.map.depicts') %>: <%= map.depicts_year -%>
         <% end -%>
+        <%if signed_in? %>&nbsp;<a href="#" id="edit-year-link-top"><%= t('layers.layer_detail.edit_year') %></a>
+        <%end-%>
+        </span>
       </span>
       <% if !map.public? %><span class="publicprivate">(<%= t('maps.map.private') %>)</span><% end-%>
       <%= t('.last_modified') %> <%=h time_ago_in_words(map.last_changed) -%> <%= t('common.ago') %>.

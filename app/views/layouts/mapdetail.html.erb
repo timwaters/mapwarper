@@ -16,6 +16,28 @@
 
 
       jQuery(function() {
+
+        jQuery("#year-dialog").dialog({
+          bgiframe: true,
+          autoOpen: false,
+          title: "<%= t('.year_dialog_title') %>",
+          height: 250,
+          hide: 'slow',
+          width: 305,
+          modal: true,
+          buttons: {
+            Cancel: function() {
+              jQuery(this).dialog('close');
+            }
+          },
+          close: function() {
+          }
+        });
+        jQuery("#edit-year-link-top").click(function(e) {
+          jQuery("#year-dialog").dialog('open');
+        });
+
+
         jQuery("#wooTabs").tabs({selected:<%=@selected_tab||0 %>});
         jQuery("#wooTabs").bind("tabsselect", function(event, ui) {
           if (typeof (ga) !== 'undefined') {
@@ -176,6 +198,35 @@
 
     </div>
 
+
+    <% if signed_in? %>
+      <div id="year-dialog" class="hidden">
+        <%= t('.year_dialog_label') %><br />
+
+
+        <script type="text/javascript">
+        jQuery(document).ready(function() {
+          jQuery("form#year-form").bind("ajax:success", function(e, data, status, xhr) {
+
+            jQuery("#depicts-year-span-top").html(data.message);
+          }).bind("ajax:before", function() {
+
+          }).bind("ajax:complete", function() {
+            jQuery('#year-dialog').dialog('close');
+            jQuery('#depicts-year-span-top').effect('highlight', {}, 3000);
+          }).bind("ajax:error", function() {
+            alert("<%= t('.year_fail_alert') %>");
+          });
+        });
+        </script>
+
+        <%= form_for(@map, {:html => {:id =>"year-form"} , :url =>update_year_map_path(@map.id), :remote => true }) do |f| %>
+          <%= f.text_field :issue_year, :size =>10 %>
+          <%= submit_tag t('.year_button') %>
+        <% end %>          
+
+      </div>
+    <% end %>
 
     <div id="footer">
       <%= render :partial => 'shared/footer' %>

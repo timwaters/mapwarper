@@ -597,6 +597,11 @@ en:
       year_dialog_label: 'Add / edit year that this mosaic depicts:'
       year_dialog_title: Depicts Year (admin only)
       year_fail_alert: Sorry, something went wrong trying to save this
+    mapdetail:
+      year_button: Save
+      year_dialog_label: 'Add / edit year that this map depicts:'
+      year_dialog_title: Depicts Year
+      year_fail_alert: Sorry, something went wrong trying to save this
     tabs:
       activity: Activity
       align: Align
@@ -803,6 +808,8 @@ en:
     update:
       error: There was an error updating the map
       flash: Map was successfully updated.
+    update_year:
+      message: 'Depicts :'
     warp:
       add_manually_button: Add Control Point Manually
       advanced_options: Advanced options

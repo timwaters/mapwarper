@@ -4,7 +4,7 @@ class MapsController < ApplicationController
   
   before_filter :store_location, :only => [:warp, :align, :clip, :export, :edit, :comments ]
   
-  before_filter :authenticate_user!, :only => [:new, :create, :edit, :update, :destroy, :delete, :warp, :rectify, :clip, :align, :warp_align, :mask_map, :delete_mask, :save_mask, :save_mask_and_warp, :set_rough_state, :set_rough_centroid, :publish, :trace, :id, :map_type]
+  before_filter :authenticate_user!, :only => [:new, :create, :edit, :update, :destroy, :delete, :warp, :rectify, :clip, :align, :warp_align, :mask_map, :delete_mask, :save_mask, :save_mask_and_warp, :set_rough_state, :set_rough_centroid, :publish, :trace, :id, :map_type :update_year]
  
   before_filter :check_administrator_role, :only => [:publish, :csv]
  
@@ -876,6 +876,10 @@ class MapsController < ApplicationController
     
   end
   
+  def update_year
+    @map.update_attributes(params[:map].permit(:issue_year))
+    render :json => {:message => t('.message') + @map.issue_year.to_s }
+  end
   
   private
   

@@ -49,6 +49,7 @@ Rails.application.routes.draw do
       get 'id'
       get 'trace'
       get 'idland'
+      patch 'update_year'
     end
     collection do
         get 'geosearch'
