@@ -417,6 +417,19 @@ input[type="submit"],
   color: black;
 }
 
+.buttonWarper:hover, .buttonWarperBlue:hover, input[type="submit"]:hover, .headerDiv .user_status a:hover, 
+.selective-locale:hover {
+  box-shadow:1px 2px 4px 2px rgba(0,0,0,0.2), inset 1px 2px 4px rgba(255,255,255,0.4);;
+
+	background:rgba(255,255,255,0.7) !important; 
+	color: black !important;
+	-moz-transition:all 0.42 ease-in-out;
+	-webkit-transition:all 0.2s ease-in-out;
+	transition:all 0.2s ease-in-out;
+}
+
+
+
 #navlist li a,
 #navlist li span {
   background: $light-yellow-prov
@@ -432,6 +445,16 @@ input[type="submit"],
   color: black;
 }
 
+
+.noUi-handle {
+  background: $yellow-prov;
+  border: 1px solid $yellow-prov;
+  box-shadow: inset 0 0 1px $yellow-prov,inset 0 1px 7px $yellow-prov,0 3px 6px -3px $yellow-prov;
+}
+
+.noUi-connect {
+  background: $yellow-prov !important;
+}
 
 @media screen and (max-width: 1590px) {
   #navlist li.responsive_wide{ display:none;}
