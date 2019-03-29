@@ -1106,15 +1106,15 @@ font-weight: bold;
 /*responsive nav tabs*/
 
 
-@media screen and (max-width: 1500px) {
-  #navlist li.responsive_wide{ display:none;}
-}
-@media screen and (max-width: 1068px) {
-  #navlist li.responsive_narrow{ display:none;}
-}
-@media screen and (max-width: 580px) {
-  #navlist li.responsive{ display:none;}
-}
+// @media screen and (max-width: 1500px) {
+//   #navlist li.responsive_wide{ display:none;}
+// }
+// @media screen and (max-width: 1068px) {
+//   #navlist li.responsive_narrow{ display:none;}
+// }
+// @media screen and (max-width: 580px) {
+//   #navlist li.responsive{ display:none;}
+// }
 
 /* responsive nav tabs for Japanese locale */
 @media screen and (max-width: 1780px) {
