@@ -477,3 +477,7 @@ input[type="submit"],
 @media screen and (max-width: 730px) {
   #navlist.ja li.responsive{ display:none;}
 }
+
+.help a {
+  text-decoration: underline;
+}
