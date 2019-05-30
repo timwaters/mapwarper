@@ -9,9 +9,9 @@
       <p><%= t('.overview_p1') %></p>
       <p><%= t('.overview_p2') %></p>
       <p><%= t('.overview_p3') %></p>
-
-      <%= link_to t('.upload_map'), new_map_path , :class => "buttonWarper"-%>
-
+      <% if user_signed_in? && current_user.has_role?("administrator") %>
+        <%= link_to t('.upload_map'), new_map_path , :class => "buttonWarper"-%>
+      <% end %>
     </div>
 <!--
     <div class="paraMargin">
@@ -121,7 +121,7 @@
         <%= render :partial => 'layers/layer', :collection => @layers unless @layers.nil? %>
       </table>
       <%= link_to t(".view_layers"), layers_path, :class => "buttonWarper" %><br />
-      <%= link_to t(".create_layer"), new_layer_path, :class => "buttonWarper" %>
+      <%# link_to t(".create_layer"), new_layer_path, :class => "buttonWarper" %>
 
       <div class="license">
       There are no known Australian copyright maps available through PROV Map Warper. <br />

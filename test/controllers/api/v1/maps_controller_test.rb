@@ -108,41 +108,41 @@ class MapsControllerTest < ActionController::TestCase
         assert body["errors"][0]["title"].include?("Unauthorized")
       end
       
-     test "not create map basic without a title " do
+     test "not create map basic without a title is admin only " do
 
         assert_difference('Map.count', 0) do
           post 'create', :format => :json, 'data' => {'type' => "maps", "attributes"=>{"description"=>"foo", "wrong"=>"new map"}}
         end
-        assert_response :unprocessable_entity
-        body = JSON.parse(response.body)
+        assert_response 401
+        # body = JSON.parse(response.body)
         
-        assert body["errors"][0]["source"]["pointer"].include?("title")
-        assert body["errors"][0]["detail"].include?("blank")
+        # assert body["errors"][0]["source"]["pointer"].include?("title")
+        # assert body["errors"][0]["detail"].include?("blank")
       end
 
-      test "create map basic" do
+      test "create map basic is admin only" do
 
-        assert_difference('Map.count', 1) do
+        assert_difference('Map.count', 0) do
           post 'create', :format => :json, 'data' => {'type' => "maps", "attributes"=>{"description"=>"foo", "title"=>"new map"}}
         end
-        assert_response :created
-        body = JSON.parse(response.body)
-        #puts body.inspect
-        assert_equal "new map", body["data"]["attributes"]["title"]
+        assert_response 401
+        # body = JSON.parse(response.body)
+        # #puts body.inspect
+        # assert_equal "new map", body["data"]["attributes"]["title"]
       end
       
-      test "create map from file upload" do
+      test "create map from file upload is admin only" do
         image_data = Base64.encode64(File.open(File.join(Rails.root, "/test/fixtures/data/100x70map.png"), "rb").read)
         upload = "data:image/png;base64,#{image_data}"
 
-        assert_difference('Map.count', 1) do
+        assert_difference('Map.count', 0) do
           post 'create', :format => :json, 'data' => {'type' => "maps", "attributes"=>{"description"=>"poo", "title"=>"new map", "upload" => upload, "upload_file_name" => "100x70map2.png"}}
         end
-        assert_response :created
-        body = JSON.parse(response.body)
+        assert_response 401
+        # body = JSON.parse(response.body)
       
-        assert_equal "new map", body["data"]["attributes"]["title"]
-        assert_equal 100, body["data"]["attributes"]["width"]
+        # assert_equal "new map", body["data"]["attributes"]["title"]
+        # assert_equal 100, body["data"]["attributes"]["width"]
       end
       
       test "create map from URL" do
@@ -153,13 +153,13 @@ class MapsControllerTest < ActionController::TestCase
           body:  File.read(File.join(Rails.root, "/test/fixtures/data/100x70map.png")),
           headers: {"Content-Type" => 'image/png'}
         )
-        assert_difference('Map.count', 1) do
+        assert_difference('Map.count', 0) do
           post 'create', :format => :json, 'data' => {'type' => "maps", "attributes"=>{"description"=>"poo", "title"=>"new map", "upload_url" => "http://example.com/100x70map.png"}}
         end
-        assert_response :created
-        body = JSON.parse(response.body)
-        assert_equal "new map", body["data"]["attributes"]["title"]
-        assert_equal 100, body["data"]["attributes"]["width"]
+        assert_response 401
+        # body = JSON.parse(response.body)
+        # assert_equal "new map", body["data"]["attributes"]["title"]
+        # assert_equal 100, body["data"]["attributes"]["width"]
       end
       
       
@@ -274,12 +274,12 @@ class MapsControllerTest < ActionController::TestCase
         assert_equal "foojson", body["data"]["attributes"]["title"]
       end
    
-      test "delete map" do   
+      test "delete map is admin only" do   
         Map.any_instance.stubs(:delete_images).returns(true)
-        assert_difference('Map.count', -1) do
+        assert_difference('Map.count', 0) do
           delete 'destroy',:id => @map.id
         end
-        assert_response :success
+        assert_response 401
       end
 
 
@@ -306,6 +306,69 @@ class MapsControllerTest < ActionController::TestCase
         body = JSON.parse(response.body)
         assert_equal "warped", body["data"]["attributes"]["status"] 
       end
+
+      test "delete map" do   
+        Map.any_instance.stubs(:delete_images).returns(true)
+        assert_difference('Map.count', -1) do
+          delete 'destroy',:id => @warped_map.id
+        end
+        assert_response :success
+      end
+
+      test "create map basic" do
+
+        assert_difference('Map.count', 1) do
+          post 'create', :format => :json, 'data' => {'type' => "maps", "attributes"=>{"description"=>"foo", "title"=>"new map"}}
+        end
+        assert_response :created
+        body = JSON.parse(response.body)
+        #puts body.inspect
+        assert_equal "new map", body["data"]["attributes"]["title"]
+      end
+
+      test "not create map basic without a title " do
+
+        assert_difference('Map.count', 0) do
+          post 'create', :format => :json, 'data' => {'type' => "maps", "attributes"=>{"description"=>"foo", "wrong"=>"new map"}}
+        end
+        assert_response :unprocessable_entity
+        body = JSON.parse(response.body)
+        
+        assert body["errors"][0]["source"]["pointer"].include?("title")
+        assert body["errors"][0]["detail"].include?("blank")
+      end
+
+      test "create map from file upload" do
+        image_data = Base64.encode64(File.open(File.join(Rails.root, "/test/fixtures/data/100x70map.png"), "rb").read)
+        upload = "data:image/png;base64,#{image_data}"
+
+        assert_difference('Map.count', 1) do
+          post 'create', :format => :json, 'data' => {'type' => "maps", "attributes"=>{"description"=>"poo", "title"=>"new map", "upload" => upload, "upload_file_name" => "100x70map2.png"}}
+        end
+        assert_response :created
+        body = JSON.parse(response.body)
+      
+        assert_equal "new map", body["data"]["attributes"]["title"]
+        assert_equal 100, body["data"]["attributes"]["width"]
+      end
+
+      test "create map from URL" do
+        
+        stub_request(:get, "http://example.com/100x70map.png")
+        .to_return(
+          status: 200,
+          body:  File.read(File.join(Rails.root, "/test/fixtures/data/100x70map.png")),
+          headers: {"Content-Type" => 'image/png'}
+        )
+        assert_difference('Map.count', 1) do
+          post 'create', :format => :json, 'data' => {'type' => "maps", "attributes"=>{"description"=>"poo", "title"=>"new map", "upload_url" => "http://example.com/100x70map.png"}}
+        end
+        assert_response :created
+        body = JSON.parse(response.body)
+        assert_equal "new map", body["data"]["attributes"]["title"]
+        assert_equal 100, body["data"]["attributes"]["width"]
+      end
+
     end
     #get layers
   

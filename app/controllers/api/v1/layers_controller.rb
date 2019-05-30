@@ -1,6 +1,6 @@
 class Api::V1::LayersController < Api::V1::ApiController
   before_filter :authenticate_user!,       :except => [:show, :index]
-  before_filter :check_administrator_role, :only => [:toggle_visibility, :merge]
+  before_filter :check_administrator_role, :only => [:toggle_visibility, :merge, :create]
   before_filter :find_layer,               :only =>   [:show, :update, :destroy, :toggle_visibility, :remove_map, :merge]
   before_filter :can_edit_layer, :only => [:update, :destroy, :remove_map]
   before_filter :validate_jsonapi_type,:only => [:create, :update]

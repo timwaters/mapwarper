@@ -1,6 +1,6 @@
 class Api::V1::MapsController < Api::V1::ApiController
   before_filter :authenticate_user!,       :except=>[:show, :index, :status, :gcps] 
-  before_filter :check_administrator_role, :only => [:publish, :unpublish]
+  before_filter :check_administrator_role, :only => [:publish, :unpublish, :csv, :new, :create, :destroy, :delete]
   before_filter :find_map, :only => [:show, :update, :destroy, :gcps, :rectify, :mask, :delete_mask, :crop, :mask_crop_rectify, :publish, :unpublish, :status ]
   before_filter :can_edit_map,             :only => [:update, :destroy]
   

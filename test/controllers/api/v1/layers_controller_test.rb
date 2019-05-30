@@ -155,17 +155,14 @@ class LayersControllerTest < ActionController::TestCase
       assert_equal 0, @layer.maps.count
     end
 
-    #create
+    #create only admins allowed
     test "create" do
-      assert_difference('Layer.count', 1) do
+      assert_difference('Layer.count', 0) do
        post 'create', 'data' => {'type' => "layers", "attributes"=>{:name => "new layer", :description => "bar"}} 
       end
-      assert_response :created
+      assert_response 401
       
-      body = JSON.parse(response.body)
-      assert_equal "new layer", body["data"]["attributes"]["name"]
-      id = body["data"]["id"]
-      Layer.find(id).send(:delete_tileindex)#cleanup
+ 
     end
 
   

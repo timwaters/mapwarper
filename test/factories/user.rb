@@ -16,7 +16,9 @@ FactoryGirl.define do
     confirmed_at Date.today
     after(:create) do | u |
       admin_role = FactoryGirl.create(:admin_role)
+      editor_role = FactoryGirl.create(:editor_role)
       u.roles << admin_role
+      u.roles << editor_role
     end
   end
   
