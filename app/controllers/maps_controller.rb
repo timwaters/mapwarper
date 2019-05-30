@@ -41,7 +41,7 @@ class MapsController < ApplicationController
   ###############
   
   def new
-    @map = Map.new(:issue_year => Time.now.year)
+    @map = Map.new
     @html_title = t('.title')
     @max_size = Map.max_attachment_size
     if Map.max_dimension
