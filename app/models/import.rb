@@ -109,7 +109,7 @@ class Import < ActiveRecord::Base
      
       published_date = map_row[:published_date]
       issue_year = map_row[:issue_year] 
-      date_depicated = map_row[:date_depicated]
+      date_depicted = map_row[:date_depicted]
       
       # if theres no issue year, convert the year from published date
       unless published_date.blank? && issue_year.blank?
@@ -117,7 +117,7 @@ class Import < ActiveRecord::Base
         issue_year = date.year
       end
 
-      date_depicted = issue_year if date_depicated.blank?
+      date_depicted = issue_year if date_depicted.blank?
     
       description = map_row[:description]
 
