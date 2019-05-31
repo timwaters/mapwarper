@@ -43,7 +43,8 @@ class LayersController < ApplicationController
     sort_init 'updated_at'
     sort_update
 
-    extents = [-165,-55,179,73] #world
+    #extents = [-165,-55,179,73] #world
+    extents = [ 149.205,-39.496 , 140.273, -33.771] #vic  
 
     if params[:place] && !params[:place].blank?
       

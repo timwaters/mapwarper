@@ -92,8 +92,8 @@ function init() {
   } else if (map_center){
     to_map.setCenter(lonLatToMercator(map_center), 15);
   } else {
-    //set to the world
-    to_map.setCenter(lonLatToMercator(new OpenLayers.LonLat(0.0, 0.0)), 3);
+   // to_map.setCenter(lonLatToMercator(new OpenLayers.LonLat(0.0, 0.0)), 3);   //set to the world
+    to_map.setCenter(new OpenLayers.LonLat(16250546.535, -4414793.234), 7); // set to  VIC
   }
 
   //style for the active, temporary vector marker, the one the user actually adds themselves,
