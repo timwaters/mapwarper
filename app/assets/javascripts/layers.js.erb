@@ -41,7 +41,7 @@ function get_tilesathome_osm_url (bounds) {
 }
 
 
-var mapnik = new OpenLayers.Layer.TMS("OpenStreetMap", "http://tile.openstreetmap.org/", {
+var mapnik = new OpenLayers.Layer.TMS("OpenStreetMap", "https://tile.openstreetmap.org/", {
     type: 'png',
     getURL: osm_getTileURL,
     displayOutsideMaxExtent: true,
