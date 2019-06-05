@@ -917,7 +917,7 @@ class MapsController < ApplicationController
     when "lanczos" #its very very slow
       resample_option = " -rn "
     else
-      resample_option = " -rn"
+      resample_option = " -rc"
     end
 
     use_mask = params[:use_mask]

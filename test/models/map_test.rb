@@ -41,10 +41,14 @@ class MapTest < ActiveSupport::TestCase
     end
   end
 
-  test "converts mask to geojson" do
+  test "converts mask to geojson when warping with a mask" do
     test_gml = File.join(Rails.root, "/test/fixtures/data/test.gml")
     Map.any_instance.stubs(:masking_file_gml).returns(test_gml)
     @map.mask!
+    resample_option = " -rn "
+    transform_option = ""
+    use_mask = "true"
+    @map.warp!(transform_option, resample_option, use_mask)
 
     assert_not_nil @map.mask_geojson
     json = JSON.parse(@map.mask_geojson)

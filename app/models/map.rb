@@ -614,8 +614,6 @@ class Map < ActiveRecord::Base
     else
       return "no masking file matching specified format found."
     end
-
-    self.mask_geojson = convert_mask_to_geojson
     
     masked_src_filename = self.masked_src_filename
     if File.exists?(masked_src_filename)
@@ -672,8 +670,7 @@ class Map < ActiveRecord::Base
     if use_mask == "true" && self.mask_status == :masked
       src_filename = self.masked_src_filename
       mask_options_array = ["-srcnodata", "17 17 17"]
-
-      self.mask_geojson = convert_mask_to_geojson  if self.mask_geojson.blank?
+      self.mask_geojson =  convert_mask_to_geojson
     else
       src_filename = self.unwarped_filename
     end
@@ -751,9 +748,11 @@ class Map < ActiveRecord::Base
       else
         self.status = :warped
       end
-      Spawnling.new do
-        convert_to_png
-      end
+      # Convert to png upon request...
+      # Spawnling.new do
+      #   convert_to_png
+      # end
+      # 
       self.touch(:rectified_at)
     else
       self.status = :available
