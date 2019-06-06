@@ -29,7 +29,7 @@ Devise.mailer_sender = APP_CONFIG['email']
 if !APP_CONFIG['smtp_host'].blank?
   ActionMailer::Base.delivery_method = :smtp
   ActionMailer::Base.smtp_settings = {
-    :address => APP_CONFIG['smtp_host'],
+    :address => APP_CONFIG['smtp_address'],
     :port => APP_CONFIG['smtp_port'], 
     :user_name => APP_CONFIG['smtp_username'], 
     :password => APP_CONFIG['smtp_password'], 
