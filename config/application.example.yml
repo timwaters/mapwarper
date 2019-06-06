@@ -35,6 +35,10 @@ defaults: &defaults
   gdal_path: ""
   gdal_memory_limit: ""
   disabled_site: false
+  smtp_address: ""
+  smtp_port: 
+  smtp_username: ""
+  smtp_password: ""
 
 development:
   <<: *defaults

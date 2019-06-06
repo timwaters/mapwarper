@@ -24,3 +24,16 @@ Rails.application.routes.default_url_options[:host] = APP_CONFIG['host']
 ActionMailer::Base.default_url_options[:host] = APP_CONFIG['host']
 ActionMailer::Base.delivery_method = :sendmail
 Devise.mailer_sender = APP_CONFIG['email']
+
+#set up smtp if configured
+if !APP_CONFIG['smtp_host'].blank?
+  ActionMailer::Base.delivery_method = :smtp
+  ActionMailer::Base.smtp_settings = {
+    :address => APP_CONFIG['smtp_host'],
+    :port => APP_CONFIG['smtp_port'], 
+    :user_name => APP_CONFIG['smtp_username'], 
+    :password => APP_CONFIG['smtp_password'], 
+    :authentication => :login,
+    :enable_starttls_auto => true
+  }
+end
