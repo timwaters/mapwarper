@@ -26,7 +26,7 @@ ActionMailer::Base.delivery_method = :sendmail
 Devise.mailer_sender = APP_CONFIG['email']
 
 #set up smtp if configured
-if !APP_CONFIG['smtp_host'].blank?
+if !APP_CONFIG['smtp_address'].blank?
   ActionMailer::Base.delivery_method = :smtp
   ActionMailer::Base.smtp_settings = {
     :address => APP_CONFIG['smtp_address'],
