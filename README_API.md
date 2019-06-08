@@ -117,7 +117,7 @@ To authenticate using an email and password to retrieve an authentication token.
 **Curl Example***
 
 ```
-curl -X POST http://mapwarper.net/api/v1/auth/sign_in.json -H "Content-Type: application/json" -d '{"user":{"email":"user@example.com","password":"userpassword"}}' -v
+curl -X POST https://mapwarper.prov.vic.gov.au//api/v1/auth/sign_in.json -H "Content-Type: application/json" -d '{"user":{"email":"user@example.com","password":"userpassword"}}' -v
 ```
 
 **Response**
@@ -136,7 +136,7 @@ A successful response returns the user as JSON in the data element and the authe
       "provider": null
     },
     "links": {
-      "self": "http://mapwarper.net/api/v1/users/2"
+      "self": "https://mapwarper.prov.vic.gov.au//api/v1/users/2"
     }
   },
   "meta": {
@@ -163,7 +163,7 @@ Authentication is required.
 **Curl Example***
 
 ```
-curl -X DELETE http://mapwarper.net/api/v1/auth/sign_out.json -H -H 'X-User-Token: longtoken' -H 'X-User-Id: 2' "Content-Type: application/json" -v
+curl -X DELETE https://mapwarper.prov.vic.gov.au//api/v1/auth/sign_out.json -H -H 'X-User-Token: longtoken' -H 'X-User-Id: 2' "Content-Type: application/json" -v
 ```
 
 **Response**
@@ -192,7 +192,7 @@ This is a call to check if an authentication token is still valid. (Signing in a
 **Curl Example***
 
 ```
-curl -X POST http://mapwarper.net/api/v1/auth/sign_in.json -H "Content-Type: application/json" -H 'Accept: application/json' -d '{"user":{"email":"user@example.com","password":"userpassword"}}' -v
+curl -X POST https://mapwarper.prov.vic.gov.au//api/v1/auth/sign_in.json -H "Content-Type: application/json" -H 'Accept: application/json' -d '{"user":{"email":"user@example.com","password":"userpassword"}}' -v
 ```
 
 **Response**
@@ -211,7 +211,7 @@ A successful response returns the user as JSON in the data element and the authe
       "provider": null
     },
     "links": {
-      "self": "http://mapwarper.net/api/v1/users/2"
+      "self": "https://mapwarper.prov.vic.gov.au//api/v1/users/2"
     }
   },
   "meta": {
@@ -232,19 +232,19 @@ You can authentication via the token in two ways
 1. Recommended: setting  `X-User-Id` and `X-User-Token` in the header
 
 ```
-curl  -H 'X-User-Token: longtoken' -H 'X-User-Id: 2' -X GET http://mapwarper.net/api/v1/users/2.json -v
+curl  -H 'X-User-Token: longtoken' -H 'X-User-Id: 2' -X GET https://mapwarper.prov.vic.gov.au//api/v1/users/2.json -v
 ```
 
 2. Passing `user_id` and `user_token` as parameters (handy for GET requests)
 
 ```
-curl  -X GET http://mapwarper.net/api/v1/users/2.json?user_id=2&user_token=longtoken -v
+curl  -X GET https://mapwarper.prov.vic.gov.au//api/v1/users/2.json?user_id=2&user_token=longtoken -v
 
 ```
 
 ### Oauth Authenticaton and Authentication Token
 
-Instead of using an email and password, a user can login via OUath with Github, twitter, google, and Wikimedia Commons for example. 
+Instead of using an email and password, if available, a user can login via OUath with Github, twitter, google, and Wikimedia Commons for example. 
 This is the way a third party JavaScript application can work with OAuth and the warper
 
 > ** Note: The Oauth path is `/u/auth/{:provider}` and not within the api namespace. This may change.
@@ -269,7 +269,7 @@ Example JS code:
 
 ```
 // create popup window
-var domain = 'https://mapwarper.net';
+var domain = 'https://mapwarper.prov.vic.gov.au';
 var myPopup = window.open(domain + '/u/auth/mediawiki?omniauth_window_type=newWindow&auth_origin_url=' + window.location.href, 'myWindow');
 
 // periodical message sender
@@ -326,7 +326,7 @@ The API can also be authenticated with cookies (for example a user logged into t
 **Curl Examples for Email and Password authentication and cookies**
 
 ```
-curl -X POST http://mapwarper.net/u/sign_in.json -H "Content-Type: application/json"  -H 'Accept: application/json' -d '{"user":{"email":"tim@example.com","password":"password"}}' -c cookie
+curl -X POST https://mapwarper.prov.vic.gov.au//u/sign_in.json -H "Content-Type: application/json"  -H 'Accept: application/json' -d '{"user":{"email":"tim@example.com","password":"password"}}' -c cookie
 ```
 
 if successful, returns logged in user as jsonapi 
@@ -342,7 +342,7 @@ if successful, returns logged in user as jsonapi
       "enabled": true,
       "provider": null
     }"links": {
-      "self": "http://mapwarper.net/api/v1/users/2"
+      "self": "https://mapwarper.prov.vic.gov.au//api/v1/users/2"
     }
   }
 }
@@ -356,7 +356,7 @@ if unauthorized returns a 401 status with
 Example using the cookie:
 
 ```
-curl -H 'Content-Type: application/json' -H 'Accept: application/json' -X GET http://mapwarper.net/api/v1/users/2.json -b cookie
+curl -H 'Content-Type: application/json' -H 'Accept: application/json' -X GET https://mapwarper.prov.vic.gov.au//api/v1/users/2.json -b cookie
 ```
 
 Unauthorized calls may return
@@ -414,13 +414,13 @@ Notes: Enter optional text for the query, based on the search field chosen. The 
 
 **Example json format**
 ```
-curl -H 'Content-Type: application/json' -H 'Accept: application/json' -X GET 'http://mapwarper.net/api/v1/maps?field=title&query=Tartu&sort_key=updated_at&sort_order=desc&show_warped=1'
+curl -H 'Content-Type: application/json' -H 'Accept: application/json' -X GET 'https://mapwarper.prov.vic.gov.au//api/v1/maps?field=title&query=Tartu&sort_key=updated_at&sort_order=desc&show_warped=1'
 ```
-[http://mapwarper.net/api/v1/maps?field=title&query=Tartu&sort_key=updated_at&sort_order=desc&show_warped=1](http://mapwarper.net/maps?api/v1/maps?field=title&query=Tartu&sort_key=updated_at&sort_order=desc&show_warped=1)
+[https://mapwarper.prov.vic.gov.au//api/v1/maps?field=title&query=Tartu&sort_key=updated_at&sort_order=desc&show_warped=1](https://mapwarper.prov.vic.gov.au//maps?api/v1/maps?field=title&query=Tartu&sort_key=updated_at&sort_order=desc&show_warped=1)
 
 Example searching within a bounding box
 
-[http://mapwarper.net/api/v1/maps?field=title&query=Tartu&sort_key=updated_at&sort_order=desc&show_warped=1](http://mapwarper.net/maps?api/v1/maps?field=title&query=Tartu&sort_key=updated_at&sort_order=desc&bbox=-75.9831134505588,38.552727388127,-73.9526411829395,40.4029389105122)
+[https://mapwarper.prov.vic.gov.au//api/v1/maps?field=title&query=Tartu&sort_key=updated_at&sort_order=desc&show_warped=1](https://mapwarper.prov.vic.gov.au//maps?api/v1/maps?field=title&query=Tartu&sort_key=updated_at&sort_order=desc&bbox=-75.9831134505588,38.552727388127,-73.9526411829395,40.4029389105122)
 
 
 **Response**
@@ -465,15 +465,15 @@ JSON API Format
 			}
 		},
 		"links": {
-			"self": "http://mapwarper.net/api/v1/maps/260",
-			"gcps_csv": "http://mapwarper.net/maps/260/gcps.csv",
-			"mask": "http://mapwarper.net/mapimages/260.gml.ol",
-			"geotiff": "http://mapwarper.net/maps/260/export.tif",
-			"png": "http://mapwarper.net/maps/260/export.png",
-			"aux_xml": "http://mapwarper.net/maps/260/export.aux_xml",
-			"kml": "http://mapwarper.net/maps/260.kml",
-			"tiles": "http://mapwarper.net/maps/tile/260/{z}/{x}/{y}.png",
-			"wms": "http://mapwarper.net/maps/wms/260?request=GetCapabilities\u0026service=WMS\u0026version=1.1.1",
+			"self": "https://mapwarper.prov.vic.gov.au//api/v1/maps/260",
+			"gcps_csv": "https://mapwarper.prov.vic.gov.au//maps/260/gcps.csv",
+			"mask": "https://mapwarper.prov.vic.gov.au//mapimages/260.gml.ol",
+			"geotiff": "https://mapwarper.prov.vic.gov.au//maps/260/export.tif",
+			"png": "https://mapwarper.prov.vic.gov.au//maps/260/export.png",
+			"aux_xml": "https://mapwarper.prov.vic.gov.au//maps/260/export.aux_xml",
+			"kml": "https://mapwarper.prov.vic.gov.au//maps/260.kml",
+			"tiles": "https://mapwarper.prov.vic.gov.au//maps/tile/260/{z}/{x}/{y}.png",
+			"wms": "https://mapwarper.prov.vic.gov.au//maps/wms/260?request=GetCapabilities\u0026service=WMS\u0026version=1.1.1",
       "thumb": "/uploads/40/thumb/Screenshot_2017-03-31_15-30-47.png"
 		}
 	}],
@@ -485,7 +485,7 @@ JSON API Format
 			"description": null
 		},
 		"links": {
-			"self": "http://mapwarper.net/api/v1/layers/43"
+			"self": "https://mapwarper.prov.vic.gov.au//api/v1/layers/43"
 		}
 	}, {
 		"id": "44",
@@ -495,13 +495,13 @@ JSON API Format
 			"description": null
 		},
 		"links": {
-			"self": "http://mapwarper.net/api/v1/layers/44"
+			"self": "https://mapwarper.prov.vic.gov.au//api/v1/layers/44"
 		}
 	}],
 	"links": {
-      "self":"http://mapwarper.net/api/v1/maps?format=json\u0026page%5Bnumber%5D=1\u0026page%5Bsize%5D=2\u0026per_page=2",
-      "next":"http://mapwarper.net/api/v1/maps?format=json\u0026page%5Bnumber%5D=2\u0026page%5Bsize%5D=2\u0026per_page=2",
-      "last":"http://mapwarper.net/api/v1/maps?format=json\u0026page%5Bnumber%5D=3\u0026page%5Bsize%5D=2\u0026per_page=2"
+      "self":"https://mapwarper.prov.vic.gov.au//api/v1/maps?format=json\u0026page%5Bnumber%5D=1\u0026page%5Bsize%5D=2\u0026per_page=2",
+      "next":"https://mapwarper.prov.vic.gov.au//api/v1/maps?format=json\u0026page%5Bnumber%5D=2\u0026page%5Bsize%5D=2\u0026per_page=2",
+      "last":"https://mapwarper.prov.vic.gov.au//api/v1/maps?format=json\u0026page%5Bnumber%5D=3\u0026page%5Bsize%5D=2\u0026per_page=2"
   },
 	"meta": {
 		"total_entries": 5,
@@ -532,9 +532,9 @@ The top level links holds pagination links
 
 ```
 "links": {
-    "self":"http://mapwarper.net/api/v1/maps?format=json\u0026page%5Bnumber%5D=1\u0026page%5Bsize%5D=2\u0026per_page=2",
-    "next":"http://mapwarper.net/api/v1/maps?format=json\u0026page%5Bnumber%5D=2\u0026page%5Bsize%5D=2\u0026per_page=2",
-    "last":"http://mapwarper.net/api/v1/maps?format=json\u0026page%5Bnumber%5D=3\u0026page%5Bsize%5D=2\u0026per_page=2"
+    "self":"https://mapwarper.prov.vic.gov.au//api/v1/maps?format=json\u0026page%5Bnumber%5D=1\u0026page%5Bsize%5D=2\u0026per_page=2",
+    "next":"https://mapwarper.prov.vic.gov.au//api/v1/maps?format=json\u0026page%5Bnumber%5D=2\u0026page%5Bsize%5D=2\u0026per_page=2",
+    "last":"https://mapwarper.prov.vic.gov.au//api/v1/maps?format=json\u0026page%5Bnumber%5D=3\u0026page%5Bsize%5D=2\u0026per_page=2"
 },
 ```
 
@@ -612,9 +612,9 @@ indicates that 50 results have been found over 2 pages.
 **Example geojson format**
 
 ```
-curl -H 'Content-Type: application/json' -H 'Accept: application/json' -X GET 'http://mapwarper.net/api/v1/maps?field=title&query=Tartu&sort_key=updated_at&sort_order=desc&show_warped=1&format=geojson'
+curl -H 'Content-Type: application/json' -H 'Accept: application/json' -X GET 'https://mapwarper.prov.vic.gov.au//api/v1/maps?field=title&query=Tartu&sort_key=updated_at&sort_order=desc&show_warped=1&format=geojson'
 ```
-[http://mapwarper.net/api/v1/maps.geojson?field=title&query=Tartu&sort_key=updated_at&sort_order=desc&show_warped=1](http://mapwarper.net/maps?api/v1/maps.geojson?field=title&query=Tartu&sort_key=updated_at&sort_order=desc&show_warped=1)
+[https://mapwarper.prov.vic.gov.au//api/v1/maps.geojson?field=title&query=Tartu&sort_key=updated_at&sort_order=desc&show_warped=1](https://mapwarper.prov.vic.gov.au//maps?api/v1/maps.geojson?field=title&query=Tartu&sort_key=updated_at&sort_order=desc&show_warped=1)
 
 ***Response***
 
@@ -701,15 +701,15 @@ The response will be be in the following format.
 			}
 		},
 		"links": {
-			"self": "http://mapwarper.net/api/v1/maps/2",
-			"gcps_csv": "http://mapwarper.net/maps/2/gcps.csv",
-			"mask": "http://mapwarper.net/mapimages/2.gml.ol",
-			"geotiff": "http://mapwarper.net/maps/2/export.tif",
-			"png": "http://mapwarper.net/maps/2/export.png",
-			"aux_xml": "http://mapwarper.net/maps/2/export.aux_xml",
-			"kml": "http://mapwarper.net/maps/2.kml",
-			"tiles": "http://mapwarper.net/maps/tile/2/{z}/{x}/{y}.png",
-			"wms": "http://mapwarper.net/maps/wms/2?request=GetCapabilities\u0026service=WMS\u0026version=1.1.1",
+			"self": "https://mapwarper.prov.vic.gov.au//api/v1/maps/2",
+			"gcps_csv": "https://mapwarper.prov.vic.gov.au//maps/2/gcps.csv",
+			"mask": "https://mapwarper.prov.vic.gov.au//mapimages/2.gml.ol",
+			"geotiff": "https://mapwarper.prov.vic.gov.au//maps/2/export.tif",
+			"png": "https://mapwarper.prov.vic.gov.au//maps/2/export.png",
+			"aux_xml": "https://mapwarper.prov.vic.gov.au//maps/2/export.aux_xml",
+			"kml": "https://mapwarper.prov.vic.gov.au//maps/2.kml",
+			"tiles": "https://mapwarper.prov.vic.gov.au//maps/tile/2/{z}/{x}/{y}.png",
+			"wms": "https://mapwarper.prov.vic.gov.au//maps/wms/2?request=GetCapabilities\u0026service=WMS\u0026version=1.1.1",
       "thumb": "/uploads/2/thumb/Screenshot_2017-03-31_15-30-47.png"
 		}
 	},
@@ -721,7 +721,7 @@ The response will be be in the following format.
 			"description": null
 		},
 		"links": {
-			"self": "http://mapwarper.net/api/v1/layers/1"
+			"self": "https://mapwarper.prov.vic.gov.au//api/v1/layers/1"
 		}
 	}]
 }
@@ -836,7 +836,7 @@ Returns a map's status. This request is used to poll a maps status while it is b
 
 **Request Example**
 
-[http://mapwarper.net/api/v1/maps/8991/status](http://mapwarper.net/maps/api/v1/8991/status)
+[https://mapwarper.prov.vic.gov.au//api/v1/maps/8991/status](https://mapwarper.prov.vic.gov.au//maps/api/v1/8991/status)
 
 **Response**
 
@@ -902,7 +902,7 @@ Notes: Enter optional text for the query, based on the search field chosen. The 
 
 **Request Example**
 
-[http://mapwarper.net/api/v1/layers?query=tartu](http://mapwarper.net/api/v1/layers?query=tartu)
+[https://mapwarper.prov.vic.gov.au//api/v1/layers?query=tartu](https://mapwarper.prov.vic.gov.au//api/v1/layers?query=tartu)
 
 **Response**
 
@@ -935,16 +935,16 @@ Notes: Enter optional text for the query, based on the search field chosen. The 
 				}
 			},
 			"links": {
-				"self": "http://mapwarper.net/api/v1/layers/3",
-				"kml": "http://mapwarper.net/layers/3.kml",
-				"tiles": "http://mapwarper.net/layers/tile/#/{z}/{x}/{y}.png",
-				"wms": "http://mapwarper.net/layers/wms/3?request=GetCapabilities&service=WMS&version=1.1.1"
+				"self": "https://mapwarper.prov.vic.gov.au//api/v1/layers/3",
+				"kml": "https://mapwarper.prov.vic.gov.au//layers/3.kml",
+				"tiles": "https://mapwarper.prov.vic.gov.au//layers/tile/#/{z}/{x}/{y}.png",
+				"wms": "https://mapwarper.prov.vic.gov.au//layers/wms/3?request=GetCapabilities&service=WMS&version=1.1.1"
 			}
 		}],
 "links": {
-		"self": "http://mapwarper.net/api/v1/layers?page%5Bnumber%5D=1&page%5Bsize%5D=1&per_page=1&query=tartu",
-		"next": "http://mapwarper.net/api/v1/layers?page%5Bnumber%5D=2&page%5Bsize%5D=1&per_page=1&query=tartu",
-		"last": "http://mapwarper.net/api/v1/layers?page%5Bnumber%5D=2&page%5Bsize%5D=1&per_page=1&query=tartu"
+		"self": "https://mapwarper.prov.vic.gov.au//api/v1/layers?page%5Bnumber%5D=1&page%5Bsize%5D=1&per_page=1&query=tartu",
+		"next": "https://mapwarper.prov.vic.gov.au//api/v1/layers?page%5Bnumber%5D=2&page%5Bsize%5D=1&per_page=1&query=tartu",
+		"last": "https://mapwarper.prov.vic.gov.au//api/v1/layers?page%5Bnumber%5D=2&page%5Bsize%5D=1&per_page=1&query=tartu"
 	},
 	"meta": {
 		"total_entries": 2,
@@ -974,9 +974,9 @@ The top level links holds pagination links. Shown if there are more results than
 
 ```
 "links": {
-    "self":"http://mapwarper.net/api/v1/layers?format=json\u0026page%5Bnumber%5D=1\u0026page%5Bsize%5D=2\u0026per_page=2",
-    "next":"http://mapwarper.net/api/v1/layers?format=json\u0026page%5Bnumber%5D=2\u0026page%5Bsize%5D=2\u0026per_page=2",
-    "last":"http://mapwarper.net/api/v1/layers?format=json\u0026page%5Bnumber%5D=3\u0026page%5Bsize%5D=2\u0026per_page=2"
+    "self":"https://mapwarper.prov.vic.gov.au//api/v1/layers?format=json\u0026page%5Bnumber%5D=1\u0026page%5Bsize%5D=2\u0026per_page=2",
+    "next":"https://mapwarper.prov.vic.gov.au//api/v1/layers?format=json\u0026page%5Bnumber%5D=2\u0026page%5Bsize%5D=2\u0026per_page=2",
+    "last":"https://mapwarper.prov.vic.gov.au//api/v1/layers?format=json\u0026page%5Bnumber%5D=3\u0026page%5Bsize%5D=2\u0026per_page=2"
 },
 ```
 
@@ -1048,7 +1048,7 @@ Returns a single layer.
 
 **Request Examples**
 
-[http://mapwarper.net/api/v1/layers/2](http://mapwarper.net/api/v1/layers/2) 
+[https://mapwarper.prov.vic.gov.au//api/v1/layers/2](https://mapwarper.prov.vic.gov.au//api/v1/layers/2) 
 
 
 **Response**
@@ -1082,10 +1082,10 @@ Returns a single layer.
 			}
 		},
 		"links": {
-			"self": "http://mapwarper.net/api/v1/layers/2",
-			"kml": "http://mapwarper.net/layers/2.kml",
-			"tiles": "http://mapwarper.net/layers/tile/#/{z}/{x}/{y}.png",
-			"wms": "http://mapwarper.net/layers/wms/2?request=GetCapabilities&service=WMS&version=1.1.1"
+			"self": "https://mapwarper.prov.vic.gov.au//api/v1/layers/2",
+			"kml": "https://mapwarper.prov.vic.gov.au//layers/2.kml",
+			"tiles": "https://mapwarper.prov.vic.gov.au//layers/tile/#/{z}/{x}/{y}.png",
+			"wms": "https://mapwarper.prov.vic.gov.au//layers/wms/2?request=GetCapabilities&service=WMS&version=1.1.1"
 		}
 	}
 }
@@ -1142,7 +1142,7 @@ If the layer is not found, the request will return the following response.
 
 
 ### GeoJSON format
-[http://mapwarper.net/api/v1/layers/2.geojson](http://mapwarper.net/api/v1/layers/2.geojson) 
+[https://mapwarper.prov.vic.gov.au//api/v1/layers/2.geojson](https://mapwarper.prov.vic.gov.au//api/v1/layers/2.geojson) 
 
 ```
 {
@@ -1203,11 +1203,11 @@ Queries and returns a list of layers that a given map belongs to.
 
 **Request Example** 
 
-[http://mapwarper.net/api/v1/maps/3/layers?query=tartu&sort_key=percent](http://mapwarper.net/api/v1/maps/3/layers?query=tartu&sort_key=percent)
+[https://mapwarper.prov.vic.gov.au//api/v1/maps/3/layers?query=tartu&sort_key=percent](https://mapwarper.prov.vic.gov.au//api/v1/maps/3/layers?query=tartu&sort_key=percent)
 
 Alternatively, the URL can be constructed by passing in the map_id as a paramter:
 
-[http://mapwarper.net/api/v1/layers?query=tartu&sort_key=percent&map_id=3](http://mapwarper.net/api/v1/layers?query=tartu&sort_key=percent&map_id=3)
+[https://mapwarper.prov.vic.gov.au//api/v1/layers?query=tartu&sort_key=percent&map_id=3](https://mapwarper.prov.vic.gov.au//api/v1/layers?query=tartu&sort_key=percent&map_id=3)
 
 **Response**
 
@@ -1258,9 +1258,9 @@ Returns a paginated list of the maps that comprise a given layer.
 
 **Request Examples**
  
-[http://mapwarper.net/api/v1/layers/3/maps](http://mapwarper.net/api/v1/layers/3/maps) or
+[https://mapwarper.prov.vic.gov.au//api/v1/layers/3/maps](https://mapwarper.prov.vic.gov.au//api/v1/layers/3/maps) or
 
-[http://mapwarper.net/api/v1/layers?layer_id=3](http://mapwarper.net/api/v1/layers?layer_id=3)
+[https://mapwarper.prov.vic.gov.au//api/v1/layers?layer_id=3](https://mapwarper.prov.vic.gov.au//api/v1/layers?layer_id=3)
 
 **Response**
 
@@ -1277,6 +1277,7 @@ The WMS and Tile services are available and are now shown in the standard JSON r
 
 Creates a new layer and adding several existing maps to it at the same time.
 Authentication required.
+Administrator only.
 
 
 | Method       | Definition | 
@@ -1316,7 +1317,7 @@ Example:
 **cURL Example**
 
 ```
-curl -H "Content-Type: application/json" -H 'Accept: application/json' -X POST -d '{"data":{"type":"layers","attributes":{"name":"a new layer","description":"new description"},"map_ids":[123,553,224]}}' http://mapwarper.net/api/v1/layers -b cookie
+curl -H "Content-Type: application/json" -H 'Accept: application/json' -X POST -d '{"data":{"type":"layers","attributes":{"name":"a new layer","description":"new description"},"map_ids":[123,553,224]}}' https://mapwarper.prov.vic.gov.au//api/v1/layers -b cookie
 ```
 
 **Response**
@@ -1371,7 +1372,7 @@ Example:
 **cURL Example**
 
 ```
-curl -H "Content-Type: application/json" -H 'Accept: application/json' -X PATCH -d '{"data":{"type":"layers","attributes":{"name":"a different name"},"map_ids":[4423,22]}}' http://mapwarper.net/api/v1/layers -b cookie
+curl -H "Content-Type: application/json" -H 'Accept: application/json' -X PATCH -d '{"data":{"type":"layers","attributes":{"name":"a different name"},"map_ids":[4423,22]}}' https://mapwarper.prov.vic.gov.au//api/v1/layers -b cookie
 ```
 
 **Response**
@@ -1398,7 +1399,7 @@ Only the owner of the layer or an editor is authorized.
 **cURL Example**
 
 ```
-curl -H "Content-Type: application/json" -H 'Accept: application/json' -X DELETE -d http://mapwarper.net/api/v1/layers/12 -b cookie
+curl -H "Content-Type: application/json" -H 'Accept: application/json' -X DELETE -d https://mapwarper.prov.vic.gov.au//api/v1/layers/12 -b cookie
 ```
 
 **Response**
@@ -1430,7 +1431,7 @@ Administrator authorized only.
 **cURL Example**
 
 ```
-curl -H "Content-Type: application/json" -H 'Accept: application/json' -X PATCH  http://mapwarper.net/api/v1/layers/2/toggle_visibility -b cookie
+curl -H "Content-Type: application/json" -H 'Accept: application/json' -X PATCH  https://mapwarper.prov.vic.gov.au//api/v1/layers/2/toggle_visibility -b cookie
 ```
 
 **Response**
@@ -1465,7 +1466,7 @@ It takes a single parameter, map_id containing the id of the map to be removed.
 **cURL Example**
 
 ```
-curl -H "Content-Type: application/json" -H 'Accept: application/json' -X PATCH -d '{"map_id":123}' http://mapwarper.net/api/v1/layers/2/remove_map -b cookie
+curl -H "Content-Type: application/json" -H 'Accept: application/json' -X PATCH -d '{"map_id":123}' https://mapwarper.prov.vic.gov.au//api/v1/layers/2/remove_map -b cookie
 ```
 
 **Response**
@@ -1507,7 +1508,7 @@ Administrator authorized only.
 **cURL Example**
 
 ```
-curl -H "Content-Type: application/json" -H 'Accept: application/json' -X PATCH -d '{"dest_id":3}' http://mapwarper.net/api/v1/layers/2/merge -b cookie
+curl -H "Content-Type: application/json" -H 'Accept: application/json' -X PATCH -d '{"dest_id":3}' https://mapwarper.prov.vic.gov.au//api/v1/layers/2/merge -b cookie
 ```
 
 **Response**
@@ -1564,7 +1565,7 @@ No authentication required.
 
 **Request Examples**
  
-[http://mapwarper.net/api/v1/gcps?per_page=2&sort_key=updated_at](http://mapwarper.net/api/v1/gcps?per_page=2&sort_key=updated_at) 
+[https://mapwarper.prov.vic.gov.au//api/v1/gcps?per_page=2&sort_key=updated_at](https://mapwarper.prov.vic.gov.au//api/v1/gcps?per_page=2&sort_key=updated_at) 
 
 
 **Response**
@@ -1602,9 +1603,9 @@ No authentication required.
 		}
 	],
 	"links": {
-		"self": "http://mapwarper.net/api/v1/gcps?page%5Bnumber%5D=1&page%5Bsize%5D=2&per_page=2&sort_key=updated_at",
-		"next": "http://mapwarper.net/api/v1/gcps?page%5Bnumber%5D=2&page%5Bsize%5D=2&per_page=2&sort_key=updated_at",
-		"last": "http://mapwarper.net/api/v1/gcps?page%5Bnumber%5D=7&page%5Bsize%5D=2&per_page=2&sort_key=updated_at"
+		"self": "https://mapwarper.prov.vic.gov.au//api/v1/gcps?page%5Bnumber%5D=1&page%5Bsize%5D=2&per_page=2&sort_key=updated_at",
+		"next": "https://mapwarper.prov.vic.gov.au//api/v1/gcps?page%5Bnumber%5D=2&page%5Bsize%5D=2&per_page=2&sort_key=updated_at",
+		"last": "https://mapwarper.prov.vic.gov.au//api/v1/gcps?page%5Bnumber%5D=7&page%5Bsize%5D=2&per_page=2&sort_key=updated_at"
 	},
 	"meta": {
 		"total_entries": 13,
@@ -1633,9 +1634,9 @@ The top level links holds pagination links. Shown if there are more results than
 
 ```
 "links": {
-		"self": "http://mapwarper.net/api/v1/gcps?page%5Bnumber%5D=1&page%5Bsize%5D=2&per_page=2&sort_key=updated_at",
-		"next": "http://mapwarper.net/api/v1/gcps?page%5Bnumber%5D=2&page%5Bsize%5D=2&per_page=2&sort_key=updated_at",
-		"last": "http://mapwarper.net/api/v1/gcps?page%5Bnumber%5D=7&page%5Bsize%5D=2&per_page=2&sort_key=updated_at"
+		"self": "https://mapwarper.prov.vic.gov.au//api/v1/gcps?page%5Bnumber%5D=1&page%5Bsize%5D=2&per_page=2&sort_key=updated_at",
+		"next": "https://mapwarper.prov.vic.gov.au//api/v1/gcps?page%5Bnumber%5D=2&page%5Bsize%5D=2&per_page=2&sort_key=updated_at",
+		"last": "https://mapwarper.prov.vic.gov.au//api/v1/gcps?page%5Bnumber%5D=7&page%5Bsize%5D=2&per_page=2&sort_key=updated_at"
 },
 ```
 
@@ -1700,7 +1701,7 @@ No authentication required.
 
 **Request Examples**
 
-[http://mapwarper.net/api/v1/maps/2/gcps](http://mapwarper.net/api/v1/maps/2/gcps) 
+[https://mapwarper.prov.vic.gov.au//api/v1/maps/2/gcps](https://mapwarper.prov.vic.gov.au//api/v1/maps/2/gcps) 
 
 **Response**
 
@@ -1801,7 +1802,7 @@ No authentication required.
 
 **Example**
 
-[http://mapwarper.net/api/v1/gcps/2](http://mapwarper.net/api/v1/gcps/2)
+[https://mapwarper.prov.vic.gov.au//api/v1/gcps/2](https://mapwarper.prov.vic.gov.au//api/v1/gcps/2)
 
 **Response**
 
@@ -1897,7 +1898,7 @@ Example:
 **cURL Example**
 
 ```
-curl -H "Content-Type: application/json" -H 'Accept: application/json' -X POST -d '{"data":{"type":"gcps","attributes":{"x":1,"y":2,"lat":33.3,"lon":44.4,"map_id":2}}}' http://mapwarper.net/api/v1/gcps -b cookie
+curl -H "Content-Type: application/json" -H 'Accept: application/json' -X POST -d '{"data":{"type":"gcps","attributes":{"x":1,"y":2,"lat":33.3,"lon":44.4,"map_id":2}}}' https://mapwarper.prov.vic.gov.au//api/v1/gcps -b cookie
 ```
 
 **Response**
@@ -1966,7 +1967,7 @@ Requires authentication.
 In this example, we are changing the value of x and y.
 
 ```
-curl -H "Content-Type: application/json" -H 'Accept: application/json' -X PUT -d '{"data":{"type":"gcps","attributes":{"x":22,"y":55,"map_id":2}}}' http://mapwarper.net/api/v1/gcps/21 -b cookie
+curl -H "Content-Type: application/json" -H 'Accept: application/json' -X PUT -d '{"data":{"type":"gcps","attributes":{"x":22,"y":55,"map_id":2}}}' https://mapwarper.prov.vic.gov.au//api/v1/gcps/21 -b cookie
 ```
 
 **Response**
@@ -2014,7 +2015,7 @@ Example:
 **curl example**
 
 ```
-curl -H "Content-Type: application/json" -H 'Accept: application/json' -X DELETE http://mapwarper.net/api/v1/gcps/21 -b cookie
+curl -H "Content-Type: application/json" -H 'Accept: application/json' -X DELETE https://mapwarper.prov.vic.gov.au//api/v1/gcps/21 -b cookie
 ```
 
 **Response**
@@ -2072,7 +2073,7 @@ Points cannot be added twice.
 **cURL Example**
 
 ```
-curl -H "Content-Type: application/json" -H 'Accept: application/json' -X POST -d '{"gcps":[{"mapid":123,"x":2,"y":3,"lat":"52.56","lon":"-4.65"},{"mapid":123,"x":12,"y":23,"lat":"32.56","lon":"-2.65"}]}' http://mapwarper.net/api/v1/gcps/add_many -b cookie
+curl -H "Content-Type: application/json" -H 'Accept: application/json' -X POST -d '{"gcps":[{"mapid":123,"x":2,"y":3,"lat":"52.56","lon":"-4.65"},{"mapid":123,"x":12,"y":23,"lat":"32.56","lon":"-2.65"}]}' https://mapwarper.prov.vic.gov.au//api/v1/gcps/add_many -b cookie
 ```
 
 **Response**
@@ -2132,7 +2133,7 @@ Uses GML to mask a portion of the map. This essentially crops the map. Masking i
 
 | Method        | Definition | 
 | ------------- | ---------  | 
-| GET           |  http://mapwarper.net/mapimages/{:map_id}.gml.ol |
+| GET           |  https://mapwarper.prov.vic.gov.au//mapimages/{:map_id}.gml.ol |
 
 Gets a GML string containing coordinates for the polygon(s) to mask over.
 No authentication required. 
@@ -2140,12 +2141,12 @@ No authentication required.
 > ** Note: The correct way to find the path to the mask is to get the Map object and look in it's links
 
 ```
-"mask": "http://mapwarper.net/mapimages/260.gml.ol",
+"mask": "https://mapwarper.prov.vic.gov.au//mapimages/260.gml.ol",
 ```
 
 **Examples**
 
-http://mapwarper.net/shared/masks/7449.gml.ol 
+https://mapwarper.prov.vic.gov.au//shared/masks/7449.gml.ol 
 
 **Response Example**
 
@@ -2175,7 +2176,7 @@ Requires authentication.
 
 ```
 {{{
-curl -X POST -d "format=json" -d 'output=<wfs:FeatureCollection xmlns:wfs="http://www.opengis.net/wfs"><gml:featureMember xmlns:gml="http://www.opengis.net/gml"><feature:features xmlns:feature="http://mapserver.gis.umn.edu/mapserver" fid="OpenLayers.Feature.Vector_207"><feature:geometry><gml:Polygon><gml:outerBoundaryIs><gml:LinearRing><gml:coordinates decimal="." cs="," ts=" ">1490.0376070686068,5380.396178794179 3342.4880893970894,5380.214910602912 3582.659,5126.446 3555.463,4813.692 3637.051,4487.34 4276.157,3753.048 4575.313,3113.942 4546.465124740124,1412.519663201663 2417.4615530145525,1317.354124740125 1431.415054054054,1294.9324823284824 1447.7525384615387,2187.807392931393 1434.5375363825372,5034.563750519751 1490.0376070686068,5380.396178794179</gml:coordinates></gml:LinearRing></gml:outerBoundaryIs></gml:Polygon></feature:geometry></feature:features></gml:featureMember></wfs:FeatureCollection>' http://mapwarper.net/api/v1/maps/2/mask -b cookie
+curl -X POST -d "format=json" -d 'output=<wfs:FeatureCollection xmlns:wfs="http://www.opengis.net/wfs"><gml:featureMember xmlns:gml="http://www.opengis.net/gml"><feature:features xmlns:feature="http://mapserver.gis.umn.edu/mapserver" fid="OpenLayers.Feature.Vector_207"><feature:geometry><gml:Polygon><gml:outerBoundaryIs><gml:LinearRing><gml:coordinates decimal="." cs="," ts=" ">1490.0376070686068,5380.396178794179 3342.4880893970894,5380.214910602912 3582.659,5126.446 3555.463,4813.692 3637.051,4487.34 4276.157,3753.048 4575.313,3113.942 4546.465124740124,1412.519663201663 2417.4615530145525,1317.354124740125 1431.415054054054,1294.9324823284824 1447.7525384615387,2187.807392931393 1434.5375363825372,5034.563750519751 1490.0376070686068,5380.396178794179</gml:coordinates></gml:LinearRing></gml:outerBoundaryIs></gml:Polygon></feature:geometry></feature:features></gml:featureMember></wfs:FeatureCollection>' https://mapwarper.prov.vic.gov.au//api/v1/maps/2/mask -b cookie
 }}}
 ```
 
@@ -2218,7 +2219,7 @@ Applies the clipping mask to a map, but does not warp it. A clipping mask should
 **Example**
 
 ```
-curl -H "Content-Type: application/json" -H 'Accept: application/json' -X PATCH http://mapwarper.net/api/v1/maps/2/crop -b cookie
+curl -H "Content-Type: application/json" -H 'Accept: application/json' -X PATCH https://mapwarper.prov.vic.gov.au//api/v1/maps/2/crop -b cookie
 ```
 
 **Response**
@@ -2260,7 +2261,7 @@ Requires authentication.
 
 ```
 {{{
-curl -X POST -d "format=json" -d 'output=<wfs:FeatureCollection xmlns:wfs="http://www.opengis.net/wfs"><gml:featureMember xmlns:gml="http://www.opengis.net/gml"><feature:features xmlns:feature="http://mapserver.gis.umn.edu/mapserver" fid="OpenLayers.Feature.Vector_207"><feature:geometry><gml:Polygon><gml:outerBoundaryIs><gml:LinearRing><gml:coordinates decimal="." cs="," ts=" ">1490.0376070686068,5380.396178794179 3342.4880893970894,5380.214910602912 3582.659,5126.446 3555.463,4813.692 3637.051,4487.34 4276.157,3753.048 4575.313,3113.942 4546.465124740124,1412.519663201663 2417.4615530145525,1317.354124740125 1431.415054054054,1294.9324823284824 1447.7525384615387,2187.807392931393 1434.5375363825372,5034.563750519751 1490.0376070686068,5380.396178794179</gml:coordinates></gml:LinearRing></gml:outerBoundaryIs></gml:Polygon></feature:geometry></feature:features></gml:featureMember></wfs:FeatureCollection>' http://mapwarper.net/api/v1/maps/2/mask_crop_rectify -b cookie
+curl -X POST -d "format=json" -d 'output=<wfs:FeatureCollection xmlns:wfs="http://www.opengis.net/wfs"><gml:featureMember xmlns:gml="http://www.opengis.net/gml"><feature:features xmlns:feature="http://mapserver.gis.umn.edu/mapserver" fid="OpenLayers.Feature.Vector_207"><feature:geometry><gml:Polygon><gml:outerBoundaryIs><gml:LinearRing><gml:coordinates decimal="." cs="," ts=" ">1490.0376070686068,5380.396178794179 3342.4880893970894,5380.214910602912 3582.659,5126.446 3555.463,4813.692 3637.051,4487.34 4276.157,3753.048 4575.313,3113.942 4546.465124740124,1412.519663201663 2417.4615530145525,1317.354124740125 1431.415054054054,1294.9324823284824 1447.7525384615387,2187.807392931393 1434.5375363825372,5034.563750519751 1490.0376070686068,5380.396178794179</gml:coordinates></gml:LinearRing></gml:outerBoundaryIs></gml:Polygon></feature:geometry></feature:features></gml:featureMember></wfs:FeatureCollection>' https://mapwarper.prov.vic.gov.au//api/v1/maps/2/mask_crop_rectify -b cookie
 }}}
 ```
 
@@ -2282,7 +2283,7 @@ Requires authentication.
 **Curl Example**
 
 ```
-curl -X PATCH -d "use_mask=false&format=json" -u email@example.com:password  http://mapwarper.net/api/v1/maps/7449/rectify
+curl -X PATCH -d "use_mask=false&format=json" -u email@example.com:password  https://mapwarper.prov.vic.gov.au//api/v1/maps/7449/rectify
 ```
 
 **Parameters**
@@ -2352,7 +2353,8 @@ Map currently being rectified
 | POST         |  /api/v1/maps |
 
 Creates a new map.
-Requires authentication.
+Requires authentication. 
+Administrator only.
 
 **Parameters**
 
@@ -2419,7 +2421,7 @@ A basic example, please add more metadata attributes when you are adding maps!
 **cURL Example**
 
 ```
-curl -H "Content-Type: application/json" -H 'Accept: application/json'  -X POST -d '{"data":{"type":"maps","attributes": {"title":"initial title"}}}' http://mapwarper.net/api/v1/maps -b cookie
+curl -H "Content-Type: application/json" -H 'Accept: application/json'  -X POST -d '{"data":{"type":"maps","attributes": {"title":"initial title"}}}' https://mapwarper.prov.vic.gov.au//api/v1/maps -b cookie
 ```
 
 **Response**
@@ -2502,7 +2504,7 @@ Example:
 **cURL Example**
 
 ```
-curl -H "Content-Type: application/json" -H 'Accept: application/json' -X PATCH -d '{"data":{"type":"maps","attributes": {"title":"A New Improved Title"}}}' http://mapwarper.net/api/v1/maps/3 -b cookie
+curl -H "Content-Type: application/json" -H 'Accept: application/json' -X PATCH -d '{"data":{"type":"maps","attributes": {"title":"A New Improved Title"}}}' https://mapwarper.prov.vic.gov.au//api/v1/maps/3 -b cookie
 ```
 
 **Response**
@@ -2537,7 +2539,7 @@ Only the owner of the map or an editor is authorized.
 **cURL Example**
 
 ```
-curl -H "Content-Type: application/json" -H 'Accept: application/json' -X DELETE http://mapwarper.net/api/v1/maps/3 -b cookie
+curl -H "Content-Type: application/json" -H 'Accept: application/json' -X DELETE https://mapwarper.prov.vic.gov.au//api/v1/maps/3 -b cookie
 ```
 
 **Response**
@@ -2572,7 +2574,7 @@ Administrator role authorized only.
 **cURL Example**
 
 ```
-curl -H "Content-Type: application/json" -H 'Accept: application/json' -X PATCH  http://mapwarper.net/api/v1/maps/3/publish -b cookie
+curl -H "Content-Type: application/json" -H 'Accept: application/json' -X PATCH  https://mapwarper.prov.vic.gov.au//api/v1/maps/3/publish -b cookie
 ```
 
 **Response**
@@ -2627,7 +2629,7 @@ Administrator role authorized only.
 **cURL Example**
 
 ```
-curl -H "Content-Type: application/json" -H 'Accept: application/json' -X PATCH  http://mapwarper.net/api/v1/maps/3/unpublish -b cookie
+curl -H "Content-Type: application/json" -H 'Accept: application/json' -X PATCH  https://mapwarper.prov.vic.gov.au//api/v1/maps/3/unpublish -b cookie
 ```
 
 **Response**
@@ -2683,7 +2685,7 @@ Administrator authorized users will also see attributes for email and the roles 
 
 **Example**
 
-[http://mapwarper.net/api/v1/users/3](http://mapwarper.net/api/v1/users/3)
+[https://mapwarper.prov.vic.gov.au//api/v1/users/3](https://mapwarper.prov.vic.gov.au//api/v1/users/3)
 
 **Response**
 
@@ -2701,7 +2703,7 @@ A response of a user with normal user authorizion
 			"provider": null
 		},
 		"links": {
-			"self": "http://mapwarper.net/api/v1/users/23"
+			"self": "https://mapwarper.prov.vic.gov.au//api/v1/users/23"
 		}
 	}
 }
@@ -2736,7 +2738,7 @@ A response of a user with admin user authorizion
 			}
 		},
 		"links": {
-			"self": "http://mapwarper.net/api/v1/users/2"
+			"self": "https://mapwarper.prov.vic.gov.au//api/v1/users/2"
 		}
 	},
 	"included": [
@@ -2829,7 +2831,7 @@ Notes: Enter optional text for the query, based on the search field chosen. The 
 
 **Request Example**
 
-[http://mapwarper.net/api/v1/users?query=tim&field=login](http://mapwarper.net/api/v1/users?query=tim&field=login)
+[https://mapwarper.prov.vic.gov.au//api/v1/users?query=tim&field=login](https://mapwarper.prov.vic.gov.au//api/v1/users?query=tim&field=login)
 
 **Response**
 
@@ -2861,7 +2863,7 @@ Notes: Enter optional text for the query, based on the search field chosen. The 
 				}
 			},
 			"links": {
-				"self": "http://mapwarper.net/api/v1/users/23"
+				"self": "https://mapwarper.prov.vic.gov.au//api/v1/users/23"
 			}
 		},
 		{
@@ -2880,7 +2882,7 @@ Notes: Enter optional text for the query, based on the search field chosen. The 
 				}
 			},
 			"links": {
-				"self": "http://mapwarper.net/api/v1/users/113"
+				"self": "https://mapwarper.prov.vic.gov.au//api/v1/users/113"
 			}
 		}
 	],
@@ -2988,7 +2990,7 @@ Administrator authorized users only.
 
 **Example**
 
-[http://mapwarper.net/api/v1/imports/3](http://mapwarper.net/api/v1/imports/3)
+[https://mapwarper.prov.vic.gov.au//api/v1/imports/3](https://mapwarper.prov.vic.gov.au//api/v1/imports/3)
 
 **Response**
 
@@ -3027,7 +3029,7 @@ Example of a finished Import
 			}
 		},
 		"links": {
-			"self": "http://mapwarper.net/api/v1/imports/87"
+			"self": "https://mapwarper.prov.vic.gov.au//api/v1/imports/87"
 		}
 	}
 }
@@ -3060,7 +3062,7 @@ Example of a ready Import
 			}
 		},
 		"links": {
-			"self": "http://mapwarper.net/api/v1/imports/121"
+			"self": "https://mapwarper.prov.vic.gov.au//api/v1/imports/121"
 		}
 	}
 }
@@ -3125,7 +3127,7 @@ If the import is not found, the request will return the following response:
 
 **Request Example**
 
-[http://mapwarper.net/api/v1/imports?sort_key=status&per_page=10](http://mapwarper.net/api/v1/imports?sort_key=status&per_page=10)
+[https://mapwarper.prov.vic.gov.au//api/v1/imports?sort_key=status&per_page=10](https://mapwarper.prov.vic.gov.au//api/v1/imports?sort_key=status&per_page=10)
 
 **Response Example**
 
@@ -3159,14 +3161,14 @@ If the import is not found, the request will return the following response:
 				}
 			},
 			"links": {
-				"self": "http://mapwarper.net/api/v1/imports/118"
+				"self": "https://mapwarper.prov.vic.gov.au//api/v1/imports/118"
 			}
 ...snip...
 	],
 	"links": {
-		"self": "http://mapwarper.net/api/v1/imports?page%5Bnumber%5D=1&page%5Bsize%5D=2&per_page=2",
-		"next": "http://mapwarper.net/api/v1/imports?page%5Bnumber%5D=2&page%5Bsize%5D=2&per_page=2",
-		"last": "http://mapwarper.net/api/v1/imports?page%5Bnumber%5D=12&page%5Bsize%5D=2&per_page=2"
+		"self": "https://mapwarper.prov.vic.gov.au//api/v1/imports?page%5Bnumber%5D=1&page%5Bsize%5D=2&per_page=2",
+		"next": "https://mapwarper.prov.vic.gov.au//api/v1/imports?page%5Bnumber%5D=2&page%5Bsize%5D=2&per_page=2",
+		"last": "https://mapwarper.prov.vic.gov.au//api/v1/imports?page%5Bnumber%5D=12&page%5Bsize%5D=2&per_page=2"
 	}
 }
 ```
@@ -3205,7 +3207,7 @@ Lists the maps that were imported. Only returns maps if the Import has "finished
 
 **Request Example**
 
-[http://mapwarper.net/api/v1/imports?sort_key=status&per_page=10](http://mapwarper.net/api/v1/imports?sort_key=status&per_page=10)
+[https://mapwarper.prov.vic.gov.au//api/v1/imports?sort_key=status&per_page=10](https://mapwarper.prov.vic.gov.au//api/v1/imports?sort_key=status&per_page=10)
 
 **Response**
 
@@ -3256,7 +3258,7 @@ Example:
 **cURL Example**
 
 ```
-curl -H "Content-Type: application/json" -H 'Accept: application/json' -X POST -d '{"data":{"type":"import","attributes":{"name":"Tartu Map"}}}' http://mapwarper.net/api/v1/imports -b cookie
+curl -H "Content-Type: application/json" -H 'Accept: application/json' -X POST -d '{"data":{"type":"import","attributes":{"name":"Tartu Map"}}}' https://mapwarper.prov.vic.gov.au//api/v1/imports -b cookie
 ```
 
 **Response**
@@ -3288,7 +3290,7 @@ If successful, the response should return the created import with the "ready" st
 			}
 		},
 		"links": {
-			"self": "http://mapwarper.net/api/v1/imports/121"
+			"self": "https://mapwarper.prov.vic.gov.au//api/v1/imports/121"
 		}
 	}
 }
@@ -3338,7 +3340,7 @@ Example:
 **cURL Example**
 
 ```
-curl -H "Content-Type: application/json" -H 'Accept: application/json'  -X PATCH -d '{"data":{"type":"gcps","attributes":{"name":"New name for import"}}}' http://mapwarper.net/api/v1/imports/12 -b cookie
+curl -H "Content-Type: application/json" -H 'Accept: application/json'  -X PATCH -d '{"data":{"type":"gcps","attributes":{"name":"New name for import"}}}' https://mapwarper.prov.vic.gov.au//api/v1/imports/12 -b cookie
 ```
 
 **Response**
@@ -3369,7 +3371,7 @@ Admin user only authorized.
 **cURL Example**
 
 ```
-curl -H "Content-Type: application/json" -X DELETE  http://mapwarper.net/api/v1/imports/12 -b cookie
+curl -H "Content-Type: application/json" -X DELETE  https://mapwarper.prov.vic.gov.au//api/v1/imports/12 -b cookie
 ```
 
 **Response**
@@ -3403,7 +3405,7 @@ Authentication required.
 **cURL Example**
 
 ```
-curl -H "Content-Type: application/json" -H 'Accept: application/json' -X GET  http://mapwarper.net/api/v1/activity?per_page=2 -b cookie
+curl -H "Content-Type: application/json" -H 'Accept: application/json' -X GET  https://mapwarper.prov.vic.gov.au//api/v1/activity?per_page=2 -b cookie
 ```
 
 **Response**
@@ -3484,7 +3486,7 @@ Authentication required.
 **cURL Example**
 
 ```
-curl -H "Content-Type: application/json" -H 'Accept: application/json' -X GET  http://mapwarper.net/api/v1/activity/maps?per_page=2 -b cookie
+curl -H "Content-Type: application/json" -H 'Accept: application/json' -X GET  https://mapwarper.prov.vic.gov.au//api/v1/activity/maps?per_page=2 -b cookie
 ```
 
 **Response**
@@ -3519,7 +3521,7 @@ curl -H "Content-Type: application/json" -H 'Accept: application/json' -X GET  h
 ```
 
 ```
-curl -H "Content-Type: application/json" -X GET  http://mapwarper.net/api/v1/activity/maps?per_page=2 -b cookie
+curl -H "Content-Type: application/json" -X GET  https://mapwarper.prov.vic.gov.au//api/v1/activity/maps?per_page=2 -b cookie
 ```
 
 **Response Elements**
@@ -3568,7 +3570,7 @@ Authentication required.
 **cURL Example**
 
 ```
-curl -H "Content-Type: application/json" -X GET  http://mapwarper.net/api/v1/activity/maps/260?per_page=2 -b cookie
+curl -H "Content-Type: application/json" -X GET  https://mapwarper.prov.vic.gov.au//api/v1/activity/maps/260?per_page=2 -b cookie
 ```
 
 **Response**
@@ -3649,7 +3651,7 @@ Authentication required.
 **cURL Example**
 
 ```
-curl -H "Content-Type: application/json" -H 'Accept: application/json' -X GET  http://mapwarper.net/api/v1/activity/users/3?per_page=2 -b cookie
+curl -H "Content-Type: application/json" -H 'Accept: application/json' -X GET  https://mapwarper.prov.vic.gov.au//api/v1/activity/users/3?per_page=2 -b cookie
 ```
 
 **Response**
@@ -3742,7 +3744,7 @@ Administrator role only authorized
 **cURL Example**
 
 ```
-curl -H "Content-Type: application/json" -H 'Accept: application/json'  -X GET  http://mapwarper.net/api/v1/stats?per_page=3&sort_key=user_id&sort_order=asc -b cookie
+curl -H "Content-Type: application/json" -H 'Accept: application/json'  -X GET  https://mapwarper.prov.vic.gov.au//api/v1/stats?per_page=3&sort_key=user_id&sort_order=asc -b cookie
 ```
 
 **Response**
