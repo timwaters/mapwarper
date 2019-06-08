@@ -131,6 +131,8 @@ class Import < ActiveRecord::Base
         next
       end
 
+      metadata_lat = numeric?(map_row[:latitude]) ?  map_row[:latitude] : nil
+      metadata_lon = numeric?(map_row[:longitude]) ?  map_row[:longitude] : nil 
 
       tag_list = map_row[:tag_list]
       subject_area = map_row[:subject_area] 
@@ -142,8 +144,8 @@ class Import < ActiveRecord::Base
       reprint_date = map_row[:reprint_date]
       publication_place = map_row[:publication_place]
       metadata_projection = map_row[:metadata_projection]
-      metadata_lat = map_row[:latitude]
-      metadata_lon = map_row[:longitude]
+      metadata_lat = metadata_lat
+      metadata_lon = metadata_lon
       call_number = map_row[:call_number]
 
       place_name = map_row[:location_name]
@@ -233,6 +235,12 @@ class Import < ActiveRecord::Base
     if log_filename && log_filename.include?(".log") && File.exists?("#{Rails.root}/log/imports/#{log_filename}")
       File.delete("#{Rails.root}/log/imports/#{log_filename}")
     end
+  end
+
+
+  def numeric?(str)
+    return true if str =~ /\A\d+\z/
+    true if Float(str) rescue false
   end
 
 end
