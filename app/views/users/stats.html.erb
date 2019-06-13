@@ -18,7 +18,7 @@
 
     <% @users_activity.each do | user | %>
       <tr class="<%= cycle('table0', 'table1') -%>">
-        <td><% if user.user_id 
+        <td><% if user.user_id && User.exists?(user.user_id)
             user_name = User.select(:login).find_by_id(user.user_id).login
         %>
             <%= link_to(user_name, user_path(user.user_id))%>
