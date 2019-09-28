@@ -111,11 +111,11 @@ class Import < ActiveRecord::Base
       issue_year = map_row[:issue_year] 
       date_depicted = map_row[:date_depicted]
       
-      # if theres no issue year, convert the year from published date
-      unless published_date.blank? && issue_year.blank?
-        date = DateTime.parse(published_date)
-        issue_year = date.year
-      end
+      # # if theres no issue year, convert the year from published date
+      # unless published_date.blank? && issue_year.blank?
+      #   date = DateTime.parse(published_date)
+      #   issue_year = date.year
+      # end
 
       date_depicted = issue_year if date_depicted.blank?
     
