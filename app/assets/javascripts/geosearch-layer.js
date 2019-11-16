@@ -5,10 +5,11 @@ function replaceMapTable(smaps) {
     var depicts_year = smap.depicts_year == null ? "" : smap.depicts_year;
     var tableRow = "<tr id='map-row-" + smap.id + "' class='minimap-tr'>" +
             "<td class='mini-map-thumb'><img src='" + mapThumbBaseURL + "/" + smap.id + "' height='70' ></td>" +
-            "<td>" + smap.name + "<br />" +
-            depicts_year + "<br />"+
+            "<td><span id='smap-title-"+ smap.id+"'></span><br /><span id='smap-year-"+ smap.id+"'></span><br />"+
             "<a href='" + mapBaseURL + "/" + smap.id + "' target='_blank'>"+I18n["geosearch"]["open_layer"]+"</a> </td></tr>";
     jQuery("#searchmap-table").append(tableRow);
+    jQuery("#smap-title-"+smap.id).text(smap.name);
+    jQuery("#smap-year-"+smap.id).text(depicts_year);
   }
   addClickToTable();
 }
@@ -80,7 +81,7 @@ function onFeatureSelect(feature) {
           "<div class='searchmap-popup'><a href='" + mapBaseURL + "/" +
           feature.mapId + "' target='_blank'>" +
           //feature.mapTitle+"</a><br />"+
-          "<a href='#a-map-row-" + feature.mapId + "' ><img title='" + feature.mapTitle + "' src='" + mapThumbBaseURL + "/" + feature.mapId + "' height='80'></a>" +
+          "<a href='#a-map-row-" + feature.mapId + "' ><img id='popup-title' src='" + mapThumbBaseURL + "/" + feature.mapId + "' height='80'></a>" +
           "<br /> <a href='" + mapBaseURL + "/" + feature.mapId + "' target='_blank'>"+I18n["geosearch"]["open_layer"]+"</a>" +
           "</div>",
           null, true, onPopupClose);
@@ -88,8 +89,11 @@ function onFeatureSelect(feature) {
   popup.maxSize = new OpenLayers.Size(250, 350);
   feature.popup = popup;
   searchmap.addPopup(popup);
+  jQuery("#popup-title").attr("title", getTitle(feature));
   //jQuery("tr#map-row-"+feature.mapId).effect("highlight", {}, 4000);
   jQuery("tr#map-row-" + feature.mapId).addClass('highlight');
 }
 
-
+function getTitle(feature){
+  return feature.mapTitle;
+}
