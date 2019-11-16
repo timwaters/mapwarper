@@ -19,7 +19,7 @@
     </span>
     <span class="layer_summary">
       <%- if !layer.source_uri.blank? -%>
-        <%= t('layers.layer.links') %>: <%= link_to t('layers.layer.source') ,layer.source_uri  %>
+        <%= t('layers.layer.links') %>: <%= sanitize(link_to(t('layers.layer.source') ,layer.source_uri), attributes: %w(href))  %>
       <%- end -%>
     </span>
     <br />
