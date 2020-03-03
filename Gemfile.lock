@@ -1,5 +1,5 @@
 GIT
-  remote: git://github.com/rails-api/active_model_serializers.git
+  remote: http://github.com/rails-api/active_model_serializers
   revision: 0c552614a84fb7a62983dcbbc71be800ffac6f25
   tag: v0.10.5
   specs:
@@ -10,7 +10,7 @@ GIT
       jsonapi-renderer (>= 0.1.1.beta1, < 0.2)
 
 GIT
-  remote: git://github.com/timwaters/actionpack-action_caching.git
+  remote: http://github.com/timwaters/actionpack-action_caching
   revision: 61d36c171d53402b08c98d60c12230b4f9b42fd2
   branch: feature/take_format_from_request
   specs:
@@ -170,7 +170,7 @@ GEM
     net-scp (1.2.1)
       net-ssh (>= 2.6.5)
     net-ssh (5.1.0)
-    nokogiri (1.10.5)
+    nokogiri (1.10.8)
       mini_portile2 (~> 2.4.0)
     oauth (0.5.4)
     oauth2 (1.4.1)
@@ -218,7 +218,7 @@ GEM
       activerecord (>= 4.2)
       activesupport (>= 4.2)
     public_suffix (3.0.3)
-    rack (1.6.11)
+    rack (1.6.13)
     rack-cors (1.0.6)
       rack (>= 1.6.0)
     rack-test (0.6.3)
@@ -376,6 +376,7 @@ DEPENDENCIES
   paperclip (~> 5.3.0)
   pg (~> 0.21)
   pg_search
+  rack (>= 1.6.12)
   rack-cors
   rails (~> 4.2)
   rails-api

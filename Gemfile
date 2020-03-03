@@ -24,6 +24,10 @@ gem 'jbuilder', '~> 2.0'
 # bundle exec rake doc:rails generates the API under doc/api.
 gem 'sdoc', '~> 0.4.0',          group: :doc
 
+
+gem "rack", ">= 1.6.12"
+
+
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 
@@ -60,7 +64,7 @@ gem 'audited-activerecord', '~> 4'
 
 gem 'georuby'
 
-gem 'actionpack-action_caching', github: 'timwaters/actionpack-action_caching', branch: 'feature/take_format_from_request'
+gem 'actionpack-action_caching', git: 'http://github.com/timwaters/actionpack-action_caching', branch: 'feature/take_format_from_request'
 gem 'redis-rails', '~> 5'
 
 gem "rails-i18n"
@@ -68,7 +72,7 @@ gem "rails-i18n"
 gem 'pg_search'
 
 gem 'rails-api'
-gem 'active_model_serializers', github: 'rails-api/active_model_serializers', tag: 'v0.10.5'
+gem 'active_model_serializers', git: 'http://github.com/rails-api/active_model_serializers', tag: 'v0.10.5'
 gem 'simple_token_authentication', '~> 1.0'
 gem 'rack-cors', :require => 'rack/cors'
 gem 'redcarpet'
