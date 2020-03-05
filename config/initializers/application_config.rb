@@ -31,9 +31,9 @@ if !APP_CONFIG['smtp_address'].blank?
   ActionMailer::Base.smtp_settings = {
     :address => APP_CONFIG['smtp_address'],
     :port => APP_CONFIG['smtp_port'], 
-    :user_name => APP_CONFIG['smtp_username'], 
-    :password => APP_CONFIG['smtp_password'], 
-    :authentication => :login,
+    #:user_name => APP_CONFIG['smtp_username'], 
+    #:password => APP_CONFIG['smtp_password'], 
+    #:authentication => :login,
     :enable_starttls_auto => true
   }
 end
