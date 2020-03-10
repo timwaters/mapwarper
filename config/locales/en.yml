@@ -235,6 +235,7 @@ en:
         password_label: "(leave blank if you don't want to change it)"
         waiting_confirmation: Currently waiting confirmation for
       new:
+        caveat_emptor: "Caveat Emptor: This is a free service with no guarantees of uptime or service. However it's been running since 2009, and there are no plans to stop it anytime soon! The server will have downtime and your maps might get deleted with no notice. It's being run by one individual in their free time. Organisations shouldn't use this. Consider hosting your own instance if you want guarantees." 
         email_label: Email - you'll log in with this
         header: Sign up
         name_label: Name
