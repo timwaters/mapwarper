@@ -60,7 +60,7 @@ gem 'audited-activerecord', '~> 4'
 
 gem 'georuby'
 
-gem 'actionpack-action_caching', github: 'timwaters/actionpack-action_caching', branch: 'feature/take_format_from_request'
+gem 'actionpack-action_caching', git: 'https://github.com/timwaters/actionpack-action_caching', branch: 'feature/take_format_from_request'
 gem 'redis-rails', '~> 5'
 
 gem "rails-i18n"
@@ -68,10 +68,12 @@ gem "rails-i18n"
 gem 'pg_search'
 
 gem 'rails-api'
-gem 'active_model_serializers', github: 'rails-api/active_model_serializers', tag: 'v0.10.5'
+gem 'active_model_serializers', git: 'https://github.com/rails-api/active_model_serializers', tag: 'v0.10.5'
 gem 'simple_token_authentication', '~> 1.0'
 gem 'rack-cors', :require => 'rack/cors'
 gem 'redcarpet'
+
+gem "nokogiri", ">= 1.10.8"
 
 group :development do
    gem 'web-console', '~> 2.0'
