@@ -1,6 +1,6 @@
 <h2> <%= @title %> </h2>
 
-<%=image_tag 'feed-icon-14x14.png' -%> <%= link_to t('audits.index.rss_link') , 'https://'+ request.host_with_port + request.path + '.rss' %>&nbsp;
+<%=image_tag 'feed-icon-14x14.png' -%> <%= link_to t('audits.index.rss_link') , "#{request.scheme}://" + request.host_with_port + request.path + '.rss' %>&nbsp;
 <% if @linktomap %><%= link_to t('audits.index.only_maps'), :controller=>"maps", :action=>"activity" %><% end %>
 <br /><br />
 
