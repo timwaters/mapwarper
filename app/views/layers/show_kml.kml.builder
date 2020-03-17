@@ -11,8 +11,8 @@ width = 256
 height = 256
 depictsYear = @layer.depicts_year
 
-wms_baseurl = "http://"+request.host_with_port+ url_for(:controller => "layers", :action=> "wms", :id=>@layer)
-this_baseurl = "http://"+request.host_with_port+ url_for(:controller => "layers", :action=> "show", :id=>@layer, :format=>"kml")
+wms_baseurl = "https://"+request.host_with_port+ url_for(:controller => "layers", :action=> "wms", :id=>@layer)
+this_baseurl = "https://"+request.host_with_port+ url_for(:controller => "layers", :action=> "show", :id=>@layer, :format=>"kml")
 xml.instruct! :xml
 xml.kml(:xmlns => "http://www.opengis.net/kml/2.2") do
   #xml.NetworkLinkControl{

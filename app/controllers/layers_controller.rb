@@ -539,7 +539,7 @@ class LayersController < ApplicationController
 
       # logger.info map.getProjection
       map.setMetaData("wms_onlineresource",
-        "http://" + request.host_with_port + "/layers/wms/#{@layer.id}")
+        "https://" + request.host_with_port + "/layers/wms/#{@layer.id}")
 
       raster = Mapscript::LayerObj.new(map)
       raster.name = "image"
@@ -602,7 +602,7 @@ class LayersController < ApplicationController
 
       # logger.info map.getProjection
       map.setMetaData("wms_onlineresource",
-        "http://" + request.host_with_port  + "/layers/wms2")
+        "https://" + request.host_with_port  + "/layers/wms2")
       unless @layer_name
 
         Layer.visible.each do |layer|

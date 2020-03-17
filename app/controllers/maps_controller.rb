@@ -819,7 +819,7 @@ class MapsController < ApplicationController
     mapsv.applyConfigOptions
     rel_url_root =  (ActionController::Base.relative_url_root.blank?)? '' : ActionController::Base.relative_url_root
     mapsv.setMetaData("wms_onlineresource",
-      "http://" + request.host_with_port + rel_url_root + "/maps/wms/#{@map.id}")
+      "https://" + request.host_with_port + rel_url_root + "/maps/wms/#{@map.id}")
     
     raster = Mapscript::LayerObj.new(mapsv)
     raster.name = "image"
