@@ -52,3 +52,4 @@ production:
   email: production_user@example.com
   src_maps_dir: "/var/etc/maps/src/"
   dst_maps_dir: "/var/etc/maps/dst/"
+  #http_proxy: "http://example.com:1234"

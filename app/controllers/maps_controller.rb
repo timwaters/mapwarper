@@ -279,7 +279,15 @@ class MapsController < ApplicationController
         user_agent = "Mapwarper Geosearch At #{request.host}"
         req.add_field('User-Agent', user_agent)
 
-        res = Net::HTTP.start(uri.hostname, uri.port, :use_ssl => true, :read_timeout => 2) do |http|
+        proxy_host = nil
+        proxy_port = nil
+        if APP_CONFIG["http_proxy"]
+          proxy_uri = URI.parse(APP_CONFIG["http_proxy"])
+          proxy_host = proxy_uri.host
+          proxy_port = proxy_uri.port
+        end
+
+        res = Net::HTTP.start(uri.hostname, uri.port, proxy_host, proxy_port, :use_ssl => true, :read_timeout => 2) do |http|
           http.request(req)
         end
 
