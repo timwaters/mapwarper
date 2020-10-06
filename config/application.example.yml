@@ -35,6 +35,8 @@ defaults: &defaults
   gdal_path: ""
   gdal_memory_limit: ""
   disabled_site: false
+  hcaptcha_key: ""
+  hcaptcha_secret: ""
 
 development:
   <<: *defaults

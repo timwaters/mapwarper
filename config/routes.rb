@@ -4,7 +4,7 @@ Rails.application.routes.draw do
   get '/help' => 'home#help', :as => 'help'
   get '/privacy' => 'home#privacy', :as => 'privacy'
   
-  devise_for :users, :path => 'u',:controllers => { :sessions => "sessions", :omniauth_callbacks => "omniauth_callbacks" }
+  devise_for :users, :path => 'u',:controllers => { :sessions => "sessions", :omniauth_callbacks => "omniauth_callbacks", :registrations => "registrations" }
   
   resources :users do
     member do

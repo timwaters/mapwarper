@@ -122,6 +122,8 @@ GEM
       activesupport (>= 4.2.0)
     hashdiff (0.3.8)
     hashie (3.6.0)
+    hcaptcha (7.0.1)
+      json
     highline (2.0.1)
     hike (1.2.3)
     i18n (0.9.5)
@@ -362,6 +364,7 @@ DEPENDENCIES
   devise-encryptable
   factory_girl_rails
   georuby
+  hcaptcha
   i18n-tasks (~> 0.9.6)
   jbuilder (~> 2.0)
   jquery-rails

@@ -7,6 +7,9 @@ DST_MAPS_DIR = APP_CONFIG['dst_maps_dir'].blank? ? File.join(Rails.root, '/publi
 SRC_MAPS_DIR = APP_CONFIG['src_maps_dir'].blank? ? File.join(Rails.root, '/public/mapimages/src/') : APP_CONFIG['src_maps_dir']
 TILEINDEX_DIR = APP_CONFIG['tileindex_dir'].blank? ? File.join(Rails.root, '/db/maptileindex') : APP_CONFIG['tileindex_dir']
 
+ENV["HCAPTCHA_SITE_KEY"] = APP_CONFIG['hcaptcha_key'].blank?  ?  nil : APP_CONFIG['hcaptcha_key']
+ENV["HCAPTCHA_SECRET_KEY"] = APP_CONFIG['hcaptcha_secret'].blank?  ?  nil : APP_CONFIG['hcaptcha_secret']
+
 #if gdal is not on the normal path
 GDAL_PATH = APP_CONFIG['gdal_path'] || ""
 

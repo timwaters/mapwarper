@@ -44,6 +44,8 @@ gem 'omniauth-mediawiki'
 gem 'omniauth-facebook'
 gem 'omniauth-rails_csrf_protection', '~> 0.1.2'
 
+gem 'hcaptcha'
+
 gem 'pg', '~>0.21'
 
 gem 'activerecord-postgis-adapter', '~>3.0'
