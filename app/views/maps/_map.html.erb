@@ -49,9 +49,13 @@
       <% end -%>
     </div>
     <div class="map_links">
-      <% if !map.source_uri.blank? %>
-        <%= t('.links') %>: <%= sanitize(link_to(t('.source'), map.source_uri),  attributes: %w(href))  %>
-      <% end %>
+      <%# if !map.source_uri.blank? %>
+         <%# sanitize(link_to(t('.source'), map.source_uri),  attributes: %w(href))  %>
+      <%# end %>
+    <%- if !map.pid.blank? -%>
+    <%= t('.links') %>:
+       <%= sanitize(link_to(t('.prov_catalog'), prov_digital_catalog_url(map.pid)),  attributes: %w(href))  %> 
+      <%- end -%>
     </div>
 
   </td>

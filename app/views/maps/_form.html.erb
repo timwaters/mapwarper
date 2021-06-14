@@ -39,6 +39,11 @@
     </p>
 
     <p>
+      <b><%= t('.pid') %></b><span class="tiny-text"> <%= t('.optional_hint') %> </span><br />
+      <%= f.text_field :pid %>
+    </p>
+
+    <p>
       <b><%= t('.source') %></b><span class="tiny-text"> <%= t('.optional_hint') %></span><br />
       <%= f.text_field :source_uri %>
     </p>

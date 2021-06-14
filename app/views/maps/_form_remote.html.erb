@@ -7,7 +7,7 @@
 </script>
 <%= form_for(@map, :remote=>true, :html => {:multipart => true}) do |f| %>
  <%= render "shared/error_messages", :target => @map %>      
-<div class="column span-12">
+<div class="column span-6">
     <p>
       <b> <%= t('maps.form.title') %></b><br />
       <%= f.text_field :title %>
@@ -33,7 +33,7 @@
     </p>
   </div>
 
-  <div class="column span-12 last">
+  <div class="column span-6 last">
     <p>
       <b><%= t('maps.form.subject') %></b><span class="tiny-text"> <%= t('maps.form.optional_hint') %></span><br />
       <%= f.text_field :subject_area %>
@@ -42,6 +42,11 @@
     <p>
       <b><%= t('maps.form.unique_id') %></b><span class="tiny-text"> <%= t('maps.form.optional_hint') %> </span><br />
       <%= f.text_field :unique_id %>
+    </p>
+
+    <p>
+      <b><%= t('maps.form.pid') %></b><span class="tiny-text"> <%= t('maps.form.optional_hint') %> </span><br />
+      <%= f.text_field :pid %>
     </p>
 
     <p>

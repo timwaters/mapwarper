@@ -25,12 +25,21 @@
     <%= t('.tiles') %>: <%= tile_url %>
   </li>
 </ul>
-<%= t('.bibliographic_header') %>
-<ul>
-  <li>
-    <%= link_to t('.bibliographic'), "http://example.com/alink"  %>
-  </li>
-</ul>
+<h3><%= t('.bibliographic_header') %></h3>
+
+  <ul>
+   <% if !@map.source_uri.blank? %>
+    <li>
+      <%= sanitize(link_to(t('.source'), @map.source_uri),  attributes: %w(href))  %>
+    </li>
+     <% end %>
+    <% if !@map.pid.blank? %>
+    <li>
+     <%= sanitize(link_to(t('.pid'), prov_digital_catalog_url(@map.pid)),  attributes: %w(href))  %>
+    </li>
+    <% end %>
+  </ul>
+
 
 <h3><%= t('.gcp_header') %></h3>
 <ul>

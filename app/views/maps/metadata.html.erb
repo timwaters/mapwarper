@@ -1,7 +1,7 @@
 <h2><%= t('.header') %></h2>
 
 
-<div class="column span-12">
+<div class="column span-6">
   <p>
     <b><%= t('maps.form.title') %></b><br />
     <%= h @map.title %>
@@ -27,7 +27,12 @@
   </p>
 </div>
 
-<div class="column span-12 last">
+<div class="column span-6 last">
+  <p>
+    <b><%= t('maps.form.pid') %></b><br />
+    <%= @map.pid %>
+  </p>
+
   <p>
     <b><%= t('maps.form.source') %></b><br />
     <%= @map.source_uri %>

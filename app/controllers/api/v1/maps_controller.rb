@@ -208,7 +208,7 @@ class Api::V1::MapsController < Api::V1::ApiController
     #query
     query = index_params[:query]
     
-    field = %w(tags title description status publisher authors).detect{|f| f == (index_params[:field])}
+    field = %w(tags title description status publisher authors pid).detect{|f| f == (index_params[:field])}
     field = field || "title"
     if query && query.strip.length > 0 && field
       query = query.gsub(/\W/, ' ')
@@ -279,12 +279,12 @@ class Api::V1::MapsController < Api::V1::ApiController
     params.require(:data).require(:attributes).permit(:title, :description, :tag_list, :map_type, :subject_area, :unique_id, 
       :source_uri, :call_number, :publisher, :publication_place, :authors, :date_depicted, :scale,
       :metadata_projection, :metadata_lat, :metadata_lon,
-      :upload_url, :upload, :issue_year ,:upload_file_name, :place_name )
+      :upload_url, :upload, :issue_year ,:upload_file_name, :place_name, :pid )
 
   end
   
   def index_params
-    params.permit(:page, :per_page, :query, :field, :sort_key, :sort_order,  :show_warped, :bbox, :operation, :format, :layer_id, :id)
+    params.permit(:page, :per_page, :query, :field, :sort_key, :sort_order,  :show_warped, :bbox, :operation, :format, :layer_id, :id, :pid)
   end
   
   def find_map

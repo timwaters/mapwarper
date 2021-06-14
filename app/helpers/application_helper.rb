@@ -84,4 +84,8 @@ module ApplicationHelper
     APP_CONFIG["disabled_site"] == true
   end
   
+  def prov_digital_catalog_url(pid)
+   "https://prov.vic.gov.au/archive/#{pid}"
+  end
+
 end

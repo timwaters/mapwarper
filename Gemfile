@@ -79,7 +79,7 @@ gem 'redcarpet'
 
 group :development do
    gem 'web-console', '~> 2.0'
-   gem 'spring'
+  # gem 'spring'
    gem 'thin'
    gem 'capistrano', '~> 3.2.1'
    gem 'capistrano-rails',    :require => false

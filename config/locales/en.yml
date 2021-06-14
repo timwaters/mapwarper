@@ -530,7 +530,7 @@ en:
       my_maps: favourites
       no_maps: You have no warped
       select_map_head: Choose from your Favourites
-      source: Source / Bibliographic Ref URL
+      source: Source URI
     geosearch:
       button: Find Location
       description_html: Move or zoom map - both the map and list will be updated with found layers. <br /> Layers are shown if they have one or more rectified maps within them, and are visible (not a meta collection/layer).
@@ -670,7 +670,7 @@ en:
       title: Editing Map %{map_title} on
     export:
       bibliographic: Biliographic
-      bibliographic_header: 'Biliographic Links:'
+      bibliographic_header: 'Biliographic Links'
       gcp_csv: CSV
       gcp_csv_link: Download control points as CSV
       gcp_header: Ground Control Points
@@ -684,10 +684,12 @@ en:
       kml_link: Download KML file
       missing_file_flash: File Not Found. Perhaps the map has not been rectified yet?
       original: Original File
+      pid: PROV Digital Catalogue
       png: PNG
       png_aux: and associated .aux.xml file
       png_link: Download rectified PNG
       services_header: Map Services
+      source: Source URI
       tiles: Tiles (Google/OSM scheme)
       wms: WMS
       wms_link: WMS Capabilities URL
@@ -709,6 +711,7 @@ en:
       max_size: 'Max size:'
       optional_hint: "(optional)"
       photo_uuid: Photo Number
+      pid: PROV ID
       place: Place of Publication
       place_name: Place Name
       projection: Metadata Projection
@@ -716,7 +719,7 @@ en:
       publisher: Publisher
       reprint: Reprint Date
       scale: Scale
-      source: Source / Bibliographic Ref URL
+      source: Source URI
       subject: Subject Area
       tags: Tags
       tags_hint: "(comma separated)"
@@ -744,12 +747,13 @@ en:
       kml: Download KML
       links: Links
       private: Not listed
+      prov_catalog: PROV Digital Catalogue 
       published: Published
       published_warn: This map has been published by an admin and no further editing is possible
       remove_from_layer: remove map from this mosaic
       remove_my: Unfavourite
       save_my: Add Favourite
-      source: Source / Biblio Ref
+      source: Source URI
       unwarped: Unrectified
       view_map: View Map
       warp_map: Rectify Map
@@ -859,7 +863,7 @@ en:
       success: Map aligned. You can now rectify it!
       unknown_alignment: Sorry, only horizontal and vertical alignment are available at the moment.
     warped:
-      needs_warping: Whoops, the map needs to be rectified before you can view it"
+      needs_warping: Whoops, the map needs to be rectified before you can view it
       title: 'Viewing Rectfied Map '
       transparency: Transparency
       unwarped_notice: Sorry, you'll have to rectify a map before you can view it.

@@ -146,7 +146,7 @@ class MapsController < ApplicationController
     
     @query = params[:query]
     
-    @field = %w(tags title description status publisher authors place_name text).detect{|f| f == (params[:field])}
+    @field = %w(tags title description status publisher authors place_name text pid).detect{|f| f == (params[:field])}
     
     unless @field == "tags"
       
@@ -1033,7 +1033,7 @@ class MapsController < ApplicationController
       :source_uri, :call_number, :publisher, :publication_place, :authors, :date_depicted, :scale,
       :metadata_projection, :metadata_lat, :metadata_lon, :public,
       "published_date(3i)", "published_date(2i)", "published_date(1i)", "reprint_date(3i)", 
-      "reprint_date(2i)", "reprint_date(1i)", :upload_url, :upload, :issue_year, :place_name  ) 
+      "reprint_date(2i)", "reprint_date(1i)", :upload_url, :upload, :issue_year, :place_name, :pid  ) 
   end
   
   def choose_layout_if_ajax

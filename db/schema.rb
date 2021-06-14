@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190322174540) do
+ActiveRecord::Schema.define(version: 20210612100240) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -209,6 +209,7 @@ ActiveRecord::Schema.define(version: 20190322174540) do
     t.boolean  "protect",                                                                                  default: false
     t.text     "mask_geojson"
     t.string   "place_name"
+    t.string   "pid"
   end
 
   add_index "maps", ["bbox_geom"], name: "index_maps_on_bbox_geom", using: :gist
