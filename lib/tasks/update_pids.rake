@@ -24,7 +24,7 @@ namespace :warper do
       next if row[:upload_filename].blank? || row[:pid].blank?
       map = Map.find_by(upload_file_name: row[:upload_filename])
       if map
-        #map.update(:pid, row[:pid] )
+        map.update_column(:pid, row[:pid]) 
         print "."
         success +=1 
       else
@@ -38,7 +38,7 @@ namespace :warper do
       puts fail.inspect
     end
 
-    puts "#{count} rows processed. #{success} maps updated pids. #{fails.count} failures"
+    puts "#{count} rows processed. #{success} maps updated pids. #{fails.count} misses"
 
 
 
