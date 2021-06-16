@@ -24,7 +24,8 @@ namespace :warper do
       next if row[:upload_filename].blank? || row[:pid].blank?
       map = Map.find_by(upload_file_name: row[:upload_filename])
       if map
-        map.update_column(:pid, row[:pid]) 
+        source_uri =  "https://prov.vic.gov.au/archive/#{row[:pid]}"
+        map.update_columns(pid: row[:pid], source_uri: source_uri) 
         print "."
         success +=1 
       else
