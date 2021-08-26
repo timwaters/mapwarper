@@ -1,14 +1,28 @@
-<h3>Privacy / Data / Terms</h3>
+<h2>Privacy / Data / Terms</h2>
 <p>
-  The purpose of this statement is to explain to you what personal information we collect and how we may use it. We do not
+  The purpose of this statement is to explain to you what data is being collected from users and how we may use it. We do not
   sell, rent or exchange your personal information with any third party.
 </p>
-<h4>
-  Maps
-</h4>
+<h3>Mapwarper</h3>
+<p>
+Mapwarper is free to use, open source map warper / map georectifier, and image georeferencer tool for individuals and small groups.  Find maps and other imagery, upload, and rectify against a reference map. You can then download the results and use the warped map in your mapping applications.
+</p>
+
+<h3>Your Data and Contributions</h3>
+
+<p>You contributions and maps are public and available for others to view and use.</p>
+
+<h4> Maps</h4>
+
 <p>
   When you upload maps to mapwarper.net you agree that you are lawfully entitled and have full authority to license mapwarper.net
-  to use any maps uploaded. You can delete your own maps at any time.
+  to use any maps uploaded. You can delete your own maps at any time. Deleting a map also deletes all its associated contributions, such as any control points added by other users.  If you believe someone has uploaded a map that is not theirs, or that you own the copyright to, you can contact me at <%= APP_CONFIG['reply_to'] %>.
+</p>
+
+<h4>Contributions</h4>
+
+<p>
+  You can contribute by adding/deleting/modifying control points of maps in the mapwarper. A control point associates a point on a map with its location on a contemporary map. A collection of control points are then used to warp or rectify a map.  Additionally, you can help others by cropping maps. Cropping maps is done by drawing a polygon or number of polygons around a map. All of these data points are considered your "Contributions" in mapwarper. 
 </p>
 
 <h4>Logins</h4>
@@ -30,16 +44,31 @@
   profile name stored. This is to aid in the system identifying you correctly.
 </p>
 
+<h4 id="use-data">How goes Mapwarper use your data?</h4>
 
-<h4>Account Removal</h4>
 <p>
-  Users can remove their account at any time, by clicking on the "Settings" link. Deleting your account will also delete your
-  uploaded maps.
+We do not  sell, rent or exchange your personal information with any third party. <br />
+
+The maps and contributions that you make are stored on our servers and are open in that are publicly accessible. We may use this information to process other data (e.g. warping another map based on control points) or serve them directly. We may validate or process your contributions by automatic or manual processes (e.g. for analysing error rates of control points.) 
+</p>
+<p>Maps are able to be downloaded and viewed by third parties by e.g. WMS and Tile endpoints. Control points can also be downloaded by others. </p>
+
+
+<h4 id="delete-data">How Can You Delete Your Data or Account?</h4>
+<h5 id="delete-map">Delete my maps</h5>
+<p>Go to the Edit tab of the map you want to delete and click on the "Delete this map" link. This will delete the map from our servers, however, note that maps are publicly available; deleting a map from our servers will not ensure that every copy of it is deleted, since others may have copied or reused the image prior to deletion. If you delete your account, all the maps that you have uploaded are also deleted. This is not reversible. </p>
+
+<h5 id="delete-contributions">Delete my contributions</h5>
+<p>Your contributions are open and public. You can manually delete your contributions, but they will still be recorded in the activity tab of the application. For example, if you put control points on a map and later delete them, the activity tab of the map will show the creation and deletion of the control points and may let other users revert your changes. You cannot wipe out your contributions on others maps, however deleting one of your own maps will delete the contributions associated with it.   It’s important to understand that mapwarper is not able to find, delete, or de-identify any copies of your contributions that other users may have created. </p>
+
+
+<h5 id="delete account">Delete Account</h5>
+<p>
+  Users can delete their account at any time, by clicking on the <%= link_to 'settings link', edit_user_registration_path %> to open your user settings, and clicking the "cancel my account" button. <br />   
+  Deleting your account will also delete your uploaded maps, and any contributions made associated with each map. 
 </p>
 
-<h4>
-  Cookies
-</h4>
+<h3 id="cookies"> What about Cookies? </h3>
 <p>
   Cookies are very small text files that are stored on your computer when you visit some websites.
   <br /> We use cookies to help keep a track of whether you are logged in and to aid site navigation state.
@@ -56,17 +85,17 @@
   behavioural advertising, please visit Add This and visit their Opt Out page: <a href="http://www.addthis.com/privacy/opt-out">http://www.addthis.com/privacy/opt-out</a>
 </p>
 
-<h4>Other uses of your data</h4>
-<h5>IP Addresses</h5>
+<h3>Other uses of your data</h3>
+<h4>IP Addresses</h4>
 <p>
  The IP address of each request is stored in the application and web server logs for the purpose of maintentance, security and  abuse prevention. These logs are deleted after 60 days. Logs are not shared with any third party.
 </p>
-<h5>Map metadata</h5>
-<p>When you upload a map with a title and description, mapwarper.net sends the title and description to the external Geocode.xyz service. This is to attempt to give a best guess place for your map. For example if you upload an image with the title "Paris, France" it may zoom the map to that location for you. No other data is shared.</p>
+<h4>Map metadata</h4>
+<p>When you upload a map with a title and description, mapwarper.net sends the title and description to the external Geocode.xyz service. This is to attempt to give a best guess place for your map. For example if you upload an image with the title "Paris, France" it may zoom the map to that location for you. </p>
 
-<h4>
+<h3>
 License
-</h4>
+</h3>
 <p>
 The software is provided "as is", without warranty of any kind, express or implied, including but not limited to the warranties of merchantability, fitness for a particular purpose and noninfringement. In no event shall the authors or copyright holders be liable for any claim, damages or other liability, whether in an action of contract, tort or otherwise, arising from, out of or in connection with the software or the use or other dealings in the software.
 </p>
