@@ -1,7 +1,7 @@
 <%= link_to ("&lt;"+ t('common.back_link')).html_safe, :back -%>
 <h2> <%= @title %> </h2>
 
-<%=image_tag 'feed-icon-14x14.png' -%> <%= link_to t('.rss_link') , 'http://'+ request.host_with_port + request.path + '.rss' %>&nbsp;
+<%=image_tag 'feed-icon-14x14.png' -%> <%= link_to t('.rss_link') , "#{request.scheme}://" + request.host_with_port + request.path + '.rss' %>&nbsp;
 <% if @linktomap %><%= link_to t('.only_maps') , maps_activity_path %><% end %>
 <br /><br />
 
