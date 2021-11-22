@@ -76,12 +76,12 @@ class Import < ActiveRecord::Base
   end
   
   def import_maps
-    data = open(self.metadata.path)
+    data = IO::read(self.metadata.path).scrub  #scrub converts to utf8 encoding
     map_data = CSV.parse(data, :headers => true, :header_converters => :symbol, :col_sep => "," , :quote_char => '"', :liberal_parsing => true)
     map_data.by_row!
     map_data.each do  | map_row |
       uuid = map_row[:uuid]
-      if Map.exists?(unique_id: uuid)
+      if uuid && Map.exists?(unique_id: uuid)
         map = Map.find_by_unique_id(uuid)
         map.import_id = self.id
         log_info "Map already exists. Adding it to the import" + map.inspect
@@ -95,7 +95,7 @@ class Import < ActiveRecord::Base
      
       published_date = map_row[:published_date]
       issue_year = map_row[:issue_year] 
-      date_depicated = map_row[:date_depicated]
+      date_depicted = map_row[:date_depicted]
       
       # if theres no issue year, convert the year from published date
       unless published_date.blank? && issue_year.blank?
@@ -103,7 +103,7 @@ class Import < ActiveRecord::Base
         issue_year = date.year
       end
 
-      date_depicted = issue_year if date_depicated.blank?
+      date_depicted = issue_year if date_depicted.blank?
     
       description = map_row[:description]
 
@@ -111,7 +111,14 @@ class Import < ActiveRecord::Base
       #unless map_row[:additional_information].blank?
        # description = description +  " Additional Information: " + map_row[:additional_information]
       #end
+      title = map_row[:title]
+      unless title
+        log_info "no title in record skipping #{map_row} "
+        next
+      end
 
+      metadata_lat = numeric?(map_row[:lat]) ?  map_row[:lat] : nil
+      metadata_lon = numeric?(map_row[:lon]) ?  map_row[:lon] : nil 
 
       tag_list = map_row[:tag_list]
       subject_area = map_row[:subject_area] 
@@ -123,12 +130,12 @@ class Import < ActiveRecord::Base
       reprint_date = map_row[:reprint_date]
       publication_place = map_row[:publication_place]
       metadata_projection = map_row[:metadata_projection]
-      metadata_lat = map_row[:lat]
-      metadata_lon = map_row[:lon]
+      metadata_lat = metadata_lat
+      metadata_lon = metadata_lon
       call_number = map_row[:call_number]
 
       map = {
-        title: map_row[:title],
+        title: title,
         description: description,
         date_depicted: date_depicted,
         issue_year: issue_year,
@@ -211,6 +218,12 @@ class Import < ActiveRecord::Base
     if log_filename && log_filename.include?(".log") && File.exists?("#{Rails.root}/log/imports/#{log_filename}")
       File.delete("#{Rails.root}/log/imports/#{log_filename}")
     end
+  end
+
+
+  def numeric?(str)
+    return true if str =~ /\A\d+\z/
+    true if Float(str) rescue false
   end
 
 end
