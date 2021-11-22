@@ -37,8 +37,10 @@ gem "rack", ">= 1.6.12"
 # Use debugger
 # gem 'debugger', group: [:development, :test]
 
-gem 'devise', ">= 4.7.1"
+gem 'devise', ">= 4.7.3"
 gem 'devise-encryptable'
+
+gem 'oauth', ">= 0.5.8"
 
 gem 'omniauth-twitter'
 gem 'omniauth-osm'
@@ -75,7 +77,10 @@ gem 'rails-api'
 gem 'active_model_serializers', git: 'http://github.com/rails-api/active_model_serializers', tag: 'v0.10.5'
 gem 'simple_token_authentication', '~> 1.0'
 gem 'rack-cors', :require => 'rack/cors'
-gem 'redcarpet'
+
+gem "redcarpet", ">= 3.5.1"
+gem "nokogiri", ">= 1.10.10"
+gem 'mimemagic', '~> 0.3.10'
 
 group :development do
    gem 'web-console', '~> 2.0'
