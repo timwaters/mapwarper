@@ -704,7 +704,7 @@ class Map < ActiveRecord::Base
      
     memory_limit = APP_CONFIG["gdal_memory_limit"].blank? ? [] : ["-wm",  APP_CONFIG['gdal_memory_limit'] ]
 
-    command = ["#{GDAL_PATH}gdalwarp", memory_limit, transform_option.strip, resample_option.strip, "-dstalpha", mask_options_array, "-dstnodata", "none", "-s_srs", "EPSG:4326", "#{temp_filename}.vrt", dest_filename, "-co", "TILED=YES", "-co", "COMPRESS=LZW"].reject(&:empty?).flatten
+    command = ["#{GDAL_PATH}gdalwarp", memory_limit, transform_option.strip.split, resample_option.strip, "-dstalpha", mask_options_array, "-dstnodata", "none", "-s_srs", "EPSG:4326", "#{temp_filename}.vrt", dest_filename, "-co", "TILED=YES", "-co", "COMPRESS=LZW"].reject(&:empty?).flatten
     logger.info command
    
     w_stdout, w_stderr = Open3.capture3( *command )
