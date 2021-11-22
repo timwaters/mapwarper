@@ -57,7 +57,7 @@
         <%= link_to(t('layers.layer.kml'), layer_url(:id => layer, :format=>:kml)) %>
       <% end %>
       <div style="clear:both;"></div>
-      <%= render :partial => 'shared/addthis', :locals => {:title => layer.name, :description =>layer.description} %>
+      <%= render :partial => 'shared/addthis', :locals => {:title => layer.name, :description =>layer.description, :image => request.protocol + request.host + layer.thumb } %>
       <%= render :partial => 'shared/export_window', :locals => {:layer => @layer} %>
 
     </span>

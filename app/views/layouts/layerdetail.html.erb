@@ -13,7 +13,14 @@
 
 
     <script type="text/javascript">
-      var addthis_share = {templates: {twitter: '{{url}} (from @<%=APP_CONFIG['addthis_twitter_user']%>)'}};
+      var addthis_share  = {
+          media: "<%=request.protocol + request.host + @layer.thumb%>",
+          passthrough : {
+            twitter: {
+              via: "<%=APP_CONFIG['addthis_twitter_user']%>"
+            }
+          }
+        }
       var addthis_config = {ui_click: true};
 
       jQuery(function() {
