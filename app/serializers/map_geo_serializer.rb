@@ -6,7 +6,7 @@ class MapGeoSerializer < ActiveModel::Serializer
   end
 
   def properties
-    { title: object.title, description: object.description, width: object.width, height: object.height, 
+    { title: object.title, description: object.description, width: object.width, height: object.height, place_name: object.place_name, pid: object.pid, tags: object.cached_tag_list,
       status: object.status, created_at: object.created_at, bbox: object.bbox, thumb_url: object.upload.url(:thumb) }
   end
 

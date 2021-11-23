@@ -1,7 +1,8 @@
 class MapSerializer < ActiveModel::Serializer
   has_many :layers
   belongs_to :owner, :class_name => "User",  :key => :added_by
-  attributes  :id, :title, :description, :width, :height, :status,:mask_status, :created_at, :updated_at, :bbox, :map_type, :source_uri, :unique_id, :date_depicted
+  attributes  :id, :title, :description, :width, :height, :status,:mask_status, :created_at, :updated_at, :bbox, :map_type, :source_uri, :unique_id, :date_depicted, :place_name, :pid
+  attribute :cached_tag_list, key: :tags
   
   link(:self) {     api_v1_map_url(object) }
   
