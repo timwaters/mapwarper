@@ -581,7 +581,7 @@ class MapsController < ApplicationController
     end
     if Layer.exists?(params[:layerid].to_i)
       @layer = Layer.find(params[:layerid].to_i)
-      @maps = @layer.maps.paginate(:per_page => 30, :page => 1, :order => :map_type)
+      @maps = @layer.maps.order(:map_type).paginate(:per_page => 30, :page => 1)
     end
     
     render :text => t('.flash', map_type: @map.map_type)
