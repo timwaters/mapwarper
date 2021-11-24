@@ -54,7 +54,9 @@
       <%# end %>
     <%- if !map.pid.blank? -%>
     <%= t('.links') %>:
+      <span class="prov">
        <%= sanitize(link_to(t('.prov_catalog'), prov_digital_catalog_url(map.pid)),  attributes: %w(href))  %> 
+      </span>
       <%- end -%>
     </div>
 
