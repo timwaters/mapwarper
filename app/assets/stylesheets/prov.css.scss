@@ -481,3 +481,15 @@ input[type="submit"],
 .help a {
   text-decoration: underline;
 }
+
+.map_links {
+
+  a {
+    font-size: 145% !important;
+    color:#0078a3 ;
+  }
+  a:hover, a:focus {
+    color:#015775 ;
+    text-decoration: underline;
+  }
+}
