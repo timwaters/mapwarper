@@ -80,7 +80,7 @@
       <% end -%>
 
       <%if map.warped_or_published? %>
-        | <%= link_to(t('maps.map.kml'), map_url(:id => map, :format=>:kml)) %>  
+        <%- if !map.pid.blank? -%> | <%- end -%> <%= link_to(t('maps.map.kml'), map_url(:id => map, :format=>:kml)) %>  
       <% end %>
 
       <% if admin_authorized? %>
