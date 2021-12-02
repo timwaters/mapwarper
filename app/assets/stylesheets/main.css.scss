@@ -1905,3 +1905,143 @@ div.layer-maps-col {
   padding-top: 10px;
 }
 
+#annotatemap-container {
+  position: relative;
+  z-index: 20;
+  float: right;
+  border: 1px solid gray;
+  width: 80%;
+
+  #slider {
+    margin-bottom: -17px;
+  }
+  #opacity-info {
+    margin-bottom: -27px;
+    bottom: 27px;
+    position: relative;
+    z-index: 29;
+  }
+  
+}
+
+#annotate-sidebar {
+  float: left;
+  width: 19%;
+  left: 0;
+
+  padding: 0;
+  margin: 0;
+  position: relative;
+  z-index: 100;
+
+  #search-box {
+    margin-bottom: 0.5em;
+
+    margin-top: 0.5em;
+    margin-left: 0.5em;
+    input {
+      width: 80%;
+      box-sizing: border-box;
+     
+    }
+    #search-button{
+      width:20%;
+      float:right;
+    }
+  }
+
+  input[type="submit"]{
+    margin-left: 0px;
+  }
+
+
+.alert-info {
+  color: #0c5460;
+  background-color: #d1ecf1;
+  border-color: #bee5eb;
+  padding-right: 10px;
+  padding-left: 10px;
+  margin-bottom: 10px;
+  border: 1px solid transparent;
+  border-top-color: transparent;
+  border-right-color: transparent;
+  border-bottom-color: transparent;
+  border-left-color: transparent;
+  border-radius: 0.25rem;
+}
+
+.form-control{
+  display: block;
+  width: 96%;
+}
+
+.details {
+ margin-top: 1em;
+ font-size: smaller;
+ color: #444;
+}
+
+
+}
+
+ #annotatemap {    
+  position: relative;
+  z-index: 2;
+  height:600px;
+  cursor: crosshair;
+}
+
+.annotationPanel {
+  float:right;
+  right: 0px;
+  height: 32px;
+  width: 110px !important;
+  background: #FFFFFF;
+  border:1px solid gray;
+
+  .olControlNavigationItemActive { 
+    background-image: asset_url("editing_tool_bar_with_pin2.gif");
+    background-repeat: no-repeat;
+    background-position: -103px -23px; 
+  }
+  .olControlNavigationItemInactive { 
+    background-image: asset_url("editing_tool_bar_with_pin2.gif");
+    background-repeat: no-repeat;
+    background-position: -103px -0px; 
+  }
+
+ .olControlDrawFeaturePointItemActive { 
+    background-image: asset_url("editing_tool_bar_with_pin2.gif");
+    background-repeat: no-repeat;
+    background-position: -128px -23px; 
+  }
+  .olControlDrawFeaturePointItemInactive { 
+    background-image: asset_url("editing_tool_bar_with_pin2.gif");
+    background-repeat: no-repeat;
+    background-position: -128px -0px; 
+  }
+
+}
+
+.annotationPanel div { 
+  float:right;
+  width:  24px;
+  height: 24px;
+  margin: 5px;
+}
+
+.annotation_table {
+  thead {
+    background: black;
+    color: white;
+    text-transform: uppercase;
+  }
+  th a {
+    color: white;
+  }
+  td {
+    padding-right: 10px;
+  }
+}
+
+

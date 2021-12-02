@@ -1,0 +1,141 @@
+
+<%unless @map.warped_or_published? && @map.gcps.hard.size > 2 %>
+  <%= t('maps.warped.unwarped_notice') %>
+<% else %>
+  <% content_for :head do %>
+    <%= javascript_include_tag "annotate" %>
+    <style type="text/css">
+      #slider {
+        bottom:50px;
+        margin-left:auto;
+        margin-right:auto;
+        width:25em;
+        z-index:1500;
+      }
+      #opacity-info {
+        margin-left:auto;
+        margin-right:auto;
+        width:10em;
+      }
+    </style>
+    <script type="text/javascript">
+      var map_id = '<%=h @map.id -%>';
+      var title = '<%=u @map.title -%>';
+      var warped_image_width = <%= @map.width %>;
+      var warped_image_height = <%= @map.height %>;
+      var warpedwms_url = '<%= url_for :controller => 'maps', :action => 'wms', :id => @map  -%>';
+      var warped_bounds = new OpenLayers.Bounds(<%=@map.bounds-%>);
+      var layer_baseurl = '<%= url_for(wms_layer_base_path) %>';
+      var layers_array = [<%=@other_layers.join(",")-%>];
+      var warpedtiles_url = '<%= tile_map_base_url %>/';
+      var use_tiles = <%= !user_signed_in? %>;
+      var mask_geojson = <%= @map.mask_status != :masked || @map.mask_geojson.blank? ? false : @map.mask_geojson.html_safe %>;
+      var icon_imgPath = '/assets/icons/';
+      var annotations_url = '<%= url_for(annotations_path)%>';
+  
+    </script>
+
+
+  <% end %>
+
+  <% @onload =  "annotateinit();" -%>
+<div id="annotations">
+
+  <div id="annotate-sidebar">
+  
+    <div id="intro-annotation" >
+      <h3> <%= t('.intro-header') %></h3>
+      <div class="annotation">
+        <p class="alert-info">
+          <%= t('.intro-help') %>
+        </p>
+
+        <p> 
+          <%= t('.intro-extra') %>
+        </p>
+      </div>
+    </div> <!-- intro annotation -->
+  
+  
+  
+    <div id="new-annotation" style="display:none;">
+      <h3><%= t('.new-header') %></h3>
+      <div class="annotation">
+        <p class="alert-info">
+          <%= t('.new-help') %>
+        </p>
+
+      <form action="#">
+        <input type="hidden" name="lon" autocomplete="off">
+        <input type="hidden" name="lat" autocomplete="off">
+        <input type="hidden" id="geom-input" name="geom" autocomplete="off">
+        <div class="form-group">
+          <textarea class="form-control" id="body-input"  name="body" cols="25" rows="10" maxlength="2000" placeholder="<%= t('.new-placeholder') %>"></textarea>
+        </div>
+        <div class="buttons clearfix">
+          <input type="submit" name="add" value="<%= t('.new-add') %>">
+        </div>
+      </form>
+      </div>
+    </div> <!-- new annotation -->
+
+
+    <div id="show-annotation" style="display:none;">
+      <div>
+        <h2></h2>
+      </div>
+
+      <h4><%= t('.show-description') %></h4>
+      <div class="annotation-body">
+        <p></p>
+      </div>
+
+      <div class="details">
+        <ul class="" id="user-details">
+          <li><span id="created-by">Created by joachim-n</span> <abbr title="formatted datetime"><span id="created-ago" title="formatted datetime">4 days ago</span></abbr></li>
+        </ul>
+      </div>
+
+      <div class="actions">
+        <a id="edit-link" href="#">Edit</a>
+        <% if admin_authorized? -%>   
+        | <a id="delete-link" href="#">Delete</a>
+        <% end %>          
+      </div>
+    </div >  <!-- show annotation -->
+
+<!-- 
+    <div id="annotations-list-container">
+      <ul id="annotations-list">
+        <li class="table1">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam 
+        <br ><span style="font-size: smaller;"> Annotated by Bob, 3 Days ago. <a href="" style="font-size: smaller;color: blue;">Edit</a> <a href="" style="font-size: smaller;color: blue;">Delete</a> </span>
+        </li>
+        <li class="table0" style="border: 2px;border-color: #e86728;border-style: solid;">Quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. 
+          <br ><span style="font-size: smaller;"> Annotated by Bob, 3 Days ago. <a href="" style="font-size: smaller;color: blue;">Edit</a> <a href="" style="font-size: smaller;color: blue;">Delete</a> </span>
+        </li>
+        <li class="table1">Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+          <br ><span style="font-size: smaller;"> Annotated by Bob, 3 Days ago. <a href="" style="font-size: smaller;color: blue;">Edit</a> <a href="" style="font-size: smaller;color: blue;">Delete</a> </span>
+        </li>
+        <li class="table0">Odio pellentesque diam volutpat commodo sed egestas egestas fringilla phasellus. Tincidunt nunc pulvinar sapien et ligula ullamcorper malesuada proin libero. Eu facilisis sed odio morbi quis commodo odio aenean sed. Cursus risus at ultrices mi tempus imperdiet nulla malesuada. Viverra mauris in aliquam sem fringilla ut morbi tincidunt augue. Morbi tristique senectus et netus et malesuada fames. 
+          <br ><span style="font-size: smaller;"> Annotated by Bob, 3 Days ago. <a href="" style="font-size: smaller;color: blue;">Edit</a> <a href="" style="font-size: smaller;color: blue;">Delete</a> </span>
+        </li>
+      </ul>
+    </div>
+    --->
+    
+  </div><!-- annotate-sidebar -->
+
+
+  <div id="annotatemap-container">
+    <div id="annotatemap"></div>
+    <div id="slider"><div class="ui-slider-handle"></div> </div>
+   
+    <div id="opacity-info">
+      <%= t('maps.warped.transparency') %>: <input id="opacity" type="text" value="70" size="3" disabled="true" />
+    </div>
+  </div><!-- annotatemap-container -->
+
+
+</div><!-- annotations -->
+<div style="clear: both;"></div>
+<%end %>

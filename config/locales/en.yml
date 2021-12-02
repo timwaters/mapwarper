@@ -49,6 +49,22 @@ en:
         one: map
         other: maps
         zero: maps
+  annotations:
+    annotation:
+      list: List annotations for this map
+    index:
+      actions: Actions
+      annotation: Annotation
+      body: Body Text
+      created: Created at
+      for_map: For Map
+      header: Annotations
+      list_all: List annotations from all maps
+      map: Map
+      search: Search Annotations
+      search_button: Search
+      updated: Updated at
+      user: User     
   application:
     helper:
       breadcrumbs:
@@ -605,6 +621,7 @@ en:
     tabs:
       activity: Activity
       align: Align
+      annotate: Annotate
       comments: Comments
       crop: Crop
       edit: Edit
@@ -640,6 +657,18 @@ en:
       title: 'Align Maps '
       type_label: Type of align
       warped_type: Using rectified map? (worse fit, easier to edit later)
+    annotate:
+       intro-extra:     Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam 
+       intro-header: Annotations
+       intro-help: You can click on annotations to view or edit them. And you can add annotations to the map. Click the marker button and move the marker to the right position and type some text to describe your annotation.
+       new-add: Add Annotation
+       new-header: New Annotation
+       new-help: Add an annotation to the map. Move the marker to the correct position and type some text to describe your annotation.
+       new-placeholder: Your annotation is public and can be viewed by others, so don't enter personal information, or anything not related to the map.
+       show-description: Description
+
+       title: 'Annoate Map '
+       needs_warping: The map needs to be rectified before you can add annotations to it
     clip:
       clip_button: Mask Map!
       clipping_wait_msg_html: "<br />Saving mask...<br />Cropping map..."
@@ -863,7 +892,7 @@ en:
       success: Map aligned. You can now rectify it!
       unknown_alignment: Sorry, only horizontal and vertical alignment are available at the moment.
     warped:
-      needs_warping: Whoops, the map needs to be rectified before you can view it
+      needs_warping: Sorry, the map needs to be rectified before you can view it
       title: 'Viewing Rectfied Map '
       transparency: Transparency
       unwarped_notice: Sorry, you'll have to rectify a map before you can view it.
@@ -904,6 +933,7 @@ en:
     header:
       admin_users: Administer Users
       all_activity: All Activity
+      all_annotations: All Annotations
       all_comments: All Comments
       all_layers: All Mosaics
       all_maps: All Maps

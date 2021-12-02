@@ -102,6 +102,11 @@
           if (ui.panel.id == "Activity_History") {
 
           }
+          if (ui.panel.id == "Annotate") {
+            if (typeof annotatemap != 'undefined') {
+              annotatemap.updateSize();
+            }
+          }
 
 
 
@@ -179,7 +184,9 @@
       {:name=>"export",:divname=>"Export", :label=> t('layouts.tabs.export'), :path=>export_map_path(:id => @map)},
       {:name=>"metadata",:divname=>"Metadata", :label=> t('layouts.tabs.metadata'), :path=>metadata_map_path(:id => @map)},
       {:name=>"activity",:divname=>"Activity_History", :label=> t('layouts.tabs.activity'),:path=> map_activity_path(:id => @map)},
-      {:name=>"comments",:divname=>"Comments", :label=> t('layouts.tabs.comments'), :count=>@map.comments.size.to_s, :path=>comments_map_path(:id => @map)}  ] %>
+      {:name=>"comments",:divname=>"Comments", :label=> t('layouts.tabs.comments'), :count=>@map.comments.size.to_s, :path=>comments_map_path(:id => @map)},
+      {:name=>"annotate",:divname=>"Annotate", :label=> t('layouts.tabs.annotate'), :path=>annotate_map_path(:id => @map)}
+      ] %>
     <div id="wooTabs">
       <ul>
         <% @tabs.each do |tab| %>

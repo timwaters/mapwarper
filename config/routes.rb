@@ -50,6 +50,7 @@ Rails.application.routes.draw do
       # get 'trace'
       # get 'idland'
       patch 'update_year'
+      get 'annotate'
     end
     collection do
         get 'geosearch'
@@ -159,6 +160,8 @@ Rails.application.routes.draw do
   get 'exports' => 'imports#exports'
   
   get '/search' => 'home#search', :as => 'search'
+
+  resources :annotations, except: [:new, :edit]
    
   namespace :api do
     namespace :v1 do

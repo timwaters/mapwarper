@@ -1,0 +1,39 @@
+<h2><%= t('.header') %></h2>
+
+<% if admin_authorized? %>
+ <%= form_tag url_for(:controller => "annotations"), :id=>"searchform",:name=> "searchform", :method => :get do -%>
+    <%= t('.search') %>: <%= text_field_tag 'query', @query -%>
+    <input type="submit" value="<%= t('.search_button') %>" />
+  <% end -%>
+<% end %>
+<h3>
+  <%if @query && @query.length > 0 %>For Query: "<%=@query%>"  <%end-%>
+  <% if  @map %> 
+    <%= t('.for_map') %>: <%= @map.id %> <%= link_to @map.title, @map %> <br />
+    <% if admin_authorized? %>
+      <%= link_to t('.list_all'), annotations_path %>
+    <% end %>
+  <% end %>
+</h3>
+
+<%= will_paginate @annotations %>
+<table class="annotation_table">
+  <thead>
+    <tr>
+      <%= sort_header_tag('id', :title => t('.annotation') ) %>
+      <%= sort_header_tag('created_at', :title => t('.created')) %>
+      <%= sort_header_tag('updated_at', :title => t('.updated')) %>
+      <%= sort_header_tag('body', :title => t('.body')) %>
+      <%= sort_header_tag('map_id', :title => t('.map')) %>
+      <% if admin_authorized? %>
+        <%= sort_header_tag('user_id', :title => t('.user')) %>
+        <th><%= t('.actions') %></th>
+      <% end %>
+    </tr>
+  </thead>
+  <tbody>
+    <%= render :partial => "annotation", :collection => @annotations %>
+  </tbody>
+</table>
+<%= will_paginate @annotations %>
+

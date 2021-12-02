@@ -112,10 +112,10 @@ function get_map_layer(layerid) {
     return map_layer;
 }
 
-function changeOpacity(byOpacity) {
-    var newOpacity = (parseFloat(OpenLayers.Util.getElement('opacity').value) + byOpacity).toFixed(1);
-    newOpacity = Math.min(maxOpacity,
-        Math.max(minOpacity, newOpacity));
-    OpenLayers.Util.getElement('opacity').value = newOpacity;
-    wmslayer.setOpacity(newOpacity);
-}
+// function changeOpacity(byOpacity) {
+//     var newOpacity = (parseFloat(OpenLayers.Util.getElement('opacity').value) + byOpacity).toFixed(1);
+//     newOpacity = Math.min(maxOpacity,
+//         Math.max(minOpacity, newOpacity));
+//     OpenLayers.Util.getElement('opacity').value = newOpacity;
+//     wmslayer.setOpacity(newOpacity);
+// }

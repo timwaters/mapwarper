@@ -1,17 +1,17 @@
 class MapsController < ApplicationController
 
-  layout 'mapdetail', :only => [:show, :edit, :preview, :warp, :clip, :align, :activity, :warped, :export, :metadata, :comments]
+  layout 'mapdetail', :only => [:show, :edit, :preview, :warp, :clip, :align, :activity, :warped, :export, :metadata, :comments, :annotate]
   
   before_filter :store_location, :only => [:warp, :align, :clip, :export, :edit, :comments ]
   
-  before_filter :authenticate_user!, :only => [:new, :create, :edit, :update, :destroy, :delete, :warp, :rectify, :clip, :align, :warp_align, :mask_map, :delete_mask, :save_mask, :save_mask_and_warp, :set_rough_state, :set_rough_centroid, :publish, :trace, :id, :map_type, :update_year]
+  before_filter :authenticate_user!, :only => [:new, :create, :edit, :update, :destroy, :delete, :warp, :rectify, :clip, :align, :warp_align, :mask_map, :delete_mask, :save_mask, :save_mask_and_warp, :set_rough_state, :set_rough_centroid, :publish, :trace, :id, :map_type, :update_year, :annotate]
  
   before_filter :check_administrator_role, :only => [:publish, :csv, :new, :create, :destroy, :delete]
  
   before_filter :find_map_if_available,
     :except => [:show, :index, :wms, :tile, :mapserver_wms, :warp_aligned, :status, :new, :create, :update, :edit, :tag, :geosearch, :csv]
 
-  before_filter :check_link_back, :only => [:show, :warp, :clip, :align, :warped, :export, :activity]
+  before_filter :check_link_back, :only => [:show, :warp, :clip, :align, :warped, :export, :activity, :annotate]
   before_filter :check_if_map_is_editable, :only => [:edit, :update, :map_type]
   before_filter :check_if_map_can_be_deleted, :only => [:destroy, :delete]
   #skip_before_filter :verify_authenticity_token, :only => [:save_mask, :delete_mask, :save_mask_and_warp, :mask_map, :rectify, :set_rough_state, :set_rough_centroid]
@@ -574,6 +574,23 @@ class MapsController < ApplicationController
     render "idland", :layout => false
   end
   
+  def annotate
+    @current_tab = "annotate"
+    @selected_tab = 11
+    @html_title = t('.title')+ @map.id.to_s
+
+    if @map.warped_or_published? && @map.gcps.hard.size > 2
+      @other_layers = Array.new
+      @map.layers.visible.each do |layer|
+        @other_layers.push(layer.id)
+      end
+     
+    else
+      flash.now[:notice] = t('maps.warped.needs_warping')
+    end
+    choose_layout_if_ajax
+  end
+
   ###############
   #
   # Other / API actions 

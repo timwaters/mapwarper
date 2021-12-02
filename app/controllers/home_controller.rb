@@ -33,7 +33,7 @@ class HomeController < ApplicationController
   # per_page : limit number of records (optional)
   def search
     per_page = params[:per_page] || 50
-    logger.debug per_page
+    #logger.debug per_page
     @results = PgSearch.multisearch(params[:query].to_s).limit(per_page.to_i)
   end
   
