@@ -45,7 +45,7 @@ class AnnotationsController < ApplicationController
   end
 
   def show
-    render :json => @annotation, :status => :ok, :serializer => ActiveModel::Serializer::AnnotationSerializer 
+    render :json => @annotation, :status => :ok
   end
 
   def create
@@ -53,9 +53,9 @@ class AnnotationsController < ApplicationController
     @annotation.user = current_user
 
     if @annotation.save
-      render :json => @annotation, :status => :ok, :serializer => ActiveModel::Serializer::AnnotationSerializer 
+      render :json => @annotation, :status => :ok
     else
-      render :json => @annotation, :status => :unprocessable_entity, :serializer => ActiveModel::Serializer::AnnotationSerializer 
+      render :json => @annotation, :status => :unprocessable_entity
     end
 
   end
