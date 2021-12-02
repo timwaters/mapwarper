@@ -170,8 +170,8 @@ function annotateinit() {
               loadAnnotations();
               selectAnnoId = data.data.id;
               
-              //reload annotations and/or
-              //show the selected annotation
+              jQuery("#geom-input").val("");
+              jQuery("#body-input").val("");
             }).fail(function() {
               console.log("fail")
           });
