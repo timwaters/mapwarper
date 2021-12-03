@@ -198,9 +198,18 @@ function annotateinit() {
       jQuery("#show-annotation h2").text("Annotation #"+feature.data.id);
       jQuery("#show-annotation .annotation-body p").text(feature.data.body);
       jQuery("#show-annotation #user-details span#created-by").text("Created by "+feature.data.user.login );
-      jQuery("#show-annotation #user-details li abbr").attr("title", feature.data.created_at)
-      jQuery("#show-annotation #user-details span#created-ago").attr("title", feature.data.created_at)
-      jQuery("#show-annotation #user-details span#created-ago").text(feature.data.created_ago + " ago")
+      jQuery("#show-annotation #user-details li abbr").attr("title", feature.data.created_at);
+      jQuery("#show-annotation #user-details span#created-ago").attr("title", feature.data.created_at);
+      jQuery("#show-annotation #user-details span#created-ago").text(feature.data.created_ago + " ago");
+
+      jQuery("#show-annotation #delete-link").attr({
+        "data-confirm": "Really delete this annotation?",
+        "data-method": "delete",
+        "rel": "nofollow",
+        "href": annotations_url + "/" + feature.data.id +"?return=map"
+      });
+      jQuery("#show-annotation #delete-link").text("Delete")    
+
 
       jQuery("#intro-annotation").hide();
       jQuery("#show-annotation").show();

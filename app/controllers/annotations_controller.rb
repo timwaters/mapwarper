@@ -72,7 +72,11 @@ class AnnotationsController < ApplicationController
       flash[:error] = t('.error')
     end
     
-    redirect_to :action => 'index'
+    if params[:return] == "map"
+      redirect_to map_path(:id => @annotation.map.id, :anchor=>"Annotate_tab")
+    else
+      redirect_to :action => 'index'
+    end
   end
 
   private
