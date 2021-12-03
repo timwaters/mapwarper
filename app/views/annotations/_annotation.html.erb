@@ -7,6 +7,6 @@
 
   <% if admin_authorized? %>
     <td><%= link_to annotation.user.login, annotation.user %> </td>
-    <td>action links</td>
+    <td><%= link_to t('.delete_link'), url_for(:controller => "annotations", :action => "destroy", :id => annotation.id), :method => :delete, :data => {:confirm => t('.confirm_delete')} %></td>
   <% end -%>
 </tr>

@@ -51,7 +51,13 @@ en:
         zero: maps
   annotations:
     annotation:
+      confirm_delete: Really delete this annotation?
+      delete_link: Delete
       list: List annotations for this map
+    destroy:
+      error: Error deleting annotation
+      notice: Annotation deleted
+
     index:
       actions: Actions
       annotation: Annotation

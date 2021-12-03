@@ -2,6 +2,8 @@ class AnnotationsController < ApplicationController
   
   before_filter :authenticate_user!
   before_filter :find_annotation, :only => [:show, :update, :destroy]
+  before_filter :check_administrator_role, :only =>  [:destroy]
+
   rescue_from ActiveRecord::RecordNotFound, :with => :bad_record
 
   helper :sort
@@ -64,6 +66,13 @@ class AnnotationsController < ApplicationController
   end
 
   def destroy
+    if @annotation.destroy
+      flash[:notice] = t('.notice')
+    else
+      flash[:error] = t('.error')
+    end
+    
+    redirect_to :action => 'index'
   end
 
   private
