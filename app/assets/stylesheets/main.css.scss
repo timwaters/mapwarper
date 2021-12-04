@@ -1998,7 +1998,7 @@ div.layer-maps-col {
   float:right;
   right: 0px;
   height: 32px;
-  width: 110px !important;
+  width: 69px !important;
   background: #FFFFFF;
   border:1px solid gray;
 
@@ -2014,14 +2014,14 @@ div.layer-maps-col {
   }
 
  .olControlDrawFeaturePointItemActive { 
-    background-image: asset_url("editing_tool_bar_with_pin2.gif");
+    background-image: asset_url("annotation_marker_add.png");
     background-repeat: no-repeat;
-    background-position: -128px -23px; 
+    background-position: -1px -23px; 
   }
   .olControlDrawFeaturePointItemInactive { 
-    background-image: asset_url("editing_tool_bar_with_pin2.gif");
+    background-image: asset_url("annotation_marker_add.png");
     background-repeat: no-repeat;
-    background-position: -128px -0px; 
+    background-position: -1px -0px; 
   }
 
 }
