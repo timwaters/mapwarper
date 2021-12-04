@@ -74,10 +74,35 @@
         </div>
         <div class="buttons clearfix">
           <input type="submit" name="add" value="<%= t('.new-add') %>">
+          <a href="" id="cancel" class="buttonWarperBlue" name="cancel"><%= t('.cancel') %> </a>
         </div>
       </form>
       </div>
     </div> <!-- new annotation -->
+
+
+    <div id="edit-annotation" style="display:none;">
+      <h3><%= t('.edit-header') %></h3>
+      <div class="annotation">
+        <p class="alert-info">
+          <%= t('.edit-help') %>
+        </p>
+
+      <form action="#">
+        <input type="hidden" name="lon" autocomplete="off">
+        <input type="hidden" name="lat" autocomplete="off">
+        <input type="hidden" id="annotation-id" autocomplete="off">
+        <input type="hidden" id="edit-geom-input" name="geom" autocomplete="off">
+        <div class="form-group">
+          <textarea class="form-control" id="edit-body-input"  name="body" cols="25" rows="10" maxlength="2000" placeholder="<%= t('.new-placeholder') %>"></textarea>
+        </div>
+        <div class="buttons clearfix">
+          <input type="submit" name="edit" value="<%= t('.edit') %>">
+          <a href="" id="cancel" class="buttonWarperBlue" name="cancel"><%= t('.cancel') %> </a>
+        </div>
+      </form>
+      </div>
+    </div> <!-- edit annotation -->
 
 
     <div id="show-annotation" style="display:none;">
@@ -97,9 +122,9 @@
       </div>
 
       <div class="actions">
-        <a id="edit-link" href="#">Edit</a>
+        <a id="edit-link" href="">Edit</a>
         <% if admin_authorized? -%>   
-        | <a id="delete-link" href="#">Delete</a>
+        | <a id="delete-link" href="">Delete</a>
         <% end %>          
       </div>
     </div >  <!-- show annotation -->

@@ -143,11 +143,11 @@ function annotateinit() {
 
     var panel = new OpenLayers.Control.Panel( {displayClass: 'annotationPanel'} );
     
-    var addFeature = new OpenLayers.Control.DrawFeature(active_layer, OpenLayers.Handler.Point,
+    var addFeatureControl = new OpenLayers.Control.DrawFeature(active_layer, OpenLayers.Handler.Point,
       {displayClass: 'olControlDrawFeaturePoint', title: "add annotation", handlerOptions: {style: active_style}});
-      addFeature.featureAdded = function(feature) {
-        addNewAnnotation(feature);
-      };
+    addFeatureControl.featureAdded = function(feature) {
+      addNewAnnotation(feature);
+    };
 
 
     //form listen and submit
@@ -180,6 +180,36 @@ function annotateinit() {
       }
     );
 
+    jQuery("#edit-annotation form").submit(
+      function(event){
+        event.preventDefault();
+  
+        if (jQuery("#edit-geom-input").val().length > 1){
+
+          var url = annotations_url + "/"+jQuery("#annotation-id").val() ;
+          var body = jQuery("#edit-body-input").val();
+          var geom = jQuery("#edit-geom-input").val();
+
+          var request = jQuery.ajax({
+            type: "PUT",
+            url: url,
+            data: {body: body, geom: geom}}
+            ).done(function( data) {
+              active_layer.destroyFeatures();
+              annotations_layer.setVisibility(true);
+              loadAnnotations();
+              selectAnnoId = data.data.id;
+              
+              jQuery("#edit-geom-input").val("");
+              jQuery("#edit-body-input").val("");
+            }).fail(function() {
+              console.log("fail")
+          });
+
+        }
+      }
+    );
+
     //load annotations
     loadAnnotations();
 
@@ -189,10 +219,43 @@ function annotateinit() {
       onUnselect: function() { annotations_layer.redraw();}
     });
 
-    panel.addControls([addFeature, selectControl])
+    //edit control
+    editFeatureControl = new OpenLayers.Control.DrawFeature(active_layer, OpenLayers.Handler.Point,
+      {displayClass: 'olControlDrawFeaturePoint', title: "edit annotation", handlerOptions: {style: active_style}});
+    editFeatureControl.featureAdded = function(feat) {
+      if (feat.layer.features.length > 1) {
+        var to_destroy = new Array();
+        for (var a = 0; a < feat.layer.features.length; a++) {
+          if (feat.layer.features[a] != feat) {
+            to_destroy.push(feat.layer.features[a]);
+          }
+        }
+          feat.layer.destroyFeatures(to_destroy);
+      } 
+      var latlon =  new OpenLayers.LonLat(feat.geometry.x, feat.geometry.y).transform(annotatemap.projection, annotatemap.displayProjection);
+      jQuery("#edit-geom-input").val("POINT("+ latlon.lon + " "+ latlon.lat + ")")
+    };
+
+    annotatemap.addControl(editFeatureControl)
+
+    panel.addControls([addFeatureControl, selectControl])
     annotatemap.addControl(panel)
 
     selectControl.activate();
+
+    //handle all cancels
+    jQuery("#annotations #cancel").off().click(function(e){
+      e.preventDefault();
+      annotations_layer.setVisibility(true);
+      selectControl.activate();
+      editFeatureControl.deactivate();
+      addFeatureControl.deactivate();
+      jQuery("#intro-annotation").show();
+      jQuery("#show-annotation").hide();
+      jQuery("#new-annotation").hide();
+      jQuery("#edit-annotation").hide();
+    
+    })
 
     function showAnnotation(feature){
       jQuery("#show-annotation h2").text("Annotation #"+feature.data.id);
@@ -208,26 +271,67 @@ function annotateinit() {
         "rel": "nofollow",
         "href": annotations_url + "/" + feature.data.id +"?return=map"
       });
-      jQuery("#show-annotation #delete-link").text("Delete")    
+      jQuery("#show-annotation #delete-link").text("Delete")  
+      
+      var selector = "#show-annotation #edit-link[data-annotation-id=" + feature.data.id+"]";
+      jQuery("#show-annotation #edit-link").attr("data-annotation-id", feature.data.id);
+      
+      jQuery(selector).off().click(function(e){
+        // probably needless extra id wrangling here...
+        editAnnotationClick(jQuery(this).attr('data-annotation-id'));
+        jQuery("#edit-body-input").val(feature.data.body)
+        var title = "Edit Annotation: "+feature.data.id;
+        jQuery("#edit-annotation h3").text(title); 
+        jQuery("#annotation-id").val(jQuery(this).attr('data-annotation-id'))
+        e.preventDefault();
+      });
 
-
-      jQuery("#intro-annotation").hide();
       jQuery("#show-annotation").show();
+      jQuery("#new-annotation").hide();
+      jQuery("#intro-annotation").hide();
+      jQuery("#edit-annotation").hide();
 
       annotations_layer.redraw();
     }
 
+    function editAnnotationClick(feature){
 
-    addFeature.events.register("activate", this, function() {
+      jQuery("#edit-annotation").show();
+      jQuery("#new-annotation").hide();
+      jQuery("#intro-annotation").hide();
+      jQuery("#show-annotation").hide();
+
+      selectControl.unselectAll();
+      editFeatureControl.activate();
+
+      var featureToEdit;
+      for (var a=0;a<annotations_layer.features.length;a++){
+        if (annotations_layer.features[a].data.id == feature) {
+          featureToEdit = annotations_layer.features[a];
+          break;
+        }
+      }
+      editFeatureControl.drawFeature(featureToEdit.geometry)
+      
+      active_layer.setVisibility(true);
+      annotations_layer.setVisibility(false);
+    }
+
+
+    addFeatureControl.events.register("activate", this, function() {
+      active_layer.destroyFeatures();
+       
       jQuery("#new-annotation").show();
       jQuery("#show-annotation").hide();
       jQuery("#intro-annotation").hide();
-     
+      jQuery("#edit-annotation").hide();
+      annotations_layer.setVisibility(true);
+      annotations_layer.redraw();
       active_layer.setVisibility(true);
       selectControl.unselectAll();
     });
 
-    addFeature.events.register("deactivate", this, function() {
+    addFeatureControl.events.register("deactivate", this, function() {
       jQuery("#new-annotation").hide();
       jQuery("#intro-annotation").show();
       active_layer.setVisibility(false);
@@ -235,29 +339,27 @@ function annotateinit() {
     });
 
     function selectAnnotation(annotation_id){
-
       var featureToShow;
       for (var a=0;a<annotations_layer.features.length;a++){
         if (annotations_layer.features[a].data.id == annotation_id) {
           featureToShow = annotations_layer.features[a];
-        //  break;
+          break;
         }
       }
       if (featureToShow){
         selectControl.activate();
-        addFeature.deactivate();
+        addFeatureControl.deactivate();
+        editFeatureControl.deactivate();
         selectControl.select(featureToShow);
         showAnnotation(featureToShow)
       }
-
-    }
+    } 
   
     
-}
+} // main init function
 
 
 function loadAnnotations(){
-  //may want to delete current features here
   if (annotations_layer.features.length  > 0){
     annotations_layer.destroyFeatures();
   }

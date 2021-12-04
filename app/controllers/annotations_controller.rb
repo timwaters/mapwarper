@@ -63,6 +63,13 @@ class AnnotationsController < ApplicationController
   end
 
   def update
+    if @annotation.update(annotation_params.except(:map_id))
+      flash[:notice] = t('.flash')
+      render :json => @annotation, :status => :ok
+    else
+      flash[:error] = t('.error')
+      render :json => @annotation, :status => :unprocessable_entity
+    end
   end
 
   def destroy

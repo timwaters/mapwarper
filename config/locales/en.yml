@@ -57,7 +57,6 @@ en:
     destroy:
       error: Error deleting annotation
       notice: Annotation deleted
-
     index:
       actions: Actions
       annotation: Annotation
@@ -70,7 +69,10 @@ en:
       search: Search Annotations
       search_button: Search
       updated: Updated at
-      user: User     
+      user: User
+    update:
+      notice: Annotation updated
+      error:  Error updating annotation   
   application:
     helper:
       breadcrumbs:
@@ -664,6 +666,10 @@ en:
       type_label: Type of align
       warped_type: Using rectified map? (worse fit, easier to edit later)
     annotate:
+       cancel: Cancel
+       edit: Update
+       edit-header: Edit Annotation
+       edit-help: Edit an existing annotation on the map. You can set the new marker to a position and type some text to change the annotation text.
        intro-extra:     Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam 
        intro-header: Annotations
        intro-help: You can click on annotations to view or edit them. And you can add annotations to the map. Click the marker button and move the marker to the right position and type some text to describe your annotation.
