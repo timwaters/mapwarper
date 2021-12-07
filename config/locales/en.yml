@@ -476,6 +476,12 @@ en:
       no_map_alert: Sorry, either no map was selected, or the same map number was entered
       not_enough_maps_alert: Sorry, but there should be at least two maps selected
       wrong_align_alert: Sorry, only horizontal and vertical alignment are available at the moment
+    annotate:
+      ago: ago
+      created_by: Created by
+      confirm_delete: Really delete this annotation?
+      delete: Delete
+      edit: Edit Annotation
     clip:
       clip_popup_title: Clipping...
       confirm_delete_tool: Really delete this?

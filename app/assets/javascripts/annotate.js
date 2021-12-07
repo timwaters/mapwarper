@@ -277,18 +277,18 @@ function annotateinit() {
     function showAnnotation(feature){
       jQuery("#show-annotation h2").text("Annotation #"+feature.data.id);
       jQuery("#show-annotation .annotation-body p").text(feature.data.body);
-      jQuery("#show-annotation #user-details span#created-by").text("Created by "+feature.data.user.login );
+      jQuery("#show-annotation #user-details span#created-by").text(I18n['annotate']['created_by']+ " "+feature.data.user.login );
       jQuery("#show-annotation #user-details li abbr").attr("title", feature.data.created_at);
       jQuery("#show-annotation #user-details span#created-ago").attr("title", feature.data.created_at);
-      jQuery("#show-annotation #user-details span#created-ago").text(feature.data.created_ago + " ago");
+      jQuery("#show-annotation #user-details span#created-ago").text(feature.data.created_ago + " " + I18n['annotate']['ago']);
 
       jQuery("#show-annotation #delete-link").attr({
-        "data-confirm": "Really delete this annotation?",
+        "data-confirm": I18n['annotate']['confirm_delete'],
         "data-method": "delete",
         "rel": "nofollow",
         "href": annotations_url + "/" + feature.data.id +"?return=map"
       });
-      jQuery("#show-annotation #delete-link").text("Delete")  
+      jQuery("#show-annotation #delete-link").text(I18n['annotate']['delete'])  
       
       var selector = "#show-annotation #edit-link[data-annotation-id=" + feature.data.id+"]";
       jQuery("#show-annotation #edit-link").attr("data-annotation-id", feature.data.id);
@@ -297,7 +297,7 @@ function annotateinit() {
         // probably needless extra id wrangling here...
         editAnnotationClick(jQuery(this).attr('data-annotation-id'));
         jQuery("#edit-body-input").val(feature.data.body)
-        var title = "Edit Annotation: "+feature.data.id;
+        var title = I18n['annotate']['edit'] + ": "+feature.data.id;
         jQuery("#edit-annotation h3").text(title); 
         jQuery("#annotation-id").val(jQuery(this).attr('data-annotation-id'))
         e.preventDefault();
