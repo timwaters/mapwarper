@@ -1,9 +1,9 @@
 <tr class="<%= cycle('table0', 'table1') -%>">
-  <td><%=  link_to( annotation.id, map_path(:id => annotation.map.id, :anchor=>"Annotate_tab")) %></td>
+  <td><%=  link_to( annotation.id, map_path(:id => annotation.map.id, :anchor=>"Annotate_tab&annotation=#{annotation.id}")) %></td>
   <td><%= time_ago_in_words(annotation.created_at) -%> ago</td>
   <td><%= time_ago_in_words(annotation.updated_at) -%> ago </td>
   <td><%= annotation.body %></td>
-  <td> <%= link_to(annotation.map.id, map_path(:id => annotation.map.id, :anchor=>"Annotate_tab")) -%>  | <%= link_to(t('.list'), annotations_path(:map_id => annotation.map.id)) -%> </td>
+  <td> <%= link_to(annotation.map.id, map_path(:id => annotation.map.id, :anchor=>"Annotate_tab&annotation=#{annotation.id}")) -%>  | <%= link_to(t('.list'), annotations_path(:map_id => annotation.map.id)) -%> </td>
 
   <% if admin_authorized? %>
     <td><%= link_to annotation.user.login, annotation.user %> </td>
