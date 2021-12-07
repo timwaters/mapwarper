@@ -310,7 +310,7 @@ function annotateinit() {
 
       annotations_layer.redraw();
 
-      window.location.hash = "Annotate_tab" + "&annotation="+ feature.data.id;  //updates the hash
+      window.history.replaceState(undefined, undefined, "#Annotate_tab" + "&annotation="+ feature.data.id);  //updates the hash
     }
 
     function editAnnotationClick(feature){
