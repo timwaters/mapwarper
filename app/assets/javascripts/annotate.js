@@ -373,7 +373,11 @@ function annotateinit() {
         showAnnotation(featureToShow);
       }
     } 
-  
+    jQuery("#add-new-button").off().click(function(e){
+      addFeatureControl.activate();
+      e.preventDefault();
+    });
+    
     
 } // main init function
 

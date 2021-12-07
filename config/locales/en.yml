@@ -669,14 +669,14 @@ en:
        cancel: Cancel
        edit: Update
        edit-header: Edit Annotation
-       edit-help: Edit an existing annotation on the map. You can set the new marker to a position and type some text to change the annotation text.
-       intro-extra:     Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam 
+       edit-help: Edit an existing annotation on the map. You can set the new marker to a position by clicking on the map and type some text below to change the annotation text.
+       intro-extra: To view an annotation, start by clicking a marker on the map. You can add new annotations to the map by clicking the button below. 
        intro-header: Annotations
-       intro-help: You can click on annotations to view or edit them. And you can add annotations to the map. Click the marker button and move the marker to the right position and type some text to describe your annotation.
+       intro-help: You can click on annotations on the map to view then here. Annotations are areas on the map which are described about. You can use them to add information or labels from the map, or to transcribe features. 
        new-add: Add Annotation
        new-header: New Annotation
-       new-help: Add an annotation to the map. Move the marker to the correct position and type some text to describe your annotation.
-       new-placeholder: Your annotation is public and can be viewed by others, so don't enter personal information, or anything not related to the map.
+       new-help: Add an annotation to the map. Click on the map to make a new marker at the desired position and type some text to describe your thing you are annotating.
+       new-placeholder: Your annotation is public and can be viewed by others, so don't enter personal information, or anything not related to the map shown.
        show-description: Description
 
        title: 'Annoate Map '
