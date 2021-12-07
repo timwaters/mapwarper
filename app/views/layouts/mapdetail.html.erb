@@ -119,6 +119,7 @@
       // PageLoad function
       // This function is called when  1. after calling $.historyInit(); 2. after calling $.historyLoad(); 3. after pushing "Go Back" button of a browser
       var tabSuffix = "_tab"; //suffix to be added to link to stop jumping
+     
       function pageload(hash) {
         if (hash) {
           // restore ajax loaded state
@@ -126,6 +127,25 @@
             // jquery's $.load() function does't work when hash include special characters like aao.
             hash = encodeURIComponent(hash);
           }
+
+          var hashParams = {};
+          //hashParams parsing  adapted from https://stackoverflow.com/a/4198132 cc-by-sa
+          var e,
+              a = /\+/g,  // Regex for replacing addition symbol with a space
+              r = /([^&;=]+)=?([^&;]*)/g,
+              d = function (s) { return decodeURIComponent(s.replace(a, " ")); },
+              q = hash
+          while (e = r.exec(q)) {
+            hashParams[d(e[1])] = d(e[2]);
+          }
+          
+          for (var key in hashParams) {
+            if (hashParams[key] === ""){
+              hash = key
+              break;
+            }
+          }
+
           hash = hash.slice(0, -tabSuffix.length)
           var tab_divs = jQuery("div.ui-tabs-panel", jQuery("#wooTabs").tabs());
           var select_tab_index = 0;

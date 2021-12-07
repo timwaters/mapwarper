@@ -7,6 +7,23 @@ var selectAnnoId = "";
 
 
 function annotateinit() {
+
+    //hashParams parsing adapted from https://stackoverflow.com/a/4198132 cc-by-sa
+    var hashParams = {};
+    var e,
+        a = /\+/g,  // Regex for replacing addition symbol with a space
+        r = /([^&;=]+)=?([^&;]*)/g,
+        d = function (s) { return decodeURIComponent(s.replace(a, " ")); },
+        q = window.location.hash.substring(1);
+    while (e = r.exec(q)) {
+      hashParams[d(e[1])] = d(e[2]);
+    }
+    
+    if (hashParams.hasOwnProperty("annotation")){
+      selectAnnoId = hashParams["annotation"]
+    }
+
+
     OpenLayers.IMAGE_RELOAD_ATTEMPTS = 3;
     OpenLayers.Util.onImageLoadErrorColor = "transparent";
     var options_warped = {
@@ -292,6 +309,8 @@ function annotateinit() {
       jQuery("#edit-annotation").hide();
 
       annotations_layer.redraw();
+
+      window.location.hash = "Annotate_tab" + "&annotation="+ feature.data.id;  //updates the hash
     }
 
     function editAnnotationClick(feature){
@@ -351,7 +370,7 @@ function annotateinit() {
         addFeatureControl.deactivate();
         editFeatureControl.deactivate();
         selectControl.select(featureToShow);
-        showAnnotation(featureToShow)
+        showAnnotation(featureToShow);
       }
     } 
   
