@@ -403,6 +403,14 @@ function loadAnnotations(){
           features[a].data.id = data[a].id;
         }
         annotations_layer.addFeatures(features);
+        if (data.length == 1){
+          jQuery(".intro-count").text(I18n['annotate']['count_one'])
+        }else {
+          jQuery(".intro-count").text(data.length + " " +I18n['annotate']['count_many'])
+        }
+        
+      }else{
+        jQuery(".intro-count").text(I18n['annotate']['count_none'])
       }
   
 
