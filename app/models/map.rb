@@ -9,6 +9,7 @@ class Map < ActiveRecord::Base
   has_many :layers, :through => :layers_maps # ,:after_add, :after_remove
   has_many :my_maps, :dependent => :destroy
   has_many :users, :through => :my_maps
+  has_many  :annotations
   belongs_to :owner, :class_name => "User"
   
   has_attached_file :upload, :styles => {:thumb => ["100x100>", :png]} ,

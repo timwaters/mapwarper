@@ -2068,7 +2068,14 @@ div.layer-maps-col {
       .search-title a{
         text-decoration: underline;
         font-size: larger;
+        font-weight: bolder;
       }
+  }
+  #map_table {
+    font-size: smaller;
+    .count {
+      font-weight: normal;
+    }
   }
   #map_table tr {
     border-left: 0px !important;

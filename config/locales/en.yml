@@ -58,6 +58,9 @@ en:
       added_by: Added by User
       annotation:  Annotation
       at: Created At
+      count: 
+        one: "(%{count} annotation)"
+        other: "(%{count} annotations)"
       confirm_delete: Really delete this annotation?
       delete_link: Delete
       list: List annotations for this map

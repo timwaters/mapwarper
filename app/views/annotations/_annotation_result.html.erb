@@ -15,7 +15,7 @@
     </td>
    <td>
      <div class="maplist_title">
-      <%=link_to(strip_brackets(annotation.map.title), map_path(:id => annotation.map.id, :anchor=>"Annotate_tab&annotation=#{annotation.id}")) %>     </div>
+      <%=link_to(strip_brackets(annotation.map.title), map_path(:id => annotation.map.id, :anchor=>"Annotate_tab&annotation=#{annotation.id}")) %>  <span class="count"><%= t('.count', count: annotation.map.annotations.count) -%></span>    </div>
       <div class="map_description"><span><%=strip_brackets(annotation.map.description) -%></div>
     </div>
     </td>
