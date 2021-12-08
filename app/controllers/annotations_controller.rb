@@ -34,12 +34,7 @@ class AnnotationsController < ApplicationController
       map_conditions = nil
     end
     
-  #  unless @query && @query.strip.length > 0
-  #    @annotations = Annotation.where(nil).where(map_conditions).order(sort_clause).paginate(:page=> params[:page], :per_page => 50)
-  #  else
-      @annotations = Annotation.body_search(@query).where(map_conditions).with_pg_search_highlight.order(sort_clause).paginate(:page=> params[:page], :per_page => 50)
-  #  end
-
+    @annotations = Annotation.body_search(@query).where(map_conditions).with_pg_search_highlight.order(sort_clause).paginate(:page=> params[:page], :per_page => 50)
 
   end
 
@@ -91,19 +86,19 @@ class AnnotationsController < ApplicationController
 
   def update
     if @annotation.update(annotation_params.except(:map_id))
-      flash[:notice] = t('.notice')
+      flash.now[:notice] = t('.notice')
       render :json => @annotation, :status => :ok
     else
-      flash[:error] = t('.error')
+      flash.now[:error] = t('.error')
       render :json => @annotation, :status => :unprocessable_entity
     end
   end
 
   def destroy
     if @annotation.destroy
-      flash[:notice] = t('.notice')
+      flash.now[:notice] = t('.notice')
     else
-      flash[:error] = t('.error')
+      flash.now[:error] = t('.error')
     end
     
     if params[:return] == "map"
