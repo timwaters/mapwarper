@@ -54,6 +54,15 @@ en:
       confirm_delete: Really delete this annotation?
       delete_link: Delete
       list: List annotations for this map
+    annotation_result:
+      added_by: Added by User
+      annotation:  Annotation
+      at: Created At
+      confirm_delete: Really delete this annotation?
+      delete_link: Delete
+      list: List annotations for this map
+      from_map: from Map
+      updated: Last updated
     destroy:
       error: Error deleting annotation
       notice: Annotation deleted
@@ -66,9 +75,26 @@ en:
       header: Annotations
       list_all: List annotations from all maps
       map: Map
+      relevance: Relevance
       search: Search Annotations
       search_button: Search
       updated: Updated at
+      user: User
+    search:
+      actions: Actions
+      annotation: Annotation
+      body: Annotation
+      created: Created at
+      for_map: For Map
+      header: Find Annotations
+      list_all: List annotations from all maps
+      map: On Map
+      no_results: No Results Found
+      no_results_help: Try different or fewer keywords, and make sure words are spelled correctly.
+      results: 'Searched for '
+      search: Search Annotations
+      search_button: Search
+      updated: Last Updated
       user: User
     update:
       notice: Annotation updated
@@ -76,6 +102,7 @@ en:
   application:
     helper:
       breadcrumbs:
+        annotations: Annotations
         home: Home
         layer: Mosaic %{layer_id}
         layers: Mosaics
@@ -977,6 +1004,7 @@ en:
       rectified_maps: Browse Rectified Maps
     search:
       all_maps: All maps
+      annotation: Annotations
       author: Author
       button: Search
       description: Description

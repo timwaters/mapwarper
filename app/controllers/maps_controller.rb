@@ -146,8 +146,12 @@ class MapsController < ApplicationController
     
     @query = params[:query]
     
-    @field = %w(tags title description status publisher authors place_name text pid).detect{|f| f == (params[:field])}
+    @field = %w(tags title description status publisher authors place_name text pid annotation).detect{|f| f == (params[:field])}
     
+    if @field == "annotation"
+      redirect_to :controller => :annotations, :action => 'search', :query => @query, :field => "annotation"
+      return
+    end
     unless @field == "tags"
       
       @field = "title" if @field.nil?

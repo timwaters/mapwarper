@@ -1,0 +1,37 @@
+<div id="search-form">
+  <%= render :partial => 'shared/search' -%>
+</div>
+
+<div class="browse">
+
+    <h2><%= t('.header') %>
+      <%if @query && @query.length > 0 %>&mdash; <%= t('.results') %>"<%=@query%>"
+      <%end-%>
+    </h2>
+
+
+  <h3>
+    <% if @annotations.empty? %>
+      <%= t('.no_results')%>
+    <% end %>
+    
+    <% if  @map %> <br />
+      <%= t('.for_map') %>: <%= @map.id %> <%= link_to @map.title, @map %> <br />
+    <% end %>
+  </h3>
+  
+  
+  <% if @annotations.empty? %>
+    <%= t('.no_results_help')%>
+  <% end %>
+
+  <%= will_paginate @annotations %>
+
+  <table class="annotation_table">
+    <tbody>
+      <%= render :partial => "annotation_result", :collection => @annotations, as: :annotation %>
+    </tbody>
+  </table>
+  <%= will_paginate @annotations %>
+
+</div>

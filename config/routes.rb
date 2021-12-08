@@ -161,7 +161,11 @@ Rails.application.routes.draw do
   
   get '/search' => 'home#search', :as => 'search'
 
-  resources :annotations, except: [:new, :edit]
+  resources :annotations, except: [:new, :edit] do   
+   collection do 
+    get 'search'
+   end
+  end
    
   namespace :api do
     namespace :v1 do

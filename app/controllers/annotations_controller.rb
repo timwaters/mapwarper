@@ -9,6 +9,41 @@ class AnnotationsController < ApplicationController
   helper :sort
   include SortHelper
 
+
+  #main public search
+  def search
+    sort_init 'created_at'
+    sort_update
+
+    @field = "annotation"
+
+    @year_min = Map.minimum(:issue_year).to_i - 1
+    @year_max = Map.maximum(:issue_year).to_i + 1
+    @year_min = 1500 if @year_min == -1
+    @year_max = Time.now.year if @year_max == 1
+
+    if params[:map_id]
+      @map = Map.find(params[:map_id])
+    end
+
+    @query = params[:query]
+
+    if @map
+      map_conditions = {map: @map}
+    else
+      map_conditions = nil
+    end
+    
+  #  unless @query && @query.strip.length > 0
+  #    @annotations = Annotation.where(nil).where(map_conditions).order(sort_clause).paginate(:page=> params[:page], :per_page => 50)
+  #  else
+      @annotations = Annotation.body_search(@query).where(map_conditions).with_pg_search_highlight.order(sort_clause).paginate(:page=> params[:page], :per_page => 50)
+  #  end
+
+
+  end
+
+
   def index
     sort_init 'created_at'
     sort_update
@@ -17,26 +52,18 @@ class AnnotationsController < ApplicationController
       @map = Map.find(params[:map_id])
     end
 
-    if current_user.has_role?('administrator')
+    @query = params[:query]
 
-      @query = params[:query]
+    if @map
+      map_conditions = {map: @map}
+    else
+      map_conditions = nil
+    end
     
-      if @query && @query.strip.length > 0
-        conditions = ["body  ~* ?", '(:punct:|^|)'+@query+'([^A-z]|$)']
-      else
-        conditions = nil
-      end
-      if @map
-        map_conditions = {map: @map}
-      else
-        map_conditions = nil
-      end
-      
-      @annotations = Annotation.where(conditions).where(map_conditions).order(sort_clause).paginate(:page=> params[:page], :per_page => 50)
-
-    #  @annotations = Annotation.all
-    elsif  @map
-      @annotations = Annotation.where(:map => @map).paginate(:page=> params[:page], :per_page => 50)
+    unless @query && @query.strip.length > 0
+      @annotations = Annotation.where(nil).where(map_conditions).order(sort_clause).paginate(:page=> params[:page], :per_page => 50)
+    else
+      @annotations = Annotation.body_search(@query).where(map_conditions).with_pg_search_highlight.with_pg_search_rank.unscope(:order).order(sort_clause).paginate(:page=> params[:page], :per_page => 50)
     end
 
     respond_to do | format |
@@ -64,7 +91,7 @@ class AnnotationsController < ApplicationController
 
   def update
     if @annotation.update(annotation_params.except(:map_id))
-      flash[:notice] = t('.flash')
+      flash[:notice] = t('.notice')
       render :json => @annotation, :status => :ok
     else
       flash[:error] = t('.error')

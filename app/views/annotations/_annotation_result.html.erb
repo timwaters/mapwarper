@@ -1,0 +1,36 @@
+<tr class="<%= cycle('table0', 'table1') -%>">
+
+  <td class="annotation-body">
+    <div class="search-title"><%= link_to("#{t('.annotation')} #{annotation.id} #{t('.from_map')} #{annotation.map.id} ", map_path(:id => annotation.map.id, :anchor=>"Annotate_tab&annotation=#{annotation.id}")) -%> </div>
+    <div class="search-highlight"><%= sanitize(annotation.pg_search_highlight, :tags => ["b"]).html_safe %> </div>
+   <!--<div class="search-body"><%= annotation.body %> </div> -->
+    <span class="search-updated">
+    <%= t('.updated') %> <%= time_ago_in_words(annotation.updated_at) -%> ago
+    </span>
+   <div class="search-map">
+    <table id="map_table">
+    <tr>
+    <td>
+    <%= link_to image_tag(annotation.map.upload.url(:thumb)), map_path(:id => annotation.map.id, :anchor=>"Annotate_tab&annotation=#{annotation.id}") %>
+    </td>
+   <td>
+     <div class="maplist_title">
+      <%=link_to(strip_brackets(annotation.map.title), map_path(:id => annotation.map.id, :anchor=>"Annotate_tab&annotation=#{annotation.id}")) %>     </div>
+      <div class="map_description"><span><%=strip_brackets(annotation.map.description) -%></div>
+    </div>
+    </td>
+      </tr>
+    </table>
+   </div>
+
+ 
+
+    <% if admin_authorized? %>
+    <div class="search-actions">
+     <%= t('.added_by')%>: <%= link_to annotation.user.login, annotation.user %> | <%= t('.at') %>  <%= annotation.created_at.strftime("%Y-%m-%d %H:%M") %> |  <%= link_to t('.delete_link'), annotation_path(annotation), :method => :delete, :data => {:confirm => t('.confirm_delete')} %>
+    </div>
+   <% end -%>
+  </td>
+
+
+</tr>

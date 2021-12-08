@@ -3,7 +3,8 @@
   <select id="field" name="field">
     <%= options_for_select([ [t('.text'), "text"], 
             [t('.place_name'), "place_name"],
-        [t('.tags'), "tags"]], @field)-%>
+        [t('.tags'), "tags"],
+        [t('.annotation'), "annotation"]], @field)-%>
   </select>
   <%= t('.for') %> 
   <%= text_field_tag 'query', @query -%>

@@ -34,7 +34,7 @@ class HomeController < ApplicationController
   def search
     per_page = params[:per_page] || 50
     #logger.debug per_page
-    @results = PgSearch.multisearch(params[:query].to_s).limit(per_page.to_i)
+    @results = PgSearch.multisearch(params[:query].to_s).limit(per_page.to_i).where("searchable_type = 'Map' or searchable_type = 'Layer'")
   end
   
   private

@@ -33,7 +33,8 @@ module ApplicationHelper
     html = [link_to(t('application.helper.breadcrumbs.home'), root_path)]
     #first level
     html << link_to(t('application.helper.breadcrumbs.search'), @link_back) if @link_back
-    html << link_to(t('application.helper.breadcrumbs.maps'), maps_path) if @maps || @map
+    html << link_to(t('application.helper.breadcrumbs.maps'), maps_path) if @maps || @map unless @annotations
+    html << link_to(t('application.helper.breadcrumbs.annotations'), search_annotations_path) if @annotations 
     html << link_to(t('application.helper.breadcrumbs.map', map_id: @map.id), map_path(@map)) if @map unless @layer || stop_at_controller
     html << link_to(t('application.helper.breadcrumbs.map', map_id: @map.id), map_path(@map)) if @map  && @layers
 

@@ -1984,8 +1984,13 @@ div.layer-maps-col {
  color: #444;
 }
 
+.annotation-body p {
+  white-space: pre-wrap;
+}
 
 }
+
+
 
  #annotatemap {    
   position: relative;
@@ -2048,6 +2053,25 @@ div.layer-maps-col {
   }
   td {
     padding-right: 10px;
+    padding-left: 10px;
+    padding-bottom: 10px;
+  }
+  .annotation-body {
+      // white-space: pre-line;
+      .search-highlight b {
+        font-weight: bold;
+      }
+      .search-title a{
+        text-decoration: underline;
+        font-size: larger;
+      }
+  }
+  #map_table tr {
+    border-left: 0px !important;
+  }
+  .search-updated {
+    font-size: smaller;
+    color: gray;
   }
 }
 
