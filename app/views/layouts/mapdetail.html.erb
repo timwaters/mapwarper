@@ -205,7 +205,7 @@
       {:name=>"metadata",:divname=>"Metadata", :label=> t('layouts.tabs.metadata'), :path=>metadata_map_path(:id => @map)},
       {:name=>"activity",:divname=>"Activity_History", :label=> t('layouts.tabs.activity'),:path=> map_activity_path(:id => @map)},
       {:name=>"comments",:divname=>"Comments", :label=> t('layouts.tabs.comments'), :count=>@map.comments.size.to_s, :path=>comments_map_path(:id => @map)},
-      {:name=>"annotate",:divname=>"Annotate", :label=> t('layouts.tabs.annotate'), :path=>annotate_map_path(:id => @map)}
+      {:name=>"annotate",:divname=>"Annotate", :label=> t('layouts.tabs.annotate'), :count=>@map.annotations.size.to_s, :path=>annotate_map_path(:id => @map)}
       ] %>
     <div id="wooTabs">
       <ul>
@@ -216,7 +216,7 @@
           <% end %>
           <% unless @disabled_tabs && @disabled_tabs.include?(tab[:name]) -%>
             <li><a id="aa<%=tab[:label]%>" rel="history" href="<%=tab[:path]%>" title="<%=tab[:divname]%>">
-                <span><%=tab[:label]%><% if tab[:count] -%> (<%=tab[:count]-%>)<%end-%></span>
+                <span><%=tab[:label]%><% if tab[:count] && tab[:count] != "0" -%> (<%=tab[:count]-%>)<%end-%></span>
               </a></li>
           <% end -%>
         <% end -%>
