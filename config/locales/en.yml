@@ -74,6 +74,7 @@ en:
       annotation: Annotation
       body: Body Text
       created: Created at
+      csv: Download as CSV
       for_map: For Map
       header: Annotations
       list_all: List annotations from all maps

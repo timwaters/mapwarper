@@ -1,5 +1,5 @@
 <tr class="<%= cycle('table0', 'table1') -%>">
- <% if  annotation.has_attribute?(:pg_search_rank) %>
+ <% if annotation && annotation.has_attribute?(:pg_search_rank) %>
   <td><%= annotation.pg_search_rank %></td>
  <% end %>
   <td><%=  link_to( annotation.id, map_path(:id => annotation.map.id, :anchor=>"Annotate_tab&annotation=#{annotation.id}")) %></td>

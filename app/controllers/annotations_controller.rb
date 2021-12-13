@@ -1,5 +1,5 @@
 class AnnotationsController < ApplicationController
-  
+  require 'csv'
   before_filter :authenticate_user!
   before_filter :find_annotation, :only => [:show, :update, :destroy]
   before_filter :check_administrator_role, :only =>  [:destroy]
@@ -8,7 +8,6 @@ class AnnotationsController < ApplicationController
 
   helper :sort
   include SortHelper
-
 
   #main public search
   def search
@@ -54,16 +53,22 @@ class AnnotationsController < ApplicationController
     else
       map_conditions = nil
     end
+
+    paginate_options = {
+      :page => params[:page],
+      :per_page => params[:per_page] || 50
+    }
     
     unless @query && @query.strip.length > 0
-      @annotations = Annotation.where(nil).where(map_conditions).order(sort_clause).paginate(:page=> params[:page], :per_page => 50)
+      @annotations = Annotation.where(nil).where(map_conditions).order(sort_clause).paginate(paginate_options)
     else
-      @annotations = Annotation.body_search(@query).where(map_conditions).with_pg_search_highlight.with_pg_search_rank.unscope(:order).order(sort_clause).paginate(:page=> params[:page], :per_page => 50)
+      @annotations = Annotation.body_search(@query).where(map_conditions).with_pg_search_highlight.with_pg_search_rank.unscope(:order).order(sort_clause).paginate(paginate_options)
     end
 
     respond_to do | format |
       format.html {}
       format.json {render :json => @annotations, :status => :ok }
+      format.csv {}
     end
 
   end

@@ -3,7 +3,6 @@
   <td class="annotation-body">
     <div class="search-title"><%= link_to("#{t('.annotation')} #{annotation.id} #{t('.from_map')} #{annotation.map.id} ", map_path(:id => annotation.map.id, :anchor=>"Annotate_tab&annotation=#{annotation.id}")) -%> </div>
     <div class="search-highlight"><%= sanitize(annotation.pg_search_highlight, :tags => ["b"]).html_safe %> </div>
-   <!--<div class="search-body"><%= annotation.body %> </div> -->
     <span class="search-updated">
     <%= t('.updated') %> <%= time_ago_in_words(annotation.updated_at) -%> ago
     </span>

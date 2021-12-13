@@ -20,7 +20,7 @@
 <table class="annotation_table">
   <thead>
     <tr>
-      <% if @annotations.first.has_attribute?(:pg_search_rank) %>
+      <% if @annotations.first && @annotations.first.has_attribute?(:pg_search_rank) %>
         <%= sort_header_tag('rank', :title => t('.relevance') ) %>
       <% end %>
       <%= sort_header_tag('id', :title => t('.annotation') ) %>
@@ -39,4 +39,5 @@
   </tbody>
 </table>
 <%= will_paginate @annotations %>
+<%= link_to image_tag("csv-20x25.png")+ t('.csv'), annotations_path(:query => @query, :map_id => params[:map_id], :page => params[:page], :per_page => params[:per_page], :sort_key => params[:sort_key], :sort_order => params[:sort_order], :format=>:csv) %>
 

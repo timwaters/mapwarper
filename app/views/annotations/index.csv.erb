@@ -1,0 +1,11 @@
+<%- headers = ["id", "map", "annotation", "geometry", "lat", "lon", "created at", "updated at"]
+headers << "user" if admin_authorized? 
+-%>
+<%= CSV.generate_line headers -%>
+<%- @annotations.each do |annotation| 
+login = nil
+login = annotation.user.login if admin_authorized? 
+-%>
+<%- row = [annotation.id, annotation.map_id, annotation.body, annotation.geom, annotation.center_lat, annotation.center_lon, annotation.created_at.strftime("%Y-%m-%d %H:%M"), annotation.updated_at.strftime("%Y-%m-%d %H:%M"), login] -%>
+<%= CSV.generate_line(row).html_safe  -%>
+<%- end -%>
