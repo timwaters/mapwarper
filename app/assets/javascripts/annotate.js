@@ -400,9 +400,13 @@ function loadAnnotations(){
         var features = []
         for (var a=0;a<data.length;a++){
           var format = new OpenLayers.Format.WKT({'internalProjection': annotatemap.projection, 'externalProjection': annotatemap.displayProjection});
-          features[a] = format.read(data[a].attributes.geom);
-          features[a].data = data[a].attributes;
-          features[a].data.id = data[a].id;
+          //only add a feature if it has a geometry
+          if (data[a].attributes.geom){
+            var newfeature = format.read(data[a].attributes.geom);
+            newfeature.data = data[a].attributes;
+            newfeature.data.id = data[a].id;
+            features.push(newfeature);
+          }
         }
         annotations_layer.addFeatures(features);
         if (data.length == 1){
