@@ -1957,6 +1957,25 @@ div.layer-maps-col {
     margin-top: 2px;
   }
 
+  input[type="submit"]:disabled {
+    background: lightgray;
+    cursor: not-allowed;
+  }
+
+  input[type="submit"]:disabled:hover {
+    background: lightgray !important;
+    box-shadow: none;
+  }
+
+  .buttonWarper {
+    padding: 6px 6px 5px 6px;
+  }
+
+  .buttonWarperBlue{
+    padding: 5px 6px 5px 6px;
+  }
+ 
+
 
 .alert-info {
   color: #0c5460;

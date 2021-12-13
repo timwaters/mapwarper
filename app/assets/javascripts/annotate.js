@@ -273,7 +273,10 @@ function annotateinit() {
       jQuery("#show-annotation").hide();
       jQuery("#new-annotation").hide();
       jQuery("#edit-annotation").hide();
-    
+      
+      jQuery("#body-input").val("");
+      jQuery("#geom-input").val("");
+      jQuery("#body-input").keyup();
     })
 
     function showAnnotation(feature){
@@ -382,8 +385,23 @@ function annotateinit() {
       selectControl.deactivate();
       e.preventDefault();
     });
-    
-    
+
+    //disabling buttons - adding new one
+    jQuery("#body-input").on('keyup', function(){
+      var content = jQuery("#body-input").val().trim();
+      var geom = jQuery("#geom-input").val().trim();
+      var should_be_disabled = false;
+      if (content === '' || geom === ''){
+        should_be_disabled = true;
+      }
+      jQuery("#new-annotation form input[type=submit]").prop('disabled', should_be_disabled);
+    })
+
+    jQuery("#edit-body-input").on('keyup', function(){
+      var content = jQuery("#edit-body-input").val().trim();
+      jQuery("#edit-annotation form input[type=submit]").prop('disabled', content === '');
+    })
+        
 } // main init function
 
 
@@ -442,6 +460,7 @@ function addNewAnnotation(feat){
   } 
   var latlon =  new OpenLayers.LonLat(feat.geometry.x, feat.geometry.y).transform(annotatemap.projection, annotatemap.displayProjection);
   jQuery("#geom-input").val("POINT("+ latlon.lon + " "+ latlon.lat + ")")
+  jQuery("#body-input").keyup();
 }
 
 function get_map_layer(layerid) {
