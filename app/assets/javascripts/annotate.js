@@ -366,6 +366,8 @@ function annotateinit() {
         }
       }
       if (featureToShow){
+        var latlon =  new OpenLayers.LonLat(featureToShow.geometry.x, featureToShow.geometry.y);
+        annotatemap.setCenter(latlon)
         selectControl.activate();
         addFeatureControl.deactivate();
         editFeatureControl.deactivate();
