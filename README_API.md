@@ -68,6 +68,12 @@ Welcome to the documentation for the Warper API! MapWarper is a free application
 	- [List Map Activity](#list-map-activity)
 	- [List User Activity](#list-user-activity)
 	- [User Statistics](#user-statistics)
+- [Annotations](#annotations)
+	- [List Annotations](#list-annotations)
+	- [Get Annotation](#get-an-annotation)
+	- [Create Annotation](#create-annotation)
+	- [Update Annotation](#update-annotation)
+	- [Delete Annotation](#delete-an-annotation)
 
 <!-- /TOC -->
 
@@ -3810,3 +3816,346 @@ Useful in pagination. Will show the total number of results, for example if the 
 }
 ```
 -->
+
+
+## Annotations
+
+An annotation is a point or a marker on a map with some text. 
+It belongs to a specific map and a user. When a map is deleted the annotations are also deleted. When a user is deleted, all their annotations are deleted.
+
+### List Annotations
+
+| Method        | Definition    |
+| ------------- | ------------- |
+| GET           |  /api/v1/annotations  |
+
+Gets and sorts all annotations with search.
+
+Authentication is required.
+
+**Parameters**
+
+| Name       | values     | Type    | Description                                                             | Required | Notes                 |
+|------------|------------|---------|-------------------------------------------------------------------------|----------|-----------------------|
+| sort_key   |            |         | the field that should be used to sort the results                       | optional | default is updated_at |
+|            | map_id     | string  | the id of the map the annotation belongs to                             | optional |                       |
+|            | body       | string  | the body text of the annotation  				                                | optional |                       |
+|            | updated_at | string  | when it was last updated                                                | optional | default               |
+|            | created_at | string  | when it was first created                                               | optional |                       |
+| sort_order |            | string  | the order in which the results should appear                            | optional | default is desc       |
+|            | asc        |         | ascending order                                                         | optional |                       |
+|            | desc       |         | descending order                                                        | optional | default               |
+| page       |            | integer | the page number; use to get the next or previous page of search results | optional |                       |
+| per_page   |            | integer | number of results per page                                              | optional | default is 50         |
+| map_id     |            | integer | restricts results to the map given                                      | optional |                       |
+| query      |            | integer | search term to query                                                    | optional |                       |
+
+**Request Examples**
+ 
+[/api/v1/annotations?per_page=1&sort_key=updated_at](/api/v1/annotations?per_page=1&sort_key=updated_at) 
+
+
+**Response**
+```
+{
+  "data": [
+    {
+      "id": "47",
+      "type": "annotations",
+      "attributes": {
+        "body": "This is an annotation",
+        "geom": "POINT (18.881896187446 23.728258880184)",
+        "created_at": "2021-12-08 12:31",
+        "created_ago": "5 days",
+        "updated_at": "2021-12-08T12:31:11.551Z",
+        "map": {
+          "title": "Crib Point part Township plan, Imperial measure 5212",
+          "description": "",
+          "id": 2
+        },
+        "user": {
+          "login": "super"
+        }
+      }
+    },
+    {
+      "id": "43",
+      "type": "annotations",
+      "attributes": {
+        "body": "through shrinking from toil and pain. These cases are perfectly simple and easy to distinguish. In a free hour, when our power of choice is untrammelled and when nothing prevents our being able to do what we like best, every pleasure is to be welcomed and every pain avoided. ",
+        "geom": "POINT (145.2142304479 -38.354657461876)",
+        "created_at": "2021-12-03 18:17",
+        "created_ago": "10 days",
+        "updated_at": "2021-12-13T12:09:56.235Z",
+        "map": {
+          "title": "Crib Point part Township plan, Imperial measure 5212",
+          "description": "A Parish plan from VPRS 16171 Regional Land Office Parish and Township Plans Digitised Reference Set.\r\n",
+          "id": 17
+        },
+        "user": {
+          "login": "super"
+        }
+      }
+    },
+  ..... response snipped ....
+  "links": {},
+  "meta": {
+    "total_entries": 10,
+    "total_pages": 1
+  }
+}
+```
+
+### Get An Annotation
+
+| Method       | Definition | 
+| ------------ | ---------- | 
+| GET          |  /api/v1/annotations/{:id} |
+
+Returns a specified annotation point by ID.
+
+Authentication required.
+
+**Parameters**
+
+| Name          |             | Type        | Description | Required  | Notes     |
+| ------------- | ----------  | ----------  | ----------  | --------  | --------- |
+| id            |             | integer     | the unique identifier   |  required  |       |
+
+
+**Example**
+
+[/api/v1/annotations/2](/api/v1/annotations/2)
+
+**Response**
+
+```
+{
+  "data": {
+    "id": "60",
+    "type": "annotations",
+    "attributes": {
+      "body": "This is the body of the annotation #herald",
+      "geom": "POINT (145.20521822561 -38.338905883155)",
+      "created_at": "2021-12-13 16:40",
+      "created_ago": "about 3 hours",
+      "updated_at": "2021-12-13T16:40:08.366Z",
+      "map": {
+        "title": "Crib Point part Township plan, Imperial measure 5212",
+        "description": "A Parish plan from VPRS 16171 Regional Land Office Parish and Township Plans Digitised Reference",
+        "id": 17
+      },
+      "user": {
+        "login": "super"
+      }
+    }
+  }
+}
+```
+
+**Response Elements**
+
+***Data***
+
+| Name          |    Value	   | Description                    	| Notes |  
+| ------| -------     |------| -------     |
+| id            |               | The id for the annotation             |       |  
+| type          |    annotations       | the type of resource            |      |   
+| attributes    |              	 | Attributes of the annotation | see separate table for more detail   |  
+
+***Attributes***
+
+
+| Name          | Type        | Description           	| Notes |  
+| ------        | -------     |------                  | -------     |
+| body          | string      | The body text 				  |   |
+| geom          | string      | WKT of the geometry	  | |
+| map           | 		        | map details          | |
+| user          |     		    | user details  | |
+| created_at    | date, time, & time zone | the date and time when the annotation was created   | |
+| updated_at    | date, time, & time zone | the date and time when the annotation was last updated   | |
+
+
+
+If the annotation is not found, the request will return the following response:
+
+| Status        | Response |
+| ------------- | -------- | 
+| 404	(not found) | ```{"errors":[{"title":"Not found","detail":"Couldn't find Annotation with 'id'=2222"}]}```    |
+
+
+
+### Create Annotation
+
+
+
+| Method       | Definition | 
+| ------------ | -------    | 
+| POST         |  /api/v1/annotations |
+
+Adds the annotation on passing in JSON-API formatted json.
+
+Requires authentication.
+
+Annotation is assigned to the user who creates it.
+
+
+**Parameters**
+
+The body of the request should be in JSON-API format with the following attributes.
+
+
+Currently only WKT Points are supported. 
+
+| Name               | Type        | Description           	| Notes |  
+| ------| -------     |------| -------     |
+| body           | big decimal |  The body text 											   |required |
+| geom           | big decimal | WKT of the geometry of the annotation      | required|
+| map_id         | integer     | the id of the map it belongs to  | required|
+
+
+
+Example:
+
+```
+{
+	"data": {
+		"type": "annotations",
+		"attributes": {
+			"map_id": 2,
+      "body": "This is the body of the annotation #herald",
+      "geom": "POINT (145.20521822561 -38.338905883155)"
+		}
+	}
+}
+```
+
+**cURL Example**
+
+```
+curl -H "Content-Type: application/json" -H 'Accept: application/json' -X POST -d '{"data": {"type": "annotations", "attributes": {"map_id": 2, "body": "This is the body of the annotation #herald", "geom": "POINT (145.20521822561 -38.338905883155)" }} }' https://mapwarper.prov.vic.gov.au/api/v1/gcps -b cookie
+```
+
+**Response**
+
+If successful, the response should return the created point:
+
+```
+{
+  "data": {
+    "id": "60",
+    "type": "annotations",
+    "attributes": {
+      "body": "This is the body of the annotation #herald",
+      "geom": "POINT (145.20521822561 -38.338905883155)",
+      "created_at": "2021-12-13 16:40",
+      "created_ago": "about 3 hours",
+      "updated_at": "2021-12-13T16:40:08.366Z",
+      "map": {
+        "title": "Crib Point part Township plan, Imperial measure 5212",
+        "description": "A Parish plan from VPRS 16171 Regional Land Office Parish and Township Plans Digitised Reference",
+        "id": 17
+      },
+      "user": {
+        "login": "super"
+      }
+    }
+  }
+}
+```
+
+An error will return something similar to the following message.
+
+```
+{
+	"errors": [{
+		"source": {
+			"pointer": "/data/attributes/body"
+		},
+		"detail": "can't be blank"
+	}]
+}
+```
+
+
+### Update Annotation
+
+
+| Method       | Definition | 
+| ------------ | -------    | 
+| PATCH         |  /api/v1/annotations/{:id} |
+
+
+Only the body and geometry can be updated
+
+Currently only WKT Points are supported. 
+
+| Name               | Type        | Description           	| Notes |  
+| ------| -------     |------| -------     |
+| body           | big decimal |  The body text 											   |required |
+| geom           | big decimal | WKT of the geometry of the annotation      | required|
+
+
+
+Example:
+
+```
+{
+	"data": {
+		"id": "60",
+		"type": "annotations",
+		"attributes": {
+      "body": "This is the  updated body of the annotation #herald",
+      "geom": "POINT (145.20521822561 -38.338905883155)"
+		}
+	}
+}
+```
+
+**Example using cURL**
+
+In this example, we are just changing the value of the body
+
+```
+curl -H "Content-Type: application/json" -H 'Accept: application/json' -X PUT -d '{"data": {"type": "annotations", "attributes": {"body": "This is the body of the annotation #herald" }} }' https://mapwarper.prov.vic.gov.au/api/v1/annotations/21 -b cookie
+```
+
+
+**Response**
+
+If successful the response will be the updated annotation.
+
+
+### Delete An Annotation
+
+
+| Method        | Definition | 
+| ------------- | ---------  | 
+| DELETE        |  /api/v1/annotation/{:id} |
+
+Deletes an annotation
+Requires authentication. Administrator only 
+
+**Parameters**
+
+| Name        | Type        | Description | Required  | 
+| ----------- | ---------   | ---------   | --------- |
+| id      |  integer      | the unique identifier for the annotation  |  required |
+
+Example: 
+
+**curl example**
+
+```
+curl -H "Content-Type: application/json" -H 'Accept: application/json' -X DELETE https://mapwarper.prov.vic.gov.au/api/v1/annotations/1 -b cookie
+```
+
+**Response**
+
+If deleted, it will return with the deleted annotation.
+
+If the annotation is not found, the request will return the following response:
+
+| Status        | Response |
+| ------------- | -------- | 
+| 404	(not found) | ```{"errors":[{"title":"Not found","detail":"Couldn't find Annotation with 'id'=2222"}]}```    |

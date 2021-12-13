@@ -200,6 +200,8 @@ Rails.application.routes.draw do
       end
       constraints  defaults: {format: "json"} do
         
+        resources :annotations, :except => [:new] 
+
         resources :gcps, :except => [:new] do
           collection do
             post 'add_many'
