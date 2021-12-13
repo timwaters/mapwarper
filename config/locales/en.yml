@@ -516,6 +516,9 @@ en:
       confirm_delete: Really delete this annotation?
       delete: Delete
       edit: Edit Annotation
+      error_loading: Sorry, something went wrong getting the annotations from the server.
+      error_new: Sorry, something went wrong saving this annotation to the server.
+      error_update: Sorry, something went wrong updating this annotation to the server.
     clip:
       clip_popup_title: Clipping...
       confirm_delete_tool: Really delete this?

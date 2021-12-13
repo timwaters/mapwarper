@@ -190,7 +190,8 @@ function annotateinit() {
               jQuery("#geom-input").val("");
               jQuery("#body-input").val("");
             }).fail(function() {
-              console.log("fail")
+              console.log("fail saving new annotation")
+              alert(I18n["annotate"]["error_new"]);
           });
 
         }
@@ -220,7 +221,8 @@ function annotateinit() {
               jQuery("#edit-geom-input").val("");
               jQuery("#edit-body-input").val("");
             }).fail(function() {
-              console.log("fail")
+              console.log("fail updating annotation")
+              alert(I18n["annotate"]["error_update"]);
           });
 
         }
@@ -442,7 +444,8 @@ function loadAnnotations(){
   
 
     }).fail(function() {
-      console.log("fail")
+      console.log("fail getting annotations")
+      alert(I18n["annotate"]["error_loading"]);
   });
 
 };
