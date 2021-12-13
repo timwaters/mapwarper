@@ -77,7 +77,7 @@
           <textarea class="form-control" id="body-input"  name="body" cols="25" rows="10" maxlength="2000" placeholder="<%= t('.new-placeholder') %>"></textarea>
         </div>
         <div class="buttons clearfix">
-          <input type="submit" name="add" value="<%= t('.new-add') %>">
+          <input type="submit" name="add" value="<%= t('.new-save') %>">
           <a href="" id="cancel" class="buttonWarperBlue" name="cancel"><%= t('.cancel') %> </a>
         </div>
       </form>
@@ -126,7 +126,8 @@
       </div>
 
       <div class="actions">
-        <a id="edit-link" href="">Edit</a>
+        <a id="edit-link" href=""  class="buttonWarper">Edit</a> |
+        <a href="" id="cancel" class="buttonWarperBlue" name="cancel"><%= t('.cancel') %> </a>
         <% if admin_authorized? -%>   
         | <a id="delete-link" href="">Delete</a>
         <% end %>          

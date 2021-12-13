@@ -715,8 +715,9 @@ en:
        intro-help: You can click on annotations on the map to view them here. Annotations are areas on the map which users have added notes to. You can use them to add information or labels from the map, or to transcribe features. 
        new-add: Add Annotation
        new-header: New Annotation
-       new-help: Add an annotation to the map. Click on the map to make a new marker at the desired position and type some text to describe your thing you are annotating.
+       new-help: Add an annotation to the map. Click on the map to make a new marker at the desired position and type some text in the box below to describe the thing you are annotating.
        new-placeholder: Your annotation is public and can be viewed by others, so don't enter personal information, or anything not related to the map shown.
+       new-save: Save Annotation
        show-description: Description
 
        title: 'Annoate Map '

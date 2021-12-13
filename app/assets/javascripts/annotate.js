@@ -185,7 +185,7 @@ function annotateinit() {
             ).done(function( data) {
               active_layer.destroyFeatures();
               loadAnnotations();
-              selectAnnoId = data.data.id;
+              //selectAnnoId = data.data.id;
               
               jQuery("#geom-input").val("");
               jQuery("#body-input").val("");
@@ -264,6 +264,8 @@ function annotateinit() {
     jQuery("#annotations #cancel").off().click(function(e){
       e.preventDefault();
       annotations_layer.setVisibility(true);
+      active_layer.destroyFeatures();
+      annotations_layer.redraw();
       selectControl.activate();
       editFeatureControl.deactivate();
       addFeatureControl.deactivate();
@@ -377,6 +379,7 @@ function annotateinit() {
     } 
     jQuery("#add-new-button").off().click(function(e){
       addFeatureControl.activate();
+      selectControl.deactivate();
       e.preventDefault();
     });
     
