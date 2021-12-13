@@ -19,6 +19,8 @@ class User < ActiveRecord::Base
   has_many :groups, :through => :memberships
   has_many :user_warnings
   
+  has_many :annotations, :dependent => :destroy
+  
   validates_presence_of    :login
   validates_length_of      :login,    :within => 3..40
   validates_uniqueness_of  :login, :scope => :email, :case_sensitive => false
