@@ -189,6 +189,8 @@ function annotateinit() {
               
               jQuery("#geom-input").val("");
               jQuery("#body-input").val("");
+              addFeatureControl.deactivate();  //shows welcome pane
+              updateNotice(".notice-info", I18n["annotate"]["notice_added"] );
             }).fail(function() {
               console.log("fail saving new annotation")
               alert(I18n["annotate"]["error_new"]);
@@ -220,6 +222,8 @@ function annotateinit() {
               
               jQuery("#edit-geom-input").val("");
               jQuery("#edit-body-input").val("");
+
+              updateNotice(".notice-show", I18n["annotate"]["notice_updated"]);
             }).fail(function() {
               console.log("fail updating annotation")
               alert(I18n["annotate"]["error_update"]);
@@ -269,6 +273,7 @@ function annotateinit() {
       active_layer.destroyFeatures();
       annotations_layer.redraw();
       selectControl.activate();
+      selectControl.unselectAll();
       editFeatureControl.deactivate();
       addFeatureControl.deactivate();
       jQuery("#intro-annotation").show();
@@ -279,6 +284,10 @@ function annotateinit() {
       jQuery("#body-input").val("");
       jQuery("#geom-input").val("");
       jQuery("#body-input").keyup();
+
+      clearNotices();
+
+      window.history.replaceState(undefined, undefined, "#Annotate_tab");
     })
 
     function showAnnotation(feature){
@@ -395,14 +404,33 @@ function annotateinit() {
       var should_be_disabled = false;
       if (content === '' || geom === ''){
         should_be_disabled = true;
+        updateNotice(".notice-new", I18n['annotate']['notice_new']);
+      }else {
+        clearNotices();
       }
       jQuery("#new-annotation form input[type=submit]").prop('disabled', should_be_disabled);
     })
 
     jQuery("#edit-body-input").on('keyup', function(){
       var content = jQuery("#edit-body-input").val().trim();
+      if (content === ''){
+        updateNotice(".notice-edit", I18n['annotate']['notice_edit']);
+      }else{
+        clearNotices();
+      }
       jQuery("#edit-annotation form input[type=submit]").prop('disabled', content === '');
     })
+
+    function updateNotice(notice, text){
+      clearNotices();
+      jQuery(notice).text(text);
+      jQuery(notice).show();
+    }
+
+    function clearNotices(){
+      jQuery(".notices").hide();
+      jQuery(".notices").text("");
+    }
         
 } // main init function
 

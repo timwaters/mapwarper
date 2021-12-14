@@ -1,2 +1,2 @@
 <% I18n.t('common.site_title') # call i18n first, to initialise I18n in case of error  %>
-window.I18n = <%= I18n.backend.send(:translations)[I18n.locale][:js].to_json.html_safe %>;    
+window.I18n = <%= I18n.backend.send(:translations)[I18n.locale][:js].to_json.html_safe %>;     

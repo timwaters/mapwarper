@@ -519,6 +519,10 @@ en:
       error_loading: Sorry, something went wrong getting the annotations from the server.
       error_new: Sorry, something went wrong saving this annotation to the server.
       error_update: Sorry, something went wrong updating this annotation to the server.
+      notice_added: Annotation Added!
+      notice_edit: Please type some text in the box above before saving.
+      notice_new: Please type some text in the box above and add the marker before saving.
+      notice_updated: Annotation Updated!
     clip:
       clip_popup_title: Clipping...
       confirm_delete_tool: Really delete this?
