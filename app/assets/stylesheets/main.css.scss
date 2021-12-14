@@ -1096,11 +1096,11 @@ font-weight: bold;
 }
 
 /* responsive map tabs */
-@media screen and (max-width: 500px) {
+@media screen and (max-width: 950px) {
   .ui-tabs {font-size: 15px; }
 }
-@media screen and (max-width: 415px) {
-  .ui-tabs {font-size: 12px;}
+@media screen and (max-width: 600px) {
+  .ui-tabs {font-size: 11px;}
 }
 
 
@@ -1910,7 +1910,7 @@ div.layer-maps-col {
   z-index: 20;
   float: right;
   border: 1px solid gray;
-  width: 80%;
+  width: 75%;
 
   #slider {
     margin-bottom: -17px;
@@ -1926,7 +1926,7 @@ div.layer-maps-col {
 
 #annotate-sidebar {
   float: left;
-  width: 19%;
+  width: 24%;
   left: 0;
 
   padding: 0;
@@ -2031,7 +2031,13 @@ div.layer-maps-col {
 
 }
 
-
+@media screen and (max-width: 400px) {
+  .alert-info  {display: none}
+}
+@media screen and (max-width: 600px) {
+  #annotate-sidebar {width: 40%}
+  #annotatemap-container {width: 59%}
+}
 
  #annotatemap {    
   position: relative;
