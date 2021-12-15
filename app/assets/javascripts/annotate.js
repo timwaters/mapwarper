@@ -327,6 +327,12 @@ function annotateinit() {
       annotations_layer.redraw();
 
       window.history.replaceState(undefined, undefined, "#Annotate_tab" + "&annotation="+ feature.data.id);  //updates the hash
+
+      jQuery("#add-new-button-show").off().click(function(e){
+        addFeatureControl.activate();
+        selectControl.deactivate();
+        e.preventDefault();
+      });
     }
 
     function editAnnotationClick(feature){

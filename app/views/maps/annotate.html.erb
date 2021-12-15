@@ -134,7 +134,10 @@
         <a href="" id="cancel" class="buttonWarperBlue" name="cancel"><%= t('.cancel') %> </a>
         <% if admin_authorized? -%>   
         | <a id="delete-link" href="">Delete</a>
-        <% end %>          
+        <% end %> 
+        <p class="add-new-on-show"> 
+          <a href="" id="add-new-button-show" class="buttonWarper" name="add-new-button"><%= t('.new-add') %> </a>
+        </p>         
       </div>
     </div >  <!-- show annotation -->
 
