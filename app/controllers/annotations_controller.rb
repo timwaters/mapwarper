@@ -60,7 +60,14 @@ class AnnotationsController < ApplicationController
     }
     
     unless @query && @query.strip.length > 0
-      @annotations = Annotation.where(nil).where(map_conditions).order(sort_clause).paginate(paginate_options)
+      
+      if request.format.json? && map_conditions && params[:page] == nil && params[:per_page] == nil 
+        #If it's json, is asking for annotations on a map, and there's no pagination, send all annotations for that map
+        @annotations = Annotation.where(map_conditions).order(sort_clause)
+      else
+        @annotations = Annotation.where(map_conditions).order(sort_clause).paginate(paginate_options)
+      end
+      
     else
       @annotations = Annotation.body_search(@query).where(map_conditions).with_pg_search_highlight.with_pg_search_rank.unscope(:order).order(sort_clause).paginate(paginate_options)
     end
