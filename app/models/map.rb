@@ -693,7 +693,7 @@ class Map < ActiveRecord::Base
     
     logger.info "gdal translate"
    
-    command = ["#{GDAL_PATH}gdal_translate", "-a_srs", "+init=epsg:4326", "-of", "VRT", src_filename, "#{temp_filename}.vrt", gdal_gcp_array].flatten
+    command = ["#{GDAL_PATH}gdal_translate", "-a_srs", "EPSG:4326", "-of", "VRT", src_filename, "#{temp_filename}.vrt", gdal_gcp_array].flatten
     logger.info command
     t_stdout, t_stderr = Open3.capture3( *command )
         
