@@ -2,11 +2,11 @@ source 'https://rubygems.org'
 
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '4.2.11'
+gem 'rails', '~> 4.2'
 # Use sqlite3 as the database for Active Record
 #gem 'sqlite3'
 # Use SCSS for stylesheets
-gem 'sass-rails', '~> 4.0.3'
+gem 'sass-rails', '~> 4.0.5'
 # Use Uglifier as compressor for JavaScript assets
 gem 'uglifier', '>= 1.3.0'
 # Use CoffeeScript for .js.coffee assets and views
@@ -16,7 +16,7 @@ gem 'coffee-rails', '~> 4.0.0'
 
 # Use jquery as the JavaScript library
 gem 'jquery-rails'
-gem "jquery-ui-rails", '3.0.1'  #loads jquery ui v 1.9.2
+gem 'jquery-ui-rails', '3.0.1'  #loads jquery ui v 1.9.2
 # Turbolinks makes following links in your web application faster. Read more: https://github.com/rails/turbolinks
 # gem 'turbolinks'
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
@@ -36,11 +36,12 @@ gem 'sdoc', '~> 0.4.0',          group: :doc
 gem 'devise', '~> 3'
 gem 'devise-encryptable'
 
+gem 'omniauth', '~> 1.8'
 gem 'omniauth-oauth2'#, "~> 1.2.0" #prev 1.2.0
 gem 'omniauth-twitter'
 gem 'omniauth-osm'
 gem 'omniauth-github'
-gem "omniauth-mediawiki", github: 'timwaters/omniauth-mediawiki', branch: 'raw_info_before' 
+gem "omniauth-mediawiki", git: 'https://github.com/timwaters/omniauth-mediawiki', branch: 'raw_info_before'
 
 gem 'pg', '~>0.21'
 gem 'activerecord-postgis-adapter'
@@ -52,7 +53,7 @@ gem 'will_paginate', '~> 3.0'
 gem 'spawnling', '~>2.1'
 
 #Rails 4 support for the audited (acts_as_audited gem) is not quite rails4 worthy - see #https://github.com/collectiveidea/audited/pull/166
-gem 'audited-activerecord', github: 'timwaters/audited', branch: 'rails4'  
+gem 'audited-activerecord', git: 'https://github.com/timwaters/audited', branch: 'rails4'  
 
 gem 'georuby'
 gem 'geoplanet'
@@ -63,12 +64,12 @@ gem 'redcarpet'
 gem 'rails-api'
 #gem 'active_model_serializers' rubygem is v0.9.0
 #use 10.0 from github until release as it has json-api support
-gem 'active_model_serializers', github: 'rails-api/active_model_serializers', tag: 'v0.10.0.rc5'
+gem 'active_model_serializers', git: 'https://github.com/rails-api/active_model_serializers', tag: 'v0.10.0.rc5'
 
 gem 'simple_token_authentication', '~> 1.0'
 gem 'rack-cors', :require => 'rack/cors'
 
-gem 'actionpack-action_caching', github: 'timwaters/actionpack-action_caching', branch: 'feature/take_format_from_request'
+gem 'actionpack-action_caching', git: 'https://github.com/timwaters/actionpack-action_caching', branch: 'feature/take_format_from_request'
 gem 'redis-rails', '~> 4'
 
 group :development do

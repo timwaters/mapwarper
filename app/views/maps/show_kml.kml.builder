@@ -10,8 +10,8 @@ north = bounds[3]
 width = 256
 height = 256
 
-wms_baseurl = "http://"+request.host_with_port+ url_for(:controller => "maps", :action=> "wms", :id=>@map)
-this_baseurl = "http://"+request.host_with_port+ url_for(:controller => "maps", :action=> "show", :id=>@map, :format=>"kml")
+wms_baseurl = "#{request.scheme}://"+request.host_with_port+ url_for(:controller => "maps", :action=> "wms", :id=>@map)
+this_baseurl = "#{request.scheme}://"+request.host_with_port+ url_for(:controller => "maps", :action=> "show", :id=>@map, :format=>"kml")
 xml.instruct! :xml
 xml.kml(:xmlns => "http://www.opengis.net/kml/2.2") do
   #xml.NetworkLinkControl{

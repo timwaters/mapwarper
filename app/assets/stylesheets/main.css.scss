@@ -549,6 +549,17 @@ select {
  text-align:center;
 }
 
+#between-maps-container{
+  width: 2%;
+  height: 26px;
+  float: left;
+  margin-left: 0.3%;
+}
+#keyboard-icon-div{
+  width: 25px;
+  height: 25px;
+}
+
 #link-map-button{
  width:20px;
  height:20px;
@@ -943,7 +954,7 @@ font-weight: bold;
   transition:all 0.2s ease-in-out;
 }
 
-#error
+#error, #alert
 {
   border: 3px solid #eec;
   margin-left: auto;
@@ -1181,7 +1192,7 @@ font-style:italic;
   {     margin-left: 2px;
         position: relative;
         z-index: 22;
-	height:500px;
+	height:600px;
 	border:1px solid #999999;
 }
 
@@ -1309,7 +1320,8 @@ font-size:80%;
 }
 
 table#gcp_table td {
-
+  vertical-align: bottom;
+  padding-bottom: 2px;
 }
 table#gcp_table th {
 text-align: left;
@@ -1347,7 +1359,7 @@ color: #00aeff;
 {
   position: relative;
   z-index: 2;
-  height:420px;
+  height:600px;
   cursor: crosshair;
 }
 .map-off {
@@ -1623,3 +1635,52 @@ fieldset#control_panel_fieldset a {
   transition: width 0.5s;
   -webkit-transition: width 0.5s;
 }
+
+div.span-12 input{
+  width: 215px;
+}
+
+
+div.layer-maps-col {
+  width: 500px;
+
+  input.layer-map-check {
+    width: 24px;
+  }
+  .maplist_title{
+    padding: 0px 2px 0px 2px;
+
+    font-size:smaller;
+  }
+
+  .map_description{
+    padding: 0px 2px 0px 2px;
+    margin-top: 0px;
+    font-size:smaller;
+  }
+
+}
+
+.small-gray {
+  font-size: smaller;
+  color: gray;
+}
+.closebtn{
+  font-weight: 900;
+  padding: 5px 3px 5px 3px;
+  background: lightblue;
+  margin: 10px auto 0;
+  border-radius: 5px;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  box-shadow: 2px 2px lightgrey;
+}
+
+#disabled_site_message {
+  background: white;
+  margin-right: -10px;
+  margin-left: -10px;
+  padding-left: 10px;
+  padding-top: 10px;
+}
+

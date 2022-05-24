@@ -35,7 +35,7 @@
         return data;
       }
       setTimeout(function() {
-        document.getElementById('text').innerHTML = (data && data.error) || 'Redirecting...';
+        document.getElementById('text').innerText = (data && data.error) || 'Redirecting...';
       }, 1000);
     </script>
   </head>

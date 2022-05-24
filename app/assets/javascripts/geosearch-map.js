@@ -4,16 +4,20 @@ function replaceMapTable(smaps) {
     var smap = smaps[a];
     var tableRow = "<tr id='map-row-" + smap.id + "' class='minimap-tr'>" +
             "<td class='mini-map-thumb'><img src='" + mapThumbBaseURL + smap.id + "' height='70' ></td>" +
-            "<td>" + smap.title + "<br />" +
+            "<td><span id='smap-title-"+ smap.id+"'></span><br />" +
             "<a href='" + mapBaseURL + "/" + smap.id + "' target='_blank'>Open map</a> </td></tr>";
 
     jQuery("#searchmap-table").append(tableRow);
+    jQuery("#smap-title-"+smap.id).text(smap.title);
   }
   addClickToTable();
 }
 function insertMapTablePagination(total, per, current) {
   var num = current * per;
   var start = num - per;
+  if (start == 0){
+    start = 1;
+  }
   var last = false;
   var nextlot = current + 1;
   var prevlot = current - 1;
@@ -58,7 +62,7 @@ function onFeatureSelect(feature) {
           "<div class='searchmap-popup'><a href='" + mapBaseURL + "/" +
           feature.mapId + "' target='_blank'>" +
           //feature.mapTitle+"</a><br />"+
-          "<a href='#a-map-row-" + feature.mapId + "' ><img title='" + feature.mapTitle + "' src='" + mapThumbBaseURL + feature.mapId + "' height='80'></a>" +
+          "<a href='#a-map-row-" + feature.mapId + "' ><img id='popup-title' src='" + mapThumbBaseURL + feature.mapId + "' height='80'></a>" +
           "<br /> <a href='" + mapBaseURL + "/" + feature.mapId + "' target='_blank'>Open map in new page.</a>" +
           "</div>",
           null, true, onPopupClose);
@@ -66,8 +70,12 @@ function onFeatureSelect(feature) {
   popup.maxSize = new OpenLayers.Size(250, 350);
   feature.popup = popup;
   searchmap.addPopup(popup);
+  jQuery("#popup-title").attr("title", getTitle(feature));
   //jQuery("tr#map-row-"+feature.mapId).effect("highlight", {}, 4000);
   jQuery("tr#map-row-" + feature.mapId).addClass('highlight');
 }
 
+function getTitle(feature){
+  return feature.mapTitle;
+}
 

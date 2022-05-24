@@ -232,6 +232,7 @@ class Api::V1::MapsController < Api::V1::ApiController
     field = %w(tags title description status publisher authors page_id).detect{|f| f == (index_params[:field])}
     field = field || "title"
     if query && query.strip.length > 0 && field
+      query = query.gsub(/\W/, ' ')
       query_options = ["#{field}  ~* ?", '(:punct:|^|)'+query+'([^A-z]|$)']
       if field == "page_id" && query =~ /\A\d+\Z/
         query_options = {:page_id => query}

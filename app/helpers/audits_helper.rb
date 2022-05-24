@@ -13,6 +13,8 @@ module AuditsHelper
       if changes && changes["status"] && changes["status"] != "status"
         if changes["status"].class == Array && changes["status"][1]
           map_action  = Map::STATUS[changes["status"][1]]
+        elsif changes["status"].class == Integer
+          map_action =  Map::STATUS[changes["status"]]
         else
           map_action = :missing
         end
@@ -40,6 +42,8 @@ module AuditsHelper
         
         if changes["mask_status"].class == Array && changes["mask_status"][1]
           mask_action  = Map::MASK_STATUS[changes["mask_status"][1]]
+        elsif changes["mask_status"].class == Integer
+          map_action =  Map::MASK_STATUS[changes["mask_status"]]
         else
           mask_action = :missing
         end

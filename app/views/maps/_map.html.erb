@@ -47,7 +47,7 @@
     </div>
     <div class="map_links">
       <% if map.source_uri %>
-        Links: <%=  link_to(image_tag("commons_logo-25x25.png", :height => '16')+" Wikimedia Commons",  map.source_uri) %>
+        Links: <%=  sanitize(link_to(image_tag("commons_logo-25x25.png", :height => '16')+" Wikimedia Commons",  map.source_uri), attributes: %w(href src height img)) %>
       <% end %>
     </div>
 

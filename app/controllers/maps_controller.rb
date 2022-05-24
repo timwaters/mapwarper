@@ -26,6 +26,7 @@ class MapsController < ApplicationController
   
   require 'digest/sha1'
   caches_action :wms, 
+    unless: -> { request.params["request"] == "GetCapabilities" },
     :if => Proc.new {|c|
       c.params["status"]  == "warped" || c.params["STATUS"] == "warped"
     },
@@ -154,6 +155,7 @@ class MapsController < ApplicationController
       
       #we'll use POSIX regular expression for searches    ~*'( |^)robinson([^A-z]|$)' and to strip out brakets etc  ~*'(:punct:|^|)plate 6([^A-z]|$)';
       if @query && @query.strip.length > 0 && @field
+        @query = @query.gsub(/\W/, ' ')
         conditions = ["#{@field}  ~* ?", '(:punct:|^|)'+@query+'([^A-z]|$)']
       else
         conditions = nil
@@ -227,7 +229,6 @@ class MapsController < ApplicationController
   
     
   def geosearch
-    require 'geoplanet'
     sort_init 'updated_at'
     sort_update
 
@@ -235,21 +236,50 @@ class MapsController < ApplicationController
 
     #TODO change to straight javascript call.
     if params[:place] && !params[:place].blank?
-      place_query = params[:place]
-      GeoPlanet.appid = APP_CONFIG['yahoo_app_id']
       
-      geoplanet_result = GeoPlanet::Place.search(place_query, :count => 2)
+      uri = URI('https://nominatim.openstreetmap.org/search')
+      query_params = { :q => params[:place], :limit => 1, :format => "json"}
+
+      #APP_CONFIG["geocode_country"ISO 3166-1alpha2 code, e.g. gb for the United Kingdom, de for Germany, etc.
+      if !APP_CONFIG["geocode_country"].blank?
+        query_params = query_params.merge({"countrycodes" => APP_CONFIG["geocode_country"]})
+      end
       
-      if geoplanet_result[0]
-        g_bbox =  geoplanet_result[0].bounding_box.map!{|x| x.reverse}
-        extents = g_bbox[1] + g_bbox[0]
-        render :json => extents.to_json
-        return
-      else
+      uri.query = URI.encode_www_form(query_params)
+
+      begin
+
+        req = Net::HTTP::Get.new(uri)
+        user_agent = "Mapwarper Geosearch At #{request.host}"
+        req.add_field('User-Agent', user_agent)
+
+        res = Net::HTTP.start(uri.hostname, uri.port, :use_ssl => true, :read_timeout => 2) do |http|
+          http.request(req)
+        end
+
+        if res.kind_of? Net::HTTPSuccess
+          results = JSON.parse(res.body)
+          if results.size > 0
+            bb = results[0]["boundingbox"]
+            extents = [bb[2],bb[0],bb[3],bb[1]]
+          else
+            logger.error "http not successful in geosearch place" 
+          end
+        end
+        
+      rescue Net::ReadTimeout => e
+        logger.error "timeout in geosearch place" + e.to_s
+      rescue Net::HTTPBadResponse => e
+        logger.error "http bad response in geosearch place " + e.to_s
+      rescue SocketError => e
+        logger.error "Socket error in geosearch place " + e.to_s
+      ensure
         render :json => extents.to_json
         return
       end
+      
     end
+    
 
     if params[:bbox] && params[:bbox].split(',').size == 4
       begin
@@ -459,6 +489,9 @@ class MapsController < ApplicationController
       format.png     { send_file @map.warped_png, :x_sendfile => (Rails.env != "development") }
       format.aux_xml { send_file @map.warped_png_aux_xml,:x_sendfile => (Rails.env != "development") }
     end
+  rescue ActionController::MissingFile => e
+    logger.error e.message
+    redirect_to maps_url, :notice => "file missing"
   end
   
   def clip
@@ -763,6 +796,12 @@ class MapsController < ApplicationController
     @map = Map.find(params[:id])
     #status is additional query param to show the unwarped wms
     status = params["STATUS"].to_s.downcase || "unwarped"
+
+    if params["REQUEST"] == "GetLegendGraphic" || params["request"] == "GetLegendGraphic"
+      thumb
+      return false
+    end
+
     ows = Mapscript::OWSRequest.new
     
     ok_params = Hash.new
@@ -900,7 +939,7 @@ class MapsController < ApplicationController
         # @map.users << current_user
       end
       
-      @output = @map.warp! transform_option, resample_option, use_mask #,masking_option
+      @output = @map.warp! resample_option, transform_option, use_mask #,masking_option
       
       @map.clear_cache
       

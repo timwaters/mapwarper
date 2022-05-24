@@ -19,6 +19,10 @@ class Gcp < ActiveRecord::Base
     gdal_string = " -gcp " + x.to_s + ", " + y.to_s + ", " + lon.to_s + ", " + lat.to_s
 
   end
+
+  def gdal_array
+    ["-gcp", x.to_s ,  y.to_s, lon.to_s, lat.to_s]
+  end
   
   def self.add_many_from_json(gcps_array)
     gcps = []

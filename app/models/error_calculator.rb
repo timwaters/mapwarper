@@ -91,7 +91,7 @@ module ErrorCalculator
           count += 1
         end
         error = rmse #rms error for map
-      rescue ExceptionForMatrix::ErrNotRegular => whoops
+      rescue StandardError, ExceptionForMatrix::ErrNotRegular => whoops
         Rails.logger.error("error in matrix: " + whoops.inspect)
         gcps.each do |gcp|
           gcp.error = 0.0

@@ -47,7 +47,7 @@
       
 
       <%- if map.source_uri -%>
-        Links: <%=  link_to(image_tag("commons_logo-25x25.png", :height => '16')+" Wikimedia Commons",  map.source_uri) %>
+        Links: <%=  sanitize(link_to(image_tag("commons_logo-25x25.png", :height => '16')+" Wikimedia Commons",  map.source_uri), attributes: %w(href src height img)) %>
       <%- end -%>
       <% if !admin_authorized? && map.published? %>
         | <strong>Published [<a href="#" title="This map has been published by an admin and no further editing is possible.">?</a>]</strong>

@@ -27,6 +27,8 @@
       var warped_bounds = new OpenLayers.Bounds(<%=@map.bounds-%>);
       var layer_baseurl = '<%=url_for :controller => 'layers', :action => 'wms' %>';
       var layers_array = [<%=@other_layers.join(",")-%>];
+      var warpedtiles_url = '<%= tile_map_base_url %>/';
+      var use_tiles = <%= !user_signed_in? %>;
     </script>
 
 

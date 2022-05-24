@@ -1,3 +1,4 @@
+require 'geo_ruby/ewk'
 module GeoRuby
   module SimpleFeatures
     class Polygon

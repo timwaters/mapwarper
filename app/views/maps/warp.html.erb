@@ -45,7 +45,7 @@
     });
 
   </script>
-
+  <%= javascript_include_tag 'helmerttransform.js' %> 
   <%= javascript_include_tag "warp"-%>
 
   <script  type="text/javascript">
@@ -65,6 +65,32 @@
       jQuery("#upload_csv_form").append(jQuery("#file").clone()).hide();
       jQuery("#upload_csv_form").submit();
     }
+    
+    function showShortcuts(){
+      var dialog = jQuery("#keyboard_shortcuts").dialog({
+      bgiframe: true,
+      height: 420,
+      width: 480,
+      resizable: false,
+      draggable: false,
+      modal: true,
+      hide: 'slow',
+      title: 'Keyboard Shortcuts',
+      buttons: [{
+          text: 'Close popup',
+          click: function () {
+            dialog.dialog("close");
+          }
+        }],
+        open: function(){
+          dialogOpen = true;
+        },
+        close: function () {
+          dialogOpen = false;
+        }
+      });
+    }
+    
   </script>
 
 <% end -%>
@@ -75,8 +101,15 @@
   <div id="from_map" class="map-off"></div>
   <span class="tie_button"></span>
 </div>
-<div id="link-map-button" class="link-map-button-off"
+  
+<div id="between-maps-container">
+<!-- <div id="link-map-button" class="link-map-button-off"
      onclick="toggleJoinLinks();" title="Pan/zoom lock" ></div>
+  -->
+  <div id="keyboard-icon-div" onclick="showShortcuts();" >
+    <%= image_tag("icons/keyboard.png", :width => 25, :height => 25, :title => "keyboard shortcuts") %>
+  </div>
+</div>
 
 <div id = "to_map_block">
   <div id="to_map_notification" class="hidden"><div id="to_map_notify_close"><a href="#" title="Close popup">X</a></div><div id="to_map_notification_inner"></div> </div>
@@ -85,6 +118,9 @@
 </div>
 <div id="popoverNotice" class="hidden-at-start"><%= image_tag "spinner.gif" %><span id="noticeMessage"></span></div>
 
+<div id="keyboard_shortcuts" style="display:none;">
+       1,p: Switch to add point control <br /> 2,d: Switch to move control point control <br /> 3,m: Switch to move around map control <br /><br />q: Quickly add point over mouse position <br /> a: Quickly add point over mouse position and automatically adds a point on the opposite map <span class='small-gray'>(needs at least 2 points already saved)</span> <br /> <br /> [enter],e: Save pairs of points
+</div>
 
 <div id="add_custom_layer" style="display:none;">
   Enter a tile URL template, or tile URL.  Z/X/Y ordered scheme only. <br />

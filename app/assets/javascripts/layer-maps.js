@@ -134,7 +134,7 @@ function onFeatureSelect(feature) {
     feature.geometry.getBounds().getCenterLonLat(),
     null,
     "<div class='layermap-popup'> Map "+
-      feature.mapId + "<br /> <a href='" + mapBaseURL + "/"+ feature.mapId + "' target='_blank'>"+feature.mapTitle+"</a><br />"+
+      feature.mapId + "<br /> <a id='layermap-popup-title' href='" + mapBaseURL + "/"+ feature.mapId + "' target='_blank'></a><br />"+
       "<img src='"+mapThumbBaseURL+feature.mapId+"' height='80'>"+
       "<br /> <a href='"+mapBaseURL+"/"+feature.mapId+"#Rectify_tab' target='_blank'>Edit this map</a>"+
       "</div>",
@@ -142,6 +142,7 @@ function onFeatureSelect(feature) {
   popup.minSize = new OpenLayers.Size(180,150);
   feature.popup = popup;
   layerMap.addPopup(popup);
+  jQuery('#layermap-popup-title').text(feature.mapTitle);
 }
 
 function onFeatureUnselect(feature) {

@@ -137,6 +137,7 @@ class LayersController < ApplicationController
     @field = %w(name description).detect{|f| f== (params[:field])}
     @field = "name" if @field.nil?
     if @query && @query != "null" #null will be set by pagless js if theres no query
+      @query = @query.gsub(/\W/, ' ')
       conditions =   ["#{@field}  ~* ?", '(:punct:|^|)'+@query+'([^A-z]|$)']
     else
       conditions = nil
@@ -458,6 +459,12 @@ class LayersController < ApplicationController
   def wms()
     begin
       @layer = Layer.find(params[:id])
+
+      if params["REQUEST"] == "GetLegendGraphic" || params["request"] == "GetLegendGraphic"
+        thumb
+        return false
+      end
+
       ows = Mapscript::OWSRequest.new
 
       ok_params = Hash.new

@@ -17,7 +17,7 @@
     </span>
     <span class="map_links">
       <%- unless layer.source_uri.blank? -%>
-       Links: <%=  link_to(image_tag("commons_logo-25x25.png", :height => '16')+" Wikimedia Commons",  layer.source_uri) %>
+       Links: <%= sanitize(link_to(image_tag("commons_logo-25x25.png", :height => '16')+" Wikimedia Commons",  layer.source_uri), attributes: %w(href height img src)) %>
       <%- end -%>
     </span>
 

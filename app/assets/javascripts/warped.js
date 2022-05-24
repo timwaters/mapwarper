@@ -36,6 +36,14 @@ function warpedinit() {
 
     var warped_wms_url = warpedwms_url;
 
+    if (use_tiles === true){
+      warped_wmslayer =  new OpenLayers.Layer.TMS("warped image", warpedtiles_url, {
+        type: 'png',
+        getURL: osm_getTileURL,
+        displayOutsideMaxExtent: true,
+        transitionEffect: 'resize'
+      });
+    }else{
     warped_wmslayer = new OpenLayers.Layer.WMS("warped image",
         warped_wms_url, {
             format: 'image/png',
@@ -50,7 +58,8 @@ function warpedinit() {
             projection: "epsg:4326",
             units: "m"
         }
-    );
+      );
+    }
     var opacity = .7;
     warped_wmslayer.setOpacity(opacity);
     warped_wmslayer.setIsBaseLayer(false);
