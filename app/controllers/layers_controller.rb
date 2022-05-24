@@ -439,7 +439,7 @@ class LayersController < ApplicationController
   def trace
     return redirect_to layer_path unless @layer.is_visible? && @layer.rectified_maps_count > 0
     @overlay = @layer
-    render "maps/trace", :layout => "trace_tab_container"
+    render :layout => "trace_tab_container"
   end
   
   def id

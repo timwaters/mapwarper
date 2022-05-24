@@ -1,15 +1,15 @@
 <h2>Trace into OpenHistoricalMap.org</h2>
 
 <% 
-  bbox = @map.bbox.split(",")
+  bbox = @overlay.bbox.split(",")
   bbox_array = [bbox[0].to_f,bbox[1].to_f,bbox[2].to_f,bbox[3].to_f]
   centroid_y = bbox_array[1] + ((bbox_array[3] -  bbox_array[1]) / 2)
   centroid_x = bbox_array[0] + ((bbox_array[2] -  bbox_array[0]) / 2)
 
   map_param = "map=17/#{centroid_y}/#{centroid_x}"
-  bg_param =  "background=custom:#{tile_map_base_url(:id => @map.id)}/{z}/{x}/{y}.png"
-  cm_param =  URI.encode "comment=##{APP_CONFIG['site_name']} Map #{@map.id.to_s} #{h(@map.title)} #{@map.source_uri}"
-  src_param = URI.encode "source=#{map_url(@map)}" 
+  bg_param =  "background=custom:#{tile_layer_base_url(:id => @overlay.id)}/{z}/{x}/{y}.png"
+  cm_param =  URI.encode "comment=##{APP_CONFIG['site_name']} Mosaic #{@overlay.id.to_s} #{h(@overlay.name)} #{@overlay.source_uri}"
+  src_param = URI.encode "source=#{layer_url(@overlay)}" 
   url = "https://www.openhistoricalmap.org/edit#"+ [map_param, bg_param, cm_param, src_param].join("&")
 %>
 Click the link below to open OpenHistoricalMap and start tracing over the map <br />

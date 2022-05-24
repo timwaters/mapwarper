@@ -1,13 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <%=  javascript_include_tag 'application' %>
-    <script type="text/javascript">
-    if (window.location.protocol !== "http:"){
-      alert("OpenHistoricalMap doesn't work in modern browsers with HTTPS. Wikimaps Warper will reload this page for you in http mode");
-      window.location.href = "http:" + window.location.href.substring(window.location.protocol.length);
-    }
-    </script> 
+
   </head>
 
   <body>
