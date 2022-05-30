@@ -81,4 +81,7 @@ Rails.application.configure do
 
   # Do not dump schema after migrations.
   config.active_record.dump_schema_after_migration = false
+
+  # Increase libjpg jpegmem from default of 524M to allow gdal to process larger jpgs
+  ENV['JPEGMEM'] = '3000M'
 end
