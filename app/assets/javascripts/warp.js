@@ -79,6 +79,8 @@ function init() {
 
   wikimedia_maps.setVisibility(false);
   to_map.addLayer(wikimedia_maps);
+  wikimedia_maps_en.setVisibility(false);
+  to_map.addLayer(wikimedia_maps_en);
   to_map.addLayer(mapnik);
 
   if (map_has_bounds) {

@@ -37,4 +37,6 @@ Rails.application.configure do
 
   # Raises error for missing translations
   # config.action_view.raise_on_missing_translations = true
+ # ENV['MAGICK_MEMORY_LIMIT'] = '256MiB'
+ # ENV['MAGICK_MAP_LIMIT'] = '512MiB'
 end

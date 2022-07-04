@@ -28,7 +28,8 @@ function warpedinit() {
     mapnik3 = mapnik.clone();
     
     wikimedia_maps_clone = wikimedia_maps.clone();
-    warpedmap.addLayers([wikimedia_maps_clone, mapnik3]);
+    wikimedia_maps_en_clone = wikimedia_maps_en.clone();
+    warpedmap.addLayers([wikimedia_maps_clone, wikimedia_maps_en_clone, mapnik3]);
 
     for (var i = 0; i < layers_array.length; i++) {
         warpedmap.addLayer(get_map_layer(layers_array[i]));

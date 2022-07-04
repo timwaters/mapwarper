@@ -84,4 +84,8 @@ Rails.application.configure do
 
   # Increase libjpg jpegmem from default of 524M to allow gdal to process larger jpgs
   ENV['JPEGMEM'] = '3000M'
+
+  #limit imagemagick so it doesnt eat all memory upon import
+  ENV['MAGICK_MEMORY_LIMIT'] = '256MiB'
+  ENV['MAGICK_MAP_LIMIT'] = '512MiB'
 end

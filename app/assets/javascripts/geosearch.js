@@ -44,7 +44,8 @@ function searchmapinit(){
 //  searchmap.addLayer(mapnik_s);
   
   wikimedia_maps_clone = wikimedia_maps.clone();
-  searchmap.addLayers([wikimedia_maps_clone, mapnik_s]);
+  wikimedia_maps_en_clone = wikimedia_maps_en.clone();
+  searchmap.addLayers([wikimedia_maps_clone,wikimedia_maps_en_clone, mapnik_s]);
 
   //set up the map index layer to help find individual maps
     var mapIndexLayerStyle = OpenLayers.Util.extend({
