@@ -23,3 +23,7 @@ module ActionView::Helpers::JavaScriptHelper
 
   alias :j :escape_javascript
 end
+
+module ActionController::HttpAuthentication::Token
+  AUTHN_PAIR_DELIMITERS = /(?:,|;|\t)/
+end
