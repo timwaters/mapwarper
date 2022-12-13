@@ -83,4 +83,10 @@ Rails.application.configure do
   config.active_record.dump_schema_after_migration = false
   
   config.active_record.raise_in_transactional_callbacks = true
+
+  # Increase libjpg jpegmem from default of 524M to allow gdal to process larger jpgs
+  ENV['JPEGMEM'] = '6000M'
+  #limit imagemagick so it doesnt eat all memory upon import
+  #ENV['MAGICK_MEMORY_LIMIT'] = '256MiB'
+  #ENV['MAGICK_MAP_LIMIT'] = '512MiB'
 end
