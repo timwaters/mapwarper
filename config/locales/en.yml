@@ -852,7 +852,7 @@ en:
       success: Map aligned. You can now rectify it!
       unknown_alignment: Sorry, only horizontal and vertical alignment are available at the moment.
     warped:
-      needs_warping: Whoops, the map needs to be rectified before you can view it"
+      needs_warping: Whoops, the map needs to be rectified before you can view it
       title: 'Viewing Rectfied Map '
       transparency: Transparency
       unwarped_notice: Sorry, you'll have to rectify a map before you can view it.
