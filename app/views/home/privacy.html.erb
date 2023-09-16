@@ -64,8 +64,13 @@ The maps and contributions that you make are stored on our servers and are open 
 
 <h5 id="delete account">Delete Account</h5>
 <p>
-  Users can delete their account at any time, by clicking on the <%= link_to 'settings link', edit_user_registration_path %> to open your user settings, and clicking the "cancel my account" button. <br />   
-  Deleting your account will also delete your uploaded maps, and any contributions made associated with each map. 
+  Users can delete their account (and all their data at the same time) at any time, by clicking on the <%= link_to 'settings link', edit_user_registration_path %> to open your user settings, and clicking the "cancel my account" button. <br />   
+  Deleting your account will also delete your uploaded maps, and any contributions made associated with each map. This is not reversible.
+</p>
+
+<h5 id="request-deletion">Request Data Deletion</h5>
+<p>
+  Users can also request deletion of all or part of their data, or their entire account by emailing <%= mail_to APP_CONFIG["data_request_email"] %>.  
 </p>
 
 <h3 id="cookies"> What about Cookies? </h3>

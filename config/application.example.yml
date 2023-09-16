@@ -37,6 +37,7 @@ defaults: &defaults
   disabled_site: false
   hcaptcha_key: ""
   hcaptcha_secret: ""
+  data_request_email: example@example.com
 
 development:
   <<: *defaults
