@@ -3,6 +3,7 @@ Rails.application.routes.draw do
   get '/about' => 'home#about', :as => 'about'
   get '/help' => 'home#help', :as => 'help'
   get '/privacy' => 'home#privacy', :as => 'privacy'
+  get '/find_historic_maps_by_category' => 'home#find_historic_maps_by_category', :as => 'by_category'
   
   devise_for :users, :path => 'u',:controllers => { :sessions => "sessions" }
   #devise_for :users, :path => 'u',:controllers => { :sessions => "sessions", :omniauth_callbacks => "omniauth_callbacks" }

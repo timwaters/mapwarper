@@ -459,11 +459,14 @@ input[type="submit"],
 @media screen and (max-width: 1590px) {
   #navlist li.responsive_wide{ display:none;}
 }
-@media screen and (max-width: 1180px) {
+@media screen and (max-width: 1199px) {
   #navlist li.responsive_narrow{ display:none;}
 }
-@media screen and (max-width: 580px) {
+@media screen and (max-width: 835px) {
   #navlist li.responsive{ display:none;}
+}
+@media screen and (max-width: 550px) {
+  #navlist li { font-size: smaller;}
 }
 
 /* responsive nav tabs for Japanese locale */
@@ -491,5 +494,11 @@ input[type="submit"],
   a:hover, a:focus {
     color:#015775 ;
     text-decoration: underline;
+  }
+}
+
+.by_category {
+  h4 {
+    margin-bottom: 0px;
   }
 }
