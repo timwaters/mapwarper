@@ -4,7 +4,7 @@ class User < ActiveRecord::Base
   # :encryptable  for custom authentication methods
   devise :database_authenticatable, :registerable, :confirmable,
     :recoverable, :rememberable, :trackable, :validatable,
-    :omniauthable, :omniauth_providers => [ :osm, :facebook, :github]
+    :omniauthable, :omniauth_providers => [:osm_oauth2, :facebook, :github]
 
   acts_as_token_authenticatable
 

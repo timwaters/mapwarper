@@ -234,14 +234,14 @@ Devise.setup do |config|
   # config.omniauth :github, 'APP_ID', 'APP_SECRET', scope: 'user,public_repo'
   config.omniauth :twitter,  APP_CONFIG["omniauth_twitter_key"], APP_CONFIG["omniauth_twitter_secret"]
   
-  config.omniauth :osm, APP_CONFIG["omniauth_osm_key"], APP_CONFIG["omniauth_osm_secret"], {:client_options => {:site => "https://www.openstreetmap.org"}}
+  config.omniauth :osm_oauth2, APP_CONFIG["omniauth_osm_oauth2_key"], APP_CONFIG["omniauth_osm_oauth2_secret"], { :scope => "read_prefs", :client_options => {:site => "https://www.openstreetmap.org"}}
   
   config.omniauth :mediawiki,  APP_CONFIG["omniauth_mediawiki_key"], APP_CONFIG["omniauth_mediawiki_secret"], {:client_options => {:site => APP_CONFIG["omniauth_mediawiki_site"] }}
   
   config.omniauth :github, APP_CONFIG["omniauth_github_key"], APP_CONFIG["omniauth_github_secret"]
 
   config.omniauth :facebook, APP_CONFIG["omniauth_facebook_key"], APP_CONFIG["omniauth_facebook_secret"]
-
+  
   # ==> Warden configuration
   # If you want to use other strategies, that are not supported by Devise, or
   # change the failure app, you can configure them inside the config.warden block.

@@ -38,6 +38,8 @@ gem 'devise', ">= 4.7"
 gem 'devise-encryptable'
 
 gem 'oauth', ">= 0.5.8"
+gem 'oauth2'
+gem 'omniauth-oauth2'
 
 gem 'omniauth-twitter'
 gem 'omniauth-osm'

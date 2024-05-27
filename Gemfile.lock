@@ -371,9 +371,11 @@ DEPENDENCIES
   mocha
   nokogiri (>= 1.10.10)
   oauth (>= 0.5.8)
+  oauth2
   omniauth-facebook
   omniauth-github
   omniauth-mediawiki
+  omniauth-oauth2
   omniauth-osm
   omniauth-rails_csrf_protection (~> 0.1.2)
   omniauth-twitter

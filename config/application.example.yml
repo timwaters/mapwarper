@@ -17,6 +17,8 @@ defaults: &defaults
   reply_to: "example@example.com"
   omniauth_osm_key: "ABC"
   omniauth_osm_secret: "ABC"
+  omniauth_osm_oauth2_key: "ABC"
+  omniauth_osm_oauth2_secret: "ABC"
   omniauth_twitter_key: "ABC"
   omniauth_twitter_secret: "ABC"
   omniauth_mediawiki_site: "https://commons.wikimedia.org"

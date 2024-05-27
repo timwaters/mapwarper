@@ -21,6 +21,12 @@ class  OmniauthCallbacksController < Devise::OmniauthCallbacksController
       redirect_to root_path
     end
   end
+
+  def osm_oauth2 
+    request.env["omniauth.auth"]["provider"] = "osm"  if request.env["omniauth.auth"]["provider"] == "osm_oauth2"
+
+    osm()
+  end
   
   def mediawiki
     @user = User.find_for_mediawiki_oauth(request.env["omniauth.auth"], current_user)
