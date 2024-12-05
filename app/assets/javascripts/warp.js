@@ -79,8 +79,9 @@ function init() {
     to_map.addLayer(get_map_layer(layers_array[i]));
   }
 
-
+  maptiler_satellite.setVisibility(false);
   satellite.setVisibility(false);
+  to_map.addLayer(maptiler_satellite);
   to_map.addLayer(satellite);
 
   if (map_has_bounds) {

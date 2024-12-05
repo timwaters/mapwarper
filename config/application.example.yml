@@ -40,6 +40,7 @@ defaults: &defaults
   hcaptcha_key: ""
   hcaptcha_secret: ""
   data_request_email: example@example.com
+  maptiler_key: "abc"
 
 development:
   <<: *defaults
