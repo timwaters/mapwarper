@@ -489,8 +489,7 @@ class LayersController < ApplicationController
       map.applyConfigOptions
 
       # logger.info map.getProjection
-      map.setMetaData("wms_onlineresource",
-        "http://" + request.host_with_port + "/layers/wms/#{@layer.id}")
+      map.web.metadata.set("wms_onlineresource", "http://" + request.host_with_port + "/layers/wms/#{@layer.id}")        
 
       raster = Mapscript::LayerObj.new(map)
       raster.name = "image"
@@ -501,7 +500,6 @@ class LayersController < ApplicationController
 
       raster.status = Mapscript::MS_ON
       #raster.setProjection( "+init=" + str(epsg).lower() )
-      raster.dump = Mapscript::MS_TRUE
 
       #raster.setProjection('init=epsg:4326')
       raster.metadata.set('wcs_formats', 'GEOTIFF')
@@ -552,8 +550,7 @@ class LayersController < ApplicationController
       map.applyConfigOptions
 
       # logger.info map.getProjection
-      map.setMetaData("wms_onlineresource",
-        "http://" + request.host_with_port  + "/layers/wms2")
+      map.web.metadata.set("wms_onlineresource", "http://" + request.host_with_port  + "/layers/wms2")
       unless @layer_name
 
         Layer.visible.each do |layer|
@@ -566,7 +563,6 @@ class LayersController < ApplicationController
             raster.tileitem = "Location"
 
             raster.status = Mapscript::MS_ON
-            raster.dump = Mapscript::MS_TRUE
 
             raster.metadata.set('wcs_formats', 'GEOTIFF')
             # raster.metadata.set('wms_title', "layer "+layer.id.to_s)
@@ -582,7 +578,7 @@ class LayersController < ApplicationController
                 ',percentComplete:'+ layer.rectified_percent.to_i.to_s +
                 ',lastUpdated:' + layer.updated_at.to_s )
             raster.metadata.set('wms_srs', 'EPSG:4326 EPSG:4269 EPSG:900913')
-            raster.debug = Mapscript::MS_TRUE
+            #raster.debug = Mapscript::MS_TRUE
           end
         end
 
@@ -595,7 +591,6 @@ class LayersController < ApplicationController
         raster.tileitem = "Location"
 
         raster.status = Mapscript::MS_ON
-        raster.dump = Mapscript::MS_TRUE
 
         raster.metadata.set('wcs_formats', 'GEOTIFF')
         raster.metadata.set('wms_title', single_layer.name)
@@ -606,7 +601,7 @@ class LayersController < ApplicationController
             ',percentComplete:'+ layer.rectified_percent.to_i.to_s +
             ',lastUpdated:' + layer.updated_at.to_s )
 
-        raster.debug = Mapscript::MS_TRUE
+        #raster.debug = Mapscript::MS_TRUE
       end
 
       Mapscript::msIO_installStdoutToBuffer
