@@ -1,4 +1,5 @@
 class RegistrationsController < Devise::RegistrationsController
+  skip_before_action :require_hcaptcha
   include Hcaptcha::Adapters::ControllerMethods
   include Hcaptcha::Adapters::ViewMethods
   prepend_before_action :check_hcaptcha, only: [:create] if ENV["HCAPTCHA_SITE_KEY"]  

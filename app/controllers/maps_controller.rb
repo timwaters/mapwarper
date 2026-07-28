@@ -17,6 +17,8 @@ class MapsController < ApplicationController
   #skip_before_filter :verify_authenticity_token, :only => [:save_mask, :delete_mask, :save_mask_and_warp, :mask_map, :rectify, :set_rough_state, :set_rough_centroid]
   before_filter :set_wms_format, :only => :wms
 
+  skip_before_action :require_hcaptcha, :only => [:wms, :tile]
+
   rescue_from ActiveRecord::RecordNotFound, :with => :bad_record
 
   helper :sort

@@ -1,6 +1,8 @@
 class HomeController < ApplicationController
 
   layout 'application'
+
+  skip_before_action :require_hcaptcha
   
   def index
     @html_title =  t('.title')

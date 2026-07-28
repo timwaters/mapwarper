@@ -5,6 +5,8 @@ class LayersController < ApplicationController
   
   before_filter :find_layer, :only => [:show, :export, :metadata, :toggle_visibility, :update_year, :publish, :remove_map, :merge, :maps, :thumb, :comments, :trace, :id]
   before_filter :check_if_layer_is_editable, :only => [:edit, :update, :remove_map, :update_year, :update, :destroy]
+  skip_before_action :require_hcaptcha, :only => [:wms, :wms2, :tile]
+
 
   rescue_from ActiveRecord::RecordNotFound, :with => :bad_record
   helper :sort

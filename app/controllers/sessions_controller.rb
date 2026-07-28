@@ -1,4 +1,5 @@
 class SessionsController < Devise::SessionsController
+  skip_before_action :require_hcaptcha
   skip_before_filter :verify_authenticity_token, :if => :json_request?
   respond_to :html, :json
   

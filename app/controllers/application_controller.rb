@@ -6,6 +6,8 @@ class ApplicationController < ActionController::Base
   before_filter :configure_permitted_parameters, if: :devise_controller?
 
   before_filter :set_locale
+
+  before_action :require_hcaptcha
     
   def check_super_user_role
     check_role('super user')
@@ -54,6 +56,25 @@ class ApplicationController < ActionController::Base
   def permission_denied
     flash[:error] = t('application.permission_denied')
     redirect_to root_path
+  end
+
+
+  def require_hcaptcha
+    return unless ENV["HCAPTCHA_SITE_KEY"]
+    return if user_signed_in?
+    return if captcha_verified?
+    return if captcha_controller?
+    return if action_name == 'show' && request.format.kml?
+  
+    redirect_to hcaptcha_verify_path(return_to: request.fullpath)
+  end
+
+  def captcha_verified?
+    session[:hcaptcha_verified] == true
+  end
+
+  def captcha_controller?
+    controller_name == "captcha"
   end
 
 

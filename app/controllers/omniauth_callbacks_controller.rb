@@ -1,5 +1,5 @@
 class  OmniauthCallbacksController < Devise::OmniauthCallbacksController
-
+  skip_before_action :require_hcaptcha
   def twitter
     @user = User.find_for_twitter_oauth(request.env["omniauth.auth"], current_user)
     if @user.persisted?

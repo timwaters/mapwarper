@@ -6,6 +6,9 @@ Rails.application.routes.draw do
   
   devise_for :users, :path => 'u',:controllers => { :sessions => "sessions", :omniauth_callbacks => "omniauth_callbacks", :registrations => "registrations" }
   
+  get  "/verify-human", to: "captcha#show",   as: :hcaptcha_verify
+  post "/verify-human", to: "captcha#verify"
+
   resources :users do
     member do
       put 'enable'

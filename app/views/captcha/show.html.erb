@@ -1,0 +1,22 @@
+<h2>Just double-checking...</h2>
+
+<p>
+  Please complete the quick hCaptcha below so we know you're not a robot! You only need to do this once, and if you <%= link_to "sign in", new_user_session_path %>, you can skip this step entirely.
+  <br /><br />
+</p>
+
+<p>
+  Mapwarper.net runs on volunteer effort and is currently under a lot of load due to bots and scrapers which have taken the site offline sometimes. Sorry for all the fuss! 
+</p>
+
+
+<form action="/verify-human" method="post">
+  <%= hidden_field_tag :authenticity_token, form_authenticity_token %>
+  <%= hidden_field_tag :return_to, params[:return_to] %>
+
+  <% if ENV["HCAPTCHA_SITE_KEY"] %>
+    <%= hcaptcha_tags %>
+  <% end %>
+
+  <button type="submit">Continue</button>
+</form>
