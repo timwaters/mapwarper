@@ -14,7 +14,7 @@ class WikimapsController < ApplicationController
         return
       end
       site = APP_CONFIG["omniauth_mediawiki_site"]
-      url = URI.encode(site + '/w/api.php?action=query&prop=imageinfo&iiprop=url|mime&iiurlwidth=100&format=json&pageids=' + params[:pageid])
+      url = URI.encode(site + '/w/api.php?action=query&prop=imageinfo&iiprop=url|mime&iiurlwidth=120&format=json&pageids=' + params[:pageid])
       data = URI.parse(url).read
       json = ActiveSupport::JSON.decode(data)
       
@@ -34,9 +34,9 @@ class WikimapsController < ApplicationController
       @thumbnail_url = thumb_url
       
       if mime == "image/tiff"
-        @thumbnail_url = thumb_url.sub(/page1-100px/, "page1-300px")
+        @thumbnail_url = thumb_url.sub(/page1-120px/, "page1-330px")
       else
-        @thumbnail_url = thumb_url.sub(/\/100px/, "/300px")
+        @thumbnail_url = thumb_url.sub(/\/120px/, "/330px")
       end
       
       session[:user_return_to] = request.url unless user_signed_in?

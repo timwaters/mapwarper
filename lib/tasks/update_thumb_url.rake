@@ -14,7 +14,7 @@ namespace :warper do
       unknown = []
       maps = Map.all.where("page_id is not null").where("thumb_url = '' OR thumb_url IS NULL")
       maps.each do | map |
-        uri = URI.encode(site + '/w/api.php?action=query&prop=imageinfo&iiprop=url&iiurlwidth=100&format=json&pageids=' + map.page_id.to_s)
+        uri = URI.encode(site + '/w/api.php?action=query&prop=imageinfo&iiprop=url&iiurlwidth=120&format=json&pageids=' + map.page_id.to_s)
       
         url = URI.parse(uri)
         http = Net::HTTP.new(url.host, url.port)

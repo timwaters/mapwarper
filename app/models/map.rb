@@ -70,7 +70,7 @@ class Map < ActiveRecord::Base
   def self.new_from_wiki(page_id)
     site = APP_CONFIG["omniauth_mediawiki_site"]
     
-    url = URI.encode(site + '/w/api.php?action=query&prop=imageinfo&iiprop=url|mime&iiurlwidth=100&format=json&pageids=' + page_id)
+    url = URI.encode(site + '/w/api.php?action=query&prop=imageinfo&iiprop=url|mime&iiurlwidth=120&format=json&pageids=' + page_id)
     data = URI.parse(url).read
     json = ActiveSupport::JSON.decode(data)
     
@@ -131,7 +131,10 @@ class Map < ActiveRecord::Base
   
   def do_download_remote_image
     begin
-      io = open(URI.parse(upload_url))
+      options = {
+        'User-Agent' => "#{APP_CONFIG['host']} Wikimaps Warper (https://commons.wikimedia.org/wiki/Commons:Wikimaps) (Contact: @chippyy )"
+      }
+      io = open(URI.parse(upload_url), options)
       def io.original_filename; base_uri.path.split('/').last; end
       io.original_filename.blank? ? nil : io
     rescue => e
