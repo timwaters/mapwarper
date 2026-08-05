@@ -104,8 +104,8 @@ function init() {
   active_style.graphicWidth = 14;
   active_style.graphicHeight = 22;
   active_style.graphicXOffset = -(active_style.graphicWidth / 2) - 2;
-  active_style.graphicYOffset = -active_style.graphicHeight - 2;
-  active_style.externalGraphic = icon_imgPath + "AQUA.png";
+  active_style.graphicYOffset = -active_style.graphicHeight - 2;    
+  active_style.externalGraphic = svgPin("", "aqua");
 
   to_vectors = new OpenLayers.Layer.Vector("To vector markers");
   to_vectors.displayInLayerSwitcher = false;
@@ -748,8 +748,7 @@ function update_row_numbers() {
 
     span_ele = li_ele.getElementsByTagName("span");
     if (span_ele[0].className == "marker_number") {
-      var thishtml = "<img src='" + icon_imgPath + (temp_marker.id_index + 1) + color + ".png' />";
-      //var thishtml = "<img src='../../images/icons/"+(temp_marker.id_index + 1) + ".png' />";
+      var thishtml = svgPin((temp_marker.id_index + 1), color, false);
       span_ele[0].innerHTML = thishtml;
     }
   }
@@ -765,10 +764,46 @@ function redrawGcpLayers() {
 
 
 function updateGcpColor(marker, color) {
-  marker.style.externalGraphic = icon_imgPath + (marker.id_index + 1) + color + '.png';
+    marker.style.externalGraphic = svgPin((marker.id_index + 1), color);
 }
 
+function svgPin(number, color, map=true) {
+    // map and table require some diff code
+    if (map) {
+        var svgcolor = "%23" // map doesn't like # symbols in svg colors
+        var pin = "data:image/svg+xml;utf8,"
+    } else {
+        var svgcolor = "#"
+        var pin = ""
+    }
 
+    if (color == "_green"){
+        svgcolor += "00e400";
+    } else if (color == "_orange"){
+        svgcolor += "ffd201";
+    } else if (color == "_red"){
+        svgcolor += "ff6a51";
+    } else if (color == "aqua"){
+        svgcolor += "20f49f";
+    } else {
+        svgcolor += "00aeff"; // blue
+    }
+
+    pin += `<svg width="5mm" height="8mm" viewBox="0 0 5 8" xmlns="http://www.w3.org/2000/svg" xml:space="preserve">`
+    + `<path style="fill:` + svgcolor + `;" ` 
+    + `d="M 2.4601095,7.563075 2.0458624,5.4976594 1.7290852,4.9144832 1.1564495,4.2584101 0.55944651,3.7116826 0.19393437,2.982712 0.18175066,2.1443965 0.5472628,1.1967352 1.3026544,0.6135591 1.9483925,0.30982149 2.3748234,0.200476 2.8256216,0.23692442 3.3617059,0.4070175 3.9587091,0.73505407 4.3729563,1.0995392 4.6897333,1.6584163 4.8724894,2.6303765 4.7750195,3.1892539 4.433875,3.7724301 3.9221579,4.2705596 3.3860735,4.7443904 3.08148,5.24252 2.8743566,6.1051347 2.7525192,6.8462544 Z"/>` 
+    
+    // number or dot
+    if (number != "") {
+        pin += `<text style="font-size:2.4px;font-family:sans-serif;text-align:center;text-anchor:middle;" x="2.6188443" y="3.1419713" transform="scale(0.94623573,1.0568191)">` + number + `</text>`
+    } else {
+        pin += `<circle cx="2.4656432" cy="2.4" r="0.7"/>`
+    }
+    
+    pin += `<path style="fill:none;stroke:black;stroke-width:0.3;" d="m 2.5108751,7.6558586 v 0.3594298 0 M 2.2335777,6.4753467 2.5041496,7.9899106 Z m 0.5520192,0.010543 -0.2705719,1.514564 z m -0.00132,0.018217 c 0,0 0.042264,-1.1168508 0.5494327,-1.7279579 C 3.840876,4.1650425 4.0944604,4.2704061 4.6650253,3.3010636 5.2355903,2.3317215 4.432573,1.1516525 4.432573,1.1516525 c 0,0 -0.8568998,-0.88505163 -1.9346336,-0.9904148 m -0.263294,6.3428701 c 0,0 -0.042263,-1.1168508 -0.5494327,-1.7279579 C 1.1780437,4.1650426 0.92445939,4.2704062 0.35389443,3.3010637 -0.21667051,2.3317216 0.58634678,1.1516526 0.58634678,1.1516526 c 0,0 0.85689982,-0.88505162 1.93463362,-0.9904149"/></svg>`;
+    
+    return pin;
+}
 
 //blue, green, orange, red
 function getColorString(error) {
@@ -828,6 +863,7 @@ function set_gcp() {
 
 
 function add_gcp_marker(markers_layer, lonlat, is_active_marker, id_index, gcp_id, color) {
+
   color = typeof (color) != "undefined" ? color : "";
   id_index = typeof (id_index) != 'undefined' ? id_index : -2;
   var style_mark = OpenLayers.Util.extend({},
@@ -838,9 +874,9 @@ function add_gcp_marker(markers_layer, lonlat, is_active_marker, id_index, gcp_i
   style_mark.graphicXOffset = -(style_mark.graphicWidth / 2);
   style_mark.graphicYOffset = -style_mark.graphicHeight;
   if (is_active_marker === true) {
-    active_style.externalGraphic = icon_imgPath + "AQUA.png";
+    active_style.externalGraphic = svgPin("", "aqua");
   } else {
-    style_mark.externalGraphic = icon_imgPath + (id_index + 1) + color + '.png';
+    style_mark.externalGraphic = svgPin((id_index + 1), color);
   }
   var thisVector = new OpenLayers.Geometry.Point(lonlat.lon, lonlat.lat);
   var pointFeature = new OpenLayers.Feature.Vector(thisVector, null, style_mark);
