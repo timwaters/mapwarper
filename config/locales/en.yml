@@ -773,7 +773,7 @@ en:
     new:
       header: Upload a new map
       may_resize: It may resize the image if it's too large
-      permission_notice: By uploading images to the website, you agree that you have permission to do so, and accept that anyone else can potentially view and use them, including changing control points.
+      permission_notice: By uploading images to the website, you agree that you have permission to do so, and accept that anyone else can potentially view and use them, including changing control points. To delete a map go to the Edit tab of your map and find the delete link.
       title: 'Upload a new map to '
     publish:
       flash: 'Map changed. New Status: '
